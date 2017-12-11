@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layers>
+  <layer
+      name="pkan.dcatapde"
+      interface="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
+      />
+</layers>

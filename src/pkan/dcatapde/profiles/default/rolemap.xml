@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<rolemap>
+  <permissions>
+  <!-- -*- extra stuff goes here -*- -->
+
+    <permission name="pkan.dcatapde: Add Literal" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
+    <permission name="pkan.dcatapde: Add Foafagent" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
+    <permission name="pkan.dcatapde: Add Catalog" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
+    <permission name="pkan.dcatapde: Add Dataset" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
+    <permission name="pkan.dcatapde: Add Distribution" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
+  </permissions>
+</rolemap>
