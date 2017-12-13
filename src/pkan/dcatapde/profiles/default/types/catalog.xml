@@ -19,7 +19,7 @@
 
   <!-- Hierarchy control -->
   <property name="allowed_content_types">
-      <element value="Dataset" />
+      <element value="dataset" />
   </property>
   <property name="filter_content_types">True</property>
   <property name="global_allow">True</property>
@@ -33,11 +33,11 @@
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
-    <!-- <element value="plone.app.content.interfaces.INameFromTitle"/> -->
-    <!-- <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion"/> -->
-    <!-- <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/> -->
-    <!-- <element value="plone.app.dexterity.behaviors.id.IShortName"/> -->
-    <!-- <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/> -->
+    <element value="plone.app.content.interfaces.INameFromTitle"/>
+    <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion"/>
+    <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
+    <element value="plone.app.dexterity.behaviors.id.IShortName"/>
+    <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
     <!--<element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />-->
     <!--<element value="plone.app.lockingbehavior.behaviors.ILocking" />-->
     <!--<element value="plone.app.dexterity.behaviors.metadata.IBasic"/>-->

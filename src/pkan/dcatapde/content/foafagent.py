@@ -25,3 +25,6 @@ class IFoafagent(model.Schema):
 class Foafagent(Item):
     """
     """
+
+from z3c.form.object import registerFactoryAdapter
+registerFactoryAdapter(IFoafagent, Foafagent)

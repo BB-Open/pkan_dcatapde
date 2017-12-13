@@ -30,3 +30,8 @@ class ILiteral(model.Schema):
 class Literal(Item):
     """
     """
+
+
+
+from z3c.form.object import registerFactoryAdapter
+registerFactoryAdapter(ILiteral, Literal)
