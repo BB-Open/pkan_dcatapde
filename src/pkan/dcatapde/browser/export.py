@@ -1,4 +1,6 @@
 import os
+
+from pkan.dcatapde.io.rdf.export import RDFMarshaller
 from unidecode import unidecode
 
 try:

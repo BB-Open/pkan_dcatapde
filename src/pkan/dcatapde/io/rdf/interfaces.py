@@ -1,3 +1,4 @@
+""" rdfmarshaller interfaces """
 """ Interfaces """
 
 from zope.interface import Attribute, Interface
@@ -66,3 +67,7 @@ class IValue2Surf(Interface):
 class IFieldDefinition2Surf(IGenericObject2Surf):
     """A three-way adapter to get rdf information from field definitions
     """
+
+
+class IDXField2Surf(IField2Surf):
+    """ Extract values from Fields, to store them in the surf session """

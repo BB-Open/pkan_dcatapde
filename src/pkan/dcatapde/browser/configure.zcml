@@ -17,12 +17,12 @@
       type="plone"
       directory="static"
       />
-<!--
+
   <browser:page
     for="plone.dexterity.interfaces.IDexterityContent"
     name="rdf"
     class=".export.RDFExport"
     permission="zope2.View"
     />
--->
+
 </configure>
