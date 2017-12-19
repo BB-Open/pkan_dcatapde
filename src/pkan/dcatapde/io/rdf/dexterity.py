@@ -2,7 +2,10 @@
 """
 
 import sys
+from urlparse import urljoin
 
+import rdflib
+from rdflib import BNode
 from zope.component import (adapts, getMultiAdapter, getUtility, queryAdapter,
                             queryMultiAdapter)
 from zope.schema import getFieldsInOrder
@@ -19,6 +22,7 @@ from plone.supermodel.interfaces import FIELDSETS_KEY
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import log
 
+from ..base.utils import Url
 
 def non_fieldset_fields(schema):
     """ return fields not in fieldset """
@@ -105,11 +109,14 @@ class Dexterity2Surf(GenericObject2Surf):
                    ('expires', 'expires'),
                    ('id', 'productID')])
 
+    _whitelist = None
+
     _blacklist = ['constrainTypesMode',
                   'locallyAllowedTypes',
                   'immediatelyAddableTypes',
                   'language',
-                  'allowDiscussion']
+                  'allowDiscussion',
+                  'portal_type']
     field_map = {}
 
     @property
@@ -129,12 +136,16 @@ class Dexterity2Surf(GenericObject2Surf):
     @property
     def portalType(self):
         """ Portal type """
-
-        return self.context.portal_type.replace(' ', '').replace('.', '')
+        if self.context.portal_type:
+            return self.context.portal_type.replace(' ', '').replace('.', '')
+        else:
+            return self.context.__class__.__name__.replace(' ', '').replace('.', '')
 
     @property
     def prefix(self):
         """ Prefix """
+        if self._prefix:
+            return self._prefix
 
         return self.portalType.lower()
 
@@ -142,7 +153,14 @@ class Dexterity2Surf(GenericObject2Surf):
     def subject(self):
         """ Subject """
 
-        return self.context.absolute_url()
+        my_URL = self.context.absolute_url()
+        parent_URL = self.context.__parent__.absolute_url()
+        # check if we are a complex property
+        if my_URL[-1] == "/":
+            return urljoin(my_URL, self.context.portal_type)
+        else:
+            return my_URL
+
 
     @property
     def namespace(self):
@@ -158,14 +176,19 @@ class Dexterity2Surf(GenericObject2Surf):
 
         return self._namespace
 
+
     def modify_resource(self, resource, *args, **kwds):
         language = self.context.Language()
+
         ptypes = getToolByName(self.context, 'portal_types')
         fti = ptypes[self.context.portal_type]
 
         for fieldName, field in get_ordered_fields(fti):
             if fieldName in self.blacklist_map:
                 continue
+            if self._whitelist and not (fieldName in self._whitelist):
+                continue
+
             fieldAdapter = queryMultiAdapter(
                 (field, self.context, self.session),
                 interface=IDXField2Surf,
@@ -181,8 +204,8 @@ class Dexterity2Surf(GenericObject2Surf):
                 continue
 
             try:
-                value = fieldAdapter.value()
-            except Exception:
+                value = fieldAdapter.value(**kwds )
+            except :
                 log.log('RDF marshaller error for context[field]'
                         '"%s[%s]": \n%s: %s' %
                         (self.context.absolute_url(), fieldName,
@@ -191,36 +214,57 @@ class Dexterity2Surf(GenericObject2Surf):
 
                 continue
 
-            valueAdapter = queryAdapter(value, interface=IValue2Surf)
-
-            if valueAdapter:
-                value = valueAdapter(language=language)
-
-            if not value or value == "None":
-                continue
-
             prefix = (fieldAdapter.prefix or self.prefix).replace('.', '')
 
-            fieldName = fieldAdapter.name
 
-            if fieldName in self.field_map:
-                fieldName = self.field_map.get(fieldName)
-            elif fieldName in self.dc_map:
-                fieldName = self.dc_map.get(fieldName)
-                prefix = 'dcterms'
+            if not isinstance( value, surf.Resource ):
 
-            try:
-                setattr(resource, '%s_%s' % (prefix, fieldName), value)
-            except Exception:
+                valueAdapter = queryAdapter(value, interface=IValue2Surf)
 
-                log.log(
-                    'RDF marshaller error for context[field]'
-                    '"%s[%s]": \n%s: %s' % (
-                        self.context.absolute_url(), fieldName,
-                        sys.exc_info()[0], sys.exc_info()[1]
-                    ),
-                    severity=log.logging.WARN
-                )
+                if valueAdapter:
+                    value = valueAdapter(language=language)
+
+                if not value or value == "None":
+                    continue
+
+
+                fieldName = fieldAdapter.name
+
+                if fieldName in self.field_map:
+                    fieldName = self.field_map.get(fieldName)
+                elif fieldName in self.dc_map:
+                    fieldName = self.dc_map.get(fieldName)
+                    prefix = 'dcterms'
+
+                try:
+                    setattr(resource, '%s_%s' % (prefix, fieldName), value)
+                except Exception:
+
+                    log.log(
+                        'RDF marshaller error for context[field]'
+                        '"%s[%s]": \n%s: %s' % (
+                            self.context.absolute_url(), fieldName,
+                            sys.exc_info()[0], sys.exc_info()[1]
+                        ),
+                        severity=log.logging.WARN
+                    )
+            else:
+                try:
+                    attr_name = '%s_%s' % (prefix, fieldName)
+                    setattr(resource,attr_name , value)
+#                    resource.session.load_resource( 'http://test.de', data=value )
+#                    resource.session.commit()
+                    pass
+                except Exception:
+
+                    log.log(
+                        'RDF marshaller error for context[field]'
+                        '"%s[%s]": \n%s: %s' % (
+                            self.context.absolute_url(), fieldName,
+                            sys.exc_info()[0], sys.exc_info()[1]
+                        ),
+                        severity=log.logging.WARN
+                    )
 
         return resource
 

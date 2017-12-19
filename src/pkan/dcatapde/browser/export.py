@@ -41,7 +41,7 @@ class RDFExport(object):
 
     def __call__(self):
         marshaller = RDFMarshaller()
-        endLevel = int(self.request.get('endLevel', 1))
+        endLevel = int(self.request.get('endLevel', 3))
         _content_type, _length, data = marshaller.marshall(self.context,
                                                            endLevel=endLevel)
 

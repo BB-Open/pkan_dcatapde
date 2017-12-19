@@ -15,16 +15,7 @@ from Products.CMFCore.interfaces._tools import ITypesTool
 from Products.CMFCore.utils import getToolByName
 from surf.log import set_logger
 
-DEBUG = False
 
-surf.ns.register(SKOS="http://www.w3.org/2004/02/skos/core#")
-surf.ns.register(DCAT="http://www.w3.org/ns/dcat#")
-surf.ns.register(SCHEMA="http://schema.org/")
-
-# re-register the RDF + RDFS namespace because in new surf they are closed
-# namespaces and they won't "take" the custom terms that we access on them
-surf.ns.register(RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-surf.ns.register(RDFS="http://www.w3.org/2000/01/rdf-schema#")
 
 
 
@@ -59,12 +50,10 @@ class RDFMarshaller(object):
 
         return store
 
-    def marshall(self, instance, **kwargs):
+    def marshall_inner(self, instance, **kwargs):
         """ Marshall the rdf data to xml representation """
 
         session = surf.Session(self.store)
-        content_type = 'text/xml; charset=UTF-8'
-        length = data = 0   # is this line required? should be len(data)
 
         obj2surf = queryMultiAdapter(
             (instance, session), interface=IObject2Surf
@@ -72,12 +61,31 @@ class RDFMarshaller(object):
 
         self.store.reader.graph.bind(
             obj2surf.prefix, obj2surf.namespace, override=False)
-        endLevel = kwargs.get('endLevel', 1)
-        obj2surf.write(endLevel=endLevel)
+        endLevel = kwargs.get('endLevel', 3)
+        self.resource = obj2surf.write(endLevel=endLevel, marshaller = self)
+
+
+
+    def marshall(self, instance, **kwargs):
+        """ Marshall the rdf data to xml representation """
+
+        self.marshall_inner( instance, **kwargs)
 
         data = self.store.reader.graph.serialize(format='pretty-xml')
 
-        return (content_type, length, data)
+        content_type = 'text/xml; charset=UTF-8'
+
+        return (content_type, len(data), data)
+
+
+    def marshall_graph(self, instance, **kwargs):
+        """ Marshall the rdf data to xml representation """
+
+        self.marshall_inner( instance, **kwargs)
+
+        data = self.store.reader.graph
+
+        return self.resource
 
 
 class GenericObject2Surf(object):

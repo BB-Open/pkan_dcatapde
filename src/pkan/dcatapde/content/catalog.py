@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde.content.literal import ILiteral
 from plone.autoform import directives
+from plone.app.contenttypes.interfaces import IImage
 from plone.dexterity.content import Container
 from plone.namedfile import field as namedfile
+import plone.namedfile
+from plone.namedfile.interfaces import INamedImageField
+
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
+
+from plone.namedfile.field import NamedBlobImage
+
 from z3c.form import validator, util
 
 from z3c.form.browser.radio import RadioFieldWidget
@@ -87,6 +94,12 @@ class ICatalog(model.Schema):
         required=False
     )
 
+    image = namedfile.NamedBlobImage(
+        title=_(u'Image'),
+        required=False,
+    )
+
+
 alsoProvides(ILiteral, IFoafagent)
 #InqbusWidgetValidatorDiscriminators( DCT_TitelValidator, field=ICatalog['dct_title'])
 
@@ -98,3 +111,21 @@ class Catalog(Container):
 
 from z3c.form.object import registerFactoryAdapter
 registerFactoryAdapter(ICatalog, Catalog)
+
+from z3c.form.interfaces import IObjectFactory
+from z3c.form.object import FactoryAdapter, getIfName
+import zope.component
+from zope.component.interfaces import IFactory
+from zope.component import queryUtility
+
+@implementer(IObjectFactory)
+class ImageFactory(FactoryAdapter):
+    """
+    """
+
+    def __call__(self, value):
+        factory = queryUtility(IFactory, name='catalog')
+        return factory()
+
+name = getIfName(INamedImageField)
+#zope.component.provideAdapter(ImageFactory, name=name)

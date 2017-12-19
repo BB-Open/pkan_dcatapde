@@ -46,6 +46,7 @@ setup(
         'z3c.jbot',
         'surf',
         'chardet',
+        'zope.app.content',
     ],
     extras_require={
         'test': [

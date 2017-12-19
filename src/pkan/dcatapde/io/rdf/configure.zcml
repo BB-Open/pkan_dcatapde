@@ -14,6 +14,16 @@
     for="plone.dexterity.content.Container .interfaces.ISurfSession"
     provides=".interfaces.IObject2Surf" />
 
+  <!-- DCAT-AP.de adapters -->
+
+  <adapter factory=".dcat.FOAF2Surf"
+    for="pkan.dcatapde.content.foafagent.IFoafagent .interfaces.ISurfSession"
+    provides=".interfaces.IObject2Surf" />
+
+  <adapter factory=".dcat.Catalog2Surf"
+    for="pkan.dcatapde.content.catalog.ICatalog .interfaces.ISurfSession"
+    provides=".interfaces.IObject2Surf" />
+
   <!-- rdfs adapters -->
   <adapter factory=".dexterity.DexterityFTI2Surf" />
 

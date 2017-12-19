@@ -2,6 +2,7 @@
 
 
 import Acquisition
+from pkan.dcatapde.io.rdf.export import RDFMarshaller
 from plone.app.textfield.value import RichTextValue
 from plone.api.portal import get_tool
 from Products.CMFPlone import log
@@ -9,6 +10,8 @@ import re
 import rdflib
 import surf
 import sys
+
+from plone.dexterity.interfaces import IDexterityContent
 from zope.component import adapts
 from zope import interface
 
@@ -50,10 +53,15 @@ class DXField2Surf(object):
 
         self.name = self.field.__name__
 
-    def value(self):
+    def value(self, **kwargs):
         """ Value """
         value = getattr(Acquisition.aq_base(self.context), self.name, None)
         try:
+            if IDexterityContent.providedBy(value):
+
+                data = kwargs['marshaller'].marshall_graph(getattr(self.context, self.name))
+                return data
+
             if callable(value):
                 value = value()
 
