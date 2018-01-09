@@ -11,7 +11,10 @@
       layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
       />
 
+  <include package=".add_views"/>
   <!-- Publish static files -->
+
+
   <plone:static
       name="pkan.dcatapde"
       type="plone"

@@ -1,27 +1,17 @@
 # -*- coding: utf-8 -*-
+import zope.schema as schema
+from foafagent import IFoafagent
+from pkan.dcatapde import _
 from pkan.dcatapde.content.literal import ILiteral
-from plone.autoform import directives
-from plone.app.contenttypes.interfaces import IImage
 from plone.dexterity.content import Container
 from plone.namedfile import field as namedfile
-import plone.namedfile
 from plone.namedfile.interfaces import INamedImageField
-
 from plone.supermodel import model
-from plone.supermodel.directives import fieldset
-
-from plone.namedfile.field import NamedBlobImage
-
 from z3c.form import validator, util
-
-from z3c.form.browser.radio import RadioFieldWidget
+from z3c.relationfield import RelationChoice
 from zope.component import provideAdapter, adapter
 from zope.interface import implementer, alsoProvides
-import zope.schema as schema
 
-from pkan.dcatapde import _
-
-from foafagent import IFoafagent
 
 def InqbusWidgetValidatorDiscriminators(validator, context=None, request=None, view=None, field=None, widget=None):
 
@@ -68,10 +58,10 @@ class ICatalog(model.Schema):
          value_type = schema.Object(ILiteral)
     )
 
-    publisher = schema.Object(
+    publisher = RelationChoice(
         title=_(u'Publisher'),
+        vocabulary="plone.app.vocabularies.Catalog",
         required=True,
-        schema=IFoafagent
     )
 
     license = schema.URI(
@@ -114,7 +104,6 @@ registerFactoryAdapter(ICatalog, Catalog)
 
 from z3c.form.interfaces import IObjectFactory
 from z3c.form.object import FactoryAdapter, getIfName
-import zope.component
 from zope.component.interfaces import IFactory
 from zope.component import queryUtility
 

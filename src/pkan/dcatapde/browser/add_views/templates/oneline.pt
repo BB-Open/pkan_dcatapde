@@ -1,0 +1,52 @@
+<div class="oneline-widget"
+     tal:define="widget0 python:view.subform.widgets.values()[0]; widget1 python:view.subform.widgets.values()[1];">
+
+    <tal:comment>
+        <!-- Use label from the first widget -->
+    </tal:comment>
+
+    <!-- TODO: Move Css -->
+
+    <div class="widget-left" style="width:48%;float:left;">
+        <div class="label">
+            <label tal:attributes="for widget0/id">
+            <span i18n:translate=""
+                tal:content="widget0/label">label</span>
+        </label>
+        </div>
+
+        <div tal:content="structure widget0/render">
+          <input type="text" size="24" value="" />
+        </div>
+
+
+    </div>
+
+    <div class="widget-right" style="width:48%;float:right;">
+        <div class="label">
+          <label tal:attributes="for widget1/id">
+            <span i18n:translate=""
+                tal:content="widget1/label">label</span>
+          </label>
+        </div>
+
+        <div class="widget" tal:content="structure widget1/render">
+          <input type="text" size="24" value="" />
+        </div>
+
+    </div>
+
+
+    <div tal:condition="widget0/error"
+         tal:replace="structure widget/error/render">error</div>
+
+    <div class="error" tal:condition="widget1/error"
+             tal:replace="structure widget1/error/render">error</div>
+
+
+    <div style="clear: both"><!-- --></div>
+
+    <input name="field-empty-marker" type="hidden" value="1"
+           tal:attributes="name string:${view/name}-empty-marker" />
+
+</div>
