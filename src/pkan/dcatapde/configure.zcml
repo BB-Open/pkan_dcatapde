@@ -16,6 +16,7 @@
   <include package=".browser" />
 
   <include package=".io" />
+  <include package=".vocabularies" />
 
   <include file="permissions.zcml" />
 
@@ -46,4 +47,7 @@
 
   <!-- -*- extra stuff goes here -*- -->
 
+    <include package=".vocabularies" />
+
+        
 </configure>

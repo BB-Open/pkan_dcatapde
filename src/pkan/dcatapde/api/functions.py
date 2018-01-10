@@ -1,3 +1,5 @@
+from AccessControl.SecurityManagement import setSecurityManager, getSecurityManager, newSecurityManager
+from plone import api
 from zope.component.hooks import getSite
 
 
@@ -6,6 +8,25 @@ def get_foafagent_context():
     context = getSite()
     return context
 
-def get_obj_by_path(choice):
-    # TODO
-    pass
+def restore_user( old_sm):
+    # restore security context of user
+    if old_sm:
+        setSecurityManager(old_sm)
+
+
+def work_as_admin():
+    """
+    Analog to doing an "su root"
+    :param request:
+    :return:
+    """
+    current = api.user.get_current()
+    old_sm = getSecurityManager()
+    if current.id == 'admin':
+        return old_sm
+    # Save old user security context
+
+    portal = getSite()
+    # start using as admin
+    newSecurityManager(portal, portal.getOwner())
+    return old_sm

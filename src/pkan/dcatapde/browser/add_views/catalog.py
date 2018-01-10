@@ -1,10 +1,10 @@
+import zope.schema as schema
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_Catalog
 from pkan.dcatapde.api.catalog import add_catalog
+from pkan.dcatapde.constants import CT_Catalog
 from pkan.dcatapde.content.catalog import ICatalog
 from pkan.dcatapde.content.foafagent import IFoafagent
 from plone.api.portal import get_current_language
-from plone.autoform import form
 from plone.autoform.directives import omitted, widget
 from plone.dexterity.browser import add
 from z3c.form import button
@@ -12,7 +12,6 @@ from z3c.form.interfaces import ActionExecutionError
 from z3c.form.object import registerFactoryAdapter
 from z3c.pt.pagetemplate import ViewPageTemplateFile
 from zope.i18n import translate
-import zope.schema as schema
 from zope.interface import Invalid, implementer
 from zope.schema.fieldproperty import FieldProperty
 
@@ -28,8 +27,8 @@ class IPublisher(IFoafagent):
     available = schema.Choice(
         title=_(u'Available Publisher'),
         # TODO: Implement Vocabulary
-        values=['test1', 'test2'],
-        required=False
+        vocabulary="pkan.dcatapde.FoafagentVocabulary",
+        required=False,
     )
 
 @implementer(IPublisher)

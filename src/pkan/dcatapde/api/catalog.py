@@ -1,6 +1,7 @@
-from pkan.dcatapde.api.functions import get_foafagent_context, get_obj_by_path
 from pkan.dcatapde.api.foafagent import add_foafagent
+from pkan.dcatapde.api.functions import get_foafagent_context
 from pkan.dcatapde.constants import CT_Catalog
+from plone import api
 from plone.dexterity.utils import createContentInContainer
 
 
@@ -11,7 +12,7 @@ def add_catalog(context, **data):
     name = publisher_info.name
     publisher = None
     if choice:
-        publisher = get_obj_by_path(choice)
+        publisher = api.content.get(UID=choice)
     elif name:
         publisher = add_foafagent(get_foafagent_context(), name=name, title=name)
     else:
@@ -29,6 +30,6 @@ def add_catalog(context, **data):
                                        CT_Catalog,
                                        **data)
 
-    print catalog.publisher
+    print(catalog.publisher)
 
     return catalog
