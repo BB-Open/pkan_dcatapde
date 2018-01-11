@@ -18,7 +18,6 @@ from zope.schema.fieldproperty import FieldProperty
 
 class IPublisher(IFoafagent):
 
-    widget('name', size=4)
     name = schema.TextLine(
         title=_(u'Name'),
         required=False

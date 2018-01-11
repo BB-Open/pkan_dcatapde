@@ -47,6 +47,8 @@ setup(
         'surf',
         'chardet',
         'zope.app.content',
+        'zc.catalog==1.6',
+        'ps.zope.i18nfield',
     ],
     extras_require={
         'test': [

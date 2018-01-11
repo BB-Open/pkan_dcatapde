@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 import zope.schema as schema
-from foafagent import IFoafagent
-from pkan.dcatapde import _
-from pkan.dcatapde.content.literal import ILiteral
 from plone.dexterity.content import Container
 from plone.namedfile import field as namedfile
 from plone.namedfile.interfaces import INamedImageField
 from plone.supermodel import model
+from ps.zope.i18nfield.field import I18NTextLine, I18NText
 from z3c.form import validator, util
 from z3c.relationfield import RelationChoice
 from zope.component import provideAdapter, adapter
 from zope.interface import implementer, alsoProvides
+
+from foafagent import IFoafagent
+from pkan.dcatapde import _
+from pkan.dcatapde.content.literal import ILiteral
 
 
 def InqbusWidgetValidatorDiscriminators(validator, context=None, request=None, view=None, field=None, widget=None):
@@ -46,16 +48,26 @@ class ICatalog(model.Schema):
     """ Marker interfce and Dexterity Python Schema for Catalog
     """
 
-    add_title = schema.List(
-         title=_(u'Translated Title'),
-         required=False,
-         value_type = schema.Object(ILiteral),
+    # add_title = schema.List(
+    #      title=_(u'Translated Title'),
+    #      required=False,
+    #      value_type = schema.Object(ILiteral),
+    # )
+
+    add_title = I18NTextLine(
+        title=_(u'Translated Title'),
+        required=False,
     )
 
-    add_description = schema.List(
-         title=_(u'Translated Description'),
-         required=False,
-         value_type = schema.Object(ILiteral)
+    # add_description = schema.List(
+    #      title=_(u'Translated Description'),
+    #      required=False,
+    #      value_type = schema.Object(ILiteral)
+    # )
+
+    add_description = I18NText(
+        title=_(u'Translated Description'),
+        required=False,
     )
 
     publisher = RelationChoice(
