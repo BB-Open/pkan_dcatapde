@@ -19,9 +19,9 @@ class FoafagentVocabularyIntegrationTest(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.n1 = api.content.create(
-            type='News Item', title='N1', container=self.portal)
+            type='foafagent', title='N1', container=self.portal)
         self.n2 = api.content.create(
-            type='News Item', title='N2', container=self.portal)
+            type='foafagent', title='N2', container=self.portal)
 
     def test_vocabulary(self):
         vocab_name = "pkan.dcatapde.FoafagentVocabulary"
@@ -33,7 +33,7 @@ class FoafagentVocabularyIntegrationTest(unittest.TestCase):
 
         self.assertEqual(
             vocabulary.getTerm(self.n1.UID()).title,
-            self.n1.title)
+            self.n1.absolute_url())
         self.assertEqual(
             vocabulary.getTerm(self.n2.UID()).title,
-            self.n2.title)
+            self.n2.absolute_url())
