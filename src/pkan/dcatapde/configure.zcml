@@ -12,6 +12,7 @@
     Better import explicite packages or configurations ;)
   -->
   <!--<includeDependencies package="." />-->
+  <include package="plone.formwidget.relateditems"/>
   <include package="ps.zope.i18nfield"/>
 
   <include package=".browser" />

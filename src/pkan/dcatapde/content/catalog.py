@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import zope.schema as schema
+from plone.autoform import directives as form
 from plone.dexterity.content import Container
+from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.namedfile import field as namedfile
 from plone.namedfile.interfaces import INamedImageField
 from plone.supermodel import model
@@ -33,6 +35,7 @@ def InqbusWidgetValidatorDiscriminators(validator, context=None, request=None, v
     # register the new validation adapter
     provideAdapter(validator_adapter)
 
+
 class DCT_TitelValidator(validator.SimpleFieldValidator):
 
     def validate(self, value):
@@ -41,7 +44,6 @@ class DCT_TitelValidator(validator.SimpleFieldValidator):
 #        if res:
 #            raise Invalid(translate(_(u"The customer number given is already in use!"),
 #                          target_language=get_current_language()))
-
 
 
 class ICatalog(model.Schema):
@@ -70,6 +72,16 @@ class ICatalog(model.Schema):
         required=False,
     )
 
+    form.widget(
+        'publisher',
+        RelatedItemsFieldWidget,
+        content_type='foafagent',
+        content_type_title=_(u'Publisher'),
+        initial_path='/',
+        pattern_options={
+            'selectableTypes': ['foafagent'],
+        }
+    )
     publisher = RelationChoice(
         title=_(u'Publisher'),
         vocabulary="plone.app.vocabularies.Catalog",
@@ -77,8 +89,8 @@ class ICatalog(model.Schema):
     )
 
     license = schema.URI(
-         title=_(u'License'),
-         required=True
+        title=_(u'License'),
+        required=True
     )
 
     homepage = schema.URI(
