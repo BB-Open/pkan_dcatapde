@@ -11,7 +11,7 @@
       layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
       />
 
-  <include package=".add_views"/>
+  <!-- <include package=".add_views"/> -->
   <!-- Publish static files -->
 
 
