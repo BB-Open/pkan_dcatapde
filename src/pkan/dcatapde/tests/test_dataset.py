@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from pkan.dcatapde.content.dataset import IDataset
+from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
-from pkan.dcatapde.content.dataset import IDataset
-from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING  # noqa
 from zope.component import createObject
 from zope.component import queryUtility
 

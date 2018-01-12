@@ -1,14 +1,16 @@
+# -*- coding: utf-8 -*-
 """ extras """
+
+from .interfaces import ISurfResourceModifier
+from .modifiers import BaseFileModifier
+from plone.app.contenttypes.interfaces import IFile
+from plone.app.contenttypes.interfaces import IImage
+from Products.CMFPlone import log
+from zope.component import adapter
+from zope.interface import implementer
 
 import sys
 
-from zope.component import adapts
-from zope.interface import implements
-
-from .modifiers import BaseFileModifier
-from .interfaces import ISurfResourceModifier
-from plone.app.contenttypes.interfaces import IFile, IImage
-from Products.CMFPlone import log
 
 try:
     from collective.cover.interfaces import ICover
@@ -20,12 +22,11 @@ except ImportError:
         """
 
 
+@implementer(ISurfResourceModifier)
+@adapter(ICover)
 class CoverTilesModifier(object):
     """Adds tiles information to rdf resources
     """
-
-    implements(ISurfResourceModifier)
-    adapts(ICover)
 
     def __init__(self, context):
         self.context = context
@@ -50,27 +51,30 @@ class CoverTilesModifier(object):
 
         if value:
             try:
-                setattr(resource, '%s_%s' % ("eea", "cover_tiles"),
+                setattr(resource, '{0}_{1}'.format('eea', 'cover_tiles'),
                         [value])
             except Exception:
-                log.log('RDF marshaller error for context[tiles]'
-                        '"%s[": \n%s: %s' %
-                        (self.context.absolute_url(),
-                         sys.exc_info()[0], sys.exc_info()[1]),
-                        severity=log.logging.WARN)
+                log.log(
+                    'RDF marshaller error for context[tiles]'
+                    '"{0}[: \n{1}: {2}"'.format(
+                        self.context.absolute_url(),
+                        sys.exc_info()[0], sys.exc_info()[1]
+                    ),
+                    severity=log.logging.WARN
+                )
 
         return resource
 
 
+@adapter(IImage)
 class ImageModifier(BaseFileModifier):
     """ ImageModifier """
-    adapts(IImage)
 
     field = 'image'
 
 
+@adapter(IFile)
 class FileModifier(BaseFileModifier):
     """ FileModifier """
-    adapts(IFile)
 
     field = 'file'

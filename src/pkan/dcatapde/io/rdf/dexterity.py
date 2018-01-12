@@ -1,28 +1,31 @@
+# -*- coding: utf-8 -*-
 """ rdfmarshaller adapters for dexterity content
 """
 
-import sys
+from .export import GenericObject2Surf
+from .interfaces import IDXField2Surf
+from .interfaces import IFieldDefinition2Surf
+from .interfaces import ISurfSession
+from .interfaces import IValue2Surf
+from plone.api.portal import get_current_language
+from plone.api.portal import get_tool
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.behavior.interfaces import IBehavior
+from plone.dexterity.interfaces import IDexterityContent
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.supermodel.interfaces import FIELDSETS_KEY
+from Products.CMFPlone import log
 from urlparse import urljoin
-
-import rdflib
-from rdflib import BNode
-from zope.component import (adapts, getMultiAdapter, getUtility, queryAdapter,
-                            queryMultiAdapter)
+from zope.component import adapter
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component import queryAdapter
+from zope.component import queryMultiAdapter
 from zope.schema import getFieldsInOrder
 
 import surf
-from .interfaces import IDXField2Surf
-from .interfaces import (IFieldDefinition2Surf, ISurfSession,
-                                          IValue2Surf)
-from .export import GenericObject2Surf
-from plone.autoform.interfaces import IFormFieldProvider
-from plone.behavior.interfaces import IBehavior
-from plone.dexterity.interfaces import IDexterityContent, IDexterityFTI
-from plone.supermodel.interfaces import FIELDSETS_KEY
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import log
+import sys
 
-from ..base.utils import Url
 
 def non_fieldset_fields(schema):
     """ return fields not in fieldset """
@@ -93,7 +96,7 @@ class Dexterity2Surf(GenericObject2Surf):
     """ Dexterity implementation of the Object2Surf
     """
 
-    adapts(IDexterityContent, ISurfSession)
+    adapter(IDexterityContent, ISurfSession)
 
     dc_map = dict([('title', 'title'),
                    ('description', 'description'),
@@ -122,13 +125,14 @@ class Dexterity2Surf(GenericObject2Surf):
     @property
     def blacklist_map(self):
         """ These fields shouldn't be exported """
-        ptool = getToolByName(self.context, 'portal_properties')
+        ptool = get_tool(self.context, 'portal_properties')
         props = getattr(ptool, 'rdfmarshaller_properties', None)
 
         if props:
             return list(
-                props.getProperty('%s_blacklist' % self.portalType.lower(),
-                                  props.getProperty('blacklist'))
+                props.getProperty(
+                    '{0}_blacklist'.format(self.portalType.lower()),
+                    props.getProperty('blacklist'))
             )
 
         return self._blacklist
@@ -154,13 +158,11 @@ class Dexterity2Surf(GenericObject2Surf):
         """ Subject """
 
         my_URL = self.context.absolute_url()
-        parent_URL = self.context.__parent__.absolute_url()
         # check if we are a complex property
-        if my_URL[-1] == "/":
+        if my_URL[-1] == '/':
             return urljoin(my_URL, self.context.portal_type)
         else:
             return my_URL
-
 
     @property
     def namespace(self):
@@ -169,18 +171,17 @@ class Dexterity2Surf(GenericObject2Surf):
         if self._namespace is not None:
             return self._namespace
 
-        ttool = getToolByName(self.context, 'portal_types')
+        ttool = get_tool(self.context, 'portal_types')
         ftype = ttool[self.context.portal_type]
-        surf.ns.register(**{self.prefix: '%s#' % ftype.absolute_url()})
+        surf.ns.register(**{self.prefix: '{0}#'.format(ftype.absolute_url())})
         self._namespace = getattr(surf.ns, self.prefix.upper())
 
         return self._namespace
 
+    def modify_resource(self, resource, **kwds):
+        language = get_current_language(self.context)
 
-    def modify_resource(self, resource, *args, **kwds):
-        language = self.context.Language()
-
-        ptypes = getToolByName(self.context, 'portal_types')
+        ptypes = get_tool(self.context, 'portal_types')
         fti = ptypes[self.context.portal_type]
 
         for fieldName, field in get_ordered_fields(fti):
@@ -204,29 +205,26 @@ class Dexterity2Surf(GenericObject2Surf):
                 continue
 
             try:
-                value = fieldAdapter.value(**kwds )
-            except :
-                log.log('RDF marshaller error for context[field]'
-                        '"%s[%s]": \n%s: %s' %
-                        (self.context.absolute_url(), fieldName,
-                         sys.exc_info()[0], sys.exc_info()[1]),
+                value = fieldAdapter.value(**kwds)
+            except:
+                log.log('RDF marshaller error for context[field] "{0}[{1}]": \n{2}: {3}'.format(
+                        self.context.absolute_url(), fieldName,
+                        sys.exc_info()[0], sys.exc_info()[1]),
                         severity=log.logging.WARN)
 
                 continue
 
             prefix = (fieldAdapter.prefix or self.prefix).replace('.', '')
 
-
-            if not isinstance( value, surf.Resource ):
+            if not isinstance(value, surf.Resource):
 
                 valueAdapter = queryAdapter(value, interface=IValue2Surf)
 
                 if valueAdapter:
                     value = valueAdapter(language=language)
 
-                if not value or value == "None":
+                if not value or value == 'None':
                     continue
-
 
                 fieldName = fieldAdapter.name
 
@@ -237,12 +235,12 @@ class Dexterity2Surf(GenericObject2Surf):
                     prefix = 'dcterms'
 
                 try:
-                    setattr(resource, '%s_%s' % (prefix, fieldName), value)
+                    setattr(resource, '{0}_{1}'.format(prefix, fieldName), value)
                 except Exception:
 
                     log.log(
                         'RDF marshaller error for context[field]'
-                        '"%s[%s]": \n%s: %s' % (
+                        '"{0}[{1}]": \n{2}: {3}'.format(
                             self.context.absolute_url(), fieldName,
                             sys.exc_info()[0], sys.exc_info()[1]
                         ),
@@ -250,8 +248,8 @@ class Dexterity2Surf(GenericObject2Surf):
                     )
             else:
                 try:
-                    attr_name = '%s_%s' % (prefix, fieldName)
-                    setattr(resource,attr_name , value)
+                    attr_name = '{0}_{1}'.format(prefix, fieldName)
+                    setattr(resource, attr_name, value)
 #                    resource.session.load_resource( 'http://test.de', data=value )
 #                    resource.session.commit()
                     pass
@@ -259,7 +257,7 @@ class Dexterity2Surf(GenericObject2Surf):
 
                     log.log(
                         'RDF marshaller error for context[field]'
-                        '"%s[%s]": \n%s: %s' % (
+                        '"{0}[{1}]": \n{2}: {3}'.format(
                             self.context.absolute_url(), fieldName,
                             sys.exc_info()[0], sys.exc_info()[1]
                         ),
@@ -274,7 +272,7 @@ class DexterityFTI2Surf(GenericObject2Surf):
 
     The type informations are persistent objects found in the portal_types """
 
-    adapts(IDexterityFTI, ISurfSession)
+    adapter(IDexterityFTI, ISurfSession)
 
     _namespace = surf.ns.RDFS    # we need an open namespage
     _prefix = 'rdfs'
@@ -302,7 +300,7 @@ class DexterityFTI2Surf(GenericObject2Surf):
                      'expires'
                      ]
 
-    def modify_resource(self, resource, *args, **kwds):
+    def modify_resource(self, resource, **kwds):
         """ Schema to Surf """
 
         context = self.context

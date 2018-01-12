@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING  # noqa
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.interfaces import IVocabularyTokenized
@@ -24,7 +24,7 @@ class FoafagentVocabularyIntegrationTest(unittest.TestCase):
             type='foafagent', title='N2', container=self.portal)
 
     def test_vocabulary(self):
-        vocab_name = "pkan.dcatapde.FoafagentVocabulary"
+        vocab_name = 'pkan.dcatapde.FoafagentVocabulary'
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 

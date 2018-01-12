@@ -1,29 +1,36 @@
 # -*- coding: utf-8 -*-
-import zope.schema as schema
+from foafagent import IFoafagent
+from pkan.dcatapde import _
+from pkan.dcatapde.content.literal import ILiteral
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.namedfile import field as namedfile
 from plone.namedfile.interfaces import INamedImageField
 from plone.supermodel import model
-from ps.zope.i18nfield.field import I18NTextLine, I18NText
-from z3c.form import validator, util
+from ps.zope.i18nfield.field import I18NText
+from ps.zope.i18nfield.field import I18NTextLine
+from z3c.form import util
+from z3c.form import validator
+from z3c.form.interfaces import IObjectFactory
+from z3c.form.object import FactoryAdapter
+from z3c.form.object import getIfName
+from z3c.form.object import registerFactoryAdapter
 from z3c.relationfield import RelationChoice
-from zope.component import provideAdapter, adapter
-from zope.interface import implementer, alsoProvides
+from zope.component import adapter
+from zope.component import provideAdapter
+from zope.component import queryUtility
+from zope.component.interfaces import IFactory
+from zope.interface import alsoProvides
+from zope.interface import implementer
 
-from foafagent import IFoafagent
-from pkan.dcatapde import _
-from pkan.dcatapde.content.literal import ILiteral
+import zope.schema as schema
 
 
-def InqbusWidgetValidatorDiscriminators(validator, context=None, request=None, view=None, field=None, widget=None):
+def InqbusWidgetValidatorDiscriminators(validator, context=None,
+                                        request=None, view=None, field=None,
+                                        widget=None):
 
-    # Find a unique classname for the new validation adapter utilizing classname of the validator, name of the schema,
-    # name of the field
-#    validator_classname = "_".join([validator.__class__.__name__, field.interface.__name__, field.__name__ ])
-    # make a copy of the validators factory class
-#    validator_adapter = type(validator_classname , validator.__bases__, dict(validator.__dict__))
     # Make the copy to a well shaped adapter
     validator_adapter = adapter(
         util.getSpecification(context),
@@ -40,10 +47,6 @@ class DCT_TitelValidator(validator.SimpleFieldValidator):
 
     def validate(self, value):
         return True
-        # if the context is no ICustomer we are in an add form
-#        if res:
-#            raise Invalid(translate(_(u"The customer number given is already in use!"),
-#                          target_language=get_current_language()))
 
 
 class ICatalog(model.Schema):
@@ -84,7 +87,7 @@ class ICatalog(model.Schema):
     )
     publisher = RelationChoice(
         title=_(u'Publisher'),
-        vocabulary="plone.app.vocabularies.Catalog",
+        vocabulary='plone.app.vocabularies.Catalog',
         required=True,
     )
 
@@ -115,7 +118,6 @@ class ICatalog(model.Schema):
 
 
 alsoProvides(ILiteral, IFoafagent)
-#InqbusWidgetValidatorDiscriminators( DCT_TitelValidator, field=ICatalog['dct_title'])
 
 
 @implementer(ICatalog)
@@ -123,13 +125,9 @@ class Catalog(Container):
     """
     """
 
-from z3c.form.object import registerFactoryAdapter
+
 registerFactoryAdapter(ICatalog, Catalog)
 
-from z3c.form.interfaces import IObjectFactory
-from z3c.form.object import FactoryAdapter, getIfName
-from zope.component.interfaces import IFactory
-from zope.component import queryUtility
 
 @implementer(IObjectFactory)
 class ImageFactory(FactoryAdapter):
@@ -140,5 +138,5 @@ class ImageFactory(FactoryAdapter):
         factory = queryUtility(IFactory, name='catalog')
         return factory()
 
+
 name = getIfName(INamedImageField)
-#zope.component.provideAdapter(ImageFactory, name=name)

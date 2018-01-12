@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
+from pkan.dcatapde import _
 from pkan.dcatapde.content.foafagent import IFoafagent
 from pkan.dcatapde.content.literal import ILiteral
-from plone.app.textfield import RichText
-from plone.autoform import directives
 from plone.dexterity.content import Container
-from plone.namedfile import field as namedfile
 from plone.supermodel import model
-from plone.supermodel.directives import fieldset
-from z3c.form.browser.radio import RadioFieldWidget
+from z3c.form.object import registerFactoryAdapter
+from zope.interface import alsoProvides
+from zope.interface import implementer
+
 import zope.schema as schema
-from zope.interface import implementer, alsoProvides
-from pkan.dcatapde import _
 
 
 class IDataset(model.Schema):
@@ -20,19 +18,19 @@ class IDataset(model.Schema):
     add_title = schema.List(
          title=_(u'Translated Title'),
          required=False,
-         value_type = schema.Object(ILiteral),
+         value_type=schema.Object(ILiteral),
     )
 
     add_description = schema.List(
          title=_(u'Translated Description'),
          required=False,
-         value_type = schema.Object(ILiteral)
+         value_type=schema.Object(ILiteral)
     )
 
     contributorID = schema.List(
          title=_(u'Contributor'),
          required=True,
-         value_type = schema.Object(IFoafagent)
+         value_type=schema.Object(IFoafagent)
     )
 
     license = schema.URI(
@@ -50,12 +48,14 @@ class IDataset(model.Schema):
         required=False
     )
 
+
 alsoProvides(ILiteral, IFoafagent)
+
 
 @implementer(IDataset)
 class Dataset(Container):
     """
     """
 
-from z3c.form.object import registerFactoryAdapter
+
 registerFactoryAdapter(IDataset, Dataset)

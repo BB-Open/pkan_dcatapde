@@ -1,10 +1,12 @@
-import os
-
+# -*- coding: utf-8 -*-
 from pkan.dcatapde.io.rdf.export import RDFMarshaller
 from unidecode import unidecode
 
+import os
+
+
 try:
-    LIMIT = int(os.environ.get("RDF_UNICODE_LIMIT", 65535))
+    LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))
 except Exception:
     LIMIT = 65535   # Refs #83543 - Default: 0xFFFF, 2^16, 16-bit
 
@@ -35,7 +37,7 @@ class RDFExport(object):
         try:
             text.encode()
         except Exception:
-            return u"".join(self._sanitize(text))
+            return u''.join(self._sanitize(text))
         else:
             return text
 

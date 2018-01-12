@@ -1,22 +1,22 @@
+# -*- coding: utf-8 -*-
 
 """ Marshaller module """
-
-import logging
-
-from zope.component import adapts, queryMultiAdapter, subscribers
-from zope.interface import Interface, implements
+from .interfaces import IGenericObject2Surf
+from .interfaces import IObject2Surf
+from .interfaces import ISurfResourceModifier
+from .interfaces import ISurfSession
+from plone.api.portal import get_tool
+from Products.CMFCore.interfaces._tools import ITypesTool
+from zope.component import adapter
+from zope.component import queryMultiAdapter
+from zope.component import subscribers
+from zope.interface import implementer
+from zope.interface import Interface
 
 import surf
 
-from .interfaces import (IGenericObject2Surf, IObject2Surf,
-                                          ISurfResourceModifier, ISurfSession)
 
-from Products.CMFCore.interfaces._tools import ITypesTool
-from Products.CMFCore.utils import getToolByName
-from surf.log import set_logger
-
-
-
+DEBUG = True
 
 
 class RDFMarshaller(object):
@@ -62,14 +62,12 @@ class RDFMarshaller(object):
         self.store.reader.graph.bind(
             obj2surf.prefix, obj2surf.namespace, override=False)
         endLevel = kwargs.get('endLevel', 3)
-        self.resource = obj2surf.write(endLevel=endLevel, marshaller = self)
-
-
+        self.resource = obj2surf.write(endLevel=endLevel, marshaller=self)
 
     def marshall(self, instance, **kwargs):
         """ Marshall the rdf data to xml representation """
 
-        self.marshall_inner( instance, **kwargs)
+        self.marshall_inner(instance, **kwargs)
 
         data = self.store.reader.graph.serialize(format='pretty-xml')
 
@@ -77,25 +75,23 @@ class RDFMarshaller(object):
 
         return (content_type, len(data), data)
 
-
     def marshall_graph(self, instance, **kwargs):
         """ Marshall the rdf data to xml representation """
 
-        self.marshall_inner( instance, **kwargs)
+        self.marshall_inner(instance, **kwargs)
 
-        data = self.store.reader.graph
+#        data = self.store.reader.graph
 
         return self.resource
 
 
+@implementer(IGenericObject2Surf)
+@adapter(Interface, ISurfSession)
 class GenericObject2Surf(object):
     """Generic implementation of IObject2Surf
 
     This is meant to be subclassed and not used directly.
     """
-
-    implements(IGenericObject2Surf)
-    adapts(Interface, ISurfSession)
 
     _resource = None    # stores the surf resource
     _namespace = None   # stores the namespace for this resource
@@ -127,10 +123,10 @@ class GenericObject2Surf(object):
         if self._namespace is not None:
             return self._namespace
 
-        ttool = getToolByName(self.context, 'portal_types')
+        ttool = get_tool(self.context, 'portal_types')
         ptype = self.context.portal_type
         ns = {
-            self.prefix: '%s#' % ttool[ptype].absolute_url()
+            self.prefix: '{0}#'.format(ttool[ptype].absolute_url())
         }
         surf.ns.register(**ns)
         self._namespace = getattr(surf.ns, self.prefix.upper())
@@ -141,7 +137,7 @@ class GenericObject2Surf(object):
     def subject(self):
         """ subject; will be inserted as rdf:about """
 
-        return '%s#%s' % (self.context.absolute_url(), self.rdfId)
+        return '{0}#{1}'.format(self.context.absolute_url(), self.rdfId)
 
     @property
     def rdfId(self):
@@ -197,12 +193,11 @@ class GenericObject2Surf(object):
         return resource
 
 
+@adapter(ITypesTool, ISurfSession)
 class PortalTypesUtil2Surf(GenericObject2Surf):
     """IObject2Surf implemention for TypeInformations"""
 
-    adapts(ITypesTool, ISurfSession)
-
-    _prefix = "rdfs"
+    _prefix = 'rdfs'
     _namespace = surf.ns.RDFS
 
     @property
@@ -214,8 +209,8 @@ class PortalTypesUtil2Surf(GenericObject2Surf):
     def modify_resource(self, resource, *args, **kwds):
         """_schema2surf"""
 
-        resource.rdfs_label = (u"Plone PortalTypes Tool", None)
-        resource.rdfs_comment = (u"Holds definitions of portal types", None)
+        resource.rdfs_label = (u'Plone PortalTypes Tool', None)
+        resource.rdfs_comment = (u'Holds definitions of portal types', None)
         resource.rdf_id = self.rdfId
 
         return resource

@@ -1,7 +1,7 @@
-""" rdfmarshaller interfaces """
+# -*- coding: utf-8 -*-
 """ Interfaces """
-
-from zope.interface import Attribute, Interface
+from zope.interface import Attribute
+from zope.interface import Interface
 
 
 class ISurfSession(Interface):
@@ -23,13 +23,13 @@ class IGenericObject2Surf(IObject2Surf):
     class; The IObject2Surf interface should be used as adapter interface
     """
 
-    resource = Attribute(u"A surf resource that is written into the sesion")
-    namespace = Attribute(u"The namespace that is attached to the resource")
-    subject = Attribute(u"The subject (URI) of the resource")
-    prefix = Attribute(u"The subject (URI) of the resource")
-    portalType = Attribute(u"The portal type of the context, "
-                           u"will be used as resource class")
-    rdfId = Attribute(u"The Id of the resource")
+    resource = Attribute(u'A surf resource that is written into the sesion')
+    namespace = Attribute(u'The namespace that is attached to the resource')
+    subject = Attribute(u'The subject (URI) of the resource')
+    prefix = Attribute(u'The subject (URI) of the resource')
+    portalType = Attribute(u'The portal type of the context, '
+                           u'will be used as resource class')
+    rdfId = Attribute(u'The Id of the resource')
 
     def modify_resource(resource, *args, **kwds):
         """Override to modify the resource and return a new one
@@ -48,7 +48,7 @@ class ISurfResourceModifier(Interface):
 class IField2Surf(Interface):
     """
     """
-    exportable = Attribute("Is this field exportable to RDF?")
+    exportable = Attribute('Is this field exportable to RDF?')
 
     def value(context):
         """ Returns the value in format understandable by SURF """

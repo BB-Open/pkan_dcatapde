@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.content.literal import ILiteral
-from plone.app.textfield import RichText
-from plone.autoform import directives
-from plone.dexterity.content import Container
-from plone.namedfile import field as namedfile
-from plone.supermodel import model
-from plone.supermodel.directives import fieldset
-from z3c.form.browser.radio import RadioFieldWidget
-from zope import schema
-from zope.interface import implementer, alsoProvides
 from pkan.dcatapde import _
+from pkan.dcatapde.content.literal import ILiteral
+from plone.dexterity.content import Container
+from plone.supermodel import model
+from zope import schema
+from zope.interface import alsoProvides
+from zope.interface import implementer
 
 
 class IDistribution(model.Schema):
@@ -19,13 +15,13 @@ class IDistribution(model.Schema):
     add_title = schema.List(
          title=_(u'Translated Title'),
          required=False,
-         value_type = schema.Object(ILiteral),
+         value_type=schema.Object(ILiteral),
     )
 
     add_description = schema.List(
          title=_(u'Translated Description'),
          required=False,
-         value_type = schema.Object(ILiteral)
+         value_type=schema.Object(ILiteral)
     )
 
     license = schema.URI(
@@ -48,7 +44,9 @@ class IDistribution(model.Schema):
         required=False
     )
 
+
 alsoProvides(ILiteral)
+
 
 @implementer(IDistribution)
 class Distribution(Container):

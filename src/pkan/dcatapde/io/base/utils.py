@@ -1,5 +1,8 @@
-from urlparse import urlparse, parse_qsl
+# -*- coding: utf-8 -*-
 from urllib import unquote_plus
+from urlparse import parse_qsl
+from urlparse import urlparse
+
 
 class Url(object):
     '''A url object that can be compared with other url orbjects
@@ -18,4 +21,3 @@ class Url(object):
 
     def __hash__(self):
         return hash(self.parts)
-

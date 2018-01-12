@@ -1,13 +1,19 @@
+# -*- coding: utf-8 -*-
 """ Modifiers """
+from .interfaces import ISurfResourceModifier
+from plone.api.content import get_state
+from plone.api.portal import get_tool
+from plone.dexterity.interfaces import IDexterityContent
+from Products.CMFCore.WorkflowCore import WorkflowException
+from Products.CMFPlone import log
+from zope.component import adapter
+from zope.interface import implementer
+from zope.interface import providedBy
+
+import rdflib
 import re
 import sys
-import rdflib
-from Products.CMFCore.WorkflowCore import WorkflowException
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import log
-from zope.component import adapts
-from zope.interface import implements, providedBy
-from plone.dexterity.interfaces import IDexterityContent
+
 
 try:
     from plone.app.multilingual.interfaces import ITranslationManager
@@ -15,19 +21,17 @@ try:
 except ImportError:
     has_plone_multilingual = False
 
-from .interfaces import ISurfResourceModifier
 
 ILLEGAL_XML_CHARS_PATTERN = re.compile(
     u'[\x00-\x08\x0b\x0c\x0e-\x1F\uD800-\uDFFF\uFFFE\uFFFF]'
 )
 
 
+@implementer(ISurfResourceModifier)
+@adapter(IDexterityContent)
 class WorkflowStateModifier(object):
     """Adds workflow information information to rdf resources
     """
-
-    implements(ISurfResourceModifier)
-    adapts(IDexterityContent)
 
     def __init__(self, context):
         self.context = context
@@ -39,39 +43,38 @@ class WorkflowStateModifier(object):
             '@@plone_portal_state')
         portal_url = plone_portal_state.portal_url()
 
-        workflowTool = getToolByName(self.context, "portal_workflow")
+        workflowTool = get_tool(self.context, 'portal_workflow')
         wfs = workflowTool.getWorkflowsFor(self.context)
         wf = None
         for wf in wfs:
-            if wf.isInfoSupported(self.context, "portal_workflow"):
+            if wf.isInfoSupported(self.context, 'portal_workflow'):
                 break
 
-        status = workflowTool.getInfoFor(self.context, "review_state", None)
+        status = get_state(self.context, 'review_state', None)
         if status is not None:
             status = ''.join([portal_url,
-                              "/portal_workflow/",
+                              '/portal_workflow/',
                               getattr(wf, 'getId', lambda: '')(),
-                              "/states/",
+                              '/states/',
                               status])
             try:
-                setattr(resource, '%s_%s' % ("eea", "hasWorkflowState"),
+                setattr(resource, '{0}_{1}'.format('eea', 'hasWorkflowState'),
                         rdflib.URIRef(status))
             except Exception:
                 log.log('RDF marshaller error for context[workflow_state]'
-                        '"%s": \n%s: %s' %
-                        (self.context.absolute_url(),
-                         sys.exc_info()[0], sys.exc_info()[1]),
+                        '"{0}": \n{1}: {2}'.format(
+                            self.context.absolute_url(),
+                            sys.exc_info()[0], sys.exc_info()[1]),
                         severity=log.logging.WARN)
         return resource
 
 
 # Archetypes modifiers ported to dexterity
+@implementer(ISurfResourceModifier)
+@adapter(IDexterityContent)
 class IsPartOfModifier(object):
     """Adds dcterms_isPartOf information to rdf resources
     """
-
-    implements(ISurfResourceModifier)
-    adapts(IDexterityContent)
 
     def __init__(self, context):
         self.context = context
@@ -80,10 +83,9 @@ class IsPartOfModifier(object):
         """Change the rdf resource
         """
         parent = self.context.getParentNode()
-        wftool = getToolByName(self.context, 'portal_workflow')
         if parent is not None:
             try:
-                state = wftool.getInfoFor(parent, 'review_state')
+                state = get_state(parent, 'review_state')
             except WorkflowException:
                 state = 'published'
 
@@ -93,12 +95,11 @@ class IsPartOfModifier(object):
                     rdflib.URIRef(parent_url)
 
 
+@implementer(ISurfResourceModifier)
+@adapter(IDexterityContent)
 class TranslationInfoModifier(object):
     """Adds translation info
     """
-
-    implements(ISurfResourceModifier)
-    adapts(IDexterityContent)
 
     def __init__(self, context):
         self.context = context
@@ -127,12 +128,11 @@ class TranslationInfoModifier(object):
             return
 
 
+@implementer(ISurfResourceModifier)
+@adapter(IDexterityContent)
 class ProvidedInterfacesModifier(object):
     """Adds information about provided interfaces
     """
-
-    implements(ISurfResourceModifier)
-    adapts(IDexterityContent)
 
     def __init__(self, context):
         self.context = context
@@ -140,17 +140,16 @@ class ProvidedInterfacesModifier(object):
     def run(self, resource, *args, **kwds):
         """Change the rdf resource
         """
-        provides = ["%s.%s" % (iface.__module__ or '', iface.__name__)
+        provides = ['{0}.{1}'.format(iface.__module__ or '', iface.__name__)
                     for iface in providedBy(self.context)]
         resource.eea_objectProvides = provides
 
 
+@implementer(ISurfResourceModifier)
+@adapter(IDexterityContent)
 class SearchableTextInModifier(object):
     """Adds searchable text info
     """
-
-    implements(ISurfResourceModifier)
-    adapts(IDexterityContent)
 
     def __init__(self, context):
         self.context = context
@@ -162,12 +161,11 @@ class SearchableTextInModifier(object):
             '', self.context.SearchableText())
 
 
+@implementer(ISurfResourceModifier)
+@adapter(IDexterityContent)
 class RelatedItemsModifier(object):
     """Adds dcterms:references
     """
-
-    implements(ISurfResourceModifier)
-    adapts(IDexterityContent)
 
     def __init__(self, context):
         self.context = context
@@ -184,13 +182,13 @@ class RelatedItemsModifier(object):
 
 
 # This one comes from eea.dataservices
+
+@implementer(ISurfResourceModifier)
 class BaseFileModifier(object):
     """Adds dcterms:format
     """
 
     field = ''
-
-    implements(ISurfResourceModifier)
 
     def __init__(self, context):
         self.context = context
@@ -202,4 +200,4 @@ class BaseFileModifier(object):
         if not item:
             return
 
-        setattr(resource, "dcterms_format", [item.contentType])
+        setattr(resource, 'dcterms_format', [item.contentType])

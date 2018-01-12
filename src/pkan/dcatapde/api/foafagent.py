@@ -1,10 +1,9 @@
+# -*- coding: utf-8 -*-
 from pkan.dcatapde.constants import CT_Foafagent
-from plone.dexterity.utils import createContentInContainer
+from plone.api.content import create
 
 
 def add_foafagent(context, **data):
-    foaf = createContentInContainer(context,
-                                       CT_Foafagent,
-                                       **data)
+    foaf = create(container=context, type=CT_Foafagent, **data)
 
     return foaf

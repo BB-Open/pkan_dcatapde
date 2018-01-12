@@ -1,31 +1,25 @@
+# -*- coding: utf-8 -*-
 """ Dexterity fields adapters for marshalling """
-
+from .dexterity import GenericObject2Surf
+from .interfaces import IDXField2Surf
+from .interfaces import IFieldDefinition2Surf
+from .interfaces import ISurfSession
+from .value import Value2Surf
+from plone.api.portal import get_tool
+from plone.app.textfield.value import RichTextValue
+from plone.dexterity.interfaces import IDexterityContent
+from Products.CMFPlone import log
+from zope import interface
+from zope.component import adapter
+from zope.interface import implementer
+from zope.schema.interfaces import IField
 
 import Acquisition
-from pkan.dcatapde.io.rdf.export import RDFMarshaller
-from plone.app.textfield.value import RichTextValue
-from plone.api.portal import get_tool
-from Products.CMFPlone import log
-import re
 import rdflib
+import re
 import surf
 import sys
 
-from plone.dexterity.interfaces import IDexterityContent
-from zope.component import adapts
-from zope import interface
-
-
-from .interfaces import IDXField2Surf
-from .interfaces import IFieldDefinition2Surf, ISurfSession
-from .dexterity import GenericObject2Surf
-from .value import Value2Surf
-
-
-
-#import Interface, implements
-
-from zope.schema.interfaces import IField
 
 try:
     from z3c.relationfield.interfaces import IRelationList
@@ -35,12 +29,10 @@ except ImportError:
     HAS_Z3C_RELATIONFIELD = False
 
 
+@implementer(IDXField2Surf)
+@adapter(interface.Interface, interface.Interface, ISurfSession)
 class DXField2Surf(object):
     """Base implementation of IDXField2Surf """
-
-    interface.implements(IDXField2Surf)
-    # adapts(IField, Interface, ISurfSession)
-    adapts(interface.Interface, interface.Interface, ISurfSession)
 
     exportable = True
     prefix = None   # override the prefix for this predicate
@@ -68,31 +60,31 @@ class DXField2Surf(object):
             return value
         except Exception:
             log.log('RDF marshaller error for context[field]'
-                    '"%s[%s]": \n%s: %s' %
-                    (self.context.absolute_url(), self.name,
-                     sys.exc_info()[0], sys.exc_info()[1]),
-                    severity=log.logging.WARN)
+                    '"{0}[{1}]": \n{2}: {3}'.format(
+                        self.context.absolute_url(), self.name,
+                        sys.exc_info()[0], sys.exc_info()[1]),
+                    severity=log.logging.WARN
+                    )
 
             return None
 
 
+@adapter(RichTextValue)
 class RichValue2Surf(Value2Surf):
     """ RichTextValue adaptor """
-    adapts(RichTextValue)
 
     def __init__(self, value):
         super(RichValue2Surf, self).__init__(value.output)
 
 
+@implementer(IFieldDefinition2Surf)
+@adapter(IField, interface.Interface, ISurfSession)
 class DexterityField2RdfSchema(GenericObject2Surf):
     """IFieldDefinition2Surf implemention for Fields;
 
     This is used to define rdfs schemas for objects,
     extracting their field definitions
     """
-
-    interface.implements(IFieldDefinition2Surf)
-    adapts(IField, interface.Interface, ISurfSession)
 
     _namespace = surf.ns.RDFS
     _prefix = 'rdfs'
@@ -117,7 +109,7 @@ class DexterityField2RdfSchema(GenericObject2Surf):
     def subject(self):
         """ subject """
 
-        return '%s#%s' % (self.fti.absolute_url(), self.context.getName())
+        return '{0}#{1}'.format(self.fti.absolute_url(), self.context.getName())
 
     def modify_resource(self, resource, *args, **kwargs):
         """ Schema to Surf """
@@ -126,7 +118,7 @@ class DexterityField2RdfSchema(GenericObject2Surf):
         # NOTE: To Do: use dexterity mechanism to get widget
         widget_label = (context.title, u'en')
         widget_description = (context.description, u'en')
-        fti_title = rdflib.URIRef(u'#%s' % self.fti.Title())
+        fti_title = rdflib.URIRef(u'#{0}'.format(self.fti.Title()))
 
         setattr(resource, 'rdfs_label', widget_label)
         setattr(resource, 'rdfs_comment', widget_description)
@@ -136,13 +128,10 @@ class DexterityField2RdfSchema(GenericObject2Surf):
         return resource
 
 
-
-
 if HAS_Z3C_RELATIONFIELD:
+    @adapter(IRelationList, interface.Interface, ISurfSession)
     class DXRelationList2Surf(DXField2Surf):
         """IATField2Surf implementation for Reference fields"""
-
-        adapts(IRelationList, interface.Interface, ISurfSession)
 
         def value(self):
             """ Value """
@@ -158,10 +147,9 @@ if HAS_Z3C_RELATIONFIELD:
             return [rdflib.URIRef(ref.to_object.absolute_url())
                     for ref in value]
 
+    @adapter(IRelationValue)
     class RelationValue2Surf(Value2Surf):
         """IValue2Surf implementation for DateTime """
-
-        adapts(IRelationValue)
 
         def __call__(self, *args, **kwds):
 
@@ -171,7 +159,7 @@ if HAS_Z3C_RELATIONFIELD:
             return rdflib.URIRef(obj.absolute_url())
 
 
-S_RE = re.compile(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s")
+S_RE = re.compile(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s')
 
 
 def shorten(text, sentences=1):
@@ -182,7 +170,6 @@ def shorten(text, sentences=1):
     Returns text (joined sentences)
     """
 
-    # TODO: test for unicode
     sents = S_RE.split(text)
 
     return u' '.join(sents[:sentences]).strip()
@@ -221,6 +208,7 @@ class BaseShortenHTMLField2Surf(object):
         return html
 
 
+@implementer(IDXField2Surf)
 class ShortenHTMLField2Surf(DXField2Surf, BaseShortenHTMLField2Surf):
     """ A superclass to be used to provide alternate values for fields
 
@@ -235,8 +223,6 @@ class ShortenHTMLField2Surf(DXField2Surf, BaseShortenHTMLField2Surf):
         factory=".FallbackDescription"
         />
     """
-
-    interface.implements(IDXField2Surf)
 
     exportable = True
     alternate_field = None
