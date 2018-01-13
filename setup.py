@@ -38,18 +38,17 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        # -*- Extra requirements: -*-
-        'plone.app.dexterity',
-        'plone.api',
-        'plone.formwidget.relateditems',
-        'Products.GenericSetup>=1.8.2',
         'setuptools',
-        'z3c.jbot',
-        'surf',
+        # -*- Extra requirements: -*-
         'chardet',
+        'plone.api',
+        'plone.app.dexterity',
+        'plone.formwidget.relateditems',
+        'Products.GenericSetup >= 1.8.2',
+        'ps.zope.i18nfield >= 0.5',
+        'surf',
+        'z3c.jbot',
         'zope.app.content',
-        'zc.catalog==1.6',
-        'ps.zope.i18nfield',
     ],
     extras_require={
         'test': [
