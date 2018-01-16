@@ -49,6 +49,7 @@ setup(
         'surf',
         'z3c.jbot',
         'zope.app.content',
+        'collective.z3cform.datagridfield',
     ],
     extras_require={
         'test': [
