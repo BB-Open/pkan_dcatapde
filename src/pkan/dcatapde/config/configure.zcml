@@ -1,0 +1,21 @@
+<configure
+        xmlns="http://namespaces.zope.org/zope"
+        xmlns:browser="http://namespaces.zope.org/browser"
+        i18n_domain="pkan.dcatapde">
+
+    <browser:page
+          for="*"
+          name="pkan-dcatapde-config"
+          permission="cmf.ManagePortal"
+          class=".views.MainControlPanelView"
+          template="templates/controlpanel.pt"
+          />
+
+    <browser:page
+          for="*"
+          name="harvester-config"
+          permission="cmf.ManagePortal"
+          class=".views.HarvesterView"
+          />
+
+</configure>

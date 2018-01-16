@@ -7,6 +7,24 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
+        id="pkan.dcatapde.AddHarvesterfolder"
+        title="pkan.dcatapde: Add Harvesterfolder"
+    />
+
+        
+    <permission
+        id="pkan.dcatapde.AddHarvesterFieldConfig"
+        title="pkan.dcatapde: Add HarvesterFieldConfig"
+    />
+
+        
+    <permission
+        id="pkan.dcatapde.AddHarvester"
+        title="pkan.dcatapde: Add Harvester"
+    />
+
+        
+    <permission
         id="pkan.dcatapde.AddLiteral"
         title="pkan.dcatapde: Add Literal"
     />

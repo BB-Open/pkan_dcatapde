@@ -9,5 +9,10 @@
         name="pkan.dcatapde.FoafagentVocabulary"
     />
 
+    <utility
+        component=".harvesting_vocabulary.HarvestingVocabularyFactory"
+        name="pkan.dcatapde.HarvestingVocabulary"
+    />
+
         
 </configure>

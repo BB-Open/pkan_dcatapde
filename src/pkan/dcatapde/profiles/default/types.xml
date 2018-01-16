@@ -7,4 +7,7 @@
   <object meta_type="Dexterity FTI" name="catalog"/>
   <object meta_type="Dexterity FTI" name="foafagent"/>
   <object meta_type="Dexterity FTI" name="literal"/>
+  <object meta_type="Dexterity FTI" name="harvester"/>
+  <object meta_type="Dexterity FTI" name="harvester_field_config"/>
+  <object meta_type="Dexterity FTI" name="harvesterfolder"/>
 </object>

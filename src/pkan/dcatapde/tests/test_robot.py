@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from pkan.dcatapde.testing import PKAN_DCATAPDE_ACCEPTANCE_TESTING  # noqa
 from plone.app.testing import ROBOT_TEST_LEVEL
 from plone.testing import layered
-from pkan.dcatapde.testing import PKAN_DCATAPDE_ACCEPTANCE_TESTING  # noqa
 
 import os
 import robotsuite

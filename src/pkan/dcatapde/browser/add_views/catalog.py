@@ -28,7 +28,6 @@ class IPublisher(IFoafagent):
 
     available = schema.Choice(
         title=_(u'Available Publisher'),
-        # TODO: Implement Vocabulary
         vocabulary='pkan.dcatapde.FoafagentVocabulary',
         required=False,
     )

@@ -3,6 +3,30 @@
   <permissions>
   <!-- -*- extra stuff goes here -*- -->
 
+    <permission name="pkan.dcatapde: Add Harvesterfolder" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
+    <permission name="pkan.dcatapde: Add HarvesterFieldConfig" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
+    <permission name="pkan.dcatapde: Add Harvester" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
     <permission name="pkan.dcatapde: Add Literal" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
