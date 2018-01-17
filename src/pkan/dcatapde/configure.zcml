@@ -1,9 +1,8 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="pkan.dcatapde">
+        xmlns="http://namespaces.zope.org/zope"
+        xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+        xmlns:i18n="http://namespaces.zope.org/i18n"
+        i18n_domain="pkan.dcatapde">
 
   <i18n:registerTranslations directory="locales" />
 
@@ -17,6 +16,7 @@
 
   <include package=".browser" />
   <include package=".config" />
+  <include package=".harvesting"/>
 
   <include package=".io" />
   <include package=".vocabularies" />

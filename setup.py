@@ -50,6 +50,7 @@ setup(
         'z3c.jbot',
         'zope.app.content',
         'collective.z3cform.datagridfield',
+        'requests'
     ],
     extras_require={
         'test': [

@@ -5,6 +5,18 @@
     <!-- -*- extra stuff goes here -*- -->
 
     <utility
+        component=".source_field.SourceFieldVocabularyFactory"
+        name="pkan.dcatapde.SourceFieldVocabulary"
+    />
+
+        
+    <utility
+        component=".dcat_field.DcatFieldVocabularyFactory"
+        name="pkan.dcatapde.DcatFieldVocabulary"
+    />
+
+        
+    <utility
         component=".foafagent_vocabulary.FoafagentVocabularyFactory"
         name="pkan.dcatapde.FoafagentVocabulary"
     />

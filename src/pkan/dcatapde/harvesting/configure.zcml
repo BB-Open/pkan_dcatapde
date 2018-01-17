@@ -1,0 +1,17 @@
+<configure
+        xmlns="http://namespaces.zope.org/zope"
+        i18n_domain="pkan.dcatapde">
+
+    <adapter
+    for="pkan.dcatapde.content.harvester.IHarvester"
+    provides=".interfaces.IJson"
+    factory=".adapter.JsonProcessor"
+    />
+
+    <adapter
+    for="pkan.dcatapde.content.harvester.IHarvester"
+    provides=".interfaces.IXml"
+    factory=".adapter.XmlProcessor"
+    />
+
+</configure>

@@ -3,12 +3,11 @@ from AccessControl.SecurityManagement import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
 from plone import api
-from plone.api.portal import get
 
 
 def get_foafagent_context():
     # todo context should not be the site
-    context = get()
+    context = api.portal.get()
     return context
 
 
@@ -30,7 +29,7 @@ def work_as_admin():
         return old_sm
     # Save old user security context
 
-    portal = get()
+    portal = api.portal.get()
     # start using as admin
     newSecurityManager(portal, portal.getOwner())
     return old_sm
