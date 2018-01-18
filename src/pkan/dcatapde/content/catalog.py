@@ -53,22 +53,10 @@ class ICatalog(model.Schema):
     """ Marker interfce and Dexterity Python Schema for Catalog
     """
 
-    # add_title = schema.List(
-    #      title=_(u'Translated Title'),
-    #      required=False,
-    #      value_type = schema.Object(ILiteral),
-    # )
-
     add_title = I18NTextLine(
         title=_(u'Translated Title'),
         required=False,
     )
-
-    # add_description = schema.List(
-    #      title=_(u'Translated Description'),
-    #      required=False,
-    #      value_type = schema.Object(ILiteral)
-    # )
 
     add_description = I18NText(
         title=_(u'Translated Description'),

@@ -52,8 +52,6 @@ class HarvesterForm(AutoExtensibleForm, form.Form):
 
         harvester = data['harvester']
 
-        # TODO: optimize
-
         harvester_url = []
 
         for element in harvester:
