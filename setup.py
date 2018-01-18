@@ -43,7 +43,7 @@ setup(
         'chardet',
         'plone.api',
         'plone.app.dexterity',
-        'plone.formwidget.relateditems',
+        'plone.formwidget.relateditems >= 0.2',
         'Products.GenericSetup >= 1.8.2',
         'ps.zope.i18nfield >= 0.5',
         'surf',
