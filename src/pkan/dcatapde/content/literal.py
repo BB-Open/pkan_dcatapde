@@ -26,6 +26,3 @@ class ILiteral(model.Schema):
 class Literal(Item):
     """
     """
-
-
-registerFactoryAdapter(ILiteral, Literal)

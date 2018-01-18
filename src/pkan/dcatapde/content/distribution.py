@@ -40,9 +40,6 @@ class IDistribution(model.Schema):
     )
 
 
-alsoProvides(ILiteral)
-
-
 @implementer(IDistribution)
 class Distribution(Container):
     """

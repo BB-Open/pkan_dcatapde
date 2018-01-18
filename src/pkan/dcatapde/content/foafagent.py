@@ -17,8 +17,10 @@ class IFoafagent(model.Schema):
     """ Marker interfce and Dexterity Python Schema for Foafagent
     """
 
-    name = schema.TextLine(
-         title=_(u'Name'),
+    # URI of FOAF agent has to be required. Since agents can be referenced from
+    # several locations at once without a single fixed URI different access paths could arise
+    rdf_about = schema.URI(
+         title=_(u'Access URI'),
          required=True
     )
 
@@ -28,17 +30,8 @@ class Foafagent(Item):
     """
     """
     portal_type = 'foafagent'
+    namespace_class = 'foaf:agent'
 
 
-@implementer(IObjectFactory)
-class FoafagentFactory(FactoryAdapter):
-    """
-    """
-
-    def __call__(self, value):
-        factory = queryUtility(IFactory, name='foafagent')
-        return factory()
 
 
-name = getIfName(IFoafagent)
-zope.component.provideAdapter(FoafagentFactory, name=name)

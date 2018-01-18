@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.io.marshall.crawler import Crawler
-from pkan.dcatapde.io.marshall.rdf_catalog import RDFMarshallTarget
-from pkan.dcatapde.io.rdf.export import RDFMarshaller
-from unidecode import unidecode
-
 import os
 
+from pkan.dcatapde.marshall.crawler import Crawler
+from pkan.dcatapde.marshall.targets.rdf import RDFMarshallTarget
+from unidecode import unidecode
 
 try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))
@@ -48,11 +46,12 @@ class RDF(object):
         crawler = Crawler( self.context, marshaller)
         crawler.crawl()
 
-        marshaller
-        endLevel = int(self.request.get('endLevel', 3))
-        _content_type, _length, data = marshaller.marshall(self.context,
-                                                           endLevel=endLevel)
+#        marshaller
+#        endLevel = int(self.request.get('endLevel', 3))
+#        _content_type, _length, data = marshaller.marshall(self.context,
+#                                                           endLevel=endLevel)
 
         self.request.response.setHeader('Content-Type',
                                         'application/rdf+xml; charset=utf-8')
+        data = marshaller._store.reader.graph.serialize(format='pretty-xml')
         return self.sanitize(data)

@@ -19,8 +19,12 @@ class IRDFMarshallTarget(IMarshallTarget):
 class IDX2Any(Interface):
     """Base: Adapts dexterity objects to marshal them"""
 
-    properties = Attribute(u'The properties that are to be marshalled')
-    contained = Attribute(u'The contained content to be marshalled')
+    def marshall(self):
+        """exports the contents of the dexterity object elsewhere"""
+
+    properties = Attribute(u'Returns the properties that are to be marshalled')
+    contained = Attribute(u'Returns the contained content to be marshalled')
+    referenced = Attribute(u'Returns the referenced content to be marshalled')
 
 
 class IDX2RDF(IDX2Any):

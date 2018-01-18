@@ -111,32 +111,9 @@ class ICatalog(model.Schema):
         required=False
     )
 
-    image = namedfile.NamedBlobImage(
-        title=_(u'Image'),
-        required=False,
-    )
-
-
-alsoProvides(ILiteral, IFoafagent)
 
 
 @implementer(ICatalog)
 class Catalog(Container):
     """
     """
-
-
-registerFactoryAdapter(ICatalog, Catalog)
-
-
-@implementer(IObjectFactory)
-class ImageFactory(FactoryAdapter):
-    """
-    """
-
-    def __call__(self, value):
-        factory = queryUtility(IFactory, name='catalog')
-        return factory()
-
-
-name = getIfName(INamedImageField)

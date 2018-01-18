@@ -63,13 +63,7 @@ class IDataset(model.Schema):
     )
 
 
-alsoProvides(ILiteral, IFoafagent)
-
-
 @implementer(IDataset)
 class Dataset(Container):
     """
     """
-
-
-registerFactoryAdapter(IDataset, Dataset)

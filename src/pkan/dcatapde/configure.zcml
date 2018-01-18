@@ -17,6 +17,7 @@
   <include package=".browser" />
   <include package=".config" />
   <include package=".harvesting"/>
+  <include package=".marshall"/>
 
   <include package=".io" />
   <include package=".vocabularies" />
