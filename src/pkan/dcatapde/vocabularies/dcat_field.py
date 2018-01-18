@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from pkan.dcatapde.constants import CT_Foafagent
 from pkan.dcatapde.constants import DCAT_CT
 from plone.dexterity.interfaces import IDexterityFTI
 from z3c.relationfield import RelationChoice
@@ -34,7 +33,7 @@ class DcatFieldVocabulary(object):
             field = fields[field_name]
             if isinstance(field, RelationChoice):
                 field_prefix = CT + ':' + field_name + ':'
-                cts = self.get_cts_from_field(field)
+                cts = self.get_cts_from_relfield(field, field_name)
                 for ct in cts:
                     terms += self.get_terms_for_ct(ct,
                                                    prefix=field_prefix)
@@ -63,9 +62,20 @@ class DcatFieldVocabulary(object):
                     )
         return terms
 
-    def get_cts_from_field(self, field):
-        # TODO: Just dummy function
-        return [CT_Foafagent]
+    def get_cts_from_relfield(self, field, field_name):
+
+        tagged_values = field.interface._Element__tagged_values
+        widgets = tagged_values[u'plone.autoform.widgets']
+
+        if field_name in widgets:
+            params = widgets[field_name].params
+            if ('pattern_options' in params) and (
+                        'selectableTypes' in params['pattern_options']):
+                return params['pattern_options']['selectableTypes']
+            elif 'content_type' in params:
+                return [params['content_type']]
+
+        return []
 
 
 DcatFieldVocabularyFactory = DcatFieldVocabulary()

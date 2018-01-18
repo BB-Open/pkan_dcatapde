@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
+from pkan.dcatapde.content.harvester_field_config import FieldDefaultFactory
 from plone.dexterity.utils import createContentInContainer
 from zope.component.hooks import getSite
 
@@ -75,16 +76,44 @@ def get_field_config(harvester):
     return harvester[constants.HARVESTER_FIELD_CONFIG_ID]
 
 
-def add_harvester_field_config(context, dry_run=False):
+def add_harvester_field_config(context, dry_run=False, **data):
     assert get_field_config(context) is None, \
         _('API: Cannot create second field config for harvester')
+
+    if 'fields' not in data:
+        data['fields'] = add_missing_fields(context, [])
 
     if not dry_run:
         harvester_field_config = createContentInContainer(
             context,
             constants.CT_HarvesterFieldConfig,
             title=constants.HARVESTER_FIELD_CONFIG_TITLE,
-            id=constants.HARVESTER_FIELD_CONFIG_ID
+            id=constants.HARVESTER_FIELD_CONFIG_ID,
+            **data
         )
 
         return harvester_field_config
+
+
+def add_missing_fields(context, fields):
+    required_fields = FieldDefaultFactory(context)
+
+    if not fields:
+        return required_fields
+
+    required_dcat_fields = {}
+    available_fields = []
+
+    for element in required_fields:
+        required_dcat_fields[element['dcat_field']] = element
+
+    for element in fields:
+        available_fields.append(element['dcat_field'])
+
+    for element in available_fields:
+        if element in required_dcat_fields:
+            del required_dcat_fields[element]
+
+    fields += required_dcat_fields.values()
+
+    return fields

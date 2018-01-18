@@ -1,0 +1,12 @@
+<configure
+      xmlns="http://namespaces.zope.org/zope"
+      xmlns:browser="http://namespaces.zope.org/browser"
+      >
+
+ <browser:page
+    for="pkan.dcatapde.content.harvester_field_config.IHarvesterFieldConfig"
+    name="edit"
+    class=".field_config.FieldConfigEdit"
+    permission="cmf.ModifyPortalContent"
+    />
+</configure>

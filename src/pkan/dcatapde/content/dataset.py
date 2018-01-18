@@ -70,6 +70,3 @@ alsoProvides(ILiteral, IFoafagent)
 class Dataset(Container):
     """
     """
-
-
-registerFactoryAdapter(IDataset, Dataset)

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from plone.api.content import create
-
 from pkan.dcatapde.constants import CT_Catalog
+from plone.api.content import create
 
 
 def add_catalog(context, dry_run=False, **data):

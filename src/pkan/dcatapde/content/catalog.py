@@ -6,47 +6,14 @@ from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.namedfile import field as namedfile
-from plone.namedfile.interfaces import INamedImageField
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
-from z3c.form import util
-from z3c.form import validator
-from z3c.form.interfaces import IObjectFactory
-from z3c.form.object import FactoryAdapter
-from z3c.form.object import getIfName
-from z3c.form.object import registerFactoryAdapter
 from z3c.relationfield import RelationChoice
-from zope.component import adapter
-from zope.component import provideAdapter
-from zope.component import queryUtility
-from zope.component.interfaces import IFactory
 from zope.interface import alsoProvides
 from zope.interface import implementer
 
 import zope.schema as schema
-
-
-def InqbusWidgetValidatorDiscriminators(validator, context=None,
-                                        request=None, view=None, field=None,
-                                        widget=None):
-
-    # Make the copy to a well shaped adapter
-    validator_adapter = adapter(
-        util.getSpecification(context),
-        util.getSpecification(request),
-        util.getSpecification(view),
-        util.getSpecification(field),
-        util.getSpecification(widget))(validator)
-
-    # register the new validation adapter
-    provideAdapter(validator_adapter)
-
-
-class DCT_TitelValidator(validator.SimpleFieldValidator):
-
-    def validate(self, value):
-        return True
 
 
 class ICatalog(model.Schema):
@@ -112,19 +79,3 @@ alsoProvides(ILiteral, IFoafagent)
 class Catalog(Container):
     """
     """
-
-
-registerFactoryAdapter(ICatalog, Catalog)
-
-
-@implementer(IObjectFactory)
-class ImageFactory(FactoryAdapter):
-    """
-    """
-
-    def __call__(self, value):
-        factory = queryUtility(IFactory, name='catalog')
-        return factory()
-
-
-name = getIfName(INamedImageField)
