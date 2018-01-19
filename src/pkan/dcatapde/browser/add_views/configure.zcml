@@ -1,17 +1,16 @@
- <configure
-      xmlns="http://namespaces.zope.org/zope"
-      xmlns:browser="http://namespaces.zope.org/browser"
-      >
+<configure
+        xmlns="http://namespaces.zope.org/zope"
+>
 
     <adapter
         for="Products.CMFCore.interfaces.IFolderish
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
              plone.dexterity.interfaces.IDexterityFTI"
         provides="zope.publisher.interfaces.browser.IBrowserPage"
-        factory=".catalog.CatalogAddView"
-        name="catalog"
+        factory=".field_config.FieldConfigAddView"
+        name="harvester_field_config"
         />
-    <class class=".catalog.CatalogAddView">
+    <class class=".field_config.FieldConfigAddView">
         <require
             permission="cmf.AddPortalContent"
             interface="zope.publisher.interfaces.browser.IBrowserPage"

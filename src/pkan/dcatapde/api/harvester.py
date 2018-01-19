@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
+from pkan.dcatapde.content.harvester_field_config import FieldDefaultFactory
 from plone.dexterity.utils import createContentInContainer
 from zope.component.hooks import getSite
 
@@ -35,19 +36,20 @@ def get_all_harvester():
     return harvester
 
 
-def add_harvester_folder(context):
+def add_harvester_folder(context, dry_run=False):
     assert get_harvester_folder() is None, \
         _('API: Cannot create second harvester_folder folder')
 
     # set id and title, title for presentation and id for addressing the object
-    harvester_folder = createContentInContainer(
-        context,
-        constants.CT_HarvesterFolder,
-        title=constants.HARVESTER_FOLDER_TITLE,
-        id=constants.HARVESTER_FOLDER_ID
-    )
+    if not dry_run:
+        harvester_folder = createContentInContainer(
+            context,
+            constants.CT_HarvesterFolder,
+            title=constants.HARVESTER_FOLDER_TITLE,
+            id=constants.HARVESTER_FOLDER_ID
+        )
 
-    return harvester_folder
+        return harvester_folder
 
 
 def delete_harvester(object):
@@ -55,26 +57,63 @@ def delete_harvester(object):
     parent.manage_delObjects([object.getId()])
 
 
-def add_harvester(context, **data):
+def add_harvester(context, dry_run=False, **data):
     folder = get_harvester_folder()
 
     data['title'] = data['url']
 
-    harvester = createContentInContainer(folder,
-                                         constants.CT_Harvester,
-                                         **data)
+    if not dry_run:
+        harvester = createContentInContainer(folder,
+                                             constants.CT_Harvester,
+                                             **data)
 
-    add_harvester_field_config(harvester)
+        add_harvester_field_config(harvester)
 
-    return harvester
+        return harvester
 
 
-def add_harvester_field_config(context):
-    harvester_field_config = createContentInContainer(
-        context,
-        constants.CT_HarvesterFieldConfig,
-        title=constants.HARVESTER_FIELD_CONFIG_TITLE,
-        id=constants.HARVESTER_FIELD_CONFIG_ID
-    )
+def get_field_config(harvester):
+    return harvester[constants.HARVESTER_FIELD_CONFIG_ID]
 
-    return harvester_field_config
+
+def add_harvester_field_config(context, dry_run=False, **data):
+    assert get_field_config(context) is None, \
+        _('API: Cannot create second field config for harvester')
+
+    if 'fields' not in data:
+        data['fields'] = add_missing_fields(context, [])
+
+    if not dry_run:
+        harvester_field_config = createContentInContainer(
+            context,
+            constants.CT_HarvesterFieldConfig,
+            title=constants.HARVESTER_FIELD_CONFIG_TITLE,
+            id=constants.HARVESTER_FIELD_CONFIG_ID,
+            **data
+        )
+
+        return harvester_field_config
+
+
+def add_missing_fields(context, fields):
+    required_fields = FieldDefaultFactory(context)
+
+    if not fields:
+        return required_fields
+
+    required_dcat_fields = {}
+    available_fields = []
+
+    for element in required_fields:
+        required_dcat_fields[element['dcat_field']] = element
+
+    for element in fields:
+        available_fields.append(element['dcat_field'])
+
+    for element in available_fields:
+        if element in required_dcat_fields:
+            del required_dcat_fields[element]
+
+    fields += required_dcat_fields.values()
+
+    return fields

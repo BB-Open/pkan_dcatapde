@@ -2,14 +2,8 @@
 from pkan.dcatapde import _
 from plone.dexterity.content import Item
 from plone.supermodel import model
-from z3c.form.interfaces import IObjectFactory
-from z3c.form.object import FactoryAdapter
-from z3c.form.object import getIfName
-from zope.component import queryUtility
-from zope.component.interfaces import IFactory
 from zope.interface import implementer
 
-import zope.component
 import zope.schema as schema
 
 

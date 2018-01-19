@@ -5,12 +5,6 @@ from AccessControl.SecurityManagement import setSecurityManager
 from plone import api
 
 
-def get_foafagent_context():
-    # todo context should not be the site
-    context = api.portal.get()
-    return context
-
-
 def restore_user(old_sm):
     # restore security context of user
     if old_sm:

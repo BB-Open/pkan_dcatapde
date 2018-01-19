@@ -2,7 +2,6 @@
 from pkan.dcatapde import _
 from plone.dexterity.content import Item
 from plone.supermodel import model
-from z3c.form.object import registerFactoryAdapter
 from zope import schema
 from zope.interface import implementer
 
