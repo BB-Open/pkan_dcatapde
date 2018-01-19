@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from plone import api
+
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
-from pkan.dcatapde.content.harvester_field_config import FieldDefaultFactory
+from pkan.dcatapde.content.fielddefaultfactories import ConfigFieldDefaultFactory
 from plone.dexterity.utils import createContentInContainer
 from zope.component.hooks import getSite
 
@@ -15,9 +17,9 @@ def add_harvester_field_config(context, dry_run=False, **data):
         data['fields'] = add_missing_fields(context, [])
 
     if not dry_run:
-        harvester_field_config = createContentInContainer(
-            context,
-            constants.CT_HarvesterFieldConfig,
+        harvester_field_config = api.content.create(
+            container=context,
+            type=constants.CT_HarvesterFieldConfig,
             title=constants.HARVESTER_FIELD_CONFIG_TITLE,
             id=constants.HARVESTER_FIELD_CONFIG_ID,
             **data
@@ -34,11 +36,12 @@ def add_harvester(context, dry_run=False, **data):
     data['title'] = data['url']
 
     if not dry_run:
-        harvester = createContentInContainer(folder,
-                                             constants.CT_Harvester,
-                                             **data)
+        harvester = api.content.create(container=folder,
+                                       type=constants.CT_Harvester,
+                                       **data)
 
-        add_harvester_field_config(harvester)
+        # Done by DefaultFactory
+        # add_harvester_field_config(harvester)
 
         return harvester
     else:
@@ -51,9 +54,9 @@ def add_harvester_folder(context, dry_run=False):
 
     # set id and title, title for presentation and id for addressing the object
     if not dry_run:
-        harvester_folder = createContentInContainer(
-            context,
-            constants.CT_HarvesterFolder,
+        harvester_folder = api.content.create(
+            container=context,
+            type=constants.CT_HarvesterFolder,
             title=constants.HARVESTER_FOLDER_TITLE,
             id=constants.HARVESTER_FOLDER_ID
         )
@@ -65,7 +68,10 @@ def add_harvester_folder(context, dry_run=False):
 
 # Get Methods
 def get_field_config(harvester):
-    return harvester[constants.HARVESTER_FIELD_CONFIG_ID]
+    if constants.HARVESTER_FIELD_CONFIG_ID in harvester:
+        return harvester[constants.HARVESTER_FIELD_CONFIG_ID]
+    else:
+        return None
 
 
 def get_harvester_folder():
@@ -106,7 +112,7 @@ def delete_harvester(object):
 
 # Related Methods
 def add_missing_fields(context, fields):
-    required_fields = FieldDefaultFactory(context)
+    required_fields = ConfigFieldDefaultFactory(context)
 
     if not fields:
         return required_fields

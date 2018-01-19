@@ -1,0 +1,47 @@
+<configure
+        xmlns="http://namespaces.zope.org/zope"
+        i18n_domain="pkan.dcatapde">
+
+    <utility
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        factory=".catalog.CatalogDefaultFactory"
+        name="catalog"
+    />
+
+    <utility
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        factory=".dataset.DatasetDefaultFactory"
+        name="dataset"
+    />
+
+    <utility
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        factory=".distribution.DistributionDefaultFactory"
+        name="distribution"
+    />
+
+    <utility
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        factory=".foafagent.FoafagentDefaultFactory"
+        name="foafagent"
+    />
+
+    <utility
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        factory=".harvester.HarvesterDefaultFactory"
+        name="harvester"
+    />
+
+    <utility
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        factory=".harvester_field_config.FieldConfigDefaultFactory"
+        name="harvester_field_config"
+    />
+
+    <utility
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        factory=".harvesterfolder.HarvesterFolderDefaultFactory"
+        name="harvesterfolder"
+    />
+
+</configure>

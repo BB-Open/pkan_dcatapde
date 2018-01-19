@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone.dexterity.factory import DexterityFactory
 
 from pkan.dcatapde import _
 from plone.autoform import directives as form
@@ -11,6 +12,9 @@ from z3c.relationfield import RelationChoice
 from zope.interface import implementer
 
 import zope.schema as schema
+
+from pkan.dcatapde.api.dataset import add_dataset
+from pkan.dcatapde.constants import CT_Dataset
 
 
 class IDataset(model.Schema):
@@ -63,3 +67,16 @@ class IDataset(model.Schema):
 class Dataset(Container):
     """
     """
+
+
+class DatasetDefaultFactory(DexterityFactory):
+
+    def __init__(self):
+        self.portal_type = CT_Dataset
+
+    def __call__(self, *args, **kw):
+        # TODO: get context and maybe change it
+        data = add_dataset(None, dry_run=True, **kw)
+        folder = DexterityFactory.__call__(self, *args, **data)
+
+        return folder

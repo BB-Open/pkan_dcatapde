@@ -1,36 +1,18 @@
 # -*- coding: utf-8 -*-
+from zope import schema
+
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
-from pkan.dcatapde import _
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
+from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
-from zope import schema
-from zope.component import getUtility
 from zope.interface import implementer
-from zope.interface import provider
-from zope.schema._bootstrapinterfaces import IContextAwareDefaultFactory
-from zope.schema.interfaces import IVocabularyFactory
 
-
-@provider(IContextAwareDefaultFactory)
-def FieldDefaultFactory(context):
-        fields = []
-
-        vocab_name = 'pkan.dcatapde.DcatFieldVocabulary'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        options = factory(context)
-
-        for value in options.by_value.keys():
-            if 'required' in value:
-                fields.append(
-                    {
-                        'dcat_field': value,
-                        'source_field': None
-                    }
-                )
-
-        return fields
+from pkan.dcatapde import _
+from pkan.dcatapde.api.harvester import add_harvester_field_config
+from pkan.dcatapde.content.fielddefaultfactories import ConfigFieldDefaultFactory
+from pkan.dcatapde.constants import CT_HarvesterFieldConfig
 
 
 class IField(model.Schema):
@@ -58,7 +40,7 @@ class IHarvesterFieldConfig(model.Schema):
         description=_(
             u'''Select Fields. Required fields can't be removed.
             If you remove them, they will be readded after saving.'''),
-        defaultFactory=FieldDefaultFactory,
+        defaultFactory=ConfigFieldDefaultFactory,
         value_type=DictRow(
             title=_(u'Tables'),
             schema=IField,
@@ -71,3 +53,16 @@ class IHarvesterFieldConfig(model.Schema):
 class HarvesterFieldConfig(Container):
     '''
     '''
+
+
+class FieldConfigDefaultFactory(DexterityFactory):
+
+    def __init__(self):
+        self.portal_type = CT_HarvesterFieldConfig
+
+    def __call__(self, *args, **kw):
+        # TODO: get context and maybe change it
+        data = add_harvester_field_config(None, dry_run=True, **kw)
+        folder = DexterityFactory.__call__(self, *args, **data)
+
+        return folder

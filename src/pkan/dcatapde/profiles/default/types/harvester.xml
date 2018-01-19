@@ -27,6 +27,7 @@
   <!-- Schema, class and security -->
   <property name="add_permission">pkan.dcatapde.AddHarvester</property>
   <property name="klass">pkan.dcatapde.content.harvester.Harvester</property>
+
   <property name="model_file"></property>
   <property name="model_source"></property>
   <property name="schema">pkan.dcatapde.content.harvester.IHarvester</property>

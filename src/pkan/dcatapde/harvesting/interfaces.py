@@ -13,6 +13,12 @@ class IImportSource(Interface):
         :return:
         """
 
+    def read_values(self):
+        '''
+        Read fields and
+        :return:
+        '''
+
 
 class IJson(IImportSource):
     """
