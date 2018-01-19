@@ -3,14 +3,22 @@ from pkan.dcatapde.constants import CT_Foafagent
 from plone import api
 
 
+# Add Methods
 def add_foafagent(context, dry_run=False, **data):
     if not dry_run:
         foaf = api.content.create(container=context, type=CT_Foafagent, **data)
 
         return foaf
+    else:
+        return data
 
 
+# Get Methods
 def get_foafagent_context():
     # todo context should not be the site
     context = api.portal.get()
     return context
+
+# Delete Methods
+
+# Related Methods

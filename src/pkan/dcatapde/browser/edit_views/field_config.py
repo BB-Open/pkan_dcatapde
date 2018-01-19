@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pkan.dcatapde.api.harvester import add_missing_fields
 from pkan.dcatapde.content.harvester_field_config import IHarvesterFieldConfig
 from plone.dexterity.browser import edit

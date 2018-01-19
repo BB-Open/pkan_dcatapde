@@ -5,6 +5,7 @@ from AccessControl.SecurityManagement import setSecurityManager
 from plone import api
 
 
+# user related and security management methods
 def restore_user(old_sm):
     # restore security context of user
     if old_sm:

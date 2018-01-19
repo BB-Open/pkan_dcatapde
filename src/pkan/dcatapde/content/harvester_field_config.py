@@ -56,7 +56,8 @@ class IHarvesterFieldConfig(model.Schema):
     fields = schema.List(
         title=_(u'Fields'),
         description=_(
-            u'''Select Fields. Required fields can't be removed. If you remove them, they will be readded after saving.'''),
+            u'''Select Fields. Required fields can't be removed.
+            If you remove them, they will be readded after saving.'''),
         defaultFactory=FieldDefaultFactory,
         value_type=DictRow(
             title=_(u'Tables'),

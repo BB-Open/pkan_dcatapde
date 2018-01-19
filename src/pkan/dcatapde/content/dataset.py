@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from pkan.dcatapde import _
-from pkan.dcatapde.content.foafagent import IFoafagent
-from pkan.dcatapde.content.literal import ILiteral
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
-from z3c.form.object import registerFactoryAdapter
 from z3c.relationfield import RelationChoice
-from zope.interface import alsoProvides
 from zope.interface import implementer
 
 import zope.schema as schema

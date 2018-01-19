@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde.api.harvester import add_harvester_field_config
 from pkan.dcatapde.api.harvester import add_missing_fields
@@ -13,13 +14,12 @@ class FieldConfigAddForm(add.DefaultAddForm):
     def handleAdd(self, action):
         data, errors = self.extractData()
         if errors:
-            self.status = _("Please correct errors")
+            self.status = _('Please correct errors')
             return
 
         data['fields'] = add_missing_fields(self.context, data['fields'])
 
         add_harvester_field_config(self.context, **data)
-
 
 
 class FieldConfigAddView(add.DefaultAddView):

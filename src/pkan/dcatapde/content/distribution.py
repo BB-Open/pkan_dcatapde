@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
-from pkan.dcatapde.content.literal import ILiteral
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from zope import schema
-from zope.interface import alsoProvides
 from zope.interface import implementer
 
 
