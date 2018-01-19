@@ -2,10 +2,11 @@
 """DCAT-AP.de Catalog entity marshaller"""
 from pkan.dcatapde.content.catalog import ICatalog
 from pkan.dcatapde.marshall.dcatapde.base import DCAT2RDF
-from pkan.dcatapde.marshall.interfaces import IDX2Any, IRDFMarshallTarget
+from pkan.dcatapde.marshall.interfaces import IDX2Any
+from pkan.dcatapde.marshall.interfaces import IRDFMarshallTarget
 from zope.component import adapter
-from zope.interface import Interface
 from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(IDX2Any)

@@ -6,8 +6,8 @@ from pkan.dcatapde.marshall.interfaces import IDXField2Any
 from pkan.dcatapde.marshall.interfaces import IMarshallTarget
 from zope.component import adapter
 from zope.component import queryMultiAdapter
-from zope.interface import Interface
 from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(ICrawler)

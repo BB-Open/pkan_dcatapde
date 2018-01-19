@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from plone.dexterity.factory import DexterityFactory
-
 from pkan.dcatapde import _
+from pkan.dcatapde.api.catalog import add_catalog
+from pkan.dcatapde.constants import CT_Catalog
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
+from plone.dexterity.factory import DexterityFactory
 from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
@@ -12,9 +13,6 @@ from z3c.relationfield import RelationChoice
 from zope.interface import implementer
 
 import zope.schema as schema
-
-from pkan.dcatapde.api.catalog import add_catalog
-from pkan.dcatapde.constants import CT_Catalog
 
 
 class ICatalog(model.Schema):
@@ -87,6 +85,3 @@ class CatalogDefaultFactory(DexterityFactory):
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder
-
-
-

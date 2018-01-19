@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import surf
 from pkan.dcatapde.marshall.interfaces import IRDFMarshallTarget
 from zope.interface import implementer
+
+import surf
 
 
 @implementer(IRDFMarshallTarget)

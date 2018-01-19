@@ -1,7 +1,6 @@
 # Add Methods
-from plone.api.content import create
-
 from pkan.dcatapde.constants import CT_Distribution
+from plone.api.content import create
 
 
 def add_distribution(context, dry_run=False, **data):

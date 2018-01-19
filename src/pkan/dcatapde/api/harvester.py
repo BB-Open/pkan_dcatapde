@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from plone import api
-
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde.content.fielddefaultfactories import ConfigFieldDefaultFactory
+from plone import api
 from plone.dexterity.utils import createContentInContainer
 from zope.component.hooks import getSite
 

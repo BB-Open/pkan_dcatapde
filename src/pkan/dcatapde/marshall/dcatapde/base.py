@@ -2,10 +2,11 @@
 """DCAT-AP.de base entity marshaller"""
 from pkan.dcatapde.content.catalog import ICatalog
 from pkan.dcatapde.marshall.crawler import DX2Any
-from pkan.dcatapde.marshall.interfaces import IDX2Any, IRDFMarshallTarget
+from pkan.dcatapde.marshall.interfaces import IDX2Any
+from pkan.dcatapde.marshall.interfaces import IRDFMarshallTarget
 from zope.component import adapter
-from zope.interface import Interface
 from zope.interface import implementer
+from zope.interface import Interface
 
 
 class DCAT2RDF(DX2Any):
@@ -50,7 +51,3 @@ class DCAT2RDF(DX2Any):
 
         self.resource.update()
         self.resource.save()
-
-
-
-

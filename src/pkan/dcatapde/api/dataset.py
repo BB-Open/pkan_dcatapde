@@ -1,7 +1,6 @@
 # Add Methods
-from plone.api.content import create
-
 from pkan.dcatapde.constants import CT_Dataset
+from plone.api.content import create
 
 
 def add_dataset(context, dry_run=False, **data):

@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-from plone.dexterity.factory import DexterityFactory
-
 from pkan.dcatapde import _
+from pkan.dcatapde.api.foafagent import add_foafagent
+from pkan.dcatapde.constants import CT_Foafagent
 from plone.dexterity.content import Item
+from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from zope.interface import implementer
 
 import zope.schema as schema
-
-from pkan.dcatapde.api.foafagent import add_foafagent
-from pkan.dcatapde.constants import CT_Foafagent
 
 
 class IFoafagent(model.Schema):

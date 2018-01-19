@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
-from plone.dexterity.factory import DexterityFactory
-
 from pkan.dcatapde import _
+from pkan.dcatapde.api.harvester import add_harvester
+from pkan.dcatapde.api.harvester import add_harvester_field_config
+from pkan.dcatapde.constants import CT_Harvester
 from plone.dexterity.content import Container
+from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
-
-from pkan.dcatapde.api.harvester import add_harvester, \
-    add_harvester_field_config
-from pkan.dcatapde.constants import CT_Harvester
 
 
 class IHarvester(model.Schema):

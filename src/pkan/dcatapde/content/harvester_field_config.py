@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
-from zope import schema
-
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
+from pkan.dcatapde import _
+from pkan.dcatapde.api.harvester import add_harvester_field_config
+from pkan.dcatapde.constants import CT_HarvesterFieldConfig
+from pkan.dcatapde.content.fielddefaultfactories import ConfigFieldDefaultFactory
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
+from zope import schema
 from zope.interface import implementer
-
-from pkan.dcatapde import _
-from pkan.dcatapde.api.harvester import add_harvester_field_config
-from pkan.dcatapde.content.fielddefaultfactories import ConfigFieldDefaultFactory
-from pkan.dcatapde.constants import CT_HarvesterFieldConfig
 
 
 class IField(model.Schema):

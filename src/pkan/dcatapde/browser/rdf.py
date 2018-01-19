@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import os
-
 from pkan.dcatapde.marshall.crawler import Crawler
 from pkan.dcatapde.marshall.targets.rdf import RDFMarshallTarget
 from unidecode import unidecode
+
+import os
+
 
 try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))
