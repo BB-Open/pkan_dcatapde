@@ -50,6 +50,11 @@ class ICatalog(model.Schema):
         required=True
     )
 
+    uri = schema.URI(
+        title=_(u'URI'),
+        required=True
+    )
+
     homepage = schema.URI(
         title=(u'Homepage'),
         required=False
@@ -72,14 +77,12 @@ class Catalog(Container):
     """
 
 
-
 class CatalogDefaultFactory(DexterityFactory):
 
     def __init__(self):
         self.portal_type = CT_Catalog
 
     def __call__(self, *args, **kw):
-        print args, kw
         # TODO: get context and maybe change it
         data = add_catalog(None, dry_run=True, **kw)
         folder = DexterityFactory.__call__(self, *args, **data)

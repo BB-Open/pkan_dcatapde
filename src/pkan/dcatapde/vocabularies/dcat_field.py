@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from pkan.dcatapde.constants import DCAT_CT
+from pkan.dcatapde.constants import DCAT_CTs
 from plone.dexterity.interfaces import IDexterityFTI
 from z3c.relationfield import RelationChoice
 from zope.component import getUtility
@@ -18,7 +18,7 @@ class DcatFieldVocabulary(object):
 
     def __call__(self, context):
         terms = []
-        for CT in DCAT_CT:
+        for CT in DCAT_CTs:
             terms = terms + self.get_terms_for_ct(CT)
 
         # Create a SimpleVocabulary from the terms list and return it:

@@ -1,8 +1,9 @@
-# Add Methods
+# -*- coding: utf-8 -*-
 from pkan.dcatapde.constants import CT_Dataset
 from plone.api.content import create
 
 
+# Add Methods
 def add_dataset(context, dry_run=False, **data):
     if not dry_run:
         dataset = create(container=context, type=CT_Dataset, **data)

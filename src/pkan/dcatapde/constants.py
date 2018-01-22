@@ -14,7 +14,7 @@ HARVESTER_FOLDER_ID = 'harvester_folder'
 HARVESTER_FIELD_CONFIG_TITLE = 'Field Config'
 HARVESTER_FIELD_CONFIG_ID = 'field_config'
 
-DCAT_CT = [
+DCAT_CTs = [
     CT_Catalog,
     CT_Dataset,
     CT_Distribution

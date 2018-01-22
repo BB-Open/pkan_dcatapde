@@ -14,4 +14,10 @@
     factory=".adapter.XmlProcessor"
     />
 
+    <adapter
+    for="pkan.dcatapde.harvesting.interfaces.IImportSource"
+    provides=".prep_interfaces.IPotsdam"
+    factory=".prep_adapter.PotsdamPreprocessor"
+    />
+
 </configure>

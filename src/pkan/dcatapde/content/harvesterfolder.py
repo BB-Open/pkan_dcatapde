@@ -18,7 +18,6 @@ class Harvesterfolder(Container):
     """
 
 
-
 class HarvesterFolderDefaultFactory(DexterityFactory):
 
     def __init__(self):
@@ -26,7 +25,7 @@ class HarvesterFolderDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # TODO: get context and maybe change it
-        data = add_harvester_folder(None, dry_run=True, **kw)
+        data = add_harvester_folder(None, dry_run=True)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder

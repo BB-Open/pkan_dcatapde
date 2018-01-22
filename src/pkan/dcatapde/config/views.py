@@ -76,8 +76,10 @@ class HarvesterForm(AutoExtensibleForm, form.Form):
                 index = created_harvester_url.index(url)
                 harvester_obj = (created_harvester[index])
                 index = harvester_url.index(url)
-                data = harvester[index]
-                harvester_obj.type = data['type']
+                harv_data = harvester[index]
+
+                harvester_obj.harvesting_type = harv_data['harvesting_type']
+                harvester_obj.preprocessor = harv_data['preprocessor']
 
         self.successMessage = _(u'Stored Changes')
         IStatusMessage(self.request).addStatusMessage(

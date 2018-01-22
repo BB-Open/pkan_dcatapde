@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_inner
-from Acquisition import IAcquirer
 from Acquisition.interfaces import IAcquirer
 from plone.dexterity.browser import add
 from plone.dexterity.interfaces import IDexterityFTI
@@ -37,8 +37,6 @@ class PkanDefaulftAddForm(add.DefaultAddForm):
             form.applyChanges(group, content, data)
 
         return aq_base(content)
-
-
 
 
 class PkanDefaultAddView(add.DefaultAddView):

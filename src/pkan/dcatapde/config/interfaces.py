@@ -14,7 +14,8 @@ class HarvesterDefaultFactory(object):
         for harv in harvester:
             res.append({
                 'url': harv.url,
-                'type': harv.type
+                'harvesting_type': harv.harvesting_type,
+                'preprocessor': harv.preprocessor,
             })
         return res
 

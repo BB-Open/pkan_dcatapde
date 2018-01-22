@@ -50,6 +50,11 @@ class IDataset(model.Schema):
          required=True
     )
 
+    uri = schema.URI(
+        title=_(u'URI'),
+        required=True
+    )
+
     dct_issued = schema.Date(
         title=(u'Issued'),
         required=False

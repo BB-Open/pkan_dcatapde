@@ -26,5 +26,10 @@
         name="pkan.dcatapde.HarvestingVocabulary"
     />
 
+    <utility
+        component=".preprocessor_vocabulary.PreprocessorVocabularyFactory"
+        name="pkan.dcatapde.PreprocessorVocabulary"
+    />
+
         
 </configure>

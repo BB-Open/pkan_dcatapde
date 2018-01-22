@@ -13,6 +13,7 @@
 
   <include package=".add_views"/>
   <include package=".edit_views"/>
+  <include package=".content_views"/>
   <!-- Publish static files -->
 
 

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
-from pkan.dcatapde.content.fielddefaultfactories import ConfigFieldDefaultFactory
+from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
 from plone import api
-from plone.dexterity.utils import createContentInContainer
 from zope.component.hooks import getSite
 
 
@@ -67,10 +66,10 @@ def add_harvester_folder(context, dry_run=False):
 
 # Get Methods
 def get_field_config(harvester):
-    if constants.HARVESTER_FIELD_CONFIG_ID in harvester:
+    if harvester and constants.HARVESTER_FIELD_CONFIG_ID in harvester:
         return harvester[constants.HARVESTER_FIELD_CONFIG_ID]
-    else:
-        return None
+
+    return None
 
 
 def get_harvester_folder():

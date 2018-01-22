@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde.api.harvester import add_harvester
-from pkan.dcatapde.api.harvester import add_harvester_field_config
 from pkan.dcatapde.constants import CT_Harvester
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
-from zope import schema
 from zope.interface import implementer
+
+import zope.schema as schema
 
 
 class IHarvester(model.Schema):
@@ -17,10 +17,17 @@ class IHarvester(model.Schema):
     url = schema.URI(title=_(u'Harvesting Source'),
                      required=True)
 
-    harvesting_type = schema.Choice(vocabulary='pkan.dcatapde.HarvestingVocabulary',
-                                    title=_(u'Schema Type'),
-                                    required=True,
-                                    )
+    harvesting_type = schema.Choice(
+        vocabulary='pkan.dcatapde.HarvestingVocabulary',
+        title=_(u'Schema Type'),
+        required=True,
+    )
+
+    preprocessor = schema.Choice(
+        vocabulary='pkan.dcatapde.PreprocessorVocabulary',
+        title=_(u'Preprocessor'),
+        required=True,
+    )
 
 
 @implementer(IHarvester)
@@ -39,6 +46,8 @@ class HarvesterDefaultFactory(DexterityFactory):
         data = add_harvester(None, dry_run=True, **kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
-        add_harvester_field_config(folder)
+        # raises AttributeError
+        # TODO: Solve Attribute Error
+        # add_harvester_field_config(folder)
 
         return folder

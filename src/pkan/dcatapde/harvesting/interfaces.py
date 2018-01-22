@@ -19,6 +19,18 @@ class IImportSource(Interface):
         :return:
         '''
 
+    def dry_run(self):
+        '''
+        Dry Run: Returns Log-Information
+        :return:
+        '''
+
+    def real_run(self):
+        '''
+        Create Objects
+        :return:
+        '''
+
 
 class IJson(IImportSource):
     """

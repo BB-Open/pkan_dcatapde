@@ -4,7 +4,7 @@ from collective.z3cform.datagridfield import DictRow
 from pkan.dcatapde import _
 from pkan.dcatapde.api.harvester import add_harvester_field_config
 from pkan.dcatapde.constants import CT_HarvesterFieldConfig
-from pkan.dcatapde.content.fielddefaultfactories import ConfigFieldDefaultFactory
+from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
