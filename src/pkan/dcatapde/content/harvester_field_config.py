@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
+from plone.formwidget.relateditems import RelatedItemsFieldWidget
+from z3c.relationfield import RelationChoice
+
 from pkan.dcatapde import _
 from pkan.dcatapde.api.harvester import add_harvester_field_config
-from pkan.dcatapde.constants import CT_HarvesterFieldConfig
+from pkan.dcatapde.constants import CT_HarvesterFieldConfig, CT_Catalog
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
@@ -44,6 +47,12 @@ class IHarvesterFieldConfig(model.Schema):
             schema=IField,
         ),
         required=True,
+    )
+
+    base_object = RelationChoice(
+        title=_(u'Base Object'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=False,
     )
 
 
