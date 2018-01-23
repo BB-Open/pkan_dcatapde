@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from pkan.dcatapde import constants as c
 from pkan.dcatapde.harvesting.interfaces import IImportSource
 from pkan.dcatapde.harvesting.prep_interfaces import IPotsdam
 from zope.component import adapter
 from zope.interface import implementer
-from pkan.dcatapde import constants as c
 
 
 @adapter(IImportSource)

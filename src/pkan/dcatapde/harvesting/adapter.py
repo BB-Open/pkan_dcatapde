@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-import json
-import xml
-
-import requests
-from zope.component import adapter
-from zope.interface import implementer
-
 from pkan.dcatapde import constants as c
 from pkan.dcatapde.api.catalog import add_catalog
 from pkan.dcatapde.api.dataset import add_dataset
@@ -15,6 +8,13 @@ from pkan.dcatapde.api.harvester import get_field_config
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.interfaces import IJson
 from pkan.dcatapde.harvesting.interfaces import IXml
+from zope.component import adapter
+from zope.interface import implementer
+
+import json
+import requests
+import xml
+
 
 ADD_METHODS_SUB_CTS = {
     c.CT_Foafagent: add_foafagent

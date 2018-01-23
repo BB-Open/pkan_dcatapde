@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
-from plone.formwidget.relateditems import RelatedItemsFieldWidget
-from z3c.relationfield import RelationChoice
-
 from pkan.dcatapde import _
 from pkan.dcatapde.api.harvester import add_harvester_field_config
-from pkan.dcatapde.constants import CT_HarvesterFieldConfig, CT_Catalog
+from pkan.dcatapde.constants import CT_Catalog
+from pkan.dcatapde.constants import CT_HarvesterFieldConfig
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
+from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.supermodel import model
+from z3c.relationfield import RelationChoice
 from zope import schema
 from zope.interface import implementer
 
