@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
-from pkan.dcatapde.api.catalog import add_catalog
-from pkan.dcatapde.constants import CT_Catalog
+from pkan.dcatapde.content.literal import ILiteral
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
-from plone.dexterity.factory import DexterityFactory
 from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
@@ -19,14 +17,15 @@ class ICatalog(model.Schema):
     """ Marker interfce and Dexterity Python Schema for Catalog
     """
 
-    add_title = I18NTextLine(
-        title=_(u'Translated Title'),
-        required=False,
+
+    title18n = I18NTextLine(
+        title=_(u'Title'),
+        required=True,
     )
 
-    add_description = I18NText(
-        title=_(u'Translated Description'),
-        required=False,
+    description18n = I18NText(
+        title=_(u'Description'),
+        required=True,
     )
 
     form.widget(
@@ -39,6 +38,7 @@ class ICatalog(model.Schema):
             'selectableTypes': ['foafagent'],
         }
     )
+
     publisher = RelationChoice(
         title=_(u'Publisher'),
         vocabulary='plone.app.vocabularies.Catalog',
@@ -47,11 +47,6 @@ class ICatalog(model.Schema):
 
     license = schema.URI(
         title=_(u'License'),
-        required=True
-    )
-
-    uri = schema.URI(
-        title=_(u'URI'),
         required=True
     )
 
@@ -75,7 +70,42 @@ class ICatalog(model.Schema):
 class Catalog(Container):
     """
     """
+    _Title = ''
 
+    def Title(self):
+        if not self._Title:
+            self._Title = INameFromCatalog(self).title
+        return self._Title
+
+from plone.app.content.interfaces import INameFromTitle
+from plone.api import portal
+
+class INameFromCatalog(INameFromTitle):
+
+    def title(self):
+        """Return a processed title"""
+
+
+@implementer(INameFromCatalog)
+class NameFromCatalog(object):
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def title(self):
+        if isinstance(self.context.title18n, unicode):
+            return self.context.title18n
+        """Get title from i18nfield"""
+        default_language =portal.get_default_language()[:2]
+        if default_language in self.context.title18n:
+            return self.context.title18n[default_language]
+        else:
+            current_language = portal.get_current_language()[:2]
+            if current_language in self.context.title18n:
+                return self.context.title18n[current_language]
+
+        return self.context.title18n[self.context.title18n.keys()[0]]
 
 class CatalogDefaultFactory(DexterityFactory):
 

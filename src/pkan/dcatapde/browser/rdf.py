@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.marshall.crawler import Crawler
-from pkan.dcatapde.marshall.targets.rdf import RDFMarshallTarget
+import os
+
+#from pkan.dcatapde.marshall.source.interfaces import IDX2Any
+from pkan.dcatapde.marshall.target.rdf import RDFMarshallTarget
 from unidecode import unidecode
 
 import os
@@ -43,14 +45,9 @@ class RDF(object):
             return text
 
     def __call__(self):
-        marshaller = RDFMarshallTarget()
-        crawler = Crawler( self.context, marshaller)
-        crawler.crawl()
-
-#        marshaller
-#        endLevel = int(self.request.get('endLevel', 3))
-#        _content_type, _length, data = marshaller.marshall(self.context,
-#                                                           endLevel=endLevel)
+        target = RDFMarshallTarget()
+        marshaller = IDX2Any( self.context, target)
+        marshaller.marshall()
 
         self.request.response.setHeader('Content-Type',
                                         'application/rdf+xml; charset=utf-8')

@@ -3,18 +3,8 @@
   xmlns:zcml="http://namespaces.zope.org/zcml"
   xmlns:browser="http://namespaces.zope.org/browser">
 
-  <include package=".dcatapde" />
-  <include package=".targets" />
-
-  <adapter factory=".crawler.Crawler"
-    for="plone.dexterity.interfaces.IDexterityContent .interfaces.IMarshallTarget"
-    provides=".interfaces.ICrawler" />
-
-
-  <adapter factory=".crawler.DX2Any"
-    for="plone.dexterity.interfaces.IDexterityContent .interfaces.IMarshallTarget"
-    provides=".interfaces.IDX2Any" />
-
+  <include package=".source" />
+  <include package=".target" />
 
 
 </configure>

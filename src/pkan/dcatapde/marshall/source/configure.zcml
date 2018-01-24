@@ -3,9 +3,7 @@
   xmlns:zcml="http://namespaces.zope.org/zcml"
   xmlns:browser="http://namespaces.zope.org/browser">
 
-  <adapter factory=".catalog.Catalog2RDF"
-    for="pkan.dcatapde.content.catalog.ICatalog ..interfaces.IRDFMarshallTarget"
-    provides=".interfaces.IDX2RDF" />
+  <include package=".dcatapde" />
 
 
 </configure>

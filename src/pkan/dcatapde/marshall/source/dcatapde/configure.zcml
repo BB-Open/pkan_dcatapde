@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:zcml="http://namespaces.zope.org/zcml"
+  xmlns:browser="http://namespaces.zope.org/browser">
+
+  <adapter factory=".catalog.Catalog2RDF"
+    for="pkan.dcatapde.content.catalog.ICatalog pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
+    provides="..interfaces.IDX2RDF" />
+
+  <adapter factory=".foafagent.FoafAgent2RDF"
+    for="pkan.dcatapde.content.foafagent.IFoafagent pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
+    provides="..interfaces.IDX2RDF" />
+
+
+</configure>

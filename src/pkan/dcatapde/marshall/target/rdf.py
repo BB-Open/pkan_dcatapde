@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.marshall.interfaces import IRDFMarshallTarget
-from zope.interface import implementer
-
 import surf
+from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
+from zope.interface import implementer
 
 
 @implementer(IRDFMarshallTarget)
@@ -42,14 +41,22 @@ class RDFMarshallTarget(object):
         session = surf.Session(self.store)
         return session
 
-    def new_resource(self, obj):
+    def marshall(self, obj):
         """ Factory for a new Surf resource """
 
         surf_ns = getattr(surf.ns, obj.namespace.upper())
 
-        resource = self.session.get_class(surf_ns[obj.ns_class])(obj.rdf_about)
+        self.resource = self.session.get_class(surf_ns[obj.ns_class])(obj.rdf_about)
 
-        resource.bind_namespaces([surf_ns])
-        resource.session = self.session
+        self.resource.bind_namespaces([surf_ns])
+        self.resource.session = self.session
 
-        return resource
+
+    def link_to_property(self):
+        """Link to a property"""
+
+    def link_to_contained(self):
+        """Link to a contained object"""
+
+    def link_to_referenced(self):
+        """Link to a referenced object"""

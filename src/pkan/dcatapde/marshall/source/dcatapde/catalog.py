@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de Catalog entity marshaller"""
 from pkan.dcatapde.content.catalog import ICatalog
-from pkan.dcatapde.marshall.dcatapde.base import DCAT2RDF
-from pkan.dcatapde.marshall.interfaces import IDX2Any
-from pkan.dcatapde.marshall.interfaces import IRDFMarshallTarget
+from pkan.dcatapde.marshall.interfaces import IMarshallSource
+from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
+from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
 from zope.component import adapter
-from zope.interface import implementer
 from zope.interface import Interface
+from zope.interface import implementer
 
 
-@implementer(IDX2Any)
+@implementer(IMarshallSource)
 @adapter(ICatalog, IRDFMarshallTarget)
 class Catalog2RDF(DCAT2RDF):
     """

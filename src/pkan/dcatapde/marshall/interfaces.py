@@ -4,36 +4,30 @@ from zope.interface import Attribute
 from zope.interface import Interface
 
 
-class ICrawler(Interface):
-    """Recursive generator of Objects and Properties"""
-
-
-class IMarshallTarget(Interface):
-    """Target to marshall to e.g. RDF, JSON"""
-
-
-class IRDFMarshallTarget(IMarshallTarget):
-    """Target to marshall to RDF"""
-
-
-class IDX2Any(Interface):
-    """Base: Adapts dexterity objects to marshal them"""
-
-    def marshall(self):
-        """exports the contents of the dexterity object elsewhere"""
+class IMarshallSource(Interface):
+    """Adapts dexterity objects to marshal them"""
 
     properties = Attribute(u'Returns the properties that are to be marshalled')
     contained = Attribute(u'Returns the contained content to be marshalled')
     referenced = Attribute(u'Returns the referenced content to be marshalled')
 
-
-class IDX2RDF(IDX2Any):
-    """Adapts dexterity objects to marshal them to RDF"""
-
-
-class IDXField2Any(Interface):
-    """Adapts dexterity object field to marshal them"""
+    def marshall(self):
+        """exports the contents of the dexterity object elsewhere"""
 
 
-class IDXField2RDF(Interface):
-    """Adapts dexterity object field to marshal them to RDF"""
+class IMarshallTarget(Interface):
+    """Target to marshall to e.g. RDF, JSON"""
+
+    def marshall(self):
+        """exports the contents of the adapted object to the target"""
+
+    def link_to_property(self):
+        """Link to a property"""
+
+    def link_to_contained(self):
+        """Link to a contained object"""
+
+    def link_to_referenced(self):
+        """Link to a referenced object"""
+
+

@@ -26,10 +26,11 @@
         name="pkan.dcatapde.HarvestingVocabulary"
     />
 
-    <utility
-        component=".preprocessor_vocabulary.PreprocessorVocabularyFactory"
-        name="pkan.dcatapde.PreprocessorVocabulary"
-    />
-
+  <!-- Utility for available (allowed) languages.
+  <utility
+      layer="pkan.dcatapde"
+      factory=".i18nfield.LanguageAvailability"
+      />
+-->
         
 </configure>
