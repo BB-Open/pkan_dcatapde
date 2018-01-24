@@ -19,6 +19,8 @@ class PotsdamPreprocessor(object):
             data[c.CT_Dataset][x]['title'] = 'Dataset {x}'.format(x=x)
 
         for x in range(0, len(data[c.CT_Distribution])):
-            data[c.CT_Distribution][x]['title'] = 'Distribution {x}'.format(x=x)
+            data[c.CT_Distribution][x]['title'] = 'Distribution {x}'.format(
+                x=x
+            )
 
         return data
