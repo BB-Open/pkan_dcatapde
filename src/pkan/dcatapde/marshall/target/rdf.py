@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
+import rdflib
 import surf
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
 from zope.interface import implementer
 
+surf.namespace.register(dct=surf.ns.DCTERMS)
 
 @implementer(IRDFMarshallTarget)
 class RDFMarshallTarget(object):
 
     _store = None
     _resource = None
+
 
     @property
     def store(self):
@@ -22,7 +25,7 @@ class RDFMarshallTarget(object):
                            rdflib_store='IOMemory')
 
         store.reader.graph.bind('dc', surf.ns.DC, override=True)
-        store.reader.graph.bind('dcterms', surf.ns.DCTERMS, override=True)
+        store.reader.graph.bind('dct', surf.ns.DCTERMS, override=True)
         store.reader.graph.bind('skos', surf.ns.SKOS, override=True)
         store.reader.graph.bind('geo', surf.ns.GEO, override=True)
         store.reader.graph.bind('owl', surf.ns.OWL, override=True)
@@ -46,17 +49,21 @@ class RDFMarshallTarget(object):
 
         surf_ns = getattr(surf.ns, obj.namespace.upper())
 
-        self.resource = self.session.get_class(surf_ns[obj.ns_class])(obj.rdf_about)
+        resource = self.session.get_class(surf_ns[obj.ns_class])(obj.rdf_about)
 
-        self.resource.bind_namespaces([surf_ns])
-        self.resource.session = self.session
+        resource.bind_namespaces([surf_ns])
+        resource.session = self.session
+
+        return resource
 
 
-    def link_to_property(self):
-        """Link to a property"""
+    def add_property(self, resource, name, value):
+        """add a property"""
 
-    def link_to_contained(self):
-        """Link to a contained object"""
+        setattr(resource, name.replace(':','_'), str(value))
 
-    def link_to_referenced(self):
-        """Link to a referenced object"""
+    def set_link(self, resource, name, other_resource):
+        """Link two resources"""
+
+        setattr(resource, name.replace(':','_'), other_resource.subject)
+

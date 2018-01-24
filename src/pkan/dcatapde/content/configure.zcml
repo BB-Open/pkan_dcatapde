@@ -9,6 +9,16 @@
          factory=".catalog.NameFromCatalog"
          />
 
+    <adapter for=".dataset.IDataset"
+         provides=".catalog.INameFromCatalog"
+         factory=".catalog.NameFromCatalog"
+         />
+
+    <adapter for=".distribution.IDistribution"
+         provides=".catalog.INameFromCatalog"
+         factory=".catalog.NameFromCatalog"
+         />
+
     <utility
         provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".catalog.CatalogDefaultFactory"

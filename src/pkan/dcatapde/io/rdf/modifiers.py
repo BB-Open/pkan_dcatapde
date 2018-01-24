@@ -43,14 +43,14 @@ class WorkflowStateModifier(object):
             '@@plone_portal_state')
         portal_url = plone_portal_state.portal_url()
 
-        workflowTool = get_tool(self.context, 'portal_workflow')
+        workflowTool = get_tool('portal_workflow')
         wfs = workflowTool.getWorkflowsFor(self.context)
         wf = None
         for wf in wfs:
             if wf.isInfoSupported(self.context, 'portal_workflow'):
                 break
 
-        status = get_state(self.context, 'review_state', None)
+        status = get_state(self.context, 'review_state')
         if status is not None:
             status = ''.join([portal_url,
                               '/portal_workflow/',

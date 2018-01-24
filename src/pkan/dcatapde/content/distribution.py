@@ -2,12 +2,17 @@
 from pkan.dcatapde import _
 from pkan.dcatapde.api.distribution import add_distribution
 from pkan.dcatapde.constants import CT_Distribution
+from pkan.dcatapde.content.catalog import INameFromCatalog
+from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from zope import schema
+from plone.autoform import directives as form
+
+from z3c.relationfield import RelationChoice
 from zope.interface import implementer
 
 
@@ -15,19 +20,85 @@ class IDistribution(model.Schema):
     """ Marker interfce and Dexterity Python Schema for Distribution
     """
 
-    add_title = I18NTextLine(
-        title=_(u'Translated Title'),
+    dct_title = I18NTextLine(
+        title=_(u'Title'),
         required=False,
     )
 
-    add_description = I18NText(
-        title=_(u'Translated Description'),
+    dct_description = I18NText(
+        title=_(u'Description'),
         required=False,
     )
 
-    license = schema.URI(
+    dct_license = schema.URI(
          title=_(u'Access URI'),
          required=True
+    )
+
+    dcatde_plannedAvailability = I18NText(
+        title=_(u'Planed availability'),
+        required=False,
+    )
+
+    dcatde_licenseAttributionByText = I18NText(
+        title=_(u'Licence attribution by text'),
+        required=False,
+    )
+
+    dcat_byteSize = I18NText(
+        title=_(u'Byte size'),
+        required=False,
+    )
+
+    form.widget(
+        'dct_format',
+        RelatedItemsFieldWidget,
+        content_type='dctstandard',
+        content_type_title=_(u'Standard'),
+        initial_path='/standards',
+        pattern_options={
+            'selectableTypes': ['dctstandard'],
+        }
+    )
+
+    dct_conformsTo = RelationChoice(
+        title=_(u'Standards'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=False,
+    )
+
+    form.widget(
+        'dct_format',
+        RelatedItemsFieldWidget,
+        content_type='dctmediatypeorextent',
+        content_type_title=_(u'Format'),
+        initial_path='/formats',
+        pattern_options={
+            'selectableTypes': ['dctmediatypeorextent'],
+        }
+    )
+
+    dct_format = RelationChoice(
+        title=_(u'Format'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=False,
+    )
+
+    form.widget(
+        'dcat_mediatype',
+        RelatedItemsFieldWidget,
+        content_type='dctmediatypeorextent',
+        content_type_title=_(u'Media type'),
+        initial_path='/formats',
+        pattern_options={
+            'selectableTypes': ['dctmediatypeorextent'],
+        }
+    )
+
+    dcat_mediatype = RelationChoice(
+        title=_(u'Media type'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=False,
     )
 
     dct_issued = schema.Date(
@@ -41,11 +112,17 @@ class IDistribution(model.Schema):
     )
 
 
+
 @implementer(IDistribution)
 class Distribution(Container):
     """
     """
+    _Title = ''
 
+    def Title(self):
+        if not self._Title:
+            self._Title = INameFromCatalog(self).title
+        return self._Title
 
 class DistributionDefaultFactory(DexterityFactory):
 

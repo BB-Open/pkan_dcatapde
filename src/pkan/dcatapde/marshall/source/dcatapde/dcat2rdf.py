@@ -39,16 +39,16 @@ class DCAT2RDF(DX2Any):
             return self.context.ns_class
         return self._ns_class
 
-    def marshall(self):
-        """
-        marshall our class and our rdf:source
-        :return: 
-        """
+#    def marshall(self):
+#        """
+#        marshall our class and our rdf:source
+#        :return:
+#        """
 
-        self.resource = self.marshall_target.new_resource(self)
+#        self.resource = self.marshall_target.marshall(self)
 
-        self.resource.update()
-        self.resource.save()
+#        self.resource.update()
+#        self.resource.save()
 
 
 

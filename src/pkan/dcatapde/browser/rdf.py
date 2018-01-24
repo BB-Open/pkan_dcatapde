@@ -2,11 +2,13 @@
 import os
 
 #from pkan.dcatapde.marshall.source.interfaces import IDX2Any
+from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.target.rdf import RDFMarshallTarget
 from unidecode import unidecode
 
 import os
 
+from zope.component import queryMultiAdapter
 
 try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))
@@ -45,11 +47,12 @@ class RDF(object):
             return text
 
     def __call__(self):
+        # Todo: Transform to adapter call
         target = RDFMarshallTarget()
-        marshaller = IDX2Any( self.context, target)
+        marshaller = queryMultiAdapter( (self.context, target), interface=IMarshallSource)
         marshaller.marshall()
 
         self.request.response.setHeader('Content-Type',
                                         'application/rdf+xml; charset=utf-8')
-        data = marshaller._store.reader.graph.serialize(format='pretty-xml')
+        data = target._store.reader.graph.serialize(format='pretty-xml')
         return self.sanitize(data)

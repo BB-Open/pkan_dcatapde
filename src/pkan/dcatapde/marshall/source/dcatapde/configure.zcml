@@ -7,6 +7,14 @@
     for="pkan.dcatapde.content.catalog.ICatalog pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
     provides="..interfaces.IDX2RDF" />
 
+  <adapter factory=".dataset.Dataset2RDF"
+    for="pkan.dcatapde.content.dataset.IDataset pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
+    provides="..interfaces.IDX2RDF" />
+
+  <adapter factory=".distribution.Distribution2RDF"
+    for="pkan.dcatapde.content.distribution.IDistribution pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
+    provides="..interfaces.IDX2RDF" />
+
   <adapter factory=".foafagent.FoafAgent2RDF"
     for="pkan.dcatapde.content.foafagent.IFoafagent pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
     provides="..interfaces.IDX2RDF" />

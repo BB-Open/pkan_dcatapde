@@ -21,18 +21,18 @@ class ICatalog(model.Schema):
     """
 
 
-    title18n = I18NTextLine(
+    dct_title = I18NTextLine(
         title=_(u'Title'),
         required=True,
     )
 
-    description18n = I18NText(
+    dct_description = I18NText(
         title=_(u'Description'),
         required=True,
     )
 
     form.widget(
-        'publisher',
+        'dct_publisher',
         RelatedItemsFieldWidget,
         content_type='foafagent',
         content_type_title=_(u'Publisher'),
@@ -42,18 +42,32 @@ class ICatalog(model.Schema):
         }
     )
 
-    publisher = RelationChoice(
+    dct_publisher = RelationChoice(
         title=_(u'Publisher'),
+        description=_(u'Add a new publisher or chose one from the list of publishers'),
         vocabulary='plone.app.vocabularies.Catalog',
         required=True,
     )
 
-    license = schema.URI(
-        title=_(u'License'),
-        required=True
+    form.widget(
+        'dct_license',
+        RelatedItemsFieldWidget,
+        content_type='dctlicensedocument',
+        content_type_title=_(u'License'),
+        initial_path='/',
+        pattern_options={
+            'selectableTypes': ['dctlicensedocument'],
+        }
     )
 
-    homepage = schema.URI(
+    dct_license = RelationChoice(
+        title=_(u'License'),
+        description=_(u'Add a new license or chose one from the list of licenses'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=True,
+    )
+
+    foaf_homepage = schema.URI(
         title=(u'Homepage'),
         required=False
     )
@@ -97,18 +111,18 @@ class NameFromCatalog(object):
 
     @property
     def title(self):
-        if isinstance(self.context.title18n, unicode):
-            return self.context.title18n
+        if isinstance(self.context.dct_title, unicode):
+            return self.context.dct_title
         """Get title from i18nfield"""
         default_language =portal.get_default_language()[:2]
-        if default_language in self.context.title18n:
-            return self.context.title18n[default_language]
+        if default_language in self.context.dct_title:
+            return self.context.dct_title[default_language]
         else:
             current_language = portal.get_current_language()[:2]
-            if current_language in self.context.title18n:
-                return self.context.title18n[current_language]
+            if current_language in self.context.dct_title:
+                return self.context.dct_title[current_language]
 
-        return self.context.title18n[self.context.title18n.keys()[0]]
+        return self.context.dct_title[self.context.dct_title.keys()[0]]
 
 
 class CatalogDefaultFactory(DexterityFactory):

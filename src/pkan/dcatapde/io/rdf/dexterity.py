@@ -125,7 +125,7 @@ class Dexterity2Surf(GenericObject2Surf):
     @property
     def blacklist_map(self):
         """ These fields shouldn't be exported """
-        ptool = get_tool(self.context, 'portal_properties')
+        ptool = get_tool('portal_properties')
         props = getattr(ptool, 'rdfmarshaller_properties', None)
 
         if props:
@@ -167,11 +167,10 @@ class Dexterity2Surf(GenericObject2Surf):
     @property
     def namespace(self):
         """ namespace """
-
         if self._namespace is not None:
             return self._namespace
 
-        ttool = get_tool(self.context, 'portal_types')
+        ttool = get_tool('portal_types')
         ftype = ttool[self.context.portal_type]
         surf.ns.register(**{self.prefix: '{0}#'.format(ftype.absolute_url())})
         self._namespace = getattr(surf.ns, self.prefix.upper())
@@ -181,7 +180,7 @@ class Dexterity2Surf(GenericObject2Surf):
     def modify_resource(self, resource, **kwds):
         language = get_current_language(self.context)
 
-        ptypes = get_tool(self.context, 'portal_types')
+        ptypes = get_tool('portal_types')
         fti = ptypes[self.context.portal_type]
 
         for fieldName, field in get_ordered_fields(fti):

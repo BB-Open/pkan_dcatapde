@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de Catalog entity marshaller"""
-from pkan.dcatapde.content.catalog import ICatalog
+from pkan.dcatapde.content.dataset import IDataset
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
-from pkan.dcatapde.marshall.source.dcatapde.interfaces import ICatalog2RDF
+from pkan.dcatapde.marshall.source.dcatapde.interfaces import IDataset2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
 from zope.component import adapter
 from zope.interface import implementer
 
 
-@implementer(ICatalog2RDF)
-@adapter(ICatalog, IRDFMarshallTarget)
-class Catalog2RDF(DCAT2RDF):
+@implementer(IDataset2RDF)
+@adapter(IDataset, IRDFMarshallTarget)
+class Dataset2RDF(DCAT2RDF):
     """
     Marshaller DCAT-AP.de Catalogs
     """
 
     _namespace = "dcat"
-    _ns_class = "catalog"
+    _ns_class = "dataset"
 
     @property
     def properties(self):
@@ -24,7 +24,7 @@ class Catalog2RDF(DCAT2RDF):
         Do nothing
         :return: 
         """
-        result = super(Catalog2RDF, self).properties
+        result = super(Dataset2RDF, self).properties
         return result
 
     @property
@@ -36,7 +36,7 @@ class Catalog2RDF(DCAT2RDF):
         result = {}
         if self.context.isPrincipiaFolderish:
             for item in self.context.values():
-                result['dcat:dataset'] = item
+                result['dcat:distribution'] = item
         return result
 
     @property
@@ -45,6 +45,6 @@ class Catalog2RDF(DCAT2RDF):
         Return all referenced items
         :return: 
         """
-        related = super(Catalog2RDF, self).referenced
-        related['dct:publisher'] = self.context.publisher.to_object
+        related = super(Dataset2RDF, self).referenced
+#        related['dct:publisher'] = self.context.publisher.to_object
         return related
