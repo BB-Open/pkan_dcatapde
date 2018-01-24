@@ -9,8 +9,6 @@
          factory=".catalog.NameFromCatalog"
          />
 
-</configure>
-
     <utility
         provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".catalog.CatalogDefaultFactory"

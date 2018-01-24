@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
+from pkan.dcatapde.api.catalog import add_catalog
+from pkan.dcatapde.constants import CT_Catalog
 from pkan.dcatapde.content.literal import ILiteral
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
+from plone.dexterity.factory import DexterityFactory
 from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
@@ -106,6 +109,7 @@ class NameFromCatalog(object):
                 return self.context.title18n[current_language]
 
         return self.context.title18n[self.context.title18n.keys()[0]]
+
 
 class CatalogDefaultFactory(DexterityFactory):
 
