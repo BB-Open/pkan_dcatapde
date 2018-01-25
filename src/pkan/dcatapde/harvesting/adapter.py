@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import constants as c
 from pkan.dcatapde.api.catalog import add_catalog
+from pkan.dcatapde.api.catalog import clean_catalog
 from pkan.dcatapde.api.dataset import add_dataset
+from pkan.dcatapde.api.dataset import clean_dataset
 from pkan.dcatapde.api.distribution import add_distribution
+from pkan.dcatapde.api.distribution import clean_distribution
 from pkan.dcatapde.api.foafagent import add_foafagent
+from pkan.dcatapde.api.foafagent import clean_foafagent
 from pkan.dcatapde.api.harvester import get_field_config
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.interfaces import IJson
@@ -20,6 +24,10 @@ ADD_METHODS_SUB_CTS = {
     c.CT_Foafagent: add_foafagent
 }
 
+CLEAN_METHODS_SUB_CTS = {
+    c.CT_Foafagent: clean_foafagent
+}
+
 
 class BaseProcessor(object):
     def __init__(self, obj):
@@ -27,10 +35,78 @@ class BaseProcessor(object):
         self.cleared_data = None
         self.field_config = get_field_config(self.obj)
         self.context = self.field_config.base_object.to_object
+        
+    def format_errors(self, errors):
+        formatted = ''
+        for error in errors:
+            formatted += c.ERROR_HTML_LINE.format(
+                error=error[1].__class__.__name__,
+                field=error[0])
+        return formatted
 
     def dry_run(self):
-        print self.cleared_data
-        return ''
+        log = ''
+
+        if not self.cleared_data:
+            return log
+
+        keys = self.cleared_data.keys()
+
+        pass_ct = []
+
+        if self.context.portal_type == c.CT_Catalog:
+            pass_ct.append(c.CT_Catalog)
+        elif self.context.portal_type == c.CT_Dataset:
+            pass_ct.append(c.CT_Catalog)
+            pass_ct.append(c.CT_Dataset)
+        elif self.context.portal_type == c.CT_Distribution:
+            return log + '<p>Wrong context, cannot add anything</p>'
+
+        if c.CT_Catalog in self.cleared_data and self.cleared_data[
+            c.CT_Catalog]:
+            catalogs = self.cleared_data[c.CT_Catalog]
+            catalog_counter = len(catalogs)
+
+            if c.CT_Catalog in pass_ct:
+                for x in range(0, catalog_counter):
+                    catalogs[x] = self.context
+            else:
+                for x in range(0, catalog_counter):
+                    log += '<p>Start cleaning catalog number {catalog}</p>'.format(
+                        catalog=x)
+                    if isinstance(catalogs[x], int):
+                        pass
+                    else:
+                        # TODO instead of create check for
+                        # create/update/deprecated/delete
+                        catalog, error = clean_catalog(**catalogs[x])
+                        catalogs[x] = catalog
+                        if error:
+                            log += self.format_errors(error)
+                    log += '<p>Cleaned catalog number {catalog}</p>'.format(
+                        catalog=x)
+
+
+        pass_dataset = c.CT_Dataset in pass_ct
+
+        log += self.dry_run_for_type(c.CT_Dataset,
+                                      c.CT_Catalog,
+                                      clean_dataset,
+                                      pass_obj=pass_dataset)
+
+        log += self.dry_run_for_type(c.CT_Distribution,
+                                      c.CT_Dataset,
+                                      clean_distribution)
+
+        for key in keys:
+            key_elements = key.split(':')
+            if len(key_elements) == 3 and key_elements[0] not in pass_ct:
+                log += self.dry_run_for_subtype(key, key_elements)
+                # TODO: What if RelatedItem of RelatedItem?
+                # How deep do we have to go?
+
+        return log
+
 
     def real_run(self):
         '''
@@ -94,6 +170,8 @@ class BaseProcessor(object):
                 # TODO: What if RelatedItem of RelatedItem?
                 # How deep do we have to go?
 
+        return log
+
     def real_run_for_subtype(self, key, key_elements):
         log = ''
         parent_ct = key_elements[0]
@@ -130,6 +208,8 @@ class BaseProcessor(object):
             # TODO: Check if this works with RelatedItem-Field
             setattr(parent, attr, wanted_obj)
 
+        return log
+
     def real_run_for_type(self,
                           obj_ct,
                           parent_ct,
@@ -163,6 +243,76 @@ class BaseProcessor(object):
                             ct=obj_ct,
                             dataset=dataset.title
                         )
+
+        return log
+
+    def dry_run_for_type(self,
+                         obj_ct,
+                         parent_ct,
+                         clean_routine,
+                         pass_obj=False):
+
+        log = ''
+
+        if obj_ct in self.cleared_data and self.cleared_data[obj_ct]:
+            data_elements = self.cleared_data[obj_ct]
+            data_counter = len(data_elements)
+
+            if pass_obj:
+                for x in range(0, data_counter):
+                    data_elements[x] = self.context
+            else:
+                for x in range(0, data_counter):
+                    log += '<p>Start cleanig {ct} number {dataset}</p>'.format(
+                        ct=obj_ct,
+                        dataset=x
+                    )
+                    if isinstance(data_elements[x], int):
+                        pass
+                    else:
+                        dataset, error = clean_routine(**data_elements[x])
+                        data_elements[x] = dataset
+
+                        if error:
+                            log += self.format_errors(error)
+                    log += '<p>Cleaned {ct} number {dataset}</p>'.format(
+                        ct=obj_ct,
+                        dataset=x
+                    )
+
+        return log
+
+
+    def dry_run_for_subtype(self, key, key_elements):
+        log = ''
+        ct = key_elements[2]
+
+        if ct in CLEAN_METHODS_SUB_CTS:
+            clean_routine = CLEAN_METHODS_SUB_CTS[ct]
+        else:
+            log = '<p>Could not clean {key} because of missing method.</p>'
+            return log.format(key=key)
+
+        data_elements = self.cleared_data[key]
+        data_counter = len(data_elements)
+
+        for x in range(0, data_counter):
+            log += '<p>Start cleaning {ct} number {dataset}</p>'.format(
+                ct=ct,
+                dataset=x
+            )
+            if isinstance(data_elements[x], int):
+                pass
+            else:
+
+                wanted_data, error = clean_routine(**data_elements[x])
+                data_elements[x] = wanted_data
+                if error:
+                    log += self.format_errors(error)
+            log += '<p>Cleaned {ct} number {dataset}</p>'.format(
+                ct=ct,
+                dataset=x
+            )
 
         return log
 
@@ -306,7 +456,6 @@ class JsonProcessor(BaseProcessor):
         data = self.read_data()
         self.cleared_data = self.obj.preprocessor(self).preprocess(data)
 
-        log += '<p>Data found:</p>'
         log += super(JsonProcessor, self).dry_run()
 
         return log

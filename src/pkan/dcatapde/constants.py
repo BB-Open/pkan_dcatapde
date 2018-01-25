@@ -21,3 +21,6 @@ DCAT_CTs = [
     CT_Dataset,
     CT_Distribution
 ]
+
+# HTML filled with error information from harvesting dry_run
+ERROR_HTML_LINE = '<p>Found error {error} on field {field}</p>'
