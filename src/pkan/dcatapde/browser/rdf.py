@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-import os
-
 #from pkan.dcatapde.marshall.source.interfaces import IDX2Any
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.target.rdf import RDFMarshallTarget
 from unidecode import unidecode
+from zope.component import queryMultiAdapter
 
 import os
 
-from zope.component import queryMultiAdapter
 
 try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))

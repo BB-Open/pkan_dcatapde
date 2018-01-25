@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-import rdflib
-import surf
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
 from zope.interface import implementer
+
+import rdflib
+import surf
+
 
 surf.namespace.register(dct=surf.ns.DCTERMS)
 
@@ -64,4 +66,3 @@ class RDFMarshallTarget(object):
         """Link two resources"""
 
         setattr(resource, name.replace(':','_'), other_resource.subject)
-

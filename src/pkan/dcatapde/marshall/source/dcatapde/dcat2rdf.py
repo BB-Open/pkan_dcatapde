@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de base entity marshaller"""
 from pkan.dcatapde.content.catalog import ICatalog
-from pkan.dcatapde.marshall.source.dx2any import DX2Any, DXField2Any
+from pkan.dcatapde.marshall.source.dx2any import DX2Any
+from pkan.dcatapde.marshall.source.dx2any import DXField2Any
 from zope.component import adapter
-from zope.interface import Interface
 from zope.interface import implementer
+from zope.interface import Interface
 
 
 class DCAT2RDF(DX2Any):
@@ -69,4 +70,3 @@ class DCATField2RDF(DXField2Any):
         if getattr(self.context,'ns_class', None):
             return self.context.ns_class
         return self._ns_class
-

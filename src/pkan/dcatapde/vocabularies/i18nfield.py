@@ -1,10 +1,11 @@
+from plone import api
+from plone.api.portal import get_tool
+from plone.i18n.locales.languages import _combinedlanguagelist
+from plone.i18n.locales.languages import _languagelist
 from ps.zope.i18nfield.interfaces import ILanguageAvailability
 from ps.zope.i18nfield.plone.utils import LanguageAvailability
 from zope.interface import implementer
-from plone import api
-from plone.i18n.locales.languages import _combinedlanguagelist
-from plone.i18n.locales.languages import _languagelist
-from plone.api.portal import get_tool
+
 
 @implementer(ILanguageAvailability)
 class PKANLanguages(LanguageAvailability):

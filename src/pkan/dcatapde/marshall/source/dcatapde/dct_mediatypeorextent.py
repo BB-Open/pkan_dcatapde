@@ -7,8 +7,8 @@ from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
 from zope.component import adapter
-from zope.interface import Interface
 from zope.interface import implementer
+from zope.interface import Interface
 
 
 @implementer(IMarshallSource)
@@ -30,4 +30,3 @@ class Dct_Mediatypeorextent2RDF(DCAT2RDF):
         """
         related = super(Dct_Mediatypeorextent2RDF, self).referenced
         return related
-

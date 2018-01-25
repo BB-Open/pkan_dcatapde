@@ -3,19 +3,17 @@
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.interfaces import IDXField2Any
 from plone.api.portal import get_tool
-from zope.component import adapter
-from zope.component import queryMultiAdapter
-from zope.interface import implementer
-from zope.interface import Interface
-
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.supermodel.interfaces import FIELDSETS_KEY
-from zope.schema import getFieldsInOrder
+from zope.component import adapter
 from zope.component import getUtility
-
+from zope.component import queryMultiAdapter
+from zope.interface import implementer
+from zope.interface import Interface
+from zope.schema import getFieldsInOrder
 
 
 def non_fieldset_fields(schema):

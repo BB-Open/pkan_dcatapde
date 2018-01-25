@@ -29,5 +29,3 @@ class IMarshallTarget(Interface):
 
     def link_to_referenced(self):
         """Link to a referenced object"""
-
-

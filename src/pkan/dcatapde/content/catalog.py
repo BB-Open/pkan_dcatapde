@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde.api.catalog import add_catalog
+from pkan.dcatapde.api.catalog import clean_catalog
 from pkan.dcatapde.constants import CT_Catalog
+from plone.api import portal
+from plone.app.content.interfaces import INameFromTitle
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -11,6 +14,7 @@ from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from z3c.relationfield import RelationChoice
 from zope.interface import implementer
+
 import zope.schema as schema
 
 
@@ -92,8 +96,6 @@ class Catalog(Container):
             self._Title = INameFromCatalog(self).title
         return self._Title
 
-from plone.app.content.interfaces import INameFromTitle
-from plone.api import portal
 
 class INameFromCatalog(INameFromTitle):
 
@@ -131,8 +133,7 @@ class CatalogDefaultFactory(DexterityFactory):
         self.portal_type = CT_Catalog
 
     def __call__(self, *args, **kw):
-        # TODO: get context and maybe change it
-        data = add_catalog(None, dry_run=True, **kw)
+        data, errors = clean_catalog(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder
