@@ -41,26 +41,23 @@ setup(
         'setuptools',
         # -*- Extra requirements: -*-
         'chardet',
+        'collective.z3cform.datagridfield >= 1.3.0',
         'plone.api',
         'plone.app.dexterity',
         'plone.formwidget.relateditems >= 0.2',
         'Products.GenericSetup >= 1.8.2',
         'ps.zope.i18nfield >= 0.5',
+        'requests',
         'surf',
         'z3c.jbot',
         'zope.app.content',
-        'collective.z3cform.datagridfield >= 1.3.0',
-        'requests'
     ],
     extras_require={
         'test': [
-            'plone.app.testing',
-            # Plone KGS does not use this version, because it would break
-            # Remove if your package shall be part of coredev.
-            # plone_coredev tests as of 2016-04-01.
-            'plone.testing>=5.0.0',
             'plone.app.contenttypes',
             'plone.app.robotframework[debug]',
+            'plone.app.testing',
+            'robotframework-selenium2screenshots',
         ],
     },
     entry_points="""
