@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.content.foafagent import IFoafagent
+"""Content type tests for `foafagent`."""
+
 from pkan.dcatapde import testing
+from pkan.dcatapde.content.foafagent import IFoafagent
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -12,6 +14,7 @@ import unittest
 
 
 class FoafagentIntegrationTest(unittest.TestCase):
+    """Validate the `foafagent` CT."""
 
     layer = testing.INTEGRATION_TESTING
 

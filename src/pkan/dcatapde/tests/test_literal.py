@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Content type tests for `literal`."""
 
 from pkan.dcatapde import testing
 from pkan.dcatapde.content.literal import ILiteral
@@ -13,6 +14,7 @@ import unittest
 
 
 class LiteralIntegrationTest(unittest.TestCase):
+    """Validate the `literal` CT."""
 
     layer = testing.INTEGRATION_TESTING
 

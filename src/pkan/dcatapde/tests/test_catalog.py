@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+"""Content type tests for `catalog`."""
 
-from pkan.dcatapde.content.catalog import ICatalog
 from pkan.dcatapde import testing
+from pkan.dcatapde.content.catalog import ICatalog
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -13,6 +14,7 @@ import unittest
 
 
 class CatalogIntegrationTest(unittest.TestCase):
+    """Validate the `catalog` CT."""
 
     layer = testing.INTEGRATION_TESTING
 

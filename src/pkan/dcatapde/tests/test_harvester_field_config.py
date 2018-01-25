@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.content.harvester_field_config import IHarvesterFieldConfig
+"""Content type tests for `harvesterfolder`."""
+
 from pkan.dcatapde import testing
+from pkan.dcatapde.content.harvester_field_config import IHarvesterFieldConfig
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
@@ -11,6 +13,7 @@ import unittest
 
 
 class HarvesterFieldConfigIntegrationTest(unittest.TestCase):
+    """Validate the `harvester_field_config` CT."""
 
     layer = testing.INTEGRATION_TESTING
 

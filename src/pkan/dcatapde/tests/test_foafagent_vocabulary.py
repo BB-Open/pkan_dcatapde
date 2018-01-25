@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Vocabulary tests for `FOAFAgent`."""
+
 from pkan.dcatapde import testing
 from plone import api
 from plone.app.testing import setRoles
@@ -11,6 +13,7 @@ import unittest
 
 
 class FoafagentVocabularyIntegrationTest(unittest.TestCase):
+    """Validate the `FOAFAgent` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
 

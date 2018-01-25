@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.content.distribution import IDistribution
+"""Content type tests for `distribution`."""
+
 from pkan.dcatapde import testing
+from pkan.dcatapde.content.distribution import IDistribution
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -12,6 +14,7 @@ import unittest
 
 
 class DistributionIntegrationTest(unittest.TestCase):
+    """Validate the `distribution` CT."""
 
     layer = testing.INTEGRATION_TESTING
 

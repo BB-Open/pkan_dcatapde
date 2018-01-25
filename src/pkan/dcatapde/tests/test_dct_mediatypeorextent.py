@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.content.dct_mediatypeorextent import IDct_Mediatypeorextent
+"""Content type tests for `dct_mediatypeorextent`."""
+
 from pkan.dcatapde import testing
+from pkan.dcatapde.content.dct_mediatypeorextent import IDct_Mediatypeorextent
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -11,7 +13,8 @@ from zope.component import queryUtility
 import unittest
 
 
-class Dct_MediatypeorextentIntegrationTest(unittest.TestCase):
+class DctMediatypeorextentIntegrationTest(unittest.TestCase):
+    """Validate the `dct_mediatypeorextent` CT."""
 
     layer = testing.INTEGRATION_TESTING
 

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.content.dataset import IDataset
+"""Content type tests for `dataset`."""
+
 from pkan.dcatapde import testing
+from pkan.dcatapde.content.dataset import IDataset
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -12,6 +14,7 @@ import unittest
 
 
 class DatasetIntegrationTest(unittest.TestCase):
+    """Validate the `dataset` CT."""
 
     layer = testing.INTEGRATION_TESTING
 
