@@ -1,16 +1,31 @@
 # -*- coding: utf-8 -*-
 """Utilities."""
 
+from plone import api
 from plone.i18n.locales.languages import _combinedlanguagelist
 from plone.i18n.locales.languages import _languagelist
 from ps.zope.i18nfield.interfaces import ILanguageAvailability
-from ps.zope.i18nfield.plone import utils
+from ps.zope.i18nfield.plone.utils import LanguageAvailability
 from zope.interface import implementer
 
 
 @implementer(ILanguageAvailability)
-class LanguageAvailability(utils.LanguageAvailability):
-    """Custom language availablility"""
+class PKANLanguages(LanguageAvailability):
+    """A list of available languages."""
+
+    def getAvailableLanguages(self, combined=False):
+        """Return a sequence of language tags for available languages."""
+        l_tool = api.portal.get_tool('portal_languages')
+        return l_tool.getSupportedLanguages()
+
+    def getDefaultLanguage(self):
+        """Return the system default language."""
+        return api.portal.get_default_language()
+
+    def getLanguages(self, combined=False):
+        """Return a sequence of Language objects for available languages."""
+        l_tool = api.portal.get_tool('portal_languages')
+        return l_tool.getSupportedLanguages()
 
     def getLanguageListing(self, combined=False):
         """Return a sequence of language code and language name tuples."""

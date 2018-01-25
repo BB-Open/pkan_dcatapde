@@ -3,7 +3,7 @@
   <utilities>
     <utility
       interface="ps.zope.i18nfield.interfaces.ILanguageAvailability"
-      factory="pkan.dcatapde.utils.LanguageAvailability"
+      factory="pkan.dcatapde.utils.PKANLanguages"
     />
   </utilities>
 </componentregistry>
