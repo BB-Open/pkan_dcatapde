@@ -8,8 +8,11 @@ from zope.schema import getValidationErrors
 
 # Data Cleaning Methods
 def clean_distribution(**data):
-
     test_obj = Distribution()
+
+    # test object must have an id
+    test_obj.id = 'test'
+    test_obj.title = 'test'
 
     for attr in data:
         setattr(test_obj, attr, data[attr])
@@ -25,7 +28,6 @@ def add_distribution(context, **data):
     dist = create(container=context, type=CT_Distribution, **data)
 
     return dist
-
 
 # Get Methods
 

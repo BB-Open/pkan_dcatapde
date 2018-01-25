@@ -13,6 +13,10 @@ def clean_dataset(**data):
     """Clean datasets."""
     test_dataset = Dataset()
 
+    # test object must have an id
+    test_dataset.id = 'test'
+    test_dataset.title = 'test'
+
     for attr in data:
         setattr(test_dataset, attr, data[attr])
 

@@ -13,6 +13,10 @@ def clean_dct_mediatypeorextent(**data):
     """Clean dct_mediatypeorextent."""
     test_obj = Dct_Mediatypeorextent()
 
+    # test object must have an id
+    test_obj.id = 'test'
+    test_obj.title = 'test'
+
     for attr in data:
         setattr(test_obj, attr, data[attr])
 

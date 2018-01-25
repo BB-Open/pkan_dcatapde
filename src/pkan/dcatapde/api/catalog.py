@@ -13,6 +13,10 @@ def clean_catalog(**data):
     """Clean Catalogs."""
     test_catalog = Catalog()
 
+    # test object must have an id
+    test_catalog.id = 'test'
+    test_catalog.title = 'test'
+
     for attr in data:
         setattr(test_catalog, attr, data[attr])
 
@@ -29,7 +33,6 @@ def add_catalog(context, **data):
     catalog = create(container=context, type=CT_Catalog, **data)
 
     return catalog
-
 
 # Get Methods
 

@@ -22,6 +22,10 @@ def clean_harvester(**data):
 
     test_obj = Harvester()
 
+    # test object must have an id
+    test_obj.id = 'test'
+    test_obj.title = 'test'
+
     for attr in data:
         setattr(test_obj, attr, data[attr])
 

@@ -13,6 +13,10 @@ def clean_dct_licensedocument(**data):
     """Clean dct_licensedocument."""
     test_license = Dct_Licensedocument()
 
+    # test object must have an id
+    test_license.id = 'test'
+    test_license.title = 'test'
+
     for attr in data:
         setattr(test_license, attr, data[attr])
 
