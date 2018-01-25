@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Literal Content Type"""
+
 from pkan.dcatapde import _
 from plone.dexterity.content import Item
 from plone.supermodel import model
@@ -7,21 +9,19 @@ from zope.interface import implementer
 
 
 class ILiteral(model.Schema):
-    """ Marker interfce and Dexterity Python Schema for Literal
-    """
+    """Marker interface and Dexterity Python Schema for Literal."""
 
     text = schema.TextLine(
-         title=_(u'Text'),
-         required=True
+        required=True,
+        title=_(u'Text'),
     )
 
     language = schema.TextLine(
-         title=_(u'Language'),
-         required=False
+        required=False,
+        title=_(u'Language'),
     )
 
 
 @implementer(ILiteral)
 class Literal(Item):
-    """
-    """
+    """Literal Content Type."""
