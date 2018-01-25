@@ -10,7 +10,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add Dct_Licensedocument" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -18,7 +18,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add Harvesterfolder" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -26,7 +26,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add HarvesterFieldConfig" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -34,7 +34,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add Harvester" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -42,7 +42,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add Literal" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -50,7 +50,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add Foafagent" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -58,7 +58,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add Catalog" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -66,7 +66,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add Dataset" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -74,7 +74,7 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
     <permission name="pkan.dcatapde: Add Distribution" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
@@ -82,6 +82,6 @@
       <role name="Contributor"/>
     </permission>
 
-        
+
   </permissions>
 </rolemap>
