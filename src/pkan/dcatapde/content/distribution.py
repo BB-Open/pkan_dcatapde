@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_Distribution
 from pkan.dcatapde.content.catalog import INameFromCatalog
-from plone.app.z3cform.widget import RelatedItemsFieldWidget
+from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -29,8 +30,8 @@ class IDistribution(model.Schema):
     )
 
     dct_license = schema.URI(
-         title=_(u'Access URI'),
-         required=True
+        title=_(u'Access URI'),
+        required=True
     )
 
     dcatde_plannedAvailability = I18NText(
