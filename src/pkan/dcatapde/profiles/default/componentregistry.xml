@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<componentregistry>
+  <utilities>
+    <utility
+      interface="ps.zope.i18nfield.interfaces.ILanguageAvailability"
+      factory="pkan.dcatapde.utils.LanguageAvailability"
+    />
+  </utilities>
+</componentregistry>
