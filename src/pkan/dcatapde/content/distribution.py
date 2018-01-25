@@ -51,11 +51,11 @@ class IDistribution(model.Schema):
     )
 
     form.widget(
-        'dct_format',
+        'dct_conformsTo',
         RelatedItemsFieldWidget,
         content_type='dctstandard',
-        content_type_title=_(u'Standard'),
-        initial_path='/standards',
+        content_type_title=_(u'Standards'),
+        initial_path='/standards/',
         pattern_options={
             'selectableTypes': ['dctstandard'],
         }
@@ -70,11 +70,11 @@ class IDistribution(model.Schema):
     form.widget(
         'dct_format',
         RelatedItemsFieldWidget,
-        content_type='dctmediatypeorextent',
+        content_type='dct_mediatypeorextent',
         content_type_title=_(u'Format'),
-        initial_path='/formats',
+        initial_path='/formats/',
         pattern_options={
-            'selectableTypes': ['dctmediatypeorextent'],
+            'selectableTypes': ['dct_mediatypeorextent'],
         }
     )
 
@@ -87,18 +87,18 @@ class IDistribution(model.Schema):
     form.widget(
         'dcat_mediatype',
         RelatedItemsFieldWidget,
-        content_type='dctmediatypeorextent',
+        content_type='dct_mediatypeorextent',
         content_type_title=_(u'Media type'),
-        initial_path='/formats',
+        initial_path='/formats/',
         pattern_options={
-            'selectableTypes': ['dctmediatypeorextent'],
+            'selectableTypes': ['dct_mediatypeorextent'],
         }
     )
 
     dcat_mediatype = RelationChoice(
         title=_(u'Media type'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=False,
+        required=True,
     )
 
     dct_issued = schema.Date(

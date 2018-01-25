@@ -7,6 +7,18 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
+        id="pkan.dcatapde.AddDct_Mediatypeorextent"
+        title="pkan.dcatapde: Add Dct_Mediatypeorextent"
+    />
+
+        
+    <permission
+        id="pkan.dcatapde.AddDct_Licensedocument"
+        title="pkan.dcatapde: Add Dct_Licensedocument"
+    />
+
+        
+    <permission
         id="pkan.dcatapde.AddHarvesterfolder"
         title="pkan.dcatapde: Add Harvesterfolder"
     />

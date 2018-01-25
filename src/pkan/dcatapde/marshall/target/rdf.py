@@ -37,7 +37,6 @@ class RDFMarshallTarget(object):
 
         return store
 
-
     @property
     def session(self):
         """A new session for surf"""
@@ -56,11 +55,10 @@ class RDFMarshallTarget(object):
 
         return resource
 
-
     def add_property(self, resource, name, value):
         """add a property"""
 
-        setattr(resource, name.replace(':','_'), str(value))
+        setattr(resource, name.replace(':','_'), value)
 
     def set_link(self, resource, name, other_resource):
         """Link two resources"""

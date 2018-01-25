@@ -143,13 +143,15 @@ class DX2Any(object):
     def marshall_properties(self):
         """marshall properties"""
         for property_name, property in self.properties.items():
-            property_marshaller = queryMultiAdapter( (property, self.marshall_target), interface=IDXField2Any)
+            property_marshaller = queryMultiAdapter( (self.context, property, self.marshall_target),
+                                                     interface=IMarshallSource)
             if property_marshaller:
-                # marshall the property
-                property_marshaller.marshall()
-                self.marshall_target.set_link(self.resource, property_name, property_marshaller.resource)
+                # let the adapter marshall the property
+                marshalled_property =property_marshaller.marshall(self)
+                self.marshall_target.add_property(self.resource, property_name, marshalled_property)
             else:
-                value = getattr(self.context, property_name)
+                # if no adapter can be found convert the field value to a string
+                value = str(getattr(self.context, property_name))
                 self.marshall_target.add_property(self.resource, property_name, value)
 
     def marshall_contained(self):
@@ -179,3 +181,29 @@ class DX2Any(object):
         self.marshall_contained()
         self.resource.update()
         self.resource.save()
+
+
+@implementer(IMarshallSource)
+@adapter(Interface, Interface)
+class DXField2Any(object):
+    """
+    Default marshaller for dexterity
+    """
+
+    def __init__(self, context, field, marshall_target):
+        """
+        :param context: Content object to start crawl  
+        :param marshall_target: marshalling target e.g. an RDF store
+        """
+        self.context = context
+        self.field = field
+        self.marshall_target = marshall_target
+
+
+    def marshall_myself(self):
+        """marshall myself"""
+        self.resource = self.marshall_target.marshall(self)
+
+    def marshall(self):
+        self.marshall_myself()
+        a = IDexterityContent

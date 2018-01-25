@@ -3,6 +3,22 @@
   <permissions>
   <!-- -*- extra stuff goes here -*- -->
 
+    <permission name="pkan.dcatapde: Add Dct_Mediatypeorextent" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
+    <permission name="pkan.dcatapde: Add Dct_Licensedocument" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
+        
     <permission name="pkan.dcatapde: Add Harvesterfolder" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>

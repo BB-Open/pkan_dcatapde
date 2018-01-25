@@ -31,13 +31,8 @@ class IDataset(model.Schema):
     )
 
     dcatde_contributorID = I18NTextLine(
-        title=_(u'Title'),
+        title=_(u'Contributor ID'),
         required=True,
-    )
-
-    dct_license = schema.URI(
-         title=_(u'License'),
-         required=True
     )
 
     uri = schema.URI(
@@ -45,23 +40,105 @@ class IDataset(model.Schema):
         required=True
     )
 
+    model.fieldset(
+        'agents',
+        label=_(u"Agents"),
+        fields=['dct_publisher', 'dct_creator', 'dct_contributor', 'dcatde_originator', 'dcatde_maintainer' ]
+    )
+
     form.widget(
-        'dcatde_contributor',
+        'dct_publisher',
         RelatedItemsFieldWidget,
         content_type='foafagent',
-        content_type_title=_(u'Contributor'),
-        initial_path='/',
+        content_type_title=_(u'Publisher'),
+        initial_path='/publisher/',
         pattern_options={
             'selectableTypes': ['foafagent'],
         }
     )
 
-    dcatde_contributor = RelationChoice(
+    dct_publisher = RelationChoice(
+        title=_(u'Publisher'),
+        description=_(u'Add a new publisher or chose one from the list of publishers'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=False,
+    )
+
+
+    form.widget(
+        'dct_creator',
+        RelatedItemsFieldWidget,
+        content_type='foafagent',
+        content_type_title=_(u'Creator'),
+        initial_path='/agents/',
+        pattern_options={
+            'selectableTypes': ['foafagent'],
+        }
+    )
+
+    dct_creator = RelationChoice(
+        title=_(u'Creator'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=False,
+    )
+
+    form.widget(
+        'dct_contributor',
+        RelatedItemsFieldWidget,
+        content_type='foafagent',
+        content_type_title=_(u'Contributor'),
+        initial_path='/agents/',
+        pattern_options={
+            'selectableTypes': ['foafagent'],
+        }
+    )
+
+    dct_contributor = RelationChoice(
         title=_(u'Contributor'),
         vocabulary='plone.app.vocabularies.Catalog',
         required=False,
     )
 
+    form.widget(
+        'dcatde_originator',
+        RelatedItemsFieldWidget,
+        content_type='foafagent',
+        content_type_title=_(u'Originator'),
+        initial_path='/agents/',
+        pattern_options={
+            'selectableTypes': ['foafagent'],
+        }
+    )
+
+    dcatde_originator = RelationChoice(
+        title=_(u'Originator'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=False,
+    )
+
+    form.widget(
+        'dcatde_maintainer',
+        RelatedItemsFieldWidget,
+        content_type='foafagent',
+        content_type_title=_(u'Maintainer'),
+        initial_path='/agents/',
+        pattern_options={
+            'selectableTypes': ['foafagent'],
+        }
+    )
+
+    dcatde_maintainer = RelationChoice(
+        title=_(u'Maintainer'),
+        vocabulary='plone.app.vocabularies.Catalog',
+        required=False,
+    )
+
+    model.fieldset(
+        'details',
+        label=_(u"Dates, Geo, etc"),
+        fields=[ 'dct_issued', 'dct_modified', 'dcatde_politicalGeocodingURI', 'dcatde_politicalGeocodingLevelURI',
+                 'dct_identifier', 'owl_versionInfo', 'dcatde_legalbasisText', 'adms_versionNotes']
+    )
 
     dct_issued = schema.Date(
         title=(u'Issued'),
@@ -71,6 +148,10 @@ class IDataset(model.Schema):
     dct_modified = schema.Date(
         title=(u'Modified'),
         required=False
+    )
+    dcatde_geocodingText = I18NTextLine(
+        title=_(u'Geocoding text'),
+        required=False,
     )
 
     dcatde_politicalGeocodingURI =schema.URI(

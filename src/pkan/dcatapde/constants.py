@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 CT_Catalog = 'catalog'
 CT_Foafagent = 'foafagent'
+CT_DctLicenseDocument = 'dct_licensedocument'
+CT_DctMediatypeorextent = 'dct_mediatypeorextent'
 CT_Distribution = 'distribution'
 CT_Dataset = 'dataset'
 CT_HarvesterFolder = 'harvesterfolder'

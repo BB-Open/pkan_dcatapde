@@ -46,5 +46,6 @@ class Catalog2RDF(DCAT2RDF):
         :return: 
         """
         related = super(Catalog2RDF, self).referenced
-        related['dct:publisher'] = self.context.publisher.to_object
+        related['dct:publisher'] = self.context.dct_publisher.to_object
+        related['dct:license'] = self.context.dct_license.to_object
         return related

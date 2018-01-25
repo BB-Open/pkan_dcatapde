@@ -5,6 +5,7 @@ from pkan.dcatapde.constants import CT_Foafagent
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
+from ps.zope.i18nfield.field import I18NTextLine, I18NText
 from zope.interface import implementer
 
 import zope.schema as schema
@@ -13,6 +14,18 @@ import zope.schema as schema
 class IFoafagent(model.Schema):
     """ Marker interfce and Dexterity Python Schema for Foafagent
     """
+
+    dct_title = I18NTextLine(
+        title=_(u'Title'),
+        required=True,
+    )
+
+    dct_description = I18NText(
+        title=_(u'Description'),
+        required=True,
+    )
+
+
 
     # URI of FOAF agent has to be required. Since agents can be referenced from
     # several locations at once without a single fixed URI

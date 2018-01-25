@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+from pkan.dcatapde.constants import CT_DctLicenseDocument
+from plone.dexterity.content import Item
+from plone.dexterity.factory import DexterityFactory
+from plone.supermodel import model
+
+from pkan.dcatapde import _
+from pkan.dcatapde.api.dct_licensedocument import add_dct_licensedocument
+import zope.schema as schema
+from zope.interface import implementer
+
+
+class IDct_Licensedocument(model.Schema):
+    """ Marker interface and Dexterity Python Schema for Dct_Licensedocument
+    """
+
+    rdf_about = schema.URI(
+         title=_(u'Access URI'),
+         required=True
+    )
+
+
+@implementer(IDct_Licensedocument)
+class Dct_Licensedocument(Item):
+    """
+    """
+    portal_type = 'dct_licensedocument'
+    namespace_class = 'dct:licensedocument'
+
+
+class DctLicensedocumentDefaultFactory(DexterityFactory):
+
+    def __init__(self):
+        self.portal_type = CT_DctLicenseDocument
+
+    def __call__(self, *args, **kw):
+        # TODO: get context and maybe change it
+        data = add_dct_licensedocument(None, dry_run=True, **kw)
+        folder = DexterityFactory.__call__(self, *args, **data)
+
+        return folder

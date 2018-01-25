@@ -10,4 +10,6 @@
   <object meta_type="Dexterity FTI" name="harvester"/>
   <object meta_type="Dexterity FTI" name="harvester_field_config"/>
   <object meta_type="Dexterity FTI" name="harvesterfolder"/>
+  <object meta_type="Dexterity FTI" name="dct_licensedocument"/>
+  <object meta_type="Dexterity FTI" name="dct_mediatypeorextent"/>
 </object>
