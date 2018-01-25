@@ -29,9 +29,21 @@ class IDistribution(model.Schema):
         title=_(u'Description'),
     )
 
-    dct_license = schema.URI(
+    form.widget(
+        'dct_license',
+        RelatedItemsFieldWidget,
+        content_type='dct_licensedocument',
+        content_type_title=_(u'License'),
+        initial_path='/licenses/',
+        pattern_options={
+            'selectableTypes': ['dctstandard'],
+        },
+    )
+
+    dct_license = RelationChoice(
         required=True,
-        title=_(u'Access URI'),
+        title=_(u'License'),
+        vocabulary='plone.app.vocabularies.Catalog',
     )
 
     dcatde_plannedAvailability = I18NText(
