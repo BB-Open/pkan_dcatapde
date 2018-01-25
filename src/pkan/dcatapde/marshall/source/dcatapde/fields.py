@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 """DCATAP-DE Fields."""
 
+import rdflib
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCATField2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
 from ps.zope.i18nfield.field import I18NField
 from zope.component import adapter
 from zope.interface import implementer
-
-import rdflib
 
 
 @implementer(IMarshallSource)

@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 
+from zope import schema
+
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_Distribution
 from pkan.dcatapde.content.catalog import INameFromCatalog
-from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
+from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from z3c.relationfield import RelationChoice
-from zope import schema
 from zope.interface import implementer
 
 
