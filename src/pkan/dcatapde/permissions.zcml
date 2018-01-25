@@ -1,7 +1,7 @@
 <configure
-  xmlns="http://namespaces.zope.org/zope"
-  xmlns:zcml="http://namespaces.zope.org/zcml"
-  i18n_domain="plone">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="pkan.dcatapde">
 
   <configure zcml:condition="installed AccessControl.security">
   <!-- -*- extra stuff goes here -*- -->
@@ -9,64 +9,51 @@
     <permission
         id="pkan.dcatapde.AddDct_Mediatypeorextent"
         title="pkan.dcatapde: Add Dct_Mediatypeorextent"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddDct_Licensedocument"
         title="pkan.dcatapde: Add Dct_Licensedocument"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddHarvesterfolder"
         title="pkan.dcatapde: Add Harvesterfolder"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddHarvesterFieldConfig"
         title="pkan.dcatapde: Add HarvesterFieldConfig"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddHarvester"
         title="pkan.dcatapde: Add Harvester"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddLiteral"
         title="pkan.dcatapde: Add Literal"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddFoafagent"
         title="pkan.dcatapde: Add Foafagent"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddCatalog"
         title="pkan.dcatapde: Add Catalog"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddDataset"
         title="pkan.dcatapde: Add Dataset"
-    />
+        />
 
-        
     <permission
         id="pkan.dcatapde.AddDistribution"
         title="pkan.dcatapde: Add Distribution"
-    />
-
-        
-
+        />
   </configure>
-
 </configure>
