@@ -11,8 +11,8 @@ from zope.schema.vocabulary import SimpleTerm
 @adapter(II18NTextField)
 @implementer(IFieldProcessor)
 class I18nTextAdapter(BaseField):
-    '''
-    '''
+    """
+    """
     suffix = ['language', 'content']
 
     def get_terms_for_vocab(self, ct, field_name, prefix=''):
@@ -21,32 +21,34 @@ class I18nTextAdapter(BaseField):
         for suf in self.suffix:
             if self.field.required:
                 title = '{CT}: {field_name} {suffix} required'.format(
-                    CT=prefix + ct, field_name=field_name, suffix=suf
+                    CT=prefix + ct, field_name=field_name, suffix=suf,
                 )
                 token = '{CT}__{field_name}__{suffix}__required'.format(
-                    CT=prefix + ct, field_name=field_name, suffix=suf
+                    CT=prefix + ct, field_name=field_name, suffix=suf,
                 )
                 terms.append(
                     SimpleTerm(
-                        value=token, token=token, title=title)
+                        value=token, token=token, title=title,
+                    ),
                 )
             else:
                 title = '{CT}: {field_name} {suffix}'.format(
-                    CT=prefix + ct, field_name=field_name, suffix=suf
+                    CT=prefix + ct, field_name=field_name, suffix=suf,
                 )
                 token = '{CT}__{field_name}__{suffix}'.format(
-                    CT=prefix + ct, field_name=field_name, suffix=suf
+                    CT=prefix + ct, field_name=field_name, suffix=suf,
                 )
                 terms.append(
                     SimpleTerm(
-                        value=token, token=token, title=title)
+                        value=token, token=token, title=title,
+                    ),
                 )
 
         return terms
 
 
-adapter(II18NTextLineField)
-implementer(IFieldProcessor)
+@adapter(II18NTextLineField)
+@implementer(IFieldProcessor)
 class I18nTextLineAdapter(I18nTextAdapter):
-    '''
-    '''
+    """
+    """

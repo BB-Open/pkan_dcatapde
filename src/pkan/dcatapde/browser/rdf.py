@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-#from pkan.dcatapde.marshall.source.interfaces import IDX2Any
+"""RDF view."""
+
+# from pkan.dcatapde.marshall.source.interfaces import IDX2Any
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.target.rdf import RDFMarshallTarget
 from unidecode import unidecode
@@ -15,15 +17,14 @@ except Exception:
 
 
 class RDF(object):
-    """ RDF Export """
+    """RDF Export."""
 
     def __init__(self, context, request):
         self.context = context
         self.request = request
 
     def _sanitize(self, utext, limit=LIMIT):
-        """ Sanitize unicode text
-        """
+        """Sanitize unicode text."""
         for char in utext:
             if ord(char) > limit:
                 yield unidecode(char)
@@ -31,8 +32,7 @@ class RDF(object):
                 yield char
 
     def sanitize(self, text):
-        """ Remove
-        """
+        """Remove."""
         if not isinstance(text, unicode):
             text = text.decode('utf-8')
 
@@ -45,12 +45,17 @@ class RDF(object):
             return text
 
     def __call__(self):
-        # Todo: Transform to adapter call
+        # Fix: Transform to adapter call
         target = RDFMarshallTarget()
-        marshaller = queryMultiAdapter( (self.context, target), interface=IMarshallSource)
+        marshaller = queryMultiAdapter(
+            (self.context, target),
+            interface=IMarshallSource,
+        )
         marshaller.marshall()
 
-        self.request.response.setHeader('Content-Type',
-                                        'application/rdf+xml; charset=utf-8')
+        self.request.response.setHeader(
+            'Content-Type',
+            'application/rdf+xml; charset=utf-8',
+        )
         data = target._store.reader.graph.serialize(format='pretty-xml')
         return self.sanitize(data)

@@ -1,36 +1,31 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    i18n_domain="jlu.zsbdb">
+    i18n_domain="pkan.dcatapde">
 
     <!-- -*- extra stuff goes here -*- -->
-
     <utility
         component=".source_field.SourceFieldVocabularyFactory"
         name="pkan.dcatapde.SourceFieldVocabulary"
-    />
+        />
 
-        
     <utility
         component=".dcat_field.DcatFieldVocabularyFactory"
         name="pkan.dcatapde.DcatFieldVocabulary"
-    />
+        />
 
-        
     <utility
         component=".foafagent_vocabulary.FoafagentVocabularyFactory"
         name="pkan.dcatapde.FoafagentVocabulary"
-    />
+        />
 
     <utility
         component=".harvesting_vocabulary.HarvestingVocabularyFactory"
         name="pkan.dcatapde.HarvestingVocabulary"
-    />
+        />
 
-  <!-- Utility for available (allowed) languages.
-  <utility
-      layer="pkan.dcatapde"
-      factory=".i18nfield.LanguageAvailability"
-      />
--->
-        
+    <utility
+        component=".preprocessor_vocabulary.PreprocessorVocabularyFactory"
+        name="pkan.dcatapde.PreprocessorVocabulary"
+        />
+
 </configure>

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+"""Content type tests for `distribution`."""
+
+from pkan.dcatapde import testing
 from pkan.dcatapde.content.distribution import IDistribution
-from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -12,8 +14,9 @@ import unittest
 
 
 class DistributionIntegrationTest(unittest.TestCase):
+    """Validate the `distribution` CT."""
 
-    layer = PKAN_DCATAPDE_INTEGRATION_TESTING
+    layer = testing.INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""

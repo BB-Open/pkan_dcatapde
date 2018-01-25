@@ -1,30 +1,34 @@
 # -*- coding: utf-8 -*-
+"""RDF Marshaller."""
+
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
 from zope.interface import implementer
 
-import rdflib
+# import rdflib
 import surf
 
 
 surf.namespace.register(dct=surf.ns.DCTERMS)
 
+
 @implementer(IRDFMarshallTarget)
 class RDFMarshallTarget(object):
+    """RDF Marshaller Target."""
 
     _store = None
     _resource = None
 
-
     @property
     def store(self):
-        """Factory for store objects
-        """
-
+        """Factory for store objects."""
         if self._store is not None:
             return self._store
 
-        store = surf.Store(reader='rdflib', writer='rdflib',
-                           rdflib_store='IOMemory')
+        store = surf.Store(
+            reader='rdflib',
+            writer='rdflib',
+            rdflib_store='IOMemory',
+        )
 
         store.reader.graph.bind('dc', surf.ns.DC, override=True)
         store.reader.graph.bind('dct', surf.ns.DCTERMS, override=True)
@@ -46,8 +50,7 @@ class RDFMarshallTarget(object):
         return session
 
     def marshall(self, obj):
-        """ Factory for a new Surf resource """
-
+        """Factory for a new Surf resource."""
         surf_ns = getattr(surf.ns, obj.namespace.upper())
 
         resource = self.session.get_class(surf_ns[obj.ns_class])(obj.rdf_about)
@@ -58,11 +61,9 @@ class RDFMarshallTarget(object):
         return resource
 
     def add_property(self, resource, name, value):
-        """add a property"""
-
-        setattr(resource, name.replace(':','_'), value)
+        """Add a property."""
+        setattr(resource, name.replace(':', '_'), value)
 
     def set_link(self, resource, name, other_resource):
-        """Link two resources"""
-
-        setattr(resource, name.replace(':','_'), other_resource.subject)
+        """Link two resources."""
+        setattr(resource, name.replace(':', '_'), other_resource.subject)

@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """Recursive crawler through objects and properties for marshalling"""
+
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
-from pkan.dcatapde.marshall.source.interfaces import IDXField2Any
+# from pkan.dcatapde.marshall.source.interfaces import IDXField2Any
 from plone.api.portal import get_tool
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
-from plone.dexterity.interfaces import IDexterityContent
-from plone.dexterity.interfaces import IDexterityFTI
+# from plone.dexterity.interfaces import IDexterityContent
+# from plone.dexterity.interfaces import IDexterityFTI
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from zope.component import adapter
 from zope.component import getUtility
@@ -17,7 +18,7 @@ from zope.schema import getFieldsInOrder
 
 
 def non_fieldset_fields(schema):
-    """ return fields not in fieldset """
+    """Return fields not in fieldset."""
     fieldset_fields = []
     fieldsets = schema.queryTaggedValue(FIELDSETS_KEY, [])
 
@@ -28,17 +29,20 @@ def non_fieldset_fields(schema):
 
     return [f for f in fields if f not in fieldset_fields]
 
-def get_ordered_fields(fti):
-    """ return fields in fieldset order """
-    # NOTE: code extracted from collective.excelexport. Original comments
-    # preserved
 
-    # this code is much complicated because we have to get sure
-    # we get the fields in the order of the fieldsets
-    # the order of the fields in the fieldsets can differ
-    # of the getFieldsInOrder(schema) order...
-    # that's because fields from different schemas
-    # can take place in the same fieldset
+def get_ordered_fields(fti):
+    """Return fields in fieldset order.
+
+    NOTE: code extracted from collective.excelexport. Original comments
+    preserved
+
+    this code is much complicated because we have to get sure
+    we get the fields in the order of the fieldsets
+    the order of the fields in the fieldsets can differ
+    of the getFieldsInOrder(schema) order...
+    that's because fields from different schemas
+    can take place in the same fieldset
+    """
     schema = fti.lookupSchema()
     fieldset_fields = {}
     ordered_fieldsets = ['default']
@@ -83,16 +87,15 @@ def get_ordered_fields(fti):
 @implementer(IMarshallSource)
 @adapter(Interface, Interface)
 class DX2Any(object):
-    """
-    Default marshaller for dexterity
-    """
+    """Default marshaller for dexterity."""
 
     _whitelist = []
     _blacklist = []
 
     def __init__(self, context, marshall_target):
-        """
-        :param context: Content object to start crawl  
+        """Initialization.
+
+        :param context: Content object to start crawl
         :param marshall_target: marshalling target e.g. an RDF store
         """
         self.context = context
@@ -100,9 +103,9 @@ class DX2Any(object):
 
     @property
     def properties(self):
-        """
-        Do nothing
-        :return: 
+        """Return properties.
+
+        :return:
         """
         ptypes = get_tool('portal_types')
         fti = ptypes[self.context.portal_type]
@@ -119,60 +122,84 @@ class DX2Any(object):
 
     @property
     def contained(self):
-        """
-        Return all contained items
-        :return: 
+        """Return all contained items.
+
+        :return:
         """
         result = {}
         return result
 
     @property
     def referenced(self):
-        """
-        Return all referenced items
-        :return: 
+        """Return all referenced items.
+
+        :return:
         """
         return {}
 
     def marshall_myself(self):
-        """marshall myself"""
+        """Marshall myself."""
         self.resource = self.marshall_target.marshall(self)
 
     def marshall_properties(self):
-        """marshall properties"""
+        """Marshall properties."""
         for property_name, property in self.properties.items():
-            property_marshaller = queryMultiAdapter( (self.context, property, self.marshall_target),
-                                                     interface=IMarshallSource)
+            property_marshaller = queryMultiAdapter(
+                (self.context, property, self.marshall_target),
+                interface=IMarshallSource,
+            )
             if property_marshaller:
                 # let the adapter marshall the property
-                marshalled_property =property_marshaller.marshall(self)
-                self.marshall_target.add_property(self.resource, property_name, marshalled_property)
+                marshalled_property = property_marshaller.marshall(self)
+                self.marshall_target.add_property(
+                    self.resource,
+                    property_name,
+                    marshalled_property,
+                )
             else:
-                # if no adapter can be found convert the field value to a string
+                # No adapter can be found, convert the field value to a string.
                 value = str(getattr(self.context, property_name))
-                self.marshall_target.add_property(self.resource, property_name, value)
+                self.marshall_target.add_property(
+                    self.resource,
+                    property_name,
+                    value,
+                )
 
     def marshall_contained(self):
-        """marshall contained objects"""
+        """Marshall contained objects."""
         for item_name, item in self.contained.items():
-            contained_marshaller = queryMultiAdapter( (item, self.marshall_target), interface=IMarshallSource,
-                                                          default = DX2Any(item, self.marshall_target))
+            contained_marshaller = queryMultiAdapter(
+                (item, self.marshall_target),
+                interface=IMarshallSource,
+                default=DX2Any(item, self.marshall_target),
+            )
             if contained_marshaller:
                 contained_marshaller.marshall()
-                self.marshall_target.set_link(self.resource, item_name, contained_marshaller.resource)
+                self.marshall_target.set_link(
+                    self.resource,
+                    item_name,
+                    contained_marshaller.resource,
+                )
 
     def marshall_references(self):
-        """marshall the referenced objects"""
+        """Marshall the referenced objects."""
         for item_name, item in self.referenced.items():
-            referenced_marshaller = queryMultiAdapter( (item, self.marshall_target), interface=IMarshallSource,
-                                                           default = DX2Any(item, self.marshall_target))
+            referenced_marshaller = queryMultiAdapter(
+                (item, self.marshall_target),
+                interface=IMarshallSource,
+                default=DX2Any(item, self.marshall_target),
+            )
             if referenced_marshaller:
                 referenced_marshaller.marshall()
 
-                self.marshall_target.set_link(self.resource, item_name, referenced_marshaller.resource)
+                self.marshall_target.set_link(
+                    self.resource,
+                    item_name,
+                    referenced_marshaller.resource,
+                )
 
     def marshall(self):
-        """marshall properties, contained items and related items"""
+        """Marshall properties, contained items and related items."""
         self.marshall_myself()
         self.marshall_properties()
         self.marshall_references()
@@ -184,24 +211,22 @@ class DX2Any(object):
 @implementer(IMarshallSource)
 @adapter(Interface, Interface)
 class DXField2Any(object):
-    """
-    Default marshaller for dexterity
-    """
+    """Default marshaller for dexterity."""
 
     def __init__(self, context, field, marshall_target):
-        """
-        :param context: Content object to start crawl  
+        """Initialization.
+
+        :param context: Content object to start crawl
         :param marshall_target: marshalling target e.g. an RDF store
         """
         self.context = context
         self.field = field
         self.marshall_target = marshall_target
 
-
     def marshall_myself(self):
-        """marshall myself"""
+        """Marshall myself."""
         self.resource = self.marshall_target.marshall(self)
 
     def marshall(self):
         self.marshall_myself()
-        a = IDexterityContent
+        # a = IDexterityContent

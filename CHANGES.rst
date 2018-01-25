@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.0a1 (unreleased)
-------------------
+0.1 (unreleased)
+----------------
 
 - Initial release.
   [volkerjaenisch]

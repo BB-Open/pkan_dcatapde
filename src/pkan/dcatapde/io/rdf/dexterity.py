@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-""" rdfmarshaller adapters for dexterity content
-"""
+"""RDF marshaller adapters for dexterity content."""
 
-from .export import GenericObject2Surf
-from .interfaces import IDXField2Surf
-from .interfaces import IFieldDefinition2Surf
-from .interfaces import ISurfSession
-from .interfaces import IValue2Surf
+from pkan.dcatapde.io.rdf.export import GenericObject2Surf
+from pkan.dcatapde.io.rdf.interfaces import IDXField2Surf
+from pkan.dcatapde.io.rdf.interfaces import IFieldDefinition2Surf
+from pkan.dcatapde.io.rdf.interfaces import ISurfSession
+from pkan.dcatapde.io.rdf.interfaces import IValue2Surf
 from plone.api.portal import get_current_language
 from plone.api.portal import get_tool
 from plone.autoform.interfaces import IFormFieldProvider
@@ -28,7 +27,7 @@ import sys
 
 
 def non_fieldset_fields(schema):
-    """ return fields not in fieldset """
+    """Return fields not in fieldset."""
     fieldset_fields = []
     fieldsets = schema.queryTaggedValue(FIELDSETS_KEY, [])
 
@@ -41,7 +40,7 @@ def non_fieldset_fields(schema):
 
 
 def get_ordered_fields(fti):
-    """ return fields in fieldset order """
+    """Return fields in fieldset order."""
     # NOTE: code extracted from collective.excelexport. Original comments
     # preserved
 
@@ -93,38 +92,41 @@ def get_ordered_fields(fti):
 
 
 class Dexterity2Surf(GenericObject2Surf):
-    """ Dexterity implementation of the Object2Surf
-    """
+    """Dexterity implementation of the Object2Surf."""
 
     adapter(IDexterityContent, ISurfSession)
 
-    dc_map = dict([('title', 'title'),
-                   ('description', 'description'),
-                   ('creation_date', 'created'),
-                   ('modification_date', 'modified'),
-                   ('creators', 'creator'),
-                   ('subject', 'subject'),
-                   # ('effectiveDate', 'issued'),
-                   # ('expirationDate', 'expires'),
-                   ('rights', 'rights'),
-                   # ('contributors', 'contributor'),
-                   ('effective', 'issued'),
-                   ('expires', 'expires'),
-                   ('id', 'productID')])
+    dc_map = dict([
+        ('title', 'title'),
+        ('description', 'description'),
+        ('creation_date', 'created'),
+        ('modification_date', 'modified'),
+        ('creators', 'creator'),
+        ('subject', 'subject'),
+        # ('effectiveDate', 'issued'),
+        # ('expirationDate', 'expires'),
+        ('rights', 'rights'),
+        # ('contributors', 'contributor'),
+        ('effective', 'issued'),
+        ('expires', 'expires'),
+        ('id', 'productID'),
+    ])
 
     _whitelist = None
 
-    _blacklist = ['constrainTypesMode',
-                  'locallyAllowedTypes',
-                  'immediatelyAddableTypes',
-                  'language',
-                  'allowDiscussion',
-                  'portal_type']
+    _blacklist = [
+        'constrainTypesMode',
+        'locallyAllowedTypes',
+        'immediatelyAddableTypes',
+        'language',
+        'allowDiscussion',
+        'portal_type',
+    ]
     field_map = {}
 
     @property
     def blacklist_map(self):
-        """ These fields shouldn't be exported """
+        """These fields shouldn't be exported."""
         ptool = get_tool('portal_properties')
         props = getattr(ptool, 'rdfmarshaller_properties', None)
 
@@ -132,14 +134,15 @@ class Dexterity2Surf(GenericObject2Surf):
             return list(
                 props.getProperty(
                     '{0}_blacklist'.format(self.portalType.lower()),
-                    props.getProperty('blacklist'))
+                    props.getProperty('blacklist'),
+                ),
             )
 
         return self._blacklist
 
     @property
     def portalType(self):
-        """ Portal type """
+        """Portal type."""
         if self.context.portal_type:
             return self.context.portal_type.replace(' ', '').replace('.', '')
         else:
@@ -147,7 +150,7 @@ class Dexterity2Surf(GenericObject2Surf):
 
     @property
     def prefix(self):
-        """ Prefix """
+        """Prefix."""
         if self._prefix:
             return self._prefix
 
@@ -155,7 +158,7 @@ class Dexterity2Surf(GenericObject2Surf):
 
     @property
     def subject(self):
-        """ Subject """
+        """Subject"""
 
         my_URL = self.context.absolute_url()
         # check if we are a complex property
@@ -166,7 +169,7 @@ class Dexterity2Surf(GenericObject2Surf):
 
     @property
     def namespace(self):
-        """ namespace """
+        """Namespace"""
         if self._namespace is not None:
             return self._namespace
 
@@ -177,7 +180,7 @@ class Dexterity2Surf(GenericObject2Surf):
 
         return self._namespace
 
-    def modify_resource(self, resource, **kwds):
+    def modify_resource(self, resource, **kwds):  # noqa
         language = get_current_language(self.context)
 
         ptypes = get_tool('portal_types')
@@ -192,7 +195,7 @@ class Dexterity2Surf(GenericObject2Surf):
             fieldAdapter = queryMultiAdapter(
                 (field, self.context, self.session),
                 interface=IDXField2Surf,
-                name=fieldName
+                name=fieldName,
             )
 
             if not fieldAdapter:
@@ -205,7 +208,7 @@ class Dexterity2Surf(GenericObject2Surf):
 
             try:
                 value = fieldAdapter.value(**kwds)
-            except:
+            except Exception:
                 log.log('RDF marshaller error for context[field] "{0}[{1}]": \n{2}: {3}'.format(
                         self.context.absolute_url(), fieldName,
                         sys.exc_info()[0], sys.exc_info()[1]),
@@ -241,16 +244,16 @@ class Dexterity2Surf(GenericObject2Surf):
                         'RDF marshaller error for context[field]'
                         '"{0}[{1}]": \n{2}: {3}'.format(
                             self.context.absolute_url(), fieldName,
-                            sys.exc_info()[0], sys.exc_info()[1]
+                            sys.exc_info()[0], sys.exc_info()[1],
                         ),
-                        severity=log.logging.WARN
+                        severity=log.logging.WARN,
                     )
             else:
                 try:
                     attr_name = '{0}_{1}'.format(prefix, fieldName)
                     setattr(resource, attr_name, value)
-#                    resource.session.load_resource( 'http://test.de', data=value )
-#                    resource.session.commit()
+                    # resource.session.load_resource( 'http://test.de', data=value )
+                    # resource.session.commit()
                     pass
                 except Exception:
 
@@ -258,18 +261,19 @@ class Dexterity2Surf(GenericObject2Surf):
                         'RDF marshaller error for context[field]'
                         '"{0}[{1}]": \n{2}: {3}'.format(
                             self.context.absolute_url(), fieldName,
-                            sys.exc_info()[0], sys.exc_info()[1]
+                            sys.exc_info()[0], sys.exc_info()[1],
                         ),
-                        severity=log.logging.WARN
+                        severity=log.logging.WARN,
                     )
 
         return resource
 
 
 class DexterityFTI2Surf(GenericObject2Surf):
-    """ IObject2Surf implemention for TypeInformations,
+    """IObject2Surf implemention for TypeInformations.
 
-    The type informations are persistent objects found in the portal_types """
+    The type informations are persistent objects found in the portal_types.
+    """
 
     adapter(IDexterityFTI, ISurfSession)
 
@@ -277,31 +281,31 @@ class DexterityFTI2Surf(GenericObject2Surf):
     _prefix = 'rdfs'
 
     # fields not to export, i.e Dublin Core
-    blacklist_map = ['constrainTypesMode',
-                     'locallyAllowedTypes',
-                     'immediatelyAddableTypes',
-                     'language',
-                     'creation_date',
-                     'modification_date',
-                     'creators',
-                     'subject',
-                     'effectiveDate',
-                     'expirationDate',
-                     'contributors',
-                     'allowDiscussion',
-                     'rights',
-                     'nextPreviousEnabled',
-                     'excludeFromNav',
-                     'creator',
-                     'title',
-                     'exclude_from_nav',
-                     'effective',
-                     'expires'
-                     ]
+    blacklist_map = [
+        'constrainTypesMode',
+        'locallyAllowedTypes',
+        'immediatelyAddableTypes',
+        'language',
+        'creation_date',
+        'modification_date',
+        'creators',
+        'subject',
+        'effectiveDate',
+        'expirationDate',
+        'contributors',
+        'allowDiscussion',
+        'rights',
+        'nextPreviousEnabled',
+        'excludeFromNav',
+        'creator',
+        'title',
+        'exclude_from_nav',
+        'effective',
+        'expires',
+    ]
 
     def modify_resource(self, resource, **kwds):
-        """ Schema to Surf """
-
+        """Schema to Surf."""
         context = self.context
         session = self.session
 
@@ -322,7 +326,9 @@ class DexterityFTI2Surf(GenericObject2Surf):
                 continue
 
             field2surf = queryMultiAdapter(
-                (field, context, session), interface=IFieldDefinition2Surf)
+                (field, context, session),
+                interface=IFieldDefinition2Surf,
+            )
 
             if field2surf is None:
                 # NOTE: log a warning

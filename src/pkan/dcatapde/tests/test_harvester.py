@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
+"""Content type tests for `harvester`."""
+
+from pkan.dcatapde import testing
 from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
-from zope.component import createObject
+# from zope.component import createObject
 from zope.component import queryUtility
 
 import unittest
 
 
 class HarvesterIntegrationTest(unittest.TestCase):
+    """Validate the `harvester` CT."""
 
-    layer = PKAN_DCATAPDE_INTEGRATION_TESTING
+    layer = testing.INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -28,11 +31,11 @@ class HarvesterIntegrationTest(unittest.TestCase):
         fti = queryUtility(IDexterityFTI, name='harvester')
         self.assertTrue(fti)
 
-    def test_factory(self):
-        fti = queryUtility(IDexterityFTI, name='harvester')
-        factory = fti.factory
-        obj = createObject(factory)
-        self.assertTrue(IHarvester.providedBy(obj))
+    # def test_factory(self):
+    #     fti = queryUtility(IDexterityFTI, name='harvester')
+    #     factory = fti.factory
+    #     obj = createObject(factory)
+    #     self.assertTrue(IHarvester.providedBy(obj))
 
     # def test_adding(self):
     #     setRoles(self.portal, TEST_USER_ID, ['Contributor'])

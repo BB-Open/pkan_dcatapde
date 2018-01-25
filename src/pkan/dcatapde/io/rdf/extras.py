@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-""" extras """
+"""Extras."""
 
-from .interfaces import ISurfResourceModifier
-from .modifiers import BaseFileModifier
+from pkan.dcatapde.io.rdf.interfaces import ISurfResourceModifier
+from pkan.dcatapde.io.rdf.modifiers import BaseFileModifier
 from plone.app.contenttypes.interfaces import IFile
 from plone.app.contenttypes.interfaces import IImage
 from Products.CMFPlone import log
@@ -18,22 +18,19 @@ except ImportError:
     from zope.interface import Interface
 
     class ICover(Interface):
-        """ Dummy replacement interface
-        """
+        """Dummy replacement interface."""
 
 
 @implementer(ISurfResourceModifier)
 @adapter(ICover)
 class CoverTilesModifier(object):
-    """Adds tiles information to rdf resources
-    """
+    """Adds tiles information to rdf resources."""
 
     def __init__(self, context):
         self.context = context
 
     def run(self, resource, *args, **kwds):
-        """Change the rdf resource
-        """
+        """Change the rdf resource."""
         uids = self.context.list_tiles()
         value = ''
 
@@ -51,16 +48,22 @@ class CoverTilesModifier(object):
 
         if value:
             try:
-                setattr(resource, '{0}_{1}'.format('eea', 'cover_tiles'),
-                        [value])
+                setattr(
+                    resource,
+                    '{0}_{1}'.format(
+                        'eea',
+                        'cover_tiles',
+                    ),
+                    [value],
+                )
             except Exception:
                 log.log(
                     'RDF marshaller error for context[tiles]'
                     '"{0}[: \n{1}: {2}"'.format(
                         self.context.absolute_url(),
-                        sys.exc_info()[0], sys.exc_info()[1]
+                        sys.exc_info()[0], sys.exc_info()[1],
                     ),
-                    severity=log.logging.WARN
+                    severity=log.logging.WARN,
                 )
 
         return resource
@@ -68,13 +71,13 @@ class CoverTilesModifier(object):
 
 @adapter(IImage)
 class ImageModifier(BaseFileModifier):
-    """ ImageModifier """
+    """ImageModifier."""
 
     field = 'image'
 
 
 @adapter(IFile)
 class FileModifier(BaseFileModifier):
-    """ FileModifier """
+    """FileModifier."""
 
     field = 'file'

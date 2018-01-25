@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+"""Content type tests for `dct_licensedocument`."""
+
+from pkan.dcatapde import testing
 from pkan.dcatapde.content.dct_licensedocument import IDct_Licensedocument
-from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -11,9 +13,10 @@ from zope.component import queryUtility
 import unittest
 
 
-class Dct_LicensedocumentIntegrationTest(unittest.TestCase):
+class DctLicensedocumentIntegrationTest(unittest.TestCase):
+    """Validate the `dct_licensedocument` CT."""
 
-    layer = PKAN_DCATAPDE_INTEGRATION_TESTING
+    layer = testing.INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""

@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+"""Distribution Content Type."""
+
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_Distribution
 from pkan.dcatapde.content.catalog import INameFromCatalog
-from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
+from plone.formwidget.relateditems import RelatedItemsFieldWidget
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
@@ -15,37 +17,36 @@ from zope.interface import implementer
 
 
 class IDistribution(model.Schema):
-    """ Marker interfce and Dexterity Python Schema for Distribution
-    """
+    """Marker interfce and Dexterity Python Schema for Distribution."""
 
     dct_title = I18NTextLine(
-        title=_(u'Title'),
         required=False,
+        title=_(u'Title'),
     )
 
     dct_description = I18NText(
-        title=_(u'Description'),
         required=False,
+        title=_(u'Description'),
     )
 
     dct_license = schema.URI(
-         title=_(u'Access URI'),
-         required=True
+        required=True,
+        title=_(u'Access URI'),
     )
 
     dcatde_plannedAvailability = I18NText(
-        title=_(u'Planed availability'),
         required=False,
+        title=_(u'Planed availability'),
     )
 
     dcatde_licenseAttributionByText = I18NText(
-        title=_(u'Licence attribution by text'),
         required=False,
+        title=_(u'Licence attribution by text'),
     )
 
     dcat_byteSize = I18NText(
-        title=_(u'Byte size'),
         required=False,
+        title=_(u'Byte size'),
     )
 
     form.widget(
@@ -56,13 +57,13 @@ class IDistribution(model.Schema):
         initial_path='/standards/',
         pattern_options={
             'selectableTypes': ['dctstandard'],
-        }
+        },
     )
 
     dct_conformsTo = RelationChoice(
+        required=False,
         title=_(u'Standards'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=False,
     )
 
     form.widget(
@@ -73,13 +74,13 @@ class IDistribution(model.Schema):
         initial_path='/formats/',
         pattern_options={
             'selectableTypes': ['dct_mediatypeorextent'],
-        }
+        },
     )
 
     dct_format = RelationChoice(
+        required=False,
         title=_(u'Format'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=False,
     )
 
     form.widget(
@@ -90,30 +91,30 @@ class IDistribution(model.Schema):
         initial_path='/formats/',
         pattern_options={
             'selectableTypes': ['dct_mediatypeorextent'],
-        }
+        },
     )
 
     dcat_mediatype = RelationChoice(
+        required=True,
         title=_(u'Media type'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=True,
     )
 
     dct_issued = schema.Date(
+        required=False,
         title=(u'Issued'),
-        required=False
     )
 
     dct_modified = schema.Date(
+        required=False,
         title=(u'Modified'),
-        required=False
     )
 
 
 @implementer(IDistribution)
 class Distribution(Container):
-    """
-    """
+    """Distribution Content Type."""
+
     _Title = ''
 
     def Title(self):
@@ -123,12 +124,13 @@ class Distribution(Container):
 
 
 class DistributionDefaultFactory(DexterityFactory):
+    """Custom DX factory for Distribution."""
 
     def __init__(self):
         self.portal_type = CT_Distribution
 
     def __call__(self, *args, **kw):
-        # TODO: get context and maybe change it
+        # Fix: get context and maybe change it
         from pkan.dcatapde.api.distribution import clean_distribution
         data, errors = clean_distribution(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Work with Catalogs."""
+
 from pkan.dcatapde.constants import CT_Catalog
 from pkan.dcatapde.content.catalog import Catalog
 from pkan.dcatapde.content.catalog import ICatalog
@@ -8,7 +10,7 @@ from zope.schema import getValidationErrors
 
 # Data Cleaning Methods
 def clean_catalog(**data):
-
+    """Clean Catalogs."""
     test_catalog = Catalog()
 
     for attr in data:
@@ -19,9 +21,9 @@ def clean_catalog(**data):
     return data, errors
 
 
-
 # Add Methods
 def add_catalog(context, **data):
+    """Add a new Catalog."""
     data, errors = clean_catalog(**data)
 
     catalog = create(container=context, type=CT_Catalog, **data)

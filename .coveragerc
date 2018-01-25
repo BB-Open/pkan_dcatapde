@@ -1,0 +1,6 @@
+[report]
+include =
+    src/pkan/*
+omit =
+    */test*
+    */upgrades/*

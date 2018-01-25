@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+""""Harvester Folder Content Type."""
+
 from pkan.dcatapde.constants import CT_HarvesterFolder
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -7,23 +9,22 @@ from zope.interface import implementer
 
 
 class IHarvesterfolder(model.Schema):
-    """ Marker interfce and Dexterity Python Schema for Harvesterfolder
-    """
+    """Marker interface and Dexterity Python Schema for Harvesterfolder."""
 
 
 @implementer(IHarvesterfolder)
 class Harvesterfolder(Container):
-    """
-    """
+    """Harvester Folder Content Type."""
 
 
 class HarvesterFolderDefaultFactory(DexterityFactory):
+    """Custom DX factory for Harvester Folder."""
 
     def __init__(self):
         self.portal_type = CT_HarvesterFolder
 
     def __call__(self, *args, **kw):
-        # TODO: get context and maybe change it
+        # Fix: get context and maybe change it
         from pkan.dcatapde.api.harvester import clean_harvesterfolder
         data, errors = clean_harvesterfolder(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)

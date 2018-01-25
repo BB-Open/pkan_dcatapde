@@ -1,38 +1,49 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-  xmlns:five="http://namespaces.zope.org/five"
-  xmlns:zcml="http://namespaces.zope.org/zcml"
-  xmlns:browser="http://namespaces.zope.org/browser">
+    xmlns:zcml="http://namespaces.zope.org/zcml">
 
-  <adapter factory=".dexterity.Dexterity2Surf"
-    provides=".interfaces.IObject2Surf" />
+  <adapter
+      factory=".dexterity.Dexterity2Surf"
+      provides=".interfaces.IObject2Surf"
+      />
 
-  <adapter factory=".dexterity.Dexterity2Surf"
-    for="plone.dexterity.interfaces.IDexterityContainer .interfaces.ISurfSession"
-    provides=".interfaces.IObject2Surf" />
+  <adapter
+      factory=".dexterity.Dexterity2Surf"
+      for="plone.dexterity.interfaces.IDexterityContainer
+           .interfaces.ISurfSession"
+      provides=".interfaces.IObject2Surf"
+      />
 
-  <adapter factory=".dexterity.Dexterity2Surf"
-    for="plone.dexterity.content.Container .interfaces.ISurfSession"
-    provides=".interfaces.IObject2Surf" />
+  <adapter
+      factory=".dexterity.Dexterity2Surf"
+      for="plone.dexterity.content.Container
+           .interfaces.ISurfSession"
+      provides=".interfaces.IObject2Surf"
+      />
 
   <!-- DCAT-AP.de adapters -->
+  <adapter
+      factory=".dcat.FOAF2Surf"
+      for="pkan.dcatapde.content.foafagent.IFoafagent
+           .interfaces.ISurfSession"
+      provides=".interfaces.IObject2Surf"
+      />
 
-  <adapter factory=".dcat.FOAF2Surf"
-    for="pkan.dcatapde.content.foafagent.IFoafagent .interfaces.ISurfSession"
-    provides=".interfaces.IObject2Surf" />
-
-  <adapter factory=".dcat.Catalog2Surf"
-    for="pkan.dcatapde.content.catalog.ICatalog .interfaces.ISurfSession"
-    provides=".interfaces.IObject2Surf" />
+  <adapter
+      factory=".dcat.Catalog2Surf"
+      for="pkan.dcatapde.content.catalog.ICatalog
+           .interfaces.ISurfSession"
+      provides=".interfaces.IObject2Surf"
+      />
 
   <!-- rdfs adapters -->
   <adapter factory=".dexterity.DexterityFTI2Surf" />
 
   <adapter
-    factory=".fields.DexterityField2RdfSchema"
-    provides=".interfaces.IFieldDefinition2Surf" />
+      factory=".fields.DexterityField2RdfSchema"
+      provides=".interfaces.IFieldDefinition2Surf"
+      />
 
   <!-- Field adapters -->
-
   <adapter factory=".fields.DXField2Surf" />
   <adapter factory=".fields.RichValue2Surf" />
 
@@ -42,37 +53,52 @@
   </configure>
 
   <!-- Specific dexterity @@rdf modifiers -->
+  <subscriber
+      factory=".modifiers.WorkflowStateModifier"
+      provides=".interfaces.ISurfResourceModifier"
+      />
 
-  <subscriber factory=".modifiers.WorkflowStateModifier"
-    provides=".interfaces.ISurfResourceModifier" />
+  <subscriber
+      factory=".modifiers.IsPartOfModifier"
+      provides=".interfaces.ISurfResourceModifier"
+      />
 
-  <subscriber factory=".modifiers.IsPartOfModifier"
-    provides=".interfaces.ISurfResourceModifier" />
+  <subscriber
+      factory=".modifiers.TranslationInfoModifier"
+      provides=".interfaces.ISurfResourceModifier"
+      />
 
-  <subscriber factory=".modifiers.TranslationInfoModifier"
-    provides=".interfaces.ISurfResourceModifier" />
+  <subscriber
+      factory=".modifiers.ProvidedInterfacesModifier"
+      provides=".interfaces.ISurfResourceModifier"
+      />
 
-  <subscriber factory=".modifiers.ProvidedInterfacesModifier"
-    provides=".interfaces.ISurfResourceModifier" />
+  <subscriber
+      factory=".modifiers.SearchableTextInModifier"
+      provides=".interfaces.ISurfResourceModifier"
+      />
 
-  <subscriber factory=".modifiers.SearchableTextInModifier"
-    provides=".interfaces.ISurfResourceModifier" />
+  <subscriber
+      factory=".modifiers.RelatedItemsModifier"
+      provides=".interfaces.ISurfResourceModifier"
+      />
 
-  <subscriber factory=".modifiers.RelatedItemsModifier"
-    provides=".interfaces.ISurfResourceModifier" />
-
-  <subscriber zcml:condition="installed collective.cover"
-    factory=".extras.CoverTilesModifier"
-    provides=".interfaces.ISurfResourceModifier" />
+  <subscriber
+      zcml:condition="installed collective.cover"
+      factory=".extras.CoverTilesModifier"
+      provides=".interfaces.ISurfResourceModifier"
+      />
 
   <configure zcml:condition="installed plone.app.contenttypes">
     <subscriber
-      factory=".extras.ImageModifier"
-      provides=".interfaces.ISurfResourceModifier" />
+        factory=".extras.ImageModifier"
+        provides=".interfaces.ISurfResourceModifier"
+        />
 
     <subscriber
-      factory=".extras.FileModifier"
-      provides=".interfaces.ISurfResourceModifier" />
+        factory=".extras.FileModifier"
+        provides=".interfaces.ISurfResourceModifier"
+        />
   </configure>
 
   <class class="surf.Session">
@@ -88,6 +114,5 @@
   <adapter factory=".value.Tuple2Surf" />
   <adapter factory=".value.URIRef2Surf" />
   <adapter factory=".value.Value2Surf" />
-
 
 </configure>

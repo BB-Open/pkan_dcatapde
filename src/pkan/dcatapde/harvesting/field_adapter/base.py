@@ -18,25 +18,27 @@ class BaseField(object):
 
         if self.field.required:
             title = '{CT}: {field_name} required'.format(
-                CT=prefix + ct, field_name=field_name
+                CT=prefix + ct, field_name=field_name,
             )
             token = '{CT}__{field_name}__required'.format(
-                CT=prefix + ct, field_name=field_name
+                CT=prefix + ct, field_name=field_name,
             )
             terms.append(
                 SimpleTerm(
-                    value=token, token=token, title=title)
+                    value=token, token=token, title=title,
+                ),
             )
         else:
             title = '{CT}: {field_name}'.format(
-                CT=prefix + ct, field_name=field_name
+                CT=prefix + ct, field_name=field_name,
             )
             token = '{CT}__{field_name}'.format(
-                CT=prefix + ct, field_name=field_name
+                CT=prefix + ct, field_name=field_name,
             )
             terms.append(
                 SimpleTerm(
-                    value=token, token=token, title=title)
+                    value=token, token=token, title=title,
+                ),
             )
         return terms
 

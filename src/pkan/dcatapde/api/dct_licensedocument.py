@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Work with dct_licensedocument."""
+
 from pkan.dcatapde.constants import CT_DctLicenseDocument
 from pkan.dcatapde.content.dct_licensedocument import Dct_Licensedocument
 from pkan.dcatapde.content.dct_licensedocument import IDct_Licensedocument
@@ -8,7 +10,7 @@ from zope.schema import getValidationErrors
 
 # Data Cleaning Methods
 def clean_dct_licensedocument(**data):
-
+    """Clean dct_licensedocument."""
     test_license = Dct_Licensedocument()
 
     for attr in data:
@@ -18,9 +20,10 @@ def clean_dct_licensedocument(**data):
 
     return data, errors
 
+
 # Add Methods
 def add_dct_licensedocument(context, **data):
-
+    """Add a new dct_licensedocument."""
     data, errors = clean_dct_licensedocument(**data)
     result = create(container=context, type=CT_DctLicenseDocument, **data)
 

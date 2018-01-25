@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Constants for easier access."""
+
 CT_Catalog = 'catalog'
 CT_Foafagent = 'foafagent'
 CT_DctLicenseDocument = 'dct_licensedocument'
@@ -19,7 +21,7 @@ HARVESTER_FIELD_CONFIG_ID = 'field_config'
 DCAT_CTs = [
     CT_Catalog,
     CT_Dataset,
-    CT_Distribution
+    CT_Distribution,
 ]
 
 # HTML filled with error information from harvesting dry_run

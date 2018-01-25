@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de Catalog entity marshaller"""
+
 from pkan.dcatapde.content.catalog import ICatalog
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.source.dcatapde.interfaces import ICatalog2RDF
@@ -11,27 +12,25 @@ from zope.interface import implementer
 @implementer(ICatalog2RDF)
 @adapter(ICatalog, IRDFMarshallTarget)
 class Catalog2RDF(DCAT2RDF):
-    """
-    Marshaller DCAT-AP.de Catalogs
-    """
+    """Marshaller DCAT-AP.de Catalogs."""
 
-    _namespace = "dcat"
-    _ns_class = "catalog"
+    _namespace = 'dcat'
+    _ns_class = 'catalog'
 
     @property
     def properties(self):
-        """
-        Do nothing
-        :return: 
+        """Return properties.
+
+        :return:
         """
         result = super(Catalog2RDF, self).properties
         return result
 
     @property
     def contained(self):
-        """
-        Return all contained items
-        :return: 
+        """Return all contained items.
+
+        :return:
         """
         result = {}
         if self.context.isPrincipiaFolderish:
@@ -41,9 +40,9 @@ class Catalog2RDF(DCAT2RDF):
 
     @property
     def referenced(self):
-        """
-        Return all referenced items
-        :return: 
+        """Return all referenced items.
+
+        :return:
         """
         related = super(Catalog2RDF, self).referenced
         related['dct:publisher'] = self.context.dct_publisher.to_object

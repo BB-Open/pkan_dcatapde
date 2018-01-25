@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Work with dct_mediatypeorextent."""
+
 from pkan.dcatapde.constants import CT_DctMediatypeorextent
 from pkan.dcatapde.content.dct_mediatypeorextent import Dct_Mediatypeorextent
 from pkan.dcatapde.content.dct_mediatypeorextent import IDct_Mediatypeorextent
@@ -8,7 +10,7 @@ from zope.schema import getValidationErrors
 
 # Data Cleaning Methods
 def clean_dct_mediatypeorextent(**data):
-
+    """Clean dct_mediatypeorextent."""
     test_obj = Dct_Mediatypeorextent()
 
     for attr in data:
@@ -18,9 +20,10 @@ def clean_dct_mediatypeorextent(**data):
 
     return data, errors
 
+
 # Add Methods
 def add_dct_mediatypeorextent(context, **data):
-
+    """Add a new dct_mediatypeorextent."""
     data, errors = clean_dct_mediatypeorextent(**data)
     result = create(container=context, type=CT_DctMediatypeorextent, **data)
 

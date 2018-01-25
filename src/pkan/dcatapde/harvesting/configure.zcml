@@ -1,25 +1,24 @@
-<configure
-        xmlns="http://namespaces.zope.org/zope"
-        i18n_domain="pkan.dcatapde">
+<configure xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="pkan.dcatapde">
 
-    <include package=".field_adapter"/>
+  <include package=".field_adapter"/>
 
-    <adapter
-    for="pkan.dcatapde.content.harvester.IHarvester"
-    provides=".interfaces.IJson"
-    factory=".adapter.JsonProcessor"
-    />
+  <adapter
+      factory=".adapter.JsonProcessor"
+      for="pkan.dcatapde.content.harvester.IHarvester"
+      provides=".interfaces.IJson"
+      />
 
-    <adapter
-    for="pkan.dcatapde.content.harvester.IHarvester"
-    provides=".interfaces.IXml"
-    factory=".adapter.XmlProcessor"
-    />
+  <adapter
+      factory=".adapter.XmlProcessor"
+      for="pkan.dcatapde.content.harvester.IHarvester"
+      provides=".interfaces.IXml"
+      />
 
-    <adapter
-    for="pkan.dcatapde.harvesting.interfaces.IImportSource"
-    provides=".prep_interfaces.IPotsdam"
-    factory=".prep_adapter.PotsdamPreprocessor"
-    />
+  <adapter
+      factory=".prep_adapter.PotsdamPreprocessor"
+      for="pkan.dcatapde.harvesting.interfaces.IImportSource"
+      provides=".prep_interfaces.IPotsdam"
+      />
 
 </configure>

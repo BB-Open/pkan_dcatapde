@@ -4,61 +4,64 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="pkan.dcatapde">
 
-    <adapter for=".catalog.ICatalog"
-         provides=".catalog.INameFromCatalog"
-         factory=".catalog.NameFromCatalog"
-         />
+    <adapter
+        factory=".catalog.NameFromCatalog"
+        for=".catalog.ICatalog"
+        provides=".catalog.INameFromCatalog"
+        />
 
-    <adapter for=".dataset.IDataset"
-         provides=".catalog.INameFromCatalog"
-         factory=".catalog.NameFromCatalog"
-         />
+    <adapter
+        factory=".catalog.NameFromCatalog"
+        for=".dataset.IDataset"
+        provides=".catalog.INameFromCatalog"
+        />
 
-    <adapter for=".distribution.IDistribution"
-         provides=".catalog.INameFromCatalog"
-         factory=".catalog.NameFromCatalog"
-         />
+    <adapter
+        factory=".catalog.NameFromCatalog"
+        for=".distribution.IDistribution"
+        provides=".catalog.INameFromCatalog"
+        />
 
     <utility
-        provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".catalog.CatalogDefaultFactory"
         name="catalog"
-    />
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        />
 
     <utility
-        provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".dataset.DatasetDefaultFactory"
         name="dataset"
-    />
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        />
 
     <utility
-        provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".distribution.DistributionDefaultFactory"
         name="distribution"
-    />
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        />
 
     <utility
-        provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".foafagent.FoafagentDefaultFactory"
         name="foafagent"
-    />
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        />
 
     <utility
-        provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".harvester.HarvesterDefaultFactory"
         name="harvester"
-    />
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        />
 
     <utility
-        provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".harvester_field_config.FieldConfigDefaultFactory"
         name="harvester_field_config"
-    />
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        />
 
     <utility
-        provides="plone.dexterity.interfaces.IDexterityFactory"
         factory=".harvesterfolder.HarvesterFolderDefaultFactory"
         name="harvesterfolder"
-    />
+        provides="plone.dexterity.interfaces.IDexterityFactory"
+        />
 
 </configure>

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Harvester Field Config Content Type."""
+
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
 from pkan.dcatapde import _
@@ -14,63 +16,64 @@ from zope.interface import implementer
 
 
 class IField(model.Schema):
+    """Schema for Harvester Fields."""
 
     dcat_field = schema.Choice(
-        vocabulary='pkan.dcatapde.DcatFieldVocabulary',
-        title=_(u'Dcat Field'),
         required=True,
+        title=_(u'Dcat Field'),
+        vocabulary='pkan.dcatapde.DcatFieldVocabulary',
     )
 
     source_field = schema.Choice(
-        vocabulary='pkan.dcatapde.SourceFieldVocabulary',
-        title=_(u'Source Field'),
         required=False,
+        title=_(u'Source Field'),
+        vocabulary='pkan.dcatapde.SourceFieldVocabulary',
     )
 
     prio = schema.Int(
-        title=_(u'Priority'),
         required=True,
+        title=_(u'Priority'),
     )
 
 
 class IHarvesterFieldConfig(model.Schema):
-    ''' Marker interface and Dexterity Python Schema for HarvesterFieldConfig
-    '''
+    """Marker interface and DX Python Schema for HarvesterFieldConfig."""
 
     form.widget(fields=DataGridFieldFactory)
     fields = schema.List(
-        title=_(u'Fields'),
-        description=_(
-            u'''Select Fields. Required fields can't be removed.
-            If you remove them, they will be readded after saving.'''),
         defaultFactory=ConfigFieldDefaultFactory,
+        description=_(
+            u'Select Fields. Required fields can\'t be removed. '
+            u'If you remove them, they will be readded after saving.',
+        ),
+        required=True,
+        title=_(u'Fields'),
         value_type=DictRow(
             title=_(u'Tables'),
             schema=IField,
         ),
-        required=True,
     )
 
     base_object = RelationChoice(
+        required=False,
         title=_(u'Base Object'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=False,
     )
 
 
 @implementer(IHarvesterFieldConfig)
 class HarvesterFieldConfig(Container):
-    '''
-    '''
+    """Harvester Field Config Content Type."""
 
 
 class FieldConfigDefaultFactory(DexterityFactory):
+    """Custom DX factory for Harvester Field Config."""
 
     def __init__(self):
         self.portal_type = CT_HarvesterFieldConfig
 
     def __call__(self, *args, **kw):
-        # TODO: get context and maybe change it
+        # Fix: get context and maybe change it
         from pkan.dcatapde.api.harvester import clean_fieldconfig
         data, errors = clean_fieldconfig(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)

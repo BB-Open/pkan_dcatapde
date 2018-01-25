@@ -1,0 +1,349 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2018-01-25 15:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: pkan/dcatapde/config/templates/controlpanel.pt:50
+msgid "<p>The list below is a set of controlpanels to configure the main parts of the mailcenter. </p> <ul> <li><a href=\"${DYNAMIC_CONTENT}\" title=\"${DYNAMIC_CONTENT}\">${DYNAMIC_CONTENT}</a></li> </ul>"
+msgstr ""
+
+#: pkan/dcatapde/api/harvester.py:64
+msgid "API: Cannot create second field config for harvester"
+msgstr ""
+
+#: pkan/dcatapde/api/harvester.py:94
+msgid "API: Cannot create second harvester_folder folder"
+msgstr ""
+
+#: pkan/dcatapde/content/dct_licensedocument.py:18
+#: pkan/dcatapde/content/dct_mediatypeorextent.py:18
+#: pkan/dcatapde/content/distribution.py:34
+msgid "Access URI"
+msgstr ""
+
+#: pkan/dcatapde/content/catalog.py:66
+msgid "Add a new license or chose one from the list of licenses"
+msgstr ""
+
+#: pkan/dcatapde/content/catalog.py:46
+#: pkan/dcatapde/content/dataset.py:67
+msgid "Add a new publisher or chose one from the list of publishers"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:45
+msgid "Agents"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/harvesterfolder.xml
+msgid "Base Folder for Havester"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester_field_config.py:59
+msgid "Base Object"
+msgstr ""
+
+#: pkan/dcatapde/content/distribution.py:49
+msgid "Byte size"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/catalog.xml
+msgid "Catalog"
+msgstr ""
+
+#: pkan/dcatapde/config/interfaces.py:32
+msgid "Configure Harvester to be filled with exported Data"
+msgstr ""
+
+#: pkan/dcatapde/config/views.py:39
+msgid "Configure your Harvester here."
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:96
+msgid "Contributor"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:35
+msgid "Contributor ID"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:79
+msgid "Creator"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/catalog.xml
+msgid "DCAT Catalog"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/dataset.xml
+msgid "DCAT Dataset"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/distribution.xml
+msgid "DCAT distribution"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/dct_licensedocument.xml
+msgid "DCT License Document"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/dct_mediatypeorextent.xml
+msgid "DCT Media Type or Extend"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/dataset.xml
+msgid "Dataset"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:145
+msgid "Dates, Geo, etc"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester_field_config.py:23
+msgid "Dcat Field"
+msgstr ""
+
+#: pkan/dcatapde/content/catalog.py:31
+#: pkan/dcatapde/content/dataset.py:30
+#: pkan/dcatapde/content/distribution.py:29
+msgid "Description"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/distribution.xml
+msgid "Distribution"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/catalog.xml
+#: pkan/dcatapde/profiles/default/types/dataset.xml
+#: pkan/dcatapde/profiles/default/types/dct_licensedocument.xml
+msgid "Edit"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/foafagent.xml
+msgid "FOAF Agent"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/foafagent.xml
+msgid "FOAFAgent"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/harvester_field_config.xml
+msgid "Field Config for a Harvester"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester_field_config.py:50
+msgid "Fields"
+msgstr ""
+
+#: pkan/dcatapde/content/distribution.py:73
+msgid "Format"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:169
+msgid "Geocoding text"
+msgstr ""
+
+#: pkan/dcatapde/config/views.py:36
+msgid "Harverster Configuration"
+msgstr ""
+
+#: pkan/dcatapde/config/interfaces.py:34
+#: pkan/dcatapde/profiles/default/types/harvester.xml
+msgid "Harvester"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/actions.xml
+msgid "Harvester Configuration"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/harvester_field_config.xml
+msgid "Harvester Field Config"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/harvester.xml
+msgid "Harvester Object"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/harvesterfolder.xml
+msgid "HarvesterFolder"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester.py:19
+msgid "Harvesting Source"
+msgstr ""
+
+#: pkan/dcatapde/config/templates/controlpanel.pt:38
+msgid "Here you have access to all controlpanels related to inqbus mailcenter. Make your choice."
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:184
+msgid "Identifier"
+msgstr ""
+
+#: pkan/dcatapde/configure.zcml:36
+msgid "Installs the pkan.dcatapde add-on."
+msgstr ""
+
+#: pkan/dcatapde/content/literal.py:21
+msgid "Language"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:193
+msgid "Legal basis text"
+msgstr ""
+
+#: pkan/dcatapde/content/distribution.py:44
+msgid "Licence attribution by text"
+msgstr ""
+
+#: pkan/dcatapde/content/catalog.py:58
+msgid "License"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/literal.xml
+msgid "Literal"
+msgstr ""
+
+#: pkan/dcatapde/browser/content_views/templates/dry_run.pt:25
+msgid "Log:"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:130
+msgid "Maintainer"
+msgstr ""
+
+#: pkan/dcatapde/content/distribution.py:90
+msgid "Media type"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:113
+msgid "Originator"
+msgstr ""
+
+#: pkan/dcatapde/config/views.py:120
+msgid "Pkan Dcatapde Main Config"
+msgstr ""
+
+#: pkan/dcatapde/content/distribution.py:39
+msgid "Planed availability"
+msgstr ""
+
+#: pkan/dcatapde/browser/add_views/field_config.py:17
+msgid "Please correct errors"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:179
+msgid "PoliticalGeocodingLevelURI"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:174
+msgid "PoliticalGeocodingURI"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester.py:30
+msgid "Preprocessor"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester_field_config.py:35
+msgid "Priority"
+msgstr ""
+
+#: pkan/dcatapde/content/catalog.py:38
+#: pkan/dcatapde/content/dataset.py:59
+msgid "Publisher"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/literal.xml
+msgid "RDF Literal with language tag"
+msgstr ""
+
+#: pkan/dcatapde/browser/add_views/field_config.py:13
+msgid "Save"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester.py:24
+msgid "Schema Type"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester_field_config.py:45
+msgid "Select Fields. Required fields can't be removed. If you remove them, they will be readded after saving."
+msgstr ""
+
+#: pkan/dcatapde/config/templates/controlpanel.pt:15
+msgid "Site Setup"
+msgstr ""
+
+#: pkan/dcatapde/content/harvester_field_config.py:29
+msgid "Source Field"
+msgstr ""
+
+#: pkan/dcatapde/content/distribution.py:56
+msgid "Standards"
+msgstr ""
+
+#: pkan/dcatapde/config/views.py:88
+msgid "Stored Changes"
+msgstr ""
+
+#: pkan/dcatapde/config/interfaces.py:36
+#: pkan/dcatapde/content/harvester_field_config.py:52
+msgid "Tables"
+msgstr ""
+
+#: pkan/dcatapde/content/literal.py:16
+msgid "Text"
+msgstr ""
+
+#: pkan/dcatapde/content/catalog.py:26
+#: pkan/dcatapde/content/dataset.py:25
+#: pkan/dcatapde/content/distribution.py:24
+msgid "Title"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:40
+msgid "URI"
+msgstr ""
+
+#: pkan/dcatapde/configure.zcml:45
+msgid "Uninstalls the pkan.dcatapde add-on."
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:197
+msgid "Version Notes"
+msgstr ""
+
+#: pkan/dcatapde/content/dataset.py:189
+msgid "Version info"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/catalog.xml
+#: pkan/dcatapde/profiles/default/types/dataset.xml
+#: pkan/dcatapde/profiles/default/types/dct_licensedocument.xml
+msgid "View"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/dct_licensedocument.xml
+msgid "dct_licensedocument"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/types/dct_mediatypeorextent.xml
+msgid "dct_mediatypeorextent"
+msgstr ""
+
+#: pkan/dcatapde/configure.zcml:36
+msgid "pkan.dcatapde"
+msgstr ""
+
+#: pkan/dcatapde/configure.zcml:45
+msgid "pkan.dcatapde (uninstall)"
+msgstr ""

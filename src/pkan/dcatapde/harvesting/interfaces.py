@@ -1,44 +1,40 @@
 # -*- coding: utf-8 -*-
+"""Harvester interfaces."""
+
 from zope.interface import Interface
 
 
 class IImportSource(Interface):
-    """
-    Base Interface for Source types
-    """
+    """Base Interface for Source types."""
 
     def read_available_fields(self):
-        """
-        Read fields from data source
+        """Read fields from data source.
+
         :return:
         """
 
     def read_values(self):
-        '''
-        Read fields and
+        """Read fields and
+
         :return:
-        '''
+        """
 
     def dry_run(self):
-        '''
-        Dry Run: Returns Log-Information
+        """Dry Run: Returns Log-Information.
+
         :return:
-        '''
+        """
 
     def real_run(self):
-        '''
-        Create Objects
+        """Create Objects.
+
         :return:
-        '''
+        """
 
 
 class IJson(IImportSource):
-    """
-    Interface for JSON data
-    """
+    """Interface for JSON data."""
 
 
 class IXml(IImportSource):
-    """
-    Interface for XML data
-    """
+    """Interface for XML data."""

@@ -5,33 +5,31 @@
       lang="en"
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="pkan.dcatapde">
-<body>
-
-<metal:main fill-slot="main">
-    <tal:main-macro metal:define-macro="main"
-        tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime;
-                    here context/absolute_url">
-
+  <body>
+    <metal:main fill-slot="main">
+      <tal:main-macro
+          metal:define-macro="main"
+          tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+                      here context/absolute_url">
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
-        <h1 class="documentFirstHeading" tal:content="context/title" />
+        <h1 class="documentFirstHeading" tal:content="context/title">[title]</h1>
 
         <div tal:replace="structure provider:plone.belowcontenttitle" />
 
-        <p class="documentDescription" tal:content="context/description" />
+        <p class="documentDescription" tal:content="context/description">[description]</p>
 
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
         <div>
-            <p>Log:</p>
+            <p i18n:translate="">Log:</p>
             <div tal:replace="structure view/log" />
         </div>
 
 
         <div tal:replace="structure provider:plone.belowcontentbody" />
 
-    </tal:main-macro>
-</metal:main>
-
-</body>
+      </tal:main-macro>
+    </metal:main>
+  </body>
 </html>

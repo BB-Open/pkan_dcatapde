@@ -32,7 +32,7 @@ class RelationAdapter(BaseField):
         if field_name in widgets:
             params = widgets[field_name].params
             if ('pattern_options' in params) and (
-                        'selectableTypes' in params['pattern_options']):
+                    'selectableTypes' in params['pattern_options']):
                 return params['pattern_options']['selectableTypes']
             elif 'content_type' in params:
                 return [params['content_type']]

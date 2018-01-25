@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-""" Modifiers """
-from .interfaces import ISurfResourceModifier
+"""Modifiers."""
+
+from pkan.dcatapde.io.rdf.interfaces import ISurfResourceModifier
 from plone.api.content import get_state
 from plone.api.portal import get_tool
 from plone.dexterity.interfaces import IDexterityContent
@@ -23,22 +24,20 @@ except ImportError:
 
 
 ILLEGAL_XML_CHARS_PATTERN = re.compile(
-    u'[\x00-\x08\x0b\x0c\x0e-\x1F\uD800-\uDFFF\uFFFE\uFFFF]'
+    u'[\x00-\x08\x0b\x0c\x0e-\x1F\uD800-\uDFFF\uFFFE\uFFFF]',
 )
 
 
 @implementer(ISurfResourceModifier)
 @adapter(IDexterityContent)
 class WorkflowStateModifier(object):
-    """Adds workflow information information to rdf resources
-    """
+    """Add workflow information information to rdf resources."""
 
     def __init__(self, context):
         self.context = context
 
     def run(self, resource, *args, **kwds):
-        """Change the rdf resource
-        """
+        """Change the rdf resource."""
         plone_portal_state = self.context.restrictedTraverse(
             '@@plone_portal_state')
         portal_url = plone_portal_state.portal_url()
@@ -52,20 +51,28 @@ class WorkflowStateModifier(object):
 
         status = get_state(self.context, 'review_state')
         if status is not None:
-            status = ''.join([portal_url,
-                              '/portal_workflow/',
-                              getattr(wf, 'getId', lambda: '')(),
-                              '/states/',
-                              status])
+            status = ''.join([
+                portal_url,
+                '/portal_workflow/',
+                getattr(wf, 'getId', lambda: '')(),
+                '/states/',
+                status,
+            ])
             try:
-                setattr(resource, '{0}_{1}'.format('eea', 'hasWorkflowState'),
-                        rdflib.URIRef(status))
+                setattr(
+                    resource,
+                    '{0}_{1}'.format('eea', 'hasWorkflowState'),
+                    rdflib.URIRef(status),
+                )
             except Exception:
-                log.log('RDF marshaller error for context[workflow_state]'
-                        '"{0}": \n{1}: {2}'.format(
-                            self.context.absolute_url(),
-                            sys.exc_info()[0], sys.exc_info()[1]),
-                        severity=log.logging.WARN)
+                log.log(
+                    'RDF marshaller error for context[workflow_state]'
+                    '"{0}": \n{1}: {2}'.format(
+                        self.context.absolute_url(),
+                        sys.exc_info()[0], sys.exc_info()[1],
+                    ),
+                    severity=log.logging.WARN,
+                )
         return resource
 
 
@@ -73,15 +80,13 @@ class WorkflowStateModifier(object):
 @implementer(ISurfResourceModifier)
 @adapter(IDexterityContent)
 class IsPartOfModifier(object):
-    """Adds dcterms_isPartOf information to rdf resources
-    """
+    """Add dcterms_isPartOf information to rdf resources."""
 
     def __init__(self, context):
         self.context = context
 
     def run(self, resource, *args, **kwds):
-        """Change the rdf resource
-        """
+        """Change the rdf resource."""
         parent = self.context.getParentNode()
         if parent is not None:
             try:
@@ -98,31 +103,35 @@ class IsPartOfModifier(object):
 @implementer(ISurfResourceModifier)
 @adapter(IDexterityContent)
 class TranslationInfoModifier(object):
-    """Adds translation info
-    """
+    """Add translation info."""
 
     def __init__(self, context):
         self.context = context
 
     def run(self, resource, *args, **kwds):
-        """Change the rdf resource
-        """
+        """Change the rdf resource."""
         context = self.context
 
         # ZZZ: should watch for availability of plone.app.multilingual
         if has_plone_multilingual:
             translations = ITranslationManager(
-                context).get_translated_languages()
+                context,
+            ).get_translated_languages()
 
             if translations:
-                translations_objs = [ITranslationManager.get_translation(o)
-                                     for o in translations]
-                resource.eea_hasTranslation = \
-                    [rdflib.URIRef(o.absolute_url()) for o in translations_objs
-                     if o.absolute_url() != context.absolute_url()]
+                translations_objs = [
+                    ITranslationManager.get_translation(o)
+                    for o in translations
+                ]
+                resource.eea_hasTranslation = [
+                    rdflib.URIRef(o.absolute_url())
+                    for o in translations_objs
+                    if o.absolute_url() != context.absolute_url()
+                ]
             else:
-                resource.eea_isTranslationOf = \
-                    rdflib.URIRef(context.absolute_url())
+                resource.eea_isTranslationOf = rdflib.URIRef(
+                    context.absolute_url(),
+                )
         else:
             resource.eea_hasTranslation = ['No Translation']
             return
@@ -131,62 +140,60 @@ class TranslationInfoModifier(object):
 @implementer(ISurfResourceModifier)
 @adapter(IDexterityContent)
 class ProvidedInterfacesModifier(object):
-    """Adds information about provided interfaces
-    """
+    """Add information about provided interfaces."""
 
     def __init__(self, context):
         self.context = context
 
     def run(self, resource, *args, **kwds):
-        """Change the rdf resource
-        """
-        provides = ['{0}.{1}'.format(iface.__module__ or '', iface.__name__)
-                    for iface in providedBy(self.context)]
+        """Change the rdf resource."""
+        provides = [
+            '{0}.{1}'.format(iface.__module__ or '', iface.__name__)
+            for iface in providedBy(self.context)
+        ]
         resource.eea_objectProvides = provides
 
 
 @implementer(ISurfResourceModifier)
 @adapter(IDexterityContent)
 class SearchableTextInModifier(object):
-    """Adds searchable text info
-    """
+    """Add searchable text info."""
 
     def __init__(self, context):
         self.context = context
 
     def run(self, resource, *args, **kwds):
-        """Change the rdf resource
-        """
+        """Change the rdf resource."""
         resource.dcterms_abstract = ILLEGAL_XML_CHARS_PATTERN.sub(
-            '', self.context.SearchableText())
+            '',
+            self.context.SearchableText(),
+        )
 
 
 @implementer(ISurfResourceModifier)
 @adapter(IDexterityContent)
 class RelatedItemsModifier(object):
-    """Adds dcterms:references
-    """
+    """Add dcterms:references."""
 
     def __init__(self, context):
         self.context = context
 
     def run(self, resource, *args, **kwds):
-        """Change the rdf resource
-        """
+        """Change the rdf resource."""
         if not getattr(self.context, 'relatedItems', None):
             return
 
         resource.dcterms_references = [
             rdflib.URIRef(o.to_object.absolute_url())
-            for o in self.context.relatedItems]
+            for o in self.context.relatedItems
+        ]
 
 
 # This one comes from eea.dataservices
 
 @implementer(ISurfResourceModifier)
 class BaseFileModifier(object):
-    """Adds dcterms:format
-    """
+    """Add dcterms:format."""
 
     field = ''
 
@@ -194,8 +201,7 @@ class BaseFileModifier(object):
         self.context = context
 
     def run(self, resource, *args, **kwds):
-        """change the rdf resource
-        """
+        """Change the rdf resource."""
         item = getattr(self.context, self.field)
         if not item:
             return
