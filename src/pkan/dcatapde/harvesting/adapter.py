@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Harvesting adapter."""
+
 from pkan.dcatapde import constants as c
 from pkan.dcatapde.api.catalog import add_catalog
 from pkan.dcatapde.api.catalog import clean_catalog
@@ -21,21 +23,23 @@ import xml
 
 
 ADD_METHODS_SUB_CTS = {
-    c.CT_Foafagent: add_foafagent
+    c.CT_Foafagent: add_foafagent,
 }
 
 CLEAN_METHODS_SUB_CTS = {
-    c.CT_Foafagent: clean_foafagent
+    c.CT_Foafagent: clean_foafagent,
 }
 
 
 class BaseProcessor(object):
+    """Base processor."""
+
     def __init__(self, obj):
         self.obj = obj
         self.cleared_data = None
         self.field_config = get_field_config(self.obj)
         self.context = self.field_config.base_object.to_object
-        
+
     def format_errors(self, errors):
         formatted = ''
         for error in errors:
@@ -44,7 +48,8 @@ class BaseProcessor(object):
                 field=error[0])
         return formatted
 
-    def dry_run(self):
+    def dry_run(self):  # noqa
+        """Perform a dry run."""
         log = ''
 
         if not self.cleared_data:
@@ -62,8 +67,10 @@ class BaseProcessor(object):
         elif self.context.portal_type == c.CT_Distribution:
             return log + '<p>Wrong context, cannot add anything</p>'
 
-        if c.CT_Catalog in self.cleared_data and self.cleared_data[
-            c.CT_Catalog]:
+        if (
+            c.CT_Catalog in self.cleared_data and
+            self.cleared_data[c.CT_Catalog]
+        ):
             catalogs = self.cleared_data[c.CT_Catalog]
             catalog_counter = len(catalogs)
 
@@ -72,12 +79,13 @@ class BaseProcessor(object):
                     catalogs[x] = self.context
             else:
                 for x in range(0, catalog_counter):
-                    log += '<p>Start cleaning catalog number {catalog}</p>'.format(
-                        catalog=x)
+                    log += '<p>Start cleaning catalog number {catalog}</p>'.format(  # noqa
+                        catalog=x,
+                    )
                     if isinstance(catalogs[x], int):
                         pass
                     else:
-                        # TODO instead of create check for
+                        # Fix: instead of create check for
                         # create/update/deprecated/delete
                         catalog, error = clean_catalog(**catalogs[x])
                         catalogs[x] = catalog
@@ -86,33 +94,35 @@ class BaseProcessor(object):
                     log += '<p>Cleaned catalog number {catalog}</p>'.format(
                         catalog=x)
 
-
         pass_dataset = c.CT_Dataset in pass_ct
 
-        log += self.dry_run_for_type(c.CT_Dataset,
-                                      c.CT_Catalog,
-                                      clean_dataset,
-                                      pass_obj=pass_dataset)
+        log += self.dry_run_for_type(
+            c.CT_Dataset,
+            c.CT_Catalog,
+            clean_dataset,
+            pass_obj=pass_dataset,
+        )
 
-        log += self.dry_run_for_type(c.CT_Distribution,
-                                      c.CT_Dataset,
-                                      clean_distribution)
+        log += self.dry_run_for_type(
+            c.CT_Distribution,
+            c.CT_Dataset,
+            clean_distribution,
+        )
 
         for key in keys:
             key_elements = key.split(':')
             if len(key_elements) == 3 and key_elements[0] not in pass_ct:
                 log += self.dry_run_for_subtype(key, key_elements)
-                # TODO: What if RelatedItem of RelatedItem?
+                # Fix: What if RelatedItem of RelatedItem?
                 # How deep do we have to go?
 
         return log
 
-
     def real_run(self):
-        '''
-        Create Objects
+        """Create Objects.
+
         :return:
-        '''
+        """
         log = self.dry_run()
 
         if not self.cleared_data:
@@ -145,29 +155,34 @@ class BaseProcessor(object):
                     if isinstance(catalogs[x], int):
                         pass
                     else:
-                        # TODO instead of create check for
+                        # Fix: instead of create check for
                         # create/update/deprecated/delete
                         catalog = add_catalog(self.context, **catalogs[x])
                         catalogs[x] = catalog
                         log += '<p>Created catalog {catalog}</p>'.format(
-                            catalog=catalog.title)
+                            catalog=catalog.title,
+                        )
 
         pass_dataset = c.CT_Dataset in pass_ct
 
-        log += self.real_run_for_type(c.CT_Dataset,
-                                      c.CT_Catalog,
-                                      add_dataset,
-                                      pass_obj=pass_dataset)
+        log += self.real_run_for_type(
+            c.CT_Dataset,
+            c.CT_Catalog,
+            add_dataset,
+            pass_obj=pass_dataset,
+        )
 
-        log += self.real_run_for_type(c.CT_Distribution,
-                                      c.CT_Dataset,
-                                      add_distribution)
+        log += self.real_run_for_type(
+            c.CT_Distribution,
+            c.CT_Dataset,
+            add_distribution,
+        )
 
         for key in keys:
             key_elements = key.split(':')
             if len(key_elements) == 3 and key_elements[0] not in pass_ct:
                 log += self.real_run_for_subtype(key, key_elements)
-                # TODO: What if RelatedItem of RelatedItem?
+                # Fix: What if RelatedItem of RelatedItem?
                 # How deep do we have to go?
 
         return log
@@ -192,29 +207,27 @@ class BaseProcessor(object):
             if isinstance(data_elements[x], int):
                 wanted_obj = data_elements[data_elements[x]]
             else:
-                # TODO instead of create check for
+                # Fix: instead of create check for
                 # create/update/deprecated/delete
                 wanted_obj = add_routine(self.context, **data_elements[x])
                 data_elements[x] = wanted_obj
                 log += '<p>Created {ct} {dataset}</p>'.format(
                     ct=ct,
-                    dataset=wanted_obj.title
+                    dataset=wanted_obj.title,
                 )
 
             parent = self.cleared_data[parent_ct][x]
             if isinstance(parent, int):
                 parent = self.cleared_data[parent_ct][parent]
 
-            # TODO: Check if this works with RelatedItem-Field
+            # Fix: Check if this works with RelatedItem-Field
             setattr(parent, attr, wanted_obj)
 
         return log
 
-    def real_run_for_type(self,
-                          obj_ct,
-                          parent_ct,
-                          add_routine,
-                          pass_obj=False):
+    def real_run_for_type(
+        self, obj_ct, parent_ct, add_routine, pass_obj=False,
+    ):
 
         log = ''
 
@@ -231,7 +244,7 @@ class BaseProcessor(object):
                     if isinstance(data_elements[x], int):
                         pass
                     else:
-                        # TODO instead of create check for
+                        # Fix: instead of create check for
                         # create/update/deprecated/delete
                         parent = self.cleared_data[parent_ct][x]
                         if isinstance(parent, int):
@@ -241,16 +254,14 @@ class BaseProcessor(object):
                         data_elements[x] = dataset
                         log += '<p>Created {ct} {dataset}</p>'.format(
                             ct=obj_ct,
-                            dataset=dataset.title
+                            dataset=dataset.title,
                         )
 
         return log
 
-    def dry_run_for_type(self,
-                         obj_ct,
-                         parent_ct,
-                         clean_routine,
-                         pass_obj=False):
+    def dry_run_for_type(
+        self, obj_ct, parent_ct, clean_routine, pass_obj=False,
+    ):
 
         log = ''
 
@@ -265,7 +276,7 @@ class BaseProcessor(object):
                 for x in range(0, data_counter):
                     log += '<p>Start cleanig {ct} number {dataset}</p>'.format(
                         ct=obj_ct,
-                        dataset=x
+                        dataset=x,
                     )
                     if isinstance(data_elements[x], int):
                         pass
@@ -277,11 +288,10 @@ class BaseProcessor(object):
                             log += self.format_errors(error)
                     log += '<p>Cleaned {ct} number {dataset}</p>'.format(
                         ct=obj_ct,
-                        dataset=x
+                        dataset=x,
                     )
 
         return log
-
 
     def dry_run_for_subtype(self, key, key_elements):
         log = ''
@@ -299,7 +309,7 @@ class BaseProcessor(object):
         for x in range(0, data_counter):
             log += '<p>Start cleaning {ct} number {dataset}</p>'.format(
                 ct=ct,
-                dataset=x
+                dataset=x,
             )
             if isinstance(data_elements[x], int):
                 pass
@@ -311,7 +321,7 @@ class BaseProcessor(object):
                     log += self.format_errors(error)
             log += '<p>Cleaned {ct} number {dataset}</p>'.format(
                 ct=ct,
-                dataset=x
+                dataset=x,
             )
 
         return log
@@ -320,6 +330,8 @@ class BaseProcessor(object):
 @adapter(IHarvester)
 @implementer(IJson)
 class JsonProcessor(BaseProcessor):
+    """JSON Processor."""
+
     def get_data(self):
         url = self.obj.url
         if not url:
@@ -341,8 +353,8 @@ class JsonProcessor(BaseProcessor):
         data_to_process = [
             {
                 'prefix': '',
-                'subdata': data
-            }
+                'subdata': data,
+            },
         ]
 
         while data_to_process:
@@ -357,13 +369,13 @@ class JsonProcessor(BaseProcessor):
                         new_prefix = key
                     data_to_process.append({
                         'prefix': new_prefix,
-                        'subdata': subdata[key]
+                        'subdata': subdata[key],
                     })
             if isinstance(subdata, list):
                 for element in subdata:
                     data_to_process.append({
                         'prefix': prefix,
-                        'subdata': element
+                        'subdata': element,
                     })
             else:
                 if prefix not in fields and prefix:
@@ -375,7 +387,7 @@ class JsonProcessor(BaseProcessor):
 
         return fields
 
-    def read_data(self):
+    def read_data(self):  # noqa
         source_data = self.get_data()
         data = {}
 
@@ -402,8 +414,10 @@ class JsonProcessor(BaseProcessor):
                                 new_subdata.append(None)
                         subdata = new_subdata
 
-                key = '{dcat_field}__{prio}'.format(dcat_field=dcat_field,
-                                                    prio=prio)
+                key = '{dcat_field}__{prio}'.format(
+                    dcat_field=dcat_field,
+                    prio=prio,
+                )
                 raw_data[key] = subdata
 
         data_prio = {}
@@ -446,11 +460,10 @@ class JsonProcessor(BaseProcessor):
         return data
 
     def dry_run(self):
-        '''
-        Dry Run: Returns Log-Information
-        :return:
-        '''
+        """Dry Run: Returns Log-Information.
 
+        :return:
+        """
         log = '<p>Doing a dry run</p>'
 
         data = self.read_data()
@@ -464,6 +477,8 @@ class JsonProcessor(BaseProcessor):
 @adapter(IHarvester)
 @implementer(IXml)
 class XmlProcessor(BaseProcessor):
+    """XML Processor."""
+
     def read_fields(self, reread=False):
         if self.obj.fields and not reread:
             return self.obj.fields
@@ -483,8 +498,8 @@ class XmlProcessor(BaseProcessor):
         data_to_process = [
             {
                 'prefix': self.format_tag(et.tag),
-                'subdata': et
-            }
+                'subdata': et,
+            },
         ]
 
         while data_to_process:
@@ -499,7 +514,7 @@ class XmlProcessor(BaseProcessor):
                         new_prefix = self.format_tag(child.tag)
                     data_to_process.append({
                         'prefix': new_prefix,
-                        'subdata': child
+                        'subdata': child,
                     })
             else:
                 if prefix not in fields and prefix:
@@ -515,7 +530,7 @@ class XmlProcessor(BaseProcessor):
         return tag.split('}')[-1]
 
     def dry_run(self):
-        '''
-        Dry Run: Returns Log-Information
+        """Dry Run: Returns Log-Information.
+
         :return:
-        '''
+        """
