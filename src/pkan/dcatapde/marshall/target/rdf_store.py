@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """RDF Backend store"""
 
-from plone.api.portal import get_tool
-from Products.CMFCore.interfaces._tools import ITypesTool
-from zope.component import adapter
-from zope.component import queryMultiAdapter
-from zope.component import subscribers
-from zope.interface import implementer
-from zope.interface import Interface
+# from plone.api.portal import get_tool
+# from Products.CMFCore.interfaces._tools import ITypesTool
+# from zope.component import adapter
+# from zope.component import queryMultiAdapter
+# from zope.component import subscribers
+# from zope.interface import implementer
+# from zope.interface import Interface
 
 import surf
 
@@ -16,19 +16,21 @@ DEBUG = True
 
 
 class RDFStore(object):
-    """ RDF Store to hold rdf persistently"""
+    """RDF Store to hold rdf persistently."""
 
     _store = None
 
     @property
     def store(self):
-        """Factory for store objects
-        """
-
+        """Factory for store objects."""
         if self._store is not None:
             return self._store
 
-        store = surf.Store(reader='rdflib', writer='rdflib', rdflib_store='IOMemory')
+        store = surf.Store(
+            reader='rdflib',
+            writer='rdflib',
+            rdflib_store='IOMemory',
+        )
 
         store.reader.graph.bind('dc', surf.ns.DC, override=True)
         store.reader.graph.bind('dcterms', surf.ns.DCTERMS, override=True)
@@ -44,22 +46,24 @@ class RDFStore(object):
         return store
 
     def marshall_inner(self, instance, **kwargs):
-        """ Marshall the rdf data to xml representation """
-
+        """Marshall the rdf data to xml representation."""
         session = surf.Session(self.store)
+        assert(session)
 
-#        obj2surf = queryMultiAdapter(
-#            (instance, session), interface=IObject2Surf
-#        )
+        # obj2surf = queryMultiAdapter(
+        #     (instance, session), interface=IObject2Surf
+        # )
 
-#       self.store.reader.graph.bind(
-#            obj2surf.prefix, obj2surf.namespace, override=False)
-#        endLevel = kwargs.get('endLevel', 3)
-#        self.resource = obj2surf.write(endLevel=endLevel, marshaller=self)
+        # self.store.reader.graph.bind(
+        #    obj2surf.prefix,
+        #    obj2surf.namespace,
+        #    override=False,
+        # )
+        # endLevel = kwargs.get('endLevel', 3)
+        # self.resource = obj2surf.write(endLevel=endLevel, marshaller=self)
 
     def marshall(self, instance, **kwargs):
-        """ Marshall the rdf data to xml representation """
-
+        """Marshall the rdf data to xml representation."""
         self.marshall_inner(instance, **kwargs)
 
         data = self.store.reader.graph.serialize(format='pretty-xml')
@@ -69,10 +73,9 @@ class RDFStore(object):
         return (content_type, len(data), data)
 
     def marshall_graph(self, instance, **kwargs):
-        """ Marshall the rdf data to xml representation """
-
+        """Marshall the rdf data to xml representation."""
         self.marshall_inner(instance, **kwargs)
 
-#        data = self.store.reader.graph
+        # data = self.store.reader.graph
 
         return self.resource
