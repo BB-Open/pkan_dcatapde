@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Catalog Content Type."""
+
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_Catalog
 from plone.api import portal
@@ -17,17 +19,16 @@ import zope.schema as schema
 
 
 class ICatalog(model.Schema):
-    ''' Marker interfce and Dexterity Python Schema for Catalog
-    '''
+    """Marker interfce and Dexterity Python Schema for Catalog."""
 
     dct_title = I18NTextLine(
-        title=_(u'Title'),
         required=True,
+        title=_(u'Title'),
     )
 
     dct_description = I18NText(
-        title=_(u'Description'),
         required=True,
+        title=_(u'Description'),
     )
 
     form.widget(
@@ -38,14 +39,16 @@ class ICatalog(model.Schema):
         initial_path='/publisher/',
         pattern_options={
             'selectableTypes': ['foafagent'],
-        }
+        },
     )
 
     dct_publisher = RelationChoice(
-        title=_(u'Publisher'),
-        description=_(u'Add a new publisher or chose one from the list of publishers'),
-        vocabulary='plone.app.vocabularies.Catalog',
+        description=_(
+            u'Add a new publisher or chose one from the list of publishers',
+        ),
         required=True,
+        title=_(u'Publisher'),
+        vocabulary='plone.app.vocabularies.Catalog',
     )
 
     form.widget(
@@ -56,36 +59,38 @@ class ICatalog(model.Schema):
         initial_path='/licenses/',
         pattern_options={
             'selectableTypes': ['dct_licensedocument'],
-        }
+        },
     )
 
     dct_license = RelationChoice(
-        title=_(u'License'),
-        description=_(u'Add a new license or chose one from the list of licenses'),
-        vocabulary='plone.app.vocabularies.Catalog',
+        description=_(
+            u'Add a new license or chose one from the list of licenses',
+        ),
         required=True,
+        title=_(u'License'),
+        vocabulary='plone.app.vocabularies.Catalog',
     )
 
     foaf_homepage = schema.URI(
+        required=False,
         title=(u'Homepage'),
-        required=False
     )
 
     dct_issued = schema.Date(
+        required=False,
         title=(u'Issued'),
-        required=False
     )
 
     dct_modified = schema.Date(
+        required=False,
         title=(u'Modified'),
-        required=False
     )
 
 
 @implementer(ICatalog)
 class Catalog(Container):
-    '''
-    '''
+    """Catalog Content Type."""
+
     _Title = ''
 
     def Title(self):
@@ -95,13 +100,15 @@ class Catalog(Container):
 
 
 class INameFromCatalog(INameFromTitle):
+    """Get name from catalog title."""
 
     def title(self):
-        '''Return a processed title'''
+        """Return a processed title."""
 
 
 @implementer(INameFromCatalog)
 class NameFromCatalog(object):
+    """Get name from catalog title."""
 
     def __init__(self, context):
         self.context = context
@@ -112,7 +119,7 @@ class NameFromCatalog(object):
             return ''
         if isinstance(self.context.dct_title, unicode):
             return self.context.dct_title
-        '''Get title from i18nfield'''
+        # Get title from i18nfield
         default_language = portal.get_default_language()[:2]
         if default_language in self.context.dct_title:
             return self.context.dct_title[default_language]
@@ -125,6 +132,7 @@ class NameFromCatalog(object):
 
 
 class CatalogDefaultFactory(DexterityFactory):
+    """Custom DX factory for Catalog."""
 
     def __init__(self):
         self.portal_type = CT_Catalog

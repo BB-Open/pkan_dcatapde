@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Dataset Content Type."""
+
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_Dataset
 from pkan.dcatapde.content.catalog import INameFromCatalog
@@ -16,37 +18,38 @@ import zope.schema as schema
 
 
 class IDataset(model.Schema):
-    ''' Marker interfce and Dexterity Python Schema for Dataset
-    '''
+    """Marker interfce and Dexterity Python Schema for Dataset."""
 
     dct_title = I18NTextLine(
-        title=_(u'Title'),
         required=True,
+        title=_(u'Title'),
     )
 
     dct_description = I18NText(
-        title=_(u'Description'),
         required=True,
+        title=_(u'Description'),
     )
 
     dcatde_contributorID = I18NTextLine(
-        title=_(u'Contributor ID'),
         required=True,
+        title=_(u'Contributor ID'),
     )
 
     uri = schema.URI(
+        required=True,
         title=_(u'URI'),
-        required=True
     )
 
     model.fieldset(
         'agents',
         label=_(u'Agents'),
-        fields=['dct_publisher',
-                'dct_creator',
-                'dct_contributor',
-                'dcatde_originator',
-                'dcatde_maintainer']
+        fields=[
+            'dct_publisher',
+            'dct_creator',
+            'dct_contributor',
+            'dcatde_originator',
+            'dcatde_maintainer',
+        ],
     )
 
     form.widget(
@@ -57,15 +60,16 @@ class IDataset(model.Schema):
         initial_path='/publisher/',
         pattern_options={
             'selectableTypes': ['foafagent'],
-        }
+        },
     )
 
     dct_publisher = RelationChoice(
-        title=_(u'Publisher'),
         description=_(
-            u'Add a new publisher or chose one from the list of publishers'),
-        vocabulary='plone.app.vocabularies.Catalog',
+            u'Add a new publisher or chose one from the list of publishers',
+        ),
         required=False,
+        title=_(u'Publisher'),
+        vocabulary='plone.app.vocabularies.Catalog',
     )
 
     form.widget(
@@ -76,13 +80,13 @@ class IDataset(model.Schema):
         initial_path='/agents/',
         pattern_options={
             'selectableTypes': ['foafagent'],
-        }
+        },
     )
 
     dct_creator = RelationChoice(
+        required=False,
         title=_(u'Creator'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=False,
     )
 
     form.widget(
@@ -93,13 +97,13 @@ class IDataset(model.Schema):
         initial_path='/agents/',
         pattern_options={
             'selectableTypes': ['foafagent'],
-        }
+        },
     )
 
     dct_contributor = RelationChoice(
+        required=False,
         title=_(u'Contributor'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=False,
     )
 
     form.widget(
@@ -110,13 +114,13 @@ class IDataset(model.Schema):
         initial_path='/agents/',
         pattern_options={
             'selectableTypes': ['foafagent'],
-        }
+        },
     )
 
     dcatde_originator = RelationChoice(
+        required=False,
         title=_(u'Originator'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=False,
     )
 
     form.widget(
@@ -127,71 +131,77 @@ class IDataset(model.Schema):
         initial_path='/agents/',
         pattern_options={
             'selectableTypes': ['foafagent'],
-        }
+        },
     )
 
     dcatde_maintainer = RelationChoice(
+        required=False,
         title=_(u'Maintainer'),
         vocabulary='plone.app.vocabularies.Catalog',
-        required=False,
     )
 
     model.fieldset(
         'details',
         label=_(u'Dates, Geo, etc'),
-        fields=['dct_issued', 'dct_modified', 'dcatde_politicalGeocodingURI',
-                'dcatde_politicalGeocodingLevelURI',
-                'dct_identifier', 'owl_versionInfo', 'dcatde_legalbasisText',
-                'adms_versionNotes']
+        fields=[
+            'dct_issued',
+            'dct_modified',
+            'dcatde_politicalGeocodingURI',
+            'dcatde_politicalGeocodingLevelURI',
+            'dct_identifier',
+            'owl_versionInfo',
+            'dcatde_legalbasisText',
+            'adms_versionNotes',
+        ],
     )
 
     dct_issued = schema.Date(
+        required=False,
         title=(u'Issued'),
-        required=False
     )
 
     dct_modified = schema.Date(
+        required=False,
         title=(u'Modified'),
-        required=False
     )
     dcatde_geocodingText = I18NTextLine(
-        title=_(u'Geocoding text'),
         required=False,
+        title=_(u'Geocoding text'),
     )
 
     dcatde_politicalGeocodingURI = schema.URI(
+        required=False,
         title=_(u'PoliticalGeocodingURI'),
-        required=False
     )
 
     dcatde_politicalGeocodingLevelURI = schema.URI(
+        required=False,
         title=_(u'PoliticalGeocodingLevelURI'),
-        required=False
     )
 
     dct_identifier = I18NTextLine(
-        title=_(u'Identifier'),
         required=False,
+        title=_(u'Identifier'),
     )
 
     owl_versionInfo = I18NTextLine(
-        title=_(u'Version info'),
         required=False,
+        title=_(u'Version info'),
     )
     dcatde_legalbasisText = I18NTextLine(
-        title=_(u'Legal basis text'),
         required=False,
+        title=_(u'Legal basis text'),
     )
     adms_versionNotes = I18NTextLine(
-        title=_(u'Version Notes'),
         required=False,
+        title=_(u'Version Notes'),
     )
 
 
 @implementer(IDataset)
 class Dataset(Container):
-    '''
-    '''
+    """Dataset Content Type."""
+
     _Title = ''
 
     def Title(self):
@@ -201,11 +211,13 @@ class Dataset(Container):
 
 
 class DatasetDefaultFactory(DexterityFactory):
+    """Custom DX factory for Dataset."""
+
     def __init__(self):
         self.portal_type = CT_Dataset
 
     def __call__(self, *args, **kw):
-        # TODO: get context and maybe change it
+        # Fix: get context and maybe change it
         from pkan.dcatapde.api.dataset import clean_dataset
         data, errors = clean_dataset(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
