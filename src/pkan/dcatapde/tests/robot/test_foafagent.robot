@@ -1,35 +1,9 @@
-# ============================================================================
-# DEXTERITY ROBOT TESTS
-# ============================================================================
-#
-# Run this robot test stand-alone:
-#
-#  $ bin/test -s pkan.dcatapde -t test_foafagent.robot --all
-#
-# Run this robot test with robot server (which is faster):
-#
-# 1) Start robot server:
-#
-# $ bin/robot-server --reload-path src pkan.dcatapde.testing.PKAN_DCATAPDE_ACCEPTANCE_TESTING
-#
-# 2) Run robot tests:
-#
-# $ bin/robot src/plonetraining/testing/tests/robot/test_foafagent.robot
-#
-# See the http://docs.plone.org for further details (search for robot
-# framework).
-#
-# ============================================================================
-
 *** Settings *****************************************************************
 
-Resource  plone/app/robotframework/selenium.robot
-Resource  plone/app/robotframework/keywords.robot
+Resource  keywords.robot
 
-Library  Remote  ${PLONE_URL}/RobotRemote
-
-Test Setup  Open test browser
-Test Teardown  Close all browsers
+Suite Setup  Setup
+Suite Teardown  Teardown
 
 
 *** Test Cases ***************************************************************
@@ -38,6 +12,8 @@ Scenario: As a site administrator I can add a foafagent
   Given a logged-in site administrator
     and an add foafagent form
    When I type 'My FOAFAgent' into the title field
+    and I type 'A description' into the description field
+    and I type 'https://example.com/publisher' into the access uri field
     and I submit the form
    Then a foafagent with the title 'My FOAFAgent' has been created
 
@@ -59,13 +35,24 @@ an add foafagent form
   Go To  ${PLONE_URL}/++add++foafagent
 
 a foafagent 'My FOAFAgent'
-  Create content  type=foafagent  id=my-foafagent  title=My FOAFAgent
+  Create content
+  ...  type=foafagent
+  ...  id=my-foafagent
+  ...  title=My FOAFAgent
+  ...  description=A description
+  ...  rdf_about=https://example.com/my-foafagent
 
 
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.IDublinCore.title  ${title}
+  Input Text  name=form.widgets.dct_title.i18n.en  ${title}
+
+I type '${description}' into the description field
+  Input Text  form.widgets.dct_description.i18n.en  ${description}
+
+I type '${rdf_about}' into the access uri field
+  Input Text  form.widgets.rdf_about  ${rdf_about}
 
 I submit the form
   Click Button  Save
