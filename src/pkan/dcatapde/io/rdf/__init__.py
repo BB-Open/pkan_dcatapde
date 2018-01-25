@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Init and utils."""
-
-from zope.i18nmessageid import MessageFactory
+"""RDF IO."""
 
 import surf
 
-
-_ = MessageFactory('pkan.dcatapde')
 
 surf.ns.register(SKOS='http://www.w3.org/2004/02/skos/core#')
 surf.ns.register(DCAT='http://www.w3.org/ns/dcat#')

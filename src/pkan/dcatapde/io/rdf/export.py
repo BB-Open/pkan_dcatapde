@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+"""Marshaller module."""
 
-""" Marshaller module """
-from .interfaces import IGenericObject2Surf
-from .interfaces import IObject2Surf
-from .interfaces import ISurfResourceModifier
-from .interfaces import ISurfSession
+from pkan.dcatapde.io.rdf.interfaces import IGenericObject2Surf
+from pkan.dcatapde.io.rdf.interfaces import IObject2Surf
+from pkan.dcatapde.io.rdf.interfaces import ISurfResourceModifier
+from pkan.dcatapde.io.rdf.interfaces import ISurfSession
 from plone.api.portal import get_tool
 from Products.CMFCore.interfaces._tools import ITypesTool
 from zope.component import adapter
@@ -20,17 +20,16 @@ DEBUG = True
 
 
 class RDFMarshaller(object):
-    """ RDF Marshaller, used as a component by Products.Marshaller
+    """RDF Marshaller, used as a component by Products.Marshaller.
 
-    Marshals content types instances into RDF format """
+    Marshals content types instances into RDF format.
+    """
 
     _store = None
 
     @property
     def store(self):
-        """Factory for store objects
-        """
-
+        """Factory for store objects."""
         if self._store is not None:
             return self._store
 
@@ -51,22 +50,24 @@ class RDFMarshaller(object):
         return store
 
     def marshall_inner(self, instance, **kwargs):
-        """ Marshall the rdf data to xml representation """
-
+        """Marshall the rdf data to xml representation."""
         session = surf.Session(self.store)
 
         obj2surf = queryMultiAdapter(
-            (instance, session), interface=IObject2Surf
+            (instance, session),
+            interface=IObject2Surf,
         )
 
         self.store.reader.graph.bind(
-            obj2surf.prefix, obj2surf.namespace, override=False)
+            obj2surf.prefix,
+            obj2surf.namespace,
+            override=False,
+        )
         endLevel = kwargs.get('endLevel', 3)
         self.resource = obj2surf.write(endLevel=endLevel, marshaller=self)
 
     def marshall(self, instance, **kwargs):
-        """ Marshall the rdf data to xml representation """
-
+        """Marshall the rdf data to xml representation."""
         self.marshall_inner(instance, **kwargs)
 
         data = self.store.reader.graph.serialize(format='pretty-xml')
@@ -76,8 +77,7 @@ class RDFMarshaller(object):
         return (content_type, len(data), data)
 
     def marshall_graph(self, instance, **kwargs):
-        """ Marshall the rdf data to xml representation """
-
+        """Marshall the rdf data to xml representation."""
         self.marshall_inner(instance, **kwargs)
 
 #        data = self.store.reader.graph
@@ -103,8 +103,7 @@ class GenericObject2Surf(object):
 
     @property
     def prefix(self):
-        """ prefix """
-
+        """Prefix."""
         if self._prefix is None:
             raise NotImplementedError
 
@@ -112,21 +111,19 @@ class GenericObject2Surf(object):
 
     @property
     def portalType(self):
-        """ portal type """
-
+        """Portal type."""
         return self.context.__class__.__name__
 
     @property
     def namespace(self):
-        """ namespace """
-
+        """Namespace."""
         if self._namespace is not None:
             return self._namespace
 
         ttool = get_tool(self.context, 'portal_types')
         ptype = self.context.portal_type
         ns = {
-            self.prefix: '{0}#'.format(ttool[ptype].absolute_url())
+            self.prefix: '{0}#'.format(ttool[ptype].absolute_url()),
         }
         surf.ns.register(**ns)
         self._namespace = getattr(surf.ns, self.prefix.upper())
@@ -135,24 +132,22 @@ class GenericObject2Surf(object):
 
     @property
     def subject(self):
-        """ subject; will be inserted as rdf:about """
-
+        """Subject; will be inserted as rdf:about."""
         return '{0}#{1}'.format(self.context.absolute_url(), self.rdfId)
 
     @property
     def rdfId(self):
-        """ rdf id; will be inserted as rdf:id  """
-
+        """RDF id; will be inserted as rdf:id."""
         return self.context.getId().replace(' ', '')
 
     @property
     def resource(self, **kwds):
-        """ Factory for a new Surf resource """
-
+        """Factory for a new Surf resource."""
         if self._resource is not None:
             return self._resource
 
-        try:    # pull a new resource from the surf session
+        try:
+            # pull a new resource from the surf session
             resource = self.session.get_class(
                 self.namespace[self.portalType])(self.subject)
         except Exception:
@@ -160,7 +155,7 @@ class GenericObject2Surf(object):
 
             if DEBUG:
                 raise
-#            logger.exception('RDF marshaller error:')
+            # logger.exception('RDF marshaller error:')
 
             return None
 
@@ -171,13 +166,11 @@ class GenericObject2Surf(object):
         return resource
 
     def modify_resource(self, resource, *args, **kwds):
-        """We allow modification of resource here """
-
+        """We allow modification of resource here."""
         return resource
 
     def write(self, *args, **kwds):
-        """Write its resource into the session """
-
+        """Write its resource into the session."""
         if self.resource is None:
             raise ValueError
 
@@ -202,13 +195,11 @@ class PortalTypesUtil2Surf(GenericObject2Surf):
 
     @property
     def portalType(self):
-        """portal type"""
-
+        """Portal type."""
         return u'PloneUtility'
 
     def modify_resource(self, resource, *args, **kwds):
         """_schema2surf"""
-
         resource.rdfs_label = (u'Plone PortalTypes Tool', None)
         resource.rdfs_comment = (u'Holds definitions of portal types', None)
         resource.rdf_id = self.rdfId
