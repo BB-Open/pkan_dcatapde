@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Configuration Views."""
+
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from pkan.dcatapde import _
 from pkan.dcatapde.api.harvester import add_harvester
@@ -19,11 +21,12 @@ from zope.interface import Invalid
 
 
 class HarvesterForm(AutoExtensibleForm, form.Form):
-    ''' Define Form handling
+    """Define Form handling.
 
     This form can be accessed as http://yoursite/@@my-form
 
-    '''
+    """
+
     schema = IConfigHarvesterSchema
     ignoreContext = True
 
@@ -48,7 +51,8 @@ class HarvesterForm(AutoExtensibleForm, form.Form):
 
         if not harvester_folder:
             raise ActionExecutionError(
-                Invalid('Please create Harvester-Folder first'))
+                Invalid('Please create Harvester-Folder first'),
+            )
 
         harvester = data['harvester']
 
@@ -87,29 +91,32 @@ class HarvesterForm(AutoExtensibleForm, form.Form):
 
     @button.buttonAndHandler(u'Cancel')
     def handleCancel(self, action):
-        '''User cancelled. Redirect back to the front page.
-        '''
+        """User cancelled. Redirect back to the front page."""
 
 
 class HarvesterView(BrowserView):
-    '''
-    View which wrap the settings form using ControlPanelFormWrapper to a
-    HTML boilerplate frame.
-    '''
+    """View which wraps the settings form.
+
+    It does so using ControlPanelFormWrapper to a HTML boilerplate frame.
+    """
 
     def __call__(self, *args, **kwargs):
-        view_factor = layout.wrap_form(HarvesterForm,
-                                       ControlPanelFormWrapper)
+        view_factor = layout.wrap_form(
+            HarvesterForm,
+            ControlPanelFormWrapper,
+        )
         view = view_factor(self.context, self.request)
         return view()
 
     def parent_panel_url(self):
         return '{url}/@@pkan-dcatapde-config'.format(
-            url=self.context.absolute_url()
+            url=self.context.absolute_url(),
         )
 
 
 class MainControlPanelView(BrowserView):
+    """Control Panel View."""
+
     label = _(u'Pkan Dcatapde Main Config')
 
     def __init__(self, context, request):

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Configuration Interfaces."""
+
 from collective.z3cform.datagridfield import DictRow
 from pkan.dcatapde import _
 from pkan.dcatapde.api.harvester import get_all_harvester
@@ -8,6 +10,8 @@ from zope import schema
 
 
 class HarvesterDefaultFactory(object):
+    """Harvester Default Factory."""
+
     def __call__(self):
         harvester = get_all_harvester()
         res = []
@@ -21,14 +25,15 @@ class HarvesterDefaultFactory(object):
 
 
 class IConfigHarvesterSchema(model.Schema):
+    """Schema for Harvester Configuration."""
+
     harvester = schema.List(
-        title=_(u'Harvester'),
-        description=_(
-            u'''Configure Harvester to be filled with exported Data'''),
         defaultFactory=HarvesterDefaultFactory(),
+        description=_(u'Configure Harvester to be filled with exported Data'),
+        required=False,
+        title=_(u'Harvester'),
         value_type=DictRow(
             title=_(u'Tables'),
             schema=IHarvester,
         ),
-        required=False,
     )

@@ -1,6 +1,5 @@
 <configure
-        xmlns="http://namespaces.zope.org/zope"
->
+    xmlns="http://namespaces.zope.org/zope">
 
     <adapter
         for="Products.CMFCore.interfaces.IFolderish
@@ -31,7 +30,7 @@
             interface="zope.publisher.interfaces.browser.IBrowserPage"
             />
     </class>
-    
+
     <adapter
         for="Products.CMFCore.interfaces.IFolderish
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
@@ -40,7 +39,7 @@
         factory=".default_add_view.PkanDefaultAddView"
         name="dataset"
         />
-    
+
     <adapter
         for="Products.CMFCore.interfaces.IFolderish
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
@@ -49,7 +48,7 @@
         factory=".default_add_view.PkanDefaultAddView"
         name="distribution"
         />
-    
+
     <adapter
         for="Products.CMFCore.interfaces.IFolderish
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
@@ -58,7 +57,7 @@
         factory=".default_add_view.PkanDefaultAddView"
         name="foafagent"
         />
-    
+
     <adapter
         for="Products.CMFCore.interfaces.IFolderish
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
@@ -67,7 +66,7 @@
         factory=".default_add_view.PkanDefaultAddView"
         name="harvester"
         />
-    
+
     <adapter
         for="Products.CMFCore.interfaces.IFolderish
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
@@ -76,5 +75,5 @@
         factory=".default_add_view.PkanDefaultAddView"
         name="harvesterfolder"
         />
-    
+
 </configure>
