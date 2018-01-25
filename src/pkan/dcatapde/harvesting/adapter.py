@@ -22,17 +22,14 @@ ADD_METHODS_SUB_CTS = {
 
 
 class BaseProcessor(object):
-
     def __init__(self, obj):
         self.obj = obj
         self.cleared_data = None
         self.field_config = get_field_config(self.obj)
         self.context = self.field_config.base_object.to_object
 
-
     def dry_run(self):
         return ''
-
 
     def real_run(self):
         '''
@@ -46,7 +43,6 @@ class BaseProcessor(object):
 
         log += '<p>Doing Real Run<p>'
 
-
         keys = self.cleared_data.keys()
 
         pass_ct = []
@@ -59,9 +55,8 @@ class BaseProcessor(object):
         elif self.context.portal_type == c.CT_Distribution:
             return log + '<p>Wrong context, cannot add anything</p>'
 
-
-
-        if c.CT_Catalog in self.cleared_data and self.cleared_data[c.CT_Catalog]:
+        if c.CT_Catalog in self.cleared_data and self.cleared_data[
+                c.CT_Catalog]:
             catalogs = self.cleared_data[c.CT_Catalog]
             catalog_counter = len(catalogs)
 
@@ -73,10 +68,12 @@ class BaseProcessor(object):
                     if isinstance(catalogs[x], int):
                         pass
                     else:
-                        # TODO instead of create check for create/update/deprecated/delete
+                        # TODO instead of create check for
+                        # create/update/deprecated/delete
                         catalog = add_catalog(self.context, **catalogs[x])
                         catalogs[x] = catalog
-                        log += '<p>Created catalog {catalog}</p>'.format(catalog=catalog.title)
+                        log += '<p>Created catalog {catalog}</p>'.format(
+                            catalog=catalog.title)
 
         pass_dataset = c.CT_Dataset in pass_ct
 
@@ -93,7 +90,8 @@ class BaseProcessor(object):
             key_elements = key.split(':')
             if len(key_elements) == 3 and key_elements[0] not in pass_ct:
                 log += self.real_run_for_subtype(key, key_elements)
-            # TODO: What if RelatedItem of RelatedItem? How deep do we have to go
+                # TODO: What if RelatedItem of RelatedItem?
+                # How deep do we have to go?
 
     def real_run_for_subtype(self, key, key_elements):
         log = ''
@@ -104,8 +102,8 @@ class BaseProcessor(object):
         if ct in ADD_METHODS_SUB_CTS:
             add_routine = ADD_METHODS_SUB_CTS[ct]
         else:
-            return '<p>Could not create {key} because of missing method.</p>'.format(key=key)
-
+            log = '<p>Could not create {key} because of missing method.</p>'
+            return log.format(key=key)
 
         data_elements = self.cleared_data[key]
         data_counter = len(data_elements)
@@ -115,11 +113,14 @@ class BaseProcessor(object):
             if isinstance(data_elements[x], int):
                 wanted_obj = data_elements[data_elements[x]]
             else:
-                # TODO instead of create check for create/update/deprecated/delete
+                # TODO instead of create check for
+                # create/update/deprecated/delete
                 wanted_obj = add_routine(self.context, **data_elements[x])
                 data_elements[x] = wanted_obj
-                log += '<p>Created {ct} {dataset}</p>'.format(ct=ct,
-                                                              dataset=wanted_obj.title)
+                log += '<p>Created {ct} {dataset}</p>'.format(
+                    ct=ct,
+                    dataset=wanted_obj.title
+                )
 
             parent = self.cleared_data[parent_ct][x]
             if isinstance(parent, int):
@@ -128,7 +129,11 @@ class BaseProcessor(object):
             # TODO: Check if this works with RelatedItem-Field
             setattr(parent, attr, wanted_obj)
 
-    def real_run_for_type(self, obj_ct, parent_ct, add_routine, pass_obj=False):
+    def real_run_for_type(self,
+                          obj_ct,
+                          parent_ct,
+                          add_routine,
+                          pass_obj=False):
 
         log = ''
 
@@ -145,15 +150,18 @@ class BaseProcessor(object):
                     if isinstance(data_elements[x], int):
                         pass
                     else:
-                        # TODO instead of create check for create/update/deprecated/delete
+                        # TODO instead of create check for
+                        # create/update/deprecated/delete
                         parent = self.cleared_data[parent_ct][x]
                         if isinstance(parent, int):
                             parent = self.cleared_data[parent_ct][parent]
 
                         dataset = add_routine(parent, **data_elements[x])
                         data_elements[x] = dataset
-                        log += '<p>Created {ct} {dataset}</p>'.format(ct=obj_ct,
-                                                                      dataset=dataset.title)
+                        log += '<p>Created {ct} {dataset}</p>'.format(
+                            ct=obj_ct,
+                            dataset=dataset.title
+                        )
 
         return log
 
@@ -161,15 +169,15 @@ class BaseProcessor(object):
 @adapter(IHarvester)
 @implementer(IJson)
 class JsonProcessor(BaseProcessor):
-
     def get_data(self):
         url = self.obj.url
-
         if not url:
             return []
 
         resp = requests.get(url=url)
+
         data = json.loads(resp.text)
+
         return data
 
     def read_fields(self, reread=False):
@@ -197,14 +205,14 @@ class JsonProcessor(BaseProcessor):
                     else:
                         new_prefix = key
                     data_to_process.append({
-                      'prefix': new_prefix,
-                      'subdata': subdata[key]
+                        'prefix': new_prefix,
+                        'subdata': subdata[key]
                     })
             if isinstance(subdata, list):
                 for element in subdata:
                     data_to_process.append({
-                      'prefix': prefix,
-                      'subdata': element
+                        'prefix': prefix,
+                        'subdata': element
                     })
             else:
                 if prefix not in fields and prefix:
@@ -224,6 +232,7 @@ class JsonProcessor(BaseProcessor):
         for field_config in self.field_config.fields:
             dcat_field = field_config['dcat_field']
             source_field = field_config['source_field']
+            prio = field_config['prio']
 
             if source_field:
                 path = source_field.split('.')
@@ -242,25 +251,38 @@ class JsonProcessor(BaseProcessor):
                                 new_subdata.append(None)
                         subdata = new_subdata
 
-                raw_data[dcat_field] = subdata
+                key = '{dcat_field}__{prio}'.format(dcat_field=dcat_field,
+                                                    prio=prio)
+                raw_data[key] = subdata
+
+        data_prio = {}
 
         for field in raw_data:
             field_path = field.split('__')
             ct = field_path[0]
             attribute = field_path[1]
+            prio = int(field_path[-1])
 
             field_data = raw_data[field]
 
             if ct not in data:
                 data[ct] = {}
+                data_prio[ct] = {}
 
             for x in range(len(field_data)):
                 if x not in data[ct]:
                     data[ct][x] = {}
-                data[ct][x][attribute] = field_data[x]
+                    data_prio[ct][x] = {}
+                if attribute not in data[ct][x]:
+                    data[ct][x][attribute] = field_data[x]
+                    data_prio[ct][x][attribute] = prio
+                else:
+                    old_prio = data_prio[ct][x][attribute]
+                    if old_prio < prio and field_data[x]:
+                        data[ct][x][attribute] = field_data[x]
+                        data_prio[ct][x][attribute] = prio
 
         # find duplicates, because they are pointing the same object
-
         for ct in data:
             ct_data = {}
             for x in range(len(data[ct].keys())):
@@ -289,13 +311,9 @@ class JsonProcessor(BaseProcessor):
         return log
 
 
-
-
-
 @adapter(IHarvester)
 @implementer(IXml)
 class XmlProcessor(BaseProcessor):
-
     def read_fields(self, reread=False):
         if self.obj.fields and not reread:
             return self.obj.fields

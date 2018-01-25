@@ -21,7 +21,8 @@ def ConfigFieldDefaultFactory(context):
                 fields.append(
                     {
                         'dcat_field': value,
-                        'source_field': None
+                        'source_field': None,
+                        'prio': 1,
                     }
                 )
 
