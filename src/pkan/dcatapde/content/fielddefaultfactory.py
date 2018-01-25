@@ -7,7 +7,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 @provider(IContextAwareDefaultFactory)
 def ConfigFieldDefaultFactory(context):
-        if hasattr(context, 'fields'):
+        if context and hasattr(context, 'fields'):
             fields = context.fields
         else:
             fields = []

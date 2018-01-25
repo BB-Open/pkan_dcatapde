@@ -1,16 +1,31 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde.constants import CT_Foafagent
+from pkan.dcatapde.content.foafagent import Foafagent
+from pkan.dcatapde.content.foafagent import IFoafagent
 from plone import api
+from zope.schema import getValidationErrors
 
+
+# Data Cleaning Methods
+def clean_foafagent(**data):
+
+    test_obj = Foafagent()
+
+    for attr in data:
+        setattr(test_obj, attr, data[attr])
+
+    errors = getValidationErrors(IFoafagent, test_obj)
+
+    return data, errors
 
 # Add Methods
-def add_foafagent(context, dry_run=False, **data):
-    if not dry_run:
-        foaf = api.content.create(container=context, type=CT_Foafagent, **data)
+def add_foafagent(context, **data):
+    data, errors = clean_foafagent(**data)
 
-        return foaf
-    else:
-        return data
+    foaf = api.content.create(container=context, type=CT_Foafagent, **data)
+
+    return foaf
+
 
 
 # Get Methods

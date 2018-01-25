@@ -2,66 +2,106 @@
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
+from pkan.dcatapde.content.harvester import Harvester
+from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.content.harvester_field_config import HarvesterFieldConfig
+from pkan.dcatapde.content.harvester_field_config import IHarvesterFieldConfig
+from pkan.dcatapde.content.harvesterfolder import Harvesterfolder
+from pkan.dcatapde.content.harvesterfolder import IHarvesterfolder
 from plone import api
 from zope.component.hooks import getSite
+from zope.schema import getValidationErrors
+
+
+# Data Cleaning Methods
+def clean_harvester(**data):
+    data['title'] = data['url']
+
+    test_obj = Harvester()
+
+    for attr in data:
+        setattr(test_obj, attr, data[attr])
+
+    errors = getValidationErrors(IHarvester, test_obj)
+
+    return data, errors
+
+
+def clean_harvesterfolder(**data):
+
+    test_obj = Harvesterfolder()
+
+    for attr in data:
+        setattr(test_obj, attr, data[attr])
+
+    errors = getValidationErrors(IHarvesterfolder, test_obj)
+
+    return data, errors
+
+
+def clean_fieldconfig(**data):
+    if 'fields' not in data:
+        data['fields'] = add_missing_fields(None, [])
+
+    test_obj = HarvesterFieldConfig()
+
+    for attr in data:
+        setattr(test_obj, attr, data[attr])
+
+    errors = getValidationErrors(IHarvesterFieldConfig, test_obj)
+
+    return data, errors
 
 
 # Add Methods
-def add_harvester_field_config(context, dry_run=False, **data):
+def add_harvester_field_config(context, **data):
     assert get_field_config(context) is None, \
         _('API: Cannot create second field config for harvester')
 
-    if 'fields' not in data:
-        data['fields'] = add_missing_fields(context, [])
-
-    if not dry_run:
-        harvester_field_config = api.content.create(
-            container=context,
-            type=constants.CT_HarvesterFieldConfig,
-            title=constants.HARVESTER_FIELD_CONFIG_TITLE,
-            id=constants.HARVESTER_FIELD_CONFIG_ID,
-            **data
-        )
-
-        return harvester_field_config
-    else:
-        return data
+    data, errors = clean_fieldconfig(**data)
 
 
-def add_harvester(context, dry_run=False, **data):
+    harvester_field_config = api.content.create(
+        container=context,
+        type=constants.CT_HarvesterFieldConfig,
+        title=constants.HARVESTER_FIELD_CONFIG_TITLE,
+        id=constants.HARVESTER_FIELD_CONFIG_ID,
+        **data
+    )
+
+    return harvester_field_config
+
+
+def add_harvester(context, **data):
+
     folder = get_harvester_folder()
 
-    data['title'] = data['url']
-
-    if not dry_run:
-        harvester = api.content.create(container=folder,
-                                       type=constants.CT_Harvester,
-                                       **data)
-
-        # Done by DefaultFactory
-        # add_harvester_field_config(harvester)
-
-        return harvester
-    else:
-        return data
+    data, errors = clean_harvester(**data)
 
 
-def add_harvester_folder(context, dry_run=False):
+    harvester = api.content.create(container=folder,
+                                   type=constants.CT_Harvester,
+                                   **data)
+
+    return harvester
+
+
+def add_harvester_folder(context, **data):
     assert get_harvester_folder() is None, \
         _('API: Cannot create second harvester_folder folder')
 
-    # set id and title, title for presentation and id for addressing the object
-    if not dry_run:
-        harvester_folder = api.content.create(
-            container=context,
-            type=constants.CT_HarvesterFolder,
-            title=constants.HARVESTER_FOLDER_TITLE,
-            id=constants.HARVESTER_FOLDER_ID
-        )
+    data, errors = clean_harvesterfolder(**data)
 
-        return harvester_folder
-    else:
-        return None
+    # set id and title, title for presentation and id for addressing the object
+    harvester_folder = api.content.create(
+        container=context,
+        type=constants.CT_HarvesterFolder,
+        title=constants.HARVESTER_FOLDER_TITLE,
+        id=constants.HARVESTER_FOLDER_ID,
+        **data
+    )
+
+    return harvester_folder
 
 
 # Get Methods

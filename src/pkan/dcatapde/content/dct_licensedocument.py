@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
+from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DctLicenseDocument
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
-
-from pkan.dcatapde import _
-from pkan.dcatapde.api.dct_licensedocument import add_dct_licensedocument
-import zope.schema as schema
 from zope.interface import implementer
+
+import zope.schema as schema
 
 
 class IDct_Licensedocument(model.Schema):
@@ -35,7 +34,9 @@ class DctLicensedocumentDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # TODO: get context and maybe change it
-        data = add_dct_licensedocument(None, dry_run=True, **kw)
+        from pkan.dcatapde.api.dct_licensedocument import \
+            clean_dct_licensedocument
+        data, errors = clean_dct_licensedocument(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder

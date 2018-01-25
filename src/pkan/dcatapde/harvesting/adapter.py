@@ -29,6 +29,7 @@ class BaseProcessor(object):
         self.context = self.field_config.base_object.to_object
 
     def dry_run(self):
+        print self.cleared_data
         return ''
 
     def real_run(self):
@@ -306,7 +307,7 @@ class JsonProcessor(BaseProcessor):
         self.cleared_data = self.obj.preprocessor(self).preprocess(data)
 
         log += '<p>Data found:</p>'
-        log += '<p>' + str(self.cleared_data) + '</p>'
+        log += super(JsonProcessor, self).dry_run()
 
         return log
 

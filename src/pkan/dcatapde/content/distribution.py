@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
-from pkan.dcatapde.api.distribution import add_distribution
 from pkan.dcatapde.constants import CT_Distribution
 from pkan.dcatapde.content.catalog import INameFromCatalog
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
+from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
-from zope import schema
-from plone.autoform import directives as form
-
 from z3c.relationfield import RelationChoice
+from zope import schema
 from zope.interface import implementer
 
 
@@ -112,7 +110,6 @@ class IDistribution(model.Schema):
     )
 
 
-
 @implementer(IDistribution)
 class Distribution(Container):
     """
@@ -124,6 +121,7 @@ class Distribution(Container):
             self._Title = INameFromCatalog(self).title
         return self._Title
 
+
 class DistributionDefaultFactory(DexterityFactory):
 
     def __init__(self):
@@ -131,7 +129,8 @@ class DistributionDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # TODO: get context and maybe change it
-        data = add_distribution(None, dry_run=True, **kw)
+        from pkan.dcatapde.api.distribution import clean_distribution
+        data, errors = clean_distribution(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder

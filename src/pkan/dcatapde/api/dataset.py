@@ -1,16 +1,31 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde.constants import CT_Dataset
+from pkan.dcatapde.content.dataset import Dataset
+from pkan.dcatapde.content.dataset import IDataset
 from plone.api.content import create
+from zope.schema import getValidationErrors
 
+
+# Data Cleaning Methods
+def clean_dataset(**data):
+
+    test_dataset = Dataset()
+
+    for attr in data:
+        setattr(test_dataset, attr, data[attr])
+
+    errors = getValidationErrors(IDataset, test_dataset)
+
+    return data, errors
 
 # Add Methods
-def add_dataset(context, dry_run=False, **data):
-    if not dry_run:
-        dataset = create(container=context, type=CT_Dataset, **data)
+def add_dataset(context, **data):
 
-        return dataset
-    else:
-        return data
+    data, errors = clean_dataset(**data)
+
+    dataset = create(container=context, type=CT_Dataset, **data)
+
+    return dataset
 
 # Get Methods
 

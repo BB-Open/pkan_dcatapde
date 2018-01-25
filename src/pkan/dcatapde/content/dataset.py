@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
-from pkan.dcatapde.api.dataset import add_dataset
 from pkan.dcatapde.constants import CT_Dataset
 from pkan.dcatapde.content.catalog import INameFromCatalog
 from plone.autoform import directives as form
@@ -17,8 +16,8 @@ import zope.schema as schema
 
 
 class IDataset(model.Schema):
-    """ Marker interfce and Dexterity Python Schema for Dataset
-    """
+    ''' Marker interfce and Dexterity Python Schema for Dataset
+    '''
 
     dct_title = I18NTextLine(
         title=_(u'Title'),
@@ -42,8 +41,12 @@ class IDataset(model.Schema):
 
     model.fieldset(
         'agents',
-        label=_(u"Agents"),
-        fields=['dct_publisher', 'dct_creator', 'dct_contributor', 'dcatde_originator', 'dcatde_maintainer' ]
+        label=_(u'Agents'),
+        fields=['dct_publisher',
+                'dct_creator',
+                'dct_contributor',
+                'dcatde_originator',
+                'dcatde_maintainer']
     )
 
     form.widget(
@@ -59,11 +62,11 @@ class IDataset(model.Schema):
 
     dct_publisher = RelationChoice(
         title=_(u'Publisher'),
-        description=_(u'Add a new publisher or chose one from the list of publishers'),
+        description=_(
+            u'Add a new publisher or chose one from the list of publishers'),
         vocabulary='plone.app.vocabularies.Catalog',
         required=False,
     )
-
 
     form.widget(
         'dct_creator',
@@ -135,9 +138,11 @@ class IDataset(model.Schema):
 
     model.fieldset(
         'details',
-        label=_(u"Dates, Geo, etc"),
-        fields=[ 'dct_issued', 'dct_modified', 'dcatde_politicalGeocodingURI', 'dcatde_politicalGeocodingLevelURI',
-                 'dct_identifier', 'owl_versionInfo', 'dcatde_legalbasisText', 'adms_versionNotes']
+        label=_(u'Dates, Geo, etc'),
+        fields=['dct_issued', 'dct_modified', 'dcatde_politicalGeocodingURI',
+                'dcatde_politicalGeocodingLevelURI',
+                'dct_identifier', 'owl_versionInfo', 'dcatde_legalbasisText',
+                'adms_versionNotes']
     )
 
     dct_issued = schema.Date(
@@ -154,14 +159,14 @@ class IDataset(model.Schema):
         required=False,
     )
 
-    dcatde_politicalGeocodingURI =schema.URI(
-         title=_(u'PoliticalGeocodingURI'),
-         required=False
+    dcatde_politicalGeocodingURI = schema.URI(
+        title=_(u'PoliticalGeocodingURI'),
+        required=False
     )
 
     dcatde_politicalGeocodingLevelURI = schema.URI(
-         title=_(u'PoliticalGeocodingLevelURI'),
-         required=False
+        title=_(u'PoliticalGeocodingLevelURI'),
+        required=False
     )
 
     dct_identifier = I18NTextLine(
@@ -173,7 +178,7 @@ class IDataset(model.Schema):
         title=_(u'Version info'),
         required=False,
     )
-    dcatde_legalbasisText  = I18NTextLine(
+    dcatde_legalbasisText = I18NTextLine(
         title=_(u'Legal basis text'),
         required=False,
     )
@@ -182,10 +187,11 @@ class IDataset(model.Schema):
         required=False,
     )
 
+
 @implementer(IDataset)
 class Dataset(Container):
-    """
-    """
+    '''
+    '''
     _Title = ''
 
     def Title(self):
@@ -194,16 +200,14 @@ class Dataset(Container):
         return self._Title
 
 
-
-
 class DatasetDefaultFactory(DexterityFactory):
-
     def __init__(self):
         self.portal_type = CT_Dataset
 
     def __call__(self, *args, **kw):
         # TODO: get context and maybe change it
-        data = add_dataset(None, dry_run=True, **kw)
+        from pkan.dcatapde.api.dataset import clean_dataset
+        data, errors = clean_dataset(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder

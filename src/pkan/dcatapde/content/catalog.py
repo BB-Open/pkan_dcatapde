@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
-from pkan.dcatapde.api.catalog import add_catalog
-from pkan.dcatapde.api.catalog import clean_catalog
 from pkan.dcatapde.constants import CT_Catalog
 from plone.api import portal
 from plone.app.content.interfaces import INameFromTitle
@@ -19,9 +17,8 @@ import zope.schema as schema
 
 
 class ICatalog(model.Schema):
-    """ Marker interfce and Dexterity Python Schema for Catalog
-    """
-
+    ''' Marker interfce and Dexterity Python Schema for Catalog
+    '''
 
     dct_title = I18NTextLine(
         title=_(u'Title'),
@@ -87,8 +84,8 @@ class ICatalog(model.Schema):
 
 @implementer(ICatalog)
 class Catalog(Container):
-    """
-    """
+    '''
+    '''
     _Title = ''
 
     def Title(self):
@@ -100,7 +97,7 @@ class Catalog(Container):
 class INameFromCatalog(INameFromTitle):
 
     def title(self):
-        """Return a processed title"""
+        '''Return a processed title'''
 
 
 @implementer(INameFromCatalog)
@@ -112,11 +109,11 @@ class NameFromCatalog(object):
     @property
     def title(self):
         if not self.context.dct_title:
-            return ""
+            return ''
         if isinstance(self.context.dct_title, unicode):
             return self.context.dct_title
-        """Get title from i18nfield"""
-        default_language =portal.get_default_language()[:2]
+        '''Get title from i18nfield'''
+        default_language = portal.get_default_language()[:2]
         if default_language in self.context.dct_title:
             return self.context.dct_title[default_language]
         else:
@@ -133,6 +130,8 @@ class CatalogDefaultFactory(DexterityFactory):
         self.portal_type = CT_Catalog
 
     def __call__(self, *args, **kw):
+        from pkan.dcatapde.api.catalog import clean_catalog
+
         data, errors = clean_catalog(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 

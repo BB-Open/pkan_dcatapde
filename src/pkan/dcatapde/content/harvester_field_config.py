@@ -2,7 +2,6 @@
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
 from pkan.dcatapde import _
-from pkan.dcatapde.api.harvester import add_harvester_field_config
 from pkan.dcatapde.constants import CT_HarvesterFieldConfig
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
 from plone.autoform import directives as form
@@ -72,7 +71,8 @@ class FieldConfigDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # TODO: get context and maybe change it
-        data = add_harvester_field_config(None, dry_run=True, **kw)
+        from pkan.dcatapde.api.harvester import clean_fieldconfig
+        data, errors = clean_fieldconfig(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder

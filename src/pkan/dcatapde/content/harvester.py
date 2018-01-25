@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
-from pkan.dcatapde.api.harvester import add_harvester
 from pkan.dcatapde.constants import CT_Harvester
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -43,7 +42,8 @@ class HarvesterDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # TODO: get context and maybe change it
-        data = add_harvester(None, dry_run=True, **kw)
+        from pkan.dcatapde.api.harvester import clean_harvester
+        data, errors = clean_harvester(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         # raises AttributeError

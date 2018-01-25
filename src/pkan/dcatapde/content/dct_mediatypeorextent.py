@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.api.dct_mediatypeorextend import add_dct_mediatypeorextent
+from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DctMediatypeorextent
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
-from pkan.dcatapde import _
-import zope.schema as schema
 from zope.interface import implementer
+
+import zope.schema as schema
 
 
 class IDct_Mediatypeorextent(model.Schema):
@@ -17,7 +17,6 @@ class IDct_Mediatypeorextent(model.Schema):
          title=_(u'Access URI'),
          required=True
     )
-
 
 
 @implementer(IDct_Mediatypeorextent)
@@ -35,7 +34,9 @@ class DctMediatypeorextentDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # TODO: get context and maybe change it
-        data = add_dct_mediatypeorextent(None, dry_run=True, **kw)
+        from pkan.dcatapde.api.dct_mediatypeorextend import \
+            clean_dct_mediatypeorextent
+        data, errors = clean_dct_mediatypeorextent(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder
