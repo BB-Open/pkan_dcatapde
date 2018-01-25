@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Add view for DCATAP-DE content."""
+
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition.interfaces import IAcquirer
@@ -10,6 +12,7 @@ from zope.component import getUtility
 
 
 class PkanDefaulftAddForm(add.DefaultAddForm):
+    """Default add form."""
 
     def create(self, data):
         fti = getUtility(IDexterityFTI, name=self.portal_type)
@@ -24,7 +27,7 @@ class PkanDefaulftAddForm(add.DefaultAddForm):
         # to re-define a type through the web that uses the factory from an
         # existing type, but wants a unique portal_type!
 
-        if hasattr(content, '_setPortalTypeName'):
+        if getattr(content, '_setPortalTypeName'):
             content._setPortalTypeName(fti.getId())
 
         # Acquisition wrap temporarily to satisfy things like vocabularies
@@ -40,4 +43,6 @@ class PkanDefaulftAddForm(add.DefaultAddForm):
 
 
 class PkanDefaultAddView(add.DefaultAddView):
+    """Default add view."""
+
     form = PkanDefaulftAddForm

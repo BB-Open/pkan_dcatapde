@@ -30,19 +30,19 @@ FIXTURE = Fixture()
 
 INTEGRATION_TESTING = IntegrationTesting(
     bases=(FIXTURE, ),
-    name='pkan.dcatapde:Integration'
+    name='pkan.dcatapde:Integration',
 )
 
 
 FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(FIXTURE, z2.ZSERVER_FIXTURE),
-    name='pkan.dcatapde:Functional'
+    name='pkan.dcatapde:Functional',
 )
 
 
 ACCEPTANCE_TESTING = FunctionalTesting(
     bases=(FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE),
-    name='pkan.dcatapde:Acceptance'
+    name='pkan.dcatapde:Acceptance',
 )
 
 
