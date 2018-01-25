@@ -3,15 +3,28 @@
 
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DctMediatypeorextent
+from pkan.dcatapde.content.catalog import INameFromCatalog
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
+from ps.zope.i18nfield.field import I18NText
+from ps.zope.i18nfield.field import I18NTextLine
 from zope import schema
 from zope.interface import implementer
 
 
 class IDct_Mediatypeorextent(model.Schema):
     """Marker interfce and DX Python Schema for Dct_Mediatypeorextent."""
+
+    dct_title = I18NTextLine(
+        required=True,
+        title=_(u'Title'),
+    )
+
+    dct_description = I18NText(
+        required=False,
+        title=_(u'Description'),
+    )
 
     rdf_about = schema.URI(
         required=True,
@@ -25,6 +38,13 @@ class Dct_Mediatypeorextent(Item):
 
     portal_type = 'dct_licensedocument'
     namespace_class = 'dct:licensedocument'
+
+    _Title = ''
+
+    def Title(self):
+        if not self._Title:
+            self._Title = INameFromCatalog(self).title
+        return self._Title
 
 
 class DctMediatypeorextentDefaultFactory(DexterityFactory):

@@ -3,6 +3,7 @@
 
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_Foafagent
+from pkan.dcatapde.content.catalog import INameFromCatalog
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -41,6 +42,13 @@ class Foafagent(Item):
 
     portal_type = 'foafagent'
     namespace_class = 'foaf:agent'
+
+    _Title = ''
+
+    def Title(self):
+        if not self._Title:
+            self._Title = INameFromCatalog(self).title
+        return self._Title
 
 
 class FoafagentDefaultFactory(DexterityFactory):

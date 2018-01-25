@@ -4,7 +4,6 @@
 from setuptools import find_packages
 from setuptools import setup
 
-
 version = '0.1.dev0'
 description = 'DCAT-AP.de content types for Plone.'
 long_description = '\n\n'.join([
@@ -14,20 +13,20 @@ long_description = '\n\n'.join([
 ])
 
 install_requires = [
-    'setuptools',
-    # -*- Extra requirements: -*-
-    'chardet',
-    'collective.z3cform.datagridfield >= 1.3.0',
-    'plone.api',
-    'plone.app.dexterity',
-    'plone.formwidget.relateditems >= 0.2',
-    'Products.GenericSetup >= 1.8.2',
-    'ps.zope.i18nfield >= 0.7',
-    'requests',
-    'surf',
-    'z3c.jbot',
-    'zope.app.content',
-],
+                       'setuptools',
+                       # -*- Extra requirements: -*-
+                       'chardet',
+                       'collective.z3cform.datagridfield >= 1.3.0',
+                       'plone.api',
+                       'plone.app.dexterity',
+                       'plone.formwidget.relateditems >= 0.2',
+                       'Products.GenericSetup >= 1.8.2',
+                       'ps.zope.i18nfield >= 0.7',
+                       'requests',
+                       'surf',
+                       'z3c.jbot',
+                       'zope.app.content',
+                   ],
 
 test_requires = [
     'plone.app.contenttypes',
@@ -38,7 +37,6 @@ test_requires = [
 
 testfixture_requires = [
 ]
-
 
 setup(
     name='pkan.dcatapde',

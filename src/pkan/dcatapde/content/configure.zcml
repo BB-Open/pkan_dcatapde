@@ -1,67 +1,85 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="pkan.dcatapde">
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  i18n_domain="pkan.dcatapde">
 
-    <adapter
-        factory=".catalog.NameFromCatalog"
-        for=".catalog.ICatalog"
-        provides=".catalog.INameFromCatalog"
-        />
+  <adapter
+    factory=".catalog.NameFromCatalog"
+    for=".catalog.ICatalog"
+    provides=".catalog.INameFromCatalog"
+  />
 
-    <adapter
-        factory=".catalog.NameFromCatalog"
-        for=".dataset.IDataset"
-        provides=".catalog.INameFromCatalog"
-        />
+  <adapter
+    factory=".catalog.NameFromCatalog"
+    for=".dataset.IDataset"
+    provides=".catalog.INameFromCatalog"
+  />
 
-    <adapter
-        factory=".catalog.NameFromCatalog"
-        for=".distribution.IDistribution"
-        provides=".catalog.INameFromCatalog"
-        />
+  <adapter
+    factory=".catalog.NameFromCatalog"
+    for=".distribution.IDistribution"
+    provides=".catalog.INameFromCatalog"
+  />
 
-    <utility
-        factory=".catalog.CatalogDefaultFactory"
-        name="catalog"
-        provides="plone.dexterity.interfaces.IDexterityFactory"
-        />
+  <adapter
+    factory=".catalog.NameFromCatalog"
+    for=".foafagent.IFoafagent"
+    provides=".catalog.INameFromCatalog"
+  />
 
-    <utility
-        factory=".dataset.DatasetDefaultFactory"
-        name="dataset"
-        provides="plone.dexterity.interfaces.IDexterityFactory"
-        />
+  <adapter
+    factory=".catalog.NameFromCatalog"
+    for=".dct_licensedocument.IDct_Licensedocument"
+    provides=".catalog.INameFromCatalog"
+  />
 
-    <utility
-        factory=".distribution.DistributionDefaultFactory"
-        name="distribution"
-        provides="plone.dexterity.interfaces.IDexterityFactory"
-        />
+  <adapter
+    factory=".catalog.NameFromCatalog"
+    for=".dct_mediatypeorextent.IDct_Mediatypeorextent"
+    provides=".catalog.INameFromCatalog"
+  />
 
-    <utility
-        factory=".foafagent.FoafagentDefaultFactory"
-        name="foafagent"
-        provides="plone.dexterity.interfaces.IDexterityFactory"
-        />
+  <utility
+    factory=".catalog.CatalogDefaultFactory"
+    name="catalog"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
 
-    <utility
-        factory=".harvester.HarvesterDefaultFactory"
-        name="harvester"
-        provides="plone.dexterity.interfaces.IDexterityFactory"
-        />
+  <utility
+    factory=".dataset.DatasetDefaultFactory"
+    name="dataset"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
 
-    <utility
-        factory=".harvester_field_config.FieldConfigDefaultFactory"
-        name="harvester_field_config"
-        provides="plone.dexterity.interfaces.IDexterityFactory"
-        />
+  <utility
+    factory=".distribution.DistributionDefaultFactory"
+    name="distribution"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
 
-    <utility
-        factory=".harvesterfolder.HarvesterFolderDefaultFactory"
-        name="harvesterfolder"
-        provides="plone.dexterity.interfaces.IDexterityFactory"
-        />
+  <utility
+    factory=".foafagent.FoafagentDefaultFactory"
+    name="foafagent"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
+
+  <utility
+    factory=".harvester.HarvesterDefaultFactory"
+    name="harvester"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
+
+  <utility
+    factory=".harvester_field_config.FieldConfigDefaultFactory"
+    name="harvester_field_config"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
+
+  <utility
+    factory=".harvesterfolder.HarvesterFolderDefaultFactory"
+    name="harvesterfolder"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
 
 </configure>
