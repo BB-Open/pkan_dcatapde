@@ -35,7 +35,7 @@ class BaseProcessor(object):
         self.cleared_data = None
         self.field_config = get_field_config(self.obj)
         self.context = self.field_config.base_object.to_object
-        
+
     def format_errors(self, errors):
         formatted = ''
         for error in errors:
@@ -63,7 +63,7 @@ class BaseProcessor(object):
             return log + '<p>Wrong context, cannot add anything</p>'
 
         if c.CT_Catalog in self.cleared_data and self.cleared_data[
-            c.CT_Catalog]:
+                c.CT_Catalog]:
             catalogs = self.cleared_data[c.CT_Catalog]
             catalog_counter = len(catalogs)
 
@@ -72,7 +72,8 @@ class BaseProcessor(object):
                     catalogs[x] = self.context
             else:
                 for x in range(0, catalog_counter):
-                    log += '<p>Start cleaning catalog number {catalog}</p>'.format(
+                    log_line = '<p>Start cleaning catalog number {catalog}</p>'
+                    log += log_line.format(
                         catalog=x)
                     if isinstance(catalogs[x], int):
                         pass
@@ -86,17 +87,16 @@ class BaseProcessor(object):
                     log += '<p>Cleaned catalog number {catalog}</p>'.format(
                         catalog=x)
 
-
         pass_dataset = c.CT_Dataset in pass_ct
 
         log += self.dry_run_for_type(c.CT_Dataset,
-                                      c.CT_Catalog,
-                                      clean_dataset,
-                                      pass_obj=pass_dataset)
+                                     c.CT_Catalog,
+                                     clean_dataset,
+                                     pass_obj=pass_dataset)
 
         log += self.dry_run_for_type(c.CT_Distribution,
-                                      c.CT_Dataset,
-                                      clean_distribution)
+                                     c.CT_Dataset,
+                                     clean_distribution)
 
         for key in keys:
             key_elements = key.split(':')
@@ -106,7 +106,6 @@ class BaseProcessor(object):
                 # How deep do we have to go?
 
         return log
-
 
     def real_run(self):
         '''
@@ -282,7 +281,6 @@ class BaseProcessor(object):
 
         return log
 
-
     def dry_run_for_subtype(self, key, key_elements):
         log = ''
         ct = key_elements[2]
@@ -376,9 +374,15 @@ class JsonProcessor(BaseProcessor):
         return fields
 
     def read_data(self):
-        source_data = self.get_data()
-        data = {}
 
+        raw_data = self.read_raw_data()
+        data = self.clean_data(raw_data)
+        data = self.clean_data_by_field(data)
+
+        return data
+
+    def read_raw_data(self):
+        source_data = self.get_data()
         raw_data = {}
         for field_config in self.field_config.fields:
             dcat_field = field_config['dcat_field']
@@ -405,7 +409,10 @@ class JsonProcessor(BaseProcessor):
                 key = '{dcat_field}__{prio}'.format(dcat_field=dcat_field,
                                                     prio=prio)
                 raw_data[key] = subdata
+        return raw_data
 
+    def clean_data(self, raw_data):
+        data = {}
         data_prio = {}
 
         for field in raw_data:
@@ -425,12 +432,12 @@ class JsonProcessor(BaseProcessor):
                     data[ct][x] = {}
                     data_prio[ct][x] = {}
                 if attribute not in data[ct][x]:
-                    data[ct][x][attribute] = field_data[x]
+                    data[ct][x][attribute] = (field_data[x], field)
                     data_prio[ct][x][attribute] = prio
                 else:
                     old_prio = data_prio[ct][x][attribute]
                     if old_prio < prio and field_data[x]:
-                        data[ct][x][attribute] = field_data[x]
+                        data[ct][x][attribute] = (field_data[x], field)
                         data_prio[ct][x][attribute] = prio
 
         # find duplicates, because they are pointing the same object
@@ -442,6 +449,12 @@ class JsonProcessor(BaseProcessor):
                     data[ct][x] = ct_data[data_str]
                 else:
                     ct_data[data_str] = x
+        return data
+
+    def clean_data_by_field(self, data):
+
+        # TODO: Field-Adapter calling here, for cleaning by field
+        # and joining composit-fields
 
         return data
 

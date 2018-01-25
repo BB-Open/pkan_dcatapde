@@ -7,10 +7,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 @provider(IContextAwareDefaultFactory)
 def ConfigFieldDefaultFactory(context):
-        if context and hasattr(context, 'fields'):
-            fields = context.fields
-        else:
-            fields = []
+        fields = []
 
         vocab_name = 'pkan.dcatapde.DcatFieldVocabulary'
         factory = getUtility(IVocabularyFactory, vocab_name)
