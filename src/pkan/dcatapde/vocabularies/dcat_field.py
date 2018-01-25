@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""DCAT field vocabularies."""
 
 from pkan.dcatapde.constants import DCAT_CTs
 from plone.dexterity.interfaces import IDexterityFTI
@@ -13,8 +14,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 @implementer(IVocabularyFactory)
 class DcatFieldVocabulary(object):
-    """
-    """
+    """DKAT field vocabulary."""
 
     def __call__(self, context):
         terms = []
@@ -26,8 +26,7 @@ class DcatFieldVocabulary(object):
 
     def get_terms_for_ct(self, CT, prefix=''):
         terms = []
-        schema = getUtility(IDexterityFTI,
-                            name=CT).lookupSchema()
+        schema = getUtility(IDexterityFTI, name=CT).lookupSchema()
         fields = getFields(schema)
         for field_name in fields.keys():
             field = fields[field_name]
@@ -35,30 +34,31 @@ class DcatFieldVocabulary(object):
                 field_prefix = CT + ':' + field_name + ':'
                 cts = self.get_cts_from_relfield(field, field_name)
                 for ct in cts:
-                    terms += self.get_terms_for_ct(ct,
-                                                   prefix=field_prefix)
+                    terms += self.get_terms_for_ct(ct, prefix=field_prefix)
             else:
                 if field.required:
                     value = '{CT}__{field_name}__required'.format(
-                        CT=prefix+CT, field_name=field_name
+                        CT=prefix + CT,
+                        field_name=field_name,
                     )
                     title = '{CT}: {field_name} required'.format(
-                        CT=prefix+CT, field_name=field_name
+                        CT=prefix + CT,
+                        field_name=field_name,
                     )
                     terms.append(
-                        SimpleTerm(
-                            value=value, token=value, title=title)
+                        SimpleTerm(value=value, token=value, title=title),
                     )
                 else:
                     value = '{CT}__{field_name}'.format(
-                        CT=prefix+CT, field_name=field_name
+                        CT=prefix + CT,
+                        field_name=field_name,
                     )
                     title = '{CT}: {field_name}'.format(
-                        CT=prefix+CT, field_name=field_name
+                        CT=prefix + CT,
+                        field_name=field_name,
                     )
                     terms.append(
-                        SimpleTerm(
-                            value=value, token=value, title=title)
+                        SimpleTerm(value=value, token=value, title=title),
                     )
         return terms
 
@@ -69,8 +69,10 @@ class DcatFieldVocabulary(object):
 
         if field_name in widgets:
             params = widgets[field_name].params
-            if ('pattern_options' in params) and (
-                        'selectableTypes' in params['pattern_options']):
+            if (
+                ('pattern_options' in params) and
+                ('selectableTypes' in params['pattern_options'])
+            ):
                 return params['pattern_options']['selectableTypes']
             elif 'content_type' in params:
                 return [params['content_type']]

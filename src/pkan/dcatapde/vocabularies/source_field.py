@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Source field vocabularies."""
+
 from pkan.dcatapde.constants import CT_Harvester
 from plone import api
 from zope.globalrequest import getRequest
@@ -10,11 +12,10 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 @implementer(IVocabularyFactory)
 class SourceFieldVocabulary(object):
-    """
-    """
+    """Source field vocabulary."""
 
     def __call__(self, context):
-        # TODO: given context is no context object. It is just the data of
+        # Note: given context is no context object. It is just the data of
         # the row in datagrid field
         # create a list of SimpleTerm items:
         terms = []
@@ -39,8 +40,7 @@ class SourceFieldVocabulary(object):
             fields = processor.read_fields()
             for field in fields:
                 terms.append(
-                    SimpleTerm(
-                        value=field, token=field, title=field)
+                    SimpleTerm(value=field, token=field, title=field),
                 )
 
         # Create a SimpleVocabulary from the terms list and return it:
