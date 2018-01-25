@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde.content.harvesterfolder import IHarvesterfolder
-from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING  # noqa
+from pkan.dcatapde import testing
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -13,7 +13,7 @@ import unittest
 
 class HarvesterfolderIntegrationTest(unittest.TestCase):
 
-    layer = PKAN_DCATAPDE_INTEGRATION_TESTING
+    layer = testing.INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""

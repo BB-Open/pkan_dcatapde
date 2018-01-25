@@ -1,49 +1,49 @@
 # -*- coding: utf-8 -*-
+"""Test Layer for pkan.dcatapde."""
+
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
-from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
+from plone.testing import Layer
 from plone.testing import z2
 
-import pkan.dcatapde
 
-
-class PkanDcatapdeLayer(PloneSandboxLayer):
+class Fixture(PloneSandboxLayer):
+    """Custom Test Layer for pkan.dcatapde."""
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
-        # Load any other ZCML that is required for your tests.
-        # The z3c.autoinclude feature is disabled in the Plone fixture base
-        # layer.
+        """Set up Zope for testing."""
+        # Load ZCML
+        import pkan.dcatapde
         self.loadZCML(package=pkan.dcatapde)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'pkan.dcatapde:default')
+        self.applyProfile(portal, 'pkan.dcatapde:default')
 
 
-PKAN_DCATAPDE_FIXTURE = PkanDcatapdeLayer()
+FIXTURE = Fixture()
 
 
-PKAN_DCATAPDE_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(PKAN_DCATAPDE_FIXTURE,),
-    name='PkanDcatapdeLayer:IntegrationTesting'
+INTEGRATION_TESTING = IntegrationTesting(
+    bases=(FIXTURE, ),
+    name='pkan.dcatapde:Integration'
 )
 
 
-PKAN_DCATAPDE_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(PKAN_DCATAPDE_FIXTURE,),
-    name='PkanDcatapdeLayer:FunctionalTesting'
+FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(FIXTURE, z2.ZSERVER_FIXTURE),
+    name='pkan.dcatapde:Functional'
 )
 
 
-PKAN_DCATAPDE_ACCEPTANCE_TESTING = FunctionalTesting(
-    bases=(
-        PKAN_DCATAPDE_FIXTURE,
-        REMOTE_LIBRARY_BUNDLE_FIXTURE,
-        z2.ZSERVER_FIXTURE
-    ),
-    name='PkanDcatapdeLayer:AcceptanceTesting'
+ACCEPTANCE_TESTING = FunctionalTesting(
+    bases=(FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE),
+    name='pkan.dcatapde:Acceptance'
 )
+
+
+ROBOT_TESTING = Layer(name='pkan.dcatapde:Robot')

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
 
-from pkan.dcatapde.testing import PKAN_DCATAPDE_INTEGRATION_TESTING
+from pkan.dcatapde import testing
 from plone import api
 from plone.browserlayer.utils import registered_layers
 
@@ -11,7 +11,7 @@ import unittest
 class TestSetup(unittest.TestCase):
     """Validate setup process for pkan.dcatapde."""
 
-    layer = PKAN_DCATAPDE_INTEGRATION_TESTING
+    layer = testing.INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -33,7 +33,7 @@ class TestSetup(unittest.TestCase):
 class TestUninstall(unittest.TestCase):
     """Validate uninstall process for pkan.dcatapde."""
 
-    layer = PKAN_DCATAPDE_INTEGRATION_TESTING
+    layer = testing.INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""
