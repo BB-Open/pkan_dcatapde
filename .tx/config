@@ -1,4 +1,4 @@
-[PKAN.pkandcatapde]
+[pkan.pkandcatapde]
 file_filter = src/pkan/dcatapde/locales/<lang>/LC_MESSAGES/pkan.dcatapde.po
 source_file = src/pkan/dcatapde/locales/pkan.dcatapde.pot
 source_lang = en
