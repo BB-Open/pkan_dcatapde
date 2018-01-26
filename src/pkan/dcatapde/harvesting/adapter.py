@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
-
 from pkan.dcatapde import constants as c
 from pkan.dcatapde.api.catalog import add_catalog
 from pkan.dcatapde.api.catalog import clean_catalog
@@ -12,10 +11,15 @@ from pkan.dcatapde.api.foafagent import add_foafagent
 from pkan.dcatapde.api.foafagent import clean_foafagent
 from pkan.dcatapde.api.harvester import get_field_config
 from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
 from pkan.dcatapde.harvesting.interfaces import IJson
 from pkan.dcatapde.harvesting.interfaces import IXml
+from plone import api
+from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import adapter
+from zope.component import getUtility
 from zope.interface import implementer
+from zope.schema import getFields
 
 import json
 import requests
@@ -38,7 +42,10 @@ class BaseProcessor(object):
         self.obj = obj
         self.cleared_data = None
         self.field_config = get_field_config(self.obj)
-        self.context = self.field_config.base_object.to_object
+        self.context = api.portal.get()
+        if self.field_config:
+            if self.field_config.base_object:
+                self.context = self.field_config.base_object.to_object
 
     def format_errors(self, errors):
         formatted = ''
@@ -53,7 +60,7 @@ class BaseProcessor(object):
         log = ''
 
         if not self.cleared_data:
-            return log
+            return '<p>No Data to Test</p>'
 
         keys = self.cleared_data.keys()
 
@@ -113,8 +120,6 @@ class BaseProcessor(object):
             key_elements = key.split(':')
             if len(key_elements) == 3 and key_elements[0] not in pass_ct:
                 log += self.dry_run_for_subtype(key, key_elements)
-                # Fix: What if RelatedItem of RelatedItem?
-                # How deep do we have to go?
 
         return log
 
@@ -132,15 +137,7 @@ class BaseProcessor(object):
 
         keys = self.cleared_data.keys()
 
-        pass_ct = []
-
-        if self.context.portal_type == c.CT_Catalog:
-            pass_ct.append(c.CT_Catalog)
-        elif self.context.portal_type == c.CT_Dataset:
-            pass_ct.append(c.CT_Catalog)
-            pass_ct.append(c.CT_Dataset)
-        elif self.context.portal_type == c.CT_Distribution:
-            return log + '<p>Wrong context, cannot add anything</p>'
+        pass_ct = self.get_content_to_pass()
 
         if c.CT_Catalog in self.cleared_data and self.cleared_data[
                 c.CT_Catalog]:
@@ -180,50 +177,82 @@ class BaseProcessor(object):
 
         for key in keys:
             key_elements = key.split(':')
-            if len(key_elements) == 3 and key_elements[0] not in pass_ct:
+
+            if len(key_elements) >= 3 and key_elements[0] not in pass_ct:
                 log += self.real_run_for_subtype(key, key_elements)
-                # Fix: What if RelatedItem of RelatedItem?
-                # How deep do we have to go?
+
+        for key in keys:
+            key_elements = key.split(':')
+
+            if len(key_elements) >= 3 and key_elements[0] not in pass_ct:
+                log += self.set_subtypes_to_parent(key, key_elements)
 
         return log
 
     def real_run_for_subtype(self, key, key_elements):
         log = ''
-        parent_ct = key_elements[0]
-        attr = key_elements[1]
-        ct = key_elements[2]
+        key_elements_length = len(key_elements)
 
-        if ct in ADD_METHODS_SUB_CTS:
-            add_routine = ADD_METHODS_SUB_CTS[ct]
-        else:
-            log = '<p>Could not create {key} because of missing method.</p>'
-            return log.format(key=key)
+        while key_elements_length >= 3:
+            ct = key_elements[key_elements_length - 1]
 
-        data_elements = self.cleared_data[key]
-        data_counter = len(data_elements)
-
-        for x in range(0, data_counter):
-
-            if isinstance(data_elements[x], int):
-                wanted_obj = data_elements[data_elements[x]]
+            if ct in ADD_METHODS_SUB_CTS:
+                add_routine = ADD_METHODS_SUB_CTS[ct]
             else:
-                # Fix: instead of create check for
-                # create/update/deprecated/delete
-                wanted_obj = add_routine(self.context, **data_elements[x])
-                data_elements[x] = wanted_obj
-                log += '<p>Created {ct} {dataset}</p>'.format(
+                log = '<p>Could not create {key} because of missing method.</p>'
+                return log.format(key=key)
+
+            data_elements = self.cleared_data[key]
+            data_counter = len(data_elements)
+
+            for x in range(0, data_counter):
+
+                if isinstance(data_elements[x], int):
+                    wanted_obj = data_elements[data_elements[x]]
+                else:
+                    # Fix: instead of create check for
+                    # create/update/deprecated/delete
+                    wanted_obj = add_routine(self.context, **data_elements[x])
+                    data_elements[x] = wanted_obj
+                    log += '<p>Created {ct} {dataset}</p>'.format(
+                        ct=ct,
+                        dataset=wanted_obj.title,
+                    )
+
+            key_elements_length -= 2
+
+        return log
+
+    def set_subtypes_to_parent(self, key, key_elements):
+        log = ''
+        key_elements_length = len(key_elements)
+
+        while key_elements_length >= 3:
+            parent_ct = ':'.join(key_elements[0:key_elements_length - 3])
+            attr = key_elements[key_elements_length - 2]
+            ct = key_elements[key_elements_length - 1]
+
+            data_elements = self.cleared_data[key]
+            data_counter = len(data_elements)
+
+            for x in range(0, data_counter):
+                if isinstance(data_elements[x], int):
+                    wanted_obj = data_elements[data_elements[x]]
+                else:
+                    wanted_obj = data_elements[x]
+
+                parent = self.cleared_data[parent_ct][x]
+                if isinstance(parent, int):
+                    parent = self.cleared_data[parent_ct][parent]
+
+                # Fix: Check if this works with RelatedItem-Field
+                setattr(parent, attr, wanted_obj)
+
+                log += '<p>Added {ct} {dataset} to parent.</p>'.format(
                     ct=ct,
                     dataset=wanted_obj.title,
                 )
-
-            parent = self.cleared_data[parent_ct][x]
-            if isinstance(parent, int):
-                parent = self.cleared_data[parent_ct][parent]
-
-            # Fix: Check if this works with RelatedItem-Field
-            setattr(parent, attr, wanted_obj)
-
-        return log
+            key_elements_length -= 2
 
     def real_run_for_type(
         self, obj_ct, parent_ct, add_routine, pass_obj=False,
@@ -295,42 +324,69 @@ class BaseProcessor(object):
 
     def dry_run_for_subtype(self, key, key_elements):
         log = ''
-        ct = key_elements[2]
 
-        if ct in CLEAN_METHODS_SUB_CTS:
-            clean_routine = CLEAN_METHODS_SUB_CTS[ct]
-        else:
-            log = '<p>Could not clean {key} because of missing method.</p>'
-            return log.format(key=key)
+        key_elements_length = len(key_elements)
 
-        data_elements = self.cleared_data[key]
-        data_counter = len(data_elements)
+        while key_elements_length >= 3:
+            ct = key_elements[key_elements_length - 1]
 
-        for x in range(0, data_counter):
-            log += '<p>Start cleaning {ct} number {dataset}</p>'.format(
-                ct=ct,
-                dataset=x,
-            )
-            if isinstance(data_elements[x], int):
-                pass
+            if ct in CLEAN_METHODS_SUB_CTS:
+                clean_routine = CLEAN_METHODS_SUB_CTS[ct]
             else:
+                log = '<p>Could not clean {key} because of missing method.</p>'
+                return log.format(key=key)
 
-                wanted_data, error = clean_routine(**data_elements[x])
-                data_elements[x] = wanted_data
-                if error:
-                    log += self.format_errors(error)
-            log += '<p>Cleaned {ct} number {dataset}</p>'.format(
-                ct=ct,
-                dataset=x,
-            )
+            data_elements = self.cleared_data[key]
+            data_counter = len(data_elements)
+
+            for x in range(0, data_counter):
+                log += '<p>Start cleaning {ct} number {dataset}</p>'.format(
+                    ct=ct,
+                    dataset=x,
+                )
+                if isinstance(data_elements[x], int):
+                    pass
+                else:
+
+                    wanted_data, error = clean_routine(**data_elements[x])
+                    data_elements[x] = wanted_data
+                    if error:
+                        log += self.format_errors(error)
+                log += '<p>Cleaned {ct} number {dataset}</p>'.format(
+                    ct=ct,
+                    dataset=x,
+                )
+
+            key_elements_length -= 2
 
         return log
+
+    def get_content_to_pass(self):
+        if self.context.portal_type == c.CT_Catalog:
+            return [c.CT_Catalog]
+        elif self.context.portal_type == c.CT_Dataset:
+            return [c.CT_Catalog, c.CT_Dataset]
+        elif self.context.portal_type == c.CT_Distribution:
+            return [c.CT_Catalog, c.CT_Dataset, c.CT_Distribution]
+        else:
+            return []
 
 
 @adapter(IHarvester)
 @implementer(IJson)
 class JsonProcessor(BaseProcessor):
     """JSON Processor."""
+
+    _schema_fields = {}
+
+    def get_schema_fields(self, ct):
+        if ct in self._schema_fields:
+            return self._schema_fields[ct]
+        else:
+            schema = getUtility(IDexterityFTI,
+                                name=ct).lookupSchema()
+            self._schema_fields[ct] = getFields(schema)
+            return schema
 
     def get_data(self):
         url = self.obj.url
@@ -344,7 +400,7 @@ class JsonProcessor(BaseProcessor):
         return data
 
     def read_fields(self, reread=False):
-        if self.obj.fields and not reread:
+        if getattr(self.obj, 'fields', None) and not reread:
             return self.obj.fields
 
         data = self.get_data()
@@ -469,8 +525,16 @@ class JsonProcessor(BaseProcessor):
 
     def clean_data_by_field(self, data):
 
-        # Fix: Field-Adapter calling here, for cleaning by field
-        # and joining composit-fields
+        available_fields = data.keys()
+        for field_id in available_fields:
+            field_info = field_id.split(':')
+            field_ct = field_info[0]
+            field_name = field_info[1]
+            schema_fields = self.get_schema_fields(field_ct)
+            field = schema_fields[field_name]
+            adapter = IFieldProcessor(field)
+
+            data = adapter.clean_value(data, field_id)
 
         return data
 

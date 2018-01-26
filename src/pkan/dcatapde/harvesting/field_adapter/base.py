@@ -42,5 +42,6 @@ class BaseField(object):
             )
         return terms
 
-    def clean_value(self, data):
-        pass
+    def clean_value(self, data, field_id):
+
+        return data

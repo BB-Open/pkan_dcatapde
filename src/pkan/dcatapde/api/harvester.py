@@ -52,6 +52,8 @@ def clean_fieldconfig(**data):
         data['fields'] = add_missing_fields(None, [])
 
     test_obj = HarvesterFieldConfig()
+    test_obj.id = constants.HARVESTER_FIELD_CONFIG_ID
+    test_obj.title = constants.HARVESTER_FIELD_CONFIG_TITLE
 
     for attr in data:
         setattr(test_obj, attr, data[attr])

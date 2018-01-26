@@ -7,5 +7,5 @@ class IFieldProcessor(Interface):
     def get_terms_for_vocab(self, ct, field_name):
         pass
 
-    def clean_value(self):
+    def clean_value(self, data, field_id):
         pass
