@@ -1,5 +1,0 @@
-====================
-pkan.dcatapde
-====================
-
-User documentation
