@@ -16,6 +16,7 @@ from pkan.dcatapde.harvesting.interfaces import IJson
 from pkan.dcatapde.harvesting.interfaces import IXml
 from plone import api
 from plone.dexterity.interfaces import IDexterityFTI
+from z3c.relationfield import RelationChoice
 from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
@@ -38,6 +39,8 @@ CLEAN_METHODS_SUB_CTS = {
 class BaseProcessor(object):
     """Base processor."""
 
+    _schema_fields = {}
+
     def __init__(self, obj):
         self.obj = obj
         self.cleared_data = None
@@ -47,12 +50,28 @@ class BaseProcessor(object):
             if self.field_config.base_object:
                 self.context = self.field_config.base_object.to_object
 
-    def format_errors(self, errors):
+    def get_schema_fields(self, ct):
+        if ct in self._schema_fields:
+            return self._schema_fields[ct]
+        else:
+            schema = getUtility(IDexterityFTI,
+                                name=ct).lookupSchema()
+            fields = getFields(schema)
+            self._schema_fields[ct] = fields
+            return fields
+
+    def format_errors(self, errors, ct):
         formatted = ''
         for error in errors:
+            error_name = error[1].__class__.__name__
+            field_name = error[0]
+            schema_fields = self.get_schema_fields(ct)
+            field = schema_fields[field_name]
+            if isinstance(field, RelationChoice):
+                continue
             formatted += c.ERROR_HTML_LINE.format(
-                error=error[1].__class__.__name__,
-                field=error[0])
+                error=error_name,
+                field=field_name)
         return formatted
 
     def dry_run(self):  # noqa
@@ -97,7 +116,7 @@ class BaseProcessor(object):
                         catalog, error = clean_catalog(**catalogs[x])
                         catalogs[x] = catalog
                         if error:
-                            log += self.format_errors(error)
+                            log += self.format_errors(error, c.CT_Catalog)
                     log += '<p>Cleaned catalog number {catalog}</p>'.format(
                         catalog=x)
 
@@ -314,7 +333,7 @@ class BaseProcessor(object):
                         data_elements[x] = dataset
 
                         if error:
-                            log += self.format_errors(error)
+                            log += self.format_errors(error, obj_ct)
                     log += '<p>Cleaned {ct} number {dataset}</p>'.format(
                         ct=obj_ct,
                         dataset=x,
@@ -351,7 +370,7 @@ class BaseProcessor(object):
                     wanted_data, error = clean_routine(**data_elements[x])
                     data_elements[x] = wanted_data
                     if error:
-                        log += self.format_errors(error)
+                        log += self.format_errors(error, ct)
                 log += '<p>Cleaned {ct} number {dataset}</p>'.format(
                     ct=ct,
                     dataset=x,
@@ -376,17 +395,6 @@ class BaseProcessor(object):
 @implementer(IJson)
 class JsonProcessor(BaseProcessor):
     """JSON Processor."""
-
-    _schema_fields = {}
-
-    def get_schema_fields(self, ct):
-        if ct in self._schema_fields:
-            return self._schema_fields[ct]
-        else:
-            schema = getUtility(IDexterityFTI,
-                                name=ct).lookupSchema()
-            self._schema_fields[ct] = getFields(schema)
-            return schema
 
     def get_data(self):
         url = self.obj.url
@@ -446,10 +454,25 @@ class JsonProcessor(BaseProcessor):
     def read_data(self):
 
         raw_data = self.read_raw_data()
+        raw_data = self.clean_data_by_field(raw_data)
         data = self.clean_data(raw_data)
-        data = self.clean_data_by_field(data)
 
         return data
+
+    def read_data_from_field(self, source_field, subdata):
+        path = source_field.split('.')
+
+        for x in path:
+            if isinstance(subdata, dict):
+                subdata = subdata[x]
+            elif isinstance(subdata, list):
+                new_subdata = []
+                for sd in subdata:
+                    if sd and x in sd:
+                        new_subdata.append(sd[x])
+                    else:
+                        new_subdata.append(None)
+                subdata = new_subdata
 
     def read_raw_data(self):
         source_data = self.get_data()
@@ -460,27 +483,31 @@ class JsonProcessor(BaseProcessor):
             prio = field_config['prio']
 
             if source_field:
-                path = source_field.split('.')
-
-                subdata = source_data
-
-                for x in path:
-                    if isinstance(subdata, dict):
-                        subdata = subdata[x]
-                    elif isinstance(subdata, list):
-                        new_subdata = []
-                        for sd in subdata:
-                            if sd and x in sd:
-                                new_subdata.append(sd[x])
-                            else:
-                                new_subdata.append(None)
-                        subdata = new_subdata
+                subdata = self.read_data_from_field(source_field, source_data)
 
                 key = '{dcat_field}__{prio}'.format(
                     dcat_field=dcat_field,
                     prio=prio,
                 )
-                raw_data[key] = subdata
+                # Merge data with same prio
+                if key in raw_data:
+                    for element_index in range(len(subdata)):
+                        try:
+                            current_data = raw_data[key][element_index]
+                        except IndexError:
+                            raw_data[key].append(subdata[element_index])
+                            continue
+                        if isinstance(current_data, list):
+                            current_data.append(subdata[element_index])
+                        else:
+                            raw_data[key][element_index] = [
+                                current_data,
+                                subdata[element_index],
+                            ]
+                # No data with same prio, so just use subdata
+                else:
+                    raw_data[key] = subdata
+
         return raw_data
 
     def clean_data(self, raw_data):
@@ -527,8 +554,11 @@ class JsonProcessor(BaseProcessor):
 
         available_fields = data.keys()
         for field_id in available_fields:
-            field_info = field_id.split(':')
+            field_info = field_id.split('__')
+
             field_ct = field_info[0]
+            if ':' in field_ct:
+                field_ct = field_ct.split(':')[-1]
             field_name = field_info[1]
             schema_fields = self.get_schema_fields(field_ct)
             field = schema_fields[field_name]

@@ -37,6 +37,8 @@ def clean_harvester(**data):
 def clean_harvesterfolder(**data):
     """Clean Harvesterfolder."""
     test_obj = Harvesterfolder()
+    test_obj.id = constants.HARVESTER_FOLDER_ID
+    test_obj.title = constants.HARVESTER_FOLDER_TITLE
 
     for attr in data:
         setattr(test_obj, attr, data[attr])

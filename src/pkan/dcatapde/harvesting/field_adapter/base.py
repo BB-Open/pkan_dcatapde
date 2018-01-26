@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
+from plone.dexterity.utils import safe_unicode
 from z3c.form.interfaces import IField
 from zope.component import adapter
 from zope.interface import implementer
@@ -43,5 +44,23 @@ class BaseField(object):
         return terms
 
     def clean_value(self, data, field_id):
+
+        new_values = []
+
+        for value in data[field_id]:
+
+            if isinstance(value, list):
+                str_values = []
+                for element in value:
+                    if element is None:
+                        str_values.append('')
+                    else:
+                        str_values.append(str(element))
+
+                new_values.append(safe_unicode(' '.join(str_values)))
+            else:
+                new_values.append(safe_unicode(value))
+
+        data[field_id] = new_values
 
         return data

@@ -38,3 +38,10 @@ class RelationAdapter(BaseField):
                 return [params['content_type']]
 
         return []
+
+    def clean_value(self, data, field_id):
+        """
+        Dry Run will never use this method because it uses field of subtype.
+        """
+
+        return data
