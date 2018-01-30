@@ -3,7 +3,9 @@
 
 from pkan.dcatapde import constants
 from plone import api
+from plone.app.dexterity.behaviors import constrains
 from Products.CMFPlone.interfaces import INonInstallable
+from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 from zope.interface import implementer
 
 
@@ -45,6 +47,8 @@ def add_licenses_folder(portal):
             id=constants.FOLDER_LICENSES,
             title=u'Licenses',
         )
+        allowed_types = [constants.CT_DCT_LICENSE_DOCUMENT]
+        _setup_constrains(licenses, allowed_types)
         _publish(licenses)
 
 
@@ -64,3 +68,11 @@ def _publish(content):
         api.content.transition(obj=content, transition='publish')
         return True
     return False
+
+
+def _setup_constrains(container, allowed_types):
+    """Set allowed types as constraint for a given container."""
+    behavior = ISelectableConstrainTypes(container)
+    behavior.setConstrainTypesMode(constrains.ENABLED)
+    behavior.setImmediatelyAddableTypes(allowed_types)
+    return True
