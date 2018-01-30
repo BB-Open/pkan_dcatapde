@@ -47,6 +47,16 @@ class IDistribution(model.Schema):
         vocabulary='plone.app.vocabularies.Catalog',
     )
 
+    dcat_accessURL = schema.URI(
+        required=False,
+        title=_(u'Access URL'),
+    )
+
+    dcat_downloadURL = schema.URI(
+        required=False,
+        title=_(u'Download URL'),
+    )
+
     dcatde_plannedAvailability = I18NText(
         required=False,
         title=_(u'Planed availability'),
