@@ -47,12 +47,16 @@ def add_licenses_folder(portal):
     """Add licenses folder."""
     licenses = portal.get(constants.FOLDER_LICENSES)
     if not licenses:
+        types = api.portal.get_tool(name='portal_types')
+        fti = types.getTypeInfo('LicenseFolder')
+        fti.global_allow = True
         licenses = api.content.create(
             container=portal,
             type=constants.CT_LICENSE_FOLDER,
             id=constants.FOLDER_LICENSES,
             title=u'Licenses',
         )
+        fti.global_allow = False
         _publish(licenses)
 
 
