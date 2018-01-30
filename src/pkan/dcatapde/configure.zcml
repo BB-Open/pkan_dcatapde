@@ -27,21 +27,22 @@
   <include file="upgrades.zcml" />
 
   <genericsetup:registerProfile
-      name="default"
-      title="pkan.dcatapde"
-      directory="profiles/default"
       description="Installs the pkan.dcatapde add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
+      name="default"
       post_handler=".setuphandlers.post_install"
+      pre_handler=".setuphandlers.pre_install"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      title="pkan.dcatapde"
       />
 
   <genericsetup:registerProfile
-      name="uninstall"
-      title="pkan.dcatapde (uninstall)"
-      directory="profiles/uninstall"
       description="Uninstalls the pkan.dcatapde add-on."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
+      name="uninstall"
       post_handler=".setuphandlers.uninstall"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      title="pkan.dcatapde (uninstall)"
       />
 
   <utility
