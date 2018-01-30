@@ -146,7 +146,8 @@ class Dexterity2Surf(GenericObject2Surf):
         if self.context.portal_type:
             return self.context.portal_type.replace(' ', '').replace('.', '')
         else:
-            return self.context.__class__.__name__.replace(' ', '').replace('.', '')
+            return self.context.__class__.__name__.replace(
+                ' ', '').replace('.', '')
 
     @property
     def prefix(self):
@@ -159,7 +160,6 @@ class Dexterity2Surf(GenericObject2Surf):
     @property
     def subject(self):
         """Subject"""
-
         my_URL = self.context.absolute_url()
         # check if we are a complex property
         if my_URL[-1] == '/':
@@ -209,10 +209,14 @@ class Dexterity2Surf(GenericObject2Surf):
             try:
                 value = fieldAdapter.value(**kwds)
             except Exception:
-                log.log('RDF marshaller error for context[field] "{0}[{1}]": \n{2}: {3}'.format(
+                log.log(
+                    'RDF marshaller error for context[field] "{0}[{1}]": \n'
+                    '{2}: {3}'.format(
                         self.context.absolute_url(), fieldName,
-                        sys.exc_info()[0], sys.exc_info()[1]),
-                        severity=log.logging.WARN)
+                        sys.exc_info()[0], sys.exc_info()[1],
+                    ),
+                    severity=log.logging.WARN,
+                )
 
                 continue
 
@@ -237,7 +241,10 @@ class Dexterity2Surf(GenericObject2Surf):
                     prefix = 'dcterms'
 
                 try:
-                    setattr(resource, '{0}_{1}'.format(prefix, fieldName), value)
+                    setattr(
+                        resource, '{0}_{1}'.format(prefix, fieldName),
+                        value,
+                    )
                 except Exception:
 
                     log.log(
@@ -252,7 +259,10 @@ class Dexterity2Surf(GenericObject2Surf):
                 try:
                     attr_name = '{0}_{1}'.format(prefix, fieldName)
                     setattr(resource, attr_name, value)
-                    # resource.session.load_resource( 'http://test.de', data=value )
+                    # resource.session.load_resource(
+                    #     'http://test.de',
+                    #     data=value,
+                    # )
                     # resource.session.commit()
                     pass
                 except Exception:

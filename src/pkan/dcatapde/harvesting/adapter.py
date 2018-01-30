@@ -218,7 +218,8 @@ class BaseProcessor(object):
             if ct in ADD_METHODS_SUB_CTS:
                 add_routine = ADD_METHODS_SUB_CTS[ct]
             else:
-                log = '<p>Could not create {key} because of missing method.</p>'
+                log = '<p>Could not create {key} '
+                log += 'because of missing method.</p>'
                 return log.format(key=key)
 
             data_elements = self.cleared_data[key]

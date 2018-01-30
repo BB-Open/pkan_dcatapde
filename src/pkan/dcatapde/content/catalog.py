@@ -90,7 +90,9 @@ class ICatalog(model.Schema):
 
     dct_language = schema.List(
         title=_(u'Languages'),
-        value_type=schema.Choice(vocabulary='plone.app.vocabularies.AvailableContentLanguages'),
+        value_type=schema.Choice(
+            vocabulary='plone.app.vocabularies.AvailableContentLanguages',
+        ),
         required=False,
     )
 
@@ -130,7 +132,8 @@ class ICatalog(model.Schema):
 
     dct_rights = RelationChoice(
         description=_(
-            u'Add a new rights statement or chose one from the list of statements',
+            u'Add a new rights statement or chose one from the list of '
+            u'statements',
         ),
         required=False,
         title=_(u'Rights'),
