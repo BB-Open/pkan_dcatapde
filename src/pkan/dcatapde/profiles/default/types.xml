@@ -11,4 +11,5 @@
   <object meta_type="Dexterity FTI" name="harvesterfolder"/>
   <object meta_type="Dexterity FTI" name="dct_licensedocument"/>
   <object meta_type="Dexterity FTI" name="dct_mediatypeorextent"/>
+  <object meta_type="Dexterity FTI" name="LicenseFolder" />
 </object>
