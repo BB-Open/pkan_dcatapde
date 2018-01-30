@@ -152,6 +152,9 @@ class IDataset(model.Schema):
             'owl_versionInfo',
             'dcatde_legalbasisText',
             'adms_versionNotes',
+            'foaf_landingpage',
+            'foaf_page',
+
         ],
     )
 
@@ -195,6 +198,16 @@ class IDataset(model.Schema):
     adms_versionNotes = I18NTextLine(
         required=False,
         title=_(u'Version Notes'),
+    )
+
+    foaf_landingpage = schema.URI(
+        required=False,
+        title=_(u'Landing page'),
+    )
+
+    foaf_page = schema.URI(
+        required=False,
+        title=_(u'Page'),
     )
 
 
