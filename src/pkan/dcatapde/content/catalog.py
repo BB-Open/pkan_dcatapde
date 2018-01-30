@@ -174,7 +174,7 @@ class ICatalog(model.Schema):
         ),
         required=False,
         vocabulary='plone.app.vocabularies.Catalog',
-    ),
+    )
 
     form.widget(
         'dct_isPartOf',
