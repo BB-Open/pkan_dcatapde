@@ -28,7 +28,7 @@ Support
 =======
 
 If you are having issues, please let us know.
-We have a issue tracker located at: https://github.com/BB-Open/pkand.dcatapde/issues
+We have a issue tracker located at: https://github.com/BB-Open/pkan.dcatapde/issues
 
 
 License
