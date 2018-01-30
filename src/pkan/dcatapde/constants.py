@@ -10,6 +10,7 @@ CT_Dataset = 'dataset'
 CT_HarvesterFolder = 'harvesterfolder'
 CT_Harvester = 'harvester'
 CT_HarvesterFieldConfig = 'harvester_field_config'
+CT_LICENSE_FOLDER = 'LicenseFolder'
 
 
 DCAT_CTs = [

@@ -23,13 +23,13 @@ class HiddenProfiles(object):
 def post_install(context):
     """Post install script"""
     # Do something at the end of the installation of this package.
+    add_default_folders(context)
     set_constraints(context)
 
 
 def pre_install(context):
     """Pre install script"""
     # Do something at the beginning of the installation of this package.
-    add_default_folders(context)
 
 
 def uninstall(context):
@@ -47,22 +47,21 @@ def add_licenses_folder(portal):
     """Add licenses folder."""
     licenses = portal.get(constants.FOLDER_LICENSES)
     if not licenses:
+        types = api.portal.get_tool(name='portal_types')
+        fti = types.getTypeInfo('LicenseFolder')
+        fti.global_allow = True
         licenses = api.content.create(
             container=portal,
-            type='Folder',
+            type=constants.CT_LICENSE_FOLDER,
             id=constants.FOLDER_LICENSES,
             title=u'Licenses',
         )
+        fti.global_allow = False
         _publish(licenses)
 
 
 def set_constraints(context):
     """Set content type constraints."""
-    portal = _get_navigation_root(context)
-    licenses = portal.get(constants.FOLDER_LICENSES)
-    if licenses:
-        allowed_types = [constants.CT_DCT_LICENSE_DOCUMENT]
-        _setup_constrains(licenses, allowed_types)
 
 
 def _get_navigation_root(context):
