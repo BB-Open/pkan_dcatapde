@@ -13,6 +13,7 @@ This Plone Add-On adds content types based on DCAT-AP.de for the  `Plone CMS <ht
    :maxdepth: 2
 
    Installation <install>
+   Content Types <content_types/index>
 
 
 Contribute
