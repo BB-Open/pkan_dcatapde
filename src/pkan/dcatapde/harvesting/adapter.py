@@ -387,7 +387,9 @@ class BaseProcessor(object):
         elif self.context.portal_type == c.CT_DCAT_DATASET:
             return [c.CT_DCAT_CATALOG, c.CT_DCAT_DATASET]
         elif self.context.portal_type == c.CT_DCAT_DISTRIBUTION:
-            return [c.CT_DCAT_CATALOG, c.CT_DCAT_DATASET, c.CT_DCAT_DISTRIBUTION]
+            return [c.CT_DCAT_CATALOG,
+                    c.CT_DCAT_DATASET,
+                    c.CT_DCAT_DISTRIBUTION]
         else:
             return []
 
