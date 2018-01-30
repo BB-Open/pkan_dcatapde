@@ -2,7 +2,8 @@
 """Content type tests for `dct_licensedocument`."""
 
 from pkan.dcatapde import testing
-from pkan.dcatapde.content.dct_licensedocument import IDct_Licensedocument
+from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
+from pkan.dcatapde.content.dct_licensedocument import IDCTLicenseDocument
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -13,7 +14,7 @@ from zope.component import queryUtility
 import unittest
 
 
-class DctLicensedocumentIntegrationTest(unittest.TestCase):
+class DCTLicenseDocumentIntegrationTest(unittest.TestCase):
     """Validate the `dct_licensedocument` CT."""
 
     layer = testing.INTEGRATION_TESTING
@@ -24,25 +25,25 @@ class DctLicensedocumentIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name='dct_licensedocument')
+        fti = queryUtility(IDexterityFTI, name=CT_DCT_LICENSE_DOCUMENT)
         schema = fti.lookupSchema()
-        self.assertEqual(IDct_Licensedocument, schema)
+        self.assertEqual(IDCTLicenseDocument, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name='dct_licensedocument')
+        fti = queryUtility(IDexterityFTI, name=CT_DCT_LICENSE_DOCUMENT)
         self.assertTrue(fti)
 
     def test_factory(self):
-        fti = queryUtility(IDexterityFTI, name='dct_licensedocument')
+        fti = queryUtility(IDexterityFTI, name=CT_DCT_LICENSE_DOCUMENT)
         factory = fti.factory
         obj = createObject(factory)
-        self.assertTrue(IDct_Licensedocument.providedBy(obj))
+        self.assertTrue(IDCTLicenseDocument.providedBy(obj))
 
     def test_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
         obj = api.content.create(
             container=self.portal,
-            type='dct_licensedocument',
-            id='dct_licensedocument',
+            type=CT_DCT_LICENSE_DOCUMENT,
+            id='sample-license',
         )
-        self.assertTrue(IDct_Licensedocument.providedBy(obj))
+        self.assertTrue(IDCTLicenseDocument.providedBy(obj))

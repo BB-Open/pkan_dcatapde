@@ -11,7 +11,7 @@
     </permission>
 
 
-    <permission name="pkan.dcatapde: Add Dct_Licensedocument" acquire="True">
+    <permission name="pkan.dcatapde: Add DCTLicenseDocument" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>

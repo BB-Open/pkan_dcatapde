@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Dct_Licensedocument Content Type."""
+"""DCTLicenseDocument Content Type."""
 
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_DctLicenseDocument
+from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
 from pkan.dcatapde.content.catalog import INameFromCatalog
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
@@ -13,8 +13,8 @@ from zope import schema
 from zope.interface import implementer
 
 
-class IDct_Licensedocument(model.Schema):
-    """Marker interface and DX Python Schema for Dct_Licensedocument."""
+class IDCTLicenseDocument(model.Schema):
+    """Marker interface and DX Python Schema for DCTLicenseDocument."""
 
     dct_title = I18NTextLine(
         required=True,
@@ -32,11 +32,11 @@ class IDct_Licensedocument(model.Schema):
     )
 
 
-@implementer(IDct_Licensedocument)
-class Dct_Licensedocument(Item):
-    """Dct_Licensedocument Content Type."""
+@implementer(IDCTLicenseDocument)
+class DCTLicenseDocument(Item):
+    """DCTLicenseDocument Content Type."""
 
-    portal_type = 'dct_licensedocument'
+    portal_type = CT_DCT_LICENSE_DOCUMENT
     namespace_class = 'dct:licensedocument'
 
     _Title = ''
@@ -47,11 +47,11 @@ class Dct_Licensedocument(Item):
         return self._Title
 
 
-class DctLicensedocumentDefaultFactory(DexterityFactory):
-    """Custom DX factory for Dct_Licensedocument."""
+class DCTLicenseDocumentDefaultFactory(DexterityFactory):
+    """Custom DX factory for DCTLicenseDocument."""
 
     def __init__(self):
-        self.portal_type = CT_DctLicenseDocument
+        self.portal_type = CT_DCT_LICENSE_DOCUMENT
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it

@@ -3,7 +3,6 @@
 
 from pkan.dcatapde.content.dct_mediatypeorextent import IDct_Mediatypeorextent
 # from pkan.dcatapde.content.foafagent import IFoafagent
-# from pkan.dcatapde.content.dct_licensedocument import IDct_Licensedocument
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget

@@ -30,7 +30,7 @@
 
   <adapter
       factory=".dct_licensedocument.Dct_Licensedocument2RDF"
-      for="pkan.dcatapde.content.dct_licensedocument.IDct_Licensedocument
+      for="pkan.dcatapde.content.dct_licensedocument.IDCTLicenseDocument
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
       provides="..interfaces.IDX2RDF"
       />
