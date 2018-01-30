@@ -30,7 +30,7 @@ a logged-in site administrator
   Enable autologin as  Site Administrator
 
 an add license document form
-  Go To  ${PLONE_URL}/++add++dct_licensedocument
+  Go To  ${PLONE_URL}/licenses/++add++dct_licensedocument
 
 
 # --- WHEN -------------------------------------------------------------------
