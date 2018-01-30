@@ -30,7 +30,7 @@
 
   <adapter
     factory=".catalog.NameFromCatalog"
-    for=".dct_licensedocument.IDct_Licensedocument"
+    for=".dct_licensedocument.IDCTLicenseDocument"
     provides=".catalog.INameFromCatalog"
   />
 

@@ -2,6 +2,7 @@
 """Distribution Content Type."""
 
 from pkan.dcatapde import _
+from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
 from pkan.dcatapde.constants import CT_Distribution
 from pkan.dcatapde.content.catalog import INameFromCatalog
 from plone.autoform import directives as form
@@ -32,11 +33,11 @@ class IDistribution(model.Schema):
     form.widget(
         'dct_license',
         RelatedItemsFieldWidget,
-        content_type='dct_licensedocument',
+        content_type=CT_DCT_LICENSE_DOCUMENT,
         content_type_title=_(u'License'),
         initial_path='/licenses/',
         pattern_options={
-            'selectableTypes': ['dctstandard'],
+            'selectableTypes': [CT_DCT_LICENSE_DOCUMENT],
         },
     )
 

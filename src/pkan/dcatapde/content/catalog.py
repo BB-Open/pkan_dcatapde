@@ -3,6 +3,7 @@
 
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_Catalog
+from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
 from plone.api import portal
 from plone.app.content.interfaces import INameFromTitle
 from plone.autoform import directives as form
@@ -54,11 +55,11 @@ class ICatalog(model.Schema):
     form.widget(
         'dct_license',
         RelatedItemsFieldWidget,
-        content_type='dct_licensedocument',
+        content_type=CT_DCT_LICENSE_DOCUMENT,
         content_type_title=_(u'License'),
         initial_path='/licenses/',
         pattern_options={
-            'selectableTypes': ['dct_licensedocument'],
+            'selectableTypes': [CT_DCT_LICENSE_DOCUMENT],
         },
     )
 

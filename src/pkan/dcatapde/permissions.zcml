@@ -12,8 +12,8 @@
         />
 
     <permission
-        id="pkan.dcatapde.AddDct_Licensedocument"
-        title="pkan.dcatapde: Add Dct_Licensedocument"
+        id="pkan.dcatapde.AddDCTLicenseDocument"
+        title="pkan.dcatapde: Add DCTLicenseDocument"
         />
 
     <permission
