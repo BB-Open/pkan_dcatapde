@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de Catalog entity marshaller"""
 
-from pkan.dcatapde.content.foafagent import IFoafagent
+from pkan.dcatapde.content.foaf_agent import IFOAFagent
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
@@ -10,8 +10,8 @@ from zope.interface import implementer
 
 
 @implementer(IMarshallSource)
-@adapter(IFoafagent, IRDFMarshallTarget)
-class FoafAgent2RDF(DCAT2RDF):
+@adapter(IFOAFagent, IRDFMarshallTarget)
+class FOAFAgent2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de FOAFAgents."""
 
     _namespace = 'foaf'
@@ -25,5 +25,5 @@ class FoafAgent2RDF(DCAT2RDF):
 
         :return:
         """
-        related = super(FoafAgent2RDF, self).referenced
+        related = super(FOAFAgent2RDF, self).referenced
         return related

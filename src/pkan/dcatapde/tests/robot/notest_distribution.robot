@@ -11,15 +11,15 @@ Suite Teardown  Teardown
 Scenario: As a site administrator I can add a distribution
   Given a logged-in site administrator
     and an add distribution form
-   When I type 'My Distribution' into the title field
+   When I type 'My DCATDistribution' into the title field
     and I submit the form
-   Then a distribution with the title 'My Distribution' has been created
+   Then a distribution with the title 'My DCATDistribution' has been created
 
 Scenario: As a site administrator I can view a distribution
   Given a logged-in site administrator
-    and a distribution 'My Distribution'
+    and a distribution 'My DCATDistribution'
    When I go to the distribution view
-   Then I can see the distribution title 'My Distribution'
+   Then I can see the distribution title 'My DCATDistribution'
 
 
 *** Keywords *****************************************************************
@@ -32,8 +32,8 @@ a logged-in site administrator
 an add distribution form
   Go To  ${PLONE_URL}/++add++distribution
 
-a distribution 'My Distribution'
-  Create content  type=distribution  id=my-distribution  title=My Distribution
+a distribution 'My DCATDistribution'
+  Create content  type=distribution  id=my-distribution  title=My DCATDistribution
 
 
 # --- WHEN -------------------------------------------------------------------

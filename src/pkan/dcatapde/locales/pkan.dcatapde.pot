@@ -123,7 +123,7 @@ msgid "Description"
 msgstr ""
 
 #: pkan/dcatapde/profiles/default/types/distribution.xml
-msgid "Distribution"
+msgid "DCATDistribution"
 msgstr ""
 
 #: pkan/dcatapde/profiles/default/types/catalog.xml

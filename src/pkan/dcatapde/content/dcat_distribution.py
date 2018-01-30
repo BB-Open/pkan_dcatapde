@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Distribution Content Type."""
+"""DCATDistribution Content Type."""
 
 from pkan.dcatapde import _
+from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
-from pkan.dcatapde.constants import CT_Distribution
-from pkan.dcatapde.content.catalog import INameFromCatalog
+from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -17,8 +17,8 @@ from zope import schema
 from zope.interface import implementer
 
 
-class IDistribution(model.Schema):
-    """Marker interfce and Dexterity Python Schema for Distribution."""
+class IDCATDistribution(model.Schema):
+    """Marker interfce and Dexterity Python Schema for DCATDistribution."""
 
     dct_title = I18NTextLine(
         required=False,
@@ -134,23 +134,23 @@ class IDistribution(model.Schema):
     )
 
 
-@implementer(IDistribution)
-class Distribution(Container):
-    """Distribution Content Type."""
+@implementer(IDCATDistribution)
+class DCATDistribution(Container):
+    """DCATDistribution Content Type."""
 
     _Title = ''
 
     def Title(self):
         if not self._Title:
-            self._Title = INameFromCatalog(self).title
+            self._Title = INameFromDCTTitle(self).title
         return self._Title
 
 
-class DistributionDefaultFactory(DexterityFactory):
-    """Custom DX factory for Distribution."""
+class DCATDistributionDefaultFactory(DexterityFactory):
+    """Custom DX factory for DCATDistribution."""
 
     def __init__(self):
-        self.portal_type = CT_Distribution
+        self.portal_type = CT_DCAT_DISTRIBUTION
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it

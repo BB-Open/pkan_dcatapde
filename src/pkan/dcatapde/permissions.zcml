@@ -7,8 +7,8 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
-        id="pkan.dcatapde.AddDct_Mediatypeorextent"
-        title="pkan.dcatapde: Add Dct_Mediatypeorextent"
+        id="pkan.dcatapde.AddDCTMediatypeorextent"
+        title="pkan.dcatapde: Add DCTMediatypeorextent"
         />
 
     <permission
@@ -32,28 +32,23 @@
         />
 
     <permission
-        id="pkan.dcatapde.AddLiteral"
-        title="pkan.dcatapde: Add Literal"
+        id="pkan.dcatapde.AddFOAFagent"
+        title="pkan.dcatapde: Add FOAFagent"
         />
 
     <permission
-        id="pkan.dcatapde.AddFoafagent"
-        title="pkan.dcatapde: Add Foafagent"
+        id="pkan.dcatapde.AddDCATCatalog"
+        title="pkan.dcatapde: Add DCATCatalog"
         />
 
     <permission
-        id="pkan.dcatapde.AddCatalog"
-        title="pkan.dcatapde: Add Catalog"
+        id="pkan.dcatapde.AddDCATDataset"
+        title="pkan.dcatapde: Add DCATDataset"
         />
 
     <permission
-        id="pkan.dcatapde.AddDataset"
-        title="pkan.dcatapde: Add Dataset"
-        />
-
-    <permission
-        id="pkan.dcatapde.AddDistribution"
-        title="pkan.dcatapde: Add Distribution"
+        id="pkan.dcatapde.AddDCATDistribution"
+        title="pkan.dcatapde: Add DCATDistribution"
         />
   </configure>
 </configure>

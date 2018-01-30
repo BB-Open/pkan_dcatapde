@@ -2,8 +2,8 @@
 """Dataset Content Type."""
 
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_Dataset
-from pkan.dcatapde.content.catalog import INameFromCatalog
+from pkan.dcatapde.constants import CT_DCAT_DATASET
+from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -17,7 +17,7 @@ from zope.interface import implementer
 import zope.schema as schema
 
 
-class IDataset(model.Schema):
+class IDCATDataset(model.Schema):
     """Marker interfce and Dexterity Python Schema for Dataset."""
 
     dct_title = I18NTextLine(
@@ -211,23 +211,23 @@ class IDataset(model.Schema):
     )
 
 
-@implementer(IDataset)
-class Dataset(Container):
+@implementer(IDCATDataset)
+class DCATDataset(Container):
     """Dataset Content Type."""
 
     _Title = ''
 
     def Title(self):
         if not self._Title:
-            self._Title = INameFromCatalog(self).title
+            self._Title = INameFromDCTTitle(self).title
         return self._Title
 
 
-class DatasetDefaultFactory(DexterityFactory):
+class DCATDatasetDefaultFactory(DexterityFactory):
     """Custom DX factory for Dataset."""
 
     def __init__(self):
-        self.portal_type = CT_Dataset
+        self.portal_type = CT_DCAT_DATASET
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it

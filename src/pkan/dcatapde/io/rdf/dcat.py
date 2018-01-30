@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """DCAT 2 RDF."""
 
-from pkan.dcatapde.content.catalog import ICatalog
-from pkan.dcatapde.content.foafagent import IFoafagent
+from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
+from pkan.dcatapde.content.foaf_agent import IFOAFagent
 from pkan.dcatapde.io.rdf.dexterity import Dexterity2Surf
 from pkan.dcatapde.io.rdf.interfaces import ISurfSession
 from zope.component import adapter
@@ -13,7 +13,7 @@ import surf
 class FOAF2Surf(Dexterity2Surf):
     """Dexterity implementation of the Object2Surf."""
 
-    adapter(IFoafagent, ISurfSession)
+    adapter(IFOAFagent, ISurfSession)
 
     _whitelist = ['name']
 
@@ -25,7 +25,7 @@ class FOAF2Surf(Dexterity2Surf):
 class Catalog2Surf(Dexterity2Surf):
     """Dexterity implementation of the Object2Surf."""
 
-    adapter(ICatalog, ISurfSession)
+    adapter(IDCATCatalog, ISurfSession)
 
     _whitelist = [
         'title',

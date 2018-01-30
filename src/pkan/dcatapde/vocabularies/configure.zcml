@@ -15,7 +15,7 @@
 
     <utility
         component=".foafagent_vocabulary.FoafagentVocabularyFactory"
-        name="pkan.dcatapde.FoafagentVocabulary"
+        name="pkan.dcatapde.FOAFagentVocabulary"
         />
 
     <utility

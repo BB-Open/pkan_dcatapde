@@ -5,62 +5,62 @@
   i18n_domain="pkan.dcatapde">
 
   <adapter
-    factory=".catalog.NameFromCatalog"
-    for=".catalog.ICatalog"
-    provides=".catalog.INameFromCatalog"
+    factory=".dcat_catalog.NameFromDCTTitle"
+    for=".dcat_catalog.IDCATCatalog"
+    provides=".dcat_catalog.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".catalog.NameFromCatalog"
-    for=".dataset.IDataset"
-    provides=".catalog.INameFromCatalog"
+    factory=".dcat_catalog.NameFromDCTTitle"
+    for=".dcat_dataset.IDCATDataset"
+    provides=".dcat_catalog.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".catalog.NameFromCatalog"
-    for=".distribution.IDistribution"
-    provides=".catalog.INameFromCatalog"
+    factory=".dcat_catalog.NameFromDCTTitle"
+    for=".dcat_distribution.IDCATDistribution"
+    provides=".dcat_catalog.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".catalog.NameFromCatalog"
-    for=".foafagent.IFoafagent"
-    provides=".catalog.INameFromCatalog"
+    factory=".dcat_catalog.NameFromDCTTitle"
+    for=".foaf_agent.IFOAFagent"
+    provides=".dcat_catalog.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".catalog.NameFromCatalog"
+    factory=".dcat_catalog.NameFromDCTTitle"
     for=".dct_licensedocument.IDCTLicenseDocument"
-    provides=".catalog.INameFromCatalog"
+    provides=".dcat_catalog.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".catalog.NameFromCatalog"
-    for=".dct_mediatypeorextent.IDct_Mediatypeorextent"
-    provides=".catalog.INameFromCatalog"
+    factory=".dcat_catalog.NameFromDCTTitle"
+    for=".dct_mediatypeorextent.IDCTMediatypeorextent"
+    provides=".dcat_catalog.INameFromDCTTitle"
   />
 
   <utility
-    factory=".catalog.CatalogDefaultFactory"
-    name="catalog"
+    factory=".dcat_catalog.DCATCatalogDefaultFactory"
+    name="dcat_catalog"
     provides="plone.dexterity.interfaces.IDexterityFactory"
   />
 
   <utility
-    factory=".dataset.DatasetDefaultFactory"
-    name="dataset"
+    factory=".dcat_dataset.DCATDatasetDefaultFactory"
+    name="dcat_dataset"
     provides="plone.dexterity.interfaces.IDexterityFactory"
   />
 
   <utility
-    factory=".distribution.DistributionDefaultFactory"
-    name="distribution"
+    factory=".dcat_distribution.DCATDistributionDefaultFactory"
+    name="dcat_distribution"
     provides="plone.dexterity.interfaces.IDexterityFactory"
   />
 
   <utility
-    factory=".foafagent.FoafagentDefaultFactory"
-    name="foafagent"
+    factory=".foaf_agent.FOAFAgentDefaultFactory"
+    name="foaf_agent"
     provides="plone.dexterity.interfaces.IDexterityFactory"
   />
 

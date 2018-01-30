@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Content type tests for `distribution`."""
+"""Content type tests for `foafagent`."""
 
+from pkan.dcatapde import constants
 from pkan.dcatapde import testing
-from pkan.dcatapde.content.distribution import IDistribution
+from pkan.dcatapde.content.foaf_agent import IFOAFagent
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -13,8 +14,8 @@ from zope.component import queryUtility
 import unittest
 
 
-class DistributionIntegrationTest(unittest.TestCase):
-    """Validate the `distribution` CT."""
+class FoafagentIntegrationTest(unittest.TestCase):
+    """Validate the `foafagent` CT."""
 
     layer = testing.INTEGRATION_TESTING
 
@@ -24,25 +25,25 @@ class DistributionIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name='distribution')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_FOAF_AGENT)
         schema = fti.lookupSchema()
-        self.assertEqual(IDistribution, schema)
+        self.assertEqual(IFOAFagent, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name='distribution')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_FOAF_AGENT)
         self.assertTrue(fti)
 
     def test_factory(self):
-        fti = queryUtility(IDexterityFTI, name='distribution')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_FOAF_AGENT)
         factory = fti.factory
         obj = createObject(factory)
-        self.assertTrue(IDistribution.providedBy(obj))
+        self.assertTrue(IFOAFagent.providedBy(obj))
 
     def test_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
         obj = api.content.create(
             container=self.portal,
-            type='distribution',
-            id='distribution',
+            type=constants.CT_FOAF_AGENT,
+            id=constants.CT_FOAF_AGENT,
         )
-        self.assertTrue(IDistribution.providedBy(obj))
+        self.assertTrue(IFOAFagent.providedBy(obj))

@@ -2,7 +2,7 @@
 """Catalog Content Type."""
 
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_Catalog
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
 from plone.api import portal
 from plone.app.content.interfaces import INameFromTitle
@@ -20,7 +20,7 @@ from zope.interface import implementer
 import zope.schema as schema
 
 
-class ICatalog(model.Schema):
+class IDCATCatalog(model.Schema):
     """Marker interfce and Dexterity Python Schema for Catalog."""
 
     # Mandatory
@@ -221,27 +221,27 @@ class ICatalog(model.Schema):
     )
 
 
-@implementer(ICatalog)
-class Catalog(Container):
+@implementer(IDCATCatalog)
+class DCATCatalog(Container):
     """Catalog Content Type."""
 
     _Title = ''
 
     def Title(self):
         if not self._Title:
-            self._Title = INameFromCatalog(self).title
+            self._Title = INameFromDCTTitle(self).title
         return self._Title
 
 
-class INameFromCatalog(INameFromTitle):
+class INameFromDCTTitle(INameFromTitle):
     """Get name from catalog title."""
 
     def title(self):
         """Return a processed title."""
 
 
-@implementer(INameFromCatalog)
-class NameFromCatalog(object):
+@implementer(INameFromDCTTitle)
+class NameFromDCTTitle(object):
     """Get name from catalog title."""
 
     def __init__(self, context):
@@ -265,11 +265,11 @@ class NameFromCatalog(object):
         return self.context.dct_title[self.context.dct_title.keys()[0]]
 
 
-class CatalogDefaultFactory(DexterityFactory):
+class DCATCatalogDefaultFactory(DexterityFactory):
     """Custom DX factory for Catalog."""
 
     def __init__(self):
-        self.portal_type = CT_Catalog
+        self.portal_type = CT_DCAT_CATALOG
 
     def __call__(self, *args, **kw):
         from pkan.dcatapde.api.catalog import clean_catalog

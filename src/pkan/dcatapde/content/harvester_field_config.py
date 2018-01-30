@@ -4,7 +4,7 @@
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield import DictRow
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_HarvesterFieldConfig
+from pkan.dcatapde.constants import CT_HARVESTER_FIELD_CONFIG
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
@@ -70,7 +70,7 @@ class FieldConfigDefaultFactory(DexterityFactory):
     """Custom DX factory for Harvester Field Config."""
 
     def __init__(self):
-        self.portal_type = CT_HarvesterFieldConfig
+        self.portal_type = CT_HARVESTER_FIELD_CONFIG
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it

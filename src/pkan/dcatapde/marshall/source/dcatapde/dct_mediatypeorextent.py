@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de Catalog entity marshaller"""
 
-from pkan.dcatapde.content.dct_mediatypeorextent import IDct_Mediatypeorextent
-# from pkan.dcatapde.content.foafagent import IFoafagent
+from pkan.dcatapde.content.dct_mediatypeorextent import IDCTMediatypeorextent
+# from pkan.dcatapde.content.foafagent import IFOAFagent
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
@@ -12,8 +12,8 @@ from zope.interface import implementer
 
 
 @implementer(IMarshallSource)
-@adapter(IDct_Mediatypeorextent, IRDFMarshallTarget)
-class Dct_Mediatypeorextent2RDF(DCAT2RDF):
+@adapter(IDCTMediatypeorextent, IRDFMarshallTarget)
+class DCTMediatypeorextent2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de FOAFAgents."""
 
     _namespace = 'dct'
@@ -26,5 +26,5 @@ class Dct_Mediatypeorextent2RDF(DCAT2RDF):
 
         :return:
         """
-        related = super(Dct_Mediatypeorextent2RDF, self).referenced
+        related = super(DCTMediatypeorextent2RDF, self).referenced
         return related

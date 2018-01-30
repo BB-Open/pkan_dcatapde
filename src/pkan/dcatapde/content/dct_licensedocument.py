@@ -3,7 +3,7 @@
 
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
-from pkan.dcatapde.content.catalog import INameFromCatalog
+from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -43,7 +43,7 @@ class DCTLicenseDocument(Item):
 
     def Title(self):
         if not self._Title:
-            self._Title = INameFromCatalog(self).title
+            self._Title = INameFromDCTTitle(self).title
         return self._Title
 
 

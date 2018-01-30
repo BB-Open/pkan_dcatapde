@@ -2,7 +2,7 @@
 """DCAT-AP.de Catalog entity marshaller"""
 
 from pkan.dcatapde.content.dct_licensedocument import IDCTLicenseDocument
-# from pkan.dcatapde.content.foafagent import IFoafagent
+# from pkan.dcatapde.content.foafagent import IFOAFagent
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
@@ -13,7 +13,7 @@ from zope.interface import implementer
 
 @implementer(IMarshallSource)
 @adapter(IDCTLicenseDocument, IRDFMarshallTarget)
-class Dct_Licensedocument2RDF(DCAT2RDF):
+class DCTLicensedocument2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de FOAFAgents."""
 
     _namespace = 'dct'
@@ -26,5 +26,5 @@ class Dct_Licensedocument2RDF(DCAT2RDF):
 
         :return:
         """
-        related = super(Dct_Licensedocument2RDF, self).referenced
+        related = super(DCTLicensedocument2RDF, self).referenced
         return related

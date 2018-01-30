@@ -1,15 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <object name="portal_types" meta_type="Plone Types Tool">
   <property name="title">Controls the available contenttypes in your portal</property>
-  <object meta_type="Dexterity FTI" name="distribution"/>
-  <object meta_type="Dexterity FTI" name="dataset"/>
-  <object meta_type="Dexterity FTI" name="catalog"/>
-  <object meta_type="Dexterity FTI" name="foafagent"/>
-  <object meta_type="Dexterity FTI" name="literal"/>
+  <object meta_type="Dexterity FTI" name="dcat_catalog"/>
+  <object meta_type="Dexterity FTI" name="dcat_dataset"/>
+  <object meta_type="Dexterity FTI" name="dcat_distribution"/>
+  <object meta_type="Dexterity FTI" name="dct_licensedocument"/>
+  <object meta_type="Dexterity FTI" name="dct_mediatypeorextent"/>
+  <object meta_type="Dexterity FTI" name="foaf_agent"/>
   <object meta_type="Dexterity FTI" name="harvester"/>
   <object meta_type="Dexterity FTI" name="harvester_field_config"/>
   <object meta_type="Dexterity FTI" name="harvesterfolder"/>
-  <object meta_type="Dexterity FTI" name="dct_licensedocument"/>
-  <object meta_type="Dexterity FTI" name="dct_mediatypeorextent"/>
   <object meta_type="Dexterity FTI" name="LicenseFolder" />
 </object>
