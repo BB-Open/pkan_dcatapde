@@ -1,53 +1,53 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
   <adapter
-      factory=".catalog.Catalog2RDF"
-      for="pkan.dcatapde.content.catalog.ICatalog
+    factory=".dcat_catalog.DCATCatalog2RDF"
+    for="pkan.dcatapde.content.dcat_catalog.IDCATCatalog
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
-      provides="..interfaces.IDX2RDF"
-      />
+    provides="..interfaces.IDX2RDF"
+  />
 
   <adapter
-      factory=".dataset.Dataset2RDF"
-      for="pkan.dcatapde.content.dataset.IDataset
+    factory=".dcat_dataset.DCATDataset2RDF"
+    for="pkan.dcatapde.content.dcat_dataset.IDCATDataset
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
-      provides="..interfaces.IDX2RDF"
-      />
+    provides="..interfaces.IDX2RDF"
+  />
 
   <adapter
-      factory=".distribution.Distribution2RDF"
-      for="pkan.dcatapde.content.distribution.IDistribution
+    factory=".dcat_distribution.DCATDistribution2RDF"
+    for="pkan.dcatapde.content.dcat_distribution.IDCATDistribution
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
-      provides="..interfaces.IDX2RDF"
-      />
+    provides="..interfaces.IDX2RDF"
+  />
 
   <adapter
-      factory=".foafagent.FoafAgent2RDF"
-      for="pkan.dcatapde.content.foafagent.IFoafagent
+    factory=".foaf_agent.FOAFAgent2RDF"
+    for="pkan.dcatapde.content.foaf_agent.IFOAFagent
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
-      provides="..interfaces.IDX2RDF"
-      />
+    provides="..interfaces.IDX2RDF"
+  />
 
   <adapter
-      factory=".dct_licensedocument.Dct_Licensedocument2RDF"
-      for="pkan.dcatapde.content.dct_licensedocument.IDCTLicenseDocument
+    factory=".dct_licensedocument.DCTLicensedocument2RDF"
+    for="pkan.dcatapde.content.dct_licensedocument.IDCTLicenseDocument
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
-      provides="..interfaces.IDX2RDF"
-      />
+    provides="..interfaces.IDX2RDF"
+  />
 
   <adapter
-      factory=".dct_mediatypeorextent.Dct_Mediatypeorextent2RDF"
-      for="pkan.dcatapde.content.dct_mediatypeorextent.IDct_Mediatypeorextent
+    factory=".dct_mediatypeorextent.DCTMediatypeorextent2RDF"
+    for="pkan.dcatapde.content.dct_mediatypeorextent.IDCTMediatypeorextent
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
-      provides="..interfaces.IDX2RDF"
-      />
+    provides="..interfaces.IDX2RDF"
+  />
 
   <adapter
-      factory=".fields.I18NField2RDF"
-      for="plone.dexterity.interfaces.IDexterityContent
+    factory=".fields.I18NField2RDF"
+    for="plone.dexterity.interfaces.IDexterityContent
            ps.zope.i18nfield.interfaces.II18NField
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
-      provides="..interfaces.IDXField2RDF"
-      />
+    provides="..interfaces.IDXField2RDF"
+  />
 
 </configure>

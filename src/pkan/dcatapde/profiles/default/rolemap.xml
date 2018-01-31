@@ -3,7 +3,7 @@
   <permissions>
   <!-- -*- extra stuff goes here -*- -->
 
-    <permission name="pkan.dcatapde: Add Dct_Mediatypeorextent" acquire="True">
+    <permission name="pkan.dcatapde: Add DCTMediatypeorextent" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
@@ -43,7 +43,7 @@
     </permission>
 
 
-    <permission name="pkan.dcatapde: Add Literal" acquire="True">
+    <permission name="pkan.dcatapde: Add FOAFagent" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
@@ -51,7 +51,7 @@
     </permission>
 
 
-    <permission name="pkan.dcatapde: Add Foafagent" acquire="True">
+    <permission name="pkan.dcatapde: Add DCATCatalog" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
@@ -59,7 +59,7 @@
     </permission>
 
 
-    <permission name="pkan.dcatapde: Add Catalog" acquire="True">
+    <permission name="pkan.dcatapde: Add DCATDataset" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
@@ -67,15 +67,7 @@
     </permission>
 
 
-    <permission name="pkan.dcatapde: Add Dataset" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
-      <role name="Owner"/>
-      <role name="Contributor"/>
-    </permission>
-
-
-    <permission name="pkan.dcatapde: Add Distribution" acquire="True">
+    <permission name="pkan.dcatapde: Add DCATDistribution" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Source field vocabularies."""
 
-from pkan.dcatapde.constants import CT_Harvester
+from pkan.dcatapde.constants import CT_HARVESTER
 from plone import api
 from zope.globalrequest import getRequest
 from zope.interface import implementer
@@ -31,7 +31,7 @@ class SourceFieldVocabulary(object):
 
         for x in steps:
             context = context[x]
-            if context.portal_type == CT_Harvester:
+            if context.portal_type == CT_HARVESTER:
                 harvester = context
                 break
 

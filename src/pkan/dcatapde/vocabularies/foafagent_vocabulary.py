@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.constants import CT_Foafagent
+from pkan.dcatapde.constants import CT_FOAF_AGENT
 from plone import api
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
@@ -8,12 +8,12 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 
 @implementer(IVocabularyFactory)
-class FoafagentVocabulary(object):
+class FOAFagentVocabulary(object):
     """
     """
 
     def __call__(self, context):
-        brains = api.content.find(portal_type=CT_Foafagent)
+        brains = api.content.find(portal_type=CT_FOAF_AGENT)
 
         # create a list of SimpleTerm items:
         terms = []
@@ -27,4 +27,4 @@ class FoafagentVocabulary(object):
         return SimpleVocabulary(terms)
 
 
-FoafagentVocabularyFactory = FoafagentVocabulary()
+FoafagentVocabularyFactory = FOAFagentVocabulary()

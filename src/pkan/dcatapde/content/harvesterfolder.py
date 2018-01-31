@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """"Harvester Folder Content Type."""
 
-from pkan.dcatapde.constants import CT_HarvesterFolder
+from pkan.dcatapde.constants import CT_HARVESTER_FOLDER
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -21,7 +21,7 @@ class HarvesterFolderDefaultFactory(DexterityFactory):
     """Custom DX factory for Harvester Folder."""
 
     def __init__(self):
-        self.portal_type = CT_HarvesterFolder
+        self.portal_type = CT_HARVESTER_FOLDER
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it

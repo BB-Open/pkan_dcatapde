@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Work with Catalogs."""
 
-from pkan.dcatapde.constants import CT_Catalog
-from pkan.dcatapde.content.catalog import Catalog
-from pkan.dcatapde.content.catalog import ICatalog
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.content.dcat_catalog import DCATCatalog
+from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
 from plone.api.content import create
 from zope.schema import getValidationErrors
 
@@ -11,7 +11,7 @@ from zope.schema import getValidationErrors
 # Data Cleaning Methods
 def clean_catalog(**data):
     """Clean Catalogs."""
-    test_catalog = Catalog()
+    test_catalog = DCATCatalog()
 
     # test object must have an id
     test_catalog.id = 'test'
@@ -20,7 +20,7 @@ def clean_catalog(**data):
     for attr in data:
         setattr(test_catalog, attr, data[attr])
 
-    errors = getValidationErrors(ICatalog, test_catalog)
+    errors = getValidationErrors(IDCATCatalog, test_catalog)
 
     return data, errors
 
@@ -30,7 +30,7 @@ def add_catalog(context, **data):
     """Add a new Catalog."""
     data, errors = clean_catalog(**data)
 
-    catalog = create(container=context, type=CT_Catalog, **data)
+    catalog = create(container=context, type=CT_DCAT_CATALOG, **data)
 
     return catalog
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Content type tests for `harvester`."""
 
+from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from pkan.dcatapde.content.harvester import IHarvester
 from plone.app.testing import setRoles
@@ -23,16 +24,16 @@ class HarvesterIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name='harvester')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER)
         schema = fti.lookupSchema()
         self.assertEqual(IHarvester, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name='harvester')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER)
         self.assertTrue(fti)
 
     # def test_factory(self):
-    #     fti = queryUtility(IDexterityFTI, name='harvester')
+    #     fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER)
     #     factory = fti.factory
     #     obj = createObject(factory)
     #     self.assertTrue(IHarvester.providedBy(obj))
@@ -41,7 +42,7 @@ class HarvesterIntegrationTest(unittest.TestCase):
     #     setRoles(self.portal, TEST_USER_ID, ['Contributor'])
     #     obj = api.content.create(
     #         container=self.portal,
-    #         type='harvester',
-    #         id='harvester',
+    #         type=constants.CT_HARVESTER,
+    #         id=constants.CT_HARVESTER,
     #     )
     #     self.assertTrue(IHarvester.providedBy(obj))

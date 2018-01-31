@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Work with FOAFAgents."""
 
-from pkan.dcatapde.constants import CT_Foafagent
-from pkan.dcatapde.content.foafagent import Foafagent
-from pkan.dcatapde.content.foafagent import IFoafagent
+from pkan.dcatapde.constants import CT_FOAF_AGENT
+from pkan.dcatapde.content.foaf_agent import FOAFagent
+from pkan.dcatapde.content.foaf_agent import IFOAFagent
 from plone import api
 from zope.schema import getValidationErrors
 
@@ -11,7 +11,7 @@ from zope.schema import getValidationErrors
 # Data Cleaning Methods
 def clean_foafagent(**data):
     """Clean foafagent."""
-    test_obj = Foafagent()
+    test_obj = FOAFagent()
 
     # test object must have an id
     test_obj.id = 'test'
@@ -20,7 +20,7 @@ def clean_foafagent(**data):
     for attr in data:
         setattr(test_obj, attr, data[attr])
 
-    errors = getValidationErrors(IFoafagent, test_obj)
+    errors = getValidationErrors(IFOAFagent, test_obj)
 
     return data, errors
 
@@ -30,7 +30,7 @@ def add_foafagent(context, **data):
     """Add a new foafagent."""
     data, errors = clean_foafagent(**data)
 
-    foaf = api.content.create(container=context, type=CT_Foafagent, **data)
+    foaf = api.content.create(container=context, type=CT_FOAF_AGENT, **data)
 
     return foaf
 

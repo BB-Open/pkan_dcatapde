@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Content type tests for `foafagent`."""
+"""Content type tests for `distribution`."""
 
+from pkan.dcatapde import constants
 from pkan.dcatapde import testing
-from pkan.dcatapde.content.foafagent import IFoafagent
+from pkan.dcatapde.content.dcat_distribution import IDCATDistribution
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -13,8 +14,8 @@ from zope.component import queryUtility
 import unittest
 
 
-class FoafagentIntegrationTest(unittest.TestCase):
-    """Validate the `foafagent` CT."""
+class DistributionIntegrationTest(unittest.TestCase):
+    """Validate the `distribution` CT."""
 
     layer = testing.INTEGRATION_TESTING
 
@@ -24,25 +25,25 @@ class FoafagentIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name='foafagent')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_DCAT_DISTRIBUTION)
         schema = fti.lookupSchema()
-        self.assertEqual(IFoafagent, schema)
+        self.assertEqual(IDCATDistribution, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name='foafagent')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_DCAT_DISTRIBUTION)
         self.assertTrue(fti)
 
     def test_factory(self):
-        fti = queryUtility(IDexterityFTI, name='foafagent')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_DCAT_DISTRIBUTION)
         factory = fti.factory
         obj = createObject(factory)
-        self.assertTrue(IFoafagent.providedBy(obj))
+        self.assertTrue(IDCATDistribution.providedBy(obj))
 
     def test_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
         obj = api.content.create(
             container=self.portal,
-            type='foafagent',
-            id='foafagent',
+            type=constants.CT_DCAT_DISTRIBUTION,
+            id=constants.CT_DCAT_DISTRIBUTION,
         )
-        self.assertTrue(IFoafagent.providedBy(obj))
+        self.assertTrue(IDCATDistribution.providedBy(obj))

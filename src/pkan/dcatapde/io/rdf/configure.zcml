@@ -23,14 +23,14 @@
   <!-- DCAT-AP.de adapters -->
   <adapter
       factory=".dcat.FOAF2Surf"
-      for="pkan.dcatapde.content.foafagent.IFoafagent
+      for="pkan.dcatapde.content.foaf_agent.IFOAFagent
            .interfaces.ISurfSession"
       provides=".interfaces.IObject2Surf"
       />
 
   <adapter
       factory=".dcat.Catalog2Surf"
-      for="pkan.dcatapde.content.catalog.ICatalog
+      for="pkan.dcatapde.content.dcat_catalog.IDCATCatalog
            .interfaces.ISurfSession"
       provides=".interfaces.IObject2Surf"
       />

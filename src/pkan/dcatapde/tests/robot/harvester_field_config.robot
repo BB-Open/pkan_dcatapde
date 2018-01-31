@@ -8,18 +8,18 @@ Suite Teardown  Teardown
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a distribution
+Scenario: As a site administrator I can add a harvester_field_config
   Given a logged-in site administrator
-    and an add distribution form
-   When I type 'My DCATDistribution' into the title field
+    and an add harvester_field_config form
+   When I type 'My Harvester Field Config' into the title field
     and I submit the form
-   Then a distribution with the title 'My DCATDistribution' has been created
+   Then a harvester_field_config with the title 'My Harvester Field Config' has been created
 
-Scenario: As a site administrator I can view a distribution
+Scenario: As a site administrator I can view a harvester_field_config
   Given a logged-in site administrator
-    and a distribution 'My DCATDistribution'
-   When I go to the distribution view
-   Then I can see the distribution title 'My DCATDistribution'
+    and a harvester_field_config 'My Harvester Field Config'
+   When I go to the harvester_field_config view
+   Then I can see the harvester_field_config title 'My Harvester Field Config'
 
 
 *** Keywords *****************************************************************
@@ -29,11 +29,11 @@ Scenario: As a site administrator I can view a distribution
 a logged-in site administrator
   Enable autologin as  Site Administrator
 
-an add distribution form
-  Go To  ${PLONE_URL}/++add++distribution
+an add harvester_field_config form
+  Go To  ${PLONE_URL}/++add++harvester_field_config
 
-a distribution 'My DCATDistribution'
-  Create content  type=distribution  id=my-distribution  title=My DCATDistribution
+a harvester_field_config 'My Harvester Field Config'
+  Create content  type=harvester_field_config  id=my-harvester_field_config  title=My Harvester Field Config
 
 
 # --- WHEN -------------------------------------------------------------------
@@ -44,18 +44,18 @@ I type '${title}' into the title field
 I submit the form
   Click Button  Save
 
-I go to the distribution view
-  Go To  ${PLONE_URL}/my-distribution
+I go to the harvester_field_config view
+  Go To  ${PLONE_URL}/my-harvester_field_config
   Wait until page contains  Site Map
 
 
 # --- THEN -------------------------------------------------------------------
 
-a distribution with the title '${title}' has been created
+a harvester_field_config with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
   Page should contain  Item created
 
-I can see the distribution title '${title}'
+I can see the harvester_field_config title '${title}'
   Wait until page contains  Site Map
   Page should contain  ${title}

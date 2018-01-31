@@ -18,23 +18,22 @@ class PotsdamPreprocessor(object):
 
     def preprocess(self, data):
 
-        if c.CT_Dataset in data:
+        if c.CT_DCAT_DATASET in data:
             data = self.preprocess_dataset(data)
 
-        if c.CT_Distribution in data:
+        if c.CT_DCAT_DISTRIBUTION in data:
             data = self.preprocess_distribution(data)
 
         return data
 
     def preprocess_dataset(self, data):
-        for x in range(0, len(data[c.CT_Dataset])):
-            data[c.CT_Dataset][x]['title'] = 'Dataset {x}'.format(x=x)
+        for x in range(0, len(data[c.CT_DCAT_DATASET])):
+            data[c.CT_DCAT_DATASET][x]['title'] = 'Dataset {x}'.format(x=x)
 
         return data
 
     def preprocess_distribution(self, data):
-        for x in range(0, len(data[c.CT_Distribution])):
-            data[c.CT_Distribution][x]['title'] = 'Distribution {x}'.format(
-                x=x,
-            )
+        for x in range(0, len(data[c.CT_DCAT_DISTRIBUTION])):
+            data[c.CT_DCAT_DISTRIBUTION][x]['title'] = \
+                'DCATDistribution {x}'.format(x=x)
         return data

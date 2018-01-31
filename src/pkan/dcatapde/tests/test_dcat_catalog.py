@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Content type tests for `literal`."""
+"""Content type tests for `dcat_catalog`."""
 
+from pkan.dcatapde import constants
 from pkan.dcatapde import testing
-from pkan.dcatapde.content.literal import ILiteral
+from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -13,8 +14,8 @@ from zope.component import queryUtility
 import unittest
 
 
-class LiteralIntegrationTest(unittest.TestCase):
-    """Validate the `literal` CT."""
+class CatalogIntegrationTest(unittest.TestCase):
+    """Validate the `dcat_catalog` CT."""
 
     layer = testing.INTEGRATION_TESTING
 
@@ -24,25 +25,25 @@ class LiteralIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name='literal')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_DCAT_CATALOG)
         schema = fti.lookupSchema()
-        self.assertEqual(ILiteral, schema)
+        self.assertEqual(IDCATCatalog, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name='literal')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_DCAT_CATALOG)
         self.assertTrue(fti)
 
     def test_factory(self):
-        fti = queryUtility(IDexterityFTI, name='literal')
+        fti = queryUtility(IDexterityFTI, name=constants.CT_DCAT_CATALOG)
         factory = fti.factory
         obj = createObject(factory)
-        self.assertTrue(ILiteral.providedBy(obj))
+        self.assertTrue(IDCATCatalog.providedBy(obj))
 
     def test_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
         obj = api.content.create(
             container=self.portal,
-            type='literal',
-            id='literal',
+            type=constants.CT_DCAT_CATALOG,
+            id=constants.CT_DCAT_CATALOG,
         )
-        self.assertTrue(ILiteral.providedBy(obj))
+        self.assertTrue(IDCATCatalog.providedBy(obj))

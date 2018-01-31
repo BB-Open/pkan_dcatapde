@@ -8,18 +8,18 @@ Suite Teardown  Teardown
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a distribution
+Scenario: As a site administrator I can add a harvester
   Given a logged-in site administrator
-    and an add distribution form
-   When I type 'My DCATDistribution' into the title field
+    and an add harvester form
+   When I type 'My Harvester' into the title field
     and I submit the form
-   Then a distribution with the title 'My DCATDistribution' has been created
+   Then a harvester with the title 'My Harvester' has been created
 
-Scenario: As a site administrator I can view a distribution
+Scenario: As a site administrator I can view a harvester
   Given a logged-in site administrator
-    and a distribution 'My DCATDistribution'
-   When I go to the distribution view
-   Then I can see the distribution title 'My DCATDistribution'
+    and a harvester 'My Harvester'
+   When I go to the harvester view
+   Then I can see the harvester title 'My Harvester'
 
 
 *** Keywords *****************************************************************
@@ -29,11 +29,11 @@ Scenario: As a site administrator I can view a distribution
 a logged-in site administrator
   Enable autologin as  Site Administrator
 
-an add distribution form
-  Go To  ${PLONE_URL}/++add++distribution
+an add harvester form
+  Go To  ${PLONE_URL}/++add++harvester
 
-a distribution 'My DCATDistribution'
-  Create content  type=distribution  id=my-distribution  title=My DCATDistribution
+a harvester 'My Harvester'
+  Create content  type=harvester  id=my-harvester  title=My Harvester
 
 
 # --- WHEN -------------------------------------------------------------------
@@ -44,18 +44,18 @@ I type '${title}' into the title field
 I submit the form
   Click Button  Save
 
-I go to the distribution view
-  Go To  ${PLONE_URL}/my-distribution
+I go to the harvester view
+  Go To  ${PLONE_URL}/my-harvester
   Wait until page contains  Site Map
 
 
 # --- THEN -------------------------------------------------------------------
 
-a distribution with the title '${title}' has been created
+a harvester with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
   Page should contain  Item created
 
-I can see the distribution title '${title}'
+I can see the harvester title '${title}'
   Wait until page contains  Site Map
   Page should contain  ${title}

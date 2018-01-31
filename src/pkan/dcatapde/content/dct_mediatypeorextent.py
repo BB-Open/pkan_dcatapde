@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""Dct_Mediatypeorextent Content Type."""
+"""DCTMediatypeorextent Content Type."""
 
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_DctMediatypeorextent
-from pkan.dcatapde.content.catalog import INameFromCatalog
+from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
+from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -13,8 +13,8 @@ from zope import schema
 from zope.interface import implementer
 
 
-class IDct_Mediatypeorextent(model.Schema):
-    """Marker interfce and DX Python Schema for Dct_Mediatypeorextent."""
+class IDCTMediatypeorextent(model.Schema):
+    """Marker interfce and DX Python Schema for DCTMediatypeorextent."""
 
     dct_title = I18NTextLine(
         required=True,
@@ -32,9 +32,9 @@ class IDct_Mediatypeorextent(model.Schema):
     )
 
 
-@implementer(IDct_Mediatypeorextent)
-class Dct_Mediatypeorextent(Item):
-    """Dct_Mediatypeorextent Content Type."""
+@implementer(IDCTMediatypeorextent)
+class DCTMediatypeorextent(Item):
+    """DCTMediatypeorextent Content Type."""
 
     portal_type = 'dct_licensedocument'
     namespace_class = 'dct:licensedocument'
@@ -43,15 +43,15 @@ class Dct_Mediatypeorextent(Item):
 
     def Title(self):
         if not self._Title:
-            self._Title = INameFromCatalog(self).title
+            self._Title = INameFromDCTTitle(self).title
         return self._Title
 
 
-class DctMediatypeorextentDefaultFactory(DexterityFactory):
-    """Custom DX factory for Dct_Mediatypeorextent."""
+class DCTMediatypeorextentDefaultFactory(DexterityFactory):
+    """Custom DX factory for DCTMediatypeorextent."""
 
     def __init__(self):
-        self.portal_type = CT_DctMediatypeorextent
+        self.portal_type = CT_DCT_MEDIATYPEOREXTENT
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it

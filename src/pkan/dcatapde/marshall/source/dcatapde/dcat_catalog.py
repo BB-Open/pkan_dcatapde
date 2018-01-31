@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de Catalog entity marshaller"""
 
-from pkan.dcatapde.content.catalog import ICatalog
+from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.source.dcatapde.interfaces import ICatalog2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
@@ -10,8 +10,8 @@ from zope.interface import implementer
 
 
 @implementer(ICatalog2RDF)
-@adapter(ICatalog, IRDFMarshallTarget)
-class Catalog2RDF(DCAT2RDF):
+@adapter(IDCATCatalog, IRDFMarshallTarget)
+class DCATCatalog2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de Catalogs."""
 
     _namespace = 'dcat'
@@ -23,7 +23,7 @@ class Catalog2RDF(DCAT2RDF):
 
         :return:
         """
-        result = super(Catalog2RDF, self).properties
+        result = super(DCATCatalog2RDF, self).properties
         return result
 
     @property
@@ -44,7 +44,7 @@ class Catalog2RDF(DCAT2RDF):
 
         :return:
         """
-        related = super(Catalog2RDF, self).referenced
+        related = super(DCATCatalog2RDF, self).referenced
         related['dct:publisher'] = self.context.dct_publisher.to_object
         related['dct:license'] = self.context.dct_license.to_object
         return related

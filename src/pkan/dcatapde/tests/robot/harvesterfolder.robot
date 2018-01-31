@@ -8,18 +8,18 @@ Suite Teardown  Teardown
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a distribution
+Scenario: As a site administrator I can add a harvesterfolder
   Given a logged-in site administrator
-    and an add distribution form
-   When I type 'My DCATDistribution' into the title field
+    and an add harvesterfolder form
+   When I type 'My HarvesterFolder' into the title field
     and I submit the form
-   Then a distribution with the title 'My DCATDistribution' has been created
+   Then a harvesterfolder with the title 'My HarvesterFolder' has been created
 
-Scenario: As a site administrator I can view a distribution
+Scenario: As a site administrator I can view a harvesterfolder
   Given a logged-in site administrator
-    and a distribution 'My DCATDistribution'
-   When I go to the distribution view
-   Then I can see the distribution title 'My DCATDistribution'
+    and a harvesterfolder 'My HarvesterFolder'
+   When I go to the harvesterfolder view
+   Then I can see the harvesterfolder title 'My HarvesterFolder'
 
 
 *** Keywords *****************************************************************
@@ -29,11 +29,11 @@ Scenario: As a site administrator I can view a distribution
 a logged-in site administrator
   Enable autologin as  Site Administrator
 
-an add distribution form
-  Go To  ${PLONE_URL}/++add++distribution
+an add harvesterfolder form
+  Go To  ${PLONE_URL}/++add++harvesterfolder
 
-a distribution 'My DCATDistribution'
-  Create content  type=distribution  id=my-distribution  title=My DCATDistribution
+a harvesterfolder 'My HarvesterFolder'
+  Create content  type=harvesterfolder  id=my-harvesterfolder  title=My HarvesterFolder
 
 
 # --- WHEN -------------------------------------------------------------------
@@ -44,18 +44,18 @@ I type '${title}' into the title field
 I submit the form
   Click Button  Save
 
-I go to the distribution view
-  Go To  ${PLONE_URL}/my-distribution
+I go to the harvesterfolder view
+  Go To  ${PLONE_URL}/my-harvesterfolder
   Wait until page contains  Site Map
 
 
 # --- THEN -------------------------------------------------------------------
 
-a distribution with the title '${title}' has been created
+a harvesterfolder with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
   Page should contain  Item created
 
-I can see the distribution title '${title}'
+I can see the harvesterfolder title '${title}'
   Wait until page contains  Site Map
   Page should contain  ${title}

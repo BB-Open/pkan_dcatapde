@@ -28,11 +28,11 @@ import xml
 
 
 ADD_METHODS_SUB_CTS = {
-    c.CT_Foafagent: add_foafagent,
+    c.CT_FOAF_AGENT: add_foafagent,
 }
 
 CLEAN_METHODS_SUB_CTS = {
-    c.CT_Foafagent: clean_foafagent,
+    c.CT_FOAF_AGENT: clean_foafagent,
 }
 
 
@@ -85,22 +85,22 @@ class BaseProcessor(object):
 
         pass_ct = []
 
-        if self.context.portal_type == c.CT_Catalog:
-            pass_ct.append(c.CT_Catalog)
-        elif self.context.portal_type == c.CT_Dataset:
-            pass_ct.append(c.CT_Catalog)
-            pass_ct.append(c.CT_Dataset)
-        elif self.context.portal_type == c.CT_Distribution:
+        if self.context.portal_type == c.CT_DCAT_CATALOG:
+            pass_ct.append(c.CT_DCAT_CATALOG)
+        elif self.context.portal_type == c.CT_DCAT_DATASET:
+            pass_ct.append(c.CT_DCAT_CATALOG)
+            pass_ct.append(c.CT_DCAT_DATASET)
+        elif self.context.portal_type == c.CT_DCAT_DISTRIBUTION:
             return log + '<p>Wrong context, cannot add anything</p>'
 
         if (
-            c.CT_Catalog in self.cleared_data and
-            self.cleared_data[c.CT_Catalog]
+            c.CT_DCAT_CATALOG in self.cleared_data and
+            self.cleared_data[c.CT_DCAT_CATALOG]
         ):
-            catalogs = self.cleared_data[c.CT_Catalog]
+            catalogs = self.cleared_data[c.CT_DCAT_CATALOG]
             catalog_counter = len(catalogs)
 
-            if c.CT_Catalog in pass_ct:
+            if c.CT_DCAT_CATALOG in pass_ct:
                 for x in range(0, catalog_counter):
                     catalogs[x] = self.context
             else:
@@ -116,22 +116,22 @@ class BaseProcessor(object):
                         catalog, error = clean_catalog(**catalogs[x])
                         catalogs[x] = catalog
                         if error:
-                            log += self.format_errors(error, c.CT_Catalog)
+                            log += self.format_errors(error, c.CT_DCAT_CATALOG)
                     log += '<p>Cleaned catalog number {catalog}</p>'.format(
                         catalog=x)
 
-        pass_dataset = c.CT_Dataset in pass_ct
+        pass_dataset = c.CT_DCAT_DATASET in pass_ct
 
         log += self.dry_run_for_type(
-            c.CT_Dataset,
-            c.CT_Catalog,
+            c.CT_DCAT_DATASET,
+            c.CT_DCAT_CATALOG,
             clean_dataset,
             pass_obj=pass_dataset,
         )
 
         log += self.dry_run_for_type(
-            c.CT_Distribution,
-            c.CT_Dataset,
+            c.CT_DCAT_DISTRIBUTION,
+            c.CT_DCAT_DATASET,
             clean_distribution,
         )
 
@@ -158,12 +158,12 @@ class BaseProcessor(object):
 
         pass_ct = self.get_content_to_pass()
 
-        if c.CT_Catalog in self.cleared_data and self.cleared_data[
-                c.CT_Catalog]:
-            catalogs = self.cleared_data[c.CT_Catalog]
+        if c.CT_DCAT_CATALOG in self.cleared_data and self.cleared_data[
+                c.CT_DCAT_CATALOG]:
+            catalogs = self.cleared_data[c.CT_DCAT_CATALOG]
             catalog_counter = len(catalogs)
 
-            if c.CT_Catalog in pass_ct:
+            if c.CT_DCAT_CATALOG in pass_ct:
                 for x in range(0, catalog_counter):
                     catalogs[x] = self.context
             else:
@@ -179,18 +179,18 @@ class BaseProcessor(object):
                             catalog=catalog.title,
                         )
 
-        pass_dataset = c.CT_Dataset in pass_ct
+        pass_dataset = c.CT_DCAT_DATASET in pass_ct
 
         log += self.real_run_for_type(
-            c.CT_Dataset,
-            c.CT_Catalog,
+            c.CT_DCAT_DATASET,
+            c.CT_DCAT_CATALOG,
             add_dataset,
             pass_obj=pass_dataset,
         )
 
         log += self.real_run_for_type(
-            c.CT_Distribution,
-            c.CT_Dataset,
+            c.CT_DCAT_DISTRIBUTION,
+            c.CT_DCAT_DATASET,
             add_distribution,
         )
 
@@ -382,12 +382,14 @@ class BaseProcessor(object):
         return log
 
     def get_content_to_pass(self):
-        if self.context.portal_type == c.CT_Catalog:
-            return [c.CT_Catalog]
-        elif self.context.portal_type == c.CT_Dataset:
-            return [c.CT_Catalog, c.CT_Dataset]
-        elif self.context.portal_type == c.CT_Distribution:
-            return [c.CT_Catalog, c.CT_Dataset, c.CT_Distribution]
+        if self.context.portal_type == c.CT_DCAT_CATALOG:
+            return [c.CT_DCAT_CATALOG]
+        elif self.context.portal_type == c.CT_DCAT_DATASET:
+            return [c.CT_DCAT_CATALOG, c.CT_DCAT_DATASET]
+        elif self.context.portal_type == c.CT_DCAT_DISTRIBUTION:
+            return [c.CT_DCAT_CATALOG,
+                    c.CT_DCAT_DATASET,
+                    c.CT_DCAT_DISTRIBUTION]
         else:
             return []
 

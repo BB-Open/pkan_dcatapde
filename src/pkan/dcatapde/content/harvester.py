@@ -2,7 +2,7 @@
 """Harvester Content Type."""
 
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_Harvester
+from pkan.dcatapde.constants import CT_HARVESTER
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -41,7 +41,7 @@ class HarvesterDefaultFactory(DexterityFactory):
     """Custom DX factory for Harvester."""
 
     def __init__(self):
-        self.portal_type = CT_Harvester
+        self.portal_type = CT_HARVESTER
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Vocabulary tests for `FOAFAgent`."""
 
+from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from plone import api
 from plone.app.testing import setRoles
@@ -22,12 +23,12 @@ class FoafagentVocabularyIntegrationTest(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.n1 = api.content.create(
-            type='foafagent', title='N1', container=self.portal)
+            type=constants.CT_FOAF_AGENT, title='N1', container=self.portal)
         self.n2 = api.content.create(
-            type='foafagent', title='N2', container=self.portal)
+            type=constants.CT_FOAF_AGENT, title='N2', container=self.portal)
 
     def test_vocabulary(self):
-        vocab_name = 'pkan.dcatapde.FoafagentVocabulary'
+        vocab_name = 'pkan.dcatapde.FOAFagentVocabulary'
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 

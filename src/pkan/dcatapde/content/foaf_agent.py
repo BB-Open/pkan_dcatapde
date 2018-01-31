@@ -2,8 +2,8 @@
 """FOAFAgent Content Type."""
 
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_Foafagent
-from pkan.dcatapde.content.catalog import INameFromCatalog
+from pkan.dcatapde.constants import CT_FOAF_AGENT
+from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -14,8 +14,8 @@ from zope.interface import implementer
 import zope.schema as schema
 
 
-class IFoafagent(model.Schema):
-    """Marker interfce and Dexterity Python Schema for Foafagent."""
+class IFOAFagent(model.Schema):
+    """Marker interfce and Dexterity Python Schema for FOAFagent."""
 
     dct_title = I18NTextLine(
         required=True,
@@ -36,8 +36,8 @@ class IFoafagent(model.Schema):
     )
 
 
-@implementer(IFoafagent)
-class Foafagent(Item):
+@implementer(IFOAFagent)
+class FOAFagent(Item):
     """FOAFAgent Content Type."""
 
     portal_type = 'foafagent'
@@ -47,15 +47,15 @@ class Foafagent(Item):
 
     def Title(self):
         if not self._Title:
-            self._Title = INameFromCatalog(self).title
+            self._Title = INameFromDCTTitle(self).title
         return self._Title
 
 
-class FoafagentDefaultFactory(DexterityFactory):
+class FOAFAgentDefaultFactory(DexterityFactory):
     """Custom DX factory for FOAFAgent."""
 
     def __init__(self):
-        self.portal_type = CT_Foafagent
+        self.portal_type = CT_FOAF_AGENT
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it

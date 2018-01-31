@@ -8,18 +8,18 @@ Suite Teardown  Teardown
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a literal
+Scenario: As a site administrator I can add a distribution
   Given a logged-in site administrator
-    and an add literal form
-   When I type 'My Literal' into the title field
+    and an add distribution form
+   When I type 'My DCATDistribution' into the title field
     and I submit the form
-   Then a literal with the title 'My Literal' has been created
+   Then a distribution with the title 'My DCATDistribution' has been created
 
-Scenario: As a site administrator I can view a literal
+Scenario: As a site administrator I can view a distribution
   Given a logged-in site administrator
-    and a literal 'My Literal'
-   When I go to the literal view
-   Then I can see the literal title 'My Literal'
+    and a distribution 'My DCATDistribution'
+   When I go to the distribution view
+   Then I can see the distribution title 'My DCATDistribution'
 
 
 *** Keywords *****************************************************************
@@ -29,33 +29,33 @@ Scenario: As a site administrator I can view a literal
 a logged-in site administrator
   Enable autologin as  Site Administrator
 
-an add literal form
-  Go To  ${PLONE_URL}/++add++literal
+an add distribution form
+  Go To  ${PLONE_URL}/++add++dcat_distribution
 
-a literal 'My Literal'
-  Create content  type=literal  id=my-literal  title=My Literal
+a distribution 'My DCATDistribution'
+  Create content  type=dcat_distribution  id=my-distribution  title=My DCATDistribution
 
 
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.IDublinCore.title  ${title}
+  Input Text  name=form.widgets.dct_title.i18n.en  ${title}
 
 I submit the form
   Click Button  Save
 
-I go to the literal view
-  Go To  ${PLONE_URL}/my-literal
+I go to the distribution view
+  Go To  ${PLONE_URL}/my-distribution
   Wait until page contains  Site Map
 
 
 # --- THEN -------------------------------------------------------------------
 
-a literal with the title '${title}' has been created
+a distribution with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
   Page should contain  Item created
 
-I can see the literal title '${title}'
+I can see the distribution title '${title}'
   Wait until page contains  Site Map
   Page should contain  ${title}

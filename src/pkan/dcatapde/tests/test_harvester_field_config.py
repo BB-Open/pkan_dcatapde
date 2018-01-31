@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Content type tests for `harvesterfolder`."""
 
+from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from pkan.dcatapde.content.harvester_field_config import IHarvesterFieldConfig
 from plone.app.testing import setRoles
@@ -23,16 +24,19 @@ class HarvesterFieldConfigIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name='harvester_field_config')
+        fti = queryUtility(IDexterityFTI,
+                           name=constants.CT_HARVESTER_FIELD_CONFIG)
         schema = fti.lookupSchema()
         self.assertEqual(IHarvesterFieldConfig, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name='harvester_field_config')
+        fti = queryUtility(IDexterityFTI,
+                           name=constants.CT_HARVESTER_FIELD_CONFIG)
         self.assertTrue(fti)
 
     # def test_factory(self):
-    #     fti = queryUtility(IDexterityFTI, name='harvester_field_config')
+    #     fti = queryUtility(IDexterityFTI,
+        #       name=constants.CT_HARVESTER_FIELD_CONFIG)
     #     factory = fti.factory
     #     obj = createObject(factory)
     #     self.assertTrue(IHarvesterFieldConfig.providedBy(obj))
@@ -41,7 +45,7 @@ class HarvesterFieldConfigIntegrationTest(unittest.TestCase):
     #     setRoles(self.portal, TEST_USER_ID, ['Contributor'])
     #     obj = api.content.create(
     #         container=self.portal,
-    #         type='harvester_field_config',
-    #         id='harvester_field_config',
+    #         type=constants.CT_HARVESTER_FIELD_CONFIG,
+    #         id=constants.CT_HARVESTER_FIELD_CONFIG,
     #     )
     #     self.assertTrue(IHarvesterFieldConfig.providedBy(obj))

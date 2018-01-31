@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 """Constants for easier access."""
 
-CT_Catalog = 'catalog'
-CT_Foafagent = 'foafagent'
+CT_DCAT_CATALOG = 'dcat_catalog'
+CT_FOAF_AGENT = 'foaf_agent'
 CT_DCT_LICENSE_DOCUMENT = 'dct_licensedocument'
-CT_DctMediatypeorextent = 'dct_mediatypeorextent'
-CT_Distribution = 'distribution'
-CT_Dataset = 'dataset'
-CT_HarvesterFolder = 'harvesterfolder'
-CT_Harvester = 'harvester'
-CT_HarvesterFieldConfig = 'harvester_field_config'
+CT_DCT_MEDIATYPEOREXTENT = 'dct_mediatypeorextent'
+CT_DCAT_DISTRIBUTION = 'dcat_distribution'
+CT_DCAT_DATASET = 'dcat_dataset'
+CT_HARVESTER_FOLDER = 'harvesterfolder'
+CT_HARVESTER = 'harvester'
+CT_HARVESTER_FIELD_CONFIG = 'harvester_field_config'
 CT_LICENSE_FOLDER = 'LicenseFolder'
 
 
 DCAT_CTs = [
-    CT_Catalog,
-    CT_Dataset,
-    CT_Distribution,
+    CT_DCAT_CATALOG,
+    CT_DCAT_DATASET,
+    CT_DCAT_DISTRIBUTION,
 ]
 
 

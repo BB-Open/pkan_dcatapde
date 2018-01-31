@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Work with Datasets."""
 
-from pkan.dcatapde.constants import CT_Dataset
-from pkan.dcatapde.content.dataset import Dataset
-from pkan.dcatapde.content.dataset import IDataset
+from pkan.dcatapde.constants import CT_DCAT_DATASET
+from pkan.dcatapde.content.dcat_dataset import DCATDataset
+from pkan.dcatapde.content.dcat_dataset import IDCATDataset
 from plone.api.content import create
 from zope.schema import getValidationErrors
 
@@ -11,7 +11,7 @@ from zope.schema import getValidationErrors
 # Data Cleaning Methods
 def clean_dataset(**data):
     """Clean datasets."""
-    test_dataset = Dataset()
+    test_dataset = DCATDataset()
 
     # test object must have an id
     test_dataset.id = 'test'
@@ -20,7 +20,7 @@ def clean_dataset(**data):
     for attr in data:
         setattr(test_dataset, attr, data[attr])
 
-    errors = getValidationErrors(IDataset, test_dataset)
+    errors = getValidationErrors(IDCATDataset, test_dataset)
 
     return data, errors
 
@@ -30,7 +30,7 @@ def add_dataset(context, **data):
     """Add a new dataset."""
     data, errors = clean_dataset(**data)
 
-    dataset = create(container=context, type=CT_Dataset, **data)
+    dataset = create(container=context, type=CT_DCAT_DATASET, **data)
 
     return dataset
 
