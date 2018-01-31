@@ -2,8 +2,8 @@
 """Vocabularies and sources for license documents."""
 
 from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
+from pkan.dcatapde.vocabularies import utils
 from plone import api
-from plone.app.vocabularies.utils import parseQueryString
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -41,25 +41,8 @@ class LicenseDocumentVocabulary(object):
         return SimpleVocabulary(terms)
 
     def __call__(self, context, query=None):
-        parsed = {}
-        if query:
-            if isinstance(query, basestring):
-                q = query
-                if not q.endswith('*'):
-                    q = '{0}*'.format(q)
-                query = {
-                    'criteria': [{
-                        'i': 'SearchableText',
-                        'o': 'plone.app.querystring.operation.string.contains',
-                        'v': q,
-                    }],
-                }
-            parsed = parseQueryString(context, query['criteria'])
-            if 'sort_on' in query:
-                parsed['sort_on'] = query['sort_on']
-            if 'sort_order' in query:
-                parsed['sort_order'] = str(query['sort_order'])
-        return self.licenses(query=parsed)
+        query = utils.parse_query(context=context, query=query)
+        return self.licenses(query=query)
 
 
 LicenseDocumentVocabularyFactory = LicenseDocumentVocabulary()
