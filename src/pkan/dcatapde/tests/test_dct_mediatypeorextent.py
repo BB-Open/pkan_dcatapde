@@ -25,16 +25,19 @@ class DctMediatypeorextentIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name=constants.CT_DCT_MEDIATYPEOREXTENT)
+        fti = queryUtility(IDexterityFTI,
+                           name=constants.CT_DCT_MEDIATYPEOREXTENT)
         schema = fti.lookupSchema()
         self.assertEqual(IDCTMediatypeorextent, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name=constants.CT_DCT_MEDIATYPEOREXTENT)
+        fti = queryUtility(IDexterityFTI,
+                           name=constants.CT_DCT_MEDIATYPEOREXTENT)
         self.assertTrue(fti)
 
     def test_factory(self):
-        fti = queryUtility(IDexterityFTI, name=constants.CT_DCT_MEDIATYPEOREXTENT)
+        fti = queryUtility(IDexterityFTI,
+                           name=constants.CT_DCT_MEDIATYPEOREXTENT)
         factory = fti.factory
         obj = createObject(factory)
         self.assertTrue(IDCTMediatypeorextent.providedBy(obj))

@@ -34,7 +34,6 @@ class PotsdamPreprocessor(object):
 
     def preprocess_distribution(self, data):
         for x in range(0, len(data[c.CT_DCAT_DISTRIBUTION])):
-            data[c.CT_DCAT_DISTRIBUTION][x]['title'] = 'DCATDistribution {x}'.format(
-                x=x,
-            )
+            data[c.CT_DCAT_DISTRIBUTION][x]['title'] = \
+                'DCATDistribution {x}'.format(x=x)
         return data

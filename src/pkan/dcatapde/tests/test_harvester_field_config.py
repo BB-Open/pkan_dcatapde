@@ -24,16 +24,19 @@ class HarvesterFieldConfigIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER_FIELD_CONFIG)
+        fti = queryUtility(IDexterityFTI,
+                           name=constants.CT_HARVESTER_FIELD_CONFIG)
         schema = fti.lookupSchema()
         self.assertEqual(IHarvesterFieldConfig, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER_FIELD_CONFIG)
+        fti = queryUtility(IDexterityFTI,
+                           name=constants.CT_HARVESTER_FIELD_CONFIG)
         self.assertTrue(fti)
 
     # def test_factory(self):
-    #     fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER_FIELD_CONFIG)
+    #     fti = queryUtility(IDexterityFTI,
+        #       name=constants.CT_HARVESTER_FIELD_CONFIG)
     #     factory = fti.factory
     #     obj = createObject(factory)
     #     self.assertTrue(IHarvesterFieldConfig.providedBy(obj))
