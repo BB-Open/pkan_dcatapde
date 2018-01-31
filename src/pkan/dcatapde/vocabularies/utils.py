@@ -12,7 +12,9 @@ def parse_query(context=None, query=None):
         return parsed
 
     if isinstance(query, basestring):
-        q = query
+        q = query.strip()
+        if len(q) <= 1:
+            return parsed
         if not q.endswith('*'):
             q = '{0}*'.format(q)
         query = {
