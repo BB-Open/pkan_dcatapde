@@ -28,4 +28,9 @@
         name="pkan.dcatapde.PreprocessorVocabulary"
         />
 
+  <utility
+      component=".licenses.LicenseDocumentVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.LicenseDocuments"
+      />
+
 </configure>
