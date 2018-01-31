@@ -18,8 +18,10 @@ class RelationAdapter(BaseField):
 
         field_prefix = prefix + ct + ':' + field_name + ':'
         cts = self.get_cts_from_relfield(self.field, field_name)
-        for ct in cts:
-            terms += get_terms_for_ct(ct,
+        for target_ct in cts:
+            if target_ct == ct:
+                continue
+            terms += get_terms_for_ct(target_ct,
                                       prefix=field_prefix)
 
         return terms
