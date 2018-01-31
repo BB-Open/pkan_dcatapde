@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Test license docuemnt related vocabularies."""
+"""Test license document related vocabularies."""
 
 from pkan.dcatapde import constants
 from pkan.dcatapde import testing
