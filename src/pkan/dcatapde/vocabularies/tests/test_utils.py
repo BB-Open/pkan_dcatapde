@@ -36,3 +36,55 @@ class TestParseQuery(unittest.TestCase):
 
         result = self._callFUT(None, '  a string   ')
         self.assertEqual(expected, result)
+
+    def test_query_sort_index(self):
+        """Validate the `sort_on` param is still there."""
+        expected = {
+            'SearchableText': {'query': 'a string*'},
+            'sort_on': 'sort_index',
+        }
+        query = {
+            'criteria': [{
+                'i': 'SearchableText',
+                'o': 'plone.app.querystring.operation.string.contains',
+                'v': 'a string*',
+            }],
+            'sort_on': 'sort_index',
+        }
+
+        result = self._callFUT(None, query)
+        self.assertEqual(expected, result)
+
+    def test_query_sort_order(self):
+        """Validate the `sort_order` param is still there."""
+        expected = {
+            'SearchableText': {'query': 'a string*'},
+            'sort_order': 'asc',
+        }
+        query = {
+            'criteria': [{
+                'i': 'SearchableText',
+                'o': 'plone.app.querystring.operation.string.contains',
+                'v': 'a string*',
+            }],
+            'sort_order': 'asc',
+        }
+
+        result = self._callFUT(None, query)
+        self.assertEqual(expected, result)
+
+        expected = {
+            'SearchableText': {'query': 'a string*'},
+            'sort_order': '1',
+        }
+        query = {
+            'criteria': [{
+                'i': 'SearchableText',
+                'o': 'plone.app.querystring.operation.string.contains',
+                'v': 'a string*',
+            }],
+            'sort_order': 1,
+        }
+
+        result = self._callFUT(None, query)
+        self.assertEqual(expected, result)
