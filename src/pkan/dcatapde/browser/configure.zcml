@@ -4,9 +4,10 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="pkan.dcatapde">
 
-  <include package=".add_views"/>
-  <include package=".edit_views"/>
-  <include package=".content_views"/>
+  <include package=".add_views" />
+  <include package=".controlpanel "/>
+  <include package=".edit_views" />
+  <include package=".content_views" />
   <!-- Publish static files -->
 
 
