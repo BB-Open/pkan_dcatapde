@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <registry>
-
+  <records interface="pkan.dcatapde.interfaces.IPKANSettings" />
 </registry>
