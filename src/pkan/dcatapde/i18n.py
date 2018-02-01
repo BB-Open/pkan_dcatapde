@@ -41,7 +41,8 @@ HELP_FOLDER_STANDARDS = _(
         u'folder': u'/{0}'.format(constants.FOLDER_STANDARDS),
     },
 )
-HELP_SETTINGS = _(u'Manage all PKAN specific settings.')
+HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
+HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
 
 
 LABEL_FOLDER_AGENTS = _(u'Folder containing agents')
@@ -50,7 +51,8 @@ LABEL_FOLDER_LICENSES = _(u'Folder containing licenses')
 LABEL_FOLDER_LOCATIONS = _(u'Folder containing locations')
 LABEL_FOLDER_PUBLISHERS = _(u'Folder containing publishers')
 LABEL_FOLDER_STANDARDS = _(u'Folder containing standards')
-LABEL_SETTINGS = _(u'PKAN Settings')
+LABEL_SETTINGS_BASE = _(u'PKAN Base Settings')
+LABEL_SETTINGS_FOLDERS = _(u'PKAN Folder Settings')
 
 
 STATUS_REGISTRY_UPDATED = _(

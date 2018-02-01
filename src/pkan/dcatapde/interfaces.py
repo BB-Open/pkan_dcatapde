@@ -12,8 +12,12 @@ class IPkanDcatapdeLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
 
 
-class IPKANSettings(model.Schema):
-    """PKAN settings."""
+class IPKANBaseSettings(model.Schema):
+    """PKAN Base Settings."""
+
+
+class IPKANFolderSettings(model.Schema):
+    """PKAN Folder Settings."""
 
     folder_agents = schema.TextLine(
         default=u'/{0}'.format(constants.FOLDER_AGENTS),

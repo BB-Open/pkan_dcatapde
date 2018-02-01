@@ -10,4 +10,11 @@
       permission="pkan.dcatapde.controlpanel.PKAN"
       />
 
+  <browser:page
+      class=".settings.PKANFolderSettingsPanelView"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="pkan-controlpanel-folders"
+      permission="pkan.dcatapde.controlpanel.PKAN"
+      />
+
 </configure>
