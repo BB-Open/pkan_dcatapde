@@ -5,7 +5,7 @@ from Products.Five import BrowserView
 class DryRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
-        source = self.context.harvesting_type(self.context)
+        source = self.context.source_type(self.context)
 
         self.log = source.dry_run()
 
@@ -15,7 +15,7 @@ class DryRunView(BrowserView):
 class RealRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
-        source = self.context.harvesting_type(self.context)
+        source = self.context.source_type(self.context)
 
         self.log = source.real_run()
 
@@ -25,7 +25,7 @@ class RealRunView(BrowserView):
 class ResetFieldsView(BrowserView):
 
     def __call__(self, *args, **kwargs):
-        source = self.context.harvesting_type(self.context)
+        source = self.context.source_type(self.context)
         source.read_fields(reread=True)
 
         self.log = '<p>Reading fields done</p>'

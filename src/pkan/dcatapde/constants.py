@@ -13,13 +13,6 @@ CT_HARVESTER_FIELD_CONFIG = 'harvester_field_config'
 CT_LICENSE_FOLDER = 'LicenseFolder'
 
 
-DCAT_CTs = [
-    CT_DCAT_CATALOG,
-    CT_DCAT_DATASET,
-    CT_DCAT_DISTRIBUTION,
-]
-
-
 # HTML filled with error information from harvesting dry_run
 ERROR_HTML_LINE = '<p>Found error {error} on field {field}</p>'
 

@@ -1,20 +1,25 @@
 # -*- coding: utf-8 -*-
-"""Preprocessor Interfaces."""
+"""Data Type Interfaces."""
 
 from zope.interface import Interface
 
 
-class IPreprocessor(Interface):
+class IDataType(Interface):
     """Base Interface for preprocessing data."""
 
-    def preprocess(self, data):
+    def clean_data(self, data):
         """Clear data and return it.
 
         :param data:
+
+        data must be dictionary like
+
+        {ct_identifier: {index: {field: list of data}}}
+
         :return:
         """
         return data
 
 
-class IPotsdam(IPreprocessor):
+class IPotsdam(IDataType):
     """Preprocessor Marker for Potsdam."""

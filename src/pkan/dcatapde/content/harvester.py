@@ -21,14 +21,20 @@ class IHarvester(model.Schema):
 
     harvesting_type = schema.Choice(
         required=True,
-        title=_(u'Schema Type'),
+        title=_(u'Harvesting Type'),
         vocabulary='pkan.dcatapde.HarvestingVocabulary',
     )
 
-    preprocessor = schema.Choice(
+    data_type = schema.Choice(
         required=True,
-        title=_(u'Preprocessor'),
-        vocabulary='pkan.dcatapde.PreprocessorVocabulary',
+        title=_(u'Data Type'),
+        vocabulary='pkan.dcatapde.DataTypeVocabulary',
+    )
+
+    source_type = schema.Choice(
+        required=True,
+        title=_(u'Source Type'),
+        vocabulary='pkan.dcatapde.SourceTypeVocabulary',
     )
 
 

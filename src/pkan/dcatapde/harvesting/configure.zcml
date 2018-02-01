@@ -2,23 +2,9 @@
     i18n_domain="pkan.dcatapde">
 
   <include package=".field_adapter"/>
+  <include package=".harvesting_type"/>
+  <include package=".source_type"/>
+  <include package=".data_type"/>
 
-  <adapter
-      factory=".adapter.JsonProcessor"
-      for="pkan.dcatapde.content.harvester.IHarvester"
-      provides=".interfaces.IJson"
-      />
-
-  <adapter
-      factory=".adapter.XmlProcessor"
-      for="pkan.dcatapde.content.harvester.IHarvester"
-      provides=".interfaces.IXml"
-      />
-
-  <adapter
-      factory=".prep_adapter.PotsdamPreprocessor"
-      for="pkan.dcatapde.harvesting.interfaces.IImportSource"
-      provides=".prep_interfaces.IPotsdam"
-      />
 
 </configure>

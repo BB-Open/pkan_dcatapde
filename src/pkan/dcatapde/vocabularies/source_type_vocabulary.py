@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.harvesting.harvesting_type import interfaces as i
+from pkan.dcatapde.harvesting.source_type import interfaces as i
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -7,7 +7,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 
 @implementer(IVocabularyFactory)
-class HarvestingVocabulary(object):
+class SourceTypeVocabulary(object):
     """
     """
 
@@ -17,12 +17,9 @@ class HarvestingVocabulary(object):
 
         terms.append(
             SimpleTerm(
-                value=i.IDefaultType, token='Default', title='Default'))
-        terms.append(
-            SimpleTerm(
-                value=i.ILicenseType, token='License', title='License'))
+                value=i.IJson, token='Json', title='Json'))
         # Create a SimpleVocabulary from the terms list and return it:
         return SimpleVocabulary(terms)
 
 
-HarvestingVocabularyFactory = HarvestingVocabulary()
+SourceTypeVocabularyFactory = SourceTypeVocabulary()

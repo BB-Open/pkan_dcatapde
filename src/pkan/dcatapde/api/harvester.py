@@ -75,7 +75,7 @@ def add_harvester_field_config(context, **data):
 
     harvester_field_config = api.content.create(
         container=context,
-        type=constants.CT_HarvesterFieldConfig,
+        type=constants.CT_HARVESTER_FIELD_CONFIG,
         title=constants.HARVESTER_FIELD_CONFIG_TITLE,
         id=constants.HARVESTER_FIELD_CONFIG_ID,
         **data)
@@ -91,7 +91,7 @@ def add_harvester(context, **data):
 
     harvester = api.content.create(
         container=folder,
-        type=constants.CT_Harvester,
+        type=constants.CT_HARVESTER,
         **data)
 
     return harvester
@@ -107,7 +107,7 @@ def add_harvester_folder(context, **data):
     # set id and title, title for presentation and id for addressing the object
     harvester_folder = api.content.create(
         container=context,
-        type=constants.CT_HarvesterFolder,
+        type=constants.CT_HARVESTER_FOLDER,
         title=constants.HARVESTER_FOLDER_TITLE,
         id=constants.HARVESTER_FOLDER_ID,
         **data)
@@ -130,7 +130,7 @@ def get_harvester_folder():
     if not portal:
         return None
     catalog = portal.portal_catalog
-    res = catalog.searchResults({'portal_type': constants.CT_HarvesterFolder})
+    res = catalog.searchResults({'portal_type': constants.CT_HARVESTER_FOLDER})
     if len(res) != 0:
         return res[0].getObject()
     else:
@@ -143,7 +143,7 @@ def get_all_harvester():
     if not portal:
         return None
     catalog = portal.portal_catalog
-    res = catalog.searchResults({'portal_type': constants.CT_Harvester})
+    res = catalog.searchResults({'portal_type': constants.CT_HARVESTER})
     harvester = []
     for brain in res:
         harvester.append(brain.getObject())

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Pre-processor vocabularies."""
 
-from pkan.dcatapde.harvesting.prep_interfaces import IPotsdam
+from pkan.dcatapde.harvesting.data_type.interfaces import IPotsdam
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -9,7 +9,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 
 @implementer(IVocabularyFactory)
-class PreprocessorVocabulary(object):
+class DataTypeVocabulary(object):
     """Pre-processor vocabulary."""
 
     def __call__(self, context):
@@ -23,4 +23,4 @@ class PreprocessorVocabulary(object):
         return SimpleVocabulary(terms)
 
 
-PreprocessorVocabularyFactory = PreprocessorVocabulary()
+DataTypeVocabularyFactory = DataTypeVocabulary()

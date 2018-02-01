@@ -2,38 +2,40 @@
 """Preprocessor Adapter."""
 
 from pkan.dcatapde import constants as c
-from pkan.dcatapde.harvesting.interfaces import IImportSource
-from pkan.dcatapde.harvesting.prep_interfaces import IPotsdam
+from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.harvesting.data_type.interfaces import IPotsdam
 from zope.component import adapter
 from zope.interface import implementer
 
 
-@adapter(IImportSource)
+@adapter(IHarvester)
 @implementer(IPotsdam)
-class PotsdamPreprocessor(object):
+class Potsdam(object):
     """Potsdam Preprocessor."""
 
     def __init__(self, obj):
         self.obj = obj
 
-    def preprocess(self, data):
+    def clean_data(self, data):
 
         if c.CT_DCAT_DATASET in data:
-            data = self.preprocess_dataset(data)
+            data = self.clean_dataset(data)
 
         if c.CT_DCAT_DISTRIBUTION in data:
-            data = self.preprocess_distribution(data)
+            data = self.clean_distribution(data)
 
         return data
 
-    def preprocess_dataset(self, data):
+    def clean_dataset(self, data):
         for x in range(0, len(data[c.CT_DCAT_DATASET])):
             data[c.CT_DCAT_DATASET][x]['title'] = 'Dataset {x}'.format(x=x)
 
         return data
 
-    def preprocess_distribution(self, data):
+    def clean_distribution(self, data):
         for x in range(0, len(data[c.CT_DCAT_DISTRIBUTION])):
-            data[c.CT_DCAT_DISTRIBUTION][x]['title'] = \
-                'DCATDistribution {x}'.format(x=x)
+            title = 'Distribution {x}'.format(
+                x=x,
+            )
+            data[c.CT_DCAT_DISTRIBUTION][x]['title'] = title
         return data

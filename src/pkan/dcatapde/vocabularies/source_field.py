@@ -36,7 +36,7 @@ class SourceFieldVocabulary(object):
                 break
 
         if harvester:
-            processor = harvester.harvesting_type(harvester)
+            processor = harvester.source_type(harvester)
             fields = processor.read_fields()
             for field in fields:
                 terms.append(

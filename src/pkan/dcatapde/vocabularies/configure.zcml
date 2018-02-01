@@ -24,8 +24,13 @@
         />
 
     <utility
-        component=".preprocessor_vocabulary.PreprocessorVocabularyFactory"
-        name="pkan.dcatapde.PreprocessorVocabulary"
+        component=".data_type_vocabulary.DataTypeVocabularyFactory"
+        name="pkan.dcatapde.DataTypeVocabulary"
+        />
+
+    <utility
+        component=".source_type_vocabulary.SourceTypeVocabularyFactory"
+        name="pkan.dcatapde.SourceTypeVocabulary"
         />
 
   <utility
