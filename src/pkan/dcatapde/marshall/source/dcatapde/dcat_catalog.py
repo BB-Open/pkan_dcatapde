@@ -47,4 +47,5 @@ class DCATCatalog2RDF(DCAT2RDF):
         related = super(DCATCatalog2RDF, self).referenced
         related['dct:publisher'] = self.context.dct_publisher.to_object
         related['dct:license'] = self.context.dct_license.to_object
+        related['dct:spatial'] = self.context.dct_spatial.to_object
         return related

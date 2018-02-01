@@ -4,6 +4,7 @@
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
+from pkan.dcatapde.constants import CT_FOAF_AGENT
 from plone.api import portal
 from plone.app.content.interfaces import INameFromTitle
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
@@ -38,11 +39,11 @@ class IDCATCatalog(model.Schema):
     form.widget(
         'dct_publisher',
         RelatedItemsFieldWidget,
-        content_type='foafagent',
+        content_type=CT_FOAF_AGENT,
         content_type_title=_(u'Publisher'),
         initial_path='/publisher/',
         pattern_options={
-            'selectableTypes': ['foafagent'],
+            'selectableTypes': [CT_FOAF_AGENT],
         },
     )
 
