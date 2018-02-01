@@ -1,20 +1,31 @@
 <?xml version="1.0"?>
-<object
-    name="portal_controlpanel"
+<object name="portal_controlpanel"
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="pkan.dcatapde">
-    <configlet
-        title="PKAN Dcatapde Configuration"
-        action_id="pkan.dcatapde.settings"
-        appId="pkan.dcatapde"
-        category="Products"
-        condition_expr=""
-        url_expr="string:${portal_url}/@@pkan-dcatapde-config"
-        icon_expr=""
-        visible="True"
-        i18n:attributes="title">
-            <permission>Manage portal</permission>
-    </configlet>
+    i18n:domain="pkan.dcatapde"
+    purge="False">
 
+  <configlet action_id="pkan.dcatapde.config"
+      appId="pkan.dcatapde"
+      category="Products"
+      condition_expr=""
+      icon_expr=""
+      title="PKAN Dcatapde Configuration"
+      url_expr="string:${portal_url}/@@pkan-dcatapde-config"
+      visible="True"
+      i18n:attributes="title">
+    <permission>Manage portal</permission>
+  </configlet>
+
+  <configlet action_id="pkan.dcatapde.settings"
+      appId="pkan.dcatapde"
+      category="Products"
+      condition_expr=""
+      icon_expr=""
+      title="PKAN Settings"
+      url_expr="string:${portal_url}/@@pkan-controlpanel-base"
+      visible="True"
+      i18n:attributes="title">
+    <permission>Plone Site Setup: PKAN</permission>
+  </configlet>
 
 </object>
