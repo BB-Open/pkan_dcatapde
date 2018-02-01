@@ -4,13 +4,6 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="pkan.dcatapde">
 
-  <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
-  <include package="z3c.jbot" file="meta.zcml" />
-  <browser:jbot
-      directory="overrides"
-      layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
-      />
-
   <include package=".add_views"/>
   <include package=".edit_views"/>
   <include package=".content_views"/>
