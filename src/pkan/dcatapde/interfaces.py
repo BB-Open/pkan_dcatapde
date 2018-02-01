@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 
-from pkan.dcatapde import _
 from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
 from plone.supermodel import model
 from zope import schema
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
@@ -17,36 +17,42 @@ class IPKANSettings(model.Schema):
 
     folder_agents = schema.TextLine(
         default=u'/{0}'.format(constants.FOLDER_AGENTS),
+        description=i18n.HELP_FOLDER_AGENTS,
         required=True,
-        title=_(u'Folder containing agents'),
+        title=i18n.LABEL_FOLDER_AGENTS,
     )
 
     folder_formats = schema.TextLine(
         default=u'/{0}'.format(constants.FOLDER_FORMATS),
+        description=i18n.HELP_FOLDER_FORMATS,
         required=True,
-        title=_(u'Folder containing formats'),
+        title=i18n.LABEL_FOLDER_FORMATS,
     )
 
     folder_licenses = schema.TextLine(
         default=u'/{0}'.format(constants.FOLDER_LICENSES),
+        description=i18n.HELP_FOLDER_LICENSES,
         required=True,
-        title=_(u'Folder containing licenses'),
+        title=i18n.LABEL_FOLDER_LICENSES,
     )
 
     folder_locations = schema.TextLine(
         default=u'/{0}'.format(constants.FOLDER_LOCATIONS),
+        description=i18n.HELP_FOLDER_LOCATIONS,
         required=True,
-        title=_(u'Folder containing locations'),
+        title=i18n.LABEL_FOLDER_LOCATIONS,
     )
 
     folder_publishers = schema.TextLine(
         default=u'/{0}'.format(constants.FOLDER_PUBLISHERS),
+        description=i18n.HELP_FOLDER_PUBLISHERS,
         required=True,
-        title=_(u'Folder containing publishers'),
+        title=i18n.LABEL_FOLDER_PUBLISHERS,
     )
 
     folder_standards = schema.TextLine(
         default=u'/{0}'.format(constants.FOLDER_STANDARDS),
+        description=i18n.HELP_FOLDER_STANDARDS,
         required=True,
-        title=_(u'Folder containing standards'),
+        title=i18n.LABEL_FOLDER_STANDARDS,
     )

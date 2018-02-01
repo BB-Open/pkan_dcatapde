@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """PKAN Control Panel."""
 
-from pkan.dcatapde import _
+from pkan.dcatapde import i18n
 from pkan.dcatapde import interfaces
 from pkan.dcatapde.browser.controlpanel import base
 from plone.app.registry.browser import controlpanel
@@ -13,8 +13,8 @@ class PKANSettingsEditForm(base.SelfHealingRegistryEditForm):
     """PKAN Settings Form."""
 
     schema = interfaces.IPKANSettings
-    label = _(u'PKAN Settings')
-    description = _(u'Manage all PKAN specific settings.')
+    label = i18n.LABEL_SETTINGS
+    description = i18n.HELP_SETTINGS
 
     def updateFields(self):
         super(PKANSettingsEditForm, self).updateFields()
