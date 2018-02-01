@@ -2,7 +2,7 @@
 <object
     name="portal_controlpanel"
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="inqbus.mailcenter">
+    i18n:domain="pkan.dcatapde">
     <configlet
         title="PKAN Dcatapde Configuration"
         action_id="pkan.dcatapde.settings"
