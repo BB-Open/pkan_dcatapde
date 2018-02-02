@@ -12,6 +12,11 @@
         />
 
     <permission
+        id="pkan.dcatapde.AddSCOSConceptScheme"
+        title="pkan.dcatapde: Add SCOSConceptScheme"
+        />
+
+    <permission
         id="pkan.dcatapde.AddDCTLicenseDocument"
         title="pkan.dcatapde: Add DCTLicenseDocument"
         />
