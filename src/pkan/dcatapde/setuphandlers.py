@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Post install import steps for pkan.dcatapde."""
 
-from pkan.dcatapde import constants
+from pkan.dcatapde import constants as c
 from plone import api
 from plone.app.dexterity.behaviors import constrains
 from Products.CMFPlone.interfaces import INonInstallable
@@ -40,24 +40,25 @@ def uninstall(context):
 def add_default_folders(context):
     """Add default folders on first install."""
     portal = _get_navigation_root(context)
-    add_licenses_folder(portal)
+    for folder_name, folder_type in c.MANDATORY_FOLDERS.items():
+        add_folder(portal, folder_name, folder_type)
 
 
-def add_licenses_folder(portal):
-    """Add licenses folder."""
-    licenses = portal.get(constants.FOLDER_LICENSES)
-    if not licenses:
+def add_folder(portal, folder_name, folder_type):
+    """Add a folder for the exclusive addition of certain CTs"""
+    folder = portal.get(folder_name)
+    if not folder:
         types = api.portal.get_tool(name='portal_types')
-        fti = types.getTypeInfo('LicenseFolder')
+        fti = types.getTypeInfo(folder_type)
         fti.global_allow = True
-        licenses = api.content.create(
+        folder = api.content.create(
             container=portal,
-            type=constants.CT_LICENSE_FOLDER,
-            id=constants.FOLDER_LICENSES,
-            title=u'Licenses',
+            type=folder_type,
+            id=folder_name,
+            title=unicode(folder_name),
         )
         fti.global_allow = False
-        _publish(licenses)
+        _publish(folder)
 
 
 def set_constraints(context):

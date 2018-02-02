@@ -3,13 +3,19 @@
   <permissions>
   <!-- -*- extra stuff goes here -*- -->
 
-    <permission name="pkan.dcatapde: Add DCTMediatypeorextent" acquire="True">
+    <permission name="pkan.dcatapde: Add SCOSConceptScheme" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
 
+    <permission name="pkan.dcatapde: Add DCTMediatypeorextent" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
 
     <permission name="pkan.dcatapde: Add DCTLicenseDocument" acquire="True">
       <role name="Manager"/>
