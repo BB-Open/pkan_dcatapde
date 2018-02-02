@@ -9,7 +9,16 @@ class FieldConfigEdit(edit.DefaultEditForm):
     schema = IHarvesterFieldConfig
 
     def applyChanges(self, data):
+        fields = data['fields']
 
-        data['fields'] = add_missing_fields(self.context, data['fields'])
+        # first apply all other settings because they can influence required
+        # fields
+        del data['fields']
+        applied = super(FieldConfigEdit, self).applyChanges(data)
 
-        return super(FieldConfigEdit, self).applyChanges(data)
+        # clean fields with new settings
+        fields = add_missing_fields(self.context, fields)
+        # apply them
+        self.context.fields = fields
+
+        return applied

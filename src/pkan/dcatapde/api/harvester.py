@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Work with harvester."""
-
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
@@ -158,7 +157,7 @@ def delete_harvester(object):
 
 
 # Related Methods
-def add_missing_fields(context, fields):
+def add_missing_fields(context, fields, vocab_context=None):
     """Add missing fields."""
     required_fields = ConfigFieldDefaultFactory(context)
 
@@ -167,6 +166,7 @@ def add_missing_fields(context, fields):
 
     required_dcat_fields = {}
     available_fields = []
+    unneeded_fields = []
 
     for element in required_fields:
         required_dcat_fields[element['dcat_field']] = element
@@ -177,7 +177,38 @@ def add_missing_fields(context, fields):
     for element in available_fields:
         if element in required_dcat_fields:
             del required_dcat_fields[element]
+        else:
+            # here we collect fields which get unrequired
+            # after setting a context
+            unneeded_fields.append(element)
 
-    fields += required_dcat_fields.values()
+    wanted_fields = []
+
+    # remove unrequired fields if source_field is not set
+    for field in fields:
+        dcat_field = field['dcat_field']
+        source_field = field['source_field']
+
+        if source_field or (dcat_field not in unneeded_fields):
+            wanted_fields.append(field)
+
+    fields = wanted_fields + required_dcat_fields.values()
+
+    return sort_fields(fields)
+
+
+def sort_fields(fields):
+    field_dict = {}
+
+    for field in fields:
+        if field['dcat_field'] not in field_dict:
+            field_dict[field['dcat_field']] = [field]
+        else:
+            field_dict[field['dcat_field']].append(field)
+
+    fields = []
+
+    for x in sorted(field_dict.iterkeys()):
+        fields += field_dict[x]
 
     return fields

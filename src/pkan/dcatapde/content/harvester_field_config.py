@@ -39,6 +39,12 @@ class IField(model.Schema):
 class IHarvesterFieldConfig(model.Schema):
     """Marker interface and DX Python Schema for HarvesterFieldConfig."""
 
+    base_object = RelationChoice(
+        required=False,
+        title=_(u'Base Object'),
+        vocabulary='plone.app.vocabularies.Catalog',
+    )
+
     form.widget(fields=DataGridFieldFactory)
     fields = schema.List(
         defaultFactory=ConfigFieldDefaultFactory,
@@ -52,12 +58,6 @@ class IHarvesterFieldConfig(model.Schema):
             title=_(u'Tables'),
             schema=IField,
         ),
-    )
-
-    base_object = RelationChoice(
-        required=False,
-        title=_(u'Base Object'),
-        vocabulary='plone.app.vocabularies.Catalog',
     )
 
 
