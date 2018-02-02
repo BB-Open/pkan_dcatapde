@@ -13,8 +13,13 @@ class RelationAdapter(BaseField):
     '''
     '''
 
-    def get_terms_for_vocab(self, ct, field_name, prefix=''):
+    def get_terms_for_vocab(self, ct, field_name, prefix='', required=False):
         terms = []
+
+        if not prefix:
+            field_required = self.field.required
+        else:
+            field_required = required
 
         field_prefix = prefix + ct + ':' + field_name + ':'
         cts = self.get_cts_from_relfield(self.field, field_name)
@@ -22,7 +27,8 @@ class RelationAdapter(BaseField):
             if target_ct == ct:
                 continue
             terms += get_terms_for_ct(target_ct,
-                                      prefix=field_prefix)
+                                      prefix=field_prefix,
+                                      required=field_required)
 
         return terms
 

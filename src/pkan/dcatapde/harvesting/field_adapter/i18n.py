@@ -17,11 +17,16 @@ class I18nTextAdapter(BaseField):
     """
     suffix = ['language', 'content']
 
-    def get_terms_for_vocab(self, ct, field_name, prefix=''):
+    def get_terms_for_vocab(self, ct, field_name, prefix='', required=False):
         terms = []
 
+        if not prefix:
+            field_required = self.field.required
+        else:
+            field_required = required
+
         for suf in self.suffix:
-            if self.field.required:
+            if field_required:
                 title = '{CT}: {field_name} {suffix} required'.format(
                     CT=prefix + ct, field_name=field_name, suffix=suf,
                 )

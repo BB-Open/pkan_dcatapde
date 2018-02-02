@@ -36,7 +36,7 @@ def work_as_admin():
 
 
 # vocabulary related functions
-def get_terms_for_ct(CT, prefix=''):
+def get_terms_for_ct(CT, prefix='', required=False):
     terms = []
     try:
         schema = getUtility(IDexterityFTI,
@@ -49,6 +49,9 @@ def get_terms_for_ct(CT, prefix=''):
 
         adapter = IFieldProcessor(field)
 
-        terms += adapter.get_terms_for_vocab(CT, field_name, prefix=prefix)
+        terms += adapter.get_terms_for_vocab(CT,
+                                             field_name,
+                                             prefix=prefix,
+                                             required=required)
 
     return terms

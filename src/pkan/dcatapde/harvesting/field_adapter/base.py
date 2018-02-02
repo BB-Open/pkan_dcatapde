@@ -14,10 +14,15 @@ class BaseField(object):
     def __init__(self, field):
         self.field = field
 
-    def get_terms_for_vocab(self, ct, field_name, prefix=''):
+    def get_terms_for_vocab(self, ct, field_name, prefix='', required=False):
         terms = []
 
-        if self.field.required:
+        if not prefix:
+            field_required = self.field.required
+        else:
+            field_required = required
+
+        if field_required:
             title = '{CT}: {field_name} required'.format(
                 CT=prefix + ct, field_name=field_name,
             )
