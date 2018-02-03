@@ -36,5 +36,10 @@
     permission="zope2.View"
     />
 
-
+ <browser:page
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="update"
+    class=".update_licenses.UpdateLicenses"
+    permission="cmf.ManagePortal"
+    />
 </configure>
