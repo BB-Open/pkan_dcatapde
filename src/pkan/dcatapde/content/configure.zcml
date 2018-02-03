@@ -40,6 +40,12 @@
     provides=".dcat_catalog.INameFromDCTTitle"
   />
 
+  <adapter
+    factory=".dcat_catalog.NameFromDCTTitle"
+    for=".scos_conceptscheme.ISCOSConceptScheme"
+    provides=".dcat_catalog.INameFromDCTTitle"
+  />
+
   <utility
     factory=".dcat_catalog.DCATCatalogDefaultFactory"
     name="dcat_catalog"

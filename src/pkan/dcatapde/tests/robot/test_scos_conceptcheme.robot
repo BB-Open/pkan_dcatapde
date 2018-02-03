@@ -10,17 +10,16 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a license document
+Scenario: As a site administrator I can add a concept scheme document
   Given a logged-in site administrator
-    and an add license document form
-   When I type 'A License' into the title field
-    and I type 'A license description' into the description field
-    and I type 'https://example.com/a-license' into the isDefinedBy URI field
-    and I type 'identifier123' into the identifier field
-    and take a screenshot 'dct_licensedocument_add_form'
+    and an add scos_conceptscheme document form
+   When I type 'A Concept Scheme' into the title field
+    and I type 'A Concept Scheme description' into the description field
+    and I type 'https://example.com/a-concept-scheme' into the access uri field
+    and take a screenshot 'scos_conceptscheme_add_form'
     and I submit the form
-   Then a license document with the title 'A License' has been created
-    and take a screenshot 'dct_licensedocument_added'
+   Then a license document with the title 'A Concept Scheme' has been created
+    and take a screenshot 'scos_conceptscheme_added'
 
 
 *** Keywords *****************************************************************
@@ -30,23 +29,20 @@ Scenario: As a site administrator I can add a license document
 a logged-in site administrator
   Enable autologin as  Site Administrator
 
-an add license document form
-  Go To  ${PLONE_URL}/licenses/++add++dct_licensedocument
+an add scos_conceptscheme document form
+  Go To  ${PLONE_URL}/concepts/++add++scos_conceptscheme
 
 
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.dct_title.i18n.en  ${title}
+  Input Text  form.widgets.dct_title.en  ${title}
 
 I type '${description}' into the description field
-  Input Text  form.widgets.dct_description.i18n.en  ${description}
+  Input Text  form.widgets.dct_description.en  ${description}
 
-I type '${uri}' into the isDefinedBy URI field
-  Input Text  form.widgets.rdfs_isDefinedBy   ${uri}
-
-I type '${identifier}' into the identifier field
-  Input Text  form.widgets.adms_identifier   ${identifier}
+I type '${uri}' into the access uri field
+  Input Text  form.widgets.rdf_about  ${uri}
 
 I submit the form
   Click Button  Save
