@@ -15,7 +15,8 @@ Scenario: As a site administrator I can add a license document
     and an add license document form
    When I type 'A License' into the title field
     and I type 'A license description' into the description field
-    and I type 'https://example.com/a-license' into the access uri field
+    and I type 'https://example.com/a-license' into the isDefinedBy URI field
+    and I type 'identifier123' into the identifier field
     and take a screenshot 'dct_licensedocument_add_form'
     and I submit the form
    Then a license document with the title 'A License' has been created
@@ -41,8 +42,11 @@ I type '${title}' into the title field
 I type '${description}' into the description field
   Input Text  form.widgets.dct_description.i18n.en  ${description}
 
-I type '${uri}' into the access uri field
-  Input Text  form.widgets.rdf_about  ${uri}
+I type '${uri}' into the isDefinedBy URI field
+  Input Text  form.widgets.rdfs_isDefinedBy   ${uri}
+
+I type '${identifier}' into the identifier field
+  Input Text  form.widgets.adms_identifier   ${identifier}
 
 I submit the form
   Click Button  Save

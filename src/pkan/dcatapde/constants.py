@@ -41,6 +41,13 @@ FOLDER_FORMATS = 'formats'
 FOLDER_MEDIATYPES = 'mediatypes'
 FOLDER_CONCEPTS = 'concepts'
 
+# Location of vocabulary sources
+
+VOCAB_SOURCES = {
+    CT_DCT_LICENSE_DOCUMENT: 'http://www.dcat-ap.de/def/licenses/1_0.rdf',
+}
+
+
 #: All folders to be created at installation of the module
 MANDATORY_FOLDERS = {
     FOLDER_LICENSES: CT_LICENSE_FOLDER,
@@ -50,10 +57,8 @@ MANDATORY_FOLDERS = {
     FOLDER_CONCEPTS: CT_CONCEPTSCHEME_FOLDER,
 }
 
-
 HARVESTER_FIELD_CONFIG_TITLE = 'Field Config'
 HARVESTER_FIELD_CONFIG_ID = 'field_config'
-
 
 HARVESTER_FOLDER_TITLE = 'Harvester Folder'
 HARVESTER_FOLDER_ID = 'harvester_folder'

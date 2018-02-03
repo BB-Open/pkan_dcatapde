@@ -26,9 +26,14 @@ class IDCTLicenseDocument(model.Schema):
         title=_(u'Description'),
     )
 
-    rdf_about = schema.URI(
+    rdfs_isDefinedBy = schema.URI(
         required=True,
-        title=_(u'Access URI'),
+        title=_(u'Definition URI'),
+    )
+
+    adms_identifier = schema.TextLine(
+        required=True,
+        title=_(u'Identifier'),
     )
 
 
