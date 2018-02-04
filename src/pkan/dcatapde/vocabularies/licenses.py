@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Vocabularies and sources for license documents."""
 
-from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
+from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.vocabularies import utils
 from plone import api
 from zope.interface import implementer
@@ -16,7 +16,7 @@ class LicenseDocumentVocabulary(object):
 
     def licenses(self, query):
         params = {
-            'portal_type': CT_DCT_LICENSE_DOCUMENT,
+            'portal_type': CT_DCT_LICENSEDOCUMENT,
         }
         query.update(params)
 

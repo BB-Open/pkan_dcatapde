@@ -3,7 +3,7 @@
 
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
-from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
+from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_FOAF_AGENT
 from plone.api import portal
 from plone.app.content.interfaces import INameFromTitle
@@ -61,11 +61,11 @@ class IDCATCatalog(model.Schema):
     form.widget(
         'dct_license',
         RelatedItemsFieldWidget,
-        content_type=CT_DCT_LICENSE_DOCUMENT,
+        content_type=CT_DCT_LICENSEDOCUMENT,
         content_type_title=_(u'License'),
         initial_path='/licenses/',
         pattern_options={
-            'selectableTypes': [CT_DCT_LICENSE_DOCUMENT],
+            'selectableTypes': [CT_DCT_LICENSEDOCUMENT],
         },
     )
 

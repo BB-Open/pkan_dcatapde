@@ -10,16 +10,17 @@ Test Teardown  Close all browsers
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a concept scheme document
+Scenario: As a site administrator I can add a concept document
   Given a logged-in site administrator
-    and an add scos_conceptscheme document form
-   When I type 'A Concept Scheme' into the title field
-    and I type 'A Concept Scheme description' into the description field
-    and I type 'https://example.com/a-concept-scheme' into the access uri field
-    and take a screenshot 'scos_conceptscheme_add_form'
+    and an add skos_concept document form
+   When I type 'A Concept' into the title field
+    and I type 'A Concept description' into the description field
+    and I type 'https://example.com/a-concept' into the concept scheme uri field
+    and I type 'https://example.com/this-concept' into the definition uri field
+    and take a screenshot 'skos_concept_add_form'
     and I submit the form
-   Then a license document with the title 'A Concept Scheme' has been created
-    and take a screenshot 'scos_conceptscheme_added'
+   Then a concept document with the title 'A Concept' has been created
+    and take a screenshot 'skos_concept_added'
 
 
 *** Keywords *****************************************************************
@@ -29,8 +30,8 @@ Scenario: As a site administrator I can add a concept scheme document
 a logged-in site administrator
   Enable autologin as  Site Administrator
 
-an add scos_conceptscheme document form
-  Go To  ${PLONE_URL}/concepts/++add++scos_conceptscheme
+an add skos_concept document form
+  Go To  ${PLONE_URL}/concepts/++add++skos_concept
 
 
 # --- WHEN -------------------------------------------------------------------
@@ -41,8 +42,11 @@ I type '${title}' into the title field
 I type '${description}' into the description field
   Input Text  form.widgets.dct_description.en  ${description}
 
-I type '${uri}' into the access uri field
-  Input Text  form.widgets.rdf_about  ${uri}
+I type '${uri}' into the concept scheme uri field
+  Input Text  form-widgets-skos_inScheme  ${uri}
+
+I type '${uri}' into the definition uri field
+  Input Text  form.widgets.rdfs_isDefinedBy  ${uri}
 
 I submit the form
   Click Button  Save
@@ -50,7 +54,7 @@ I submit the form
 
 # --- THEN -------------------------------------------------------------------
 
-a license document with the title '${title}' has been created
+a concept document with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
   Page should contain  Item created

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""DCTMediatypeorextent Content Type."""
+"""SKOSConcept Content Type."""
 
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_SCOS_CONCEPTSCHEME
+from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
@@ -13,8 +13,8 @@ from zope import schema
 from zope.interface import implementer
 
 
-class ISCOSConceptScheme(model.Schema):
-    """Marker interface and DX Python Schema for SCOSConceptScheme."""
+class ISKOSConcept(model.Schema):
+    """Marker interface and DX Python Schema for SKOSConcept."""
 
     dct_title = I18NTextLine(
         required=True,
@@ -26,18 +26,25 @@ class ISCOSConceptScheme(model.Schema):
         title=_(u'Description'),
     )
 
-    rdf_about = schema.URI(
+    skos_inScheme = schema.URI(
         required=True,
-        title=_(u'URI'),
+        title=_(u'Concept scheme URI'),
+        description=_(u'URI to the concept scheme'),
+    )
+
+    rdfs_isDefinedBy = schema.URI(
+        required=True,
+        title=_(u'Description URI'),
+        description=_(u'The URI describing this concept'),
     )
 
 
-@implementer(ISCOSConceptScheme)
-class SCOSConceptScheme(Item):
-    """SCOSConceptScheme Content Type."""
+@implementer(ISKOSConcept)
+class SKOSConcept(Item):
+    """SKOSConcept Content Type."""
 
-    portal_type = 'scos_conceptscheme'
-    namespace_class = 'scos:conceptscheme'
+    portal_type = 'skos_concept'
+    namespace_class = 'skos:concept'
 
     _Title = ''
 
@@ -47,17 +54,17 @@ class SCOSConceptScheme(Item):
         return self._Title
 
 
-class SCOSConceptSchemeDefaultFactory(DexterityFactory):
-    """Custom DX factory for SCOSConceptScheme."""
+class SKOSConceptDefaultFactory(DexterityFactory):
+    """Custom DX factory for SKOSConcept."""
 
     def __init__(self):
-        self.portal_type = CT_SCOS_CONCEPTSCHEME
+        self.portal_type = CT_SKOS_CONCEPT
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it
-        from pkan.dcatapde.api.dct_mediatypeorextend import \
-            clean_dct_mediatypeorextent
-        data, errors = clean_dct_mediatypeorextent(**kw)
+        from pkan.dcatapde.api.skos_concept import \
+            clean_skos_concept
+        data, errors = clean_skos_concept(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder

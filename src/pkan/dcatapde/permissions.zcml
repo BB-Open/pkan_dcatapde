@@ -12,8 +12,13 @@
         />
 
     <permission
-        id="pkan.dcatapde.AddSCOSConceptScheme"
-        title="pkan.dcatapde: Add SCOSConceptScheme"
+        id="pkan.dcatapde.AddSKOSConceptScheme"
+        title="pkan.dcatapde: Add SKOSConceptScheme"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddSKOSConcept"
+        title="pkan.dcatapde: Add SKOSConcept"
         />
 
     <permission

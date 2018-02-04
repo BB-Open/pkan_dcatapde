@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Work with dct_licensedocument."""
 
-from pkan.dcatapde.constants import CT_DCT_LICENSE_DOCUMENT
+from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.content.dct_licensedocument import DCTLicenseDocument
 from pkan.dcatapde.content.dct_licensedocument import IDCTLicenseDocument
 from plone.api.content import create
@@ -29,7 +29,7 @@ def clean_dct_licensedocument(**data):
 def add_dct_licensedocument(context, **data):
     """Add a new dct_licensedocument."""
     data, errors = clean_dct_licensedocument(**data)
-    result = create(container=context, type=CT_DCT_LICENSE_DOCUMENT, **data)
+    result = create(container=context, type=CT_DCT_LICENSEDOCUMENT, **data)
 
     return result
 

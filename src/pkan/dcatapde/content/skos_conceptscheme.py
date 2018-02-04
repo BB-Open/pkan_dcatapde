@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""DCTLicenseDocument Content Type."""
+"""SKOSConxwptScheme Content Type."""
 
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
+from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
 from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
@@ -13,8 +13,8 @@ from zope import schema
 from zope.interface import implementer
 
 
-class IDCTLicenseDocument(model.Schema):
-    """Marker interface and DX Python Schema for DCTLicenseDocument."""
+class ISKOSConceptScheme(model.Schema):
+    """Marker interface and DX Python Schema for SKOSConceptScheme."""
 
     dct_title = I18NTextLine(
         required=True,
@@ -26,23 +26,19 @@ class IDCTLicenseDocument(model.Schema):
         title=_(u'Description'),
     )
 
-    rdfs_isDefinedBy = schema.URI(
+    rdf_about = schema.URI(
         required=True,
-        title=_(u'Definition URI'),
-    )
-
-    adms_identifier = schema.TextLine(
-        required=True,
-        title=_(u'Identifier'),
+        title=_(u'URI'),
+        description=_(u'Where is this concept scheme defined'),
     )
 
 
-@implementer(IDCTLicenseDocument)
-class DCTLicenseDocument(Item):
-    """DCTLicenseDocument Content Type."""
+@implementer(ISKOSConceptScheme)
+class SKOSConceptScheme(Item):
+    """SKOSConceptScheme Content Type."""
 
-    portal_type = CT_DCT_LICENSEDOCUMENT
-    namespace_class = 'dct:licensedocument'
+    portal_type = 'skos_conceptscheme'
+    namespace_class = 'skos:conceptscheme'
 
     _Title = ''
 
@@ -52,17 +48,17 @@ class DCTLicenseDocument(Item):
         return self._Title
 
 
-class DCTLicenseDocumentDefaultFactory(DexterityFactory):
-    """Custom DX factory for DCTLicenseDocument."""
+class SKOSConceptSchemeDefaultFactory(DexterityFactory):
+    """Custom DX factory for SKOSConceptScheme."""
 
     def __init__(self):
-        self.portal_type = CT_DCT_LICENSEDOCUMENT
+        self.portal_type = CT_SKOS_CONCEPTSCHEME
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it
-        from pkan.dcatapde.api.dct_licensedocument import \
-            clean_dct_licensedocument
-        data, errors = clean_dct_licensedocument(**kw)
+        from pkan.dcatapde.api.skos_conceptscheme import \
+            clean_skos_conceptscheme
+        data, errors = clean_skos_conceptscheme(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 
         return folder

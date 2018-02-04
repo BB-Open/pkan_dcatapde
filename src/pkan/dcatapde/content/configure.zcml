@@ -42,7 +42,13 @@
 
   <adapter
     factory=".dcat_catalog.NameFromDCTTitle"
-    for=".scos_conceptscheme.ISCOSConceptScheme"
+    for=".skos_concept.ISKOSConcept"
+    provides=".dcat_catalog.INameFromDCTTitle"
+  />
+
+  <adapter
+    factory=".dcat_catalog.NameFromDCTTitle"
+    for=".skos_conceptscheme.ISKOSConceptScheme"
     provides=".dcat_catalog.INameFromDCTTitle"
   />
 
@@ -87,5 +93,18 @@
     name="harvesterfolder"
     provides="plone.dexterity.interfaces.IDexterityFactory"
   />
+
+  <utility
+    factory=".skos_concept.SKOSConceptDefaultFactory"
+    name="skos_concept"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
+
+  <utility
+    factory=".skos_conceptscheme.SKOSConceptSchemeDefaultFactory"
+    name="skos_conceptscheme"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
+
 
 </configure>

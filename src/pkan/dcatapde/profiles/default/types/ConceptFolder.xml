@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    name="ConceptSchemeFolder"
+    name="ConceptFolder"
     meta_type="Dexterity FTI"
     i18n:domain="plone">
-  <property name="title" i18n:translate="">ConceptSchemeFolder</property>
-  <property name="description" i18n:translate="A folder for DCT ConceptScheme Documents"></property>
+  <property name="title" i18n:translate="">ConceptFolder</property>
+  <property name="description" i18n:translate="A folder for DCT Concept Documents"></property>
   <property name="icon_expr"></property>
-  <property name="factory">ConceptSchemeFolder</property>
-  <property name="add_view_expr">string:${folder_url}/++add++ConceptSchemeFolder</property>
+  <property name="factory">ConceptFolder</property>
+  <property name="add_view_expr">string:${folder_url}/++add++ConceptFolder</property>
   <property name="link_target"></property>
   <property name="immediate_view">view</property>
   <property name="global_allow">False</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
-    <element value="skos_conceptscheme" />
+    <element value="skos_concept" />
   </property>
   <property name="allow_discussion">False</property>
   <property name="default_view">listing_view</property>
