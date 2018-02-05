@@ -88,7 +88,7 @@ class I18nTextAdapter(BaseField):
                                 new_language = language[x]
                         else:
                             new_language = default_language
-                        new_data[new_content] = new_language
+                        new_data[new_language] = new_content
                     new_values.append(new_data)
                 elif (
                         isinstance(content[x], str) or
@@ -100,7 +100,7 @@ class I18nTextAdapter(BaseField):
                     else:
                         new_language = default_language
                     new_values.append({
-                        new_content: new_language,
+                        new_language: new_content,
                     })
                 else:
                     new_values.append({})
