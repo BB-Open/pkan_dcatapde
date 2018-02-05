@@ -25,10 +25,16 @@ class I18nTextAdapter(BaseField):
         else:
             field_required = required
 
+        if prefix:
+            display_ct_parts = prefix.split(':')[1:]
+            display_ct = ':'.join(display_ct_parts)
+        else:
+            display_ct = ''
+
         for suf in self.suffix:
             if field_required:
-                title = '{CT}: {field_name} {suffix} required'.format(
-                    CT=prefix + ct, field_name=field_name, suffix=suf,
+                title = '{CT} {field_name} {suffix} required'.format(
+                    CT=display_ct, field_name=field_name, suffix=suf,
                 )
                 token = '{CT}__{field_name}__{suffix}__required'.format(
                     CT=prefix + ct, field_name=field_name, suffix=suf,
@@ -39,8 +45,8 @@ class I18nTextAdapter(BaseField):
                     ),
                 )
             else:
-                title = '{CT}: {field_name} {suffix}'.format(
-                    CT=prefix + ct, field_name=field_name, suffix=suf,
+                title = '{CT} {field_name} {suffix}'.format(
+                    CT=display_ct, field_name=field_name, suffix=suf,
                 )
                 token = '{CT}__{field_name}__{suffix}'.format(
                     CT=prefix + ct, field_name=field_name, suffix=suf,

@@ -22,9 +22,15 @@ class BaseField(object):
         else:
             field_required = required
 
+        if prefix:
+            display_ct_parts = prefix.split(':')[1:]
+            display_ct = ':'.join(display_ct_parts)
+        else:
+            display_ct = ''
+
         if field_required:
-            title = '{CT}: {field_name} required'.format(
-                CT=prefix + ct, field_name=field_name,
+            title = '{CT} {field_name} required'.format(
+                CT=display_ct, field_name=field_name,
             )
             token = '{CT}__{field_name}__required'.format(
                 CT=prefix + ct, field_name=field_name,
@@ -35,8 +41,8 @@ class BaseField(object):
                 ),
             )
         else:
-            title = '{CT}: {field_name}'.format(
-                CT=prefix + ct, field_name=field_name,
+            title = '{CT} {field_name}'.format(
+                CT=display_ct, field_name=field_name,
             )
             token = '{CT}__{field_name}'.format(
                 CT=prefix + ct, field_name=field_name,

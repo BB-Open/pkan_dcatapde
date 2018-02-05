@@ -12,8 +12,13 @@ from zope.schema.vocabulary import SimpleVocabulary
 class DcatFieldVocabulary(object):
     """DKAT field vocabulary."""
 
+    def __init__(self, ct):
+        self.ct = ct
+
     def __call__(self, context):
-        if context is None or isinstance(context, dict):
+        if (context is None or
+                isinstance(context, dict) or
+                'NO_VALUE' in str(context)):
             context = utils.get_request_annotations(
                 'pkan.vocabularies.context',
             )
@@ -24,7 +29,7 @@ class DcatFieldVocabulary(object):
 
             if harvester:
                 processor = harvester.source_type(harvester)
-                terms = processor.read_dcat_fields()
+                terms = processor.read_dcat_fields(ct=self.ct)
 
         # Create a SimpleVocabulary from the terms list and return it:
         return SimpleVocabulary(terms)

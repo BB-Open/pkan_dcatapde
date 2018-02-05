@@ -57,7 +57,10 @@ class BaseProcessor(object):
         self.context = api.portal.get()
         if self.field_config:
             if self.field_config.base_object:
-                self.context = self.field_config.base_object.to_object
+                # fix: check why sometime to_object and sometimes not
+                self.context = getattr(self.field_config.base_object,
+                                       'to_object',
+                                       self.field_config.base_object)
 
     def get_schema_fields(self, ct):
         if ct in self._schema_fields:
@@ -90,16 +93,17 @@ class BaseProcessor(object):
         """
         return []
 
-    def read_dcat_fields(self):
+    def read_dcat_fields(self, ct=None):
         """
         Read fields for dcat plone objects
         :return: Terms for vocabulary
         """
         terms = []
-        pass_ct = self.harvesting_type.get_pass_cts(self.context)
-        for ct in self.harvesting_type.cts.keys():
-            if ct in pass_ct:
-                continue
+
+        # if a ct is given, we just want to use th
+        if ct is not None:
+            return get_terms_for_ct(ct)
+        for ct in self.harvesting_type.get_used_cts():
             terms += get_terms_for_ct(ct)
         return terms
 

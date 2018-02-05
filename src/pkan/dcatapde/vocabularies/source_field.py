@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Source field vocabularies."""
 from pkan.dcatapde import constants
+from pkan.dcatapde import utils
 from pkan.dcatapde.api.functions import get_ancestor
 from zope.interface import implementer
 from zope.schema.interfaces import IContextSourceBinder
@@ -13,6 +14,13 @@ class SourceFieldVocabulary(object):
     """Source field vocabulary."""
 
     def __call__(self, context):
+        if (context is None or
+                isinstance(context, dict) or
+                'NO_VALUE' in str(context)):
+            context = utils.get_request_annotations(
+                'pkan.vocabularies.context',
+            )
+
         terms = []
 
         harvester = get_ancestor(context, constants.CT_HARVESTER)

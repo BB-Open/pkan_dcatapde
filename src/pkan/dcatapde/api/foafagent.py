@@ -38,7 +38,7 @@ def add_foafagent(context, **data):
 # Get Methods
 def get_foafagent_context():
     """Get content for an foafagent."""
-    # todo context should not be the site
+    # fix: context should not be the site
     context = api.portal.get()
     return context
 

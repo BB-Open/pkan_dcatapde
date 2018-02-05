@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 """Work with harvester."""
+from collective.z3cform.datagridfield import DataGridFieldFactory
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
+from pkan.dcatapde.api.functions import get_ancestor
+from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
 from pkan.dcatapde.content.harvester import Harvester
 from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.content.harvester_field_config import CT_FIELD_RELATION
 from pkan.dcatapde.content.harvester_field_config import HarvesterFieldConfig
 from pkan.dcatapde.content.harvester_field_config import IHarvesterFieldConfig
 from pkan.dcatapde.content.harvesterfolder import Harvesterfolder
 from pkan.dcatapde.content.harvesterfolder import IHarvesterfolder
 from plone import api
+from z3c.form import field
 from zope.component.hooks import getSite
 from zope.schema import getValidationErrors
 
@@ -49,8 +54,6 @@ def clean_harvesterfolder(**data):
 
 def clean_fieldconfig(**data):
     """Clean fieldconfig."""
-    if 'fields' not in data:
-        data['fields'] = add_missing_fields(None, [])
 
     test_obj = HarvesterFieldConfig()
     test_obj.id = constants.HARVESTER_FIELD_CONFIG_ID
@@ -71,6 +74,18 @@ def add_harvester_field_config(context, **data):
         _('API: Cannot create second field config for harvester')
 
     data, errors = clean_fieldconfig(**data)
+
+    harvesting_type = context.harvesting_type(context)
+    used_cts = harvesting_type.get_used_cts()
+
+    for ct in used_cts:
+        if ct in CT_FIELD_RELATION:
+            if CT_FIELD_RELATION[ct] in data:
+                ct_fields = add_missing_fields(data[CT_FIELD_RELATION[ct]],
+                                               ct=ct)
+            else:
+                ct_fields = add_missing_fields([], ct=ct)
+            data[CT_FIELD_RELATION[ct]] = ct_fields
 
     harvester_field_config = api.content.create(
         container=context,
@@ -157,12 +172,13 @@ def delete_harvester(object):
 
 
 # Related Methods
-def add_missing_fields(context, fields, vocab_context=None):
+def add_missing_fields(fields, ct=None):
     """Add missing fields."""
-    required_fields = ConfigFieldDefaultFactory(context)
+    factory = ConfigFieldDefaultFactory(ct)
+    required_fields = factory()
 
     if not fields:
-        return required_fields
+        return sort_fields(required_fields)
 
     required_dcat_fields = {}
     available_fields = []
@@ -185,12 +201,12 @@ def add_missing_fields(context, fields, vocab_context=None):
     wanted_fields = []
 
     # remove unrequired fields if source_field is not set
-    for field in fields:
-        dcat_field = field['dcat_field']
-        source_field = field['source_field']
+    for conf_field in fields:
+        dcat_field = conf_field['dcat_field']
+        source_field = conf_field['source_field']
 
         if source_field or (dcat_field not in unneeded_fields):
-            wanted_fields.append(field)
+            wanted_fields.append(conf_field)
 
     fields = wanted_fields + required_dcat_fields.values()
 
@@ -200,15 +216,37 @@ def add_missing_fields(context, fields, vocab_context=None):
 def sort_fields(fields):
     field_dict = {}
 
-    for field in fields:
-        if field['dcat_field'] not in field_dict:
-            field_dict[field['dcat_field']] = [field]
+    for conf_field in fields:
+        if conf_field['dcat_field'] not in field_dict:
+            field_dict[conf_field['dcat_field']] = [conf_field]
         else:
-            field_dict[field['dcat_field']].append(field)
+            field_dict[conf_field['dcat_field']].append(conf_field)
 
     fields = []
 
     for x in sorted(field_dict.iterkeys()):
         fields += field_dict[x]
+
+    return fields
+
+
+def update_field_config_form_fields(context):
+    harvester = get_ancestor(context, CT_HARVESTER)
+
+    selected = []
+
+    if harvester:
+        harvesting_type = harvester.harvesting_type(harvester)
+        used_cts = harvesting_type.get_used_cts()
+
+        for ct in used_cts:
+            if ct in CT_FIELD_RELATION:
+                selected.append(CT_FIELD_RELATION[ct])
+
+    fields = field.Fields(IHarvesterFieldConfig).select(*selected)
+
+    for schema_field in fields:
+        if 'fields' in schema_field:
+            fields[schema_field].widgetFactory = DataGridFieldFactory
 
     return fields
