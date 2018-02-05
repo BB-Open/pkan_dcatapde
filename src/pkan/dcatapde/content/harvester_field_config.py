@@ -6,6 +6,8 @@ from collective.z3cform.datagridfield import DictRow
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_HARVESTER_FIELD_CONFIG
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
+from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
+from pkan.dcatapde.vocabularies.source_field import SourceFieldVocabulary
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -21,13 +23,13 @@ class IField(model.Schema):
     dcat_field = schema.Choice(
         required=True,
         title=_(u'Dcat Field'),
-        vocabulary='pkan.dcatapde.DcatFieldVocabulary',
+        source=DcatFieldVocabulary(),
     )
 
     source_field = schema.Choice(
         required=False,
         title=_(u'Source Field'),
-        vocabulary='pkan.dcatapde.SourceFieldVocabulary',
+        source=SourceFieldVocabulary(),
     )
 
     prio = schema.Int(
