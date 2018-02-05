@@ -4,6 +4,7 @@
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition.interfaces import IAcquirer
+from pkan.dcatapde import utils
 from plone.dexterity.browser import add
 from plone.dexterity.interfaces import IDexterityFTI
 from z3c.form import form
@@ -13,6 +14,10 @@ from zope.component import getUtility
 
 class PkanDefaulftAddForm(add.DefaultAddForm):
     """Default add form."""
+
+    def __init__(self, context, request, ti=None):
+        super(PkanDefaulftAddForm, self).__init__(context, request)
+        utils.set_request_annotations('pkan.vocabularies.context', context)
 
     def create(self, data):
         fti = getUtility(IDexterityFTI, name=self.portal_type)
