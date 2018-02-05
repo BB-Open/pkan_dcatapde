@@ -52,4 +52,12 @@
     permission="cmf.ManagePortal"
     />
 
+ <!-- Demostration view to import themes from external source -->
+ <browser:page
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="read_rdf"
+    class=".update_rdf.UpdateRDF"
+    permission="cmf.ManagePortal"
+    />
+
 </configure>

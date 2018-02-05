@@ -14,9 +14,6 @@ from zope.interface import implementer
 class DCATCatalog2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de Catalogs."""
 
-    _namespace = 'dcat'
-    _ns_class = 'catalog'
-
     @property
     def properties(self):
         """Return properties.
@@ -46,6 +43,8 @@ class DCATCatalog2RDF(DCAT2RDF):
         """
         related = super(DCATCatalog2RDF, self).referenced
         related['dct:publisher'] = self.context.dct_publisher.to_object
-        related['dct:license'] = self.context.dct_license.to_object
-        related['dct:spatial'] = self.context.dct_spatial.to_object
+        if self.context.dct_license:
+            related['dct:license'] = self.context.dct_license.to_object
+        if self.context.dct_spatial:
+            related['dct:spatial'] = self.context.dct_spatial.to_object
         return related

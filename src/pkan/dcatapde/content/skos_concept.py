@@ -3,7 +3,7 @@
 
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
-from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
+from pkan.dcatapde.content.base import DCATMixin
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -40,18 +40,12 @@ class ISKOSConcept(model.Schema):
 
 
 @implementer(ISKOSConcept)
-class SKOSConcept(Item):
+class SKOSConcept(Item, DCATMixin):
     """SKOSConcept Content Type."""
 
     portal_type = 'skos_concept'
-    namespace_class = 'skos:concept'
-
-    _Title = ''
-
-    def Title(self):
-        if not self._Title:
-            self._Title = INameFromDCTTitle(self).title
-        return self._Title
+    _namespace = 'skos'
+    _ns_class = 'concept'
 
 
 class SKOSConceptDefaultFactory(DexterityFactory):

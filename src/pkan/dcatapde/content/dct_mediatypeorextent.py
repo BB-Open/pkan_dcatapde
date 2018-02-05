@@ -3,7 +3,7 @@
 
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
-from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
+from pkan.dcatapde.content.base import DCATMixin
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -33,18 +33,12 @@ class IDCTMediatypeorextent(model.Schema):
 
 
 @implementer(IDCTMediatypeorextent)
-class DCTMediatypeorextent(Item):
+class DCTMediatypeorextent(Item, DCATMixin):
     """DCTMediatypeorextent Content Type."""
 
     portal_type = 'dct_licensedocument'
-    namespace_class = 'dct:licensedocument'
-
-    _Title = ''
-
-    def Title(self):
-        if not self._Title:
-            self._Title = INameFromDCTTitle(self).title
-        return self._Title
+    _namespace = 'dct'
+    _ns_class = 'licensedocument'
 
 
 class DCTMediatypeorextentDefaultFactory(DexterityFactory):

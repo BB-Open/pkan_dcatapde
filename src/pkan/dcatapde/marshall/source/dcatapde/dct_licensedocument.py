@@ -16,8 +16,6 @@ from zope.interface import implementer
 class DCTLicensedocument2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de FOAFAgents."""
 
-    _namespace = 'dct'
-    _ns_class = 'licensedocument'
     _blacklist = ['rdf_about']
 
     @property

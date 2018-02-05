@@ -8,9 +8,6 @@ from pkan.dcatapde.marshall.source.dx2any import DXField2Any
 class DCAT2RDF(DX2Any):
     """Marshaller for DCAT-AP.de."""
 
-    _namespace = 'dcat'
-    _ns_class = 'noclass'
-
     @property
     def rdf_about(self):
         """Each DX object should have an rdf_about URI.
@@ -25,29 +22,18 @@ class DCAT2RDF(DX2Any):
     @property
     def namespace(self):
         """Each DX Object should have a namspace.
-
-        If not the adapter can provide a fallback.
         """
-        if getattr(self.context, 'namespace', None):
-            return self.context.namespace
-        return self._namespace
+        return self.context._namespace
 
     @property
     def ns_class(self):
         """Each DX Object should have a ns_class (class in a namespace).
-
-        If not the adapter can provide a fallback.
         """
-        if getattr(self.context, 'ns_class', None):
-            return self.context.ns_class
-        return self._ns_class
+        return self.context._ns_class
 
 
 class DCATField2RDF(DXField2Any):
     """Marshaller for DCAT-AP.de."""
-
-    _namespace = 'dcat'
-    _ns_class = 'noclass'
 
     @property
     def rdf_about(self):
@@ -61,19 +47,11 @@ class DCATField2RDF(DXField2Any):
     @property
     def namespace(self):
         """Each DX Object should have a namspace.
-
-        If not the adapter can provide a fallback.
         """
-        if getattr(self.context, 'namespace', None):
-            return self.context.namespace
-        return self._namespace
+        return self.context._namespace
 
     @property
     def ns_class(self):
         """Each DX Object should have a ns_class (class in a namespace).
-
-        If not the adapter can provide a fallback.
         """
-        if getattr(self.context, 'ns_class', None):
-            return self.context.ns_class
-        return self._ns_class
+        return self.context._ns_class

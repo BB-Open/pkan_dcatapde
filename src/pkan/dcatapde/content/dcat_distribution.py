@@ -4,7 +4,7 @@
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
-from pkan.dcatapde.content.dcat_catalog import INameFromDCTTitle
+from pkan.dcatapde.content.base import DCATMixin
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -135,15 +135,11 @@ class IDCATDistribution(model.Schema):
 
 
 @implementer(IDCATDistribution)
-class DCATDistribution(Container):
+class DCATDistribution(Container, DCATMixin):
     """DCATDistribution Content Type."""
 
-    _Title = ''
-
-    def Title(self):
-        if not self._Title:
-            self._Title = INameFromDCTTitle(self).title
-        return self._Title
+    _namespace = 'dcat'
+    _ns_class = 'distribution'
 
 
 class DCATDistributionDefaultFactory(DexterityFactory):

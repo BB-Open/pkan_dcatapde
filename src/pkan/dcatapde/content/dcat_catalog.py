@@ -5,8 +5,7 @@ from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_FOAF_AGENT
-from plone.api import portal
-from plone.app.content.interfaces import INameFromTitle
+from pkan.dcatapde.content.base import DCATMixin
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
@@ -223,47 +222,11 @@ class IDCATCatalog(model.Schema):
 
 
 @implementer(IDCATCatalog)
-class DCATCatalog(Container):
+class DCATCatalog(Container, DCATMixin):
     """Catalog Content Type."""
 
-    _Title = ''
-
-    def Title(self):
-        if not self._Title:
-            self._Title = INameFromDCTTitle(self).title
-        return self._Title
-
-
-class INameFromDCTTitle(INameFromTitle):
-    """Get name from catalog title."""
-
-    def title(self):
-        """Return a processed title."""
-
-
-@implementer(INameFromDCTTitle)
-class NameFromDCTTitle(object):
-    """Get name from catalog title."""
-
-    def __init__(self, context):
-        self.context = context
-
-    @property
-    def title(self):
-        if not self.context.dct_title:
-            return ''
-        if isinstance(self.context.dct_title, unicode):
-            return self.context.dct_title
-        # Get title from i18nfield
-        default_language = portal.get_default_language()[:2]
-        if default_language in self.context.dct_title:
-            return self.context.dct_title[default_language]
-        else:
-            current_language = portal.get_current_language()[:2]
-            if current_language in self.context.dct_title:
-                return self.context.dct_title[current_language]
-
-        return self.context.dct_title[self.context.dct_title.keys()[0]]
+    _namespace = 'dcat'
+    _ns_class = 'catalog'
 
 
 class DCATCatalogDefaultFactory(DexterityFactory):
