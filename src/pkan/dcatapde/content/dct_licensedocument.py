@@ -9,6 +9,8 @@ from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
+from ps.zope.i18nfield.fieldproperty import I18NFieldProperty
+from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope import schema
 from zope.interface import implementer
 
@@ -44,6 +46,15 @@ class DCTLicenseDocument(Item, DCATMixin):
     portal_type = CT_DCT_LICENSEDOCUMENT
     _namespace = 'dct'
     _ns_class = 'licensedocument'
+
+    dct_title = I18NFieldProperty(IDCTLicenseDocument['dct_title'])
+    dct_description = I18NTextProperty(IDCTLicenseDocument['dct_description'])
+
+    def Title(self):
+        return unicode(self.dct_title)
+
+    def Description(self):
+        return self.dct_description
 
 
 class DCTLicenseDocumentDefaultFactory(DexterityFactory):
