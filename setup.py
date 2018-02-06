@@ -34,6 +34,7 @@ test_requires = [
     'plone.app.contenttypes',
     'plone.app.robotframework[debug]',
     'plone.app.testing',
+    'responses',
     'robotframework-selenium2screenshots',
 ]
 

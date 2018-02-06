@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://dcat-ap.de/def/licenses"
+         xml:base="http://dcat-ap.de/def/licenses"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:adms="http://www.w3.org/ns/adms#"
+         xmlns:dct="http://purl.org/dc/terms/"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <owl:Ontology rdf:about="http://dcat-ap.de/def/licenses">
+		<rdfs:label xml:lang="de">Liste der Lizenzen</rdfs:label>
+		<owl:versionInfo xml:lang="de">1.0</owl:versionInfo>
+		<rdfs:comment xml:lang="de">Liste der Lizenzen, die im Feld dct:license einer DCAT-AP.de-konformen dcat:distribution erlaubt sind.</rdfs:comment>
+  </owl:Ontology>
+
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/official-work">
+    <rdfs:label xml:lang="de">officialWork</rdfs:label>
+    <rdfs:comment xml:lang="de">Amtliches Werk, lizenzfrei nach §5 Abs. 1 UrhG</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.gesetze-im-internet.de/urhg/__5.html"/>
+    <adms:identifier>official-work</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/other-freeware">
+    <rdfs:label xml:lang="de">otherfreeware</rdfs:label>
+    <rdfs:comment xml:lang="de">Andere Freeware Lizenz</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <adms:identifier>app_freeware</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/other-closed">
+    <rdfs:label xml:lang="de">otherclosed</rdfs:label>
+    <rdfs:comment xml:lang="de">Andere geschlossene Lizenz</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <adms:identifier>other-closed</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/other-commercial">
+    <rdfs:label xml:lang="de">othercommercial</rdfs:label>
+    <rdfs:comment xml:lang="de">Andere kommerzielle Lizenz</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <adms:identifier>app_commercial</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/other-open">
+    <rdfs:label xml:lang="de">otheropen</rdfs:label>
+    <rdfs:comment xml:lang="de">Andere offene Lizenz</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <adms:identifier>other-open</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/other-opensource">
+    <rdfs:label xml:lang="de">otheropensource</rdfs:label>
+    <rdfs:comment xml:lang="de">Andere Open Source Lizenz</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <adms:identifier>app_opensource</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/bsd">
+    <rdfs:label xml:lang="de">bsdlicense</rdfs:label>
+    <rdfs:comment xml:lang="de">BSD Lizenz</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opensource.org/licenses/bsd-license.php"/>
+    <adms:identifier>bsd-license</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by-sa">
+    <rdfs:label xml:lang="de">ccbysa</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Attribution ShareAlike (ccbysa)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opendefinition.org/licenses/cc-by-sa"/>
+    <adms:identifier>cc-by-sa</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by-sa/4_0">
+    <rdfs:label xml:lang="de">ccbysa/4_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Attribution ShareAlike 4.0 (CCBYSA4.0)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://creativecommons.org/licenses/by-sa/4.0/"/>
+    <adms:identifier>cc-by-sa-4.0</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-zero">
+    <rdfs:label xml:lang="de">cczero</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons CCZero (CC0)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opendefinition.org/licenses/cc-zero"/>
+    <adms:identifier>cc-zero</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by/4_0">
+    <rdfs:label xml:lang="de">ccby/4_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung  4.0 (CCBY)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://creativecommons.org/licenses/by/4.0/"/>
+    <adms:identifier>cc-by-4.0</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by">
+    <rdfs:label xml:lang="de">ccby</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung (CCBY)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opendefinition.org/licenses/cc-by"/>
+    <adms:identifier>cc-by</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by-de/3_0">
+    <rdfs:label xml:lang="de">ccbyde/3_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung 3.0 (CC-BY)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="https://creativecommons.org/licenses/by/3.0/de/"/>
+    <adms:identifier>cc-by-3.0</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by-nd">
+    <rdfs:label xml:lang="de">ccbynd</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung Keine Bearbeitung (CC-BY-ND)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://creativecommons.org/licenses/by-nd/3.0/"/>
+    <adms:identifier>cc-by-nd</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by-nd/3_0">
+    <rdfs:label xml:lang="de">ccbynd/3_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung Keine Bearbeitung 3.0 (CC-BY-ND)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://creativecommons.org/licenses/by-nd/3.0/"/>
+    <adms:identifier>cc-by-nd-3.0</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by-nd/4_0">
+    <rdfs:label xml:lang="de">ccbynd/4_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung Keine Bearbeitung 4.0 International (CC BYND 4.0)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://creativecommons.org/licenses/by-nd/4.0/"/>
+    <adms:identifier>cc-by-nd-4.0</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-by-nc-de/4_0">
+    <rdfs:label xml:lang="de">ccbync/4_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung Nichtkommerziell 4.0 (CCBY)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://creativecommons.org/licenses/by-nc/4.0/"/>
+    <adms:identifier>cc-by-nc-4.0</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-nc">
+    <rdfs:label xml:lang="de">cc-nc</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung-Nicht kommerziell</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://creativecommons.org/licenses/by-nc/2.0/"/>
+    <adms:identifier>cc-nc</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-nc/3_0">
+    <rdfs:label xml:lang="de">cc-nc/3_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Creative Commons Namensnennung-Nicht kommerziell 3.0 </rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="https://creativecommons.org/licenses/by-nc/3.0/de/"/>
+    <adms:identifier>cc-nc-3.0</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/dl-zero-de/2_0">
+    <rdfs:label xml:lang="de">dlzerode/2_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Datenlizenz Deutschland – Zero – Version 2.0</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="https://www.govdata.de/dl-de/zero-2-0"/>
+    <adms:identifier>dl-de-zero-2.0</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/dl-by-de/1_0">
+    <rdfs:label xml:lang="de">dlbyde/1_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Datenlizenz Deutschland Namensnennung 1.0</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="https://www.govdata.de/dl-de/by-1-0"/>
+    <adms:identifier>dl-de-by-1.0</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/dl-by-de/2_0">
+    <rdfs:label xml:lang="de">dlbyde/2_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Datenlizenz Deutschland Namensnennung 2.0</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="https://www.govdata.de/dl-de/by-2-0"/>
+    <adms:identifier>dl-de-by-2.0</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/dl-by-nc-de/1_0">
+    <rdfs:label xml:lang="de">dlbyncde/1_0</rdfs:label>
+    <rdfs:comment xml:lang="de">Datenlizenz Deutschland Namensnennung nicht-kommerziell 1.0</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="https://www.govdata.de/dl-de/by-nc-1-0"/>
+    <adms:identifier>dl-de-by-nc-1.0</adms:identifier>
+    <dct:type rdf:resource="geschlossen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/apache">
+    <rdfs:label xml:lang="de">apache</rdfs:label>
+    <rdfs:comment xml:lang="de">FreieSoftwareLizenz der Apache Software Foundation, keine CopyleftLizenz</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.apache.org/licenses"/>
+    <adms:identifier>apache</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/gfdl">
+    <rdfs:label xml:lang="de">gfdl</rdfs:label>
+    <rdfs:comment xml:lang="de">GNU Free Documentation License</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opendefinition.org/licenses/gfdl"/>
+    <adms:identifier>gfdl</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/gpl/30">
+    <rdfs:label xml:lang="de">gpl/3_0</rdfs:label>
+    <rdfs:comment xml:lang="de">GNU General Public License version 3.0 (GPLv3)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opensource.org/licenses/gpl-3.0.html"/>
+    <adms:identifier>gpl-3.0</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/mozilla">
+    <rdfs:label xml:lang="de">mozilla</rdfs:label>
+    <rdfs:comment xml:lang="de">Mozilla Public License 1.0 (MPL)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.mozilla.org/MPL"/>
+    <adms:identifier>mozilla</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/geonutz/20130319">
+    <rdfs:label xml:lang="de">geoNutz/20130319</rdfs:label>
+    <rdfs:comment xml:lang="de">Nutzungsbestimmungen für die Bereitstellung von Geodaten des Bundes</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.geodatenzentrum.de/docpdf/geonutzv.pdf"/>
+    <adms:identifier>geonutzv-de-2013-03-19</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/geoNutz/20131001">
+    <rdfs:label xml:lang="de">geoNutz/20131001</rdfs:label>
+    <rdfs:comment xml:lang="de">Nutzungsbestimmungen für die Bereitstellung von Geodaten des Landes Berlin</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.stadtentwicklung.berlin.de/geoinformation/download/nutzIII.pdf"/>
+    <adms:identifier>geonutz-be-2013-10-01</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/od-bc">
+    <rdfs:label xml:lang="de">odby</rdfs:label>
+    <rdfs:comment xml:lang="de">Open Data Commons Attribution License (ODCBY)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opendefinition.org/licenses/odc-by"/>
+    <adms:identifier>odc-by</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/od-bl">
+    <rdfs:label xml:lang="de">odbl</rdfs:label>
+    <rdfs:comment xml:lang="de">Open Data Commons Open Database License (ODbL)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opendefinition.org/licenses/odc-odbl"/>
+    <adms:identifier>odc-odbl</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/odc-pddl">
+    <rdfs:label xml:lang="de">odcpddl</rdfs:label>
+    <rdfs:comment xml:lang="de">Open Data Commons Public Domain Dedication and Licence (PDDL)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://www.opendefinition.org/licenses/odc-pddl"/>
+    <adms:identifier>odc-pddl</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://dcat-ap.de/def/licenses/cc-pdm/1_0">
+    <rdfs:label xml:lang="de">ccpdm/10</rdfs:label>
+    <rdfs:comment xml:lang="de">Public Domain Mark 1.0 (PDM)</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://dcat-ap.de/def/licenses"/>
+    <rdfs:isDefinedBy rdf:resource="http://creativecommons.org/publicdomain/mark/1.0/"/>
+    <adms:identifier>cc-pdm-1.0</adms:identifier>
+    <dct:type rdf:resource="offen"/>
+  </owl:Class>
+</rdf:RDF>

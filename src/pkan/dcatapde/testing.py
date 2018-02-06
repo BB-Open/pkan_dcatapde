@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test Layer for pkan.dcatapde."""
 
+from pkan.dcatapde.tests import utils
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import FunctionalTesting
@@ -8,6 +9,27 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.testing import Layer
 from plone.testing import z2
+
+import responses
+
+
+class APIMockLayer(Layer):
+    """Load test fixtures using responses to mock API requests."""
+
+    def testSetUp(self):
+        responses.start()
+        utils.setup_fixtures()
+
+    def testTearDown(self):
+        try:
+            responses.stop()
+        except RuntimeError:
+            pass
+        finally:
+            responses.reset()
+
+
+APIMOCK = APIMockLayer()
 
 
 class Fixture(PloneSandboxLayer):
@@ -35,15 +57,22 @@ INTEGRATION_TESTING = IntegrationTesting(
 
 
 FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(FIXTURE, z2.ZSERVER_FIXTURE),
+    bases=(APIMOCK, FIXTURE, z2.ZSERVER_FIXTURE),
     name='pkan.dcatapde:Functional',
 )
 
 
-ACCEPTANCE_TESTING = FunctionalTesting(
-    bases=(FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE),
+class FunctionalAPIMockLayer(APIMockLayer):
+    """Functional Tests with API Mock Layer."""
+
+    defaultBases = (
+        FIXTURE, REMOTE_LIBRARY_BUNDLE_FIXTURE, z2.ZSERVER_FIXTURE,
+    )
+
+
+ACCEPTANCE_TESTING = FunctionalAPIMockLayer(
     name='pkan.dcatapde:Acceptance',
 )
 
 
-ROBOT_TESTING = Layer(name='pkan.dcatapde:Robot')
+ROBOT_TESTING = APIMockLayer(name='pkan.dcatapde:Robot')
