@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
+
 from pkan.dcatapde import constants as c
 from pkan.dcatapde.api.catalog import add_catalog
 from pkan.dcatapde.api.catalog import clean_catalog
@@ -35,7 +36,7 @@ ADD_METHODS_CTS = {
     c.CT_DCAT_DATASET: add_dataset,
     c.CT_DCAT_DISTRIBUTION: add_distribution,
     c.CT_DCAT_CATALOG: add_catalog,
-    c.CT_DCT_LICENSE_DOCUMENT: add_dct_licensedocument,
+    c.CT_DCT_LICENSEDOCUMENT: add_dct_licensedocument,
 }
 
 CLEAN_METHODS_CTS = {
@@ -43,7 +44,7 @@ CLEAN_METHODS_CTS = {
     c.CT_DCAT_CATALOG: clean_catalog,
     c.CT_DCAT_DATASET: clean_dataset,
     c.CT_DCAT_DISTRIBUTION: clean_distribution,
-    c.CT_DCT_LICENSE_DOCUMENT: clean_dct_licensedocument,
+    c.CT_DCT_LICENSEDOCUMENT: clean_dct_licensedocument,
 }
 
 
@@ -437,9 +438,7 @@ class JsonProcessor(BaseProcessor):
             return []
 
         resp = requests.get(url=url)
-
         data = json.loads(resp.text)
-
         return data
 
     def read_fields(self, reread=False):

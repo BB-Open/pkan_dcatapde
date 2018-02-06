@@ -14,9 +14,6 @@ from zope.interface import implementer
 class DCATDistribution2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de Catalogs."""
 
-    _namespace = 'dcat'
-    _ns_class = 'distribution'
-
     @property
     def properties(self):
         """Return properties.

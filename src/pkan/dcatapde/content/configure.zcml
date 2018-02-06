@@ -5,45 +5,51 @@
   i18n_domain="pkan.dcatapde">
 
   <adapter
-    factory=".dcat_catalog.NameFromDCTTitle"
+    factory=".base.NameFromDCTTitle"
     for=".dcat_catalog.IDCATCatalog"
-    provides=".dcat_catalog.INameFromDCTTitle"
+    provides=".base.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".dcat_catalog.NameFromDCTTitle"
+    factory=".base.NameFromDCTTitle"
     for=".dcat_dataset.IDCATDataset"
-    provides=".dcat_catalog.INameFromDCTTitle"
+    provides=".base.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".dcat_catalog.NameFromDCTTitle"
+    factory=".base.NameFromDCTTitle"
     for=".dcat_distribution.IDCATDistribution"
-    provides=".dcat_catalog.INameFromDCTTitle"
+    provides=".base.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".dcat_catalog.NameFromDCTTitle"
+    factory=".base.NameFromDCTTitle"
     for=".foaf_agent.IFOAFagent"
-    provides=".dcat_catalog.INameFromDCTTitle"
+    provides=".base.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".dcat_catalog.NameFromDCTTitle"
+    factory=".base.NameFromDCTTitle"
     for=".dct_licensedocument.IDCTLicenseDocument"
-    provides=".dcat_catalog.INameFromDCTTitle"
+    provides=".base.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".dcat_catalog.NameFromDCTTitle"
+    factory=".base.NameFromDCTTitle"
     for=".dct_mediatypeorextent.IDCTMediatypeorextent"
-    provides=".dcat_catalog.INameFromDCTTitle"
+    provides=".base.INameFromDCTTitle"
   />
 
   <adapter
-    factory=".dcat_catalog.NameFromDCTTitle"
-    for=".scos_conceptscheme.ISCOSConceptScheme"
-    provides=".dcat_catalog.INameFromDCTTitle"
+    factory=".base.NameFromDCTTitle"
+    for=".skos_concept.ISKOSConcept"
+    provides=".base.INameFromDCTTitle"
+  />
+
+  <adapter
+    factory=".base.NameFromDCTTitle"
+    for=".skos_conceptscheme.ISKOSConceptScheme"
+    provides=".base.INameFromDCTTitle"
   />
 
   <utility
@@ -87,5 +93,18 @@
     name="harvesterfolder"
     provides="plone.dexterity.interfaces.IDexterityFactory"
   />
+
+  <utility
+    factory=".skos_concept.SKOSConceptDefaultFactory"
+    name="skos_concept"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
+
+  <utility
+    factory=".skos_conceptscheme.SKOSConceptSchemeDefaultFactory"
+    name="skos_conceptscheme"
+    provides="plone.dexterity.interfaces.IDexterityFactory"
+  />
+
 
 </configure>

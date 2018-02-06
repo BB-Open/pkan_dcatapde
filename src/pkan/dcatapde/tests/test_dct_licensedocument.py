@@ -27,7 +27,7 @@ class DCTLicenseDocumentIntegrationTest(unittest.TestCase):
     def test_schema(self):
         fti = queryUtility(
             IDexterityFTI,
-            name=constants.CT_DCT_LICENSE_DOCUMENT,
+            name=constants.CT_DCT_LICENSEDOCUMENT,
         )
         schema = fti.lookupSchema()
         self.assertEqual(IDCTLicenseDocument, schema)
@@ -35,14 +35,14 @@ class DCTLicenseDocumentIntegrationTest(unittest.TestCase):
     def test_fti(self):
         fti = queryUtility(
             IDexterityFTI,
-            name=constants.CT_DCT_LICENSE_DOCUMENT,
+            name=constants.CT_DCT_LICENSEDOCUMENT,
         )
         self.assertTrue(fti)
 
     def test_factory(self):
         fti = queryUtility(
             IDexterityFTI,
-            name=constants.CT_DCT_LICENSE_DOCUMENT,
+            name=constants.CT_DCT_LICENSEDOCUMENT,
         )
         factory = fti.factory
         obj = createObject(factory)
@@ -52,7 +52,7 @@ class DCTLicenseDocumentIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
         obj = api.content.create(
             container=self.portal.get(constants.FOLDER_LICENSES),
-            type=constants.CT_DCT_LICENSE_DOCUMENT,
+            type=constants.CT_DCT_LICENSEDOCUMENT,
             id='sample-license',
         )
         self.assertTrue(IDCTLicenseDocument.providedBy(obj))

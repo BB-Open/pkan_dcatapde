@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
-from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
+from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import VOCAB_SOURCES
 from plone.api import content
 from plone.api import portal
@@ -12,13 +12,13 @@ import surf
 surf.namespace.register(ADMS='http://www.w3.org/ns/adms#')
 
 
-class UpdateLicenses(object):
+class UpdateThemes(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
 
-    def load_licenses_from_rdf(self):
-        uri = VOCAB_SOURCES[CT_DCT_LICENSEDOCUMENT]
+    def load_themes_from_rdf(self):
+        uri = VOCAB_SOURCES[CT_SKOS_CONCEPT]
 
         store = surf.Store(
             reader='rdflib',
@@ -30,29 +30,29 @@ class UpdateLicenses(object):
         # Load the license list
         store.load_triples(source=uri)
         # Define the License class as an owl:class object
-        License = session.get_class(surf.ns.OWL['Class'])
+        Theme = session.get_class(surf.ns.SKOS['Concept'])
         # Get the licenses objects
-        licenses = License.all().full()
+        themes = Theme.all().full()
 
         # Iterate over the licenses and yoiedl them
-        return licenses
+        return themes
 
     def __call__(self):
         # get the surf license objects
-        licenses = self.load_licenses_from_rdf()
+        themes = self.load_themes_from_rdf()
 
         default_language = portal.get_default_language()
 
-        for license in licenses:
+        for theme in themes:
             # map the properties
             mapping = {
-                'dct_title': 'rdfs_label',
-                'dct_description': 'rdfs_comment',
-                'rdfs_subClassOf': 'rdfs_subClassOf',
+                'dct_title': 'skos_preflabel',
+                'skos_inScheme': 'skos_inScheme',
+                'dc_identifier': 'dc_identifier',
             }
             params = {}
             for key, value in mapping.items():
-                attribute = getattr(license, value)
+                attribute = getattr(theme, value)
                 # deal wth more than one attribute, e.g. different languages
                 #  in Literals
                 if isinstance(attribute.first, rdflib.term.Literal):
@@ -60,7 +60,7 @@ class UpdateLicenses(object):
                     for literal in attribute:
                         # check if language attribute exists
                         try:
-                            att_data[literal.language] = unicode(literal)
+                            att_data[theme.language] = unicode(literal)
                         except AttributeError:
                             att_data[default_language] = unicode(literal)
                 else:
@@ -68,18 +68,14 @@ class UpdateLicenses(object):
 
                 params[key] = att_data
 
-            # Special case of adms_identifier. Target type is string not
-            # i18ntext. Therefore no dict but string has to be extracted
-            attribute = getattr(license, 'adms_identifier')
-            att_data = unicode(attribute.first)
-            params['adms_identifier'] = att_data
+#            # Special case of adms_identifier. Target type is string not
+#            # i18ntext. Therefore no dict but string has to be extracted
+#            attribute = getattr(license, 'adms_identifier')
+#            att_data = unicode(attribute.first)
+#            params['adms_identifier'] = att_data
 
-            # Special case of isDefiendBy. If not given use rdfabout URI
-            attribute = getattr(license, 'rdfs_isDefinedBy')
-            if attribute:
-                att_data = unicode(attribute.first)
-            else:
-                att_data = unicode(getattr(license, 'subject'))
+            # Use subject as rdfabout
+            att_data = unicode(getattr(theme, 'subject'))
 
             params['rdfs_isDefinedBy'] = att_data
 
@@ -89,9 +85,9 @@ class UpdateLicenses(object):
             # create a license document object
             content.create(
                 container=self.context,
-                type=CT_DCT_LICENSEDOCUMENT,
-                id=params['adms_identifier'],
-                title=params['dct_description'][default_language],
+                type=CT_SKOS_CONCEPT,
+                id=params['dc_identifier'],
+                title=params['dct_title'][default_language],
                 **params)
 
             # Todo : Logging or response to user

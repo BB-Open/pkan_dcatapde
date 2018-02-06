@@ -36,10 +36,28 @@
     permission="zope2.View"
     />
 
+ <!-- Demostration view to import licenses from external source -->
  <browser:page
     for="plone.dexterity.interfaces.IDexterityContent"
-    name="update"
+    name="update_licenses"
     class=".update_licenses.UpdateLicenses"
     permission="cmf.ManagePortal"
     />
+
+ <!-- Demostration view to import themes from external source -->
+ <browser:page
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="update_themes"
+    class=".update_themes.UpdateThemes"
+    permission="cmf.ManagePortal"
+    />
+
+ <!-- Demostration view to import themes from external source -->
+ <browser:page
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="read_rdf"
+    class=".update_rdf.UpdateRDF"
+    permission="cmf.ManagePortal"
+    />
+
 </configure>

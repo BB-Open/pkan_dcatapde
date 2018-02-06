@@ -14,9 +14,6 @@ from zope.interface import implementer
 class FOAFAgent2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de FOAFAgents."""
 
-    _namespace = 'foaf'
-    _ns_class = 'agent'
-
     _blacklist = ['rdf_about']
 
     @property

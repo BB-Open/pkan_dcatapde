@@ -24,14 +24,14 @@ class TestLicenseDocumentVocabulary(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.l1 = api.content.create(
             container=self.portal.get(constants.FOLDER_LICENSES),
-            type=constants.CT_DCT_LICENSE_DOCUMENT,
+            type=constants.CT_DCT_LICENSEDOCUMENT,
             id='license-1',
             dct_title={'en': 'License 1'},
             rdf_about='https://example.com/license-1',
         )
         self.l2 = api.content.create(
             container=self.portal.get(constants.FOLDER_LICENSES),
-            type=constants.CT_DCT_LICENSE_DOCUMENT,
+            type=constants.CT_DCT_LICENSEDOCUMENT,
             id='license-2',
             dct_title={'en': 'License 2'},
             rdf_about='https://example.com/license-2',
