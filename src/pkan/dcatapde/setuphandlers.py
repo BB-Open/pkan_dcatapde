@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Post install import steps for pkan.dcatapde."""
 
-from pkan.dcatapde import constants as c
+from pkan.dcatapde import constants
 from plone import api
 from plone.app.dexterity.behaviors import constrains
 from Products.CMFPlone.interfaces import INonInstallable
@@ -40,7 +40,7 @@ def uninstall(context):
 def add_default_folders(context):
     """Add default folders on first install."""
     portal = _get_navigation_root(context)
-    for folder_name, folder_type in c.MANDATORY_FOLDERS.items():
+    for folder_name, folder_type in constants.MANDATORY_FOLDERS.items():
         add_folder(portal, folder_name, folder_type)
 
 
