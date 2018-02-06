@@ -60,7 +60,7 @@ class ILicenseField(IField):
     dcat_field = schema.Choice(
         required=True,
         title=_(u'Dcat Field'),
-        source=DcatFieldVocabulary(c.CT_DCT_LICENSE_DOCUMENT),
+        source=DcatFieldVocabulary(c.CT_DCT_LICENSEDOCUMENT),
     )
 
 
@@ -68,7 +68,7 @@ CT_FIELD_RELATION = {
     c.CT_DCAT_CATALOG: 'catalog_fields',
     c.CT_DCAT_DATASET: 'dataset_fields',
     c.CT_DCAT_DISTRIBUTION: 'distribution_fields',
-    c.CT_DCT_LICENSE_DOCUMENT: 'license_fields',
+    c.CT_DCT_LICENSEDOCUMENT: 'license_fields',
 }
 
 
@@ -133,7 +133,7 @@ class IHarvesterFieldConfig(model.Schema):
     form.widget(license_fields=DataGridFieldFactory)
     form.omitted('license_fields')
     license_fields = schema.List(
-        defaultFactory=ConfigFieldDefaultFactory(c.CT_DCT_LICENSE_DOCUMENT),
+        defaultFactory=ConfigFieldDefaultFactory(c.CT_DCT_LICENSEDOCUMENT),
         description=_(
             u'Select Fields. Required fields can\'t be removed. '
             u'If you remove them, they will be readded after saving.',
