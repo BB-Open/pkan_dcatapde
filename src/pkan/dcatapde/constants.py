@@ -15,6 +15,7 @@ CT_HARVESTER_FIELD_CONFIG = 'harvester_field_config'
 CT_HARVESTER_FOLDER = 'harvesterfolder'
 CT_SKOS_CONCEPT = 'skos_concept'
 CT_SKOS_CONCEPTSCHEME = 'skos_conceptscheme'
+CT_PLONE_SITE = 'Plone Site'
 
 # Folder CTs to contain CTs
 CT_AGENT_FOLDER = 'AgentFolder'
