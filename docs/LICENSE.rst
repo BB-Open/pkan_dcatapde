@@ -1,4 +1,4 @@
-pkan.dcatapde Copyright 2017, Dr. Volker Jaenisch
+pkan.dcatapde Copyright 2017, BB-Open
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 2

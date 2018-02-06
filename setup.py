@@ -60,7 +60,7 @@ setup(
     keywords='Python Plone',
     author='Dr. Volker Jaenisch',
     author_email='volker.jaenisch@inqbus.de',
-    url='https://github.com/inqbus/pkan.dcatapde',
+    url='https://github.com/BB-Open/pkan.dcatapde',
     download_url='https://pypi.python.org/pypi/pkan.dcatapde',
     license='GPL version 2',
     packages=find_packages('src', exclude=['ez_setup']),
