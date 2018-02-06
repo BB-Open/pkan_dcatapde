@@ -26,14 +26,14 @@ class TestDCTLicenseDocumentVocabulary(unittest.TestCase):
             container=self.portal.get(constants.FOLDER_LICENSES),
             type=constants.CT_DCT_LICENSEDOCUMENT,
             id='license-1',
-            dct_title={'en': 'License 1'},
+            dct_title={u'en': u'License 1'},
             rdfs_isDefinedBy='https://example.com/license-1',
         )
         self.l2 = api.content.create(
             container=self.portal.get(constants.FOLDER_LICENSES),
             type=constants.CT_DCT_LICENSEDOCUMENT,
             id='license-2',
-            dct_title={'en': 'License 2'},
+            dct_title={u'en': u'License 2'},
             rdfs_isDefinedBy='https://example.com/license-2',
         )
 
