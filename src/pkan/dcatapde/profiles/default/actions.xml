@@ -2,7 +2,6 @@
 <object name="portal_actions" meta_type="Plone Actions Tool"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <action-provider name="portal_actions" />
- <!--Mailcenter controlpanel-->
 
  <!--Installation-->
  <object name="pkan_dcatapde_config" meta_type="CMF Action Category">

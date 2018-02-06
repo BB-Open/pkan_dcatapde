@@ -37,16 +37,35 @@ DCAT_CTs = [
 # HTML filled with error information from harvesting dry_run
 ERROR_HTML_LINE = '<p>Found error {error} on field {field}</p>'
 
-#: Default folder names (relative to portal root)
-FOLDER_LICENSES = 'licenses'
+#: Default folder shortname for agents.
 FOLDER_AGENTS = 'agents'
-FOLDER_FORMATS = 'formats'
-FOLDER_MEDIATYPES = 'mediatypes'
-FOLDER_CONCEPTSCHEMES = 'conceptschemes'
+
+#: Default folder shortname for concepts.
 FOLDER_CONCEPTS = 'concepts'
 
-# Location of vocabulary sources
+#: Default folder shortname for conceptschemes.
+FOLDER_CONCEPTSCHEMES = 'conceptschemes'
 
+#: Default folder shortname for formats.
+FOLDER_FORMATS = 'formats'
+
+#: Default folder shortname for licenses.
+FOLDER_LICENSES = 'licenses'
+
+#: Default folder shortname for locations.
+FOLDER_LOCATIONS = 'locations'
+
+#: Default folder shortname for mediatypes.
+FOLDER_MEDIATYPES = 'mediatypes'
+
+#: Default folder shortname for publishers.
+FOLDER_PUBLISHERS = 'publishers'
+
+#: Default folder shortname for standards.
+FOLDER_STANDARDS = 'standards'
+
+
+# Location of vocabulary sources
 VOCAB_SOURCES = {
     CT_DCT_LICENSEDOCUMENT: 'http://www.dcat-ap.de/def/licenses/1_0.rdf',
     CT_SKOS_CONCEPT: 'http://publications.europa.eu/mdr/resource/authority'

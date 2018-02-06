@@ -22,14 +22,13 @@ install_requires = [
     'plone.formwidget.relateditems >= 0.2',
     'Products.GenericSetup >= 1.8.2',
     'ps.zope.i18nfield >= 0.7',
-    'requests',
-    'surf',
     'rdflib',
     'rdflib-sqlalchemy',
+    'requests',
+    'surf',
     'vkbeautify',
-    'z3c.jbot',
     'zope.app.content',
-    ],
+],
 
 test_requires = [
     'plone.app.contenttypes',

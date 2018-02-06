@@ -15,7 +15,8 @@
     <a href=""
        id="setup-link"
        tal:attributes="href string:$portal_url/plone_control_panel"
-       i18n:translate="">
+       i18n:translate=""
+       i18n:domain="plone">
         Site Setup
     </a> &rsaquo;
 
@@ -30,19 +31,16 @@
     <a href=""
         class="link-parent"
         tal:attributes="href string:${portal_url}/plone_control_panel"
-        i18n:domain="inqbus.mailcenter"
+        i18n:domain="plone"
         i18n:translate="label_up_to_plone_setup">
             Up to Site Setup
     </a>
 
-         <div class="documentDescription" i18n:translate="">
-             Here you have access to all controlpanels related to inqbus mailcenter.
-             Make your choice.
-         </div>
+         <div class="documentDescription" i18n:translate="">Here you have access to all controlpanels for PKAN.</div>
 
         <div id="content-core" i18n:translate="">
 
-            <p>The list below is a set of controlpanels to configure the main parts of the mailcenter.
+            <p>The list below is a set of controlpanels to configure PKAN.
             </p>
 
             <ul>

@@ -3,6 +3,13 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="pkan.dcatapde">
 
+  <permission
+      id="pkan.dcatapde.controlpanel.PKAN"
+      title="Plone Site Setup: PKAN">
+    <role name="Manager" />
+    <role name="Site Administrator" />
+  </permission>
+
   <configure zcml:condition="installed AccessControl.security">
   <!-- -*- extra stuff goes here -*- -->
 
