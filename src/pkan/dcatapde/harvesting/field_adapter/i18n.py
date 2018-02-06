@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pkan.dcatapde import _
 from pkan.dcatapde.harvesting.field_adapter.base import BaseField
 from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
 from plone import api
@@ -15,7 +16,7 @@ from zope.schema.vocabulary import SimpleTerm
 class I18nTextAdapter(BaseField):
     """
     """
-    suffix = ['language', 'content']
+    suffix = [_(u'language'), _(u'content')]
 
     def get_terms_for_vocab(self, ct, field_name, prefix='', required=False):
         terms = []
@@ -25,17 +26,16 @@ class I18nTextAdapter(BaseField):
         else:
             field_required = required
 
-        if prefix:
-            display_ct_parts = prefix.split(':')[1:]
-            display_ct = ':'.join(display_ct_parts)
-        else:
-            display_ct = ''
+        field_path = self.get_field_path(prefix, field_name)
 
         for suf in self.suffix:
             if field_required:
-                title = '{CT} {field_name} {suffix} required'.format(
-                    CT=display_ct, field_name=field_name, suffix=suf,
-                )
+                title = _('${field_path}: ${suffix} (required)',
+                          mapping={
+                              u'field_path': u'{0}'.format(field_path),
+                              u'suffix': u'{0}'.format(suf),
+                          },
+                          )
                 token = '{CT}__{field_name}__{suffix}__required'.format(
                     CT=prefix + ct, field_name=field_name, suffix=suf,
                 )
@@ -45,9 +45,12 @@ class I18nTextAdapter(BaseField):
                     ),
                 )
             else:
-                title = '{CT} {field_name} {suffix}'.format(
-                    CT=display_ct, field_name=field_name, suffix=suf,
-                )
+                title = _('${field_path}: ${suffix}',
+                          mapping={
+                              u'field_path': u'{0}'.format(field_path),
+                              u'suffix': u'{0}'.format(suf),
+                          },
+                          )
                 token = '{CT}__{field_name}__{suffix}'.format(
                     CT=prefix + ct, field_name=field_name, suffix=suf,
                 )
