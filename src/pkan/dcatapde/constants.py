@@ -12,6 +12,7 @@ CT_HARVESTER_FOLDER = 'harvesterfolder'
 CT_HARVESTER = 'harvester'
 CT_HARVESTER_FIELD_CONFIG = 'harvester_field_config'
 CT_SCOS_CONCEPTSCHEME = 'scos_conceptscheme'
+Plone_Site = 'Plone Site'
 
 # folder CTs to contain CTs
 CT_LICENSE_FOLDER = 'LicenseFolder'

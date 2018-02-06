@@ -1,29 +1,36 @@
 # -*- coding: utf-8 -*-
 """Field DX Default Factory."""
-
-from zope.component import getUtility
+from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
+from zope.interface import implementer
 from zope.interface import provider
 from zope.schema._bootstrapinterfaces import IContextAwareDefaultFactory
-from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.interfaces import IContextSourceBinder
 
 
 @provider(IContextAwareDefaultFactory)
-def ConfigFieldDefaultFactory(context):
+@implementer(IContextSourceBinder)
+class ConfigFieldDefaultFactory(object):
     """Default Factory."""
-    fields = []
 
-    vocab_name = 'pkan.dcatapde.DcatFieldVocabulary'
-    factory = getUtility(IVocabularyFactory, vocab_name)
-    options = factory(context)
+    def __init__(self, ct):
+        self.ct = ct
 
-    for value in options.by_value.keys():
-        if 'required' in value:
-            fields.append(
-                {
-                    'dcat_field': value,
-                    'source_field': None,
-                    'prio': 1,
-                },
-            )
+    def __call__(self):
+        fields = []
 
-    return fields
+        context = None
+
+        vocab = DcatFieldVocabulary(self.ct)
+        options = vocab(context)
+
+        for value in options.by_value.keys():
+            if 'required' in value:
+                fields.append(
+                    {
+                        'dcat_field': value,
+                        'source_field': None,
+                        'prio': 1,
+                    },
+                )
+
+        return fields

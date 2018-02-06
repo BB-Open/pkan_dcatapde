@@ -1,40 +1,35 @@
 # -*- coding: utf-8 -*-
 """DCAT field vocabularies."""
-from pkan.dcatapde.constants import CT_HARVESTER
-from plone import api
-from zope.globalrequest import getRequest
+from pkan.dcatapde import constants
+from pkan.dcatapde import utils
+from pkan.dcatapde.api.functions import get_ancestor
 from zope.interface import implementer
-from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
 
 
-@implementer(IVocabularyFactory)
+@implementer(IContextSourceBinder)
 class DcatFieldVocabulary(object):
     """DKAT field vocabulary."""
 
+    def __init__(self, ct):
+        self.ct = ct
+
     def __call__(self, context):
+        if (context is None or
+                isinstance(context, dict) or
+                'NO_VALUE' in str(context)):
+            context = utils.get_request_annotations(
+                'pkan.vocabularies.context',
+            )
         terms = []
-        request = getRequest()
 
-        # index 0 is portal, so we do not need
-        steps = request.steps[1:]
+        if context:
+            harvester = get_ancestor(context, constants.CT_HARVESTER)
 
-        context = api.portal.get()
-
-        harvester = None
-
-        for x in steps:
-            context = context[x]
-            if context.portal_type == CT_HARVESTER:
-                harvester = context
-                break
-
-        if harvester:
-            processor = harvester.source_type(harvester)
-            terms = processor.read_dcat_fields()
+            if harvester:
+                processor = harvester.source_type(harvester)
+                terms = processor.read_dcat_fields(ct=self.ct)
 
         # Create a SimpleVocabulary from the terms list and return it:
         return SimpleVocabulary(terms)
-
-
-DcatFieldVocabularyFactory = DcatFieldVocabulary()

@@ -16,26 +16,34 @@ class Potsdam(object):
     def __init__(self, obj):
         self.obj = obj
 
-    def clean_data(self, data):
+    def clean_data(self, data_manager):
 
-        if c.CT_DCAT_DATASET in data:
-            data = self.clean_dataset(data)
+        if c.CT_DCAT_DATASET in data_manager.data:
+            self.clean_dataset(data_manager)
 
-        if c.CT_DCAT_DISTRIBUTION in data:
-            data = self.clean_distribution(data)
+        if c.CT_DCAT_DISTRIBUTION in data_manager.data:
+            self.clean_distribution(data_manager)
 
-        return data
-
-    def clean_dataset(self, data):
-        for x in range(0, len(data[c.CT_DCAT_DATASET])):
-            data[c.CT_DCAT_DATASET][x]['title'] = 'Dataset {x}'.format(x=x)
-
-        return data
-
-    def clean_distribution(self, data):
-        for x in range(0, len(data[c.CT_DCAT_DISTRIBUTION])):
-            title = 'Distribution {x}'.format(
-                x=x,
+    def clean_dataset(self, data_manager):
+        for id in data_manager.ids:
+            title = 'Dataset {x}'.format(
+                x=data_manager.ids.index(id),
+            ),
+            data_manager.reset_attribute(
+                c.CT_DCAT_DATASET,
+                id,
+                'title',
+                payload=title,
             )
-            data[c.CT_DCAT_DISTRIBUTION][x]['title'] = title
-        return data
+
+    def clean_distribution(self, data_manager):
+        for id in data_manager.ids:
+            title = 'Distribution {x}'.format(
+                x=data_manager.ids.index(id),
+            )
+            data_manager.reset_attribute(
+                c.CT_DCAT_DISTRIBUTION,
+                id,
+                'title',
+                payload=title,
+            )

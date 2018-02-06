@@ -13,7 +13,7 @@ class IImportSource(Interface):
         :return: list of fields
         """
 
-    def read_dcat_fields(self):
+    def read_dcat_fields(self, ct=None):
         """
         Read fields for dcat plone objects
         :return: Terms for vocabulary

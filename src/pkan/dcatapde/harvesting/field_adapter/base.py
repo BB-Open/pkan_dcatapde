@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from pkan.dcatapde import _
 from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
 from plone.dexterity.utils import safe_unicode
 from z3c.form.interfaces import IField
@@ -14,6 +15,18 @@ class BaseField(object):
     def __init__(self, field):
         self.field = field
 
+    def get_field_path(self, prefix, field_name):
+        if prefix:
+            display_ct_parts = prefix.split(':')[1:]
+        else:
+            display_ct_parts = []
+
+        display_ct_parts = filter(lambda a: a != '', display_ct_parts)
+
+        display_ct_parts.append(field_name)
+        field_path = '=>'.join(display_ct_parts)
+        return field_path
+
     def get_terms_for_vocab(self, ct, field_name, prefix='', required=False):
         terms = []
 
@@ -22,10 +35,15 @@ class BaseField(object):
         else:
             field_required = required
 
+        field_path = self.get_field_path(prefix, field_name)
+
         if field_required:
-            title = '{CT}: {field_name} required'.format(
-                CT=prefix + ct, field_name=field_name,
-            )
+            title = _('${field_path} (required)',
+                      mapping={
+                          u'field_path': u'{0}'.format(field_path),
+                      },
+                      )
+
             token = '{CT}__{field_name}__required'.format(
                 CT=prefix + ct, field_name=field_name,
             )
@@ -35,9 +53,11 @@ class BaseField(object):
                 ),
             )
         else:
-            title = '{CT}: {field_name}'.format(
-                CT=prefix + ct, field_name=field_name,
-            )
+            title = _('${field_path}',
+                      mapping={
+                          u'field_path': u'{0}'.format(field_path),
+                      },
+                      )
             token = '{CT}__{field_name}'.format(
                 CT=prefix + ct, field_name=field_name,
             )

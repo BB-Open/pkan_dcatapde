@@ -15,6 +15,12 @@ class IHarvestingType(Interface):
         :return: a list of cts, which can be ignored related to context
         """
 
+    def get_used_cts(self):
+        """
+
+        :return: list of cts which are really used.
+        """
+
 
 class IDefaultType(IHarvestingType):
     """Marker Interface for Default"""

@@ -35,9 +35,9 @@ class IDCATDataset(model.Schema):
         title=_(u'Contributor ID'),
     )
 
-    uri = schema.URI(
+    rdf_about = schema.URI(
         required=True,
-        title=_(u'URI'),
+        title=_(u'Access URI'),
     )
 
     model.fieldset(

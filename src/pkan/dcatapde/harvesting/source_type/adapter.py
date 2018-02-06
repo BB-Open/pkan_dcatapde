@@ -5,6 +5,8 @@ from pkan.dcatapde.api.catalog import add_catalog
 from pkan.dcatapde.api.catalog import clean_catalog
 from pkan.dcatapde.api.dataset import add_dataset
 from pkan.dcatapde.api.dataset import clean_dataset
+from pkan.dcatapde.api.dct_licensedocument import add_dct_licensedocument
+from pkan.dcatapde.api.dct_licensedocument import clean_dct_licensedocument
 from pkan.dcatapde.api.distribution import add_distribution
 from pkan.dcatapde.api.distribution import clean_distribution
 from pkan.dcatapde.api.foafagent import add_foafagent
@@ -13,6 +15,7 @@ from pkan.dcatapde.api.functions import get_terms_for_ct
 from pkan.dcatapde.api.harvester import get_field_config
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
+from pkan.dcatapde.harvesting.source_type.data import DataManager
 from pkan.dcatapde.harvesting.source_type.interfaces import IJson
 from plone import api
 from plone.dexterity.interfaces import IDexterityFTI
@@ -32,6 +35,7 @@ ADD_METHODS_CTS = {
     c.CT_DCAT_DATASET: add_dataset,
     c.CT_DCAT_DISTRIBUTION: add_distribution,
     c.CT_DCAT_CATALOG: add_catalog,
+    c.CT_DCT_LICENSE_DOCUMENT: add_dct_licensedocument,
 }
 
 CLEAN_METHODS_CTS = {
@@ -39,6 +43,7 @@ CLEAN_METHODS_CTS = {
     c.CT_DCAT_CATALOG: clean_catalog,
     c.CT_DCAT_DATASET: clean_dataset,
     c.CT_DCAT_DISTRIBUTION: clean_distribution,
+    c.CT_DCT_LICENSE_DOCUMENT: clean_dct_licensedocument,
 }
 
 
@@ -57,7 +62,10 @@ class BaseProcessor(object):
         self.context = api.portal.get()
         if self.field_config:
             if self.field_config.base_object:
-                self.context = self.field_config.base_object.to_object
+                # fix: check why sometime to_object and sometimes not
+                self.context = getattr(self.field_config.base_object,
+                                       'to_object',
+                                       self.field_config.base_object)
 
     def get_schema_fields(self, ct):
         if ct in self._schema_fields:
@@ -90,16 +98,17 @@ class BaseProcessor(object):
         """
         return []
 
-    def read_dcat_fields(self):
+    def read_dcat_fields(self, ct=None):
         """
         Read fields for dcat plone objects
         :return: Terms for vocabulary
         """
         terms = []
-        pass_ct = self.harvesting_type.get_pass_cts(self.context)
-        for ct in self.harvesting_type.cts.keys():
-            if ct in pass_ct:
-                continue
+
+        # if a ct is given, we just want to use th
+        if ct is not None:
+            return get_terms_for_ct(ct)
+        for ct in self.harvesting_type.get_used_cts():
             terms += get_terms_for_ct(ct)
         return terms
 
@@ -123,9 +132,9 @@ class BaseProcessor(object):
         :return:
         """
         if self.cleaned_data:
-            self.cleaned_data = self.data_type.clean_data(self.cleaned_data)
-            self.cleaned_data = self.clean_data_by_config(self.cleaned_data)
-            self.cleaned_data = self.clean_duplicate(self.cleaned_data)
+            self.data_type.clean_data(self.cleaned_data)
+            self.clean_data_by_config(self.cleaned_data)
+            self.clean_duplicate(self.cleaned_data)
 
     def clean_data_by_field(self, data):
         """
@@ -150,21 +159,11 @@ class BaseProcessor(object):
 
         return data
 
-    def clean_duplicate(self, data):
-        for ct in data:
-            if not data[ct]:
-                continue
-            ct_data = {}
-            for x in range(len(data[ct].keys())):
-                data_str = str(data[ct][x])
-                if data_str in ct_data:
-                    data[ct][x] = ct_data[data_str]
-                else:
-                    ct_data[data_str] = x
-        return data
+    def clean_duplicate(self, data_manager):
+        data_manager.clean_duplicates()
 
     def clean_data_by_config(self, cleaned_data):
-        return cleaned_data
+        pass
 
     def dry_run(self):
         """Dry Run: Returns Log-Information.
@@ -179,7 +178,7 @@ class BaseProcessor(object):
         if not self.cleaned_data:
             return '<p>No Data to Test</p>'
 
-        keys = self.cleaned_data.keys()
+        cts = self.cleaned_data.cts
 
         pass_ct = self.harvesting_type.get_pass_cts(self.context)
 
@@ -194,7 +193,7 @@ class BaseProcessor(object):
                 pass_obj=pass_obj,
             )
 
-        for key in keys:
+        for key in cts:
             key_elements = key.split(':')
             if len(key_elements) == 3 and key_elements[0] not in pass_ct:
                 log += self.dry_run_for_subtype(key, key_elements)
@@ -209,12 +208,12 @@ class BaseProcessor(object):
 
         log = self.dry_run()
 
-        if not self.cleaned_data:
+        if not self.cleaned_data.data:
             return log + '<p>No data found, cannot add anything</p>'
 
         log += '<p>Doing Real Run<p>'
 
-        keys = self.cleaned_data.keys()
+        cts = self.cleaned_data.cts
 
         pass_ct = self.harvesting_type.get_pass_cts(self.context)
 
@@ -228,13 +227,13 @@ class BaseProcessor(object):
                 pass_obj=pass_obj,
             )
 
-        for key in keys:
+        for key in cts:
             key_elements = key.split(':')
 
             if len(key_elements) >= 3 and key_elements[0] not in pass_ct:
                 log += self.real_run_for_subtype(key, key_elements)
 
-        for key in keys:
+        for key in cts:
             key_elements = key.split(':')
 
             if len(key_elements) >= 3 and key_elements[0] not in pass_ct:
@@ -256,22 +255,18 @@ class BaseProcessor(object):
                 log += 'because of missing method.</p>'
                 return log.format(key=key)
 
-            data_elements = self.cleaned_data[key]
-            data_counter = len(data_elements)
+            data_elements = self.cleaned_data.get_data_for_ct(key)
 
-            for x in range(0, data_counter):
+            for id in data_elements:
 
-                if isinstance(data_elements[x], int):
-                    wanted_obj = data_elements[data_elements[x]]
-                else:
-                    # Fix: instead of create check for
-                    # create/update/deprecated/delete
-                    wanted_obj = add_routine(self.context, **data_elements[x])
-                    data_elements[x] = wanted_obj
-                    log += '<p>Created {ct} {dataset}</p>'.format(
-                        ct=ct,
-                        dataset=wanted_obj.title,
-                    )
+                # Fix: instead of create check for
+                # create/update/deprecated/delete
+                wanted_obj = add_routine(self.context, **data_elements[id])
+                self.cleaned_data.set_created_obj(key, id, wanted_obj)
+                log += '<p>Created {ct} {dataset}</p>'.format(
+                    ct=ct,
+                    dataset=wanted_obj.title,
+                )
 
             key_elements_length -= 2
 
@@ -286,18 +281,19 @@ class BaseProcessor(object):
             attr = key_elements[key_elements_length - 2]
             ct = key_elements[key_elements_length - 1]
 
-            data_elements = self.cleaned_data[key]
-            data_counter = len(data_elements)
+            data_elements = self.cleaned_data.get_all_created(ct)
 
-            for x in range(0, data_counter):
-                if isinstance(data_elements[x], int):
-                    wanted_obj = data_elements[data_elements[x]]
-                else:
-                    wanted_obj = data_elements[x]
+            for id in data_elements:
 
-                parent = self.cleaned_data[parent_ct][x]
-                if isinstance(parent, int):
-                    parent = self.cleaned_data[parent_ct][parent]
+                wanted_obj = data_elements[id]
+
+                parent = self.cleaned_data.get_created(parent_ct, id)
+                if not parent:
+                    log += '<p>Could not link {ct} {dataset}.</p>'.format(
+                        ct=ct,
+                        dataset=wanted_obj.title,
+                    )
+                    continue
 
                 # Fix: Check if this works with RelatedItem-Field
                 setattr(parent, attr, wanted_obj)
@@ -321,34 +317,42 @@ class BaseProcessor(object):
             log += 'because of missing method.</p>'
             return log.format(key=obj_ct)
 
-        if obj_ct in self.cleaned_data and self.cleaned_data[obj_ct]:
-            data_elements = self.cleaned_data[obj_ct]
-            data_counter = len(data_elements)
+        data = self.cleaned_data.get_data_for_ct(obj_ct)
 
+        if not data:
+            return '<p>Nothing to check for {ct}</p>'.format(ct=obj_ct)
+
+        for id in data:
             if pass_obj:
-                for x in range(0, data_counter):
-                    data_elements[x] = self.context
+                self.cleaned_data.set_created_obj(obj_ct, id, None)
             else:
-                for x in range(0, data_counter):
+                log += '<p>Start cleanig {ct} number {dataset}</p>'.format(
+                    ct=obj_ct,
+                    dataset=id,
+                )
 
-                    if isinstance(data_elements[x], int):
-                        pass
-                    else:
-                        # Fix: instead of create check for
-                        # create/update/deprecated/delete
-                        if parent_ct in self.cleaned_data:
-                            parent = self.cleaned_data[parent_ct][x]
-                        else:
-                            parent = self.context
-                        if isinstance(parent, int):
-                            parent = self.cleaned_data[parent_ct][parent]
+                if parent_ct:
+                    parent = self.cleaned_data.get_created(parent_ct, id)
+                else:
+                    parent = self.context
 
-                        dataset = add_routine(parent, **data_elements[x])
-                        data_elements[x] = dataset
-                        log += '<p>Created {ct} {dataset}</p>'.format(
-                            ct=obj_ct,
-                            dataset=dataset.title,
-                        )
+                if not parent:
+                    log += """<p>Could not create {ct} {dataset}.
+                        No context</p>""".format(
+                        ct=obj_ct,
+                        dataset=id,
+                    )
+                    continue
+
+                # Fix: instead of create check for
+                # create/update/deprecated/delete
+                dataset = add_routine(parent, **data[id])
+                self.cleaned_data.set_created_obj(obj_ct, id, dataset)
+
+                log += '<p>Created {ct} {dataset}</p>'.format(
+                    ct=obj_ct,
+                    dataset=dataset.title,
+                )
 
         return log
 
@@ -363,31 +367,27 @@ class BaseProcessor(object):
         else:
             return '<p>No clean method for {ct}</p>'.format(ct=obj_ct)
 
-        if obj_ct in self.cleaned_data and self.cleaned_data[obj_ct]:
-            data_elements = self.cleaned_data[obj_ct]
-            data_counter = len(data_elements)
+        data = self.cleaned_data.get_data_for_ct(obj_ct)
 
+        if not data:
+            return '<p>Nothing to check for {ct}</p>'.format(ct=obj_ct)
+
+        for id in data:
             if pass_obj:
-                for x in range(0, data_counter):
-                    data_elements[x] = self.context
+                self.cleaned_data.set_created_obj(obj_ct, id, None)
             else:
-                for x in range(0, data_counter):
-                    log += '<p>Start cleanig {ct} number {dataset}</p>'.format(
-                        ct=obj_ct,
-                        dataset=x,
-                    )
-                    if isinstance(data_elements[x], int):
-                        pass
-                    else:
-                        dataset, error = clean_routine(**data_elements[x])
-                        data_elements[x] = dataset
-
-                        if error:
-                            log += self.format_errors(error, obj_ct)
-                    log += '<p>Cleaned {ct} number {dataset}</p>'.format(
-                        ct=obj_ct,
-                        dataset=x,
-                    )
+                log += '<p>Start cleanig {ct} number {dataset}</p>'.format(
+                    ct=obj_ct,
+                    dataset=id,
+                )
+                dataset, error = clean_routine(**data[id])
+                self.cleaned_data.update(obj_ct, id, dataset)
+                if error:
+                    log += self.format_errors(error, obj_ct)
+                log += '<p>Cleaned {ct} number {dataset}</p>'.format(
+                    ct=obj_ct,
+                    dataset=id,
+                )
 
         return log
 
@@ -405,25 +405,20 @@ class BaseProcessor(object):
                 log = '<p>Could not clean {key} because of missing method.</p>'
                 return log.format(key=key)
 
-            data_elements = self.cleaned_data[key]
-            data_counter = len(data_elements)
+            data_elements = self.cleaned_data.get_data_for_ct(key)
 
-            for x in range(0, data_counter):
+            for id in data_elements:
                 log += '<p>Start cleaning {ct} number {dataset}</p>'.format(
                     ct=ct,
-                    dataset=x,
+                    dataset=id,
                 )
-                if isinstance(data_elements[x], int):
-                    pass
-                else:
-
-                    wanted_data, error = clean_routine(**data_elements[x])
-                    data_elements[x] = wanted_data
-                    if error:
-                        log += self.format_errors(error, ct)
+                wanted_data, error = clean_routine(**data_elements[id])
+                self.cleaned_data.update(key, id, wanted_data)
+                if error:
+                    log += self.format_errors(error, ct)
                 log += '<p>Cleaned {ct} number {dataset}</p>'.format(
                     ct=ct,
-                    dataset=x,
+                    dataset=id,
                 )
 
             key_elements_length -= 2
@@ -497,7 +492,7 @@ class JsonProcessor(BaseProcessor):
         raw_data = self.clean_data_by_field(raw_data)
         raw_data = self.sort_raw_data(raw_data)
 
-        self.cleaned_data = raw_data
+        self.cleaned_data = DataManager(raw_data)
 
     def read_data_from_field(self, source_field, subdata):
         path = source_field.split('.')
