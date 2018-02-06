@@ -77,6 +77,12 @@
   />
 
   <utility
+      factory=".dct_licensedocument.DCTLicenseDocumentDefaultFactory"
+      name="dct_licensedocument"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+  <utility
     factory=".harvester.HarvesterDefaultFactory"
     name="harvester"
     provides="plone.dexterity.interfaces.IDexterityFactory"
