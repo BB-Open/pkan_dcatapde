@@ -25,8 +25,8 @@
         />
 
   <utility
-      component=".licenses.LicenseDocumentVocabularyFactory"
-      name="pkan.dcatapde.vocabularies.LicenseDocuments"
+      component=".licenses.DCTLicenseDocumentVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCTLicenseDocuments"
       />
 
 </configure>

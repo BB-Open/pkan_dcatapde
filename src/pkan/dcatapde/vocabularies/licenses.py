@@ -11,8 +11,8 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 
 @implementer(IVocabularyFactory)
-class LicenseDocumentVocabulary(object):
-    """A vocabulary returning license documents."""
+class DCTLicenseDocumentVocabulary(object):
+    """A vocabulary returning DCTLicenseDocuments."""
 
     def licenses(self, query):
         params = {
@@ -28,7 +28,7 @@ class LicenseDocumentVocabulary(object):
             obj = brain.getObject()
             title = u'{title} ({url})'.format(
                 title=brain.Title,
-                url=obj.rdf_about,
+                url=obj.rdfs_isDefinedBy,
             )
             terms.append(
                 SimpleTerm(
@@ -45,4 +45,4 @@ class LicenseDocumentVocabulary(object):
         return self.licenses(query=query)
 
 
-LicenseDocumentVocabularyFactory = LicenseDocumentVocabulary()
+DCTLicenseDocumentVocabularyFactory = DCTLicenseDocumentVocabulary()
