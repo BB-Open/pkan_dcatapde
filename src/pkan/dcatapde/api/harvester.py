@@ -16,6 +16,7 @@ from pkan.dcatapde.content.harvesterfolder import IHarvesterfolder
 from plone import api
 from z3c.form import field
 from zope.component.hooks import getSite
+from zope.schema import getFieldNamesInOrder
 from zope.schema import getValidationErrors
 
 
@@ -233,15 +234,15 @@ def sort_fields(fields):
 def update_field_config_form_fields(context):
     harvester = get_ancestor(context, CT_HARVESTER)
 
-    selected = []
+    selected = getFieldNamesInOrder(IHarvesterFieldConfig)
 
     if harvester:
         harvesting_type = harvester.harvesting_type(harvester)
         used_cts = harvesting_type.get_used_cts()
 
-        for ct in used_cts:
-            if ct in CT_FIELD_RELATION:
-                selected.append(CT_FIELD_RELATION[ct])
+        for ct in CT_FIELD_RELATION.keys():
+            if ct not in used_cts:
+                selected.remove(CT_FIELD_RELATION[ct])
 
     fields = field.Fields(IHarvesterFieldConfig).select(*selected)
 

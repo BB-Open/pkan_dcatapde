@@ -84,7 +84,6 @@ class IHarvesterFieldConfig(model.Schema):
 
     form.widget(catalog_fields=DataGridFieldFactory)
     form.omitted('catalog_fields')
-    form.order_after(catalog_fields='base_object')
     catalog_fields = schema.List(
         defaultFactory=ConfigFieldDefaultFactory(c.CT_DCAT_CATALOG),
         description=_(
@@ -101,7 +100,6 @@ class IHarvesterFieldConfig(model.Schema):
 
     form.widget(dataset_fields=DataGridFieldFactory)
     form.omitted('dataset_fields')
-    form.order_after(dataset_fields='base_object')
     dataset_fields = schema.List(
         defaultFactory=ConfigFieldDefaultFactory(c.CT_DCAT_DATASET),
         description=_(
@@ -118,7 +116,6 @@ class IHarvesterFieldConfig(model.Schema):
 
     form.widget(distribution_fields=DataGridFieldFactory)
     form.omitted('distribution_fields')
-    form.order_after(distribution_fields='base_object')
     distribution_fields = schema.List(
         defaultFactory=ConfigFieldDefaultFactory(c.CT_DCAT_DISTRIBUTION),
         description=_(
@@ -135,7 +132,6 @@ class IHarvesterFieldConfig(model.Schema):
 
     form.widget(license_fields=DataGridFieldFactory)
     form.omitted('license_fields')
-    form.order_after(license_fields='base_object')
     license_fields = schema.List(
         defaultFactory=ConfigFieldDefaultFactory(c.CT_DCT_LICENSE_DOCUMENT),
         description=_(
