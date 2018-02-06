@@ -57,6 +57,8 @@ class DCTLicenseDocumentDefaultFactory(DexterityFactory):
         from pkan.dcatapde.api.dct_licensedocument import \
             clean_dct_licensedocument
         data, errors = clean_dct_licensedocument(**kw)
-        folder = DexterityFactory.__call__(self, *args, **data)
 
-        return folder
+        return super(
+            DCTLicenseDocumentDefaultFactory,
+            self,
+        ).__call__(*args, **data)
