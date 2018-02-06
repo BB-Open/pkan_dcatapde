@@ -17,6 +17,8 @@ class DataManager(object):
         for x in range(self.data_amount):
             self.ids.append('data_id_' + str(x))
 
+        self.ids = sorted(self.ids)
+
         self.setup_data(raw_data)
 
     def setup_data(self, raw_data):
@@ -104,6 +106,16 @@ class DataManager(object):
                 field,
                 payload=data[field],
             )
+
+    def get_data_for_field(self, ct, id, field):
+        if ct not in self.data:
+            return None
+        elif id not in self.data[ct]:
+            return None
+        elif field not in self.data[ct][id]:
+            return None
+        else:
+            return self.data[ct][id][field]
 
 
 class DataEntry(object):

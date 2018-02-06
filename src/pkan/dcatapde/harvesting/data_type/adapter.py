@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Preprocessor Adapter."""
-
 from pkan.dcatapde import constants as c
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.data_type.interfaces import IPotsdam
 from zope.component import adapter
 from zope.interface import implementer
+from zope.schema import URI
+from zope.schema.interfaces import InvalidURI
 
 
 @adapter(IHarvester)
@@ -15,6 +16,7 @@ class Potsdam(object):
 
     def __init__(self, obj):
         self.obj = obj
+        self.url_prefix = 'https://opendata.potsdam.de/explore/dataset/'
 
     def clean_data(self, data_manager):
 
@@ -28,13 +30,24 @@ class Potsdam(object):
         for id in data_manager.ids:
             title = 'Dataset {x}'.format(
                 x=data_manager.ids.index(id),
-            ),
+            )
             data_manager.reset_attribute(
                 c.CT_DCAT_DATASET,
                 id,
                 'title',
                 payload=title,
             )
+
+            rdf_about = data_manager.get_data_for_field(c.CT_DCAT_DATASET,
+                                                        id,
+                                                        'rdf_about')
+            url = str(rdf_about.payload)
+            try:
+                URI().validate(url)
+            except InvalidURI:
+                url = self.url_prefix + url
+
+            rdf_about.payload = url
 
     def clean_distribution(self, data_manager):
         for id in data_manager.ids:
