@@ -27,7 +27,7 @@ class DCTLicenseDocumentVocabulary(object):
         for brain in brains:
             obj = brain.getObject()
             title = u'{title} ({url})'.format(
-                title=brain.Title,
+                title=obj.Title(),
                 url=obj.rdfs_isDefinedBy,
             )
             terms.append(
