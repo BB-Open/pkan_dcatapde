@@ -110,3 +110,13 @@ class SKOSConceptVocabulary(BaseContentTypeVocabulary):
 
 
 SKOSConceptVocabularyFactory = SKOSConceptVocabulary()
+
+
+@implementer(IVocabularyFactory)
+class SKOSConceptSchemeVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning SKOSConceptScheme items."""
+
+    portal_type = constants.CT_SKOS_CONCEPTSCHEME
+
+
+SKOSConceptSchemeVocabularyFactory = SKOSConceptSchemeVocabulary()

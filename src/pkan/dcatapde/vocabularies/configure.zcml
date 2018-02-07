@@ -54,4 +54,9 @@
       name="pkan.dcatapde.vocabularies.SKOSConcept"
       />
 
+  <utility
+      component=".content_types.SKOSConceptSchemeVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.SKOSConceptScheme"
+      />
+
 </configure>
