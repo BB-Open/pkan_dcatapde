@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
-
 from pkan.dcatapde import constants as c
 from pkan.dcatapde.api.catalog import add_catalog
 from pkan.dcatapde.api.catalog import clean_catalog
@@ -27,7 +26,7 @@ from zope.interface import implementer
 from zope.schema import getFields
 
 import json
-import requests
+import urllib
 
 
 # FIX: Fill with all Cts
@@ -49,7 +48,6 @@ CLEAN_METHODS_CTS = {
 
 
 class BaseProcessor(object):
-
     # helper
 
     _schema_fields = {}
@@ -86,6 +84,9 @@ class BaseProcessor(object):
             schema_fields = self.get_schema_fields(ct)
             field = schema_fields[field_name]
             if isinstance(field, RelationChoice):
+                continue
+            if (not field.required and
+                    error_name == 'SchemaNotFullyImplemented'):
                 continue
             formatted += c.ERROR_HTML_LINE.format(
                 error=error_name,
@@ -186,7 +187,6 @@ class BaseProcessor(object):
         # FIX: all CT-Information should not be written here
 
         for ct in self.harvesting_type.cts.keys():
-
             pass_obj = ct in pass_ct
 
             log += self.dry_run_for_type(
@@ -219,7 +219,6 @@ class BaseProcessor(object):
         pass_ct = self.harvesting_type.get_pass_cts(self.context)
 
         for ct in self.harvesting_type.cts.keys():
-
             pass_obj = ct in pass_ct
 
             log += self.real_run_for_type(
@@ -259,7 +258,6 @@ class BaseProcessor(object):
             data_elements = self.cleaned_data.get_data_for_ct(key)
 
             for id in data_elements:
-
                 # Fix: instead of create check for
                 # create/update/deprecated/delete
                 wanted_obj = add_routine(self.context, **data_elements[id])
@@ -332,10 +330,19 @@ class BaseProcessor(object):
                     dataset=id,
                 )
 
-                if parent_ct:
-                    parent = self.cleaned_data.get_created(parent_ct, id)
-                else:
+                parent = None
+
+                # if no parent_ct is given, use given context
+                if not parent_ct:
                     parent = self.context
+                # if parent_ct is given and the context has the same type
+                # use context
+                if self.context.portal_type == parent_ct:
+                    parent = self.context
+                # if parent_ct is given, but context has different type
+                # we need a created object as context
+                elif parent_ct:
+                    parent = self.cleaned_data.get_created(parent_ct, id)
 
                 if not parent:
                     log += """<p>Could not create {ct} {dataset}.
@@ -437,8 +444,10 @@ class JsonProcessor(BaseProcessor):
         if not url:
             return []
 
-        resp = requests.get(url=url)
-        data = json.loads(resp.text)
+        f = urllib.urlopen(url)
+        resp = f.read()
+        data = json.loads(resp)
+
         return data
 
     def read_fields(self, reread=False):

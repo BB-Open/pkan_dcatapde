@@ -99,7 +99,7 @@ def get_ancestor(context, portal_type):
         obj = get_parent(obj)
         new_portal_type = getattr(obj, 'portal_type', None)
         if (not new_portal_type or
-                (new_portal_type == constants.Plone_Site) or
+                (new_portal_type == constants.CT_PLONE_SITE) or
                 not obj):
             return None
 
