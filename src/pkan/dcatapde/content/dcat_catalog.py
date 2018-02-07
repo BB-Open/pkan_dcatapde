@@ -12,7 +12,6 @@ from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
-from ps.zope.i18nfield.fieldproperty import I18NFieldProperty
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from z3c.relationfield import RelationChoice
 from zope.interface import implementer
@@ -206,7 +205,7 @@ class DCATCatalog(Container, DCATMixin):
     _namespace = 'dcat'
     _ns_class = 'catalog'
 
-    dct_title = I18NFieldProperty(IDCATCatalog['dct_title'])
+    dct_title = I18NTextProperty(IDCATCatalog['dct_title'])
     dct_description = I18NTextProperty(IDCATCatalog['dct_description'])
 
     def Title(self):
