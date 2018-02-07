@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-"""SKOSConxwptScheme Content Type."""
+"""SKOSConceptScheme Content Type."""
 
-from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
+from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope import schema
 from zope.interface import implementer
 
@@ -16,20 +17,21 @@ from zope.interface import implementer
 class ISKOSConceptScheme(model.Schema):
     """Marker interface and DX Python Schema for SKOSConceptScheme."""
 
+    # Mandatory
+    # -------------------------------------------------------------------------
     dct_title = I18NTextLine(
         required=True,
-        title=_(u'Title'),
+        title=i18n.LABEL_DCT_TITLE,
     )
 
     dct_description = I18NText(
         required=False,
-        title=_(u'Description'),
+        title=i18n.LABEL_DCT_DESCRIPTION,
     )
 
     rdf_about = schema.URI(
         required=True,
-        title=_(u'URI'),
-        description=_(u'Where is this concept scheme defined'),
+        title=i18n.LABEL_RDF_ABOUT,
     )
 
 
@@ -37,22 +39,33 @@ class ISKOSConceptScheme(model.Schema):
 class SKOSConceptScheme(Item, DCATMixin):
     """SKOSConceptScheme Content Type."""
 
-    portal_type = 'skos_conceptscheme'
+    portal_type = constants.CT_SKOS_CONCEPTSCHEME
     _namespace = 'skos'
     _ns_class = 'conceptscheme'
+
+    dct_title = I18NTextProperty(ISKOSConceptScheme['dct_title'])
+    dct_description = I18NTextProperty(ISKOSConceptScheme['dct_description'])
+
+    def Title(self):
+        return unicode(self.dct_title)
+
+    def Description(self):
+        return self.dct_description
 
 
 class SKOSConceptSchemeDefaultFactory(DexterityFactory):
     """Custom DX factory for SKOSConceptScheme."""
 
     def __init__(self):
-        self.portal_type = CT_SKOS_CONCEPTSCHEME
+        self.portal_type = constants.CT_SKOS_CONCEPTSCHEME
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it
         from pkan.dcatapde.api.skos_conceptscheme import \
             clean_skos_conceptscheme
         data, errors = clean_skos_conceptscheme(**kw)
-        folder = DexterityFactory.__call__(self, *args, **data)
 
-        return folder
+        return super(
+            SKOSConceptSchemeDefaultFactory,
+            self,
+        ).__call__(*args, **data)
