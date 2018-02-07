@@ -2,8 +2,6 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="pkan.dcatapde">
 
-    <!-- -*- extra stuff goes here -*- -->
-
     <utility
         component=".foafagent_vocabulary.FoafagentVocabularyFactory"
         name="pkan.dcatapde.FOAFagentVocabulary"
@@ -23,6 +21,11 @@
         component=".source_type_vocabulary.SourceTypeVocabularyFactory"
         name="pkan.dcatapde.SourceTypeVocabulary"
         />
+
+  <utility
+      component=".content_types.DCATCatalogVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCATCatalogs"
+      />
 
   <utility
       component=".content_types.DCTLicenseDocumentVocabularyFactory"

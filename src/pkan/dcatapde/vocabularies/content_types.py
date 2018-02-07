@@ -43,8 +43,18 @@ class BaseContentTypeVocabulary(object):
 
 
 @implementer(IVocabularyFactory)
+class DCATCatalogVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning DCATCatalog items."""
+
+    portal_type = constants.CT_DCAT_CATALOG
+
+
+DCATCatalogVocabularyFactory = DCATCatalogVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class DCTLicenseDocumentVocabulary(BaseContentTypeVocabulary):
-    """A vocabulary returning DCTLicenseDocuments."""
+    """A vocabulary returning DCTLicenseDocument items."""
 
     portal_type = constants.CT_DCT_LICENSEDOCUMENT
 
