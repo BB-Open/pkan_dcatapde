@@ -167,7 +167,7 @@ class FieldConfigDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it
-        from pkan.dcatapde.api.harvester import clean_fieldconfig
+        from pkan.dcatapde.api.harvester_field_config import clean_fieldconfig
         data, errors = clean_fieldconfig(**kw)
         folder = DexterityFactory.__call__(self, *args, **data)
 

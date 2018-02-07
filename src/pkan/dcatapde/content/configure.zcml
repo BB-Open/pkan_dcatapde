@@ -135,6 +135,12 @@
 
   <!-- Harvester -->
   <!-- ========= -->
+  <subscriber
+    for="pkan.dcatapde.content.harvester.IHarvester
+         zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    handler=".harvester.add_field_config"
+    />
+
   <utility
       factory=".harvester.HarvesterDefaultFactory"
       name="harvester"

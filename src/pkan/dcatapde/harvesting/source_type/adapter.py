@@ -12,7 +12,7 @@ from pkan.dcatapde.api.distribution import clean_distribution
 from pkan.dcatapde.api.foafagent import add_foafagent
 from pkan.dcatapde.api.foafagent import clean_foafagent
 from pkan.dcatapde.api.functions import get_terms_for_ct
-from pkan.dcatapde.api.harvester import get_field_config
+from pkan.dcatapde.api.harvester_field_config import get_field_config
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
 from pkan.dcatapde.harvesting.source_type.data import DataManager

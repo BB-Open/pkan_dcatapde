@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import utils
-from pkan.dcatapde.api.harvester import add_missing_fields
-from pkan.dcatapde.api.harvester import update_field_config_form_fields
+from pkan.dcatapde.api.harvester_field_config import add_missing_fields
+from pkan.dcatapde.api.harvester_field_config import update_form_fields
 from pkan.dcatapde.content.harvester_field_config import CT_FIELD_RELATION
 from pkan.dcatapde.content.harvester_field_config import IHarvesterFieldConfig
 from plone.dexterity.browser import edit
@@ -16,7 +16,7 @@ class FieldConfigEdit(edit.DefaultEditForm):
         utils.set_request_annotations('pkan.vocabularies.context', context)
 
     def update(self):
-        self.fields = update_field_config_form_fields(self.context)
+        self.fields = update_form_fields(self.context)
 
         super(FieldConfigEdit, self).update()
 

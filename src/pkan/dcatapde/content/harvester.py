@@ -2,6 +2,7 @@
 """Harvester Content Type."""
 
 from pkan.dcatapde import _
+from pkan.dcatapde.api.harvester_field_config import add_harvester_field_config
 from pkan.dcatapde.constants import CT_HARVESTER
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -65,3 +66,7 @@ class HarvesterDefaultFactory(DexterityFactory):
         # add_harvester_field_config(folder)
 
         return folder
+
+
+def add_field_config(object, event):
+    add_harvester_field_config(object)
