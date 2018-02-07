@@ -6,7 +6,7 @@ from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_FOAF_AGENT
 from pkan.dcatapde.content.base import DCATMixin
-from pkan.widgets import RelatedItemsFieldWidget
+from pkan.widgets.relateditems import RelatedItemsFieldWidget
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container

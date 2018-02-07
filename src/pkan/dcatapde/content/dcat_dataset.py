@@ -4,7 +4,7 @@
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.content.base import DCATMixin
-from pkan.widgets import RelatedItemsFieldWidget
+from pkan.widgets.relateditems import RelatedItemsFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
