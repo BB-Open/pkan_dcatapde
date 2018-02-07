@@ -106,6 +106,7 @@ HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
 HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
 
 
+LABEL_ADMS_IDENTIFIER = _(u'Identifier')
 LABEL_ADMS_VERSIONNOTES = _(u'Version Notes')
 LABEL_DCAT_ACCESSURL = _(u'Access URL')
 LABEL_DCAT_BYTESIZE = _(u'Byte size')
@@ -148,6 +149,7 @@ LABEL_FOLDER_PUBLISHERS = _(u'Folder containing publishers')
 LABEL_FOLDER_STANDARDS = _(u'Folder containing standards')
 LABEL_OWL_VERSIONINFO = _(u'Version info')
 LABEL_RDF_ABOUT = _(u'Access URI')
+LABEL_RDFS_ISDEFINEDBY = _(u'Definition URI')
 LABEL_SETTINGS_BASE = _(u'PKAN Base Settings')
 LABEL_SETTINGS_FOLDERS = _(u'PKAN Folder Settings')
 
