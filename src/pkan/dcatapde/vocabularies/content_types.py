@@ -63,6 +63,16 @@ DCATDatasetVocabularyFactory = DCATDatasetVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class DCATDistributionVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning DCATDistribution items."""
+
+    portal_type = constants.CT_DCAT_DISTRIBUTION
+
+
+DCATDistributionVocabularyFactory = DCATDistributionVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class DCTLicenseDocumentVocabulary(BaseContentTypeVocabulary):
     """A vocabulary returning DCTLicenseDocument items."""
 

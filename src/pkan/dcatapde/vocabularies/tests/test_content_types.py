@@ -97,6 +97,48 @@ class TestDCATDatasetVocabulary(unittest.TestCase):
         )
 
 
+class TestDCATDistributionVocabulary(unittest.TestCase):
+    """Validate the `DCATDistributionVocabulary` vocabulary."""
+
+    layer = testing.INTEGRATION_TESTING
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.item1 = api.content.create(
+            container=self.portal,
+            type=constants.CT_DCAT_DISTRIBUTION,
+            id='distribution-1',
+            dct_title={u'en': u'Distribution 1'},
+        )
+        self.item2 = api.content.create(
+            container=self.portal,
+            type=constants.CT_DCAT_DISTRIBUTION,
+            id='distribution-2',
+            dct_title={u'en': u'Distribution 2'},
+        )
+
+    def test_vocabulary(self):
+        """Validate the vocabulary."""
+        vocab_name = 'pkan.dcatapde.vocabularies.DCATDistributions'
+        factory = getUtility(IVocabularyFactory, vocab_name)
+        self.assertTrue(IVocabularyFactory.providedBy(factory))
+
+        vocabulary = factory(self.portal)
+        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
+
+        self.assertEqual(len(vocabulary), 2)
+        self.assertEqual(
+            vocabulary.getTerm(self.item1.UID()).title,
+            self.item1.Title(),
+        )
+        self.assertEqual(
+            vocabulary.getTerm(self.item2.UID()).title,
+            self.item2.Title(),
+        )
+
+
 class TestDCTLicenseDocumentVocabulary(unittest.TestCase):
     """Validate the `DCTLicenseDocumentVocabulary` vocabulary."""
 

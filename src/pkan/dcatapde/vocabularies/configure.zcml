@@ -33,6 +33,11 @@
       />
 
   <utility
+      component=".content_types.DCATDistributionVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCATDistributions"
+      />
+
+  <utility
       component=".content_types.DCTLicenseDocumentVocabularyFactory"
       name="pkan.dcatapde.vocabularies.DCTLicenseDocuments"
       />
