@@ -1,22 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <object name="portal_types" meta_type="Plone Types Tool">
   <property name="title">Controls the available contenttypes in your portal</property>
+
   <!-- DCAT Content types -->
   <object meta_type="Dexterity FTI" name="dcat_catalog"/>
   <object meta_type="Dexterity FTI" name="dcat_dataset"/>
   <object meta_type="Dexterity FTI" name="dcat_distribution"/>
   <object meta_type="Dexterity FTI" name="dct_licensedocument"/>
+  <object meta_type="Dexterity FTI" name="dct_location"/>
   <object meta_type="Dexterity FTI" name="dct_mediatypeorextent"/>
   <object meta_type="Dexterity FTI" name="foaf_agent"/>
   <object meta_type="Dexterity FTI" name="skos_concept" />
   <object meta_type="Dexterity FTI" name="skos_conceptscheme" />
+
   <!-- DCAT Folders -->
-  <object meta_type="Dexterity FTI" name="LicenseFolder" />
   <object meta_type="Dexterity FTI" name="AgentFolder" />
-  <object meta_type="Dexterity FTI" name="FormatFolder" />
-  <object meta_type="Dexterity FTI" name="MediaTypeFolder" />
-  <object meta_type="Dexterity FTI" name="ConceptSchemeFolder" />
   <object meta_type="Dexterity FTI" name="ConceptFolder" />
+  <object meta_type="Dexterity FTI" name="ConceptSchemeFolder" />
+  <object meta_type="Dexterity FTI" name="FormatFolder" />
+  <object meta_type="Dexterity FTI" name="LicenseFolder" />
+  <object meta_type="Dexterity FTI" name="LocationFolder" />
+  <object meta_type="Dexterity FTI" name="MediaTypeFolder" />
+  <object meta_type="Dexterity FTI" name="StandardsFolder" />
+
   <!-- PKAN Types -->
   <object meta_type="Dexterity FTI" name="harvester"/>
   <object meta_type="Dexterity FTI" name="harvester_field_config"/>

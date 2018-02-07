@@ -11,47 +11,6 @@
   </permission>
 
   <configure zcml:condition="installed AccessControl.security">
-  <!-- -*- extra stuff goes here -*- -->
-
-    <permission
-        id="pkan.dcatapde.AddDCTMediaTypeOrExtent"
-        title="pkan.dcatapde: Add DCTMediaTypeOrExtent"
-        />
-
-    <permission
-        id="pkan.dcatapde.AddSKOSConceptScheme"
-        title="pkan.dcatapde: Add SKOSConceptScheme"
-        />
-
-    <permission
-        id="pkan.dcatapde.AddSKOSConcept"
-        title="pkan.dcatapde: Add SKOSConcept"
-        />
-
-    <permission
-        id="pkan.dcatapde.AddDCTLicenseDocument"
-        title="pkan.dcatapde: Add DCTLicenseDocument"
-        />
-
-    <permission
-        id="pkan.dcatapde.AddHarvesterfolder"
-        title="pkan.dcatapde: Add Harvesterfolder"
-        />
-
-    <permission
-        id="pkan.dcatapde.AddHarvesterFieldConfig"
-        title="pkan.dcatapde: Add HarvesterFieldConfig"
-        />
-
-    <permission
-        id="pkan.dcatapde.AddHarvester"
-        title="pkan.dcatapde: Add Harvester"
-        />
-
-    <permission
-        id="pkan.dcatapde.AddFOAFagent"
-        title="pkan.dcatapde: Add FOAFagent"
-        />
 
     <permission
         id="pkan.dcatapde.AddDCATCatalog"
@@ -67,5 +26,52 @@
         id="pkan.dcatapde.AddDCATDistribution"
         title="pkan.dcatapde: Add DCATDistribution"
         />
+
+    <permission
+        id="pkan.dcatapde.AddDCTLicenseDocument"
+        title="pkan.dcatapde: Add DCTLicenseDocument"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddDCTLocation"
+        title="pkan.dcatapde: Add DCTLocation"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddDCTMediaTypeOrExtent"
+        title="pkan.dcatapde: Add DCTMediaTypeOrExtent"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddFOAFagent"
+        title="pkan.dcatapde: Add FOAFagent"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddSKOSConcept"
+        title="pkan.dcatapde: Add SKOSConcept"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddSKOSConceptScheme"
+        title="pkan.dcatapde: Add SKOSConceptScheme"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddHarvester"
+        title="pkan.dcatapde: Add Harvester"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddHarvesterfolder"
+        title="pkan.dcatapde: Add Harvesterfolder"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddHarvesterFieldConfig"
+        title="pkan.dcatapde: Add HarvesterFieldConfig"
+        />
+
   </configure>
+
 </configure>

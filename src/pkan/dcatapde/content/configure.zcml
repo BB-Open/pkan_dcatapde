@@ -63,6 +63,22 @@
       provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
+
+  <!-- DCTLocation -->
+  <!-- =========== -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".dct_location.IDCTLocation"
+      provides=".base.INameFromDCTTitle"
+      />
+
+  <utility
+      factory=".dct_location.DCTLocationDefaultFactory"
+      name="dct_location"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
   <!-- DCTMediaTypeOrExtent -->
   <!-- ==================== -->
   <adapter

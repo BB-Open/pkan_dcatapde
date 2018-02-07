@@ -51,7 +51,7 @@ class IDCATCatalog(model.Schema):
         RelatedItemsFieldWidget,
         content_type=constants.CT_FOAF_AGENT,
         content_type_title=i18n.LABEL_DCT_PUBLISHER,
-        initial_path='/publisher/',
+        initial_path='/publishers/',
         pattern_options={
             'selectableTypes': [constants.CT_FOAF_AGENT],
         },
