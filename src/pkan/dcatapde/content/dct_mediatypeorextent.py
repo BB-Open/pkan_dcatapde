@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """DCTMediatypeorextent Content Type."""
 
-from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
+from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope import schema
 from zope.interface import implementer
 
@@ -16,19 +17,21 @@ from zope.interface import implementer
 class IDCTMediatypeorextent(model.Schema):
     """Marker interfce and DX Python Schema for DCTMediatypeorextent."""
 
+    # Mandatory
+    # -------------------------------------------------------------------------
     dct_title = I18NTextLine(
         required=True,
-        title=_(u'Title'),
+        title=i18n.LABEL_DCT_TITLE,
     )
 
     dct_description = I18NText(
         required=False,
-        title=_(u'Description'),
+        title=i18n.LABEL_DCT_DESCRIPTION,
     )
 
     rdf_about = schema.URI(
         required=True,
-        title=_(u'Access URI'),
+        title=i18n.LABEL_RDF_ABOUT,
     )
 
 
@@ -36,22 +39,35 @@ class IDCTMediatypeorextent(model.Schema):
 class DCTMediatypeorextent(Item, DCATMixin):
     """DCTMediatypeorextent Content Type."""
 
-    portal_type = 'dct_licensedocument'
+    portal_type = constants.CT_DCT_MEDIATYPEOREXTENT
     _namespace = 'dct'
-    _ns_class = 'licensedocument'
+    _ns_class = 'mediatypeorextent'
+
+    dct_title = I18NTextProperty(IDCTMediatypeorextent['dct_title'])
+    dct_description = I18NTextProperty(
+        IDCTMediatypeorextent['dct_description'],
+    )
+
+    def Title(self):
+        return unicode(self.dct_title)
+
+    def Description(self):
+        return self.dct_description
 
 
 class DCTMediatypeorextentDefaultFactory(DexterityFactory):
     """Custom DX factory for DCTMediatypeorextent."""
 
     def __init__(self):
-        self.portal_type = CT_DCT_MEDIATYPEOREXTENT
+        self.portal_type = constants.CT_DCT_MEDIATYPEOREXTENT
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it
         from pkan.dcatapde.api.dct_mediatypeorextend import \
             clean_dct_mediatypeorextent
         data, errors = clean_dct_mediatypeorextent(**kw)
-        folder = DexterityFactory.__call__(self, *args, **data)
 
-        return folder
+        return super(
+            DCTMediatypeorextentDefaultFactory,
+            self,
+        ).__call__(*args, **data)
