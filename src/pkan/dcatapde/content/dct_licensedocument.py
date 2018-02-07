@@ -57,6 +57,13 @@ class DCTLicenseDocument(Item, DCATMixin):
     def Description(self):
         return self.dct_description
 
+    def title_for_vocabulary(self):
+        """Return a title suitable for vocabulary terms."""
+        return u'{title} ({url})'.format(
+            title=self.Title(),
+            url=self.rdfs_isDefinedBy,
+        )
+
 
 class DCTLicenseDocumentDefaultFactory(DexterityFactory):
     """Custom DX factory for DCTLicenseDocument."""

@@ -59,3 +59,6 @@ class DCATMixin(object):
         surf_class = self._ns_class.lower()
         return getattr(surf.ns, surf_ns)[surf_class]
 
+    def title_for_vocabulary(self):
+        """Return a title suitable for vocabulary terms."""
+        return self.Title()

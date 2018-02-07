@@ -26,15 +26,11 @@ class DCTLicenseDocumentVocabulary(object):
 
         for brain in brains:
             obj = brain.getObject()
-            title = u'{title} ({url})'.format(
-                title=obj.Title(),
-                url=obj.rdfs_isDefinedBy,
-            )
             terms.append(
                 SimpleTerm(
                     value=brain.UID,
                     token=str(brain.UID),
-                    title=title,
+                    title=obj.title_for_vocabulary(),
                 ),
             )
 
