@@ -44,4 +44,9 @@
       name="pkan.dcatapde.vocabularies.DCTLicenseDocument"
       />
 
+  <utility
+      component=".content_types.DCTMediaTypeOrExtentVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent"
+      />
+
 </configure>
