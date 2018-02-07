@@ -1,26 +1,27 @@
 # -*- coding: utf-8 -*-
 """Constants for easier access."""
 
-# content types
+# Content Types
 CT_DCAT_CATALOG = 'dcat_catalog'
-CT_FOAF_AGENT = 'foaf_agent'
-CT_DCT_LICENSEDOCUMENT = 'dct_licensedocument'
-CT_DCT_MEDIATYPEOREXTENT = 'dct_mediatypeorextent'
-CT_DCAT_DISTRIBUTION = 'dcat_distribution'
 CT_DCAT_DATASET = 'dcat_dataset'
-CT_HARVESTER_FOLDER = 'harvesterfolder'
+CT_DCAT_DISTRIBUTION = 'dcat_distribution'
+CT_DCT_LICENSEDOCUMENT = 'dct_licensedocument'
+CT_DCT_LOCATION = 'dct_location'
+CT_DCT_MEDIATYPEOREXTENT = 'dct_mediatypeorextent'
+CT_FOAF_AGENT = 'foaf_agent'
 CT_HARVESTER = 'harvester'
 CT_HARVESTER_FIELD_CONFIG = 'harvester_field_config'
+CT_HARVESTER_FOLDER = 'harvesterfolder'
 CT_SKOS_CONCEPT = 'skos_concept'
 CT_SKOS_CONCEPTSCHEME = 'skos_conceptscheme'
 
-# folder CTs to contain CTs
-CT_LICENSE_FOLDER = 'LicenseFolder'
+# Folder CTs to contain CTs
 CT_AGENT_FOLDER = 'AgentFolder'
-CT_FORMAT_FOLDER = 'FormatFolder'
-CT_MEDIATYPE_FOLDER = 'MediaTypeFolder'
-CT_CONCEPTSCHEME_FOLDER = 'ConceptSchemeFolder'
 CT_CONCEPT_FOLDER = 'ConceptFolder'
+CT_CONCEPTSCHEME_FOLDER = 'ConceptSchemeFolder'
+CT_FORMAT_FOLDER = 'FormatFolder'
+CT_LICENSE_FOLDER = 'LicenseFolder'
+CT_MEDIATYPE_FOLDER = 'MediaTypeFolder'
 
 # list of DCAT CTs
 DCAT_CTs = [

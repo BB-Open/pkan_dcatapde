@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Catalog Content Type."""
+"""DCATCatalog Content Type."""
 
-from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
-from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
-from pkan.dcatapde.constants import CT_FOAF_AGENT
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.widgets.relateditems import RelatedItemsFieldWidget
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
@@ -14,6 +12,8 @@ from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
+from ps.zope.i18nfield.fieldproperty import I18NFieldProperty
+from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from z3c.relationfield import RelationChoice
 from zope.interface import implementer
 
@@ -21,138 +21,13 @@ import zope.schema as schema
 
 
 class IDCATCatalog(model.Schema):
-    """Marker interfce and Dexterity Python Schema for Catalog."""
+    """Marker interfce and Dexterity Python Schema for DCATCatalog."""
 
-    # Mandatory
-    # ------------------------------
-    dct_title = I18NTextLine(
-        required=True,
-        title=_(u'Title'),
-    )
-
-    dct_description = I18NText(
-        required=True,
-        title=_(u'Description'),
-    )
-
-    form.widget(
-        'dct_publisher',
-        RelatedItemsFieldWidget,
-        content_type=CT_FOAF_AGENT,
-        content_type_title=_(u'Publisher'),
-        initial_path='/publisher/',
-        pattern_options={
-            'selectableTypes': [CT_FOAF_AGENT],
-        },
-    )
-
-    dct_publisher = RelationChoice(
-        description=_(
-            u'Add a new publisher or chose one from the list of publishers',
-        ),
-        required=True,
-        title=_(u'Publisher'),
-        vocabulary='plone.app.vocabularies.Catalog',
-    )
-
-    # Recommended
-    # ------------------------------
-    form.widget(
-        'dct_license',
-        RelatedItemsFieldWidget,
-        content_type=CT_DCT_LICENSEDOCUMENT,
-        content_type_title=_(u'License'),
-        initial_path='/licenses/',
-        pattern_options={
-            'selectableTypes': [CT_DCT_LICENSEDOCUMENT],
-        },
-    )
-
-    dct_license = RelationChoice(
-        description=_(
-            u'Add a new license or chose one from the list of licenses',
-        ),
-        required=False,
-        title=_(u'License'),
-        vocabulary='plone.app.vocabularies.Catalog',
-    )
-
-    foaf_homepage = schema.URI(
-        required=False,
-        title=(u'Homepage'),
-    )
-
-    form.widget(
-        'dct_language',
-        AjaxSelectFieldWidget,
-        vocabulary='plone.app.vocabularies.AvailableContentLanguages',
-    )
-
-    dct_language = schema.List(
-        title=_(u'Languages'),
-        value_type=schema.Choice(
-            vocabulary='plone.app.vocabularies.AvailableContentLanguages',
-        ),
-        required=False,
-    )
-
-    form.widget(
-        'dcat_themeTaxonomy',
-        RelatedItemsFieldWidget,
-        content_type='dct_licensedocument',
-        content_type_title=_(u'Theme Taxonomy'),
-        initial_path='/licenses/',
-        pattern_options={
-            'selectableTypes': ['dct_licensedocument'],
-        },
-    )
-
-    dcat_themeTaxonomy = RelationChoice(
-        description=_(
-            u'Add a new Theme Taxonomy or chose one from the list',
-        ),
-        required=False,
-        title=_(u'Theme Taxonomy'),
-        vocabulary='plone.app.vocabularies.Catalog',
-    )
-
-    # Optional
-    # -----------------------------------------------------
-
-    form.widget(
-        'dct_rights',
-        RelatedItemsFieldWidget,
-        content_type='dct_licensedocument',
-        content_type_title=_(u'Rights'),
-        initial_path='/licenses/',
-        pattern_options={
-            'selectableTypes': ['dct_licensedocument'],
-        },
-    )
-
-    dct_rights = RelationChoice(
-        description=_(
-            u'Add a new rights statement or chose one from the list of '
-            u'statements',
-        ),
-        required=False,
-        title=_(u'Rights'),
-        vocabulary='plone.app.vocabularies.Catalog',
-    )
-
-    dct_issued = schema.Date(
-        required=False,
-        title=(u'Issued'),
-    )
-
-    dct_modified = schema.Date(
-        required=False,
-        title=(u'Modified'),
-    )
-
+    # Fieldsets
+    # -------------------------------------------------------------------------
     model.fieldset(
         'linking',
-        label=_(u'Relations'),
+        label=i18n.FIELDSET_RELATIONS,
         fields=[
             'dct_hasPart',
             'dct_isPartOf',
@@ -160,85 +35,199 @@ class IDCATCatalog(model.Schema):
         ],
     )
 
+    # Mandatory
+    # -------------------------------------------------------------------------
+    dct_title = I18NTextLine(
+        required=True,
+        title=i18n.LABEL_DCT_TITLE,
+    )
+
+    dct_description = I18NText(
+        required=True,
+        title=i18n.LABEL_DCT_DESCRIPTION,
+    )
+
+    form.widget(
+        'dct_publisher',
+        RelatedItemsFieldWidget,
+        content_type=constants.CT_FOAF_AGENT,
+        content_type_title=i18n.LABEL_DCT_PUBLISHER,
+        initial_path='/publisher/',
+        pattern_options={
+            'selectableTypes': [constants.CT_FOAF_AGENT],
+        },
+    )
+    dct_publisher = RelationChoice(
+        description=i18n.HELP_DCT_PUBLISHER,
+        required=True,
+        title=i18n.LABEL_DCT_PUBLISHER,
+        vocabulary='plone.app.vocabularies.Catalog',
+    )
+
+    # Recommended
+    # -------------------------------------------------------------------------
+    form.widget(
+        'dct_license',
+        RelatedItemsFieldWidget,
+        content_type=constants.CT_DCT_LICENSEDOCUMENT,
+        content_type_title=i18n.LABEL_DCT_LICENSE,
+        initial_path='/licenses/',
+        pattern_options={
+            'selectableTypes': [constants.CT_DCT_LICENSEDOCUMENT],
+        },
+    )
+    dct_license = RelationChoice(
+        description=i18n.HELP_DCT_LICENSE,
+        required=False,
+        title=i18n.LABEL_DCT_LICENSE,
+        vocabulary='plone.app.vocabularies.Catalog',
+    )
+
+    foaf_homepage = schema.URI(
+        required=False,
+        title=i18n.LABEL_FOAF_HOMEPAGE,
+    )
+
+    form.widget(
+        'dct_language',
+        AjaxSelectFieldWidget,
+        vocabulary='plone.app.vocabularies.AvailableContentLanguages',
+    )
+    dct_language = schema.List(
+        required=False,
+        title=i18n.LABEL_DCT_LANGUAGE,
+        value_type=schema.Choice(
+            vocabulary='plone.app.vocabularies.AvailableContentLanguages',
+        ),
+    )
+
+    form.widget(
+        'dcat_themeTaxonomy',
+        RelatedItemsFieldWidget,
+        content_type=constants.CT_DCT_LICENSEDOCUMENT,
+        content_type_title=i18n.LABEL_DCT_THEMETAXONOMY,
+        initial_path='/licenses/',
+        pattern_options={
+            'selectableTypes': [constants.CT_DCT_LICENSEDOCUMENT],
+        },
+    )
+    dcat_themeTaxonomy = RelationChoice(
+        description=i18n.HELP_DCT_THEMETAXONOMY,
+        required=False,
+        title=i18n.LABEL_DCT_THEMETAXONOMY,
+        vocabulary='plone.app.vocabularies.Catalog',
+    )
+
+    # Optional
+    # -------------------------------------------------------------------------
+    form.widget(
+        'dct_rights',
+        RelatedItemsFieldWidget,
+        content_type=constants.CT_DCT_LICENSEDOCUMENT,
+        content_type_title=i18n.LABEL_DCT_RIGHTS,
+        initial_path='/licenses/',
+        pattern_options={
+            'selectableTypes': [constants.CT_DCT_LICENSEDOCUMENT],
+        },
+    )
+    dct_rights = RelationChoice(
+        description=i18n.HELP_DCT_RIGHTS,
+        required=False,
+        title=i18n.LABEL_DCT_RIGHTS,
+        vocabulary='plone.app.vocabularies.Catalog',
+    )
+
+    dct_issued = schema.Date(
+        required=False,
+        title=i18n.LABEL_DCT_ISSUED,
+    )
+
+    dct_modified = schema.Date(
+        required=False,
+        title=i18n.LABEL_DCT_MODIFIED,
+    )
+
     form.widget(
         'dct_hasPart',
         RelatedItemsFieldWidget,
-        content_type='catalog',
-        content_type_title=_(u'Parts'),
+        content_type=constants.CT_DCAT_CATALOG,
+        content_type_title=i18n.LABEL_DCT_HASPART,
         initial_path='/',
         pattern_options={
-            'selectableTypes': ['catalog'],
+            'selectableTypes': [constants.CT_DCAT_CATALOG],
         },
     )
-
     dct_hasPart = RelationChoice(
-        title=_(u'Parts'),
-        description=_(
-            u'Add a new Catalog or link to an existing',
-        ),
+        description=i18n.HELP_DCT_HASPART,
         required=False,
+        title=i18n.LABEL_DCT_HASPART,
         vocabulary='plone.app.vocabularies.Catalog',
     )
 
     form.widget(
         'dct_isPartOf',
         RelatedItemsFieldWidget,
-        content_type='catalog',
-        content_type_title=_(u'Parent Catalog'),
+        content_type=constants.CT_DCAT_CATALOG,
+        content_type_title=i18n.LABEL_DCT_ISPARTOF,
         initial_path='/',
         pattern_options={
-            'selectableTypes': ['catalog'],
+            'selectableTypes': [constants.CT_DCAT_CATALOG],
         },
     )
-
     dct_isPartOf = RelationChoice(
-        description=_(
-            u'Add a new Parent Catalog or link to an existing',
-        ),
+        description=i18n.HELP_DCT_ISPARTOF,
         required=False,
-        title=_(u'Parent Catalog'),
+        title=i18n.LABEL_DCT_ISPARTOF,
         vocabulary='plone.app.vocabularies.Catalog',
     )
 
     form.widget(
         'dct_spatial',
         RelatedItemsFieldWidget,
-        content_type='dct_location',
-        content_type_title=_(u'Spatial relevance'),
+        content_type=constants.CT_DCT_LOCATION,
+        content_type_title=i18n.LABEL_DCT_SPATIAL,
         initial_path='/locations/',
         pattern_options={
-            'selectableTypes': ['dct_location'],
+            'selectableTypes': [constants.CT_DCT_LOCATION],
         },
     )
-
     dct_spatial = RelationChoice(
-        description=_(
-            u'Add a new Location or link to an existing',
-        ),
+        description=i18n.HELP_DCT_SPATIAL,
         required=False,
-        title=_(u'Spatial relevance'),
+        title=i18n.LABEL_DCT_SPATIAL,
         vocabulary='plone.app.vocabularies.Catalog',
     )
 
 
 @implementer(IDCATCatalog)
 class DCATCatalog(Container, DCATMixin):
-    """Catalog Content Type."""
+    """DCATCatalog Content Type."""
 
     _namespace = 'dcat'
     _ns_class = 'catalog'
 
+    dct_title = I18NFieldProperty(IDCATCatalog['dct_title'])
+    dct_description = I18NTextProperty(IDCATCatalog['dct_description'])
+
+    def Title(self):
+        return unicode(self.dct_title)
+
+    def Description(self):
+        return self.dct_description
+
 
 class DCATCatalogDefaultFactory(DexterityFactory):
-    """Custom DX factory for Catalog."""
+    """Custom DX factory for DCATCatalog."""
 
     def __init__(self):
-        self.portal_type = CT_DCAT_CATALOG
+        self.portal_type = constants.CT_DCAT_CATALOG
 
     def __call__(self, *args, **kw):
         from pkan.dcatapde.api.catalog import clean_catalog
 
         data, errors = clean_catalog(**kw)
-        folder = DexterityFactory.__call__(self, *args, **data)
 
-        return folder
+        return super(
+            DCATCatalogDefaultFactory,
+            self,
+        ).__call__(*args, **data)
