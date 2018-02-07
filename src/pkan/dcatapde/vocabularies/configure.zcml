@@ -28,6 +28,11 @@
       />
 
   <utility
+      component=".content_types.DCATDatasetVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCATDatasets"
+      />
+
+  <utility
       component=".content_types.DCTLicenseDocumentVocabularyFactory"
       name="pkan.dcatapde.vocabularies.DCTLicenseDocuments"
       />

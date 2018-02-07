@@ -53,6 +53,16 @@ DCATCatalogVocabularyFactory = DCATCatalogVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class DCATDatasetVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning DCATDataset items."""
+
+    portal_type = constants.CT_DCAT_DATASET
+
+
+DCATDatasetVocabularyFactory = DCATDatasetVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class DCTLicenseDocumentVocabulary(BaseContentTypeVocabulary):
     """A vocabulary returning DCTLicenseDocument items."""
 
