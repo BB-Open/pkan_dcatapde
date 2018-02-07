@@ -2,21 +2,6 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="pkan.dcatapde">
 
-    <utility
-        component=".harvesting_vocabulary.HarvestingVocabularyFactory"
-        name="pkan.dcatapde.HarvestingVocabulary"
-        />
-
-    <utility
-        component=".data_type_vocabulary.DataTypeVocabularyFactory"
-        name="pkan.dcatapde.DataTypeVocabulary"
-        />
-
-    <utility
-        component=".source_type_vocabulary.SourceTypeVocabularyFactory"
-        name="pkan.dcatapde.SourceTypeVocabulary"
-        />
-
   <!-- Content Type Vocabularies. -->
   <!-- ========================== -->
   <utility
@@ -58,5 +43,24 @@
       component=".content_types.SKOSConceptSchemeVocabularyFactory"
       name="pkan.dcatapde.vocabularies.SKOSConceptScheme"
       />
+
+
+  <!-- Harvesting Vocabularies. -->
+  <!-- ======================== -->
+  <utility
+      component=".harvesting_vocabulary.HarvestingVocabularyFactory"
+      name="pkan.dcatapde.HarvestingVocabulary"
+      />
+
+  <utility
+      component=".data_type_vocabulary.DataTypeVocabularyFactory"
+      name="pkan.dcatapde.DataTypeVocabulary"
+      />
+
+  <utility
+      component=".source_type_vocabulary.SourceTypeVocabularyFactory"
+      name="pkan.dcatapde.SourceTypeVocabulary"
+      />
+
 
 </configure>
