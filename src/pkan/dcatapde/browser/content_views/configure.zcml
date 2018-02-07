@@ -26,4 +26,12 @@
     template="templates/dry_run.pt"
     permission="cmf.ManagePortal"
     />
+
+  <browser:page
+    for="pkan.dcatapde.content.harvesterfolder.IHarvesterfolder"
+    name="view"
+    class=".harvester.HarvesterOverview"
+    template="templates/harvester.pt"
+    permission="cmf.ManagePortal"
+    />
 </configure>
