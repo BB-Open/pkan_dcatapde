@@ -22,24 +22,26 @@
         name="pkan.dcatapde.SourceTypeVocabulary"
         />
 
+  <!-- Content Type Vocabularies. -->
+  <!-- ========================== -->
   <utility
       component=".content_types.DCATCatalogVocabularyFactory"
-      name="pkan.dcatapde.vocabularies.DCATCatalogs"
+      name="pkan.dcatapde.vocabularies.DCATCatalog"
       />
 
   <utility
       component=".content_types.DCATDatasetVocabularyFactory"
-      name="pkan.dcatapde.vocabularies.DCATDatasets"
+      name="pkan.dcatapde.vocabularies.DCATDataset"
       />
 
   <utility
       component=".content_types.DCATDistributionVocabularyFactory"
-      name="pkan.dcatapde.vocabularies.DCATDistributions"
+      name="pkan.dcatapde.vocabularies.DCATDistribution"
       />
 
   <utility
       component=".content_types.DCTLicenseDocumentVocabularyFactory"
-      name="pkan.dcatapde.vocabularies.DCTLicenseDocuments"
+      name="pkan.dcatapde.vocabularies.DCTLicenseDocument"
       />
 
 </configure>

@@ -37,7 +37,7 @@ class TestDCATCatalogVocabulary(unittest.TestCase):
 
     def test_vocabulary(self):
         """Validate the vocabulary."""
-        vocab_name = 'pkan.dcatapde.vocabularies.DCATCatalogs'
+        vocab_name = 'pkan.dcatapde.vocabularies.DCATCatalog'
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
@@ -79,7 +79,7 @@ class TestDCATDatasetVocabulary(unittest.TestCase):
 
     def test_vocabulary(self):
         """Validate the vocabulary."""
-        vocab_name = 'pkan.dcatapde.vocabularies.DCATDatasets'
+        vocab_name = 'pkan.dcatapde.vocabularies.DCATDataset'
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
@@ -121,7 +121,7 @@ class TestDCATDistributionVocabulary(unittest.TestCase):
 
     def test_vocabulary(self):
         """Validate the vocabulary."""
-        vocab_name = 'pkan.dcatapde.vocabularies.DCATDistributions'
+        vocab_name = 'pkan.dcatapde.vocabularies.DCATDistribution'
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
@@ -165,7 +165,7 @@ class TestDCTLicenseDocumentVocabulary(unittest.TestCase):
 
     def test_vocabulary(self):
         """Validate the vocabulary."""
-        vocab_name = 'pkan.dcatapde.vocabularies.DCTLicenseDocuments'
+        vocab_name = 'pkan.dcatapde.vocabularies.DCTLicenseDocument'
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
