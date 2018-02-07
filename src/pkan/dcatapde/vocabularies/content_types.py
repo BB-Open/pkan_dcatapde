@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Vocabularies and sources for license documents."""
+"""Vocabularies and sources for content types."""
 
-from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
+from pkan.dcatapde import constants
 from pkan.dcatapde.vocabularies import utils
 from plone import api
 from zope.interface import implementer
@@ -10,13 +10,14 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
-@implementer(IVocabularyFactory)
-class DCTLicenseDocumentVocabulary(object):
-    """A vocabulary returning DCTLicenseDocuments."""
+class BaseContentTypeVocabulary(object):
+    """A vocabulary returning a list of objects from a content type."""
 
-    def licenses(self, query):
+    portal_type = None
+
+    def get_results(self, query):
         params = {
-            'portal_type': CT_DCT_LICENSEDOCUMENT,
+            'portal_type': self.portal_type,
         }
         query.update(params)
 
@@ -38,7 +39,14 @@ class DCTLicenseDocumentVocabulary(object):
 
     def __call__(self, context, query=None):
         query = utils.parse_query(context=context, query=query)
-        return self.licenses(query=query)
+        return self.get_results(query=query)
+
+
+@implementer(IVocabularyFactory)
+class DCTLicenseDocumentVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning DCTLicenseDocuments."""
+
+    portal_type = constants.CT_DCT_LICENSEDOCUMENT
 
 
 DCTLicenseDocumentVocabularyFactory = DCTLicenseDocumentVocabulary()
