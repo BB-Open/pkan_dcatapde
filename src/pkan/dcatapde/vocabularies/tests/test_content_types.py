@@ -271,3 +271,45 @@ class TestFOAFAgentVocabulary(unittest.TestCase):
             vocabulary.getTerm(self.item2.UID()).title,
             self.item2.Title(),
         )
+
+
+class TestSKOSConceptVocabulary(unittest.TestCase):
+    """Validate the `SKOSConcept` vocabulary."""
+
+    layer = testing.INTEGRATION_TESTING
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.item1 = api.content.create(
+            container=self.portal.get(constants.FOLDER_CONCEPTS),
+            type=constants.CT_SKOS_CONCEPT,
+            id='concept-1',
+            dct_title={u'en': u'Concept 1'},
+        )
+        self.item2 = api.content.create(
+            container=self.portal.get(constants.FOLDER_CONCEPTS),
+            type=constants.CT_SKOS_CONCEPT,
+            id='concept-2',
+            dct_title={u'en': u'Concept 2'},
+        )
+
+    def test_vocabulary(self):
+        """Validate the vocabulary."""
+        vocab_name = 'pkan.dcatapde.vocabularies.SKOSConcept'
+        factory = getUtility(IVocabularyFactory, vocab_name)
+        self.assertTrue(IVocabularyFactory.providedBy(factory))
+
+        vocabulary = factory(self.portal)
+        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
+
+        self.assertEqual(len(vocabulary), 2)
+        self.assertEqual(
+            vocabulary.getTerm(self.item1.UID()).title,
+            self.item1.Title(),
+        )
+        self.assertEqual(
+            vocabulary.getTerm(self.item2.UID()).title,
+            self.item2.Title(),
+        )

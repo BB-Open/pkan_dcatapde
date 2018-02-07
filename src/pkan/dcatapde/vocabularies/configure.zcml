@@ -49,4 +49,9 @@
       name="pkan.dcatapde.vocabularies.FOAFAgent"
       />
 
+  <utility
+      component=".content_types.SKOSConceptVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.SKOSConcept"
+      />
+
 </configure>

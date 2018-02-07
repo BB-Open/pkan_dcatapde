@@ -100,3 +100,13 @@ class FOAFAgentVocabulary(BaseContentTypeVocabulary):
 
 
 FOAFAgentVocabularyFactory = FOAFAgentVocabulary()
+
+
+@implementer(IVocabularyFactory)
+class SKOSConceptVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning SKOSConcept items."""
+
+    portal_type = constants.CT_SKOS_CONCEPT
+
+
+SKOSConceptVocabularyFactory = SKOSConceptVocabulary()
