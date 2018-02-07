@@ -4,77 +4,58 @@
   xmlns:plone="http://namespaces.plone.org/plone"
   i18n_domain="pkan.dcatapde">
 
+  <!-- DCATCatalog -->
+  <!-- =========== -->
   <adapter
-    factory=".base.NameFromDCTTitle"
-    for=".dcat_catalog.IDCATCatalog"
-    provides=".base.INameFromDCTTitle"
-  />
-
-  <adapter
-    factory=".base.NameFromDCTTitle"
-    for=".dcat_dataset.IDCATDataset"
-    provides=".base.INameFromDCTTitle"
-  />
-
-  <adapter
-    factory=".base.NameFromDCTTitle"
-    for=".dcat_distribution.IDCATDistribution"
-    provides=".base.INameFromDCTTitle"
-  />
-
-  <adapter
-    factory=".base.NameFromDCTTitle"
-    for=".foaf_agent.IFOAFagent"
-    provides=".base.INameFromDCTTitle"
-  />
-
-  <adapter
-    factory=".base.NameFromDCTTitle"
-    for=".dct_licensedocument.IDCTLicenseDocument"
-    provides=".base.INameFromDCTTitle"
-  />
-
-  <adapter
-    factory=".base.NameFromDCTTitle"
-    for=".dct_mediatypeorextent.IDCTMediaTypeOrExtent"
-    provides=".base.INameFromDCTTitle"
-  />
-
-  <adapter
-    factory=".base.NameFromDCTTitle"
-    for=".skos_concept.ISKOSConcept"
-    provides=".base.INameFromDCTTitle"
-  />
-
-  <adapter
-    factory=".base.NameFromDCTTitle"
-    for=".skos_conceptscheme.ISKOSConceptScheme"
-    provides=".base.INameFromDCTTitle"
-  />
+      factory=".base.NameFromDCTTitle"
+      for=".dcat_catalog.IDCATCatalog"
+      provides=".base.INameFromDCTTitle"
+      />
 
   <utility
-    factory=".dcat_catalog.DCATCatalogDefaultFactory"
-    name="dcat_catalog"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+      factory=".dcat_catalog.DCATCatalogDefaultFactory"
+      name="dcat_catalog"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
+  <!-- DCATDataset -->
+  <!-- =========== -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".dcat_dataset.IDCATDataset"
+      provides=".base.INameFromDCTTitle"
+      />
 
   <utility
-    factory=".dcat_dataset.DCATDatasetDefaultFactory"
-    name="dcat_dataset"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+      factory=".dcat_dataset.DCATDatasetDefaultFactory"
+      name="dcat_dataset"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
+  <!-- DCATDistribution -->
+  <!-- ================ -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".dcat_distribution.IDCATDistribution"
+      provides=".base.INameFromDCTTitle"
+      />
 
   <utility
-    factory=".dcat_distribution.DCATDistributionDefaultFactory"
-    name="dcat_distribution"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+      factory=".dcat_distribution.DCATDistributionDefaultFactory"
+      name="dcat_distribution"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
 
-  <utility
-    factory=".foaf_agent.FOAFAgentDefaultFactory"
-    name="foaf_agent"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+
+  <!-- DCTLicenseDocument -->
+  <!-- ================== -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".dct_licensedocument.IDCTLicenseDocument"
+      provides=".base.INameFromDCTTitle"
+      />
 
   <utility
       factory=".dct_licensedocument.DCTLicenseDocumentDefaultFactory"
@@ -82,35 +63,84 @@
       provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
-  <utility
-    factory=".harvester.HarvesterDefaultFactory"
-    name="harvester"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+  <!-- DCTMediaTypeOrExtent -->
+  <!-- ==================== -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".dct_mediatypeorextent.IDCTMediaTypeOrExtent"
+      provides=".base.INameFromDCTTitle"
+      />
+
+
+  <!-- FOAFagent -->
+  <!-- ========= -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".foaf_agent.IFOAFagent"
+      provides=".base.INameFromDCTTitle"
+      />
 
   <utility
-    factory=".harvester_field_config.FieldConfigDefaultFactory"
-    name="harvester_field_config"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+      factory=".foaf_agent.FOAFAgentDefaultFactory"
+      name="foaf_agent"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
+  <!-- SKOSConcept -->
+  <!-- =========== -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".skos_concept.ISKOSConcept"
+      provides=".base.INameFromDCTTitle"
+      />
 
   <utility
-    factory=".harvesterfolder.HarvesterFolderDefaultFactory"
-    name="harvesterfolder"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+      factory=".skos_concept.SKOSConceptDefaultFactory"
+      name="skos_concept"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
+  <!-- SKOSConceptScheme -->
+  <!-- ================= -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".skos_conceptscheme.ISKOSConceptScheme"
+      provides=".base.INameFromDCTTitle"
+      />
 
   <utility
-    factory=".skos_concept.SKOSConceptDefaultFactory"
-    name="skos_concept"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+      factory=".skos_conceptscheme.SKOSConceptSchemeDefaultFactory"
+      name="skos_conceptscheme"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
 
+
+  <!-- Harvester -->
+  <!-- ========= -->
   <utility
-    factory=".skos_conceptscheme.SKOSConceptSchemeDefaultFactory"
-    name="skos_conceptscheme"
-    provides="plone.dexterity.interfaces.IDexterityFactory"
-  />
+      factory=".harvester.HarvesterDefaultFactory"
+      name="harvester"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
 
+
+  <!-- HarvesterFolder -->
+  <!-- =============== -->
+  <utility
+      factory=".harvesterfolder.HarvesterFolderDefaultFactory"
+      name="harvesterfolder"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
+  <!-- HarvesterFieldConfig -->
+  <!-- ==================== -->
+  <utility
+      factory=".harvester_field_config.FieldConfigDefaultFactory"
+      name="harvester_field_config"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
 
 </configure>
