@@ -10,6 +10,10 @@ FIELDSET_DETAILS = _(u'Dates, Geo, etc')
 FIELDSET_RELATIONS = _(u'Relations')
 
 
+HELP_DACT_MEDIATYPE = _(
+    u'Select a media type from the list of available media types or create '
+    u'a new one by using the \'add\' button below.',
+)
 HELP_DACTDE_MAINTAINER = _(
     u'Select a maintainer from the list of available maintainers or create '
     u'a new one by using the \'add\' button below.',
@@ -18,12 +22,20 @@ HELP_DACTDE_ORIGINATOR = _(
     u'Select an originator from the list of available originators or create '
     u'a new one by using the \'add\' button below.',
 )
+HELP_DCT_CONFORMSTO = _(
+    u'Select a standard from the list of available standards or create '
+    u'a new one by using the \'add\' button below.',
+)
 HELP_DCT_CONTRIBUTOR = _(
     u'Select a contributor from the list of available contributors or create '
     u'a new one by using the \'add\' button below.',
 )
 HELP_DCT_CREATOR = _(
     u'Select a creator from the list of available creators or create '
+    u'a new one by using the \'add\' button below.',
+)
+HELP_DCT_FORMAT = _(
+    u'Select a format from the list of available formats or create '
     u'a new one by using the \'add\' button below.',
 )
 HELP_DCT_HASPART = _(
@@ -95,16 +107,24 @@ HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
 
 
 LABEL_ADMS_VERSIONNOTES = _(u'Version Notes')
+LABEL_DCAT_ACCESSURL = _(u'Access URL')
+LABEL_DCAT_BYTESIZE = _(u'Byte size')
+LABEL_DCAT_DOWNLOADURL = _(u'Download URL')
+LABEL_DCAT_MEDIATYPE = _(u'Media type')
 LABEL_DCATDE_CONTRIBUTORID = _(u'Contributor ID')
 LABEL_DCATDE_GEOCODINGTEXT = _(u'Geocoding text')
 LABEL_DCATDE_LEGALBASISTEXT = _(u'Legal basis text')
+LABEL_DCATDE_LICENSEATTRIBUTIONBYTEXT = _(u'Licence attribution by text')
 LABEL_DCATDE_MAINTAINER = _(u'Maintainer')
+LABEL_DCATDE_PLANNED_AVAILABLITY = _(u'Planed availability')
 LABEL_DCATDE_POLITICALGEOCODINGLEVELURI = _(u'PoliticalGeocodingLevelURI')
 LABEL_DCATDE_POLITICALGEOCODINGURI = _(u'PoliticalGeocodingURI')
 LABEL_DCATDE_ORIGINATOR = _(u'Originator')
+LABEL_DCT_CONFORMSTO = _(u'Standards')
 LABEL_DCT_CONTRIBUTOR = _(u'Contributor')
 LABEL_DCT_CREATOR = _(u'Creator')
 LABEL_DCT_DESCRIPTION = _(u'Description')
+LABEL_DCT_FORMAT = _(u'Format')
 LABEL_DCT_HASPART = _(u'Parts')
 LABEL_DCT_IDENTIFIER = _(u'Identifier')
 LABEL_DCT_ISPARTOF = _(u'Parent Catalog')
