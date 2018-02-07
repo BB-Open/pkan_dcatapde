@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de Catalog entity marshaller"""
 
-from pkan.dcatapde.content.dct_mediatypeorextent import IDCTMediatypeorextent
+from pkan.dcatapde.content.dct_mediatypeorextent import IDCTMediaTypeOrExtent
 # from pkan.dcatapde.content.foafagent import IFOAFagent
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
@@ -12,8 +12,8 @@ from zope.interface import implementer
 
 
 @implementer(IMarshallSource)
-@adapter(IDCTMediatypeorextent, IRDFMarshallTarget)
-class DCTMediatypeorextent2RDF(DCAT2RDF):
+@adapter(IDCTMediaTypeOrExtent, IRDFMarshallTarget)
+class DCTMediaTypeOrExtent2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de FOAFAgents."""
 
     _blacklist = ['rdf_about']
@@ -24,5 +24,5 @@ class DCTMediatypeorextent2RDF(DCAT2RDF):
 
         :return:
         """
-        related = super(DCTMediatypeorextent2RDF, self).referenced
+        related = super(DCTMediaTypeOrExtent2RDF, self).referenced
         return related

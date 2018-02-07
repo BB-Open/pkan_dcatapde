@@ -25,11 +25,11 @@
   <property name="global_allow">True</property>
 
   <!-- Schema, class and security -->
-  <property name="add_permission">pkan.dcatapde.AddDCTMediatypeorextent</property>
-  <property name="klass">pkan.dcatapde.content.dct_mediatypeorextent.DCTMediatypeorextent</property>
+  <property name="add_permission">pkan.dcatapde.AddDCTMediaTypeOrExtent</property>
+  <property name="klass">pkan.dcatapde.content.dct_mediatypeorextent.DCTMediaTypeOrExtent</property>
   <property name="model_file"></property>
   <property name="model_source"></property>
-  <property name="schema">pkan.dcatapde.content.dct_mediatypeorextent.IDCTMediatypeorextent</property>
+  <property name="schema">pkan.dcatapde.content.dct_mediatypeorextent.IDCTMediaTypeOrExtent</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">

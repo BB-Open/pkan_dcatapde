@@ -2,8 +2,8 @@
 """Work with dct_mediatypeorextent."""
 
 from pkan.dcatapde.constants import CT_DCAT_MEDIATYPEOREXTEND
-from pkan.dcatapde.content.dct_mediatypeorextent import DCTMediatypeorextent
-from pkan.dcatapde.content.dct_mediatypeorextent import IDCTMediatypeorextent
+from pkan.dcatapde.content.dct_mediatypeorextent import DCTMediaTypeOrExtent
+from pkan.dcatapde.content.dct_mediatypeorextent import IDCTMediaTypeOrExtent
 from plone.api.content import create
 from zope.schema import getValidationErrors
 
@@ -11,7 +11,7 @@ from zope.schema import getValidationErrors
 # Data Cleaning Methods
 def clean_dct_mediatypeorextent(**data):
     """Clean dct_mediatypeorextent."""
-    test_obj = DCTMediatypeorextent()
+    test_obj = DCTMediaTypeOrExtent()
 
     # test object must have an id
     test_obj.id = 'test'
@@ -20,7 +20,7 @@ def clean_dct_mediatypeorextent(**data):
     for attr in data:
         setattr(test_obj, attr, data[attr])
 
-    errors = getValidationErrors(IDCTMediatypeorextent, test_obj)
+    errors = getValidationErrors(IDCTMediaTypeOrExtent, test_obj)
 
     return data, errors
 

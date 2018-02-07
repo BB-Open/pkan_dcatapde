@@ -14,8 +14,8 @@
   <!-- -*- extra stuff goes here -*- -->
 
     <permission
-        id="pkan.dcatapde.AddDCTMediatypeorextent"
-        title="pkan.dcatapde: Add DCTMediatypeorextent"
+        id="pkan.dcatapde.AddDCTMediaTypeOrExtent"
+        title="pkan.dcatapde: Add DCTMediaTypeOrExtent"
         />
 
     <permission

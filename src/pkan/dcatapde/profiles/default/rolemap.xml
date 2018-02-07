@@ -17,7 +17,7 @@
       <role name="Contributor"/>
     </permission>
 
-    <permission name="pkan.dcatapde: Add DCTMediatypeorextent" acquire="True">
+    <permission name="pkan.dcatapde: Add DCTMediaTypeOrExtent" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>

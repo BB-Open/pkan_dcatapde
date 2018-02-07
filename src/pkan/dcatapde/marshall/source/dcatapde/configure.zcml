@@ -36,8 +36,8 @@
   />
 
   <adapter
-    factory=".dct_mediatypeorextent.DCTMediatypeorextent2RDF"
-    for="pkan.dcatapde.content.dct_mediatypeorextent.IDCTMediatypeorextent
+    factory=".dct_mediatypeorextent.DCTMediaTypeOrExtent2RDF"
+    for="pkan.dcatapde.content.dct_mediatypeorextent.IDCTMediaTypeOrExtent
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
     provides="..interfaces.IDX2RDF"
   />

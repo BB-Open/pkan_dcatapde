@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""DCTMediatypeorextent Content Type."""
+"""DCTMediaTypeOrExtent Content Type."""
 
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
@@ -14,8 +14,8 @@ from zope import schema
 from zope.interface import implementer
 
 
-class IDCTMediatypeorextent(model.Schema):
-    """Marker interfce and DX Python Schema for DCTMediatypeorextent."""
+class IDCTMediaTypeOrExtent(model.Schema):
+    """Marker interfce and DX Python Schema for DCTMediaTypeOrExtent."""
 
     # Mandatory
     # -------------------------------------------------------------------------
@@ -35,17 +35,17 @@ class IDCTMediatypeorextent(model.Schema):
     )
 
 
-@implementer(IDCTMediatypeorextent)
-class DCTMediatypeorextent(Item, DCATMixin):
+@implementer(IDCTMediaTypeOrExtent)
+class DCTMediaTypeOrExtent(Item, DCATMixin):
     """DCTMediatypeorextent Content Type."""
 
     portal_type = constants.CT_DCT_MEDIATYPEOREXTENT
     _namespace = 'dct'
     _ns_class = 'mediatypeorextent'
 
-    dct_title = I18NTextProperty(IDCTMediatypeorextent['dct_title'])
+    dct_title = I18NTextProperty(IDCTMediaTypeOrExtent['dct_title'])
     dct_description = I18NTextProperty(
-        IDCTMediatypeorextent['dct_description'],
+        IDCTMediaTypeOrExtent['dct_description'],
     )
 
     def Title(self):
@@ -55,8 +55,8 @@ class DCTMediatypeorextent(Item, DCATMixin):
         return self.dct_description
 
 
-class DCTMediatypeorextentDefaultFactory(DexterityFactory):
-    """Custom DX factory for DCTMediatypeorextent."""
+class DCTMediaTypeOrExtentDefaultFactory(DexterityFactory):
+    """Custom DX factory for DCTMediaTypeOrExtent."""
 
     def __init__(self):
         self.portal_type = constants.CT_DCT_MEDIATYPEOREXTENT
@@ -68,6 +68,6 @@ class DCTMediatypeorextentDefaultFactory(DexterityFactory):
         data, errors = clean_dct_mediatypeorextent(**kw)
 
         return super(
-            DCTMediatypeorextentDefaultFactory,
+            DCTMediaTypeOrExtentDefaultFactory,
             self,
         ).__call__(*args, **data)
