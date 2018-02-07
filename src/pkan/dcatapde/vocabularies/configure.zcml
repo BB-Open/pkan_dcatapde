@@ -44,4 +44,9 @@
       name="pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent"
       />
 
+  <utility
+      component=".content_types.FOAFAgentVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.FOAFAgent"
+      />
+
 </configure>
