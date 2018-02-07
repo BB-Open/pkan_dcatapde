@@ -3,11 +3,6 @@
     i18n_domain="pkan.dcatapde">
 
     <utility
-        component=".foafagent_vocabulary.FoafagentVocabularyFactory"
-        name="pkan.dcatapde.FOAFagentVocabulary"
-        />
-
-    <utility
         component=".harvesting_vocabulary.HarvestingVocabularyFactory"
         name="pkan.dcatapde.HarvestingVocabulary"
         />
