@@ -45,8 +45,6 @@ class DCATMixin(object):
     _namespace = None
     _ns_class = None
 
-    _Title = ''
-
     @property
     def namespace_class(self):
         """The complete namespace class name in rdflib notation"""
@@ -61,7 +59,3 @@ class DCATMixin(object):
         surf_class = self._ns_class.lower()
         return getattr(surf.ns, surf_ns)[surf_class]
 
-    def Title(self):
-        if not self._Title:
-            self._Title = INameFromDCTTitle(self).title
-        return self._Title
