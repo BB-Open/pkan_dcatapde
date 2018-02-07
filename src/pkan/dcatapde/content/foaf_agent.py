@@ -3,6 +3,7 @@
 
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
+from pkan.dcatapde.content.base import DCATMixin
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -36,7 +37,7 @@ class IFOAFagent(model.Schema):
 
 
 @implementer(IFOAFagent)
-class FOAFagent(Item):
+class FOAFagent(Item, DCATMixin):
     """FOAFAgent Content Type."""
 
     portal_type = constants.CT_FOAF_AGENT
