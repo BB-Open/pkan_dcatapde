@@ -20,7 +20,7 @@ import zope.schema as schema
 
 
 class IDCATCatalog(model.Schema):
-    """Marker interfce and Dexterity Python Schema for DCATCatalog."""
+    """Marker interface and Dexterity Python Schema for DCATCatalog."""
 
     # Fieldsets
     # -------------------------------------------------------------------------

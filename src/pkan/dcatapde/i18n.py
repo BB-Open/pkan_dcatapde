@@ -5,9 +5,27 @@ from pkan.dcatapde import _
 from pkan.dcatapde import constants
 
 
+FIELDSET_AGENTS = _(u'Agents')
+FIELDSET_DETAILS = _(u'Dates, Geo, etc')
 FIELDSET_RELATIONS = _(u'Relations')
 
 
+HELP_DACTDE_MAINTAINER = _(
+    u'Select a maintainer from the list of available maintainers or create '
+    u'a new one by using the \'add\' button below.',
+)
+HELP_DACTDE_ORIGINATOR = _(
+    u'Select an originator from the list of available originators or create '
+    u'a new one by using the \'add\' button below.',
+)
+HELP_DCT_CONTRIBUTOR = _(
+    u'Select a contributor from the list of available contributors or create '
+    u'a new one by using the \'add\' button below.',
+)
+HELP_DCT_CREATOR = _(
+    u'Select a creator from the list of available creators or create '
+    u'a new one by using the \'add\' button below.',
+)
 HELP_DCT_HASPART = _(
     u'Link to an existing catalog or or create a new one by using the '
     u'\'add\' button below.',
@@ -76,8 +94,19 @@ HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
 HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
 
 
+LABEL_ADMS_VERSIONNOTES = _(u'Version Notes')
+LABEL_DCATDE_CONTRIBUTORID = _(u'Contributor ID')
+LABEL_DCATDE_GEOCODINGTEXT = _(u'Geocoding text')
+LABEL_DCATDE_LEGALBASISTEXT = _(u'Legal basis text')
+LABEL_DCATDE_MAINTAINER = _(u'Maintainer')
+LABEL_DCATDE_POLITICALGEOCODINGLEVELURI = _(u'PoliticalGeocodingLevelURI')
+LABEL_DCATDE_POLITICALGEOCODINGURI = _(u'PoliticalGeocodingURI')
+LABEL_DCATDE_ORIGINATOR = _(u'Originator')
+LABEL_DCT_CONTRIBUTOR = _(u'Contributor')
+LABEL_DCT_CREATOR = _(u'Creator')
 LABEL_DCT_DESCRIPTION = _(u'Description')
 LABEL_DCT_HASPART = _(u'Parts')
+LABEL_DCT_IDENTIFIER = _(u'Identifier')
 LABEL_DCT_ISPARTOF = _(u'Parent Catalog')
 LABEL_DCT_ISSUED = _(u'Issued')
 LABEL_DCT_LANGUAGE = _(u'Languages')
@@ -89,12 +118,16 @@ LABEL_DCT_SPATIAL = _(u'Spatial relevance')
 LABEL_DCT_THEMETAXONOMY = _(u'Theme Taxonomy')
 LABEL_DCT_TITLE = _(u'Title')
 LABEL_FOAF_HOMEPAGE = _(u'Homepage')
+LABEL_FOAF_LANDINGPAGE = _(u'Landing page')
+LABEL_FOAF_PAGE = _(u'Page')
 LABEL_FOLDER_AGENTS = _(u'Folder containing agents')
 LABEL_FOLDER_FORMATS = _(u'Folder containing formats')
 LABEL_FOLDER_LICENSES = _(u'Folder containing licenses')
 LABEL_FOLDER_LOCATIONS = _(u'Folder containing locations')
 LABEL_FOLDER_PUBLISHERS = _(u'Folder containing publishers')
 LABEL_FOLDER_STANDARDS = _(u'Folder containing standards')
+LABEL_OWL_VERSIONINFO = _(u'Version info')
+LABEL_RDF_ABOUT = _(u'Access URI')
 LABEL_SETTINGS_BASE = _(u'PKAN Base Settings')
 LABEL_SETTINGS_FOLDERS = _(u'PKAN Folder Settings')
 
