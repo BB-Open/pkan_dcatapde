@@ -102,8 +102,10 @@ HELP_FOLDER_STANDARDS = _(
         u'folder': u'/{0}'.format(constants.FOLDER_STANDARDS),
     },
 )
+HELP_RDFS_ISDEFINEDBY = _(u'The URI describing this concept')
 HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
 HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
+HELP_SKOS_INSCHEME = _(u'URI to the concept scheme')
 
 
 LABEL_ADMS_IDENTIFIER = _(u'Identifier')
@@ -152,6 +154,7 @@ LABEL_RDF_ABOUT = _(u'Access URI')
 LABEL_RDFS_ISDEFINEDBY = _(u'Definition URI')
 LABEL_SETTINGS_BASE = _(u'PKAN Base Settings')
 LABEL_SETTINGS_FOLDERS = _(u'PKAN Folder Settings')
+LABEL_SKOS_INSCHEME = _(u'Concept scheme URI')
 
 
 STATUS_REGISTRY_UPDATED = _(
