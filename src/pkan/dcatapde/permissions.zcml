@@ -43,6 +43,11 @@
         />
 
     <permission
+        id="pkan.dcatapde.AddDCTStandard"
+        title="pkan.dcatapde: Add DCTStandard"
+        />
+
+    <permission
         id="pkan.dcatapde.AddFOAFagent"
         title="pkan.dcatapde: Add FOAFagent"
         />
