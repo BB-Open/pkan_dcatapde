@@ -10,7 +10,7 @@
   Be careful if you use general includeDependencies, it can have sideffects!
   Better import explicite packages or configurations ;)
   -->
-  <include package="." />
+  <includeDependencies package="." />
   <include package="pkan.widgets"/>
   <include package="ps.zope.i18nfield"/>
 
