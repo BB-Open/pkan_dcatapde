@@ -2,7 +2,7 @@
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     name="StandardsFolder"
     meta_type="Dexterity FTI"
-    i18n:domain="plone">
+    i18n:domain="pkan.dcatapde">
   <property name="title" i18n:translate="">StandardsFolder</property>
   <property name="description" i18n:translate="A folder for DCT:Standard"></property>
   <property name="icon_expr"></property>
@@ -13,7 +13,7 @@
   <property name="global_allow">False</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
-    <element value="foaf_agent" />
+    <element value="dct_standard" />
   </property>
   <property name="allow_discussion">False</property>
   <property name="default_view">listing_view</property>

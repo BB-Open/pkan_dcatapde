@@ -7,7 +7,7 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">skos_conceptscheme
+    name="title">SKOS:ConceptScheme
   </property>
   <property
     i18n:translate=""

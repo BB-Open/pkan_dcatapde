@@ -2,6 +2,7 @@
 """Harvester Content Type."""
 
 from pkan.dcatapde import _
+from pkan.dcatapde.api.harvester_field_config import add_harvester_field_config
 from pkan.dcatapde.constants import CT_HARVESTER
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -13,6 +14,11 @@ import zope.schema as schema
 
 class IHarvester(model.Schema):
     """Marker interfce and Dexterity Python Schema for Harvester."""
+
+    title = schema.TextLine(
+        required=True,
+        title=_(u'Title'),
+    )
 
     url = schema.URI(
         required=True,
@@ -60,3 +66,7 @@ class HarvesterDefaultFactory(DexterityFactory):
         # add_harvester_field_config(folder)
 
         return folder
+
+
+def add_field_config(object, event):
+    add_harvester_field_config(object)

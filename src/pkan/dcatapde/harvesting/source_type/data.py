@@ -4,16 +4,21 @@
 class DataManager(object):
 
     def __init__(self, raw_data):
-        self.setup(raw_data)
         self.created = {}
+        self.data = {}
+        self.cts = []
+        self.ids = []
+        self.data_amount = 0
+        self.setup(raw_data)
 
     def setup(self, raw_data):
         self.cts = raw_data.keys()
+        if not self.cts:
+            return
         self.data_amount = len(raw_data[self.cts[0]])
         for ct in self.cts:
             if len(raw_data[ct]) > self.data_amount:
                 self.data_amount = len(raw_data[ct])
-        self.ids = []
         for x in range(self.data_amount):
             self.ids.append('data_id_' + str(x))
 
@@ -22,7 +27,6 @@ class DataManager(object):
         self.setup_data(raw_data)
 
     def setup_data(self, raw_data):
-        self.data = {}
         for ct in raw_data:
             self.data[ct] = {}
             for key in raw_data[ct].keys():

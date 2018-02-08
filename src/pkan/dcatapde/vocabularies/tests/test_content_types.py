@@ -189,6 +189,56 @@ class TestDCTLicenseDocumentVocabulary(unittest.TestCase):
         )
 
 
+class TestDCTLocationVocabulary(unittest.TestCase):
+    """Validate the `DCTLocationVocabulary` vocabulary."""
+
+    layer = testing.INTEGRATION_TESTING
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.item1 = api.content.create(
+            container=self.portal.get(constants.FOLDER_LOCATIONS),
+            type=constants.CT_DCT_LOCATION,
+            id='location-1',
+            dct_title={u'en': u'Location 1'},
+            rdfs_isDefinedBy='https://example.com/location-1',
+        )
+        self.item2 = api.content.create(
+            container=self.portal.get(constants.FOLDER_LOCATIONS),
+            type=constants.CT_DCT_LOCATION,
+            id='location-2',
+            dct_title={u'en': u'Location 2'},
+            rdfs_isDefinedBy='https://example.com/location-2',
+        )
+
+    def test_vocabulary(self):
+        """Validate the vocabulary."""
+        vocab_name = 'pkan.dcatapde.vocabularies.DCTLocation'
+        factory = getUtility(IVocabularyFactory, vocab_name)
+        self.assertTrue(IVocabularyFactory.providedBy(factory))
+
+        vocabulary = factory(self.portal)
+        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
+
+        self.assertEqual(len(vocabulary), 2)
+        self.assertEqual(
+            vocabulary.getTerm(self.item1.UID()).title,
+            '{0} ({1})'.format(
+                self.item1.Title(),
+                self.item1.rdfs_isDefinedBy,
+            ),
+        )
+        self.assertEqual(
+            vocabulary.getTerm(self.item2.UID()).title,
+            '{0} ({1})'.format(
+                self.item2.Title(),
+                self.item2.rdfs_isDefinedBy,
+            ),
+        )
+
+
 class TestDCTMediaTypeOrExtentVocabulary(unittest.TestCase):
     """Validate the `DCTMediaTypeOrExtentVocabulary` vocabulary."""
 
@@ -228,6 +278,54 @@ class TestDCTMediaTypeOrExtentVocabulary(unittest.TestCase):
         self.assertEqual(
             vocabulary.getTerm(self.item2.UID()).title,
             self.item2.Title(),
+        )
+
+
+class TestDCTStandardVocabulary(unittest.TestCase):
+    """Validate the `DCTStandardVocabulary` vocabulary."""
+
+    layer = testing.INTEGRATION_TESTING
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.item1 = api.content.create(
+            container=self.portal.get(constants.FOLDER_STANDARDS),
+            type=constants.CT_DCT_STANDARD,
+            id='standard-1',
+            dct_title={u'en': u'Standard 1'},
+        )
+        self.item2 = api.content.create(
+            container=self.portal.get(constants.FOLDER_STANDARDS),
+            type=constants.CT_DCT_STANDARD,
+            id='standard-2',
+            dct_title={u'en': u'Standard 2'},
+        )
+
+    def test_vocabulary(self):
+        """Validate the vocabulary."""
+        vocab_name = 'pkan.dcatapde.vocabularies.DCTStandard'
+        factory = getUtility(IVocabularyFactory, vocab_name)
+        self.assertTrue(IVocabularyFactory.providedBy(factory))
+
+        vocabulary = factory(self.portal)
+        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
+
+        self.assertEqual(len(vocabulary), 2)
+        self.assertEqual(
+            vocabulary.getTerm(self.item1.UID()).title,
+            '{0} ({1})'.format(
+                self.item1.Title(),
+                self.item1.rdfs_isDefinedBy,
+            ),
+        )
+        self.assertEqual(
+            vocabulary.getTerm(self.item2.UID()).title,
+            '{0} ({1})'.format(
+                self.item2.Title(),
+                self.item2.rdfs_isDefinedBy,
+            ),
         )
 
 

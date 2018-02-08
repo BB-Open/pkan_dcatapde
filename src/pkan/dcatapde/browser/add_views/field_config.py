@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde import utils
-from pkan.dcatapde.api.harvester import add_harvester_field_config
-from pkan.dcatapde.api.harvester import update_field_config_form_fields
+from pkan.dcatapde.api.harvester_field_config import add_harvester_field_config
+from pkan.dcatapde.api.harvester_field_config import update_form_fields
 from pkan.dcatapde.constants import CT_HARVESTER_FIELD_CONFIG
 from plone.dexterity.browser import add
 from z3c.form import button
@@ -17,7 +17,7 @@ class FieldConfigAddForm(add.DefaultAddForm):
 
     def update(self):
 
-        self.fields = update_field_config_form_fields(self.context)
+        self.fields = update_form_fields(self.context)
 
         super(FieldConfigAddForm, self).update()
 

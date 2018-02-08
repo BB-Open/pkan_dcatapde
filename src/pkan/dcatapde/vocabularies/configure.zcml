@@ -25,8 +25,18 @@
       />
 
   <utility
+      component=".content_types.DCTLocationVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCTLocation"
+      />
+
+  <utility
       component=".content_types.DCTMediaTypeOrExtentVocabularyFactory"
       name="pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent"
+      />
+
+  <utility
+      component=".content_types.DCTStandardVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCTStandard"
       />
 
   <utility

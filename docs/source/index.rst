@@ -15,6 +15,7 @@ This Plone Add-On adds content types based on DCAT-AP.de for the  `Plone CMS <ht
    Installation <install>
    Configuration <configuration/index>
    Content Types <content_types/index>
+   Development <develop>
 
 
 Contribute

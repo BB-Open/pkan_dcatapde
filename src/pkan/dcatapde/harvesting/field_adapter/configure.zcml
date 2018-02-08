@@ -26,4 +26,10 @@
     factory=".relationchoice.RelationAdapter"
     />
 
+    <adapter
+    for="zope.schema.interfaces.IChoice"
+    provides=".interfaces.IFieldProcessor"
+    factory=".choice.ChoiceAdapter"
+    />
+
 </configure>

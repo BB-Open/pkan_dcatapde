@@ -88,6 +88,21 @@
       />
 
 
+  <!-- DCTStandard -->
+  <!-- =========== -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".dct_standard.IDCTStandard"
+      provides=".base.INameFromDCTTitle"
+      />
+
+  <utility
+      factory=".dct_standard.DCTStandardDefaultFactory"
+      name="dct_standard"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
   <!-- FOAFagent -->
   <!-- ========= -->
   <adapter
@@ -135,6 +150,12 @@
 
   <!-- Harvester -->
   <!-- ========= -->
+  <subscriber
+    for="pkan.dcatapde.content.harvester.IHarvester
+         zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    handler=".harvester.add_field_config"
+    />
+
   <utility
       factory=".harvester.HarvesterDefaultFactory"
       name="harvester"
