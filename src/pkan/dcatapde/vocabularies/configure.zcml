@@ -62,5 +62,12 @@
       name="pkan.dcatapde.SourceTypeVocabulary"
       />
 
+  <!-- Language Vocabularies. -->
+  <!-- ======================== -->
+
+  <utility
+      component=".languages.PKANLanguageVocabularyFactory"
+      name="pkan.dcatapde.AvailableContentLanguageVocabulary"
+      />
 
 </configure>

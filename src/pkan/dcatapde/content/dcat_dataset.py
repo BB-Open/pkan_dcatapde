@@ -70,11 +70,6 @@ class IDCATDataset(model.Schema):
         title=i18n.LABEL_DCATDE_CONTRIBUTORID,
     )
 
-    rdf_about = schema.URI(
-        required=True,
-        title=i18n.LABEL_RDF_ABOUT,
-    )
-
     form.widget(
         'dct_publisher',
         RelatedItemsFieldWidget,

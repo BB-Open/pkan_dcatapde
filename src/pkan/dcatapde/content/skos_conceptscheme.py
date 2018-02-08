@@ -29,9 +29,9 @@ class ISKOSConceptScheme(model.Schema):
         title=i18n.LABEL_DCT_DESCRIPTION,
     )
 
-    rdf_about = schema.URI(
+    rdfs_isDefinedBy = schema.URI(
         required=True,
-        title=i18n.LABEL_RDF_ABOUT,
+        title=i18n.LABEL_RDFS_ISDEFINEDBY,
     )
 
 
