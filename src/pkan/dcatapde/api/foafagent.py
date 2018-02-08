@@ -28,6 +28,8 @@ def clean_foafagent(**data):
 # Add Methods
 def add_foafagent(context, **data):
     """Add a new foafagent."""
+    context = get_foafagent_context()
+
     data, errors = clean_foafagent(**data)
 
     foaf = api.content.create(container=context, type=CT_FOAF_AGENT, **data)

@@ -49,6 +49,23 @@ class Potsdam(object):
 
             rdf_about.payload = url
 
+            title_foaf_agent = 'Agent {x}'.format(
+                x=data_manager.ids.index(id),
+            )
+
+            data_manager.reset_attribute(
+                c.CT_DCAT_DATASET + ':dct_publisher:' + c.CT_FOAF_AGENT,
+                id,
+                'title',
+                payload=title_foaf_agent,
+            )
+            data_manager.reset_attribute(
+                c.CT_DCAT_DATASET + ':dct_publisher:' + c.CT_FOAF_AGENT,
+                id,
+                'rdf_about',
+                payload=url,
+            )
+
     def clean_distribution(self, data_manager):
         for id in data_manager.ids:
             title = 'Distribution {x}'.format(

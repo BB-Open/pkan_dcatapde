@@ -276,11 +276,13 @@ class BaseProcessor(object):
         key_elements_length = len(key_elements)
 
         while key_elements_length >= 3:
-            parent_ct = ':'.join(key_elements[0:key_elements_length - 3])
+            parent_ct = ':'.join(key_elements[0:key_elements_length - 2])
             attr = key_elements[key_elements_length - 2]
             ct = key_elements[key_elements_length - 1]
 
-            data_elements = self.cleaned_data.get_all_created(ct)
+            current_key = ':'.join([parent_ct, attr, ct])
+
+            data_elements = self.cleaned_data.get_all_created(current_key)
 
             for id in data_elements:
 
@@ -295,13 +297,14 @@ class BaseProcessor(object):
                     continue
 
                 # Fix: Check if this works with RelatedItem-Field
-                setattr(parent, attr, wanted_obj)
+                setattr(parent, attr, wanted_obj.UID())
 
                 log += '<p>Added {ct} {dataset} to parent.</p>'.format(
                     ct=ct,
                     dataset=wanted_obj.title,
                 )
             key_elements_length -= 2
+        return log
 
     def real_run_for_type(
         self, obj_ct, parent_ct, pass_obj=False,
