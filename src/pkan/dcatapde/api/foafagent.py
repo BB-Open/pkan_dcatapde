@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Work with FOAFAgents."""
 
-from pkan.dcatapde.constants import CT_FOAF_AGENT
+from pkan.dcatapde import constants
 from pkan.dcatapde.content.foaf_agent import FOAFagent
 from pkan.dcatapde.content.foaf_agent import IFOAFagent
 from plone import api
@@ -27,21 +27,25 @@ def clean_foafagent(**data):
 
 # Add Methods
 def add_foafagent(context, **data):
-    """Add a new foafagent."""
+    """Add a new FOAFAgent content item."""
     context = get_foafagent_context()
 
     data, errors = clean_foafagent(**data)
 
-    foaf = api.content.create(container=context, type=CT_FOAF_AGENT, **data)
+    item = api.content.create(
+        container=context,
+        type=constants.CT_FOAF_AGENT,
+        **data)
 
-    return foaf
+    return item
 
 
 # Get Methods
 def get_foafagent_context():
     """Get content for an foafagent."""
     # fix: context should not be the site
-    context = api.portal.get()
+    site = api.portal.get()
+    context = site.get(constants.FOLDER_PUBLISHERS)
     return context
 
 # Delete Methods
