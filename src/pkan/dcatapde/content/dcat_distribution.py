@@ -4,7 +4,7 @@
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
-from pkan.widgets.relateditems import RelatedItemsFieldWidget
+from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -12,7 +12,6 @@ from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
-from z3c.relationfield import RelationChoice
 from zope import schema
 from zope.interface import implementer
 
@@ -34,19 +33,16 @@ class IDCATDistribution(model.Schema):
 
     form.widget(
         'dct_license',
-        RelatedItemsFieldWidget,
+        AjaxSelectAddFieldWidget,
         content_type=constants.CT_DCT_LICENSEDOCUMENT,
         content_type_title=i18n.LABEL_DCT_LICENSE,
         initial_path='/licenses/',
-        pattern_options={
-            'selectableTypes': [constants.CT_DCT_LICENSEDOCUMENT],
-        },
     )
-    dct_license = RelationChoice(
+    dct_license = schema.Choice(
         description=i18n.HELP_DCT_LICENSE,
         required=False,
         title=i18n.LABEL_DCT_LICENSE,
-        vocabulary='plone.app.vocabularies.Catalog',
+        vocabulary='pkan.dcatapde.vocabularies.DCTLicenseDocument',
     )
 
     dcat_accessURL = schema.URI(
@@ -76,54 +72,45 @@ class IDCATDistribution(model.Schema):
 
     form.widget(
         'dct_conformsTo',
-        RelatedItemsFieldWidget,
+        AjaxSelectAddFieldWidget,
         content_type=constants.CT_DCT_STANDARD,
         content_type_title=i18n.LABEL_DCT_CONFORMSTO,
         initial_path='/standards/',
-        pattern_options={
-            'selectableTypes': [constants.CT_DCT_STANDARD],
-        },
     )
-    dct_conformsTo = RelationChoice(
+    dct_conformsTo = schema.Choice(
         description=i18n.HELP_DCT_CONFORMSTO,
         required=False,
         title=i18n.LABEL_DCT_CONFORMSTO,
-        vocabulary='plone.app.vocabularies.Catalog',
+        vocabulary='pkan.dcatapde.vocabularies.DCTStandard',
     )
 
     form.widget(
         'dct_format',
-        RelatedItemsFieldWidget,
+        AjaxSelectAddFieldWidget,
         content_type=constants.CT_DCT_MEDIATYPEOREXTENT,
         content_type_title=i18n.LABEL_DCT_FORMAT,
         initial_path='/formats/',
-        pattern_options={
-            'selectableTypes': [constants.CT_DCT_MEDIATYPEOREXTENT],
-        },
     )
-    dct_format = RelationChoice(
+    dct_format = schema.Choice(
         description=i18n.HELP_DCT_FORMAT,
         required=False,
         title=i18n.LABEL_DCT_FORMAT,
-        vocabulary='plone.app.vocabularies.Catalog',
+        vocabulary='pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent',
     )
 
     form.widget(
         'dcat_mediatype',
-        RelatedItemsFieldWidget,
+        AjaxSelectAddFieldWidget,
         content_type=constants.CT_DCT_MEDIATYPEOREXTENT,
         content_type_title=i18n.LABEL_DCAT_MEDIATYPE,
         initial_path='/formats/',
-        pattern_options={
-            'selectableTypes': [constants.CT_DCT_MEDIATYPEOREXTENT],
-        },
     )
 
-    dcat_mediatype = RelationChoice(
+    dcat_mediatype = schema.Choice(
         description=i18n.HELP_DACT_MEDIATYPE,
         required=True,
         title=i18n.LABEL_DCAT_MEDIATYPE,
-        vocabulary='plone.app.vocabularies.Catalog',
+        vocabulary='pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent',
     )
 
     dct_issued = schema.Date(
