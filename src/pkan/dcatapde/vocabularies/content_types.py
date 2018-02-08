@@ -103,6 +103,16 @@ DCTMediaTypeOrExtentVocabularyFactory = DCTMediaTypeOrExtentVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class DCTStandardVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning DCTStandard items."""
+
+    portal_type = constants.CT_DCT_STANDARD
+
+
+DCTStandardVocabularyFactory = DCTStandardVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class FOAFAgentVocabulary(BaseContentTypeVocabulary):
     """A vocabulary returning FOAFAgent items."""
 

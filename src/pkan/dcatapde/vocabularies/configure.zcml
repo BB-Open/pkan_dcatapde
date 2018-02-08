@@ -35,6 +35,11 @@
       />
 
   <utility
+      component=".content_types.DCTStandardVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCTStandard"
+      />
+
+  <utility
       component=".content_types.FOAFAgentVocabularyFactory"
       name="pkan.dcatapde.vocabularies.FOAFAgent"
       />
