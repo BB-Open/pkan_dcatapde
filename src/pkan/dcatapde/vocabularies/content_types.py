@@ -83,6 +83,16 @@ DCTLicenseDocumentVocabularyFactory = DCTLicenseDocumentVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class DCTLocationVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning DCTLocation items."""
+
+    portal_type = constants.CT_DCT_LOCATION
+
+
+DCTLocationVocabularyFactory = DCTLocationVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class DCTMediaTypeOrExtentVocabulary(BaseContentTypeVocabulary):
     """A vocabulary returning DCTMediaTypeOrExtent items."""
 
