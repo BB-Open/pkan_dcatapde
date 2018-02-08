@@ -5,10 +5,7 @@
         i18n:domain="pkan.dcatapde">
 
   <!-- Basic properties -->
-  <property
-    i18n:translate=""
-    name="title">dct_mediatypeorextent
-  </property>
+  <property i18n:translate="" name="title">DCT:MediaTypeOrExtent</property>
   <property
     i18n:translate=""
     name="description">DCT Media Type or Extend

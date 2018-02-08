@@ -5,7 +5,7 @@
     i18n:domain="pkan.dcatapde">
 
   <!-- Basic properties -->
-  <property i18n:translate="" name="title">DCT License Document</property>
+  <property i18n:translate="" name="title">DCT:LicenseDocument</property>
   <property i18n:translate="" name="description">DCT License Document</property>
 
   <property name="allow_discussion">False</property>
