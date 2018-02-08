@@ -42,7 +42,7 @@ I type '${description}' into the description field
   Input Text  form.widgets.dct_description.en  ${description}
 
 I type '${uri}' into the definition uri field
-  Input Text  form.widgets.rdf_about  ${uri}
+  Input Text  form.widgets.rdfs_isDefinedBy  ${uri}
 
 I submit the form
   Click Button  Save
