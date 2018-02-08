@@ -8,6 +8,8 @@ from pkan.dcatapde.content.harvester_field_config import CT_FIELD_RELATION
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
 from Products.Five import BrowserView
 
+import copy
+
 
 class HarvesterOverview(BrowserView):
 
@@ -88,7 +90,7 @@ class FieldConfigView(BrowserView):
         for ct in used_cts:
             if ct in CT_FIELD_RELATION:
                 field = CT_FIELD_RELATION[ct]
-                lines = getattr(self.context, field, [])
+                lines = copy.deepcopy(getattr(self.context, field, []))
                 utils.set_request_annotations('pkan.vocabularies.context',
                                               self.context)
 
