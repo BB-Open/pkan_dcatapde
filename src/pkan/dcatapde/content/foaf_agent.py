@@ -12,8 +12,6 @@ from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope.interface import implementer
 
-import zope.schema as schema
-
 
 class IFOAFagent(model.Schema):
     """Marker interface and Dexterity Python Schema for FOAFagent."""
@@ -28,11 +26,6 @@ class IFOAFagent(model.Schema):
     dct_description = I18NText(
         required=True,
         title=i18n.LABEL_DCT_DESCRIPTION,
-    )
-
-    rdf_about = schema.URI(
-        required=True,
-        title=i18n.LABEL_RDF_ABOUT,
     )
 
 
