@@ -96,8 +96,11 @@ class FieldConfigView(BrowserView):
                 options = vocab(self.context)
 
                 for line in lines:
-                    option = options.by_value[line['dcat_field']]
-                    line['dcat_field'] = option.title
+                    try:
+                        option = options.by_value[line['dcat_field']]
+                        line['dcat_field'] = option.title
+                    except KeyError:
+                        continue
                 self.data.append({
                     'ct': ct,
                     'lines': lines,
