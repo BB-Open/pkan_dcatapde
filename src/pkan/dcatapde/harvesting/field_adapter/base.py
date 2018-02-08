@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
+from plone.api.portal import get_current_language
 from plone.dexterity.utils import safe_unicode
 from z3c.form.interfaces import IField
 from zope.component import adapter
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema.vocabulary import SimpleTerm
 
@@ -49,7 +51,9 @@ class BaseField(object):
             )
             terms.append(
                 SimpleTerm(
-                    value=token, token=token, title=title,
+                    value=token, token=token, title=translate(
+                        title,
+                        target_language=get_current_language()),
                 ),
             )
         else:
@@ -63,7 +67,9 @@ class BaseField(object):
             )
             terms.append(
                 SimpleTerm(
-                    value=token, token=token, title=title,
+                    value=token, token=token, title=translate(
+                        title,
+                        target_language=get_current_language()),
                 ),
             )
         return terms

@@ -3,10 +3,12 @@ from pkan.dcatapde import _
 from pkan.dcatapde.harvesting.field_adapter.base import BaseField
 from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
 from plone import api
+from plone.api.portal import get_current_language
 from plone.dexterity.utils import safe_unicode
 from ps.zope.i18nfield.interfaces import II18NTextField
 from ps.zope.i18nfield.interfaces import II18NTextLineField
 from zope.component import adapter
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema.vocabulary import SimpleTerm
 
@@ -41,7 +43,9 @@ class I18nTextAdapter(BaseField):
                 )
                 terms.append(
                     SimpleTerm(
-                        value=token, token=token, title=title,
+                        value=token, token=token, title=translate(
+                            title,
+                            target_language=get_current_language()),
                     ),
                 )
             else:
@@ -56,7 +60,9 @@ class I18nTextAdapter(BaseField):
                 )
                 terms.append(
                     SimpleTerm(
-                        value=token, token=token, title=title,
+                        value=token, token=token, title=translate(
+                            title,
+                            target_language=get_current_language()),
                     ),
                 )
 
