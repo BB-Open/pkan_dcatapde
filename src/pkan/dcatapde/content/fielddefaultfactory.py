@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Field DX Default Factory."""
+from pkan.dcatapde import utils
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
 from zope.interface import implementer
 from zope.interface import provider
@@ -12,8 +13,10 @@ from zope.schema.interfaces import IContextSourceBinder
 class ConfigFieldDefaultFactory(object):
     """Default Factory."""
 
-    def __init__(self, ct):
+    def __init__(self, ct, context=None):
         self.ct = ct
+        if context:
+            utils.set_request_annotations('pkan.vocabularies.context', context)
 
     def __call__(self):
         fields = []

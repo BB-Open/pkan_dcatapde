@@ -26,4 +26,22 @@
     template="templates/dry_run.pt"
     permission="cmf.ManagePortal"
     />
+
+  <browser:page
+    for="*"
+    name="harvester_overview"
+    class=".harvester.HarvesterOverview"
+    template="templates/harvester.pt"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    for="pkan.dcatapde.content.harvester_field_config.IHarvesterFieldConfig"
+    name="view"
+    class=".harvester.FieldConfigView"
+    template="templates/fieldconfig.pt"
+    permission="zope2.View"
+    />
+
+
 </configure>

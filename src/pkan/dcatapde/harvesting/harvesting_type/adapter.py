@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 from pkan.dcatapde import constants as c
-from pkan.dcatapde.api.harvester import get_field_config
+from pkan.dcatapde.api.harvester_field_config import get_field_config
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.harvesting_type.interfaces import IDefaultType
 from pkan.dcatapde.harvesting.harvesting_type.interfaces import ILicenseType
