@@ -50,7 +50,7 @@ To update translations from Transifex, please run:
 
 .. code-block:: console
 
-   $ tx pull -f
+   $ tx pull -af
 
 This will override the local translation files with the online versions.
 Double check for any errors before you commit the changes.
@@ -71,4 +71,4 @@ After pushing a message catalog source it is best practice to update the transla
 
 .. code-block:: console
 
-   $ tx pull -f
+   $ tx pull -af
