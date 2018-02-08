@@ -55,7 +55,7 @@ class DCTLicenseDocument(Item, DCATMixin):
         return unicode(self.dct_title)
 
     def Description(self):
-        return self.dct_description
+        return unicode(self.dct_description)
 
     def title_for_vocabulary(self):
         """Return a title suitable for vocabulary terms."""
