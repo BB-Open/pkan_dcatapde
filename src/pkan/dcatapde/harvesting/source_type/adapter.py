@@ -23,6 +23,7 @@ from z3c.relationfield import RelationChoice
 from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
+from zope.schema import Choice
 from zope.schema import getFields
 
 import json
@@ -85,6 +86,10 @@ class BaseProcessor(object):
             field = schema_fields[field_name]
             if isinstance(field, RelationChoice):
                 continue
+            elif isinstance(field, Choice):
+                proc = IFieldProcessor(field)
+                if proc.get_cts_from_relfield(field, field_name):
+                    continue
             if (not field.required and
                     error_name == 'SchemaNotFullyImplemented'):
                 continue

@@ -29,6 +29,7 @@ class IField(model.Schema):
     prio = schema.Int(
         required=True,
         title=_(u'Priority'),
+        default=1,
     )
 
 

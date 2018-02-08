@@ -4,7 +4,7 @@ from pkan.dcatapde.harvesting.field_adapter.base import BaseField
 from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
 from plone import api
 from plone.api.portal import get_current_language
-from plone.dexterity.utils import safe_unicode
+from Products.CMFPlone.utils import safe_unicode
 from ps.zope.i18nfield.interfaces import II18NTextField
 from ps.zope.i18nfield.interfaces import II18NTextLineField
 from zope.component import adapter
@@ -89,7 +89,7 @@ class I18nTextAdapter(BaseField):
                 if isinstance(content[x], list):
                     new_data = {}
                     for element_id in range(len(content[x])):
-                        new_content = safe_unicode(str(content[x][element_id]))
+                        new_content = safe_unicode(content[x][element_id])
                         if language:
                             if isinstance(language, list):
                                 new_language = language[x][element_id]
@@ -103,7 +103,7 @@ class I18nTextAdapter(BaseField):
                         isinstance(content[x], str) or
                         isinstance(content[x], unicode)
                 ):
-                    new_content = safe_unicode(str(content[x]))
+                    new_content = safe_unicode(content[x])
                     if language:
                         new_language = language[x]
                     else:
