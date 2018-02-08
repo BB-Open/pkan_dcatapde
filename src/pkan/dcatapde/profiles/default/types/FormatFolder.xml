@@ -2,7 +2,7 @@
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     name="FormatFolder"
     meta_type="Dexterity FTI"
-    i18n:domain="plone">
+    i18n:domain="pkan.dcatapde">
   <property name="title" i18n:translate="">FormatFolder</property>
   <property name="description" i18n:translate="A folder for DCT Format Documents"></property>
   <property name="icon_expr"></property>

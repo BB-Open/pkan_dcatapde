@@ -2,7 +2,7 @@
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     name="MediaTypeFolder"
     meta_type="Dexterity FTI"
-    i18n:domain="plone">
+    i18n:domain="pkan.dcatapde">
   <property name="title" i18n:translate="">MediaTypeFolder</property>
   <property name="description" i18n:translate="A folder for DCT MediaType Documents"></property>
   <property name="icon_expr"></property>
