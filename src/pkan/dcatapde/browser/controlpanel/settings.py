@@ -7,6 +7,7 @@ from pkan.dcatapde import interfaces
 from pkan.dcatapde.browser.controlpanel import base
 from plone import api
 from plone.app.registry.browser import controlpanel
+from plone.protect.utils import addTokenToUrl
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form import button
 from zope.interface import implementer
@@ -65,7 +66,7 @@ class PKANImportSettingsEditForm(base.SelfHealingRegistryEditForm):
             constants.FOLDER_LICENSES,
             '@@update_licenses',
         ])
-        return self.request.response.redirect(url)
+        return self.request.response.redirect(addTokenToUrl(url))
         return u''
 
     @button.buttonAndHandler(
@@ -78,7 +79,7 @@ class PKANImportSettingsEditForm(base.SelfHealingRegistryEditForm):
             constants.FOLDER_CONCEPTS,
             '@@update_themes',
         ])
-        return self.request.response.redirect(url)
+        return self.request.response.redirect(addTokenToUrl(url))
         return u''
 
 
