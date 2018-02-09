@@ -76,7 +76,7 @@ class I18nTextAdapter(BaseField):
             language_id = field_id.replace(self.suffix[1], self.suffix[0])
             new_id = field_id.replace('__' + self.suffix[1], '')
             new_values = []
-            default_language = api.portal.get_default_language()
+            default_language = safe_unicode(api.portal.get_default_language())
 
             content = data[content_id]
             del data[content_id]
