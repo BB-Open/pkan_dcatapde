@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
+
+from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
+from pkan.dcatapde.constants import FOLDER_LICENSES
 from pkan.dcatapde.constants import VOCAB_SOURCES
 from plone.api import content
 from plone.api import portal
+from zope.i18n import translate
 
 import rdflib
 import surf
@@ -43,6 +47,7 @@ class UpdateLicenses(object):
 
         default_language = portal.get_default_language()
 
+        count = 0
         for license in licenses:
             # map the properties
             mapping = {
@@ -87,10 +92,27 @@ class UpdateLicenses(object):
             # rdfs_isDefinedBy
 
             # create a license document object
-            content.create(
-                container=self.context,
-                type=CT_DCT_LICENSEDOCUMENT,
-                id=params['adms_identifier'],
-                **params)
+            try:
+                content.create(
+                    container=self.context,
+                    type=CT_DCT_LICENSEDOCUMENT,
+                    id=params['adms_identifier'],
+                    **params)
+            except Exception:
+                continue
+            else:
+                count += 1
 
             # Todo : Logging or response to user
+
+        msg = _('Imported ${count} DCT:LicenseDocument items.', mapping={
+            'count': count,
+        })
+        msg = translate(msg, context=self.request)
+        portal.show_message(message=msg, request=self.request)
+        url = '/'.join([
+            portal.get().absolute_url(),
+            FOLDER_LICENSES,
+        ])
+        self.request.response.redirect(url)
+        return u''

@@ -66,7 +66,7 @@ class PKANImportSettingsEditForm(base.SelfHealingRegistryEditForm):
             constants.FOLDER_LICENSES,
             '@@update_licenses',
         ])
-        return self.request.response.redirect(addTokenToUrl(url))
+        self.request.response.redirect(addTokenToUrl(url))
         return u''
 
     @button.buttonAndHandler(
@@ -79,7 +79,7 @@ class PKANImportSettingsEditForm(base.SelfHealingRegistryEditForm):
             constants.FOLDER_CONCEPTS,
             '@@update_themes',
         ])
-        return self.request.response.redirect(addTokenToUrl(url))
+        self.request.response.redirect(addTokenToUrl(url))
         return u''
 
 
