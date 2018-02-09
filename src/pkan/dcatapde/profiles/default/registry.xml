@@ -2,4 +2,5 @@
 <registry>
   <records interface="pkan.dcatapde.interfaces.IPKANBaseSettings" />
   <records interface="pkan.dcatapde.interfaces.IPKANFolderSettings" />
+  <records interface="pkan.dcatapde.interfaces.IPKANImportSettings" />
 </registry>

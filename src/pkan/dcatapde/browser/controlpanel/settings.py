@@ -39,3 +39,19 @@ class PKANFolderSettingsPanelView(controlpanel.ControlPanelFormWrapper):
 
     form = PKANFolderSettingsEditForm
     index = ViewPageTemplateFile('templates/controlpanel_layout_folders.pt')
+
+
+@implementer(interfaces.IPKANImportSettings)
+class PKANImportSettingsEditForm(base.SelfHealingRegistryEditForm):
+    """PKAN Import Settings Form."""
+
+    description = i18n.HELP_SETTINGS_IMPORTS
+    label = i18n.LABEL_SETTINGS_IMPORTS
+    schema = interfaces.IPKANImportSettings
+
+
+class PKANImportSettingsPanelView(controlpanel.ControlPanelFormWrapper):
+    """PKAN Import Settings Control Panel."""
+
+    form = PKANImportSettingsEditForm
+    index = ViewPageTemplateFile('templates/controlpanel_layout_imports.pt')
