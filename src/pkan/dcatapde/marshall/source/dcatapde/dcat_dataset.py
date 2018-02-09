@@ -31,8 +31,7 @@ class DCATDataset2RDF(DCAT2RDF):
         """
         result = {}
         if self.context.isPrincipiaFolderish:
-            for item in self.context.values():
-                result['dcat:distribution'] = item
+            result['dcat:distribution'] = self.context.values()
         return result
 
     @property
