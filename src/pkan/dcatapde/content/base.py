@@ -44,6 +44,7 @@ class DCATMixin(object):
 
     _namespace = None
     _ns_class = None
+    _index_fields = ['dct_title', 'dct_description']
 
     @property
     def namespace_class(self):

@@ -201,6 +201,8 @@ class IDCATDataset(model.Schema):
 class DCATDataset(Container, DCATMixin):
     """DCATDataset Content Type."""
 
+    portal_type = constants.CT_DCAT_DATASET
+    content_schema = IDCATDataset
     _namespace = 'dcat'
     _ns_class = 'dataset'
 
@@ -234,7 +236,7 @@ class DCATDatasetDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it
-        from pkan.dcatapde.api.dataset import clean_dataset
+        from pkan.dcatapde.api.dcat_dataset import clean_dataset
         data, errors = clean_dataset(**kw)
 
         return super(

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """DCAT-AP.de Catalog entity marshaller"""
 
-from pkan.dcatapde.content.foaf_agent import IFOAFagent
+from pkan.dcatapde.content.foaf_agent import IFOAFAgent
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
@@ -10,7 +10,7 @@ from zope.interface import implementer
 
 
 @implementer(IMarshallSource)
-@adapter(IFOAFagent, IRDFMarshallTarget)
+@adapter(IFOAFAgent, IRDFMarshallTarget)
 class FOAFAgent2RDF(DCAT2RDF):
     """Marshaller DCAT-AP.de FOAFAgents."""
 

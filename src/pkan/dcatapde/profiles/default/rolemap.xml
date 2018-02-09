@@ -51,7 +51,7 @@
       <role name="Contributor" />
     </permission>
 
-    <permission name="pkan.dcatapde: Add FOAFagent" acquire="True">
+    <permission name="pkan.dcatapde: Add FOAFAgent" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner" />

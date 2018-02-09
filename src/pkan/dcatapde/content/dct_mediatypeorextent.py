@@ -40,6 +40,7 @@ class DCTMediaTypeOrExtent(Item, DCATMixin):
     """DCTMediatypeorextent Content Type."""
 
     portal_type = constants.CT_DCT_MEDIATYPEOREXTENT
+    content_schema = IDCTMediaTypeOrExtent
     _namespace = 'dct'
     _ns_class = 'mediatypeorextent'
 

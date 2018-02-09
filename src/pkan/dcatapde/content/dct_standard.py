@@ -40,6 +40,7 @@ class DCTStandard(Item, DCATMixin):
     """DCTStandard Content Type."""
 
     portal_type = constants.CT_DCT_STANDARD
+    content_schema = IDCTStandard
     _namespace = 'dct'
     _ns_class = 'standard'
 

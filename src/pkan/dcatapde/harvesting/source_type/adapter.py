@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
 from pkan.dcatapde import constants as c
-from pkan.dcatapde.api.catalog import add_catalog
-from pkan.dcatapde.api.catalog import clean_catalog
-from pkan.dcatapde.api.dataset import add_dataset
-from pkan.dcatapde.api.dataset import clean_dataset
+from pkan.dcatapde.api.dcat_catalog import add_catalog
+from pkan.dcatapde.api.dcat_catalog import clean_catalog
+from pkan.dcatapde.api.dcat_dataset import add_dataset
+from pkan.dcatapde.api.dcat_dataset import clean_dataset
+from pkan.dcatapde.api.dcat_distribution import add_distribution
+from pkan.dcatapde.api.dcat_distribution import clean_distribution
 from pkan.dcatapde.api.dct_licensedocument import add_dct_licensedocument
 from pkan.dcatapde.api.dct_licensedocument import clean_dct_licensedocument
-from pkan.dcatapde.api.distribution import add_distribution
-from pkan.dcatapde.api.distribution import clean_distribution
-from pkan.dcatapde.api.foafagent import add_foafagent
-from pkan.dcatapde.api.foafagent import clean_foafagent
+from pkan.dcatapde.api.foaf_agent import add_foafagent
+from pkan.dcatapde.api.foaf_agent import clean_foafagent
 from pkan.dcatapde.api.functions import get_terms_for_ct
 from pkan.dcatapde.api.harvester_field_config import get_field_config
 from pkan.dcatapde.content.harvester import IHarvester

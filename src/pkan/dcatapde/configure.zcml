@@ -46,6 +46,14 @@
       title="pkan.dcatapde (uninstall)"
       />
 
+  <genericsetup:importStep
+      name="pkan.dcatapde.catalog"
+      handler="pkan.dcatapde.setuphandlers.catalog_setup"
+      title="PKAN Catalog Setup"
+      description="Setup Indexes for the CTs in the Catalog">
+      <depends name="plone.app.registry" />
+  </genericsetup:importStep>
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="pkan.dcatapde-hiddenprofiles"

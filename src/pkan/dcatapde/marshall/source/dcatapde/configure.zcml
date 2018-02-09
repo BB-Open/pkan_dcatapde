@@ -23,7 +23,7 @@
 
   <adapter
     factory=".foaf_agent.FOAFAgent2RDF"
-    for="pkan.dcatapde.content.foaf_agent.IFOAFagent
+    for="pkan.dcatapde.content.foaf_agent.IFOAFAgent
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
     provides="..interfaces.IDX2RDF"
   />

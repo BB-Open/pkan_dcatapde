@@ -128,6 +128,8 @@ class IDCATDistribution(model.Schema):
 class DCATDistribution(Container, DCATMixin):
     """DCATDistribution Content Type."""
 
+    portal_type = constants.CT_DCAT_DISTRIBUTION
+    content_schema = IDCATDistribution
     _namespace = 'dcat'
     _ns_class = 'distribution'
 
@@ -156,7 +158,7 @@ class DCATDistributionDefaultFactory(DexterityFactory):
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it
-        from pkan.dcatapde.api.distribution import clean_distribution
+        from pkan.dcatapde.api.dcat_distribution import clean_distribution
         data, errors = clean_distribution(**kw)
 
         return super(
