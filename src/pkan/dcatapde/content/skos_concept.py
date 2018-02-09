@@ -47,6 +47,7 @@ class SKOSConcept(Item, DCATMixin):
     """SKOSConcept Content Type."""
 
     portal_type = constants.CT_SKOS_CONCEPT
+    content_schema = ISKOSConcept
     _namespace = 'skos'
     _ns_class = 'concept'
 

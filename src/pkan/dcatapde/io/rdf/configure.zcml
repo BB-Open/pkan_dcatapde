@@ -23,7 +23,7 @@
   <!-- DCAT-AP.de adapters -->
   <adapter
       factory=".dcat.FOAF2Surf"
-      for="pkan.dcatapde.content.foaf_agent.IFOAFagent
+      for="pkan.dcatapde.content.foaf_agent.IFOAFAgent
            .interfaces.ISurfSession"
       provides=".interfaces.IObject2Surf"
       />

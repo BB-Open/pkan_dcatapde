@@ -3,7 +3,7 @@
 
 from pkan.dcatapde import constants
 from pkan.dcatapde import testing
-from pkan.dcatapde.content.foaf_agent import IFOAFagent
+from pkan.dcatapde.content.foaf_agent import IFOAFAgent
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -27,7 +27,7 @@ class FoafagentIntegrationTest(unittest.TestCase):
     def test_schema(self):
         fti = queryUtility(IDexterityFTI, name=constants.CT_FOAF_AGENT)
         schema = fti.lookupSchema()
-        self.assertEqual(IFOAFagent, schema)
+        self.assertEqual(IFOAFAgent, schema)
 
     def test_fti(self):
         fti = queryUtility(IDexterityFTI, name=constants.CT_FOAF_AGENT)
@@ -37,7 +37,7 @@ class FoafagentIntegrationTest(unittest.TestCase):
         fti = queryUtility(IDexterityFTI, name=constants.CT_FOAF_AGENT)
         factory = fti.factory
         obj = createObject(factory)
-        self.assertTrue(IFOAFagent.providedBy(obj))
+        self.assertTrue(IFOAFAgent.providedBy(obj))
 
     def test_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
@@ -46,4 +46,4 @@ class FoafagentIntegrationTest(unittest.TestCase):
             type=constants.CT_FOAF_AGENT,
             id=constants.CT_FOAF_AGENT,
         )
-        self.assertTrue(IFOAFagent.providedBy(obj))
+        self.assertTrue(IFOAFAgent.providedBy(obj))

@@ -49,7 +49,7 @@
 
     <permission
         id="pkan.dcatapde.AddFOAFagent"
-        title="pkan.dcatapde: Add FOAFagent"
+        title="pkan.dcatapde: Add FOAFAgent"
         />
 
     <permission

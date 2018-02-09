@@ -40,6 +40,7 @@ class DCTLocation(Item, DCATMixin):
     """DCTLocation Content Type."""
 
     portal_type = constants.CT_DCT_LOCATION
+    content_schema = IDCTLocation
     _namespace = 'dct'
     _ns_class = 'location'
 

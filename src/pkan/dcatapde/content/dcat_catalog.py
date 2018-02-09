@@ -180,6 +180,8 @@ class IDCATCatalog(model.Schema):
 class DCATCatalog(Container, DCATMixin):
     """DCATCatalog Content Type."""
 
+    portal_type = constants.CT_DCAT_CATALOG
+    content_schema = IDCATCatalog
     _namespace = 'dcat'
     _ns_class = 'catalog'
 
@@ -200,7 +202,7 @@ class DCATCatalogDefaultFactory(DexterityFactory):
         self.portal_type = constants.CT_DCAT_CATALOG
 
     def __call__(self, *args, **kw):
-        from pkan.dcatapde.api.catalog import clean_catalog
+        from pkan.dcatapde.api.dcat_catalog import clean_catalog
 
         data, errors = clean_catalog(**kw)
 

@@ -45,6 +45,7 @@ class DCTLicenseDocument(Item, DCATMixin):
     """DCTLicenseDocument Content Type."""
 
     portal_type = constants.CT_DCT_LICENSEDOCUMENT
+    content_schema = IDCTLicenseDocument
     _namespace = 'dct'
     _ns_class = 'licensedocument'
 

@@ -103,11 +103,11 @@
       />
 
 
-  <!-- FOAFagent -->
+  <!-- FOAFAgent -->
   <!-- ========= -->
   <adapter
       factory=".base.NameFromDCTTitle"
-      for=".foaf_agent.IFOAFagent"
+      for=".foaf_agent.IFOAFAgent"
       provides=".base.INameFromDCTTitle"
       />
 
@@ -117,6 +117,9 @@
       provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
+  <adapter
+    factory=".foaf_agent.dct_title" name="dct_title"
+  />
 
   <!-- SKOSConcept -->
   <!-- =========== -->

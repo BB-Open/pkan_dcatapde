@@ -51,6 +51,8 @@ class RDF(object):
             (self.context, target),
             interface=IMarshallSource,
         )
+        if not marshaller:
+            return
         marshaller.marshall()
 
         self.request.response.setHeader(
