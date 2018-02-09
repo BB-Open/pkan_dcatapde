@@ -78,7 +78,7 @@ class IDCATDataset(model.Schema):
     )
     dct_publisher = schema.Choice(
         description=i18n.HELP_DCT_PUBLISHER,
-        required=True,
+        required=False,
         title=i18n.LABEL_DCT_PUBLISHER,
         vocabulary='pkan.dcatapde.vocabularies.FOAFAgent',
     )

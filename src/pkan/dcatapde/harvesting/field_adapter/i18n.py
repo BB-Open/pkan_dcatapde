@@ -31,7 +31,8 @@ class I18nTextAdapter(BaseField):
         field_path = self.get_field_path(prefix, field_name)
 
         for suf in self.suffix:
-            if field_required:
+            # Todo: Fix the requirement dependencies VJ
+            if field_required and not (suf == self.suffix[0]):
                 title = _('${field_path}: ${suffix} (required)',
                           mapping={
                               u'field_path': u'{0}'.format(field_path),

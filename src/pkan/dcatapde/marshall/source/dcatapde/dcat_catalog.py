@@ -5,6 +5,7 @@ from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCAT2RDF
 from pkan.dcatapde.marshall.source.dcatapde.interfaces import ICatalog2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
+from plone.api import content
 from zope.component import adapter
 from zope.interface import implementer
 
@@ -42,9 +43,9 @@ class DCATCatalog2RDF(DCAT2RDF):
         :return:
         """
         related = super(DCATCatalog2RDF, self).referenced
-        related['dct:publisher'] = self.context.dct_publisher.to_object
+        related['dct:publisher'] = content.get(UID=self.context.dct_publisher)
         if self.context.dct_license:
-            related['dct:license'] = self.context.dct_license.to_object
+            related['dct:license'] = content.get(UID=self.context.dct_license)
         if self.context.dct_spatial:
-            related['dct:spatial'] = self.context.dct_spatial.to_object
+            related['dct:spatial'] = content.get(UID=self.context.dct_spatial)
         return related

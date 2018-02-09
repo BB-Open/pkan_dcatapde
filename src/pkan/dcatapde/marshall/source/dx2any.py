@@ -92,6 +92,9 @@ class DX2Any(object):
     _whitelist = []
     _blacklist = []
 
+    namespace = 'rdf'
+    ns_class = 'Literal'
+
     def __init__(self, context, marshall_target):
         """Initialization.
 

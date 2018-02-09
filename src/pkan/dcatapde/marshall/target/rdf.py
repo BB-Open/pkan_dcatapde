@@ -51,9 +51,15 @@ class RDFMarshallTarget(object):
 
     def marshall(self, obj):
         """Factory for a new Surf resource."""
-        surf_ns = getattr(surf.ns, obj.namespace.upper())
+        try:
+            surf_ns = getattr(surf.ns, obj.namespace.upper())
 
-        resource = self.session.get_class(surf_ns[obj.ns_class])(obj.rdf_about)
+            resource_class = self.session.get_class(surf_ns[obj.ns_class])
+            resource = resource_class(obj.rdf_about)
+        except AttributeError:
+            surf_ns = getattr(surf.ns, 'RDF')
+            resource_class = self.session.get_class(surf_ns['Literal'])
+            resource = resource_class(obj.context.absolute_url())
 
         resource.bind_namespaces([surf_ns])
         resource.session = self.session
