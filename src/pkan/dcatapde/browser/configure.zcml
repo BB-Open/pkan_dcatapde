@@ -11,11 +11,12 @@
   <!-- Publish static files -->
 
 
-  <plone:static
-      name="pkan.dcatapde"
-      type="plone"
+  <browser:resourceDirectory
       directory="static"
+      layer="..interfaces.IPkanDcatapdeLayer"
+      name="pkan.dcatapde"
       />
+
   <browser:page
     for="plone.dexterity.interfaces.IDexterityContent"
     name="rdf"
