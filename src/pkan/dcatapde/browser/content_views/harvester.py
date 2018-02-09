@@ -6,6 +6,7 @@ from pkan.dcatapde.api.harvester_field_config import get_field_config
 from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.content.harvester_field_config import CT_FIELD_RELATION
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
+from plone.protect.utils import addTokenToUrl
 from Products.Five import BrowserView
 
 import copy
@@ -24,11 +25,11 @@ class HarvesterOverview(BrowserView):
             self.data.append({
                 'title': harv.title,
                 'path': path,
-                'source_url': harv.url,
-                'dry_run': path + '/dry_run',
-                'real_run': path + '/real_run',
-                'field_config': field_config.absolute_url(),
-                'reset_fields': path + '/reset_fields',
+                'source_url': addTokenToUrl(harv.url),
+                'dry_run': addTokenToUrl(path + '/dry_run'),
+                'real_run': addTokenToUrl(path + '/real_run'),
+                'field_config': addTokenToUrl(field_config.absolute_url()),
+                'reset_fields': addTokenToUrl(path + '/reset_fields'),
             })
 
         return super(HarvesterOverview, self).__call__(*args, **kwargs)
