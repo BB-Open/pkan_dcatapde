@@ -15,11 +15,6 @@ import zope.schema as schema
 class IHarvester(model.Schema):
     """Marker interfce and Dexterity Python Schema for Harvester."""
 
-    title = schema.TextLine(
-        required=True,
-        title=_(u'Title'),
-    )
-
     url = schema.URI(
         required=True,
         title=_(u'Harvesting Source'),
