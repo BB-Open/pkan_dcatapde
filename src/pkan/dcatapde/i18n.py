@@ -5,6 +5,9 @@ from pkan.dcatapde import _
 from pkan.dcatapde import constants
 
 
+BUTTON_IMPORT_DCT_LICENSEDOCUMENT = _(u'Import DCT:LicenseDocument')
+BUTTON_IMPORT_SKOS_CONCEPT = _(u'Import SKOS:Concept')
+
 FIELDSET_AGENTS = _(u'Agents')
 FIELDSET_DETAILS = _(u'Dates, Geo, etc')
 FIELDSET_RELATIONS = _(u'Relations')
@@ -105,6 +108,13 @@ HELP_FOLDER_STANDARDS = _(
 HELP_RDFS_ISDEFINEDBY = _(u'The URI describing this concept')
 HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
 HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
+HELP_SETTINGS_IMPORTS = _(u'Manage import settings for PKAN.')
+HELP_SETTINGS_IMPORTS_DCT_LICENSEDOCUMENT = _(
+    u'Define the import sources for DCT:LicenseDocument objects.',
+)
+HELP_SETTINGS_IMPORTS_SKOS_CONCEPT = _(
+    u'Define the import sources for SKOS:Concept objects.',
+)
 HELP_SKOS_INSCHEME = _(u'URI to the concept scheme')
 
 
@@ -154,8 +164,11 @@ LABEL_RDF_ABOUT = _(u'Access URI')
 LABEL_RDFS_ISDEFINEDBY = _(u'Definition URI')
 LABEL_SETTINGS_BASE = _(u'PKAN Base Settings')
 LABEL_SETTINGS_FOLDERS = _(u'PKAN Folder Settings')
+LABEL_SETTINGS_IMPORTS = _(u'PKAN Import Settings')
+LABEL_SETTINGS_IMPORTS_DCT_LICENSEDOCUMENT = _('DCT:LicenseDocument Sources')
+LABEL_SETTINGS_IMPORTS_SKOS_CONCEPT = _('SKOS:Concept Sources')
 LABEL_SKOS_INSCHEME = _(u'Concept scheme URI')
-
+LABEL_URL = _(u'URL')
 
 STATUS_REGISTRY_UPDATED = _(
     u'Registry has been updated. Please reload this page.',

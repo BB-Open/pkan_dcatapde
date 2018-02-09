@@ -29,6 +29,9 @@
             <a href="" class="active"
                 tal:attributes="href string:${portal_url}/@@pkan-controlpanel-folders"
                 i18n:translate="">Folders</a>
+            <a href=""
+                tal:attributes="href string:${portal_url}/@@pkan-controlpanel-imports"
+                i18n:translate="">Imports</a>
           </div>
           <span tal:replace="structure view/contents" />
         </div>

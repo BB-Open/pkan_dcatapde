@@ -9,3 +9,4 @@ Configuration And Settings
 
    Base Settings <base>
    Folders <folders>
+   Imports <imports>
