@@ -60,3 +60,27 @@ class IPKANFolderSettings(model.Schema):
         required=True,
         title=i18n.LABEL_FOLDER_STANDARDS,
     )
+
+
+class IPKANImportSettings(model.Schema):
+    """PKAN Import Settings."""
+
+    dct_licensedocument = schema.List(
+        default=[constants.VOCAB_SOURCES[constants.CT_DCT_LICENSEDOCUMENT]],
+        description=i18n.HELP_SETTINGS_IMPORTS_DCT_LICENSEDOCUMENT,
+        required=False,
+        title=i18n.LABEL_SETTINGS_IMPORTS_DCT_LICENSEDOCUMENT,
+        value_type=schema.URI(
+            title=i18n.LABEL_URL,
+        ),
+    )
+
+    skos_concept = schema.List(
+        default=[constants.VOCAB_SOURCES[constants.CT_SKOS_CONCEPT]],
+        description=i18n.HELP_SETTINGS_IMPORTS_SKOS_CONCEPT,
+        required=False,
+        title=i18n.LABEL_SETTINGS_IMPORTS_SKOS_CONCEPT,
+        value_type=schema.URI(
+            title=i18n.LABEL_URL,
+        ),
+    )

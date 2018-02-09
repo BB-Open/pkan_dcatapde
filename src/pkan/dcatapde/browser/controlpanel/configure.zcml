@@ -17,4 +17,11 @@
       permission="pkan.dcatapde.controlpanel.PKAN"
       />
 
+  <browser:page
+      class=".settings.PKANImportSettingsPanelView"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="pkan-controlpanel-imports"
+      permission="pkan.dcatapde.controlpanel.PKAN"
+      />
+
 </configure>

@@ -56,3 +56,13 @@ Show how to change the folder settings
     Capture and crop page screenshot
     ...  settings_folders-folder_standards.png
     ...  id=formfield-form-widgets-folder_standards
+
+
+Show how to change the import settings
+    Enable autologin as  Manager
+    Go to  ${PLONE_URL}/@@pkan-controlpanel-imports
+
+    Page should contain element  id=content
+    Capture and crop page screenshot
+    ...  settings_imports.png
+    ...  id=content
