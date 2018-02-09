@@ -91,7 +91,6 @@ class UpdateLicenses(object):
                 container=self.context,
                 type=CT_DCT_LICENSEDOCUMENT,
                 id=params['adms_identifier'],
-                title=params['dct_description'][default_language],
                 **params)
 
             # Todo : Logging or response to user
