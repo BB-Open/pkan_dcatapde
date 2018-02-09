@@ -1,105 +1,105 @@
 /* Content Type Icons */
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dcat_catalog:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dcat_catalog:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-dcat_catalog:before {
   content: '\e825';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dcat_dataset:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dcat_dataset:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-dcat_dataset:before {
   content: '\e808';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dcat_distribution:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dcat_distribution:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-dcat_distribution:before {
   content: '\e81b';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dct_licensedocument:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dct_licensedocument:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-dct_licensedocument:before {
   content: '\e80e';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dct_location:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dct_location:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-dct_location:before {
   content: '\e83d';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dct_mediatypeorextent:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dct_mediatypeorextent:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-dct_mediatypeorextent:before {
   content: '\e818';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dct_standard:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-dct_standard:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-dct_standard:before {
   content: '\e80e';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-skos_concept:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-skos_concept:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-skos_concept:before {
   content: '\e80e';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-skos_conceptscheme:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-skos_conceptscheme:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-skos_conceptscheme:before {
   content: '\e80e';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-foaf_agent:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-foaf_agent:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-foaf_agent:before {
   content: '\e800';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-agentfolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-agentfolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-agentfolder:before {
   content: '\e801';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-conceptfolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-conceptfolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-conceptfolder:before {
   content: '\e801';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-conceptschemefolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-conceptschemefolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-conceptschemefolder:before {
   content: '\e801';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-formatfolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-formatfolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-formatfolder:before {
   content: '\e801';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-licensefolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-licensefolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-licensefolder:before {
   content: '\e801';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-locationfolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-locationfolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-locationfolder:before {
   content: '\e801';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-mediatypefolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-mediatypefolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-mediatypefolder:before {
   content: '\e801';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-standardsfolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-standardsfolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-standardsfolder:before {
   content: '\e801';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-harvester_field_config:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-harvester_field_config:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-harvester_field_config:before {
   content: '\e826';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-harvester:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-harvester:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-harvester:before {
   content: '\e80c';
 }
 
-body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-harvesterfolder:after,
+body#visual-portal-wrapper.pat-plone #edit-zone a.contenttype-harvesterfolder:before,
 body#visual-portal-wrapper.pat-plone .outer-wrapper .contenttype-harvesterfolder:before {
   content: '\e801';
 }
