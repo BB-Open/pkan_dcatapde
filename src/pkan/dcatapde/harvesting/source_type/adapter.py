@@ -23,7 +23,6 @@ from z3c.relationfield import RelationChoice
 from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
-from zope.publisher.interfaces import IRequest
 from zope.schema import Choice
 from zope.schema import getFields
 
@@ -54,13 +53,12 @@ class BaseProcessor(object):
 
     _schema_fields = {}
 
-    def __init__(self, obj, request):
-        self.obj = obj
-        self.request = request
-        self.harvesting_type = self.obj.harvesting_type(self.obj)
-        self.data_type = self.obj.data_type(self.obj)
+    def __init__(self, harvester):
+        self.harvester = harvester
+        self.harvesting_type = self.harvester.harvesting_type(self.harvester)
+        self.data_type = self.harvester.data_type(self.harvester)
         self.cleaned_data = None
-        self.field_config = get_field_config(self.obj)
+        self.field_config = get_field_config(self.harvester)
         self.context = api.portal.get()
         if self.field_config:
             if self.field_config.base_object:
@@ -444,13 +442,13 @@ class BaseProcessor(object):
         return log
 
 
-@adapter(IHarvester, IRequest)
+@adapter(IHarvester)
 @implementer(IJson)
 class JsonProcessor(BaseProcessor):
     """JSON Processor."""
 
     def get_data(self):
-        url = self.obj.url
+        url = self.harvester.url
         if not url:
             return []
 
@@ -461,8 +459,8 @@ class JsonProcessor(BaseProcessor):
         return data
 
     def read_fields(self, reread=False):
-        if getattr(self.obj, 'fields', None) and not reread:
-            return self.obj.fields
+        if getattr(self.harvester, 'fields', None) and not reread:
+            return self.harvester.fields
 
         data = self.get_data()
         fields = []
@@ -500,7 +498,7 @@ class JsonProcessor(BaseProcessor):
 
             data_to_process.remove(current_data)
 
-        self.obj.fields = fields
+        self.harvester.fields = fields
 
         return fields
 

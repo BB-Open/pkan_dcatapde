@@ -11,10 +11,10 @@ from pkan.dcatapde.harvesting.RDF.surf_config import RDFStorage
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFXML
+from pkan.dcatapde.log.log import TranslatingFormatter
 from plone.api import portal
 from zope.component import adapter
 from zope.interface import implementer
-from zope.publisher.interfaces import IRequest
 
 import io
 import logging
@@ -27,15 +27,14 @@ IFaceToRDFFormat = {
 }
 
 
-@adapter(IHarvester, IRequest)
+@adapter(IHarvester)
 @implementer(IRDFTTL)
 class RDFProcessor(object):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
-    def __init__(self, harvester, request):
+    def __init__(self, harvester):
         # remember the harvester
         self.harvester = harvester
-        self.request = request
         # look if we have a harvesting type adapter
         try:
             self.harvesting_type = \
@@ -77,8 +76,9 @@ class RDFProcessor(object):
         # construct a streamhandler
         stream_handler = logging.StreamHandler(self.log_stream)
         # and a formatter for HTML output
-        format = u'<p>%(asctime)s - %(name)s - %(levelname)s - %(message)s</p>'
-        formatter = logging.TranslatingFormatter(format, request=self.request)
+        format = '<p>%(asctime)s - %(name)s - %(levelname)s - %(message)s</p>'
+        request = getattr(self.context, 'REQUEST', None)
+        formatter = TranslatingFormatter(format, request=request)
         # and plug things together
         stream_handler.setFormatter(formatter)
         log.addHandler(stream_handler)
@@ -98,7 +98,7 @@ class RDFProcessor(object):
     def dry_run(self):
         """Dry Run: Returns Log-Information.
         """
-        self.log.info(u'starting dry run')
+        self.log.info(u'starting harvestdry run')
         uri = self.harvester.url
 
         msg = _(
@@ -112,6 +112,27 @@ class RDFProcessor(object):
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
         self.log.info(msg)
-        self.log.info(u'dry run successfull')
+        self.log.info(u'Harvesting real run successfully')
+
+        return self.reap_logger()
+
+    def real_run(self):
+        """Dry Run: Returns Log-Information.
+        """
+        self.log.info(u'Starting real harvest run')
+        uri = self.harvester.url
+
+        msg = _(
+            u'Reading ${kind} file ${uri}',
+            mapping={'kind': self.serialize_format, 'uri': uri},
+        )
+        self.log.info(msg)
+        self.read_rdf_file(uri, self.serialize_format)
+        msg = _(
+            u'${kind} file ${uri} read succesfully',
+            mapping={'kind': self.serialize_format, 'uri': uri},
+        )
+        self.log.info(msg)
+        self.log.info(u'Real harvest run successfull')
 
         return self.reap_logger()

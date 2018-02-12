@@ -2,8 +2,12 @@
 """Harvester Content Type."""
 
 from pkan.dcatapde import _
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
 from pkan.dcatapde.api.harvester_field_config import add_harvester_field_config
 from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
+from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -18,6 +22,21 @@ class IHarvester(model.Schema):
     url = schema.URI(
         required=True,
         title=_(u'Harvesting Source'),
+        description=_(u'The URI of the source of data to be harvested.'),
+    )
+
+    form.widget(
+        'base_object',
+        AjaxSelectAddFieldWidget,
+        content_type=constants.CT_DCAT_CATALOG,
+        content_type_title=i18n.LABEL_BASE_OBJECT,
+        initial_path='/',
+    )
+    base_object = schema.Choice(
+        required=False,
+        title=i18n.LABEL_BASE_OBJECT,
+        vocabulary='pkan.dcatapde.vocabularies.DCATCatalog',
+        description=i18n.HELP_BASE_OBJECT,
     )
 
     harvesting_type = schema.Choice(

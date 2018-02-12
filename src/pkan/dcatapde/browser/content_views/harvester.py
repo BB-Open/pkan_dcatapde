@@ -8,7 +8,6 @@ from pkan.dcatapde.content.harvester_field_config import CT_FIELD_RELATION
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
 from plone.protect.utils import addTokenToUrl
 from Products.Five import BrowserView
-from zope.component import queryMultiAdapter
 
 import copy
 
@@ -48,10 +47,7 @@ class DryRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
 
-        source = queryMultiAdapter(
-            (self.context, self.request),
-            interface=self.context.source_type,
-        )
+        source = self.context.source_type(self.context)
 
         self.log = source.dry_run()
 

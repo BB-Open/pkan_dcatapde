@@ -5,15 +5,16 @@ from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.data_type.interfaces import IPotsdam
 from zope.component import adapter
 from zope.interface import implementer
+from zope.publisher.interfaces import IRequest
 
 
-@adapter(IHarvester)
+@adapter(IHarvester, IRequest)
 @implementer(IPotsdam)
 class Potsdam(object):
     """Potsdam Preprocessor."""
 
-    def __init__(self, obj):
-        self.obj = obj
+    def __init__(self, harvester):
+        self.harvester = harvester
         self.url_prefix = 'https://opendata.potsdam.de/explore/dataset/'
 
     def clean_data(self, data_manager):

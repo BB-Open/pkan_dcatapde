@@ -14,11 +14,12 @@ class RDFCrawler(object):
     datatype of the context. E.G. if the context is a catalog the crawler
     per default searches for datasets in the graph a attaches them to the
     context.
-    Alternatively a entity type can be specified to determine the graph
+    Alternatively an entity type can be specified to determine the graph
     start points. This is handy if e.g. catalogs are nested into each other."""
 
-    def __init__(self, context, search_surf_class=None):
-        self.context = context
+    def __init__(self, harvester, search_surf_class=None):
+        self.harvester = harvester
+        self.context = self.harvester.base_object
         if search_surf_class:
             self.search_surf_class = search_surf_class
         else:

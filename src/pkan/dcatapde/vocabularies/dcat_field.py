@@ -10,7 +10,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 @implementer(IContextSourceBinder)
 class DcatFieldVocabulary(object):
-    """DKAT field vocabulary."""
+    """DCAT field vocabulary."""
 
     def __init__(self, ct):
         self.ct = ct

@@ -12,7 +12,12 @@ FIELDSET_AGENTS = _(u'Agents')
 FIELDSET_DETAILS = _(u'Dates, Geo, etc')
 FIELDSET_RELATIONS = _(u'Relations')
 
-
+HELP_BASE_OBJECT = _(
+    u'Here you may chose the location where to the datasets will be '
+    u'imported. If the incoming data has no catalog, choose a '
+    u'catalog object.'
+    u'By default incoming catalogues are place in the portal root. ',
+)
 HELP_DACT_MEDIATYPE = _(
     u'Select a media type from the list of available media types or create '
     u'a new one by using the \'add\' button below.',
@@ -120,6 +125,7 @@ HELP_SKOS_INSCHEME = _(u'URI to the concept scheme')
 
 LABEL_ADMS_IDENTIFIER = _(u'Identifier')
 LABEL_ADMS_VERSIONNOTES = _(u'Version Notes')
+LABEL_BASE_OBJECT = _(u'Base Object')
 LABEL_DCAT_ACCESSURL = _(u'Access URL')
 LABEL_DCAT_BYTESIZE = _(u'Byte size')
 LABEL_DCAT_DOWNLOADURL = _(u'Download URL')
