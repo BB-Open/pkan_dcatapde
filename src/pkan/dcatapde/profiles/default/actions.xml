@@ -31,13 +31,43 @@
  </object>
 
   <object name="document_actions" meta_type="CMF Action Category">
-    <object name="rdf" meta_type="CMF Action" i18n:domain="pkan.dcatapde">
+    <object name="rdf_xml" meta_type="CMF Action" i18n:domain="pkan.dcatapde">
      <property name="title" i18n:translate="">Export to RDF</property>
      <property name="description" i18n:translate=""></property>
-     <property name="url_expr">string:$object_url/rdf2</property>
+     <property name="url_expr">string:$object_url/rdf_xml</property>
      <property name="link_target"></property>
      <property name="icon_expr"></property>
-     <property name="available_expr"></property>
+     <property name="available_expr">object/@@check_export_action/active</property>
+     <property name="permissions">
+      <element value="View"/>
+     </property>
+     <property name="visible">True</property>
+    </object>
+  </object>
+
+  <object name="document_actions" meta_type="CMF Action Category">
+    <object name="rdf_json" meta_type="CMF Action" i18n:domain="pkan.dcatapde">
+     <property name="title" i18n:translate="">Export to RDF/JSON</property>
+     <property name="description" i18n:translate=""></property>
+     <property name="url_expr">string:$object_url/rdf_json</property>
+     <property name="link_target"></property>
+     <property name="icon_expr"></property>
+     <property name="available_expr">object/@@check_export_action/active</property>
+     <property name="permissions">
+      <element value="View"/>
+     </property>
+     <property name="visible">True</property>
+    </object>
+  </object>
+
+  <object name="document_actions" meta_type="CMF Action Category">
+    <object name="rdf_ttl" meta_type="CMF Action" i18n:domain="pkan.dcatapde">
+     <property name="title" i18n:translate="">Export to RDF/TTL</property>
+     <property name="description" i18n:translate=""></property>
+     <property name="url_expr">string:$object_url/rdf_ttl</property>
+     <property name="link_target"></property>
+     <property name="icon_expr"></property>
+     <property name="available_expr">object/@@check_export_action/active</property>
      <property name="permissions">
       <element value="View"/>
      </property>

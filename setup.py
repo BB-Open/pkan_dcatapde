@@ -23,6 +23,7 @@ install_requires = [
     'Products.GenericSetup >= 1.8.2',
     'ps.zope.i18nfield >= 0.7',
     'rdflib',
+    'rdflib-jsonld',
     'rdflib-sqlalchemy',
     'requests',
     'surf',

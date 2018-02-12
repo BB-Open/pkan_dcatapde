@@ -5,6 +5,7 @@ import surf
 
 
 surf.namespace.register(ADMS='http://www.w3.org/ns/adms#')
+surf.namespace.register(DCAT='http://www.w3.org/ns/dcat#')
 surf.namespace.register(DCATDE='http://dcat-ap.de/def#')
 
 # IMPORTANT surf class definition HAVE TO BE lowercase !!!!!!

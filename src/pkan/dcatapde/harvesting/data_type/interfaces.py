@@ -21,5 +21,9 @@ class IDataType(Interface):
         return data
 
 
+class INone(IDataType):
+    """Preprocessor Marker for Null Processor."""
+
+
 class IPotsdam(IDataType):
     """Preprocessor Marker for Potsdam."""

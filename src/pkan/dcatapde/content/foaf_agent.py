@@ -4,6 +4,7 @@
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 from pkan.dcatapde.content.util import I18NField2Unique
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
@@ -15,7 +16,7 @@ from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope.interface import implementer
 
 
-class IFOAFAgent(model.Schema):
+class IFOAFAgent(model.Schema, IDCAT):
     """Marker interface and Dexterity Python Schema for FOAFAgent."""
 
     # Mandatory

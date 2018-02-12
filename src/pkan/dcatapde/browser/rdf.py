@@ -15,8 +15,23 @@ try:
 except Exception:
     LIMIT = 65535   # Refs #83543 - Default: 0xFFFF, 2^16, 16-bit
 
+FORMATS = {
+    'JSON': {
+        'serialize_as': 'json-ld',
+        'mime_type': 'application/ld+json; charset=utf-8',
+    },
+    'TURTLE': {
+        'serialize_as': 'turtle',
+        'mime_type': 'text/turtle; charset=utf-8',
+    },
+    'XML': {
+        'serialize_as': 'pretty-xml',
+        'mime_type': 'application/rdf+xml; charset=utf-8',
+    },
+}
 
-class RDF(object):
+
+class RDF_XML(object):
     """RDF Export."""
 
     def __init__(self, context, request):
@@ -44,7 +59,7 @@ class RDF(object):
         else:
             return text
 
-    def __call__(self):
+    def to_RDF(self, format):
         # Fix: Transform to adapter call
         target = RDFMarshallTarget()
         marshaller = queryMultiAdapter(
@@ -57,7 +72,29 @@ class RDF(object):
 
         self.request.response.setHeader(
             'Content-Type',
-            'application/rdf+xml; charset=utf-8',
+            FORMATS[format]['mime_type'],
         )
-        data = target._store.reader.graph.serialize(format='pretty-xml')
+        data = target._store.reader.graph.serialize(
+            format=FORMATS[format]['serialize_as'],
+        )
         return self.sanitize(data)
+
+    def __call__(self):
+        result = self.to_RDF('XML')
+        return result
+
+
+class RDF_JSON(RDF_XML):
+    """RDF Export in JSON notation"""
+
+    def __call__(self):
+        result = self.to_RDF('JSON')
+        return result
+
+
+class RDF_TURTLE(RDF_XML):
+    """RDF Export in Turtle notation"""
+
+    def __call__(self):
+        result = self.to_RDF('TURTLE')
+        return result
