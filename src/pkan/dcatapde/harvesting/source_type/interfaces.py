@@ -56,8 +56,8 @@ class IJson(IImportSource):
     """Interface for generic JSON data."""
 
 
-class IJsonLD(IImportSource):
-    """Interface for JSON data."""
+class IRDFJSONLD(IImportSource):
+    """Interface for JSONLD data."""
 
 
 class IRDFXML(IImportSource):

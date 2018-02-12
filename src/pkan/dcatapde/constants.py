@@ -95,3 +95,26 @@ HARVESTER_FIELD_CONFIG_ID = 'field_config'
 
 HARVESTER_FOLDER_TITLE = 'Harvester Folder'
 HARVESTER_FOLDER_ID = 'harvester_folder'
+
+# RDF formats
+
+# RDF format keys for vocabularies
+RDF_FORMAT_JSONLD = 'JSONLD'
+RDF_FORMAT_TURTLE = 'TURTLE'
+RDF_FORMAT_XML = 'XML'
+
+#
+RDF_FORMAT_METADATA = {
+    RDF_FORMAT_JSONLD: {
+        'serialize_as': 'json-ld',
+        'mime_type': 'application/ld+json; charset=utf-8',
+    },
+    RDF_FORMAT_TURTLE: {
+        'serialize_as': 'turtle',
+        'mime_type': 'text/turtle; charset=utf-8',
+    },
+    RDF_FORMAT_XML: {
+        'serialize_as': 'pretty-xml',
+        'mime_type': 'application/rdf+xml; charset=utf-8',
+    },
+}

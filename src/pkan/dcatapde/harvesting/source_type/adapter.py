@@ -23,6 +23,7 @@ from z3c.relationfield import RelationChoice
 from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
+from zope.publisher.interfaces import IRequest
 from zope.schema import Choice
 from zope.schema import getFields
 
@@ -53,8 +54,9 @@ class BaseProcessor(object):
 
     _schema_fields = {}
 
-    def __init__(self, obj):
+    def __init__(self, obj, request):
         self.obj = obj
+        self.request = request
         self.harvesting_type = self.obj.harvesting_type(self.obj)
         self.data_type = self.obj.data_type(self.obj)
         self.cleaned_data = None
@@ -442,7 +444,7 @@ class BaseProcessor(object):
         return log
 
 
-@adapter(IHarvester)
+@adapter(IHarvester, IRequest)
 @implementer(IJson)
 class JsonProcessor(BaseProcessor):
     """JSON Processor."""

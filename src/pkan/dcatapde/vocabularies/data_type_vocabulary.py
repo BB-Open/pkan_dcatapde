@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Pre-processor vocabularies."""
 
-from pkan.dcatapde.harvesting.data_type.interfaces import INone
 from pkan.dcatapde.harvesting.data_type.interfaces import IPotsdam
+from pkan.dcatapde.harvesting.data_type.interfaces import IRDF
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -20,7 +20,7 @@ class DataTypeVocabulary(object):
         # Todo: Internationalize/move strings to constants.py
         terms.append(
             SimpleTerm(
-                value=INone,
+                value=IRDF,
                 token='rdf',
                 title='RDF'),
         )

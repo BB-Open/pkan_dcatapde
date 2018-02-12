@@ -3,14 +3,16 @@
 
   <adapter
       factory=".adapter.JsonProcessor"
-      for="pkan.dcatapde.content.harvester.IHarvester"
+      for="pkan.dcatapde.content.harvester.IHarvester
+           zope.publisher.interfaces.IRequest "
       provides=".interfaces.IJson"
       />
 
-  <!--<adapter
-      factory=".adapter.XmlProcessor"
-      for="pkan.dcatapde.content.harvester.IHarvester"
-      provides=".interfaces.IXml"
-      />-->
+  <adapter
+      factory=".rdfttl.RDFProcessor"
+      for="pkan.dcatapde.content.harvester.IHarvester
+           zope.publisher.interfaces.IRequest "
+      provides=".interfaces.IRDFTTL"
+      />
 
 </configure>

@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 """Harvesting module for DCAT-AP.de data"""
-
+from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.harvesting.data_type.interfaces import IRDF
 from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_CATALOG
-from pkan.dcatapde.marshall.target.rdf_store import RDFStore
+from zope.component import adapter
+from zope.interface import implementer
 
 
+@adapter(IHarvester)
+@implementer(IRDF)
 class RDFCrawler(object):
     """Crawls a RDF graph stating a a certain baselevel given by the
     datatype of the context. E.G. if the context is a catalog the crawler
@@ -24,13 +28,9 @@ class RDFCrawler(object):
                 # The context is no entity so asume we search for catalogs
                 self.search_surf_class = SC_DCAT_CATALOG
 
-    def read_rdf_file(self, uri):
-        """Load the rdf data"""
-        self.rdfstore = RDFStore()
-        self.session = self.rdfstore.session
-
     def search_start_entities(self):
         """Determine the entities to crawl into"""
+        pass
 
     def crawl(self, context, entity):
         pass

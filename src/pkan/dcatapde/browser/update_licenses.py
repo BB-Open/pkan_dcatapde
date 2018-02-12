@@ -38,7 +38,6 @@ class UpdateLicenses(object):
         # Get the licenses objects
         licenses = License.all().full()
 
-        # Iterate over the licenses and yoiedl them
         return licenses
 
     def __call__(self):

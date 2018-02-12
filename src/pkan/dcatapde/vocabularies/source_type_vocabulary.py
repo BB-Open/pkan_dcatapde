@@ -25,7 +25,7 @@ class SourceTypeVocabulary(object):
         )
         terms.append(
             SimpleTerm(
-                value=interfaces.IJsonLD,
+                value=interfaces.IRDFJSONLD,
                 token='json-ld',
                 title='RDF/JSON-LD',
             ),

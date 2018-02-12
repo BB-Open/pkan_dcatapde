@@ -2,6 +2,10 @@
 """RDF view."""
 
 # from pkan.dcatapde.marshall.source.interfaces import IDX2Any
+from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
+from pkan.dcatapde.constants import RDF_FORMAT_METADATA
+from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
+from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.target.rdf import RDFMarshallTarget
 from unidecode import unidecode
@@ -14,21 +18,6 @@ try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))
 except Exception:
     LIMIT = 65535   # Refs #83543 - Default: 0xFFFF, 2^16, 16-bit
-
-FORMATS = {
-    'JSON': {
-        'serialize_as': 'json-ld',
-        'mime_type': 'application/ld+json; charset=utf-8',
-    },
-    'TURTLE': {
-        'serialize_as': 'turtle',
-        'mime_type': 'text/turtle; charset=utf-8',
-    },
-    'XML': {
-        'serialize_as': 'pretty-xml',
-        'mime_type': 'application/rdf+xml; charset=utf-8',
-    },
-}
 
 
 class RDF_XML(object):
@@ -72,15 +61,15 @@ class RDF_XML(object):
 
         self.request.response.setHeader(
             'Content-Type',
-            FORMATS[format]['mime_type'],
+            RDF_FORMAT_METADATA[format]['mime_type'],
         )
         data = target._store.reader.graph.serialize(
-            format=FORMATS[format]['serialize_as'],
+            format=RDF_FORMAT_METADATA[format]['serialize_as'],
         )
         return self.sanitize(data)
 
     def __call__(self):
-        result = self.to_RDF('XML')
+        result = self.to_RDF(RDF_FORMAT_XML)
         return result
 
 
@@ -88,7 +77,7 @@ class RDF_JSON(RDF_XML):
     """RDF Export in JSON notation"""
 
     def __call__(self):
-        result = self.to_RDF('JSON')
+        result = self.to_RDF(RDF_FORMAT_JSONLD)
         return result
 
 
@@ -96,5 +85,5 @@ class RDF_TURTLE(RDF_XML):
     """RDF Export in Turtle notation"""
 
     def __call__(self):
-        result = self.to_RDF('TURTLE')
+        result = self.to_RDF(RDF_FORMAT_TURTLE)
         return result

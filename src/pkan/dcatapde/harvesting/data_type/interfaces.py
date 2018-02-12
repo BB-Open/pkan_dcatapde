@@ -21,8 +21,8 @@ class IDataType(Interface):
         return data
 
 
-class INone(IDataType):
-    """Preprocessor Marker for Null Processor."""
+class IRDF(IDataType):
+    """Preprocessor Marker for RDF."""
 
 
 class IPotsdam(IDataType):
