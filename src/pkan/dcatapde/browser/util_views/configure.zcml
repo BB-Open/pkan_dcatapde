@@ -1,0 +1,15 @@
+<configure
+      xmlns="http://namespaces.zope.org/zope"
+      xmlns:browser="http://namespaces.zope.org/browser"
+      >
+
+  <!-- Is called by actions (see actions.xml) to determine if they should be
+    shown are not.-->
+
+  <browser:page
+    for="*"
+    name="check_export_action"
+    class=".actions.ExportActionOnDCAT"
+    permission="zope2.View"
+    />
+</configure>

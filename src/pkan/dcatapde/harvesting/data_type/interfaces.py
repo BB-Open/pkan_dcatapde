@@ -21,5 +21,9 @@ class IDataType(Interface):
         return data
 
 
+class IRDF(IDataType):
+    """Preprocessor Marker for RDF."""
+
+
 class IPotsdam(IDataType):
     """Preprocessor Marker for Potsdam."""

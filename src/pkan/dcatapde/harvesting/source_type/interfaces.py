@@ -53,8 +53,16 @@ class IImportSource(Interface):
 
 
 class IJson(IImportSource):
-    """Interface for JSON data."""
+    """Interface for generic JSON data."""
 
 
-# class IXml(IImportSource):
-#     """Interface for XML data."""
+class IRDFJSONLD(IImportSource):
+    """Interface for JSONLD data."""
+
+
+class IRDFXML(IImportSource):
+    """Interface for RDF/XML data."""
+
+
+class IRDFTTL(IImportSource):
+    """Interface for RDF/Turtle data."""

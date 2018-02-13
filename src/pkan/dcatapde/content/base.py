@@ -3,6 +3,7 @@
 from plone.api import portal
 from plone.app.content.interfaces import INameFromTitle
 from zope.interface import implementer
+from zope.interface import Interface
 
 import surf
 
@@ -37,6 +38,10 @@ class NameFromDCTTitle(object):
                 return self.context.dct_title[current_language]
 
         return self.context.dct_title[self.context.dct_title.keys()[0]]
+
+
+class IDCAT(Interface):
+    """Marker interface for all DCAT-AP.de Content Types"""
 
 
 class DCATMixin(object):

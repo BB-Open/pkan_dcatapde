@@ -4,6 +4,7 @@
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
@@ -17,7 +18,7 @@ from zope.interface import implementer
 import zope.schema as schema
 
 
-class IDCATDataset(model.Schema):
+class IDCATDataset(model.Schema, IDCAT):
     """Marker interface and Dexterity Python Schema for DCATDataset."""
 
     # Fieldsets

@@ -5,12 +5,16 @@ import surf
 
 
 surf.namespace.register(ADMS='http://www.w3.org/ns/adms#')
+surf.namespace.register(DCAT='http://www.w3.org/ns/dcat#')
 surf.namespace.register(DCATDE='http://dcat-ap.de/def#')
 
 # IMPORTANT surf class definition HAVE TO BE lowercase !!!!!!
 SC_DCAT_CATALOG = surf.ns.DCAT['catalog']
 SC_DCAT_DATASET = surf.ns.DCAT['dataset']
 SC_DCAT_DISTRIBUTION = surf.ns.DCAT['distribution']
+SC_DCT_LICENSEDOCUMENT = surf.ns.DCTERMS['licensedocument']
+SC_DCT_LOCATION = surf.ns.DCTERMS['location']
+SC_FOAF_AGENT = surf.ns.FOAF['agent']
 
 
 class RDFStorage(object):

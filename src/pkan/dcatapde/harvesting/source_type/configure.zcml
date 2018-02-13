@@ -7,10 +7,10 @@
       provides=".interfaces.IJson"
       />
 
-  <!--<adapter
-      factory=".adapter.XmlProcessor"
+  <adapter
+      factory=".rdfttl.RDFProcessor"
       for="pkan.dcatapde.content.harvester.IHarvester"
-      provides=".interfaces.IXml"
-      />-->
+      provides=".interfaces.IRDFTTL"
+      />
 
 </configure>

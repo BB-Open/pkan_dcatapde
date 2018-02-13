@@ -12,7 +12,6 @@ from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
-from z3c.relationfield import RelationChoice
 from zope import schema
 from zope.interface import implementer
 
@@ -76,12 +75,6 @@ CT_FIELD_RELATION = {
 # fix: because of omitted we need a custom display view
 class IHarvesterFieldConfig(model.Schema):
     """Marker interface and DX Python Schema for HarvesterFieldConfig."""
-
-    base_object = RelationChoice(
-        required=False,
-        title=_(u'Base Object'),
-        vocabulary='plone.app.vocabularies.Catalog',
-    )
 
     form.widget(catalog_fields=DataGridFieldFactory)
     form.omitted('catalog_fields')

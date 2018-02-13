@@ -22,15 +22,23 @@ class HarvesterOverview(BrowserView):
         for harv in harvester:
             path = harv.absolute_url()
             field_config = get_field_config(harv)
-            self.data.append({
+
+            data = {
                 'title': harv.title,
                 'path': path,
                 'source_url': addTokenToUrl(harv.url),
                 'dry_run': addTokenToUrl(path + '/dry_run'),
                 'real_run': addTokenToUrl(path + '/real_run'),
-                'field_config': addTokenToUrl(field_config.absolute_url()),
                 'reset_fields': addTokenToUrl(path + '/reset_fields'),
-            })
+            }
+            if field_config:
+                data['field_config'] = addTokenToUrl(
+                    field_config.absolute_url(),
+                )
+            else:
+                data['field_config'] = None
+
+            self.data.append(data)
 
         return super(HarvesterOverview, self).__call__(*args, **kwargs)
 
@@ -38,6 +46,7 @@ class HarvesterOverview(BrowserView):
 class DryRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
+
         source = self.context.source_type(self.context)
 
         self.log = source.dry_run()

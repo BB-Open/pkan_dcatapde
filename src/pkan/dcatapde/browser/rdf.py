@@ -2,6 +2,10 @@
 """RDF view."""
 
 # from pkan.dcatapde.marshall.source.interfaces import IDX2Any
+from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
+from pkan.dcatapde.constants import RDF_FORMAT_METADATA
+from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
+from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.target.rdf import RDFMarshallTarget
 from unidecode import unidecode
@@ -16,7 +20,7 @@ except Exception:
     LIMIT = 65535   # Refs #83543 - Default: 0xFFFF, 2^16, 16-bit
 
 
-class RDF(object):
+class RDF_XML(object):
     """RDF Export."""
 
     def __init__(self, context, request):
@@ -44,7 +48,7 @@ class RDF(object):
         else:
             return text
 
-    def __call__(self):
+    def to_RDF(self, format):
         # Fix: Transform to adapter call
         target = RDFMarshallTarget()
         marshaller = queryMultiAdapter(
@@ -57,7 +61,29 @@ class RDF(object):
 
         self.request.response.setHeader(
             'Content-Type',
-            'application/rdf+xml; charset=utf-8',
+            RDF_FORMAT_METADATA[format]['mime_type'],
         )
-        data = target._store.reader.graph.serialize(format='pretty-xml')
+        data = target._store.reader.graph.serialize(
+            format=RDF_FORMAT_METADATA[format]['serialize_as'],
+        )
         return self.sanitize(data)
+
+    def __call__(self):
+        result = self.to_RDF(RDF_FORMAT_XML)
+        return result
+
+
+class RDF_JSON(RDF_XML):
+    """RDF Export in JSON notation"""
+
+    def __call__(self):
+        result = self.to_RDF(RDF_FORMAT_JSONLD)
+        return result
+
+
+class RDF_TURTLE(RDF_XML):
+    """RDF Export in Turtle notation"""
+
+    def __call__(self):
+        result = self.to_RDF(RDF_FORMAT_TURTLE)
+        return result

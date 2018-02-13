@@ -4,6 +4,7 @@
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 from plone.dexterity.content import Item
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
@@ -14,7 +15,7 @@ from zope import schema
 from zope.interface import implementer
 
 
-class ISKOSConcept(model.Schema):
+class ISKOSConcept(model.Schema, IDCAT):
     """Marker interface and DX Python Schema for SKOSConcept."""
 
     # Mandatory

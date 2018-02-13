@@ -59,8 +59,13 @@ def add_foafagent(context, **data):
 
     data, errors = clean_foafagent(**data)
 
-    # no such agent exits create a new one
-    agent = api.content.create(container=context, type=CT_FOAF_AGENT, **data)
+    agent = find_foaf_agent(data)
+    if not agent:
+        # no such agent exits create a new one
+        agent = api.content.create(
+            container=context,
+            type=CT_FOAF_AGENT,
+            **data)
 
     return agent
 

@@ -53,12 +53,12 @@ class BaseProcessor(object):
 
     _schema_fields = {}
 
-    def __init__(self, obj):
-        self.obj = obj
-        self.harvesting_type = self.obj.harvesting_type(self.obj)
-        self.data_type = self.obj.data_type(self.obj)
+    def __init__(self, harvester):
+        self.harvester = harvester
+        self.harvesting_type = self.harvester.harvesting_type(self.harvester)
+        self.data_type = self.harvester.data_type(self.harvester)
         self.cleaned_data = None
-        self.field_config = get_field_config(self.obj)
+        self.field_config = get_field_config(self.harvester)
         self.context = api.portal.get()
         if self.field_config:
             if self.field_config.base_object:
@@ -448,7 +448,7 @@ class JsonProcessor(BaseProcessor):
     """JSON Processor."""
 
     def get_data(self):
-        url = self.obj.url
+        url = self.harvester.url
         if not url:
             return []
 
@@ -459,8 +459,8 @@ class JsonProcessor(BaseProcessor):
         return data
 
     def read_fields(self, reread=False):
-        if getattr(self.obj, 'fields', None) and not reread:
-            return self.obj.fields
+        if getattr(self.harvester, 'fields', None) and not reread:
+            return self.harvester.fields
 
         data = self.get_data()
         fields = []
@@ -498,7 +498,7 @@ class JsonProcessor(BaseProcessor):
 
             data_to_process.remove(current_data)
 
-        self.obj.fields = fields
+        self.harvester.fields = fields
 
         return fields
 
@@ -606,66 +606,3 @@ class JsonProcessor(BaseProcessor):
                         data_prio[ct][x][attribute] = prio
 
         return data
-
-# @adapter(IHarvester)
-# @implementer(IXml)
-# class XmlProcessor(BaseProcessor):
-#     """XML Processor."""
-#
-#     def read_fields(self, reread=False):
-#         if self.obj.fields and not reread:
-#             return self.obj.fields
-#
-#         url = self.obj.url
-#
-#         if not url:
-#             return []
-#
-#         resp = requests.get(url=url)
-#         data = resp.text
-#
-#         et = xml.etree.ElementTree.fromstring(data)
-#
-#         fields = []
-#
-#         data_to_process = [
-#             {
-#                 'prefix': self.format_tag(et.tag),
-#                 'subdata': et,
-#             },
-#         ]
-#
-#         while data_to_process:
-#             current_data = data_to_process[0]
-#             prefix = current_data['prefix']
-#             subdata = current_data['subdata']
-#             if subdata._children:
-#                 for child in subdata:
-#                     if prefix:
-#                         new_prefix = prefix + '.' + self.format_tag(
-#                             child.tag
-#                         )
-#                     else:
-#                         new_prefix = self.format_tag(child.tag)
-#                     data_to_process.append({
-#                         'prefix': new_prefix,
-#                         'subdata': child,
-#                     })
-#             else:
-#                 if prefix not in fields and prefix:
-#                     fields.append(prefix)
-#
-#             data_to_process.remove(current_data)
-#
-#         self.obj.fields = fields
-#
-#         return fields
-#
-#     def format_tag(self, tag):
-#         return tag.split('}')[-1]
-#
-#     def dry_run(self):
-#         """Dry Run: Returns Log-Information.
-#
-#         :return:
-#         """
