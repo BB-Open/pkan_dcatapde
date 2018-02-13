@@ -14,6 +14,9 @@ from zope.schema import getValidationErrors
 # Data Cleaning Methods
 def clean_harvester(**data):
     """Clean harvester."""
+    if not data:
+        return data, ()
+
     if 'title' not in data:
         data['title'] = data['url']
 
