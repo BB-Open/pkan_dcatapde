@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Harvesting module for DCAT-AP.de data"""
 from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.harvesting.data_cleaner.interfaces import IRDF
 from pkan.dcatapde.harvesting.RDF.dcat_dataset import RDF2DCATDataset
-from pkan.dcatapde.harvesting.RDF.interfaces import IRDF
 from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_CATALOG
 from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_DATASET
 from plone.api import content

@@ -26,6 +26,7 @@ class HarvesterForm(AutoExtensibleForm, form.Form):
     This form can be accessed as http://yoursite/@@my-form
 
     """
+    # Todo: Not working anymore
 
     schema = IConfigHarvesterSchema
     ignoreContext = True
@@ -83,7 +84,7 @@ class HarvesterForm(AutoExtensibleForm, form.Form):
                 harv_data = harvester[index]
 
                 harvester_obj.harvesting_type = harv_data['harvesting_type']
-                harvester_obj.data_type = harv_data['data_type']
+                harvester_obj.data_cleaner = harv_data['data_cleaner']
                 harvester_obj.source_type = harv_data['source_type']
                 harvester_obj.title = harv_data['title']
 

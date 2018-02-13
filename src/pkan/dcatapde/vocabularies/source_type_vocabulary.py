@@ -16,13 +16,13 @@ class SourceTypeVocabulary(object):
         terms = []
 
         # Todo: Internationalize/move strings to constants.py
-        terms.append(
-            SimpleTerm(
-                value=interfaces.IJson,
-                token='json',
-                title='JSON generic',
-            ),
-        )
+        # terms.append(
+        #     SimpleTerm(
+        #         value=interfaces.IJson,
+        #         token='json',
+        #         title='JSON generic',
+        #     ),
+        # )
         terms.append(
             SimpleTerm(
                 value=interfaces.IRDFJSONLD,

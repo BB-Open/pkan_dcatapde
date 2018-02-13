@@ -4,7 +4,7 @@
   <adapter
       factory=".dcatapde.RDFCrawler"
       for="pkan.dcatapde.content.harvester.IHarvester"
-      provides="pkan.dcatapde.harvesting.RDF.interfaces.IRDF"
+      provides="pkan.dcatapde.harvesting.data_type.interfaces.IRDF"
       />
 
 </configure>

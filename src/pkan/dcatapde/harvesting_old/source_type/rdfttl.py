@@ -7,7 +7,6 @@ from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.harvesting.RDF.interfaces import IRDF
 from pkan.dcatapde.harvesting.RDF.surf_config import RDFStorage
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFTTL
@@ -44,7 +43,7 @@ class RDFProcessor(object):
             self.harvesting_type = None
 
         # fetch the preprocessor adapter
-        self.data_cleaner = self.harvester.data_cleaner(self.harvester)
+        self.data_type = self.harvester.data_type(self.harvester)
         self.cleaned_data = None
         self.field_config = get_field_config(self.harvester)
         self.context = portal.get()
@@ -133,13 +132,7 @@ class RDFProcessor(object):
             u'${kind} file ${uri} read successfully into rdflib',
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
-
-        # Todo: self.data_type is data_cleaner and should not crawl the data
-        # Todo: replace by correct adapter-layer
-        # self.data_type.crawl(self.rdfstore)
-        crawler = IRDF(self.harvester)
-        crawler.crawl()
-
+        self.data_type.crawl(self.rdfstore)
         self.log.info(u'Real harvest run successfull')
 
         return self.reap_logger()

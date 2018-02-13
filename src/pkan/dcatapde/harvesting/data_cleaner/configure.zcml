@@ -2,9 +2,9 @@
     i18n_domain="pkan.dcatapde">
 
   <adapter
-      factory=".dcatapde.RDFCrawler"
+      factory=".adapter.PotsdamCleaner"
       for="pkan.dcatapde.content.harvester.IHarvester"
-      provides="pkan.dcatapde.harvesting.RDF.interfaces.IRDF"
+      provides=".interfaces.IPotsdamCleaner"
       />
 
 </configure>

@@ -27,6 +27,7 @@ class SourceFieldVocabulary(object):
 
         if harvester:
             processor = harvester.source_type(harvester)
+            # Todo: Reimplement in new RDF Import
             fields = processor.read_fields()
             for field in fields:
                 terms.append(

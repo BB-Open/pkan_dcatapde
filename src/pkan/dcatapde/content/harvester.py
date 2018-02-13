@@ -40,7 +40,8 @@ class IHarvester(model.Schema):
     )
 
     harvesting_type = schema.Choice(
-        required=True,
+        # Todo: reset to true when new adapter are added
+        required=False,
         title=_(u'Harvesting target'),
         description=_(
             u'The Harvesting target chooses the output processor for the '
@@ -53,15 +54,15 @@ class IHarvester(model.Schema):
         vocabulary='pkan.dcatapde.HarvestingVocabulary',
     )
 
-    data_type = schema.Choice(
+    data_cleaner = schema.Choice(
         required=True,
         title=_(u'Processor/Filter'),
         description=_(
             u'The processor depends on the sematic of the data and may be '
             u'specific to a certain data provider or data format e.g. OGD.'
-            u'Currently only "Potsdam" is available. If unsure choose "RDF"',
+            u'Currently only "PotsdamCleaner" is available.',
         ),
-        vocabulary='pkan.dcatapde.DataTypeVocabulary',
+        vocabulary='pkan.dcatapde.DataCleanerVocabulary',
     )
 
     source_type = schema.Choice(

@@ -2,6 +2,12 @@
     i18n_domain="pkan.dcatapde">
 
   <adapter
+      factory=".adapter.JsonProcessor"
+      for="pkan.dcatapde.content.harvester.IHarvester"
+      provides=".interfaces.IJson"
+      />
+
+  <adapter
       factory=".rdfttl.RDFProcessor"
       for="pkan.dcatapde.content.harvester.IHarvester"
       provides=".interfaces.IRDFTTL"

@@ -29,6 +29,7 @@ class DcatFieldVocabulary(object):
 
             if harvester:
                 processor = harvester.source_type(harvester)
+                # Todo: Reimplement method in new RDF-Import
                 terms = processor.read_dcat_fields(ct=self.ct)
 
         # Create a SimpleVocabulary from the terms list and return it:

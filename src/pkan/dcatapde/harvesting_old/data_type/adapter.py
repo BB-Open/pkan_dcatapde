@@ -2,14 +2,14 @@
 """Preprocessor Adapter."""
 from pkan.dcatapde import constants as c
 from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.harvesting.data_type.interfaces import IPotsdam
+from pkan.dcatapde.harvesting.data_cleaner.interfaces import IPotsdamCleaner
 from zope.component import adapter
 from zope.interface import implementer
 from zope.publisher.interfaces import IRequest
 
 
 @adapter(IHarvester, IRequest)
-@implementer(IPotsdam)
+@implementer(IPotsdamCleaner)
 class Potsdam(object):
     """Potsdam Preprocessor."""
 

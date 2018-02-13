@@ -131,7 +131,7 @@ class BaseProcessor(object):
     def clean_data(self):
         """
         Clean data in multiple steps:
-         1. data_type cleaning
+         1. data_cleaner cleaning
          2. data config cleaning
          3. finding duplicates
         Result must be data-dict like
