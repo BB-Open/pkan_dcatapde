@@ -123,16 +123,16 @@ class RDFProcessor(object):
         uri = self.harvester.url
 
         msg = _(
-            u'Reading ${kind} file ${uri}',
+            u'Reading ${kind} file ${uri} into rdflib',
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
         self.log.info(msg)
         self.read_rdf_file(uri, self.serialize_format)
         msg = _(
-            u'${kind} file ${uri} read succesfully',
+            u'${kind} file ${uri} read successfully into rdflib',
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
-        self.log.info(msg)
+        self.data_type.crawl(self.rdfstore)
         self.log.info(u'Real harvest run successfull')
 
         return self.reap_logger()

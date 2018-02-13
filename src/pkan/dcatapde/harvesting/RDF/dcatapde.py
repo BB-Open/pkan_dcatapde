@@ -2,7 +2,11 @@
 """Harvesting module for DCAT-AP.de data"""
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.data_type.interfaces import IRDF
+from pkan.dcatapde.harvesting.RDF.dcat_dataset import RDF2DCATDataset
 from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_CATALOG
+from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_DATASET
+from plone.api import content
+from plone.api import portal
 from zope.component import adapter
 from zope.interface import implementer
 
@@ -19,19 +23,24 @@ class RDFCrawler(object):
 
     def __init__(self, harvester, search_surf_class=None):
         self.harvester = harvester
-        self.context = self.harvester.base_object
-        if search_surf_class:
-            self.search_surf_class = search_surf_class
+        self.context = content.get(UID=self.harvester.base_object)
+        if self.context:
+            self.search_surf_class = SC_DCAT_DATASET
         else:
-            try:
-                self.search_surf_class = self.context.surf_class
-            except AttributeError:
-                # The context is no entity so asume we search for catalogs
-                self.search_surf_class = SC_DCAT_CATALOG
+            self.context = portal.get()
+            self.search_surf_class = SC_DCAT_CATALOG
 
     def search_start_entities(self):
         """Determine the entities to crawl into"""
         pass
 
-    def crawl(self, context, entity):
-        pass
+    def crawl(self, rdfstore):
+        self.rdfstore = rdfstore
+        self.session = self.rdfstore.session
+        top_class = self.session.get_class(self.search_surf_class)
+        result = top_class.all().full()
+        # TOdo generalize
+        for rdf_dataset in result:
+            factory = RDF2DCATDataset(rdf_dataset, self.context)
+            factory.create()
+            # Todo: traverse
