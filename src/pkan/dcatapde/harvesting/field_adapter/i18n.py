@@ -17,6 +17,8 @@ from zope.schema.vocabulary import SimpleTerm
 @implementer(IFieldProcessor)
 class I18nTextAdapter(BaseField):
     """
+    I18NFields are splitted to content and language in vocabulary.
+    Values are combined to dictionary mapping language to content.
     """
     suffix = [_(u'language'), _(u'content')]
 
