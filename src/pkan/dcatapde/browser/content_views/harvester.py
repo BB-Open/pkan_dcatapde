@@ -30,6 +30,7 @@ class HarvesterOverview(BrowserView):
                 'dry_run': addTokenToUrl(path + '/dry_run'),
                 'real_run': addTokenToUrl(path + '/real_run'),
                 'reset_fields': addTokenToUrl(path + '/reset_fields'),
+                'edit': addTokenToUrl(path + '/edit'),
             }
             if field_config:
                 data['field_config'] = addTokenToUrl(
