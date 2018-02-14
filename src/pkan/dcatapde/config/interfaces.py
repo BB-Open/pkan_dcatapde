@@ -23,7 +23,6 @@ class HarvesterDefaultFactory(object):
                 'harvesting_type': harv.harvesting_type,
                 'data_cleaner': getattr(harv, 'data_cleaner', None),
                 'source_type': harv.source_type,
-                'base_object': harv.base_object,
             })
         return res
 
