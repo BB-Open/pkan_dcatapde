@@ -14,6 +14,8 @@ import copy
 
 class HarvesterOverview(BrowserView):
 
+    # Todo: Split it in Controlpanel-View and Folder Overview
+
     def __call__(self, *args, **kwargs):
         harvester = get_all_harvester()
 

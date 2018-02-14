@@ -27,6 +27,7 @@ class HarvesterForm(AutoExtensibleForm, form.Form):
 
     """
     # Todo: Not working anymore
+    # Todo: Remove it
 
     schema = IConfigHarvesterSchema
     ignoreContext = True
