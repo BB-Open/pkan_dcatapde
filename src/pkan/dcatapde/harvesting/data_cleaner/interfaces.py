@@ -7,19 +7,16 @@ from zope.interface import Interface
 class IDataType(Interface):
     """Base Interface for preprocessing data."""
 
-    def clean_data(self, data):
-        """Clear data and return it.
+    def clean_data(self, data_storage):
+        """Clean data.
 
-        :param data:
-
-        data must be dictionary like
-
-        {ct_identifier: {index: {field: list of data}}}
+        :param data_storage:
+        DataStorage-Instance for managing the data
 
         :return:
         """
-        return data
+        return
 
 
 class IPotsdamCleaner(IDataType):
-    """Preprocessor Marker for Potsdam."""
+    """Marker for Potsdam."""

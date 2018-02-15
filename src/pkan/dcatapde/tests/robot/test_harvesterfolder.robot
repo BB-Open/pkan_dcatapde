@@ -8,32 +8,32 @@ Suite Teardown  Teardown
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a harvester
-  Given a logged-in site administrator
-    and an add harvester form
-   When I type 'My Harvester' into the title field
+Scenario: As a manager I can add a harvesterfolder
+  Given a logged-in manager
+    and an add harvesterfolder form
+   When I type 'My HarvesterFolder' into the title field
     and I submit the form
-   Then a harvester with the title 'My Harvester' has been created
+   Then a harvesterfolder with the title 'My HarvesterFolder' has been created
 
-Scenario: As a site administrator I can view a harvester
-  Given a logged-in site administrator
-    and a harvester 'My Harvester'
-   When I go to the harvester view
-   Then I can see the harvester title 'My Harvester'
+Scenario: As a manager I can view a harvesterfolder
+  Given a logged-in manager
+    and a harvesterfolder 'My HarvesterFolder'
+   When I go to the harvesterfolder view
+   Then I can see the harvesterfolder title 'My HarvesterFolder'
 
 
 *** Keywords *****************************************************************
 
 # --- Given ------------------------------------------------------------------
 
-a logged-in site administrator
-  Enable autologin as  Site Administrator
+a logged-in manager
+  Enable autologin as  Manager
 
-an add harvester form
-  Go To  ${PLONE_URL}/++add++harvester
+an add harvesterfolder form
+  Go To  ${PLONE_URL}/++add++harvesterfolder
 
-a harvester 'My Harvester'
-  Create content  type=harvester  id=my-harvester  title=My Harvester
+a harvesterfolder 'My HarvesterFolder'
+  Create content  type=harvesterfolder  id=my-harvesterfolder  title=My HarvesterFolder
 
 
 # --- WHEN -------------------------------------------------------------------
@@ -44,18 +44,18 @@ I type '${title}' into the title field
 I submit the form
   Click Button  Save
 
-I go to the harvester view
-  Go To  ${PLONE_URL}/my-harvester
+I go to the harvesterfolder view
+  Go To  ${PLONE_URL}/my-harvesterfolder
   Wait until page contains  Site Map
 
 
 # --- THEN -------------------------------------------------------------------
 
-a harvester with the title '${title}' has been created
+a harvesterfolder with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
   Page should contain  Item created
 
-I can see the harvester title '${title}'
+I can see the harvesterfolder title '${title}'
   Wait until page contains  Site Map
   Page should contain  ${title}

@@ -10,8 +10,12 @@ from zope.interface import implementer
 @adapter(IRelationChoice)
 @implementer(IFieldProcessor)
 class RelationAdapter(BaseField):
-    '''
-    '''
+    """
+    Relations return terms for target contenttype with prefix.
+    The prefix indicates the parent contenttype and field.
+
+    Values are cleaned by FieldAdapter of target interface.
+    """
 
     def get_terms_for_vocab(self, ct, field_name, prefix='', required=False):
         terms = []

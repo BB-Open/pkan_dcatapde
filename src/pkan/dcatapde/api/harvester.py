@@ -14,6 +14,9 @@ from zope.schema import getValidationErrors
 # Data Cleaning Methods
 def clean_harvester(**data):
     """Clean harvester."""
+    if not data:
+        return data, ()
+
     if 'title' not in data:
         data['title'] = data['url']
 
@@ -33,6 +36,7 @@ def clean_harvester(**data):
 def clean_harvesterfolder(**data):
     """Clean Harvesterfolder."""
     test_obj = Harvesterfolder()
+
     test_obj.id = constants.HARVESTER_FOLDER_ID
     test_obj.title = constants.HARVESTER_FOLDER_TITLE
 
@@ -67,11 +71,13 @@ def add_harvester_folder(context, **data):
     data, errors = clean_harvesterfolder(**data)
 
     # set id and title, title for presentation and id for addressing the object
+    if 'title' not in data:
+        data['title'] = constants.HARVESTER_FOLDER_TITLE
+    if 'id' not in data:
+        data['id'] = constants.HARVESTER_FOLDER_ID
     harvester_folder = api.content.create(
         container=context,
         type=constants.CT_HARVESTER_FOLDER,
-        title=constants.HARVESTER_FOLDER_TITLE,
-        id=constants.HARVESTER_FOLDER_ID,
         **data)
 
     return harvester_folder
@@ -92,7 +98,7 @@ def get_harvester_folder():
 
 
 def get_all_harvester():
-    """Find the folder where the harvester_folder live."""
+    """Get all harvester,"""
     portal = getSite()
     if not portal:
         return None
@@ -102,6 +108,19 @@ def get_all_harvester():
     for brain in res:
         harvester.append(brain.getObject())
     return harvester
+
+
+def get_all_harvester_folder():
+    """Find all HarvesterFolder"""
+    portal = getSite()
+    if not portal:
+        return None
+    catalog = portal.portal_catalog
+    res = catalog.searchResults({'portal_type': constants.CT_HARVESTER_FOLDER})
+    folder = []
+    for brain in res:
+        folder.append(brain.getObject())
+    return folder
 
 
 # Delete Methods

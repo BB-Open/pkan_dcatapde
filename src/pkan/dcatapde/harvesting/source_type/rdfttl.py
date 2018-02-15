@@ -48,12 +48,12 @@ class RDFProcessor(object):
         self.cleaned_data = None
         self.field_config = get_field_config(self.harvester)
         self.context = portal.get()
-        if self.field_config:
-            if self.field_config.base_object:
-                # fix: check why sometime to_object and sometimes not
-                self.context = getattr(self.field_config.base_object,
+        if self.harvester:
+            if self.harvester.base_object:
+                # Todo: check why sometime to_object and sometimes not
+                self.context = getattr(self.harvester.base_object,
                                        'to_object',
-                                       self.field_config.base_object)
+                                       self.harvester.base_object)
 
         # determine the source format serializer string for rdflib from our
         # own interface. Todo this is a bit ugly

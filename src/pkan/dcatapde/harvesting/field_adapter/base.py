@@ -13,6 +13,11 @@ from zope.schema.vocabulary import SimpleTerm
 @adapter(IField)
 @implementer(IFieldProcessor)
 class BaseField(object):
+    """
+    Base Adapter.
+    Deals with simple, unsplitted fields.
+    Convert values to unicode.
+    """
 
     def __init__(self, field):
         self.field = field
