@@ -30,7 +30,7 @@
   <browser:page
     for="*"
     name="harvester_overview"
-    class=".harvester.HarvesterOverview"
+    class=".harvester.HarvesterFolderView"
     template="templates/harvester.pt"
     permission="cmf.ManagePortal"
     />

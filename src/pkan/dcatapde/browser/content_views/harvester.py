@@ -12,7 +12,7 @@ from Products.Five import BrowserView
 import copy
 
 
-class HarvesterOverview(BrowserView):
+class HarvesterFolderView(BrowserView):
 
     # Todo: Split it in Controlpanel-View and Folder Overview
 
@@ -43,7 +43,7 @@ class HarvesterOverview(BrowserView):
 
             self.data.append(data)
 
-        return super(HarvesterOverview, self).__call__(*args, **kwargs)
+        return super(HarvesterFolderView, self).__call__(*args, **kwargs)
 
 
 class DryRunView(BrowserView):

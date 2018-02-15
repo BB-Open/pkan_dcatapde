@@ -11,11 +11,4 @@
       template="templates/controlpanel.pt"
       />
 
-  <browser:page
-      class=".views.HarvesterView"
-      for="*"
-      name="harvester-config"
-      permission="cmf.ManagePortal"
-      />
-
 </configure>
