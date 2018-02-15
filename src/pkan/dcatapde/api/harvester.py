@@ -36,6 +36,7 @@ def clean_harvester(**data):
 def clean_harvesterfolder(**data):
     """Clean Harvesterfolder."""
     test_obj = Harvesterfolder()
+
     test_obj.id = constants.HARVESTER_FOLDER_ID
     test_obj.title = constants.HARVESTER_FOLDER_TITLE
 
@@ -70,11 +71,13 @@ def add_harvester_folder(context, **data):
     data, errors = clean_harvesterfolder(**data)
 
     # set id and title, title for presentation and id for addressing the object
+    if 'title' not in data:
+        data['title'] = constants.HARVESTER_FOLDER_TITLE
+    if 'id' not in data:
+        data['id'] = constants.HARVESTER_FOLDER_ID
     harvester_folder = api.content.create(
         container=context,
         type=constants.CT_HARVESTER_FOLDER,
-        title=constants.HARVESTER_FOLDER_TITLE,
-        id=constants.HARVESTER_FOLDER_ID,
         **data)
 
     return harvester_folder
