@@ -8,15 +8,15 @@ Suite Teardown  Teardown
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a harvesterfolder
-  Given a logged-in site administrator
+Scenario: As a manager I can add a harvesterfolder
+  Given a logged-in manager
     and an add harvesterfolder form
    When I type 'My HarvesterFolder' into the title field
     and I submit the form
    Then a harvesterfolder with the title 'My HarvesterFolder' has been created
 
-Scenario: As a site administrator I can view a harvesterfolder
-  Given a logged-in site administrator
+Scenario: As a manager I can view a harvesterfolder
+  Given a logged-in manager
     and a harvesterfolder 'My HarvesterFolder'
    When I go to the harvesterfolder view
    Then I can see the harvesterfolder title 'My HarvesterFolder'
@@ -26,8 +26,8 @@ Scenario: As a site administrator I can view a harvesterfolder
 
 # --- Given ------------------------------------------------------------------
 
-a logged-in site administrator
-  Enable autologin as  Site Administrator
+a logged-in manager
+  Enable autologin as  Manager
 
 an add harvesterfolder form
   Go To  ${PLONE_URL}/++add++harvesterfolder

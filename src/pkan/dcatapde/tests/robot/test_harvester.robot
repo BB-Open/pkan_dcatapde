@@ -8,8 +8,8 @@ Suite Teardown  Teardown
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a harvester
-  Given a logged-in site administrator
+Scenario: As a manager I can add a harvester
+  Given a logged-in manager
     and a harvester folder 'Harvester Folder'
     and an add harvester form
    When I type 'My Harvester' into the title field
@@ -17,8 +17,8 @@ Scenario: As a site administrator I can add a harvester
     and I submit the form
    Then a harvester with the title 'My Harvester' has been created
 
-Scenario: As a site administrator I can view a harvester
-  Given a logged-in site administrator
+Scenario: As a manager I can view a harvester
+  Given a logged-in manager
     and a harvester folder 'Harvester Folder'
     and an add harvester form
    When I type 'My Harvester' into the title field
@@ -27,8 +27,8 @@ Scenario: As a site administrator I can view a harvester
     and I go to the harvester view
    Then I can see the harvester title 'My Harvester'
 
-Scenario: As a site administrator I can view a harvester on folder_view
-  Given a logged-in site administrator
+Scenario: As a manager I can view a harvester on folder_view
+  Given a logged-in manager
     and a harvester folder 'Harvester Folder'
     and an add harvester form
    When I type 'My Harvester' into the title field
@@ -37,8 +37,8 @@ Scenario: As a site administrator I can view a harvester on folder_view
     and I go to harvester folder view
    Then I can see the harvester title 'My Harvester'
 
-Scenario: As a site administrator I can view a harvester on control_panel
-  Given a logged-in site administrator
+Scenario: As a manager I can view a harvester on control_panel
+  Given a logged-in manager
     and a harvester folder 'Harvester Folder'
     and an add harvester form
    When I type 'My Harvester' into the title field
@@ -52,8 +52,8 @@ Scenario: As a site administrator I can view a harvester on control_panel
 
 # --- Given ------------------------------------------------------------------
 
-a logged-in site administrator
-  Enable autologin as  Site Administrator
+a logged-in manager
+  Enable autologin as  Manager
 
 a harvester folder 'Harvester Folder'
   Create content  type=harvesterfolder  id=my-harvesterfolder  title=My HarvesterFolder
@@ -75,7 +75,7 @@ I submit the form
   Click Button  Save
 
 I go to the harvester view
-  Go To  ${PLONE_URL}/my-harvester
+  Go To  ${PLONE_URL}/my-harvesterfolder/my-harvester
   Wait until page contains  Site Map
 
 I go to harvester folder view
