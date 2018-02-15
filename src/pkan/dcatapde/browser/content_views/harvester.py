@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import utils
 from pkan.dcatapde.api.functions import get_ancestor
-from pkan.dcatapde.api.harvester import get_all_harvester
+from pkan.dcatapde.api.harvester import get_all_harvester_folder
 from pkan.dcatapde.api.harvester_field_config import get_field_config
 from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.content.harvester_field_config import CT_FIELD_RELATION
@@ -12,38 +12,78 @@ from Products.Five import BrowserView
 import copy
 
 
-class HarvesterFolderView(BrowserView):
+class HarvesterListViewMixin(object):
+    """
+    Reusable Methods needed by all Views listing Harvester
+    """
 
-    # Todo: Split it in Controlpanel-View and Folder Overview
+    def read_harvester_info(self, harv):
+
+        path = harv.absolute_url()
+        field_config = get_field_config(harv)
+
+        data = {
+            'title': harv.title,
+            'path': path,
+            'source_url': addTokenToUrl(harv.url),
+            'dry_run': addTokenToUrl(path + '/dry_run'),
+            'real_run': addTokenToUrl(path + '/real_run'),
+            'reset_fields': addTokenToUrl(path + '/reset_fields'),
+            'edit': addTokenToUrl(path + '/edit'),
+        }
+        if field_config:
+            data['field_config'] = addTokenToUrl(
+                field_config.absolute_url(),
+            )
+        else:
+            data['field_config'] = None
+
+        return data
+
+
+class HarvesterFolderView(BrowserView, HarvesterListViewMixin):
+    """
+    Listing Harvester of one Folder
+    """
 
     def __call__(self, *args, **kwargs):
-        harvester = get_all_harvester()
+        folder = self.context
 
         self.data = []
 
-        for harv in harvester:
-            path = harv.absolute_url()
-            field_config = get_field_config(harv)
+        for harv_id, harv in folder.contentItems():
 
-            data = {
-                'title': harv.title,
-                'path': path,
-                'source_url': addTokenToUrl(harv.url),
-                'dry_run': addTokenToUrl(path + '/dry_run'),
-                'real_run': addTokenToUrl(path + '/real_run'),
-                'reset_fields': addTokenToUrl(path + '/reset_fields'),
-                'edit': addTokenToUrl(path + '/edit'),
-            }
-            if field_config:
-                data['field_config'] = addTokenToUrl(
-                    field_config.absolute_url(),
-                )
-            else:
-                data['field_config'] = None
+            data = self.read_harvester_info(harv)
 
             self.data.append(data)
 
         return super(HarvesterFolderView, self).__call__(*args, **kwargs)
+
+
+class HarvesterOverview(BrowserView, HarvesterListViewMixin):
+    """
+    Listing all Harvester Folders with included Harvester.
+    """
+
+    def __call__(self, *args, **kwargs):
+        harvester_folder = get_all_harvester_folder()
+
+        self.data = []
+
+        for folder in harvester_folder:
+            harvester = folder.contentItems()
+            folder_data = []
+            for harv_id, harv in harvester:
+                data = self.read_harvester_info(harv)
+
+                folder_data.append(data)
+            self.data.append({
+                'title': folder.title,
+                'elements': folder_data,
+                'path': folder.absolute_url(),
+            })
+
+        return super(HarvesterOverview, self).__call__(*args, **kwargs)
 
 
 class DryRunView(BrowserView):

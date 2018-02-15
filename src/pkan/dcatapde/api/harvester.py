@@ -95,7 +95,7 @@ def get_harvester_folder():
 
 
 def get_all_harvester():
-    """Find the folder where the harvester_folder live."""
+    """Get all harvester,"""
     portal = getSite()
     if not portal:
         return None
@@ -105,6 +105,19 @@ def get_all_harvester():
     for brain in res:
         harvester.append(brain.getObject())
     return harvester
+
+
+def get_all_harvester_folder():
+    """Find all HarvesterFolder"""
+    portal = getSite()
+    if not portal:
+        return None
+    catalog = portal.portal_catalog
+    res = catalog.searchResults({'portal_type': constants.CT_HARVESTER_FOLDER})
+    folder = []
+    for brain in res:
+        folder.append(brain.getObject())
+    return folder
 
 
 # Delete Methods

@@ -4,6 +4,10 @@
     i18n:domain="pkan.dcatapde">
 <body>
     <metal:content-core fill-slot="content-core">
+      <div tal:repeat="folder view/data">
+        <h2 tal:content="folder/title"/>
+        <a tal:attributes="href folder/path" i18n:translate="">View</a>
+        <p i18n:translate="">Content:</p>
         <table>
             <thead>
                 <tr>
@@ -17,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr tal:repeat="harv view/data">
+                <tr tal:repeat="harv folder/elements">
                     <td><a tal:attributes="href harv/path"
                             tal:content="harv/title"></a></td>
                     <td><a tal:attributes="href harv/source_url"
@@ -35,6 +39,7 @@
                 </tr>
             </tbody>
         </table>
+      </div>
     </metal:content-core>
 </body>
 </html>
