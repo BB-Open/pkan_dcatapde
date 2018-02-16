@@ -9,6 +9,7 @@
   <include package=".controlpanel "/>
   <include package=".edit_views" />
   <include package=".util_views" />
+  <include package=".test_views" />
   <!-- Publish static files -->
 
 

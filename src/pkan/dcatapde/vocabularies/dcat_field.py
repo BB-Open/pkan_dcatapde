@@ -28,10 +28,14 @@ class DcatFieldVocabulary(object):
             harvester = get_ancestor(context, constants.CT_HARVESTER)
 
             if harvester:
-                processor = harvester.source_type(harvester)
-                # Todo: Reimplement method in new RDF-Import
-                # Todo: Use CTInfo-Adapter to get fields for vocab.
-                terms = processor.read_dcat_fields(ct=self.ct)
+                try:
+                    processor = harvester.source_type(harvester)
+                except TypeError:
+                    pass
+                else:
+                    # Todo: Reimplement method in new RDF-Import
+                    # Todo: Use CTInfo-Adapter to get fields for vocab.
+                    terms = processor.read_dcat_fields(ct=self.ct)
 
         # Create a SimpleVocabulary from the terms list and return it:
         return SimpleVocabulary(terms)

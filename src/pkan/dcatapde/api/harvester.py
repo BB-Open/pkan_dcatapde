@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Work with harvester."""
-from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde.content.harvester import Harvester
 from pkan.dcatapde.content.harvester import IHarvester
@@ -65,8 +64,6 @@ def add_harvester(context, **data):
 
 def add_harvester_folder(context, **data):
     """Add a harvester folder."""
-    msg = _('API: Cannot create second harvester_folder folder')
-    assert get_harvester_folder() is None, msg
 
     data, errors = clean_harvesterfolder(**data)
 

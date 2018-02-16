@@ -1,0 +1,20 @@
+<configure
+      xmlns="http://namespaces.zope.org/zope"
+      xmlns:browser="http://namespaces.zope.org/browser"
+      >
+
+  <browser:page
+    for="pkan.dcatapde.content.harvester.IHarvester"
+    name="harvester_entity"
+    class=".views.HarvesterTestView"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    for="*"
+    name="harvester_preview"
+    class=".views.HarvesterPreview"
+    permission="cmf.ManagePortal"
+    />
+
+</configure>
