@@ -14,16 +14,9 @@ Scenario: As a site administrator I can add a catalog
     and an add catalog form
    When I type 'My Catalog' into the title field
     and I type 'A description' into the description field
-    and I select 'Test-Publisher' from the 'Publisher' select
+    and I select 'Test-Publisher' from an AJAX select widget with id 'formfield-form-widgets-dct_publisher'
     and I submit the form
    Then a catalog with the title 'My Catalog' has been created
-
-Scenario: As a site administrator I can view a catalog
-  Given a logged-in site administrator
-    and a publisher 'Test-Publisher'
-    and a catalog 'My Catalog'
-   When I go to the catalog view
-   Then I can see the catalog title 'My Catalog'
 
 
 *** Keywords *****************************************************************
@@ -51,11 +44,6 @@ I type '${title}' into the title field
 
 I type '${description}' into the description field
   Input Text  form.widgets.dct_description.en  ${description}
-
-I select '${choice}' from the 'Publisher' select
-  Sleep  10 min
-  Click   s2id_autogen15
-  Select From List By Label   name=form.widgets.dct_publisher  ${choice}
 
 I submit the form
   Click Button  Save
