@@ -7,8 +7,12 @@ from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_DCT_LOCATION
+from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
+from pkan.dcatapde.constants import CT_DCT_STANDARD
 from pkan.dcatapde.constants import CT_FOAF_AGENT
 from pkan.dcatapde.constants import CT_RDF_LITERAL
+from pkan.dcatapde.constants import CT_SKOS_CONCEPT
+from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
 from pkan.dcatapde.marshall.source.dx2any import get_ordered_fields
 from plone.api import portal
 from plone.api.portal import get_current_language
@@ -146,24 +150,6 @@ class StructBase(object):
         return terms
 
 
-class StructFOAFAgent(StructBase):
-    """Structure definition of foaf:Agent"""
-
-    portal_type = CT_FOAF_AGENT
-
-    @property
-    def properties(self):
-        """Return properties.
-        :return:
-        """
-
-        result = {}
-        for field_name, field in self.fields_in_order:
-            # todo: Filter
-            result[field_name] = field
-        return result
-
-
 class StructDCATCatalog(StructBase):
     """Structure definition of foafdcat:Catalog"""
 
@@ -241,3 +227,75 @@ class StructDCATDataset(StructBase):
             'required': False,
         }
         return related
+
+
+class StructDCATDistribution(StructBase):
+
+    portal_type = CT_DCAT_DISTRIBUTION
+
+    @property
+    def referenced(self):
+        """Return all referenced items.
+
+        :return:
+        """
+        related = {}
+        related['dct_license'] = {
+            'object': CT_DCT_LICENSEDOCUMENT,
+            'required': False,
+        }
+        related['dct_format'] = {
+            'object': CT_DCT_MEDIATYPEOREXTENT,
+            'required': False,
+        }
+        related['dct_mediaType'] = {
+            'object': CT_DCT_MEDIATYPEOREXTENT,
+            'required': False,
+        }
+        related['dct_conformsTo'] = {
+            'object': CT_DCT_STANDARD,
+            'required': False,
+        }
+        return related
+
+
+class StructDCTLicenseDocument(StructBase):
+    """Structure definition of dct:licenseDocument"""
+
+    portal_type = CT_DCT_LICENSEDOCUMENT
+
+
+class StructDCTLocation(StructBase):
+    """Structure definition of dct:Location"""
+
+    portal_type = CT_DCT_LOCATION
+
+
+class StructDCTMediaTypeOrExtend(StructBase):
+    """Structure definition of dct:Mediatypeorextent"""
+
+    portal_type = CT_DCT_MEDIATYPEOREXTENT
+
+
+class StructDCTStandard(StructBase):
+    """Structure definition of dct:Standard"""
+
+    portal_type = CT_DCT_STANDARD
+
+
+class StructFOAFAgent(StructBase):
+    """Structure definition of foaf:Agent"""
+
+    portal_type = CT_FOAF_AGENT
+
+
+class StructSKOSConceptScheme(StructBase):
+    """Structure definition of skos:ConceptSchema"""
+
+    portal_type = CT_SKOS_CONCEPTSCHEME
+
+
+class StructSKOSConcept(StructBase):
+    """Structure definition of skos:ConceptSchema"""
+
+    portal_type = CT_SKOS_CONCEPT
