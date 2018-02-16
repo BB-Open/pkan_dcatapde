@@ -68,6 +68,23 @@ class RDFProcessor(object):
         self.session = self.rdfstore.session
         self.rdfstore.store.load_triples(source=uri, format=format)
 
+    def read_classes(self):
+        """Read the classes of the rdf data for the vocabulary to assign
+         to DX classes"""
+        uri = self.harvester.url
+        self.read_rdf_file(uri, self.serialize_format)
+        SPARQL = """SELECT DISCTINCT ?o WHERE {?s a ?o .}"""
+        result = self.graph.query(SPARQL)
+        return result
+
+    def read_dcat_fields(self, *args, **kwargs):
+        """Dummy"""
+        return []
+
+    def read_fields(self, *args, **kwargs):
+        """Dummy"""
+        return []
+
     def setup_logger(self):
         """Log to a io.stream that can later be embedded in the view output"""
         # get a logger named after the serializing format we use

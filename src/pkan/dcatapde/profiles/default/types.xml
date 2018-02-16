@@ -27,5 +27,6 @@
   <!-- PKAN Types -->
   <object meta_type="Dexterity FTI" name="harvester"/>
   <object meta_type="Dexterity FTI" name="harvester_field_config"/>
+  <object meta_type="Dexterity FTI" name="harvester_entity"/>
   <object meta_type="Dexterity FTI" name="harvesterfolder"/>
 </object>

@@ -31,7 +31,7 @@ class IDCTStandard(model.Schema, IDCAT):
     )
 
     rdfs_isDefinedBy = schema.URI(
-        required=True,
+        required=False,
         title=i18n.LABEL_RDFS_ISDEFINEDBY,
     )
 

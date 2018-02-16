@@ -2,8 +2,6 @@
 from collective.z3cform.datagridfield import DataGridFieldFactory
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
-from pkan.dcatapde.api.functions import get_ancestor
-from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.content.fielddefaultfactory import ConfigFieldDefaultFactory
 from pkan.dcatapde.content.harvester_field_config import CT_FIELD_RELATION
 from pkan.dcatapde.content.harvester_field_config import HarvesterFieldConfig
@@ -129,17 +127,17 @@ def sort_fields(fields):
 
 
 def update_form_fields(context):
-    harvester = get_ancestor(context, CT_HARVESTER)
+    # harvester = get_ancestor(context, CT_HARVESTER)
 
     selected = getFieldNamesInOrder(IHarvesterFieldConfig)
 
-    if harvester:
-        harvesting_type = harvester.harvesting_type(harvester)
-        used_cts = harvesting_type.get_used_cts()
-
-        for ct in CT_FIELD_RELATION.keys():
-            if ct not in used_cts:
-                selected.remove(CT_FIELD_RELATION[ct])
+    # if harvester:
+    #     harvesting_type = harvester.harvesting_type(harvester)
+    #     used_cts = harvesting_type.get_used_cts()
+    #
+    #     for ct in CT_FIELD_RELATION.keys():
+    #         if ct not in used_cts:
+    #             selected.remove(CT_FIELD_RELATION[ct])
 
     fields = field.Fields(IHarvesterFieldConfig).select(*selected)
 

@@ -10,15 +10,17 @@ Suite Teardown  Teardown
 
 Scenario: As a site administrator I can add a catalog
   Given a logged-in site administrator
+    and a publisher 'Test-Publisher'
     and an add catalog form
    When I type 'My Catalog' into the title field
     and I type 'A description' into the description field
+    and I select 'Test-Publisher' from the 'Publisher' select
     and I submit the form
    Then a catalog with the title 'My Catalog' has been created
 
 Scenario: As a site administrator I can view a catalog
   Given a logged-in site administrator
-    and a publisher 'Publisher'
+    and a publisher 'Test-Publisher'
     and a catalog 'My Catalog'
    When I go to the catalog view
    Then I can see the catalog title 'My Catalog'
@@ -37,18 +39,23 @@ an add catalog form
 a catalog 'My Catalog'
   Create content  type=dcat_catalog  id=my-catalog  title=My Catalog
 
-a publisher 'Publisher'
-  Create content  type=foaf_agent  id=publisher  title=Publisher
-
-
+a publisher 'Test-Publisher'
+  Go To  ${PLONE_URL}/publishers/++add++foaf_agent
+  I type 'Test-Publisher' into the title field
+  I submit the form
 
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.dct_title.i18n.en  ${title}
+  Input Text  form.widgets.dct_title.en  ${title}
 
 I type '${description}' into the description field
-  Input Text  form.widgets.dct_description.i18n.en  ${description}
+  Input Text  form.widgets.dct_description.en  ${description}
+
+I select '${choice}' from the 'Publisher' select
+  Sleep  10 min
+  Click   s2id_autogen15
+  Select From List By Label   name=form.widgets.dct_publisher  ${choice}
 
 I submit the form
   Click Button  Save

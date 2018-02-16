@@ -77,6 +77,11 @@
         title="pkan.dcatapde: Add HarvesterFieldConfig"
         />
 
+    <permission
+        id="pkan.dcatapde.AddHarvesterEntity"
+        title="pkan.dcatapde: Add HarvesterEntity"
+        />
+
   </configure>
 
 </configure>
