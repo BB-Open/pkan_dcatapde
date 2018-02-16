@@ -38,7 +38,7 @@ class ISKOSConcept(model.Schema, IDCAT):
 
     rdfs_isDefinedBy = schema.URI(
         description=i18n.HELP_RDFS_ISDEFINEDBY,
-        required=True,
+        required=False,
         title=i18n.LABEL_RDFS_ISDEFINEDBY,
     )
 

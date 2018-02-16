@@ -1,37 +1,33 @@
 <?xml version="1.0"?>
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    name="harvester"
+    name="harvester_entity"
     meta_type="Dexterity FTI"
     i18n:domain="pkan.dcatapde">
 
   <!-- Basic properties -->
   <property
       i18n:translate=""
-      name="title">Harvester</property>
+      name="title">Harvester Entity</property>
   <property
       i18n:translate=""
-      name="description">Harvester Object</property>
+      name="description">Entity Config for a Harvester</property>
 
   <property name="allow_discussion">False</property>
-  <property name="factory">harvester</property>
+  <property name="factory">harvester_entity</property>
   <property name="icon_expr"></property>
   <property name="link_target"></property>
 
   <!-- Hierarchy control -->
-  <property name="allowed_content_types">
-      <element value="harvester_field_config" />
-      <element value="harvester_entity" />
-  </property>
+  <property name="allowed_content_types"/>
   <property name="filter_content_types">True</property>
   <property name="global_allow">False</property>
 
   <!-- Schema, class and security -->
-  <property name="add_permission">pkan.dcatapde.AddHarvester</property>
-  <property name="klass">pkan.dcatapde.content.harvester.Harvester</property>
-
+  <property name="add_permission">pkan.dcatapde.AddHarvesterEntity</property>
+  <property name="klass">pkan.dcatapde.content.harvester_entity.HarvesterEntity</property>
   <property name="model_file"></property>
   <property name="model_source"></property>
-  <property name="schema">pkan.dcatapde.content.harvester.IHarvester</property>
+  <property name="schema">pkan.dcatapde.content.harvester_entity.IHarvesterEntity</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
@@ -41,7 +37,7 @@
     <element value="plone.app.dexterity.behaviors.id.IShortName"/>
     <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
     <!--<element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />-->
-    <element value="plone.app.lockingbehavior.behaviors.ILocking" />-
+    <element value="plone.app.lockingbehavior.behaviors.ILocking" />
     <!--<element value="plone.app.dexterity.behaviors.metadata.IBasic"/>-->
     <element value="plone.app.relationfield.behavior.IRelatedItems"/>
     <!--<element value="plone.app.versioningbehavior.behaviors.IVersionable" />-->
@@ -50,7 +46,7 @@
   </property>
 
   <!-- View information -->
-  <property name="add_view_expr">string:${folder_url}/++add++harvester</property>
+  <property name="add_view_expr">string:${folder_url}/++add++harvester_entity</property>
   <property name="default_view">view</property>
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>

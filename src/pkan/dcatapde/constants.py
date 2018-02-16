@@ -12,6 +12,7 @@ CT_DCT_STANDARD = 'dct_standard'
 CT_FOAF_AGENT = 'foaf_agent'
 CT_HARVESTER = 'harvester'
 CT_HARVESTER_FIELD_CONFIG = 'harvester_field_config'
+CT_HARVESTER_ENTITY = 'harvester_entity'
 CT_HARVESTER_FOLDER = 'harvesterfolder'
 CT_SKOS_CONCEPT = 'skos_concept'
 CT_SKOS_CONCEPTSCHEME = 'skos_conceptscheme'
@@ -92,6 +93,9 @@ MANDATORY_FOLDERS = {
 
 HARVESTER_FIELD_CONFIG_TITLE = 'Field Config'
 HARVESTER_FIELD_CONFIG_ID = 'field_config'
+
+HARVESTER_ENTITY_TITLE = 'Entity Config'
+HARVESTER_ENTITY_ID = 'entity_config'
 
 HARVESTER_FOLDER_TITLE = 'Harvester Folder'
 HARVESTER_FOLDER_ID = 'harvester_folder'

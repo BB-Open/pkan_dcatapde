@@ -13,6 +13,7 @@ from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
+from zope import schema
 from zope.interface import implementer
 
 
@@ -27,8 +28,13 @@ class IFOAFAgent(model.Schema, IDCAT):
     )
 
     dct_description = I18NText(
-        required=True,
+        required=False,
         title=i18n.LABEL_DCT_DESCRIPTION,
+    )
+
+    rdfs_isDefinedBy = schema.URI(
+        required=False,
+        title=i18n.LABEL_RDFS_ISDEFINEDBY,
     )
 
 
