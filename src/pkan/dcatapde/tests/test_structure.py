@@ -30,45 +30,45 @@ class HarvesterIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_base_struct(self):
-        base = StructBase()
+        base = StructBase('dummy context')
         self.assertEqual(base.vocab_terms, [])
 
     def test_dcat_catalog_struct(self):
-        base = StructDCATCatalog()
+        base = StructDCATCatalog('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dcat_dataset_struct(self):
-        base = StructDCATDataset()
+        base = StructDCATDataset('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dcat_distribution_struct(self):
-        base = StructDCATDistribution()
+        base = StructDCATDistribution('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dct_licensedocument_struct(self):
-        base = StructDCTLicenseDocument()
+        base = StructDCTLicenseDocument('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dct_location_struct(self):
-        base = StructDCTLocation()
+        base = StructDCTLocation('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dct_mediatypeorextent(self):
-        base = StructDCTMediaTypeOrExtent()
+        base = StructDCTMediaTypeOrExtent('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dct_standard_struct(self):
-        base = StructDCTStandard()
+        base = StructDCTStandard('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_foaf_agent_struct(self):
-        base = StructFOAFAgent()
+        base = StructFOAFAgent('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_skos_concept_struct(self):
-        base = StructSKOSConcept()
+        base = StructSKOSConcept('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_skos_conceptscheme_struct(self):
-        base = StructSKOSConceptScheme()
+        base = StructSKOSConceptScheme('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
