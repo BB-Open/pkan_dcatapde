@@ -2,4 +2,11 @@
 
   <include package=".dcatapde" />
 
+  <adapter
+    factory=".dx2any.DX2Any"
+    for="zope.interface.Interface
+         pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
+    provides="pkan.dcatapde.marshall.interfaces.IMarshallSource"
+  />
+
 </configure>

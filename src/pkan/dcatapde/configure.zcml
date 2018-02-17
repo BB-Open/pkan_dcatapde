@@ -21,8 +21,7 @@
   <include package=".content" />
   <include package=".harvesting"/>
   <include package=".marshall"/>
-  <include package=".content"/>
-  <include package=".io" />
+  <include package=".structure" />
   <include package=".vocabularies" />
 
   <include file="upgrades.zcml" />

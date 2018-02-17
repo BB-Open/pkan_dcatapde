@@ -1,13 +1,13 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
   <adapter
-    factory=".dcat_catalog.DCATCatalog2RDF"
-    for="pkan.dcatapde.content.dcat_catalog.IDCATCatalog
+    factory=".dcat2rdf.DCAT2RDF"
+    for="pkan.dcatapde.content.base.IDCAT
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
     provides="..interfaces.IDX2RDF"
   />
 
-  <adapter
+<!--  <adapter
     factory=".dcat_dataset.DCATDataset2RDF"
     for="pkan.dcatapde.content.dcat_dataset.IDCATDataset
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
@@ -41,7 +41,7 @@
            pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
     provides="..interfaces.IDX2RDF"
   />
-
+-->
   <adapter
     factory=".fields.I18NField2RDF"
     for="plone.dexterity.interfaces.IDexterityContent

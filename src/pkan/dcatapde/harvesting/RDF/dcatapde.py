@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Harvesting module for DCAT-AP.de data"""
 from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.harvesting.RDF.dcat_dataset import RDF2DCATDataset
+# from pkan.dcatapde.harvesting.RDF.dcat_dataset import RDF2DCATDataset
 from pkan.dcatapde.harvesting.RDF.interfaces import IRDF
 from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_CATALOG
 from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_DATASET
@@ -39,8 +39,9 @@ class RDFCrawler(object):
         self.session = self.rdfstore.session
         top_class = self.session.get_class(self.search_surf_class)
         result = top_class.all().full()
+        return result
         # TOdo generalize
-        for rdf_dataset in result:
-            factory = RDF2DCATDataset(rdf_dataset, self.context)
-            factory.create()
-            # Todo: traverse
+#        for rdf_dataset in result:
+#            factory = RDF2DCATDataset(rdf_dataset, self.context)
+#            factory.create()
+#            Todo: traverse
