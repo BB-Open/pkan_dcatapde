@@ -2,17 +2,17 @@
 """tests for `structure`."""
 
 from pkan.dcatapde import testing
-from pkan.dcatapde.structure import StructBase
-from pkan.dcatapde.structure import StructDCATCatalog
-from pkan.dcatapde.structure import StructDCATDataset
-from pkan.dcatapde.structure import StructDCATDistribution
-from pkan.dcatapde.structure import StructDCTLicenseDocument
-from pkan.dcatapde.structure import StructDCTLocation
-from pkan.dcatapde.structure import StructDCTMediaTypeOrExtend
-from pkan.dcatapde.structure import StructDCTStandard
-from pkan.dcatapde.structure import StructFOAFAgent
-from pkan.dcatapde.structure import StructSKOSConcept
-from pkan.dcatapde.structure import StructSKOSConceptScheme
+from pkan.dcatapde.structure.structure import StructBase
+from pkan.dcatapde.structure.structure import StructDCATCatalog
+from pkan.dcatapde.structure.structure import StructDCATDataset
+from pkan.dcatapde.structure.structure import StructDCATDistribution
+from pkan.dcatapde.structure.structure import StructDCTLicenseDocument
+from pkan.dcatapde.structure.structure import StructDCTLocation
+from pkan.dcatapde.structure.structure import StructDCTMediaTypeOrExtent
+from pkan.dcatapde.structure.structure import StructDCTStandard
+from pkan.dcatapde.structure.structure import StructFOAFAgent
+from pkan.dcatapde.structure.structure import StructSKOSConcept
+from pkan.dcatapde.structure.structure import StructSKOSConceptScheme
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 
@@ -54,7 +54,7 @@ class HarvesterIntegrationTest(unittest.TestCase):
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dct_mediatypeorextent(self):
-        base = StructDCTMediaTypeOrExtend()
+        base = StructDCTMediaTypeOrExtent()
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dct_standard_struct(self):
