@@ -19,11 +19,12 @@ DCAT to become 22 entities in DCAT-AP.de. Now the
 `UML diagram of DACT-AP.de <http://www.dcat-ap.de/def/dcatde/1_0/uml/modelio.pdf>`_
 looks to persons in administration more like the subway chart of Tokio than like their beloved spreadsheets, ledgers or catalogues. We like to help those persons.
 
-  * PKAN comes with modern web formulars for all 22 entities to create metadata that is already DCAT-AP.de when it is typed into the formular.
-  * PKAN imports (harvest) arbitrary RDF-based data sources and
-     * transform them into valid DCAT-AP.de entities
-     * edit and enrich the entities
-     * and finally export (marshall) the entities to an upstream semantic web server (govdata.de in germany)
+- PKAN comes with modern web formulars for all 22 entities to create metadata that are already DCAT-AP.de when typed into the formular
+- PKAN imports (harvest) arbitrary RDF-based data sources and
+
+   - transform them into valid DCAT-AP.de entities
+   - edit and enrich the entities
+   - and finally export (marshall) the entities to an upstream semantic web server (govdata.de in germany)
 
 PKAN is programmed as a set of Add-Ons for the  `Plone CMS <https://plone.org>`_. Plone has a proved and tested codebase and a quite successful history not
 only as content management system. Plone comes with lots of batteries included like persistent searches, a workflow engine and the revisioning of documents.
@@ -43,6 +44,7 @@ with a PostgreSQL database server we added a complete triple store to PKAN inclu
 .. toctree::
    :maxdepth: 2
 
+   Overview <overview>
    Installation <install>
    Configuration <configuration/index>
    Content Types <content_types/index>
