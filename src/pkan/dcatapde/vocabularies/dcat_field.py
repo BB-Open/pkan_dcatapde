@@ -6,6 +6,7 @@ from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
 from zope.interface import implementer
+from zope.interface.interfaces import ComponentLookupError
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
 
@@ -16,7 +17,7 @@ class DcatFieldVocabulary(object):
 
     def __init__(self, cts=None):
         # parameter can be used to reduce number of cts
-        if cts:
+        if cts is not None:
             self.cts = cts
         else:
             self.cts = DCAT_CTs
@@ -31,7 +32,10 @@ class DcatFieldVocabulary(object):
         terms = []
 
         for ct in self.cts:
-            klass = resolve(getUtility(IDexterityFTI, name=ct).klass)
+            try:
+                klass = resolve(getUtility(IDexterityFTI, name=ct).klass)
+            except ComponentLookupError:
+                continue
 
             # just an adaptable test instance without properties to get adapter
             klass_instance = klass()
