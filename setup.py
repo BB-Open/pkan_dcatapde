@@ -29,6 +29,9 @@ install_requires = [
     'surf',
     'vkbeautify',
     'zope.app.content',
+    'psycopg2',
+    # avoid import Error for ComponentLookupError
+    'zope.interface >= 3.8.0'
 ],
 
 test_requires = [
