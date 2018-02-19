@@ -23,7 +23,7 @@ class ConfigFieldDefaultFactory(object):
 
         context = None
 
-        vocab = DcatFieldVocabulary(self.ct)
+        vocab = DcatFieldVocabulary([self.ct])
         options = vocab(context)
 
         for value in options.by_value.keys():

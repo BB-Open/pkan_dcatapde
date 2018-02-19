@@ -36,7 +36,7 @@ class ICatalogField(IField):
     dcat_field = schema.Choice(
         required=True,
         title=_(u'Dcat Field'),
-        source=DcatFieldVocabulary(c.CT_DCAT_CATALOG),
+        source=DcatFieldVocabulary([c.CT_DCAT_CATALOG]),
     )
 
 
@@ -44,7 +44,7 @@ class IDatasetField(IField):
     dcat_field = schema.Choice(
         required=True,
         title=_(u'Dcat Field'),
-        source=DcatFieldVocabulary(c.CT_DCAT_DATASET),
+        source=DcatFieldVocabulary([c.CT_DCAT_DATASET]),
     )
 
 
@@ -52,7 +52,7 @@ class IDistributionField(IField):
     dcat_field = schema.Choice(
         required=True,
         title=_(u'Dcat Field'),
-        source=DcatFieldVocabulary(c.CT_DCAT_DISTRIBUTION),
+        source=DcatFieldVocabulary([c.CT_DCAT_DISTRIBUTION]),
     )
 
 
@@ -60,7 +60,7 @@ class ILicenseField(IField):
     dcat_field = schema.Choice(
         required=True,
         title=_(u'Dcat Field'),
-        source=DcatFieldVocabulary(c.CT_DCT_LICENSEDOCUMENT),
+        source=DcatFieldVocabulary([c.CT_DCT_LICENSEDOCUMENT]),
     )
 
 

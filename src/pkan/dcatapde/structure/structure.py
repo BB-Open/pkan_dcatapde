@@ -208,10 +208,10 @@ class StructBase(object):
 
         terms = []
         for field_name in field_names:
-            object_type, required = self.fields_objects_required[field_name]
+            required = self.fields_objects_required[field_name]['required']
             if required:
                 title = _(
-                    '{CT} {field_name} (required)',
+                    u'${CT}=>${field_name} (required)',
                     mapping={
                         u'field_name': u'{0}'.format(field_name),
                         u'CT': u'{0}'.format(self.portal_type),
@@ -223,7 +223,7 @@ class StructBase(object):
                 )
             else:
                 title = _(
-                    '{CT} {field_name}',
+                    u'${CT}=>${field_name}',
                     mapping={
                         u'field_name': u'{0}'.format(field_name),
                         u'CT': u'{0}'.format(self.portal_type),
@@ -234,11 +234,13 @@ class StructBase(object):
                     field_name=field_name,
                 )
 
+            title = translate(
+                title,
+                target_language=get_current_language(),
+            )
             terms.append(
                 SimpleTerm(
-                    value=token, token=token, title=translate(
-                        title,
-                        target_language=get_current_language()),
+                    value=token, token=token, title=title,
                 ),
             )
         return terms

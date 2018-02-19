@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde import constants as c
 from pkan.dcatapde import _
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
 from plone import api
@@ -17,7 +16,7 @@ class IHarvesterTestSchema(Interface):
     destination = schema.Choice(
         required=False,
         title=_(u'Destination'),
-        source=DcatFieldVocabulary(c.CT_DCAT_CATALOG),
+        source=DcatFieldVocabulary(),
     )
 
     prio = schema.Int(

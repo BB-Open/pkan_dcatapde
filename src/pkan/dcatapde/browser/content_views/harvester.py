@@ -147,7 +147,7 @@ class FieldConfigView(BrowserView):
                 utils.set_request_annotations('pkan.vocabularies.context',
                                               self.context)
 
-                vocab = DcatFieldVocabulary(ct)
+                vocab = DcatFieldVocabulary([ct])
                 options = vocab(self.context)
 
                 for line in lines:
