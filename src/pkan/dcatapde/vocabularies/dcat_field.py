@@ -6,9 +6,14 @@ from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
 from zope.interface import implementer
-from zope.interface.interfaces import ComponentLookupError
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
+
+
+try:
+    from zope.interface.interfaces import ComponentLookupError
+except ImportError:
+    from zope.component.interfaces import ComponentLookupError
 
 
 @implementer(IContextSourceBinder)
