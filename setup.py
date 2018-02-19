@@ -29,6 +29,7 @@ install_requires = [
     'surf',
     'vkbeautify',
     'zope.app.content',
+    'psycopg2',
 ],
 
 test_requires = [

@@ -1,41 +1,55 @@
 # -*- coding: utf-8 -*-
 """DCAT field vocabularies."""
-from pkan.dcatapde import constants
-from pkan.dcatapde import utils
-from pkan.dcatapde.api.functions import get_ancestor
+from pkan.dcatapde.constants import DCAT_CTs
+from pkan.dcatapde.structure.structure import IStructure
+from plone.dexterity.interfaces import IDexterityFTI
+from zope.component import getUtility
+from zope.dottedname.resolve import resolve
 from zope.interface import implementer
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
+
+
+try:
+    from zope.interface.interfaces import ComponentLookupError
+except ImportError:
+    from zope.component.interfaces import ComponentLookupError
 
 
 @implementer(IContextSourceBinder)
 class DcatFieldVocabulary(object):
     """DCAT field vocabulary."""
 
-    def __init__(self, ct):
-        self.ct = ct
+    def __init__(self, cts=None):
+        # parameter can be used to reduce number of cts
+        if cts is not None:
+            self.cts = cts
+        else:
+            self.cts = DCAT_CTs
 
     def __call__(self, context):
-        if (context is None or
-                isinstance(context, dict) or
-                'NO_VALUE' in str(context)):
-            context = utils.get_request_annotations(
-                'pkan.vocabularies.context',
-            )
+        # if (context is None or
+        #         isinstance(context, dict) or
+        #         'NO_VALUE' in str(context)):
+        #     context = utils.get_request_annotations(
+        #         'pkan.vocabularies.context',
+        #     )
         terms = []
 
-        if context:
-            harvester = get_ancestor(context, constants.CT_HARVESTER)
+        for ct in self.cts:
+            try:
+                klass = resolve(getUtility(IDexterityFTI, name=ct).klass)
+            except ComponentLookupError:
+                continue
 
-            if harvester:
-                try:
-                    processor = harvester.source_type(harvester)
-                except TypeError:
-                    pass
-                else:
-                    # Todo: Reimplement method in new RDF-Import
-                    # Todo: Use CTInfo-Adapter to get fields for vocab.
-                    terms = processor.read_dcat_fields(ct=self.ct)
+            # just an adaptable test instance without properties to get adapter
+            klass_instance = klass()
+
+            try:
+                structure_adapter = IStructure(klass_instance)
+            except TypeError:
+                continue
+            terms += structure_adapter.vocab_terms
 
         # Create a SimpleVocabulary from the terms list and return it:
         return SimpleVocabulary(terms)
