@@ -2,7 +2,7 @@
 pkan.dcatapde
 =============
 
-PKAN (Plone Knowledge And Norms) is an applikation to create, import and export semantic web information
+PKAN (Plone Knowledge And Norms) is an application to create, import and export semantic web information
 with a strong focus on the german `DCAT-AP.de <dact-ap.de>`_ metadata norm governing the operation.
 
 The semantic web gives us unlimited possibilities to express knowledge. Being founded on boundless possibilities is a nice feature but alone it does
