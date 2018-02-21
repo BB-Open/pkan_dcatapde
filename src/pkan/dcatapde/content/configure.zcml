@@ -175,15 +175,6 @@
       />
 
 
-  <!-- HarvesterFieldConfig -->
-  <!-- ==================== -->
-  <utility
-      factory=".harvester_field_config.FieldConfigDefaultFactory"
-      name="harvester_field_config"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
-
   <!-- HarvesterEntityConfig -->
   <!-- ==================== -->
   <utility

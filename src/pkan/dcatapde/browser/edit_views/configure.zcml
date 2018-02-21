@@ -4,13 +4,6 @@
       >
 
  <browser:page
-    for="pkan.dcatapde.content.harvester_field_config.IHarvesterFieldConfig"
-    name="edit"
-    class=".field_config.FieldConfigEdit"
-    permission="cmf.ModifyPortalContent"
-    />
-
- <browser:page
     for="pkan.dcatapde.content.harvester_entity.IHarvesterEntity"
     name="edit"
     class=".entity_config.EntityEdit"

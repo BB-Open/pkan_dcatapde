@@ -4,7 +4,6 @@
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
-from pkan.dcatapde.api.harvester_field_config import add_harvester_field_config
 from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
@@ -99,7 +98,3 @@ class HarvesterDefaultFactory(DexterityFactory):
         # add_harvester_field_config(folder)
 
         return folder
-
-
-def add_field_config(object, event):
-    add_harvester_field_config(object)
