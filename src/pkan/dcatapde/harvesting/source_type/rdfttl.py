@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
 from pkan.dcatapde import _
-from pkan.dcatapde.api.harvester_field_config import get_field_config
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
@@ -46,7 +45,7 @@ class RDFProcessor(object):
         # fetch the preprocessor adapter
         self.data_cleaner = self.harvester.data_cleaner(self.harvester)
         self.cleaned_data = None
-        self.field_config = get_field_config(self.harvester)
+        # self.field_config = get_field_config(self.harvester)
         self.context = portal.get()
         if self.harvester:
             if self.harvester.base_object:

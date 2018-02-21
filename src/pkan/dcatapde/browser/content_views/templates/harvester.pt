@@ -12,7 +12,6 @@
                   <td i18n:translate="">Edit</td>
                   <td i18n:translate="">Dry Run</td>
                   <td i18n:translate="">Real Run</td>
-                  <td i18n:translate="">Field Config</td>
                   <td i18n:translate="">Reset Fields</td>
                 </tr>
             </thead>
@@ -28,8 +27,6 @@
                            tal:attributes="href harv/dry_run">Dry Run</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/real_run">Real Run</a></td>
-                    <td><a tal:omit-tag="not:harv/field_config" i18n:translate=""
-                           tal:attributes="href harv/field_config">Field Config</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/reset_fields">Reset Fields</a></td>
                 </tr>

@@ -11,7 +11,6 @@ CT_DCT_MEDIATYPEOREXTENT = 'dct_mediatypeorextent'
 CT_DCT_STANDARD = 'dct_standard'
 CT_FOAF_AGENT = 'foaf_agent'
 CT_HARVESTER = 'harvester'
-CT_HARVESTER_FIELD_CONFIG = 'harvester_field_config'
 CT_HARVESTER_ENTITY = 'harvester_entity'
 CT_HARVESTER_FOLDER = 'harvesterfolder'
 CT_RDF_LITERAL = 'rdf_literal'
@@ -91,9 +90,6 @@ MANDATORY_FOLDERS = {
     FOLDER_PUBLISHERS: CT_AGENT_FOLDER,
     FOLDER_STANDARDS: CT_STANDARDS_FOLDER,
 }
-
-HARVESTER_FIELD_CONFIG_TITLE = 'Field Config'
-HARVESTER_FIELD_CONFIG_ID = 'field_config'
 
 HARVESTER_ENTITY_TITLE = 'Entity Config'
 HARVESTER_ENTITY_ID = 'entity_config'
