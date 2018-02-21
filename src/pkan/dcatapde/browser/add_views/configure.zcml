@@ -6,21 +6,6 @@
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
              plone.dexterity.interfaces.IDexterityFTI"
         provides="zope.publisher.interfaces.browser.IBrowserPage"
-        factory=".harvester_entity.EntityAddView"
-        name="harvester_entity"
-        />
-    <class class=".harvester_entity.EntityAddView">
-        <require
-            permission="cmf.AddPortalContent"
-            interface="zope.publisher.interfaces.browser.IBrowserPage"
-            />
-    </class>
-
-    <adapter
-        for="Products.CMFCore.interfaces.IFolderish
-             zope.publisher.interfaces.browser.IDefaultBrowserLayer
-             plone.dexterity.interfaces.IDexterityFTI"
-        provides="zope.publisher.interfaces.browser.IBrowserPage"
         factory=".default_add_view.PkanDefaultAddView"
         name="catalog"
         />

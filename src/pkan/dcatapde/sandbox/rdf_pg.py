@@ -6,16 +6,15 @@ from rdflib import Literal
 from rdflib import plugin
 from rdflib.store import Store
 from rdflib_sqlalchemy import registerplugins
-
-
 # import vkbeautify as vkb
+from sqlalchemy.exc import IntegrityError
 
 
 registerplugins()
 
 
 class SQLStorage(object):
-    uri = Literal('sqlite://')
+    uri = Literal('postgresql+psycopg2://pkan:sas242@localhost:5432/pkanstore')
 
     def __init__(self, name):
         store = plugin.get('SQLAlchemy', Store)(identifier=name)
@@ -31,8 +30,11 @@ storage = SQLStorage('test1')
 # read an rdf file in the storage
 # storage.graph.load('http://dbpedia.org/resource/Semantic_Web')
 
-storage.graph.load('http://publications.europa.eu/mdr/resource/authority'
-                   '/licence/skos/licences-skos.rdf')
+try:
+    storage.graph.load('http://publications.europa.eu/mdr/resource/authority'
+                       '/licence/skos/licences-skos.rdf')
+except IntegrityError:
+    pass
 
 # storage.graph.load('http://www.dcat-ap.de/def/licenses/1_0.rdf')
 
@@ -48,4 +50,4 @@ qres = storage.graph.query(
 
 # print(vkb.xml(qres.serialize()))
 
-storage.graph.save()
+# storage.graph.save()
