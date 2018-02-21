@@ -7,12 +7,13 @@ from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.RDF.interfaces import IRDF
-from pkan.dcatapde.harvesting.RDF.surf_config import RDFStorage
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFXML
 from pkan.dcatapde.log.log import TranslatingFormatter
 from plone.api import portal
+from rdflib import Graph
+from rdflib.store import Store
 from zope.component import adapter
 from zope.interface import implementer
 
@@ -61,11 +62,17 @@ class RDFProcessor(object):
         self.serialize_format = self.rdf_format['serialize_as']
         self.setup_logger()
 
+        # remember rdf_store
+        self.rdfstore = None
+
     def read_rdf_file(self, uri, format):
         """Load the rdf data"""
-        self.rdfstore = RDFStorage()
-        self.session = self.rdfstore.session
-        self.rdfstore.store.load_triples(source=uri, format=format)
+        self.rdfstore = Store()
+        # self.session = self.rdfstore.session
+        # self.rdfstore.store.load_triples(source=uri, format=format)
+        self.graph = Graph(self.rdfstore)
+        self.graph.open(uri)
+        self.graph.load(uri)
 
     def read_classes(self):
         """Read the classes of the rdf data for the vocabulary to assign
@@ -76,6 +83,12 @@ class RDFProcessor(object):
         result = self.graph.query(SPARQL)
         return result
 
+    def run_query(self, query):
+        if not self.rdfstore:
+            self.read_rdf_file(self.harvester.url, self.serialize_format)
+        result = self.graph.query(query)
+        return result
+
     def read_dcat_fields(self, *args, **kwargs):
         """Dummy"""
         return []
@@ -83,6 +96,9 @@ class RDFProcessor(object):
     def read_fields(self, *args, **kwargs):
         """Dummy"""
         return []
+
+    def clean_data(self, *arg, **kwargs):
+        """Dummy"""
 
     def setup_logger(self):
         """Log to a io.stream that can later be embedded in the view output"""
