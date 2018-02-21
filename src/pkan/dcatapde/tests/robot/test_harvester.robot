@@ -57,7 +57,7 @@ Scenario: As a manager I can view harvester_entity-View
     and I go to harvester_entity view
    Then I can see the harvester title 'My Harvester'
 
-Scenario: As a manager I can preview data on harvester_entity-view
+Scenario: As a manager I can request preview data on harvester_entity-view
   Given a logged-in manager
     and a harvester folder 'Harvester Folder'
     and an add harvester form
@@ -67,8 +67,7 @@ Scenario: As a manager I can preview data on harvester_entity-view
     and I go to harvester_entity view
     and I click the button 'Run'
    Then I can see the harvester title 'My Harvester'
-    and I can see the preview 'http://www.test.de'
-    and I can see the preview 'Hello World'
+    and I can see the preview 'Not Found'
 
 Scenario: As a manger I can submit data on harvester_entity-view
   Given a logged-in manager

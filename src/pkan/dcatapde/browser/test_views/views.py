@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
+from pkan.dcatapde.constants import MAX_QUERY_PREVIEW_LENGTH
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
 from plone import api
 from Products.Five import BrowserView
+from pyparsing import ParseException
+from xml.sax import SAXParseException
 from z3c.form import button
 from z3c.form import field
 from z3c.form.form import Form
 from zope import schema
 from zope.interface import Interface
+
+import vkbeautify as vkb
 
 
 class IHarvesterTestSchema(Interface):
@@ -80,12 +85,26 @@ class HarvesterPreview(BrowserView):
         if self.request.form and 'source_path' in self.request.form:
             context = api.content.get(path=self.request.form['source_path'])
 
-        url = getattr(context, 'url', None)
+        source_type = getattr(context, 'source_type', None)
+        preview = _(u'Not Found')
 
-        if url and query:
-            # Todo Sparkle Query here
-            preview = 'Url: {url}, Query: {query}'.format(url=url, query=query)
-        else:
-            preview = 'Not Found'
+        if source_type and query:
+            try:
+                source_adapter = source_type(context)
+            except TypeError:
+                return preview
+
+            try:
+                res = source_adapter.run_query(query)
+            except ParseException:
+                preview = _(u'Wrong Syntax')
+            except SAXParseException:
+                preview = _(u'Could not read source.')
+            else:
+                # Todo: Sometimes None-Type is not iterable exception
+                preview = vkb.xml(res.serialize())
+
+            if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
+                preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
 
         return preview
