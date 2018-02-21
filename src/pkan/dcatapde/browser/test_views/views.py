@@ -7,7 +7,6 @@ from z3c.form import button
 from z3c.form import field
 from z3c.form.form import Form
 from zope import schema
-from zope.component import getMultiAdapter
 from zope.interface import Interface
 
 
@@ -41,7 +40,9 @@ class IHarvesterTestSchema(Interface):
 
 class HarvesterTestView(Form):
     fields = field.Fields(IHarvesterTestSchema)
-    ignoreContext = True
+
+    def getContent(self):
+        return {}
 
     @button.buttonAndHandler(_(u'Save'))
     def handle_submit(self, action):
@@ -60,11 +61,12 @@ class HarvesterTestView(Form):
             self.status = self.formErrorsMessage
             return
 
-        self.update_preview()
+        self.update_preview(data['query'])
 
-    def update_preview(self):
-        view = getMultiAdapter((self.context, self.request),
-                               name='harvester_preview')
+    def update_preview(self, query):
+        self.request.form['query'] = query
+        view = self.context.restrictedTraverse('@@harvester_preview')
+        view = view.__of__(self.context)
         self.widgets['preview'].value = view()
 
 
@@ -72,9 +74,9 @@ class HarvesterPreview(BrowserView):
 
     def __call__(self, *args, **kwargs):
         context = self.context
-        query = 'huhu'
-        if self.request.form and 'form.widgets.query' in self.request.form:
-            query = self.request.form['form.widgets.query']
+        query = None
+        if self.request.form and 'query' in self.request.form:
+            query = self.request.form['query']
         if self.request.form and 'source_path' in self.request.form:
             context = api.content.get(path=self.request.form['source_path'])
 
