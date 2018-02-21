@@ -19,8 +19,6 @@
 
   <!-- Hierarchy control -->
   <property name="allowed_content_types">
-      <element value="harvester_field_config" />
-      <element value="harvester_entity" />
   </property>
   <property name="filter_content_types">True</property>
   <property name="global_allow">False</property>

@@ -43,13 +43,5 @@
     permission="cmf.ManagePortal"
     />
 
-  <browser:page
-    for="pkan.dcatapde.content.harvester_entity.IHarvesterEntity"
-    name="view"
-    class=".harvester.EntityView"
-    template="templates/harvester_entity.pt"
-    permission="cmf.ManagePortal"
-    />
-
 
 </configure>

@@ -174,13 +174,4 @@
       provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
-
-  <!-- HarvesterEntityConfig -->
-  <!-- ==================== -->
-  <utility
-      factory=".harvester_entity.EntityDefaultFactory"
-      name="harvester_entity"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
 </configure>
