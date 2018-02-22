@@ -2,9 +2,22 @@
     i18n_domain="pkan.dcatapde">
 
   <adapter
-      factory=".rdfttl.RDFProcessor"
-      for="pkan.dcatapde.content.harvester.IHarvester"
-      provides=".interfaces.IRDFTTL"
-      />
+    factory=".rdfttl.RDFProcessor"
+    for="pkan.dcatapde.content.harvester.IHarvester"
+    provides=".interfaces.IRDFTTL"
+  />
+
+  <adapter
+    factory=".rdfttl.RDFProcessor"
+    for="pkan.dcatapde.content.harvester.IHarvester"
+    provides=".interfaces.IRDFXML"
+  />
+
+  <adapter
+    factory=".rdfttl.RDFProcessor"
+    for="pkan.dcatapde.content.harvester.IHarvester"
+    provides=".interfaces.IRDFJSONLD"
+  />
+
 
 </configure>
