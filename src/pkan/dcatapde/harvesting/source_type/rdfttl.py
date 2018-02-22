@@ -30,6 +30,8 @@ IFaceToRDFFormat = {
 
 @adapter(IHarvester)
 @implementer(IRDFTTL)
+@implementer(IRDFJSONLD)
+@implementer(IRDFXML)
 class RDFProcessor(object):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
