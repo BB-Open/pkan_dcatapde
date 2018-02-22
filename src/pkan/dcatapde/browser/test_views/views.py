@@ -89,13 +89,13 @@ class HarvesterPreview(BrowserView):
         preview = _(u'Not Found')
 
         if source_type and query:
-            try:
-                source_adapter = source_type(context)
-            except TypeError:
-                return preview
+            # try:
+            #     source_adapter = source_type(context)
+            # except TypeError:
+            #     return preview
 
             try:
-                res = source_adapter.run_query(query)
+                res = context.graph.query(query)
             except ParseException:
                 preview = _(u'Wrong Syntax')
             except SAXParseException:

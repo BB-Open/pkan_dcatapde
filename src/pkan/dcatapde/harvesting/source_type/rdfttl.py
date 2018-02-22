@@ -62,31 +62,21 @@ class RDFProcessor(object):
         self.serialize_format = self.rdf_format['serialize_as']
         self.setup_logger()
 
-        # remember rdf_store
-        self.rdfstore = None
-
-    def read_rdf_file(self, uri, format):
+    def read_rdf_file(self, uri):
         """Load the rdf data"""
-        self.rdfstore = Store()
-        # self.session = self.rdfstore.session
-        # self.rdfstore.store.load_triples(source=uri, format=format)
-        self.graph = Graph(self.rdfstore)
-        self.graph.open(uri)
-        self.graph.load(uri)
+        rdfstore = Store()
+        # self.session = self.harvester.rdfstore.session
+        # self.harvester.rdfstore.store.load_triples(source=uri, format=format)
+        graph = Graph(rdfstore)
+        # graph.open(uri)
+        graph.load(uri)
+        return rdfstore, graph
 
     def read_classes(self):
         """Read the classes of the rdf data for the vocabulary to assign
          to DX classes"""
-        uri = self.harvester.url
-        self.read_rdf_file(uri, self.serialize_format)
         SPARQL = """SELECT DISCTINCT ?o WHERE {?s a ?o .}"""
-        result = self.graph.query(SPARQL)
-        return result
-
-    def run_query(self, query):
-        if not self.rdfstore:
-            self.read_rdf_file(self.harvester.url, self.serialize_format)
-        result = self.graph.query(query)
+        result = self.harvester.graph.query(SPARQL)
         return result
 
     def read_dcat_fields(self, *args, **kwargs):
@@ -131,6 +121,10 @@ class RDFProcessor(object):
     def dry_run(self):
         """Dry Run: Returns Log-Information.
         """
+        # Just to have the posibility to reset
+        self.harvester._graph = None
+        self.harvester._rdfstore = None
+
         self.log.info(u'starting harvestdry run')
         uri = self.harvester.url
 
@@ -139,7 +133,6 @@ class RDFProcessor(object):
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
         self.log.info(msg)
-        self.read_rdf_file(uri, self.serialize_format)
         msg = _(
             u'${kind} file ${uri} read succesfully',
             mapping={'kind': self.serialize_format, 'uri': uri},
@@ -160,7 +153,6 @@ class RDFProcessor(object):
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
         self.log.info(msg)
-        self.read_rdf_file(uri, self.serialize_format)
         msg = _(
             u'${kind} file ${uri} read successfully into rdflib',
             mapping={'kind': self.serialize_format, 'uri': uri},
@@ -168,7 +160,7 @@ class RDFProcessor(object):
 
         # Todo: self.data_type is data_cleaner and should not crawl the data
         # Todo: replace by correct adapter-layer
-        # self.data_type.crawl(self.rdfstore)
+        # self.data_type.crawl(self.harvester.rdfstore)
         crawler = IRDF(self.harvester)
         crawler.crawl()
 
