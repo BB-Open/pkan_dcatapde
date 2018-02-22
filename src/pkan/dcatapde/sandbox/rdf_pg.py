@@ -6,8 +6,9 @@ from rdflib import Literal
 from rdflib import plugin
 from rdflib.store import Store
 from rdflib_sqlalchemy import registerplugins
-# import vkbeautify as vkb
 from sqlalchemy.exc import IntegrityError
+
+import vkbeautify as vkb
 
 
 registerplugins()
@@ -22,7 +23,7 @@ class SQLStorage(object):
         self.graph.open(self.uri, create=True)
 
     def read(self, data):
-        self.graph.read(data)
+        self.graph.load(data)
 
 # build a storage
 storage = SQLStorage('test1')
@@ -48,6 +49,7 @@ qres = storage.graph.query(
        }""")
 
 
-# print(vkb.xml(qres.serialize()))
+res = vkb.xml(qres.serialize())
+# print(res)
 
 # storage.graph.save()

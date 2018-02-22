@@ -80,6 +80,27 @@ class IHarvester(model.Schema):
 class Harvester(Container):
     """Harvester Content Type."""
 
+    def __init__(self, *args, **kwargs):
+
+        self._graph = None
+        self._rdfstore = None
+
+        super(Harvester, self).__init__(*args, **kwargs)
+
+    @property
+    def rdfstore(self):
+        if self._rdfstore is None:
+            adapter = self.source_type(self)
+            self._rdfstore, self._graph = adapter.read_rdf_file(self.url)
+        return self._rdfstore
+
+    @property
+    def graph(self):
+        if self._graph is None:
+            adapter = self.source_type(self)
+            self._rdfstore, self._graph = adapter.read_rdf_file(self.url)
+        return self._graph
+
 
 class HarvesterDefaultFactory(DexterityFactory):
     """Custom DX factory for Harvester."""
