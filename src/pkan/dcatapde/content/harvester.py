@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Harvester Content Type."""
-
+from DateTime.DateTime import time
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
@@ -9,7 +9,10 @@ from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
+from plone.memoize import ram
 from plone.supermodel import model
+from rdflib import Graph
+from rdflib.plugins.memory import IOMemory
 from zope.interface import implementer
 
 import zope.schema as schema
@@ -76,6 +79,19 @@ class IHarvester(model.Schema):
     )
 
 
+def cache_key(func, self):
+    """cache key factory for rdf graph. With timeout 300 seconds
+    :param func:
+    :param self:
+    :return:
+    """
+    key = u'{0}_{1}'.format(
+        time() // 300,
+        self.url,
+    )
+    return key
+
+
 @implementer(IHarvester)
 class Harvester(Container):
     """Harvester Content Type."""
@@ -88,18 +104,12 @@ class Harvester(Container):
         super(Harvester, self).__init__(*args, **kwargs)
 
     @property
-    def rdfstore(self):
-        if self._rdfstore is None:
-            adapter = self.source_type(self)
-            self._rdfstore, self._graph = adapter.read_rdf_file(self.url)
-        return self._rdfstore
-
-    @property
+    @ram.cache(cache_key)
     def graph(self):
-        if self._graph is None:
-            adapter = self.source_type(self)
-            self._rdfstore, self._graph = adapter.read_rdf_file(self.url)
-        return self._graph
+        rdfstore = IOMemory()
+        _graph = Graph(rdfstore)
+        _graph.load(self.url)
+        return _graph
 
 
 class HarvesterDefaultFactory(DexterityFactory):
