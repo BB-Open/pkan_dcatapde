@@ -11,8 +11,10 @@ name = "pypi"
 
 [packages]
 
+certifi = "==2017.7.27.1"
 ipdb = "*"
 setuptools = "==38.2.4"
+six = "==1.10.0"
 transifex-client = "*"
 "zc.buildout" = "==2.10.0"
 
