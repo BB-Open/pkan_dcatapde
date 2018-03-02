@@ -4,7 +4,11 @@ from DateTime.DateTime import time
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_DATASET
+from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.structure.sparql import WHERE_P_QUERY
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
@@ -106,10 +110,20 @@ class Harvester(Container):
     @property
     @ram.cache(cache_key)
     def graph(self):
+        """In Memory representation of the incoming RDF graph"""
         rdfstore = IOMemory()
         _graph = Graph(rdfstore)
         _graph.load(self.url)
         return _graph
+
+    def mapper(self):
+        """Dummy mapper since Entity Mapper is working"""
+        result = {}
+        result[CT_DCAT_CATALOG] = WHERE_P_QUERY.format('dcat:Catalog')
+        result[CT_DCAT_DATASET] = WHERE_P_QUERY.format('dcat:Dataset')
+        result[CT_DCAT_DISTRIBUTION] = \
+            WHERE_P_QUERY.format('dcat:Distribution')
+        return result
 
 
 class HarvesterDefaultFactory(DexterityFactory):

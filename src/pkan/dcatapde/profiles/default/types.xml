@@ -9,6 +9,7 @@
   <object meta_type="Dexterity FTI" name="dct_licensedocument"/>
   <object meta_type="Dexterity FTI" name="dct_location"/>
   <object meta_type="Dexterity FTI" name="dct_mediatypeorextent"/>
+  <object meta_type="Dexterity FTI" name="dct_rightsstatement" />
   <object meta_type="Dexterity FTI" name="dct_standard" />
   <object meta_type="Dexterity FTI" name="foaf_agent"/>
   <object meta_type="Dexterity FTI" name="skos_concept" />
@@ -22,6 +23,7 @@
   <object meta_type="Dexterity FTI" name="LicenseFolder" />
   <object meta_type="Dexterity FTI" name="LocationFolder" />
   <object meta_type="Dexterity FTI" name="MediaTypeFolder" />
+  <object meta_type="Dexterity FTI" name="RightsFolder" />
   <object meta_type="Dexterity FTI" name="StandardsFolder" />
 
   <!-- PKAN Types -->

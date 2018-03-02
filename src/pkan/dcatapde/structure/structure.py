@@ -8,6 +8,7 @@ from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_DCT_LOCATION
 from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
+from pkan.dcatapde.constants import CT_DCT_RIGHTSSTATEMENT
 from pkan.dcatapde.constants import CT_DCT_STANDARD
 from pkan.dcatapde.constants import CT_FOAF_AGENT
 from pkan.dcatapde.constants import CT_RDF_LITERAL
@@ -19,6 +20,7 @@ from pkan.dcatapde.content.dcat_distribution import IDCATDistribution
 from pkan.dcatapde.content.dct_licensedocument import IDCTLicenseDocument
 from pkan.dcatapde.content.dct_location import IDCTLocation
 from pkan.dcatapde.content.dct_mediatypeorextent import IDCTMediaTypeOrExtent
+from pkan.dcatapde.content.dct_rightsstatement import IDCTRightsStatement
 from pkan.dcatapde.content.dct_standard import IDCTStandard
 from pkan.dcatapde.content.foaf_agent import IFOAFAgent
 from pkan.dcatapde.content.skos_concept import ISKOSConcept
@@ -168,7 +170,7 @@ class StructBase(object):
 
     @property
     def fields_objects_required(self):
-        """Return all predicates, there objects types and if they are
+        """Return all predicates, their objects types and if they are
         required"""
 
         if not self._fields_objects_required:
@@ -182,19 +184,13 @@ class StructBase(object):
 
             # Then the contained
             for field_name in self.contained:
-                object_type, required = self.contained[field_name]
-                self._fields_objects_required[field_name] = {
-                    'object': object_type,
-                    'required': True,
-                }
+                contained = self.contained[field_name]
+                self._fields_objects_required[field_name] = contained
 
             # Then the referenced
             for field_name in self.referenced:
-                object_type, required = self.referenced[field_name]
-                self._fields_objects_required[field_name] = {
-                    'object': object_type,
-                    'required': True,
-                }
+                referenced = self.referenced[field_name]
+                self._fields_objects_required[field_name] = referenced
 
         return self._fields_objects_required
 
@@ -263,6 +259,7 @@ class StructDCATCatalog(StructBase):
         result['dcat_dataset'] = {
             'object': CT_DCAT_DISTRIBUTION,
             'required': True,
+            'list': True,
         }
         return result
 
@@ -276,14 +273,22 @@ class StructDCATCatalog(StructBase):
         related['dct_publisher'] = {
             'object': CT_FOAF_AGENT,
             'required': True,
+            'list': False,
         }
         related['dct_license'] = {
             'object': CT_DCT_LICENSEDOCUMENT,
             'required': False,
+            'list': False,
+        }
+        related['dct_rights'] = {
+            'object': CT_DCT_RIGHTSSTATEMENT,
+            'required': False,
+            'list': False,
         }
         related['dct_spatial'] = {
             'object': CT_DCT_LOCATION,
             'required': False,
+            'list': True,
         }
         return related
 
@@ -304,6 +309,7 @@ class StructDCATDataset(StructBase):
         result['dcat_distribution'] = {
             'object': CT_DCAT_DISTRIBUTION,
             'required': True,
+            'list': True,
         }
         return result
 
@@ -317,14 +323,17 @@ class StructDCATDataset(StructBase):
         related['dct_publisher'] = {
             'object': CT_FOAF_AGENT,
             'required': False,
+            'list': False,
         }
-        related['dct_license'] = {
-            'object': CT_DCT_LICENSEDOCUMENT,
+        related['dct_rights'] = {
+            'object': CT_DCT_RIGHTSSTATEMENT,
             'required': False,
+            'list': False,
         }
         related['dct_spatial'] = {
             'object': CT_DCT_LOCATION,
             'required': False,
+            'list': True,
         }
         return related
 
@@ -345,18 +354,27 @@ class StructDCATDistribution(StructBase):
         related['dct_license'] = {
             'object': CT_DCT_LICENSEDOCUMENT,
             'required': False,
+            'list': False,
         }
         related['dct_format'] = {
             'object': CT_DCT_MEDIATYPEOREXTENT,
             'required': False,
+            'list': False,
         }
         related['dct_mediaType'] = {
             'object': CT_DCT_MEDIATYPEOREXTENT,
             'required': False,
+            'list': False,
         }
         related['dct_conformsTo'] = {
             'object': CT_DCT_STANDARD,
             'required': False,
+            'list': True,
+        }
+        related['dct_rights'] = {
+            'object': CT_DCT_RIGHTSSTATEMENT,
+            'required': False,
+            'list': False,
         }
         return related
 
@@ -388,6 +406,14 @@ class StructDCTMediaTypeOrExtent(StructBase):
 @implementer(IStructure)
 @adapter(IDCTStandard)
 class StructDCTStandard(StructBase):
+    """Structure definition of dct:Standard"""
+
+    portal_type = CT_DCT_STANDARD
+
+
+@implementer(IStructure)
+@adapter(IDCTRightsStatement)
+class StructDCTRightsstatement(StructBase):
     """Structure definition of dct:Standard"""
 
     portal_type = CT_DCT_STANDARD

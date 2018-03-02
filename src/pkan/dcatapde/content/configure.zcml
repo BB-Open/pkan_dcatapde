@@ -88,6 +88,21 @@
       />
 
 
+  <!-- DCTRighststatement -->
+  <!-- =========== -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".dct_rightsstatement.IDCTRightsStatement"
+      provides=".base.INameFromDCTTitle"
+      />
+
+  <utility
+      factory=".dct_rightsstatement.DCTRightsstatementDefaultFactory"
+      name="dct_rightsstatement"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
   <!-- DCTStandard -->
   <!-- =========== -->
   <adapter
