@@ -48,6 +48,11 @@
         />
 
     <permission
+        id="pkan.dcatapde.AddDCTRightsStatement"
+        title="pkan.dcatapde: Add DCTRightsStatement"
+        />
+
+    <permission
         id="pkan.dcatapde.AddFOAFagent"
         title="pkan.dcatapde: Add FOAFAgent"
         />

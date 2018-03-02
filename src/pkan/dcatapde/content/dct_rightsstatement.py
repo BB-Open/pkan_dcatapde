@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""DCTStandard Content Type."""
+"""DCTRightsStatement Content Type."""
 
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
@@ -15,8 +15,8 @@ from zope import schema
 from zope.interface import implementer
 
 
-class IDCTStandard(model.Schema, IDCAT):
-    """Marker interface and DX Python Schema for DCTStandard."""
+class IDCTRightsStatement(model.Schema, IDCAT):
+    """Marker interface and DX Python Schema for DCTRightsStatement."""
 
     # Mandatory
     # -------------------------------------------------------------------------
@@ -31,22 +31,27 @@ class IDCTStandard(model.Schema, IDCAT):
     )
 
     rdfs_isDefinedBy = schema.URI(
-        required=False,
+        required=True,
         title=i18n.LABEL_RDFS_ISDEFINEDBY,
     )
 
+    adms_identifier = schema.TextLine(
+        required=True,
+        title=i18n.LABEL_ADMS_IDENTIFIER,
+    )
 
-@implementer(IDCTStandard)
-class DCTStandard(Item, DCATMixin):
-    """DCTStandard Content Type."""
 
-    portal_type = constants.CT_DCT_STANDARD
-    content_schema = IDCTStandard
+@implementer(IDCTRightsStatement)
+class DCTRightsStatement(Item, DCATMixin):
+    """DCTRightsStatement Content Type."""
+
+    portal_type = constants.CT_DCT_RIGHTSSTATEMENT
+    content_schema = IDCTRightsStatement
     _namespace = 'dct'
-    _ns_class = 'Standard'
+    _ns_class = 'RightsStatement'
 
-    dct_title = I18NTextProperty(IDCTStandard['dct_title'])
-    dct_description = I18NTextProperty(IDCTStandard['dct_description'])
+    dct_title = I18NTextProperty(IDCTRightsStatement['dct_title'])
+    dct_description = I18NTextProperty(IDCTRightsStatement['dct_description'])
 
     def Title(self):
         return unicode(self.dct_title)
@@ -62,18 +67,19 @@ class DCTStandard(Item, DCATMixin):
         )
 
 
-class DCTStandardDefaultFactory(DexterityFactory):
-    """Custom DX factory for DCTStandard."""
+class DCTRightsstatementDefaultFactory(DexterityFactory):
+    """Custom DX factory for DCTRightsStatement."""
 
     def __init__(self):
-        self.portal_type = constants.CT_DCT_STANDARD
+        self.portal_type = constants.CT_DCT_RIGHTSSTATEMENT
 
     def __call__(self, *args, **kw):
         # Fix: get context and maybe change it
-        from pkan.dcatapde.api.dct_standard import clean
-        data, errors = clean(**kw)
+        from pkan.dcatapde.api.dct_rightsstatement import \
+            clean_dct_rightsstatement
+        data, errors = clean_dct_rightsstatement(**kw)
 
         return super(
-            DCTStandardDefaultFactory,
+            DCTRightsstatementDefaultFactory,
             self,
         ).__call__(*args, **data)

@@ -44,6 +44,7 @@ class IDCATDataset(model.Schema, IDCAT):
             'dcatde_politicalGeocodingURI',
             'dcatde_politicalGeocodingLevelURI',
             'dct_identifier',
+            'dct_accessRights',
             'owl_versionInfo',
             'dcatde_legalbasisText',
             'adms_versionNotes',
@@ -177,9 +178,23 @@ class IDCATDataset(model.Schema, IDCAT):
         title=i18n.LABEL_OWL_VERSIONINFO,
     )
 
-    dcatde_legalbasisText = I18NTextLine(
+    dcatde_legalbasisText = I18NText(
         required=False,
         title=i18n.LABEL_DCATDE_LEGALBASISTEXT,
+    )
+
+    form.widget(
+        'dct_accessRights',
+        AjaxSelectAddFieldWidget,
+        content_type=constants.CT_DCT_RIGHTSSTATEMENT,
+        content_type_title=i18n.LABEL_DCT_ACCESSRIGHTS,
+        initial_path='/rights/',
+    )
+    dct_accessRights = schema.Choice(
+        description=i18n.HELP_DCT_ACCESSRIGHTS,
+        required=False,
+        title=i18n.LABEL_DCT_ACCESSRIGHTS,
+        vocabulary='pkan.dcatapde.vocabularies.DCTRightsStatement',
     )
 
     adms_versionNotes = I18NTextLine(
