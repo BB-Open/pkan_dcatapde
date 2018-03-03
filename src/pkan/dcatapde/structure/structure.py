@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Structure of the dcat-AP.de scheme"""
-
+import rdflib
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_CATALOG, FIELD_BLACKLIST
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
@@ -25,17 +25,20 @@ from pkan.dcatapde.content.dct_standard import IDCTStandard
 from pkan.dcatapde.content.foaf_agent import IFOAFAgent
 from pkan.dcatapde.content.skos_concept import ISKOSConcept
 from pkan.dcatapde.content.skos_conceptscheme import ISKOSConceptScheme
+from pkan.dcatapde.structure.interfaces import IStructure
+from pkan.dcatapde.structure.sparql import DCT, DCAT, INIT_NS
 from plone.api import portal
 from plone.api.portal import get_current_language
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.supermodel.interfaces import FIELDSETS_KEY
+from rdflib.namespace import FOAF, SKOS
 from zope.component import adapter
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implementer
-from zope.interface import Interface
+
 from zope.schema import getFieldsInOrder
 from zope.schema.vocabulary import SimpleTerm
 
@@ -107,10 +110,6 @@ def get_ordered_fields(fti):
     return fields
 
 
-class IStructure(Interface):
-    """Marker interface for Structure classes"""
-
-
 @implementer(IStructure)
 @adapter(IDexterityFTI)
 class StructBase(object):
@@ -118,10 +117,13 @@ class StructBase(object):
 
     # The content type this structure represents
     portal_type = None
+    title_field = 'dct_title'
 
     # caching
     _fields_in_order = None
     _fields_objects_required = {}
+
+    _blacklist = FIELD_BLACKLIST
 
     def __init__(self, context):
         self.context = context
@@ -146,8 +148,15 @@ class StructBase(object):
 
         result = {}
         for field_name, field in self.fields_in_order:
-            # todo: Filter
-            result[field_name] = field
+            if field_name in self._blacklist:
+                continue
+
+            result[field_name] = {
+                'object': CT_RDF_LITERAL,
+                'required': field.required,
+                'predicate': self.fieldname2predicate(field_name),
+                'type': field._type
+            }
         return result
 
     @property
@@ -168,24 +177,33 @@ class StructBase(object):
         related = {}
         return related
 
+    def fieldname2predicate(self, fieldname):
+        """Derives a namespace based predicate out of a fieldname"""
+        # split fieldname at the first underscore
+        fieldname_split = fieldname.split('_')
+        ns = fieldname_split[0]
+        cls = '_'.join(fieldname_split[1:])
+        # try to identify a namespace
+        if ns in INIT_NS:
+            NS = INIT_NS[ns]
+            # get the namespace binding
+            predicate = getattr(NS, cls)
+        else:
+            predicate = fieldname
+        return predicate
+
     @property
-    def fields_objects_required(self):
+    def fields_and_referenced(self):
         """Return all predicates, their objects types and if they are
         required"""
 
         if not self._fields_objects_required:
             self._fields_objects_required = {}
             # First the properties
-            for field_name, field in self.properties.items():
-                self._fields_objects_required[field_name] = {
-                    'object': CT_RDF_LITERAL,
-                    'required': field.required,
-                }
-
             # Then the contained
-            for field_name in self.contained:
-                contained = self.contained[field_name]
-                self._fields_objects_required[field_name] = contained
+            for field_name in self.properties:
+                property = self.properties[field_name]
+                self._fields_objects_required[field_name] = property
 
             # Then the referenced
             for field_name in self.referenced:
@@ -248,6 +266,7 @@ class StructDCATCatalog(StructBase):
     """Structure definition of foafdcat:Catalog"""
 
     portal_type = CT_DCAT_CATALOG
+    rdf_type = DCAT.Catalog
 
     @property
     def contained(self):
@@ -257,9 +276,11 @@ class StructDCATCatalog(StructBase):
         """
         result = {}
         result['dcat_dataset'] = {
-            'object': CT_DCAT_DISTRIBUTION,
+            'object': StructDCATDataset,
             'required': True,
-            'list': True,
+            'type': list,
+            'predicate': DCAT.dataset,
+            'target': DCT.Dataset,
         }
         return result
 
@@ -271,24 +292,32 @@ class StructDCATCatalog(StructBase):
         """
         related = {}
         related['dct_publisher'] = {
-            'object': CT_FOAF_AGENT,
+            'object': StructFOAFAgent,
             'required': True,
-            'list': False,
+            'type': str,
+            'predicate': DCT.publisher,
+            'target': FOAF.Agent,
         }
         related['dct_license'] = {
-            'object': CT_DCT_LICENSEDOCUMENT,
+            'object': StructDCTLicenseDocument,
             'required': False,
-            'list': False,
+            'type': str,
+            'predicate': DCT.license,
+            'target': DCT.LicenseDocument,
         }
         related['dct_rights'] = {
-            'object': CT_DCT_RIGHTSSTATEMENT,
+            'object': StructDCTRightsstatement,
             'required': False,
-            'list': False,
+            'type': str,
+            'predicate': DCT.rights,
+            'target': DCT.RightsStatement,
         }
         related['dct_spatial'] = {
-            'object': CT_DCT_LOCATION,
+            'object': StructDCTLocation,
             'required': False,
-            'list': True,
+            'type': list,
+            'predicate': DCT.spatial,
+            'target': DCT.Location,
         }
         return related
 
@@ -298,6 +327,7 @@ class StructDCATCatalog(StructBase):
 class StructDCATDataset(StructBase):
 
     portal_type = CT_DCAT_DATASET
+    rdf_type = DCAT.Dataset
 
     @property
     def contained(self):
@@ -307,9 +337,11 @@ class StructDCATDataset(StructBase):
         """
         result = {}
         result['dcat_distribution'] = {
-            'object': CT_DCAT_DISTRIBUTION,
+            'object': StructDCATDistribution,
             'required': True,
-            'list': True,
+            'type': list,
+            'predicate': DCAT.distribution,
+            'target': DCAT.Distribution,
         }
         return result
 
@@ -321,19 +353,25 @@ class StructDCATDataset(StructBase):
         """
         related = {}
         related['dct_publisher'] = {
-            'object': CT_FOAF_AGENT,
+            'object': StructFOAFAgent,
             'required': False,
-            'list': False,
+            'type': str,
+            'predicate': DCT.publisher,
+            'target': FOAF.Agent,
         }
         related['dct_rights'] = {
-            'object': CT_DCT_RIGHTSSTATEMENT,
+            'object': StructDCTRightsstatement,
             'required': False,
-            'list': False,
+            'type': str,
+            'predicate': DCT.accessRights,
+            'target': DCT.RightsStatement,
         }
         related['dct_spatial'] = {
-            'object': CT_DCT_LOCATION,
+            'object': StructDCTLocation,
             'required': False,
-            'list': True,
+            'type': list,
+            'predicate': DCT.spatial,
+            'target': DCT.Location,
         }
         return related
 
@@ -343,6 +381,7 @@ class StructDCATDataset(StructBase):
 class StructDCATDistribution(StructBase):
 
     portal_type = CT_DCAT_DISTRIBUTION
+    rdf_type = DCAT.Distribution
 
     @property
     def referenced(self):
@@ -352,29 +391,39 @@ class StructDCATDistribution(StructBase):
         """
         related = {}
         related['dct_license'] = {
-            'object': CT_DCT_LICENSEDOCUMENT,
+            'object': StructDCTLicenseDocument,
             'required': False,
-            'list': False,
+            'type': str,
+            'predicate': DCT.license,
+            'target': DCT.LicenseDocument,
         }
         related['dct_format'] = {
-            'object': CT_DCT_MEDIATYPEOREXTENT,
+            'object': StructDCTMediaTypeOrExtent,
             'required': False,
-            'list': False,
+            'type': str,
+            'predicate': DCT.format,
+            'target': DCT.MediaTypeOrExtent,
         }
         related['dct_mediaType'] = {
-            'object': CT_DCT_MEDIATYPEOREXTENT,
+            'object': StructDCTMediaTypeOrExtent,
             'required': False,
-            'list': False,
+            'type': str,
+            'predicate': DCT.mediatype,
+            'target': DCT.MediaTypeOrExtent,
         }
         related['dct_conformsTo'] = {
-            'object': CT_DCT_STANDARD,
+            'object': StructDCTStandard,
             'required': False,
-            'list': True,
+            'type': list,
+            'predicate': DCT.conformsTo,
+            'target': DCT.Standard,
         }
         related['dct_rights'] = {
-            'object': CT_DCT_RIGHTSSTATEMENT,
+            'object': StructDCTRightsstatement,
             'required': False,
-            'list': False,
+            'type': str,
+            'predicate': DCT.rights,
+            'target': DCT.RightsStatement,
         }
         return related
 
@@ -385,6 +434,7 @@ class StructDCTLicenseDocument(StructBase):
     """Structure definition of dct:licenseDocument"""
 
     portal_type = CT_DCT_LICENSEDOCUMENT
+    rdf_type = DCT.LicenseDocument
 
 
 @implementer(IStructure)
@@ -393,6 +443,7 @@ class StructDCTLocation(StructBase):
     """Structure definition of dct:Location"""
 
     portal_type = CT_DCT_LOCATION
+    rdf_type = DCT.Location
 
 
 @implementer(IStructure)
@@ -401,6 +452,7 @@ class StructDCTMediaTypeOrExtent(StructBase):
     """Structure definition of dct:Mediatypeorextent"""
 
     portal_type = CT_DCT_MEDIATYPEOREXTENT
+    rdf_type = DCT.MediaTypeOrExtent
 
 
 @implementer(IStructure)
@@ -409,14 +461,16 @@ class StructDCTStandard(StructBase):
     """Structure definition of dct:Standard"""
 
     portal_type = CT_DCT_STANDARD
+    rdf_type = DCT.Standard
 
 
 @implementer(IStructure)
 @adapter(IDCTRightsStatement)
 class StructDCTRightsstatement(StructBase):
-    """Structure definition of dct:Standard"""
+    """Structure definition of dct:RightsStatement"""
 
     portal_type = CT_DCT_STANDARD
+    rdf_type = DCT.RightsStatement
 
 
 @implementer(IStructure)
@@ -425,7 +479,8 @@ class StructFOAFAgent(StructBase):
     """Structure definition of foaf:Agent"""
 
     portal_type = CT_FOAF_AGENT
-
+    rdf_type = FOAF.Agent
+    title_field = 'foaf_name'
 
 @implementer(IStructure)
 @adapter(ISKOSConceptScheme)
@@ -433,6 +488,7 @@ class StructSKOSConceptScheme(StructBase):
     """Structure definition of skos:ConceptSchema"""
 
     portal_type = CT_SKOS_CONCEPTSCHEME
+    rdf_type = SKOS.ConceptSchema
 
 
 @implementer(IStructure)
@@ -441,3 +497,4 @@ class StructSKOSConcept(StructBase):
     """Structure definition of skos:Concept"""
 
     portal_type = CT_SKOS_CONCEPT
+    rdf_type = SKOS.Concept

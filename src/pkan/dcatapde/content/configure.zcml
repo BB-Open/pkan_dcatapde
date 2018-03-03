@@ -7,9 +7,9 @@
   <!-- DCATCatalog -->
   <!-- =========== -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".dcat_catalog.IDCATCatalog"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -22,9 +22,9 @@
   <!-- DCATDataset -->
   <!-- =========== -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".dcat_dataset.IDCATDataset"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -37,9 +37,9 @@
   <!-- DCATDistribution -->
   <!-- ================ -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".dcat_distribution.IDCATDistribution"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -52,9 +52,9 @@
   <!-- DCTLicenseDocument -->
   <!-- ================== -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".dct_licensedocument.IDCTLicenseDocument"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -67,9 +67,9 @@
   <!-- DCTLocation -->
   <!-- =========== -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".dct_location.IDCTLocation"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -82,18 +82,18 @@
   <!-- DCTMediaTypeOrExtent -->
   <!-- ==================== -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".dct_mediatypeorextent.IDCTMediaTypeOrExtent"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
 
   <!-- DCTRighststatement -->
   <!-- =========== -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".dct_rightsstatement.IDCTRightsStatement"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -106,9 +106,9 @@
   <!-- DCTStandard -->
   <!-- =========== -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".dct_standard.IDCTStandard"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -121,9 +121,9 @@
   <!-- FOAFAgent -->
   <!-- ========= -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".foaf_agent.IFOAFAgent"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -133,15 +133,15 @@
       />
 
   <adapter
-    factory=".foaf_agent.dct_title" name="dct_title"
+    factory=".foaf_agent.foaf_name" name="foaf_name"
   />
 
   <!-- SKOSConcept -->
   <!-- =========== -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".skos_concept.ISKOSConcept"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
@@ -154,9 +154,9 @@
   <!-- SKOSConceptScheme -->
   <!-- ================= -->
   <adapter
-      factory=".base.NameFromDCTTitle"
+      factory=".util.NameFromDCTTitle"
       for=".skos_conceptscheme.ISKOSConceptScheme"
-      provides=".base.INameFromDCTTitle"
+      provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility

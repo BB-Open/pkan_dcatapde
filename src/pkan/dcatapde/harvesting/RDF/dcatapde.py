@@ -5,6 +5,10 @@ from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.RDF.interfaces import IRDF
 from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_CATALOG
 from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_DATASET
+from pkan.dcatapde.structure.sparql import QUERY_A
+from pkan.dcatapde.structure.structure import (
+    StructDCATCatalog,
+    StructDCATDataset, )
 from plone.api import content
 from plone.api import portal
 from zope.component import adapter
@@ -26,23 +30,21 @@ class RDFCrawler(object):
         # check if we get a base object
         if self.harvester.base_object:
             self.context = content.get(UID=self.harvester.base_object)
-            self.search_surf_class = SC_DCAT_DATASET
+            self.struct_class = StructDCATDataset
         else:
             self.context = portal.get()
-            self.search_surf_class = SC_DCAT_CATALOG
+            self.struct_class = StructDCATCatalog
 
     def search_start_entities(self):
         """Determine the entities to crawl into"""
         pass
 
-    def crawl(self, rdfstore):
-        self.rdfstore = rdfstore
-        self.session = self.rdfstore.session
-        top_class = self.session.get_class(self.search_surf_class)
-        result = top_class.all().full()
-        return result
-        # TOdo generalize
-#        for rdf_dataset in result:
-#            factory = RDF2DCATDataset(rdf_dataset, self.context)
-#            factory.create()
-#            Todo: traverse
+    def crawl(self):
+        top_struct = self.struct_class(self.harvester)
+        if top_struct.rdf_type in self.harvester.mapper:
+            query = self.harvester.mapper[top_struct.rdf_type]
+        else:
+            query = QUERY_A.format(top_struct.rdf_type)
+
+        res = self.harvester.graph.query(query)
+        pass

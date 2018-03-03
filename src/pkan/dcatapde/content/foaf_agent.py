@@ -22,7 +22,7 @@ class IFOAFAgent(model.Schema, IDCAT):
 
     # Mandatory
     # -------------------------------------------------------------------------
-    dct_title = I18NTextLine(
+    foaf_name = I18NTextLine(
         required=True,
         title=i18n.LABEL_DCT_TITLE,
     )
@@ -47,11 +47,11 @@ class FOAFAgent(Item, DCATMixin):
     _namespace = 'foaf'
     _ns_class = 'agent'
 
-    dct_title = I18NTextProperty(IFOAFAgent['dct_title'])
+    foaf_name = I18NTextProperty(IFOAFAgent['foaf_name'])
     dct_description = I18NTextProperty(IFOAFAgent['dct_description'])
 
     def Title(self):
-        return unicode(self.dct_title)
+        return unicode(self.foaf_name)
 
     def Description(self):
         return unicode(self.dct_description)
@@ -75,8 +75,8 @@ class FOAFAgentDefaultFactory(DexterityFactory):
 
 
 @indexer(IFOAFAgent)
-def dct_title(obj):
-    result = I18NField2Unique(obj.dct_title)
+def foaf_name(obj):
+    result = I18NField2Unique(obj.foaf_name)
 
     if result is None:
         return ''

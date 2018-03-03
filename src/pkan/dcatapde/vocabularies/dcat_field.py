@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """DCAT field vocabularies."""
 from pkan.dcatapde.constants import DCAT_CTs
-from pkan.dcatapde.structure.structure import IStructure
+from pkan.dcatapde.structure.interfaces import IStructure
 from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve

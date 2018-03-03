@@ -6,67 +6,67 @@
   <adapter
     factory=".structure.StructBase"
     for="plone.dexterity.interfaces.IDexterityFTI"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructDCATDataset"
     for="pkan.dcatapde.content.dcat_dataset.IDCATDataset"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructDCATDistribution"
     for="pkan.dcatapde.content.dcat_distribution.IDCATDistribution"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructDCATCatalog"
     for="pkan.dcatapde.content.dcat_catalog.IDCATCatalog"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructDCTLicenseDocument"
     for="pkan.dcatapde.content.dct_licensedocument.IDCTLicenseDocument"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructDCTLocation"
     for="pkan.dcatapde.content.dct_location.IDCTLocation"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructDCTMediaTypeOrExtent"
     for="pkan.dcatapde.content.dct_mediatypeorextent.IDCTMediaTypeOrExtent"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructDCTStandard"
     for="pkan.dcatapde.content.dct_standard.IDCTStandard"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructFOAFAgent"
     for="pkan.dcatapde.content.foaf_agent.IFOAFAgent"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructSKOSConceptScheme"
     for="pkan.dcatapde.content.skos_conceptscheme.ISKOSConceptScheme"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
   <adapter
     factory=".structure.StructSKOSConcept"
     for="pkan.dcatapde.content.skos_concept.ISKOSConcept"
-    provides=".structure.IStructure"
+    provides=".interfaces.IStructure"
   />
 
 
