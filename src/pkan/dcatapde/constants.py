@@ -8,11 +8,10 @@ CT_DCAT_DISTRIBUTION = 'dcat_distribution'
 CT_DCT_LICENSEDOCUMENT = 'dct_licensedocument'
 CT_DCT_LOCATION = 'dct_location'
 CT_DCT_MEDIATYPEOREXTENT = 'dct_mediatypeorextent'
+CT_DCT_RIGHTSSTATEMENT = 'dct_rightsstatement'
 CT_DCT_STANDARD = 'dct_standard'
 CT_FOAF_AGENT = 'foaf_agent'
 CT_HARVESTER = 'harvester'
-CT_HARVESTER_FIELD_CONFIG = 'harvester_field_config'
-CT_HARVESTER_ENTITY = 'harvester_entity'
 CT_HARVESTER_FOLDER = 'harvesterfolder'
 CT_RDF_LITERAL = 'rdf_literal'
 CT_SKOS_CONCEPT = 'skos_concept'
@@ -27,6 +26,7 @@ CT_FORMAT_FOLDER = 'FormatFolder'
 CT_LICENSE_FOLDER = 'LicenseFolder'
 CT_LOCATION_FOLDER = 'LocationFolder'
 CT_MEDIATYPE_FOLDER = 'MediaTypeFolder'
+CT_RIGHTS_FOLDER = 'RightsFolder'
 CT_STANDARDS_FOLDER = 'StandardsFolder'
 
 # list of DCAT CTs
@@ -37,9 +37,15 @@ DCAT_CTs = [
     CT_FOAF_AGENT,
     CT_DCT_LICENSEDOCUMENT,
     CT_DCT_MEDIATYPEOREXTENT,
+    CT_DCT_RIGHTSSTATEMENT,
+    CT_DCT_STANDARD,
     CT_SKOS_CONCEPT,
     CT_SKOS_CONCEPTSCHEME,
 ]
+
+# DCAT predicates
+DP_DCAT_DATASET = 'dcat:Dataset'
+
 
 # HTML filled with error information from harvesting dry_run
 ERROR_HTML_LINE = '<p>Found error {error} on field {field}</p>'
@@ -71,6 +77,9 @@ FOLDER_PUBLISHERS = 'publishers'
 #: Default folder shortname for standards.
 FOLDER_STANDARDS = 'standards'
 
+#: Default folder shortname for standards.
+FOLDER_RIGHTS = 'rightsf'
+
 
 # Location of vocabulary sources
 VOCAB_SOURCES = {
@@ -89,14 +98,9 @@ MANDATORY_FOLDERS = {
     FOLDER_LOCATIONS: CT_LOCATION_FOLDER,
     FOLDER_MEDIATYPES: CT_MEDIATYPE_FOLDER,
     FOLDER_PUBLISHERS: CT_AGENT_FOLDER,
+    FOLDER_RIGHTS: CT_RIGHTS_FOLDER,
     FOLDER_STANDARDS: CT_STANDARDS_FOLDER,
 }
-
-HARVESTER_FIELD_CONFIG_TITLE = 'Field Config'
-HARVESTER_FIELD_CONFIG_ID = 'field_config'
-
-HARVESTER_ENTITY_TITLE = 'Entity Config'
-HARVESTER_ENTITY_ID = 'entity_config'
 
 HARVESTER_FOLDER_TITLE = 'Harvester Folder'
 HARVESTER_FOLDER_ID = 'harvester_folder'
@@ -123,3 +127,6 @@ RDF_FORMAT_METADATA = {
         'mime_type': 'application/rdf+xml; charset=utf-8',
     },
 }
+
+# Limit for preview output, if output is longer it will be shortened
+MAX_QUERY_PREVIEW_LENGTH = 1000

@@ -113,6 +113,16 @@ DCTStandardVocabularyFactory = DCTStandardVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class DCTRightsStatementVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning DCTRightsStatement items."""
+
+    portal_type = constants.CT_DCT_RIGHTSSTATEMENT
+
+
+DCTRightsStatementVocabularyFactory = DCTRightsStatementVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class FOAFAgentVocabulary(BaseContentTypeVocabulary):
     """A vocabulary returning FOAFAgent items."""
 

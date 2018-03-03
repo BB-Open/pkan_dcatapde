@@ -30,6 +30,10 @@ HELP_DACTDE_ORIGINATOR = _(
     u'Select an originator from the list of available originators or create '
     u'a new one by using the \'add\' button below.',
 )
+HELP_DCT_ACCESSRIGHTS = _(
+    u'Select a access right from the list of available access rights '
+    u'or create a new one by using the \'add\' button below.',
+)
 HELP_DCT_CONFORMSTO = _(
     u'Select a standard from the list of available standards or create '
     u'a new one by using the \'add\' button below.',
@@ -139,6 +143,7 @@ LABEL_DCATDE_PLANNED_AVAILABLITY = _(u'Planed availability')
 LABEL_DCATDE_POLITICALGEOCODINGLEVELURI = _(u'PoliticalGeocodingLevelURI')
 LABEL_DCATDE_POLITICALGEOCODINGURI = _(u'PoliticalGeocodingURI')
 LABEL_DCATDE_ORIGINATOR = _(u'Originator')
+LABEL_DCT_ACCESSRIGHTS = _(u'Access Rights')
 LABEL_DCT_CONFORMSTO = _(u'Standards')
 LABEL_DCT_CONTRIBUTOR = _(u'Contributor')
 LABEL_DCT_CREATOR = _(u'Creator')

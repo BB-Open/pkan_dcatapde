@@ -88,6 +88,21 @@
       />
 
 
+  <!-- DCTRighststatement -->
+  <!-- =========== -->
+  <adapter
+      factory=".base.NameFromDCTTitle"
+      for=".dct_rightsstatement.IDCTRightsStatement"
+      provides=".base.INameFromDCTTitle"
+      />
+
+  <utility
+      factory=".dct_rightsstatement.DCTRightsstatementDefaultFactory"
+      name="dct_rightsstatement"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
+
   <!-- DCTStandard -->
   <!-- =========== -->
   <adapter
@@ -171,24 +186,6 @@
   <utility
       factory=".harvesterfolder.HarvesterFolderDefaultFactory"
       name="harvesterfolder"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
-
-  <!-- HarvesterFieldConfig -->
-  <!-- ==================== -->
-  <utility
-      factory=".harvester_field_config.FieldConfigDefaultFactory"
-      name="harvester_field_config"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
-
-  <!-- HarvesterEntityConfig -->
-  <!-- ==================== -->
-  <utility
-      factory=".harvester_entity.EntityDefaultFactory"
-      name="harvester_entity"
       provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 

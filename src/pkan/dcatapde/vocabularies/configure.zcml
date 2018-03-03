@@ -35,6 +35,11 @@
       />
 
   <utility
+      component=".content_types.DCTRightsStatementVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCTRightsStatement"
+      />
+
+  <utility
       component=".content_types.DCTStandardVocabularyFactory"
       name="pkan.dcatapde.vocabularies.DCTStandard"
       />

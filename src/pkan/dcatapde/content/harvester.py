@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
 """Harvester Content Type."""
-
+from DateTime.DateTime import time
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
-from pkan.dcatapde.api.harvester_field_config import add_harvester_field_config
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_DATASET
+from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.structure.sparql import WHERE_P_QUERY
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
+from plone.memoize import ram
 from plone.supermodel import model
+from rdflib import Graph
+from rdflib.plugins.memory import IOMemory
 from zope.interface import implementer
 
 import zope.schema as schema
@@ -77,9 +83,47 @@ class IHarvester(model.Schema):
     )
 
 
+def cache_key(func, self):
+    """cache key factory for rdf graph. With timeout 300 seconds
+    :param func:
+    :param self:
+    :return:
+    """
+    key = u'{0}_{1}'.format(
+        time() // 300,
+        self.url,
+    )
+    return key
+
+
 @implementer(IHarvester)
 class Harvester(Container):
     """Harvester Content Type."""
+
+    def __init__(self, *args, **kwargs):
+
+        self._graph = None
+        self._rdfstore = None
+
+        super(Harvester, self).__init__(*args, **kwargs)
+
+    @property
+    @ram.cache(cache_key)
+    def graph(self):
+        """In Memory representation of the incoming RDF graph"""
+        rdfstore = IOMemory()
+        _graph = Graph(rdfstore)
+        _graph.load(self.url)
+        return _graph
+
+    def mapper(self):
+        """Dummy mapper since Entity Mapper is working"""
+        result = {}
+        result[CT_DCAT_CATALOG] = WHERE_P_QUERY.format('dcat:Catalog')
+        result[CT_DCAT_DATASET] = WHERE_P_QUERY.format('dcat:Dataset')
+        result[CT_DCAT_DISTRIBUTION] = \
+            WHERE_P_QUERY.format('dcat:Distribution')
+        return result
 
 
 class HarvesterDefaultFactory(DexterityFactory):
@@ -99,7 +143,3 @@ class HarvesterDefaultFactory(DexterityFactory):
         # add_harvester_field_config(folder)
 
         return folder
-
-
-def add_field_config(object, event):
-    add_harvester_field_config(object)

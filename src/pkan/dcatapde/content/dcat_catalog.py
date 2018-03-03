@@ -113,15 +113,15 @@ class IDCATCatalog(model.Schema, IDCAT):
     form.widget(
         'dct_rights',
         AjaxSelectAddFieldWidget,
-        content_type=constants.CT_DCT_LICENSEDOCUMENT,
+        content_type=constants.CT_DCT_RIGHTSSTATEMENT,
         content_type_title=i18n.LABEL_DCT_RIGHTS,
-        initial_path='/licenses/',
+        initial_path='/rights/',
     )
     dct_rights = schema.Choice(
         description=i18n.HELP_DCT_RIGHTS,
         required=False,
         title=i18n.LABEL_DCT_RIGHTS,
-        vocabulary='pkan.dcatapde.vocabularies.DCTLicenseDocument',
+        vocabulary='pkan.dcatapde.vocabularies.DCTRightsStatement',
     )
 
     dct_issued = schema.Date(
@@ -169,11 +169,13 @@ class IDCATCatalog(model.Schema, IDCAT):
         content_type_title=i18n.LABEL_DCT_SPATIAL,
         initial_path='/locations/',
     )
-    dct_spatial = schema.Choice(
+    dct_spatial = schema.List(
         description=i18n.HELP_DCT_SPATIAL,
         required=False,
         title=i18n.LABEL_DCT_SPATIAL,
-        vocabulary='pkan.dcatapde.vocabularies.DCTLocation',
+        value_type=schema.Choice(
+            vocabulary='pkan.dcatapde.vocabularies.DCTLocation',
+        ),
     )
 
 

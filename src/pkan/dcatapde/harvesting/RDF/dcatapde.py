@@ -23,8 +23,9 @@ class RDFCrawler(object):
 
     def __init__(self, harvester, search_surf_class=None):
         self.harvester = harvester
-        self.context = content.get(UID=self.harvester.base_object)
-        if self.context:
+        # check if we get a base object
+        if self.harvester.base_object:
+            self.context = content.get(UID=self.harvester.base_object)
             self.search_surf_class = SC_DCAT_DATASET
         else:
             self.context = portal.get()
