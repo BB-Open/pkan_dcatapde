@@ -15,54 +15,54 @@ ${query} =
 
 *** Test Cases ***
 
-#Scenario: As a manager I can add a harvester
-#  Given a logged-in manager
-#    and a harvester folder 'Harvester Folder'
-#    and an add harvester form
-#   When I type 'My Harvester' into the title field
-#    and I type 'http://www.test.de' into the url field
-#    and I submit the form
-#   Then a harvester with the title 'My Harvester' has been created
-#
-#Scenario: As a manager I can view a harvester
-#  Given a logged-in manager
-#    and a harvester folder 'Harvester Folder'
-#    and an add harvester form
-#   When I type 'My Harvester' into the title field
-#    and I type 'http://www.test.de' into the url field
-#    and I submit the form
-#    and I go to the harvester view
-#   Then I can see the harvester title 'My Harvester'
-#
-#Scenario: As a manager I can view a harvester on folder_view
-#  Given a logged-in manager
-#    and a harvester folder 'Harvester Folder'
-#    and an add harvester form
-#   When I type 'My Harvester' into the title field
-#    and I type 'http://www.test.de' into the url field
-#    and I submit the form
-#    and I go to harvester folder view
-#   Then I can see the harvester title 'My Harvester'
-#
-#Scenario: As a manager I can view a harvester on control_panel
-#  Given a logged-in manager
-#    and a harvester folder 'Harvester Folder'
-#    and an add harvester form
-#   When I type 'My Harvester' into the title field
-#    and I type 'http://www.test.de' into the url field
-#    and I submit the form
-#    and I go to controlpanel view
-#   Then I can see the harvester title 'My Harvester'
-#
-#Scenario: As a manager I can view harvester_entity-View
-#  Given a logged-in manager
-#    and a harvester folder 'Harvester Folder'
-#    and an add harvester form
-#   When I type 'My Harvester' into the title field
-#    and I type 'http://www.test.de' into the url field
-#    and I submit the form
-#    and I go to harvester_entity view
-#   Then I can see the harvester title 'My Harvester'
+Scenario: As a manager I can add a harvester
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and an add harvester form
+   When I type 'My Harvester' into the title field
+    and I type 'http://www.test.de' into the url field
+    and I submit the form
+   Then a harvester with the title 'My Harvester' has been created
+
+Scenario: As a manager I can view a harvester
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and an add harvester form
+   When I type 'My Harvester' into the title field
+    and I type 'http://www.test.de' into the url field
+    and I submit the form
+    and I go to the harvester view
+   Then I can see the harvester title 'My Harvester'
+
+Scenario: As a manager I can view a harvester on folder_view
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and an add harvester form
+   When I type 'My Harvester' into the title field
+    and I type 'http://www.test.de' into the url field
+    and I submit the form
+    and I go to harvester folder view
+   Then I can see the harvester title 'My Harvester'
+
+Scenario: As a manager I can view a harvester on control_panel
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and an add harvester form
+   When I type 'My Harvester' into the title field
+    and I type 'http://www.test.de' into the url field
+    and I submit the form
+    and I go to controlpanel view
+   Then I can see the harvester title 'My Harvester'
+
+Scenario: As a manager I can view harvester_entity-View
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and an add harvester form
+   When I type 'My Harvester' into the title field
+    and I type 'http://www.test.de' into the url field
+    and I submit the form
+    and I go to harvester_entity view
+   Then I can see the harvester title 'My Harvester'
 
 Scenario: As a manager I can request preview data on harvester_entity-view
   Given a logged-in manager
@@ -77,17 +77,17 @@ Scenario: As a manager I can request preview data on harvester_entity-view
    Then I can see the harvester title 'My Harvester'
     and I can see the preview 'http://dcat-ap.de/def/licenses/cc-by-nd/3_0'
 
-#Scenario: As a manger I can submit data on harvester_entity-view
-#  Given a logged-in manager
-#    and a harvester folder 'Harvester Folder'
-#    and an add harvester form
-#   When I type 'My Harvester' into the title field
-#    and I type 'http://www.test.de' into the url field
-#    and I submit the form
-#    and I go to harvester_entity view
-#    and I submit the form
-#   Then I can see the harvester title 'My Harvester'
-#    and I can see the success message 'Thank you very much!'
+Scenario: As a manger I can submit data on harvester_entity-view
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and an add harvester form
+   When I type 'My Harvester' into the title field
+    and I type 'http://www.test.de' into the url field
+    and I submit the form
+    and I go to harvester_entity view
+    and I submit the form
+   Then I can see the harvester title 'My Harvester'
+    and I can see the success message 'Thank you very much!'
 
 *** Keywords *****************************************************************
 
