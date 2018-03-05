@@ -30,7 +30,7 @@ class NameFromDCTTitle(object):
         struct = IStructure(self.context)
         try:
             title_field = getattr(self.context, struct.title_field)
-        except:
+        except AttributeError:
             return ''
         # if the title field is already unicode use it
         if isinstance(title_field, unicode):

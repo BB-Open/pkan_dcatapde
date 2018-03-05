@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 """Harvesting module for DCAT-AP.de data"""
 from pkan.dcatapde.content.harvester import IHarvester
-# from pkan.dcatapde.harvesting.RDF.dcat_dataset import RDF2DCATDataset
 from pkan.dcatapde.harvesting.RDF.interfaces import IRDF
-from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_CATALOG
-from pkan.dcatapde.harvesting.RDF.surf_config import SC_DCAT_DATASET
 from pkan.dcatapde.structure.sparql import QUERY_A
-from pkan.dcatapde.structure.structure import (
-    StructDCATCatalog,
-    StructDCATDataset, )
+from pkan.dcatapde.structure.structure import StructDCATCatalog
+from pkan.dcatapde.structure.structure import StructDCATDataset
 from plone.api import content
 from plone.api import portal
 from zope.component import adapter
@@ -47,4 +43,4 @@ class RDFCrawler(object):
             query = QUERY_A.format(top_struct.rdf_type)
 
         res = self.harvester.graph.query(query)
-        pass
+        return res

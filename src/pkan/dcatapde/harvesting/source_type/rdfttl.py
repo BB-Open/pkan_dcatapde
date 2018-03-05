@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
 from DateTime.DateTime import time
+from functools import partial
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import RDF_FORMAT_JSONLD, CT_RDF_LITERAL
+from pkan.dcatapde.constants import CT_RDF_LITERAL
+from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.harvesting.RDF.interfaces import IRDF
+from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFXML
 from pkan.dcatapde.log.log import TranslatingFormatter
-from pkan.dcatapde.structure.sparql import QUERY_A, QUERY_ATT, DCT
+from pkan.dcatapde.structure.sparql import QUERY_A
+from pkan.dcatapde.structure.sparql import QUERY_ATT
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from plone.api import content
@@ -200,37 +203,69 @@ class RDFProcessor(object):
 
         self.crawl(self.context, catalog, self.struct_class)
 
-    def crawl(self, context, rdf_node, target_struct):
+    def log_func(self, level=None, msg=None, **kwargs):
+        message = _(msg, mapping=kwargs)
+        getattr(self.log, level)(message)
 
-        # Activate the struct on the harvester
-        struct = target_struct(self.harvester)
+    def handle_list(self, context, res, field_name, field, obj_data, log_func):
+        obj_data[field_name] = []
+        for i in res.bindings:
+            # If the field is a Literal we simply store it.
+            if field['object'] == CT_RDF_LITERAL:
+                obj_data[field_name].append(i['o'])
+            # if not we have to create a sub object recursively
+            else:
+                sub = self.crawl(context, i['o'], field['object'])
+                obj_data[field_name].append(sub)
+            log_func(
+                level='info',
+                msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
+                val=i['o'],
+            )
+
+    def handle_dict(self, context, res, field_name, field, obj_data, log_func):
+        obj_data[field_name] = {}
+        for i in res.bindings:
+            # special handling of literals without language
+            if not ('o1' in i):
+                obj_data[field_name][self.def_lang] = unicode(i['o'])
+                log_func(
+                    level='info',
+                    msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
+                    val=i['o'],
+                )
+            else:
+                obj_data[field_name][i['o1']] = unicode(i['o2'])
+                log_func(
+                    level='info',
+                    msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
+                    val=str(i['o1']) + ':' + str(i['o1']),
+                )
+
+    def properties(self, context, rdf_node, struct, obj_data, log_func):
+        """At first we run over the fields and references only, to collect
+        the data necessary to construct the CT instance.
+        With the contained instances will be dealed if the CT instance
+        is constructed"""
+
         # query for an attibute
         query = QUERY_ATT
-        # here we collect the data to generate our DX object
-        obj_data = {}
 
-        # At first we run over the fields and references only, to collect
-        # the data necessary to construct the CT instance.
-        # With the contained instances will be dealed if the CT instance is constructed
         for field_name, field in struct.fields_and_referenced.items():
             # Todo : query the entity mapper
             # if struct.rdf_type in self.harvester.mapper:
-#                query = self.harvester.mapper[struct.rdf_type]
+            #   query = self.harvester.mapper[struct.rdf_type]
             if struct.rdf_type == FOAF.Agent and field_name == 'foaf_name':
                 pass
 
-
-            msg = _(
-                u'${type} object ${obj}: searching attribute ${att}',
-                mapping={
-                    'type': struct.rdf_type,
-                    'obj': rdf_node,
-                    'att': field['predicate'],
-                },
+            log_func(
+                level='info',
+                msg=u'${type} object ${obj}: searching attribute ${att}',
+                att=field['predicate'],
             )
-            self.log.info(msg)
 
-            # Query the RDF db. Subject is the node we like to construct. Predicate
+            # Query the RDF db. Subject is the node we like
+            # to construct. Predicate
             # is the attribute we like to find in the RDF
             bindings = {
                 's': rdf_node,
@@ -241,86 +276,46 @@ class RDFProcessor(object):
             # Dealing with required fields not delivered
             if len(res) == 0:
                 if field['required']:
-                    msg = _(
-                        u'${type} object ${obj}: required '
-                        u'attribute ${att} not found',
-                        mapping={
-                            'type': struct.rdf_type,
-                            'obj': rdf_node,
-                            'att': field['predicate'],
-                        },
+                    log_func(
+                        level='error',
+                        msg=u'${type} object ${obj}: required '
+                            u'attribute ${att} not found',
+                        att=field['predicate'],
                     )
-                    self.log.error(msg)
                     # Todo: Error handling
-                    break
+                    raise RequiredPredicateMissing()
                 continue
 
             # dealing with lis like fields
             if field['type'] == list:
-                obj_data[field_name] = []
-                for i in res.bindings:
-                    # If the field is a Literal we simply store it.
-                    if field['object'] == CT_RDF_LITERAL:
-                        obj_data[field_name].append(i['o'])
-                    # if not we have to create a sub object recursively
-                    else:
-                        sub = self.crawl(context, i['o'], field['object'])
-                        obj_data[field_name].append(sub)
-                    msg = _(
-                        u'${type} object ${obj}: '
-                        u'attribute ${att}:= ${val}',
-                        mapping={
-                            'type': struct.rdf_type,
-                            'obj': rdf_node,
-                            'att': field['predicate'],
-                            'val': i['o'],
-                        },
-                    )
-                    self.log.info(msg)
+                self.handle_list(
+                    context,
+                    res,
+                    field_name,
+                    field,
+                    obj_data,
+                    log_func,
+                )
 
             # dealing with dict like fields aka Literals
             elif field['type'] == dict:
-                obj_data[field_name] = {}
-                for i in res.bindings:
-                    # special handling of literals without language
-                    if not ('o1' in i):
-                        obj_data[field_name][self.def_lang] = unicode(i['o'])
-                        msg = _(
-                            u'${type} object ${obj}: '
-                            u'attribute ${att}:= ${val}',
-                            mapping={
-                                'type': struct.rdf_type,
-                                'obj': rdf_node,
-                                'att': field['predicate'],
-                                'val': str(i['o']),
-                            },
-                        )
-                    else:
-                        obj_data[field_name][i['o1']] = unicode(i['o2'])
-                        msg = _(
-                            u'${type} object ${obj}: '
-                            u'attribute ${att}:= ${val}',
-                            mapping={
-                                'type': struct.rdf_type,
-                                'obj': rdf_node,
-                                'att': field['predicate'],
-                                'val': str(i['o1'])+':'+str(i['o1']),
-                            },
-                        )
-                    self.log.info(msg)
+                self.handle_dict(
+                    context,
+                    res,
+                    field_name,
+                    field,
+                    obj_data,
+                    log_func,
+                )
             # Iten/list collision checking. Attribute is Item in DCATapded,
             # but a list is delivered.
             elif len(res) > 1:
-                msg = _(
-                    u'${type} object ${obj}: '
-                    u'attribute ${att} to many values',
-                    mapping={
-                        'type': struct.rdf_type,
-                        'obj': rdf_node,
-                        'att': field['predicate'],
-                    },
+                log_func(
+                    level='error',
+                    msg=u'${type} object ${obj}: '
+                        u'attribute ${att} to many values',
+                    att=field['predicate'],
                 )
-                self.log.error(msg)
                 # Todo: Error handling
                 break
             # Simple case of a single item
@@ -330,53 +325,36 @@ class RDFProcessor(object):
                     obj_data[field_name] = res.bindings[0]['o']
                 # if not we have to create a sub object recursively
                 else:
-                    sub = self.crawl(context, res.bindings[0]['o'], field['object'])
+                    sub = self.crawl(
+                        context,
+                        res.bindings[0]['o'],
+                        field['object'],
+                    )
                     obj_data[field_name] = sub
-                msg = _(
-                    u'${type} object ${obj}: '
-                    u'attribute ${att}:= ${val}',
-                    mapping={
-                        'type': struct.rdf_type,
-                        'obj': rdf_node,
-                        'att': field['predicate'],
-                        'val': obj_data[field_name],
-                    },
+                log_func(
+                    level='info',
+                    msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
+                    val=obj_data[field_name],
                 )
-                self.log.info(msg)
 
-        title = unicode(obj_data[struct.title_field].items()[0][1])
-        obj = content.create(
-            context,
-            target_struct.portal_type,
-            title=title,
-            **obj_data)
-        obj.reindexObject()
-        msg = _(
-            u'${type} dxobject ${obj} created at '
-            u'${context}',
-            mapping={
-                'obj': title,
-                'type': target_struct.portal_type,
-                'context': context,
-            },
-        )
-        self.log.info(msg)
+    def contained(self, obj, rdf_node, struct, log_func):
+        """At first we run over the fields and references only, to collect
+        the data necessary to construct the CT instance.
+        With the contained instances will be dealed if the CT instance
+        is constructed"""
 
+        # query for an attibute
+        query = QUERY_ATT
         #   Handle the contained objects
         for field_name, field in struct.contained.items():
             # Todo : query the entity mapper
             # if struct.rdf_type in self.harvester.mapper:
             #                query = self.harvester.mapper[struct.rdf_type]
-
-            msg = _(
-                u'${type} object ${obj}: searching contained ${att}',
-                mapping={
-                    'type': struct.rdf_type,
-                    'obj': rdf_node,
-                    'att': field['predicate'],
-                },
+            log_func(
+                level='info',
+                msg=u'${type} object ${obj}: searching contained ${att}',
+                att=field['predicate'],
             )
-            self.log.info(msg)
 
             # Query the RDF db. Subject is still the rdf_node
             # Predicate is the attribute we like to find in the RDF
@@ -387,18 +365,54 @@ class RDFProcessor(object):
             res = self.graph.query(query, initBindings=bindings)
 
             for i in res.bindings:
-                sub = self.crawl(obj, i['o'], field['object'])
-                msg = _(
-                    u'Crawling to sub obj ${obj} of type ${type}'
-                    u'attribute ${att}:= ${val}',
-                    mapping={
-                        'obj': i['o'],
-                        'type': field['object'],
-                    },
+                self.crawl(obj, i['o'], field['object'])
+                log_func(
+                    level='info',
+                    msg=u'Crawling to sub obj ${obj} of type ${type} '
+                        u'attribute ${att}:= ${val}',
+                    att=field['predicate'],
                 )
-                self.log.info(msg)
 
-        return obj
+    def crawl(self, context, rdf_node, target_struct):
+        """Analyse the RDF structure"""
+
+        # Activate the struct
+        struct = target_struct(self.harvester)
+
+        # here we collect the data to generate our DX object
+        obj_data = {}
+
+        # Partial logger with some base arguments
+        log_kwargs = {
+            'type': struct.rdf_type,
+            'obj': rdf_node,
+        }
+        log_func = partial(self.log_func, **log_kwargs)
+
+        try:
+            # Go for the properties of the current node
+            self.properties(context, rdf_node, struct, obj_data, log_func)
+
+            # Create an instance of the node as dexterity object
+            title = unicode(obj_data[struct.title_field].items()[0][1])
+            obj = content.create(
+                context,
+                target_struct.portal_type,
+                title=title,
+                **obj_data)
+            obj.reindexObject()
+            log_func(
+                level='info',
+                msg=u'${type} dxobject ${obj} created at ${context}',
+                context=context.virtual_url_path(),
+            )
+
+            self.contained(obj, rdf_node, struct, log_func)
+
+            return obj
+
+        except RequiredPredicateMissing:
+            return None
 
     def real_run(self):
         """Dry Run: Returns Log-Information.

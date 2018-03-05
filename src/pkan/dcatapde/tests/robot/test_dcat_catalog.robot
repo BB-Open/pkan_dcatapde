@@ -34,13 +34,16 @@ a catalog 'My Catalog'
 
 a publisher 'Test-Publisher'
   Go To  ${PLONE_URL}/publishers/++add++foaf_agent
-  I type 'Test-Publisher' into the title field
+  I type 'Test-Publisher' into the name field
   I submit the form
 
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
   Input Text  form.widgets.dct_title.en  ${title}
+
+I type '${title}' into the name field
+  Input Text  form.widgets.foaf_name.en  ${title}
 
 I type '${description}' into the description field
   Input Text  form.widgets.dct_description.en  ${description}

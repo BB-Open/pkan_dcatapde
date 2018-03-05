@@ -22,7 +22,7 @@ INIT_NS = {
     'skos': SKOS,
     'dcat': DCAT,
     'rdf': RDF,
-    }
+}
 
 # Give me the object to a given subject and predicate.
 # E.g. give me the dct:publisher to a dcat:Catalog
@@ -42,4 +42,4 @@ QUERY_A = prepareQuery(
           ?s a ?o
        }""",
     initNs=INIT_NS,
-    )
+)

@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 """Structure of the dcat-AP.de scheme"""
-import rdflib
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_DCAT_CATALOG, FIELD_BLACKLIST
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_DCT_LOCATION
 from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
-from pkan.dcatapde.constants import CT_DCT_RIGHTSSTATEMENT
 from pkan.dcatapde.constants import CT_DCT_STANDARD
 from pkan.dcatapde.constants import CT_FOAF_AGENT
 from pkan.dcatapde.constants import CT_RDF_LITERAL
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
+from pkan.dcatapde.constants import FIELD_BLACKLIST
 from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
 from pkan.dcatapde.content.dcat_dataset import IDCATDataset
 from pkan.dcatapde.content.dcat_distribution import IDCATDistribution
@@ -26,19 +25,21 @@ from pkan.dcatapde.content.foaf_agent import IFOAFAgent
 from pkan.dcatapde.content.skos_concept import ISKOSConcept
 from pkan.dcatapde.content.skos_conceptscheme import ISKOSConceptScheme
 from pkan.dcatapde.structure.interfaces import IStructure
-from pkan.dcatapde.structure.sparql import DCT, DCAT, INIT_NS
+from pkan.dcatapde.structure.sparql import DCAT
+from pkan.dcatapde.structure.sparql import DCT
+from pkan.dcatapde.structure.sparql import INIT_NS
 from plone.api import portal
 from plone.api.portal import get_current_language
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.supermodel.interfaces import FIELDSETS_KEY
-from rdflib.namespace import FOAF, SKOS
+from rdflib.namespace import FOAF
+from rdflib.namespace import SKOS
 from zope.component import adapter
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implementer
-
 from zope.schema import getFieldsInOrder
 from zope.schema.vocabulary import SimpleTerm
 
@@ -155,7 +156,7 @@ class StructBase(object):
                 'object': CT_RDF_LITERAL,
                 'required': field.required,
                 'predicate': self.fieldname2predicate(field_name),
-                'type': field._type
+                'type': field._type,
             }
         return result
 
@@ -217,12 +218,12 @@ class StructBase(object):
         """Terms for a vocabulary. The tokens hold the subjects CT,
         and the predicate. The objects type information is neglected."""
 
-        field_names = self.fields_objects_required.keys()
+        field_names = self.fields_and_referenced.keys()
         field_names.sort()
 
         terms = []
         for field_name in field_names:
-            required = self.fields_objects_required[field_name]['required']
+            required = self.fields_and_referenced[field_name]['required']
             if required:
                 title = _(
                     u'${CT}=>${field_name} (required)',
@@ -481,6 +482,7 @@ class StructFOAFAgent(StructBase):
     portal_type = CT_FOAF_AGENT
     rdf_type = FOAF.Agent
     title_field = 'foaf_name'
+
 
 @implementer(IStructure)
 @adapter(ISKOSConceptScheme)
