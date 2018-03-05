@@ -31,6 +31,10 @@ I select '${choice}' from an AJAX select widget with id '${field}'
     Sleep  1.5
     Focus  css=body
 
+I select '${value}' in '${field}'
+    Select From List  name=${field}:list  ${value}
+
+
 
 *** Variables ****************************************************************
 

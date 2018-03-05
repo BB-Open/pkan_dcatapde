@@ -86,23 +86,23 @@ class HarvesterPreview(BrowserView):
             context = api.content.get(path=self.request.form['source_path'])
 
         source_type = getattr(context, 'source_type', None)
-        preview = _(u'Not Found')
+        preview = _('Result: ')
 
         if source_type and query:
-            # try:
-            #     source_adapter = source_type(context)
-            # except TypeError:
-            #     return preview
+            try:
+                source_adapter = source_type(context)
+            except TypeError:
+                return preview + _(u'Not Found')
 
             try:
-                res = context.graph.query(query)
+                res = source_adapter.graph.query(query)
             except ParseException:
-                preview = _(u'Wrong Syntax')
+                preview += _(u'Wrong Syntax')
             except SAXParseException:
-                preview = _(u'Could not read source.')
+                preview += _(u'Could not read source.')
             else:
                 # Todo: Sometimes None-Type is not iterable exception
-                preview = vkb.xml(res.serialize())
+                preview += vkb.xml(res.serialize())
 
             if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
                 preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'

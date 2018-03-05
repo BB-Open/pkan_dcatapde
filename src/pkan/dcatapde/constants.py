@@ -123,7 +123,8 @@ RDF_FORMAT_METADATA = {
         'mime_type': 'text/turtle; charset=utf-8',
     },
     RDF_FORMAT_XML: {
-        'serialize_as': 'pretty-xml',
+        # todo: pretty-xml no parser registered
+        'serialize_as': 'application/rdf+xml',
         'mime_type': 'application/rdf+xml; charset=utf-8',
     },
 }
