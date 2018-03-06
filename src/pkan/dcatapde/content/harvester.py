@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """Harvester Content Type."""
-
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.constants import DCAT_TOP_NODES
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
@@ -12,6 +12,7 @@ from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from zope.interface import implementer
+from zope.schema.vocabulary import SimpleVocabulary
 
 import zope.schema as schema
 
@@ -74,6 +75,25 @@ class IHarvester(model.Schema):
             u'source like "JSON generic"',
         ),
         vocabulary='pkan.dcatapde.SourceTypeVocabulary',
+    )
+
+    top_node = schema.Choice(
+        required=True,
+        title=_(u'Portal Type of Top Node'),
+        vocabulary=SimpleVocabulary.fromValues(DCAT_TOP_NODES),
+    )
+
+    top_node_sparql = schema.Text(
+        required=True,
+        title=_(u'Query'),
+        default=u'Hello World',
+    )
+
+    preview = schema.Text(
+        required=False,
+        title=_(u'Preview'),
+        description=_(u'Preview of the Sparqle Query'),
+        default=_('No value'),
     )
 
 

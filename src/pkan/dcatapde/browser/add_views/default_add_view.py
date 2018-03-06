@@ -12,11 +12,11 @@ from zope.component import createObject
 from zope.component import getUtility
 
 
-class PkanDefaulftAddForm(add.DefaultAddForm):
+class PkanDefaultAddForm(add.DefaultAddForm):
     """Default add form."""
 
     def __init__(self, context, request, ti=None):
-        super(PkanDefaulftAddForm, self).__init__(context, request)
+        super(PkanDefaultAddForm, self).__init__(context, request)
         utils.set_request_annotations('pkan.vocabularies.context', context)
 
     def create(self, data):
@@ -50,4 +50,4 @@ class PkanDefaulftAddForm(add.DefaultAddForm):
 class PkanDefaultAddView(add.DefaultAddView):
     """Default add view."""
 
-    form = PkanDefaulftAddForm
+    form = PkanDefaultAddForm
