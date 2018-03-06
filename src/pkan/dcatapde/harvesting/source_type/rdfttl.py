@@ -16,6 +16,7 @@ from pkan.dcatapde.harvesting.source_type.interfaces import IRDFXML
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_ATT
+from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from plone.api import content
@@ -233,6 +234,7 @@ class RDFProcessor(object):
                     level='info',
                     msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
                     val=i['o'],
+                    att=field['predicate'],
                 )
             else:
                 obj_data[field_name][i['o1']] = unicode(i['o2'])
@@ -240,6 +242,7 @@ class RDFProcessor(object):
                     level='info',
                     msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
                     val=str(i['o1']) + ':' + str(i['o1']),
+                    att=field['predicate'],
                 )
 
     def properties(self, context, rdf_node, struct, obj_data, log_func):
@@ -260,8 +263,10 @@ class RDFProcessor(object):
 
             log_func(
                 level='info',
-                msg=u'${type} object ${obj}: searching attribute ${att}',
+                msg=u'${type} object ${obj}: '
+                    u'searching ${imp} attribute ${att}',
                 att=field['predicate'],
+                imp=field['importance'],
             )
 
             # Query the RDF db. Subject is the node we like
@@ -275,7 +280,7 @@ class RDFProcessor(object):
 
             # Dealing with required fields not delivered
             if len(res) == 0:
-                if field['required']:
+                if field['importance'] == IMP_REQUIRED:
                     log_func(
                         level='error',
                         msg=u'${type} object ${obj}: required '
@@ -284,6 +289,14 @@ class RDFProcessor(object):
                     )
                     # Todo: Error handling
                     raise RequiredPredicateMissing()
+                else:
+                    log_func(
+                        level='warn',
+                        msg=u'${type} object ${obj}: ${imp} '
+                            u'attribute ${att} not found',
+                        att=field['predicate'],
+                        imp=field['importance'],
+                    )
                 continue
 
             # dealing with lis like fields
@@ -335,6 +348,7 @@ class RDFProcessor(object):
                     level='info',
                     msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
                     val=obj_data[field_name],
+                    att=field['predicate'],
                 )
 
     def contained(self, obj, rdf_node, struct, log_func):

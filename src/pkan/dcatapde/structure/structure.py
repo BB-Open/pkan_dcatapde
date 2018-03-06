@@ -44,6 +44,11 @@ from zope.schema import getFieldsInOrder
 from zope.schema.vocabulary import SimpleTerm
 
 
+IMP_OPTIONAL = 'optional'
+IMP_RECOMENDED = 'recommended'
+IMP_REQUIRED = 'required'
+
+
 def non_fieldset_fields(schema):
     """Return fields not in fieldset."""
     fieldset_fields = []
@@ -152,9 +157,14 @@ class StructBase(object):
             if field_name in self._blacklist:
                 continue
 
+            if field.required:
+                importance = IMP_REQUIRED
+            else:
+                importance = IMP_OPTIONAL
+
             result[field_name] = {
                 'object': CT_RDF_LITERAL,
-                'required': field.required,
+                'importance': importance,
                 'predicate': self.fieldname2predicate(field_name),
                 'type': field._type,
             }
@@ -223,8 +233,8 @@ class StructBase(object):
 
         terms = []
         for field_name in field_names:
-            required = self.fields_and_referenced[field_name]['required']
-            if required:
+            importance = self.fields_and_referenced[field_name]['importance']
+            if importance == IMP_REQUIRED:
                 title = _(
                     u'${CT}=>${field_name} (required)',
                     mapping={
@@ -278,7 +288,7 @@ class StructDCATCatalog(StructBase):
         result = {}
         result['dcat_dataset'] = {
             'object': StructDCATDataset,
-            'required': True,
+            'importance': IMP_REQUIRED,
             'type': list,
             'predicate': DCAT.dataset,
             'target': DCT.Dataset,
@@ -294,28 +304,28 @@ class StructDCATCatalog(StructBase):
         related = {}
         related['dct_publisher'] = {
             'object': StructFOAFAgent,
-            'required': True,
+            'importance': IMP_REQUIRED,
             'type': str,
             'predicate': DCT.publisher,
             'target': FOAF.Agent,
         }
         related['dct_license'] = {
             'object': StructDCTLicenseDocument,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.license,
             'target': DCT.LicenseDocument,
         }
         related['dct_rights'] = {
             'object': StructDCTRightsstatement,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.rights,
             'target': DCT.RightsStatement,
         }
         related['dct_spatial'] = {
             'object': StructDCTLocation,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': list,
             'predicate': DCT.spatial,
             'target': DCT.Location,
@@ -339,7 +349,7 @@ class StructDCATDataset(StructBase):
         result = {}
         result['dcat_distribution'] = {
             'object': StructDCATDistribution,
-            'required': True,
+            'importance': IMP_REQUIRED,
             'type': list,
             'predicate': DCAT.distribution,
             'target': DCAT.Distribution,
@@ -355,21 +365,21 @@ class StructDCATDataset(StructBase):
         related = {}
         related['dct_publisher'] = {
             'object': StructFOAFAgent,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.publisher,
             'target': FOAF.Agent,
         }
         related['dct_rights'] = {
             'object': StructDCTRightsstatement,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.accessRights,
             'target': DCT.RightsStatement,
         }
         related['dct_spatial'] = {
             'object': StructDCTLocation,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': list,
             'predicate': DCT.spatial,
             'target': DCT.Location,
@@ -393,35 +403,35 @@ class StructDCATDistribution(StructBase):
         related = {}
         related['dct_license'] = {
             'object': StructDCTLicenseDocument,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.license,
             'target': DCT.LicenseDocument,
         }
         related['dct_format'] = {
             'object': StructDCTMediaTypeOrExtent,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.format,
             'target': DCT.MediaTypeOrExtent,
         }
         related['dct_mediaType'] = {
             'object': StructDCTMediaTypeOrExtent,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.mediatype,
             'target': DCT.MediaTypeOrExtent,
         }
         related['dct_conformsTo'] = {
             'object': StructDCTStandard,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': list,
             'predicate': DCT.conformsTo,
             'target': DCT.Standard,
         }
         related['dct_rights'] = {
             'object': StructDCTRightsstatement,
-            'required': False,
+            'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.rights,
             'target': DCT.RightsStatement,

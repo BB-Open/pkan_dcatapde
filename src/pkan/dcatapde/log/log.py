@@ -5,6 +5,13 @@ from zope.i18nmessageid.message import Message
 import logging
 
 
+LEVEL_COLOR = {
+    'INFO': 'green',
+    'WARNING': 'orange',
+    'ERROR': 'red',
+}
+
+
 class TranslatingFormatter(logging.Formatter):
     """Log formatter that translates"""
 
@@ -17,5 +24,10 @@ class TranslatingFormatter(logging.Formatter):
         """Determine if message has to be translated"""
         if isinstance(record.msg, Message):
             # translate
-            record.msg = translate(record.msg, context=self.request)
+            msg = translate(record.msg, context=self.request)
+            color = LEVEL_COLOR[record.levelname]
+            record.msg = u'<font color={color}>{msg}</font>'.format(
+                color=color,
+                msg=msg,
+            )
         return super(TranslatingFormatter, self).format(record)
