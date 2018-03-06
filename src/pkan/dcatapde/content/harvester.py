@@ -7,6 +7,7 @@ from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.constants import DCAT_TOP_NODES
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
+from pkan.widgets.query.widget import QueryWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.dexterity.factory import DexterityFactory
@@ -14,6 +15,7 @@ from plone.supermodel import model
 from zope.interface import implementer
 from zope.schema.vocabulary import SimpleVocabulary
 
+import json
 import zope.schema as schema
 
 
@@ -83,6 +85,10 @@ class IHarvester(model.Schema):
         vocabulary=SimpleVocabulary.fromValues(DCAT_TOP_NODES),
     )
 
+    form.widget(
+        'top_node_sparql',
+        QueryWidget,
+    )
     top_node_sparql = schema.Text(
         required=True,
         title=_(u'Query'),
@@ -116,6 +122,13 @@ class Harvester(Container):
         result['dcat:Dataset'] = QUERY_A
         result['dcat:Distribution'] = QUERY_A
         return result
+
+    def get_preview(self):
+        processor = self.source_type(self)
+        preview = processor.get_preview()
+        pretty = json.dumps(preview)
+        self.request.response.setHeader('Content-type', 'application/json')
+        return pretty
 
 
 class HarvesterDefaultFactory(DexterityFactory):
