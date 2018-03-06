@@ -13,7 +13,7 @@
   <browser:page
     for="*"
     name="harvester_preview"
-    class=".views.HarvesterPreview"
+    class=".preview.HarvesterPreview"
     permission="cmf.ManagePortal"
     />
 

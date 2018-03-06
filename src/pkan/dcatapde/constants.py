@@ -43,6 +43,12 @@ DCAT_CTs = [
     CT_SKOS_CONCEPTSCHEME,
 ]
 
+# list of DCAT Top nodes
+DCAT_TOP_NODES = [
+    CT_DCAT_CATALOG,
+    CT_DCAT_DATASET,
+]
+
 # DCAT predicates
 DP_DCAT_DATASET = 'dcat:Dataset'
 

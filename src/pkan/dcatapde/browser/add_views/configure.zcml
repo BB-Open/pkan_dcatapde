@@ -49,7 +49,7 @@
              plone.dexterity.interfaces.IDexterityFTI"
         provides="zope.publisher.interfaces.browser.IBrowserPage"
         factory=".default_add_view.PkanDefaultAddView"
-        name="harvester"
+        name="harvesterfolder"
         />
 
     <adapter
@@ -57,8 +57,14 @@
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
              plone.dexterity.interfaces.IDexterityFTI"
         provides="zope.publisher.interfaces.browser.IBrowserPage"
-        factory=".default_add_view.PkanDefaultAddView"
-        name="harvesterfolder"
+        factory=".harvester.HarvesterAddView"
+        name="harvester"
         />
+    <class class=".harvester.HarvesterAddView">
+        <require
+            permission="cmf.AddPortalContent"
+            interface="zope.publisher.interfaces.browser.IBrowserPage"
+            />
+    </class>
 
 </configure>
