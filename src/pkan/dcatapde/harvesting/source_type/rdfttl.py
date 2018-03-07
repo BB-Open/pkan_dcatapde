@@ -449,3 +449,8 @@ class RDFProcessor(object):
         self.log.info(u'Real harvest run successfull')
 
         return self.scribe.read()
+
+    def get_preview(self):
+        """Dry Run: Returns Log-Information.
+        """
+        return 'The preview!!!!!'

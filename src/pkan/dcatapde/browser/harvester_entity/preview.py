@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_HARVESTER
-from pkan.dcatapde.constants import MAX_QUERY_PREVIEW_LENGTH
 from pkan.dcatapde.harvesting.source_type.rdfttl import IFaceToRDFFormatKey
-from plone import api
 from Products.Five import BrowserView
-from pyparsing import ParseException
-from rdflib import Graph
-from rdflib.plugins.memory import IOMemory
-from xml.sax import SAXParseException
 
-import vkbeautify as vkb
+import json
 
 
 class PreviewFormMixin(object):
@@ -81,83 +75,97 @@ class PreviewFormMixin(object):
         return view()
 
 
+# class HarvesterPreview(BrowserView):
+#
+#     def __call__(self, *args, **kwargs):
+#         context = self.context
+#         query = None
+#         url = None
+#         rdf_format = None
+#         ignore_context = False
+#         if self.request.form:
+#             if 'query' in self.request.form:
+#                 query = self.request.form['query']
+#             if 'source_path' in self.request.form:
+#                 context = api.content.get(
+#                     path=self.request.form['source_path'],
+#                 )
+#             if ('rdf_url' in self.request.form and
+#                     'rdf_format' in self.request.form):
+#                 url = self.request.form['rdf_url']
+#                 rdf_format = self.request.form['rdf_format']
+#             if 'ignore_context' in self.request.form:
+#                 ignore_context = self.request.form['ignore_context']
+#                 if (isinstance(ignore_context, str) and
+#                         ignore_context == 'False'):
+#                     ignore_context = False
+#
+#         source_type = getattr(context, 'source_type', None)
+#         preview = _('Result: ')
+#
+#         graph = self.get_graph(source_type,
+#                                url,
+#                                ignore_context,
+#                                query,
+#                                context,
+#                                rdf_format)
+#
+#         if graph is None:
+#             return preview + \
+#                 _(u' Did not find correct parameters to request data.')
+#
+#         try:
+#             res = graph.query(query)
+#         except ParseException:
+#             preview += _(u'Wrong Syntax')
+#         except SAXParseException:
+#             preview += _(u'Could not read source.')
+#         else:
+#             # Todo: Sometimes None-Type is not iterable exception
+#             preview += vkb.xml(res.serialize())
+#
+#         if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
+#             preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
+#
+#         return preview
+#
+#     def get_graph(self,
+#                   source_type,
+#                   url,
+#                   ignore_context,
+#                   query,
+#                   context,
+#                   rdf_format):
+#         graph = None
+#         if source_type and query and ignore_context is False:
+#             try:
+#                 source_adapter = source_type(context)
+#                 graph = source_adapter.graph
+#             except TypeError:
+#                 pass
+#             except ValueError:
+#                 pass
+#
+#         if url and rdf_format and graph is None:
+#             try:
+#                 rdfstore = IOMemory()
+#                 graph = Graph(rdfstore)
+#                 graph.load(url,
+#                            format=rdf_format)
+#             except ValueError:
+#                 pass
+#         return graph
+
+
 class HarvesterPreview(BrowserView):
-
+    """View to get a preview of a harvester sparql query"""
     def __call__(self, *args, **kwargs):
-        context = self.context
-        query = None
-        url = None
-        rdf_format = None
-        ignore_context = False
-        if self.request.form:
-            if 'query' in self.request.form:
-                query = self.request.form['query']
-            if 'source_path' in self.request.form:
-                context = api.content.get(
-                    path=self.request.form['source_path'],
-                )
-            if ('rdf_url' in self.request.form and
-                    'rdf_format' in self.request.form):
-                url = self.request.form['rdf_url']
-                rdf_format = self.request.form['rdf_format']
-            if 'ignore_context' in self.request.form:
-                ignore_context = self.request.form['ignore_context']
-                if (isinstance(ignore_context, str) and
-                        ignore_context == 'False'):
-                    ignore_context = False
+        return self.get_preview
 
-        source_type = getattr(context, 'source_type', None)
-        preview = _('Result: ')
-
-        graph = self.get_graph(source_type,
-                               url,
-                               ignore_context,
-                               query,
-                               context,
-                               rdf_format)
-
-        if graph is None:
-            return preview + \
-                _(u' Did not find correct parameters to request data.')
-
-        try:
-            res = graph.query(query)
-        except ParseException:
-            preview += _(u'Wrong Syntax')
-        except SAXParseException:
-            preview += _(u'Could not read source.')
-        else:
-            # Todo: Sometimes None-Type is not iterable exception
-            preview += vkb.xml(res.serialize())
-
-        if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
-            preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
-
-        return preview
-
-    def get_graph(self,
-                  source_type,
-                  url,
-                  ignore_context,
-                  query,
-                  context,
-                  rdf_format):
-        graph = None
-        if source_type and query and ignore_context is False:
-            try:
-                source_adapter = source_type(context)
-                graph = source_adapter.graph
-            except TypeError:
-                pass
-            except ValueError:
-                pass
-
-        if url and rdf_format and graph is None:
-            try:
-                rdfstore = IOMemory()
-                graph = Graph(rdfstore)
-                graph.load(url,
-                           format=rdf_format)
-            except ValueError:
-                pass
-        return graph
+    @property
+    def get_preview(self):
+        processor = self.context.source_type(self.context)
+        preview = processor.get_preview()
+        pretty = json.dumps(preview)
+        self.request.response.setHeader('Content-type', 'application/json')
+        return pretty
