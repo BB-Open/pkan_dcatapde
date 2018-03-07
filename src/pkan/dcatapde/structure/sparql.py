@@ -26,11 +26,13 @@ INIT_NS = {
 
 # Give me the object to a given subject and predicate.
 # E.g. give me the dct:publisher to a dcat:Catalog
-QUERY_ATT = prepareQuery(
-    """SELECT DISTINCT ?o
+QUERY_ATT_STR = """SELECT DISTINCT ?o
        WHERE {
           ?s ?p ?o
-       }""",
+       }"""
+
+QUERY_ATT = prepareQuery(
+    QUERY_ATT_STR,
     initNs=INIT_NS,
 )
 

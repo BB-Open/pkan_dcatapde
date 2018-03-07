@@ -141,3 +141,6 @@ MAX_QUERY_PREVIEW_LENGTH = 1000
 FIELD_BLACKLIST = [
     'exclude_from_nav',
 ]
+
+# Harvester Annotation Key to store harvester_entity
+HARVESTER_ENTITY_KEY = 'pkan.dcatapde.harvesting.entity_mapping'
