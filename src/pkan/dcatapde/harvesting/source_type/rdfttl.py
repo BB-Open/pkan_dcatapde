@@ -13,6 +13,7 @@ from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFXML
+from pkan.dcatapde.harvesting.source_type.scribe import Scribe
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_ATT
@@ -166,12 +167,12 @@ class RDFProcessor(object):
         uri = self.harvester.url
 
         msg = _(
-            u'Reading ${kind} file ${uri}',
+            u'Reading {kind} file {uri}',
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
         self.log.info(msg)
         msg = _(
-            u'${kind} file ${uri} read succesfully',
+            u'{kind} file {uri} read succesfully',
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
         self.log.info(msg)
@@ -204,11 +205,11 @@ class RDFProcessor(object):
 
         self.crawl(self.context, catalog, self.struct_class)
 
-    def log_func(self, level=None, msg=None, **kwargs):
+    def scribe(self, level=None, msg=None, **kwargs):
         message = _(msg, mapping=kwargs)
         getattr(self.log, level)(message)
 
-    def handle_list(self, context, res, field_name, field, obj_data, log_func):
+    def handle_list(self, context, res, field_name, field, obj_data, scribe):
         obj_data[field_name] = []
         for i in res.bindings:
             # If the field is a Literal we simply store it.
@@ -218,34 +219,34 @@ class RDFProcessor(object):
             else:
                 sub = self.crawl(context, i['o'], field['object'])
                 obj_data[field_name].append(sub)
-            log_func(
+            scribe(
                 level='info',
-                msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
+                msg=u'{type} object {obj}: attribute {att}:= {val}',
                 val=i['o'],
             )
 
-    def handle_dict(self, context, res, field_name, field, obj_data, log_func):
+    def handle_dict(self, context, res, field_name, field, obj_data, scribe):
         obj_data[field_name] = {}
         for i in res.bindings:
             # special handling of literals without language
             if not ('o1' in i):
                 obj_data[field_name][self.def_lang] = unicode(i['o'])
-                log_func(
+                scribe(
                     level='info',
-                    msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
+                    msg=u'{type} object {obj}: attribute {att}:= {val}',
                     val=i['o'],
                     att=field['predicate'],
                 )
             else:
                 obj_data[field_name][i['o1']] = unicode(i['o2'])
-                log_func(
+                scribe(
                     level='info',
-                    msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
+                    msg=u'{type} object {obj}: attribute {att}:= {val}',
                     val=str(i['o1']) + ':' + str(i['o1']),
                     att=field['predicate'],
                 )
 
-    def properties(self, context, rdf_node, struct, obj_data, log_func):
+    def properties(self, context, rdf_node, struct, obj_data, scribe):
         """At first we run over the fields and references only, to collect
         the data necessary to construct the CT instance.
         With the contained instances will be dealed if the CT instance
@@ -261,10 +262,10 @@ class RDFProcessor(object):
             if struct.rdf_type == FOAF.Agent and field_name == 'foaf_name':
                 pass
 
-            log_func(
+            scribe(
                 level='info',
-                msg=u'${type} object ${obj}: '
-                    u'searching ${imp} attribute ${att}',
+                msg=u'{type} object {obj}: '
+                    u'searching {imp} attribute {att}',
                 att=field['predicate'],
                 imp=field['importance'],
             )
@@ -281,19 +282,19 @@ class RDFProcessor(object):
             # Dealing with required fields not delivered
             if len(res) == 0:
                 if field['importance'] == IMP_REQUIRED:
-                    log_func(
+                    scribe(
                         level='error',
-                        msg=u'${type} object ${obj}: required '
-                            u'attribute ${att} not found',
+                        msg=u'{type} object {obj}: required '
+                            u'attribute {att} not found',
                         att=field['predicate'],
                     )
                     # Todo: Error handling
                     raise RequiredPredicateMissing()
                 else:
-                    log_func(
+                    scribe(
                         level='warn',
-                        msg=u'${type} object ${obj}: ${imp} '
-                            u'attribute ${att} not found',
+                        msg=u'{type} object {obj}: {imp} '
+                            u'attribute {att} not found',
                         att=field['predicate'],
                         imp=field['importance'],
                     )
@@ -307,7 +308,7 @@ class RDFProcessor(object):
                     field_name,
                     field,
                     obj_data,
-                    log_func,
+                    scribe,
                 )
 
             # dealing with dict like fields aka Literals
@@ -318,15 +319,15 @@ class RDFProcessor(object):
                     field_name,
                     field,
                     obj_data,
-                    log_func,
+                    scribe,
                 )
             # Iten/list collision checking. Attribute is Item in DCATapded,
             # but a list is delivered.
             elif len(res) > 1:
-                log_func(
+                scribe(
                     level='error',
-                    msg=u'${type} object ${obj}: '
-                        u'attribute ${att} to many values',
+                    msg=u'{type} object {obj}: '
+                        u'attribute {att} to many values',
                     att=field['predicate'],
                 )
                 # Todo: Error handling
@@ -344,14 +345,14 @@ class RDFProcessor(object):
                         field['object'],
                     )
                     obj_data[field_name] = sub
-                log_func(
+                scribe(
                     level='info',
-                    msg=u'${type} object ${obj}: attribute ${att}:= ${val}',
+                    msg=u'{type} object {obj}: attribute {att}:= {val}',
                     val=obj_data[field_name],
                     att=field['predicate'],
                 )
 
-    def contained(self, obj, rdf_node, struct, log_func):
+    def contained(self, obj, rdf_node, struct, scribe):
         """At first we run over the fields and references only, to collect
         the data necessary to construct the CT instance.
         With the contained instances will be dealed if the CT instance
@@ -364,9 +365,9 @@ class RDFProcessor(object):
             # Todo : query the entity mapper
             # if struct.rdf_type in self.harvester.mapper:
             #                query = self.harvester.mapper[struct.rdf_type]
-            log_func(
+            scribe(
                 level='info',
-                msg=u'${type} object ${obj}: searching contained ${att}',
+                msg=u'{type} object {obj}: searching contained {att}',
                 att=field['predicate'],
             )
 
@@ -380,10 +381,10 @@ class RDFProcessor(object):
 
             for i in res.bindings:
                 self.crawl(obj, i['o'], field['object'])
-                log_func(
+                scribe(
                     level='info',
-                    msg=u'Crawling to sub obj ${obj} of type ${type} '
-                        u'attribute ${att}:= ${val}',
+                    msg=u'Crawling to sub obj {obj} of type {type} '
+                        u'attribute {att}',
                     att=field['predicate'],
                 )
 
@@ -396,16 +397,16 @@ class RDFProcessor(object):
         # here we collect the data to generate our DX object
         obj_data = {}
 
-        # Partial logger with some base arguments
-        log_kwargs = {
+        # Partial scribe with some base arguments
+        scribe_kwargs = {
             'type': struct.rdf_type,
             'obj': rdf_node,
         }
-        log_func = partial(self.log_func, **log_kwargs)
+        scribe = partial(self.scribe.write, **scribe_kwargs)
 
         try:
             # Go for the properties of the current node
-            self.properties(context, rdf_node, struct, obj_data, log_func)
+            self.properties(context, rdf_node, struct, obj_data, scribe)
 
             # Create an instance of the node as dexterity object
             title = unicode(obj_data[struct.title_field].items()[0][1])
@@ -415,13 +416,13 @@ class RDFProcessor(object):
                 title=title,
                 **obj_data)
             obj.reindexObject()
-            log_func(
+            scribe(
                 level='info',
-                msg=u'${type} dxobject ${obj} created at ${context}',
+                msg=u'{type} dxobject {obj} created at {context}',
                 context=context.virtual_url_path(),
             )
 
-            self.contained(obj, rdf_node, struct, log_func)
+            self.contained(obj, rdf_node, struct, scribe)
 
             return obj
 
@@ -435,14 +436,16 @@ class RDFProcessor(object):
         uri = self.harvester.url
 
         msg = _(
-            u'Reading ${kind} file ${uri} into rdflib',
+            u'Reading {kind} file {uri} into rdflib',
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
         self.log.info(msg)
+
+        self.scribe = Scribe()
 
         # start on the top nodes
         self.top_nodes()
 
         self.log.info(u'Real harvest run successfull')
 
-        return self.reap_logger()
+        return self.scribe.read()
