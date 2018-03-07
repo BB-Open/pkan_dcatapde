@@ -6,7 +6,7 @@
  <browser:page
     for="pkan.dcatapde.content.harvester.IHarvester"
     name="edit"
-    class=".harvester.HarvesterEdit"
+    class=".harvester.HarvesterEditView"
     permission="cmf.ModifyPortalContent"
     />
 </configure>
