@@ -26,7 +26,7 @@ INIT_NS = {
 
 # Give me the object to a given subject and predicate.
 # E.g. give me the dct:publisher to a dcat:Catalog
-QUERY_ATT_STR = """SELECT DISTINCT ?o
+QUERY_ATT_STR = u"""SELECT DISTINCT ?o
        WHERE {
           ?s ?p ?o
        }"""
@@ -38,7 +38,7 @@ QUERY_ATT = prepareQuery(
 
 # Give me the objects to given predicate
 # "a" query
-QUERY_A_STR = """SELECT DISTINCT ?s
+QUERY_A_STR = u"""SELECT DISTINCT ?s
        WHERE {
           ?s a ?o
        }"""
