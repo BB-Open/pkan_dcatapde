@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.constants import HARVESTER_FOLDER_ID
+from pkan.dcatapde.constants import HARVESTER_FOLDER_TITLE
+from pkan.dcatapde.content.harvester import Harvester
 from pkan.dcatapde.harvesting.source_type.rdfttl import IFaceToRDFFormatKey
+from plone import api
 from Products.Five import BrowserView
 
 import json
@@ -164,8 +168,54 @@ class HarvesterPreview(BrowserView):
 
     @property
     def get_preview(self):
-        processor = self.context.source_type(self.context)
-        preview = processor.get_preview()
+
+        # todo: get this parameter from request
+        # used for for add/edit-forms where url can be changed in form
+        url = None
+        # used for for context-free views to get harvester
+        source_path = None
+        # query to be used
+        query = None
+        # used for for add/edit-forms where source_type can be changed in form
+        # todo: source_type from request string to class
+        source_type = None
+
+        if source_path:
+            context = api.content.get(path=source_path)
+        elif (self.context.portal_type == CT_HARVESTER):
+            context = self.context
+        else:
+            context = None
+
+        if url and source_type:
+            if not context:
+                context = self.create_harvester(url, source_type)
+            elif context.url != url or context.source_type != source_type:
+                # in case of add or edit-view fields could have changed
+                context = self.create_harvester(url, source_type)
+
+        if not context:
+            return json.dumps(
+                _(u'Did not find correct parameters to request data.'),
+            )
+
+        processor = self.context.source_type(context)
+        preview = processor.get_preview(query)
         pretty = json.dumps(preview)
         self.request.response.setHeader('Content-type', 'application/json')
         return pretty
+
+    def create_harvester(self, url, source_type):
+        """
+        Creating a pseudo harvester for adpater
+        :param url:
+        :param source_type:
+        :return:
+        """
+        harvester = Harvester()
+        harvester.id = HARVESTER_FOLDER_ID
+        harvester.title = HARVESTER_FOLDER_TITLE
+        harvester.url = url
+        harvester.rdf_format = source_type
+
+        return harvester

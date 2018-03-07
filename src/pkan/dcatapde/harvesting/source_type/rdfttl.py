@@ -4,6 +4,7 @@ from DateTime.DateTime import time
 from functools import partial
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_RDF_LITERAL
+from pkan.dcatapde.constants import MAX_QUERY_PREVIEW_LENGTH
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
@@ -23,15 +24,18 @@ from pkan.dcatapde.structure.structure import StructDCATDataset
 from plone.api import content
 from plone.api import portal
 from plone.memoize import ram
+from pyparsing import ParseException
 from rdflib import Graph
 from rdflib.namespace import FOAF
 from rdflib.plugins.memory import IOMemory
 from rdflib.store import Store
+from xml.sax import SAXParseException
 from zope.component import adapter
 from zope.interface import implementer
 
 import io
 import logging
+import vkbeautify as vkb
 
 
 IFaceToRDFFormatKey = {
@@ -450,7 +454,27 @@ class RDFProcessor(object):
 
         return self.scribe.read()
 
-    def get_preview(self):
-        """Dry Run: Returns Log-Information.
+    def get_preview(self, query):
         """
-        return 'The preview!!!!!'
+        Preview for sparqle_query
+
+        if url and rdf_format are given and different to self.harvester
+        we make a temporary graph
+        """
+        preview = _(u'Result: ')
+        try:
+            res = self.graph.query(query)
+        except ParseException:
+            preview += _(u'Wrong Syntax')
+        except SAXParseException:
+            preview += _(u'Could not read source.')
+        except ValueError:
+            preview += _(u'Did not find correct parameters to request data.')
+        except TypeError:
+            preview += _(u'Did not find correct parameters to request data.')
+        else:
+            # Todo: Sometimes None-Type is not iterable exception
+            preview += vkb.xml(res.serialize())
+        if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
+            preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
+        return preview

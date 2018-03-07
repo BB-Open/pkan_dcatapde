@@ -6,6 +6,7 @@ from pkan.dcatapde import i18n
 from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.constants import DCAT_TOP_NODES
 from pkan.dcatapde.structure.sparql import QUERY_A
+from pkan.dcatapde.structure.sparql import QUERY_A_STR
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from pkan.widgets.query.widget import QueryWidget
 from plone.autoform import directives as form
@@ -91,7 +92,7 @@ class IHarvester(model.Schema):
     top_node_sparql = schema.Text(
         required=True,
         title=_(u'Query'),
-        default=u'Hello World',
+        default=QUERY_A_STR,
     )
 
     preview = schema.Text(

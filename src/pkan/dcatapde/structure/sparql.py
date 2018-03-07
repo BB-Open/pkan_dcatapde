@@ -38,10 +38,12 @@ QUERY_ATT = prepareQuery(
 
 # Give me the objects to given predicate
 # "a" query
-QUERY_A = prepareQuery(
-    """SELECT DISTINCT ?s
+QUERY_A_STR = """SELECT DISTINCT ?s
        WHERE {
           ?s a ?o
-       }""",
+       }"""
+
+QUERY_A = prepareQuery(
+    QUERY_A_STR,
     initNs=INIT_NS,
 )
