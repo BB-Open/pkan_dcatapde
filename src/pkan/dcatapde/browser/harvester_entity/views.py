@@ -1,19 +1,24 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
-from pkan.dcatapde.browser.harvester_entity.preview import PreviewFormMixin
 from pkan.dcatapde.constants import HARVESTER_ENTITY_KEY
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
+from pkan.widgets.sparqlquery import SparqlQueryFieldWidget
+from plone.autoform import directives as form
+from plone.autoform.form import AutoExtensibleForm
+from plone.dexterity.browser import edit
+from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.utils import safe_unicode
+from plone.supermodel import model
+from plone.z3cform import layout
 from z3c.form import button
-from z3c.form import field
 from z3c.form.form import Form
 from zope import schema
 from zope.annotation import IAnnotations
-from zope.interface import Interface
+from zope.interface import classImplements
 
 
-class IHarvesterSingleSchema(Interface):
+class IHarvesterSingleSchema(model.Schema):
 
     destination = schema.Choice(
         required=False,
@@ -21,44 +26,20 @@ class IHarvesterSingleSchema(Interface):
         source=DcatFieldVocabulary(),
     )
 
+    form.widget(
+        'query',
+        SparqlQueryFieldWidget,
+    )
     query = schema.Text(
         required=True,
         title=_(u'Query'),
         default=safe_unicode(QUERY_ATT_STR),
     )
 
-    preview = schema.Text(
-        required=False,
-        title=_(u'Preview'),
-        readonly=True,
-        default=_('No value'),
-    )
 
-
-class IHarvesterMultiSchema(Interface):
-
-    fields = schema.Dict(
-        title=_('Select your fields'),
-
-        key_type=schema.Choice(
-            required=False,
-            title=_(u'Destination'),
-            source=DcatFieldVocabulary(),
-        ),
-        value_type=schema.Text(
-            required=True,
-            title=_(u'Query'),
-            default=safe_unicode(QUERY_ATT_STR),
-
-        ),
-    )
-
-
-class HarvesterSingleEntityView(Form, PreviewFormMixin):
-    fields = field.Fields(IHarvesterSingleSchema)
-    query_attr = 'query'
-    url_attr = None
-    type_attr = None
+class HarvesterSingleEntityForm(edit.DefaultEditForm):
+    schema = IHarvesterSingleSchema
+    additionalSchemata = []
 
     def getContent(self):
         annotations = IAnnotations(self.context)
@@ -102,16 +83,31 @@ class HarvesterSingleEntityView(Form, PreviewFormMixin):
 
         self.status = _(u'Thank you very much!')
 
-    @button.buttonAndHandler(_(u'Run'))
-    def handle_run(self, action):
-        self.handle_preview()
+HarvesterSingleEntityView = layout.wrap_form(HarvesterSingleEntityForm)
+classImplements(HarvesterSingleEntityView, IDexterityEditForm)
 
 
-class HarvesterMultiEntityView(Form, PreviewFormMixin):
-    fields = field.Fields(IHarvesterMultiSchema)
-    query_attr = 'query'
-    url_attr = None
-    type_attr = None
+class IHarvesterMultiSchema(model.Schema):
+
+    fields = schema.Dict(
+        title=_('Select your fields'),
+
+        key_type=schema.Choice(
+            required=False,
+            title=_(u'Destination'),
+            source=DcatFieldVocabulary(),
+        ),
+        value_type=schema.Text(
+            required=True,
+            title=_(u'Query'),
+            default=safe_unicode(QUERY_ATT_STR),
+
+        ),
+    )
+
+
+class HarvesterMultiEntityView(AutoExtensibleForm, Form):
+    schema = IHarvesterMultiSchema
 
     def getContent(self):
         annotations = IAnnotations(self.context)
