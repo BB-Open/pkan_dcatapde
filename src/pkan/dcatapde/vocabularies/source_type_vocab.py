@@ -48,4 +48,4 @@ class SourceTypeVocabulary(object):
         return SimpleVocabulary(terms)
 
 
-SourceTypeVocabularyFactory = SourceTypeVocabulary()
+SourceTypeVocabFactory = SourceTypeVocabulary()
