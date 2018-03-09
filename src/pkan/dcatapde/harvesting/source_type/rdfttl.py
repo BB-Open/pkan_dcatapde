@@ -23,6 +23,7 @@ from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from plone.api import content
 from plone.api import portal
+from plone.dexterity.utils import safe_unicode
 from plone.memoize import ram
 from pyparsing import ParseException
 from rdflib import Graph
@@ -473,8 +474,7 @@ class RDFProcessor(object):
         except TypeError:
             preview += _(u'Did not find correct parameters to request data.')
         else:
-            # Todo: Sometimes None-Type is not iterable exception
-            preview += vkb.xml(res.serialize())
+            preview += safe_unicode(vkb.xml(res.serialize()))
         if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
             preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
         return preview

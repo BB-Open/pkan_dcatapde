@@ -11,6 +11,8 @@
   Better import explicite packages or configurations ;)
   -->
   <includeDependencies package="." />
+  <include package="z3c.form" file="meta.zcml" />
+  <include package="z3c.form" />
   <include package="pkan.widgets"/>
   <include package="ps.zope.i18nfield"/>
 
