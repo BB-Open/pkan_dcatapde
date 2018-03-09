@@ -5,17 +5,18 @@ from pkan.dcatapde.structure.sparql import QUERY_ATT_STR
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
 from pkan.widgets.sparqlquery import SparqlQueryFieldWidget
 from plone.autoform import directives as form
-from plone.autoform.form import AutoExtensibleForm
 from plone.dexterity.browser import edit
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.utils import safe_unicode
 from plone.supermodel import model
 from plone.z3cform import layout
 from z3c.form import button
-from z3c.form.form import Form
+from z3c.form.object import registerFactoryAdapter
 from zope import schema
 from zope.annotation import IAnnotations
 from zope.interface import classImplements
+from zope.interface import implementer
+from zope.schema.fieldproperty import FieldProperty
 
 
 class IHarvesterSingleSchema(model.Schema):
@@ -37,6 +38,24 @@ class IHarvesterSingleSchema(model.Schema):
     )
 
 
+@implementer(IHarvesterSingleSchema)
+class HarvesterSingle(object):
+
+    destination = FieldProperty(IHarvesterSingleSchema['destination'])
+    query = FieldProperty(IHarvesterSingleSchema['query'])
+
+    def __init__(self, context=None):
+        self.context = context
+
+    def absolute_url(self):
+        if self.context:
+            return self.context.absolute_url()
+        else:
+            return None
+
+registerFactoryAdapter(IHarvesterSingleSchema, HarvesterSingle)
+
+
 class HarvesterSingleEntityForm(edit.DefaultEditForm):
     schema = IHarvesterSingleSchema
     additionalSchemata = []
@@ -48,21 +67,16 @@ class HarvesterSingleEntityForm(edit.DefaultEditForm):
         else:
             data = {}
         default_query = QUERY_ATT_STR
+        harvester = HarvesterSingle(self.context)
+        harvester.query = default_query
         # field_id must be value used in vocabulary
         if self.request.form and 'field_id' in self.request.form:
             field_id = self.request.form['field_id']
+            harvester.destination = field_id
             if field_id in data:
-                return {
-                    'destination': field_id,
-                    'query': data[field_id],
-                }
-            else:
-                return {
-                    'destination': field_id,
-                    'query': default_query,
-                }
-        else:
-            return {}
+                harvester.query = data['field_id']
+
+        return harvester
 
     @button.buttonAndHandler(_(u'Save'))
     def handle_submit(self, action):
@@ -106,8 +120,22 @@ class IHarvesterMultiSchema(model.Schema):
     )
 
 
-class HarvesterMultiEntityView(AutoExtensibleForm, Form):
+@implementer(IHarvesterMultiSchema)
+class HarvesterMulti(object):
+
+    def __init__(self, fields, context):
+        self.fields = fields
+        self.context = context
+
+    def absolute_url(self):
+        return self.context.absolute_url()
+
+registerFactoryAdapter(IHarvesterMultiSchema, HarvesterMulti)
+
+
+class HarvesterMultiEntityForm(edit.DefaultEditForm):
     schema = IHarvesterMultiSchema
+    additionalSchemata = []
 
     def getContent(self):
         annotations = IAnnotations(self.context)
@@ -116,7 +144,7 @@ class HarvesterMultiEntityView(AutoExtensibleForm, Form):
         else:
             data = {}
 
-        return {'fields': data}
+        return HarvesterMulti(data, self.context)
 
     @button.buttonAndHandler(_(u'Save'))
     def handle_submit(self, action):
@@ -133,7 +161,6 @@ class HarvesterMultiEntityView(AutoExtensibleForm, Form):
 
         self.status = _(u'Thank you very much!')
 
-    @button.buttonAndHandler(_(u'Run'))
-    def handle_run(self, action):
-        # self.handle_preview()
-        pass
+
+HarvesterMultiEntityView = layout.wrap_form(HarvesterMultiEntityForm)
+classImplements(HarvesterMultiEntityView, IDexterityEditForm)

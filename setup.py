@@ -16,7 +16,7 @@ install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
     'chardet',
-    'collective.z3cform.datagridfield >= 1.3.0',
+    # 'collective.z3cform.datagridfield >= 1.3.0',
     'pkan.widgets',
     'plone.api',
     'plone.app.dexterity',
@@ -30,6 +30,7 @@ install_requires = [
     'vkbeautify',
     'zope.app.content',
     'psycopg2-binary',
+    'z3c.form >=2.4.3dev',
 ],
 
 test_requires = [
