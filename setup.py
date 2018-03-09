@@ -30,7 +30,6 @@ install_requires = [
     'vkbeautify',
     'zope.app.content',
     'psycopg2-binary',
-    'z3c.form >=2.4.3dev',
 ],
 
 test_requires = [
