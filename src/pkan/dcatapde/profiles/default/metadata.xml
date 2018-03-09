@@ -2,7 +2,6 @@
 <metadata>
   <version>1001</version>
   <dependencies>
-    <dependency>profile-collective.z3cform.datagridfield:default</dependency>
     <dependency>profile-pkan.widgets:default</dependency>
     <dependency>profile-plone.app.dexterity:default</dependency>
   </dependencies>
