@@ -178,6 +178,8 @@ class HarvesterPreview(BrowserView):
         query = None
         # used for for add/edit-forms where source_type can be changed in form
         source_type = None
+        # used to give context information to sparqle query
+        bindings = {}
 
         if self.request.form:
             form = self.request.form
@@ -193,20 +195,18 @@ class HarvesterPreview(BrowserView):
                 terms = vocab.by_token
                 term = terms[source_type_token]
                 source_type = term.value
+            if 'subject' in form:
+                bindings['s'] = form['subject']
+            if 'object' in form:
+                bindings['o'] = form['object']
+            if 'predicate' in form:
+                bindings['p'] = form['predicate']
 
-        if source_path:
-            context = api.content.get(path=source_path)
-        elif (self.context.portal_type == CT_HARVESTER):
-            context = self.context
-        else:
-            context = None
-
-        if url and source_type:
-            if not context:
-                context = self.create_harvester(url, source_type)
-            elif context.url != url or context.source_type != source_type:
-                # in case of add or edit-view fields could have changed
-                context = self.create_harvester(url, source_type)
+        context = self.get_preview_context(
+            source_path,
+            url,
+            source_type,
+        )
 
         if not context:
             return json.dumps(
@@ -214,7 +214,7 @@ class HarvesterPreview(BrowserView):
             )
 
         processor = self.context.source_type(context)
-        preview = processor.get_preview(query)
+        preview = processor.get_preview(query, bindings=bindings)
         pretty = json.dumps(preview)
         self.request.response.setHeader('Content-type', 'application/json')
         return pretty
@@ -233,3 +233,20 @@ class HarvesterPreview(BrowserView):
         harvester.rdf_format = source_type
 
         return harvester
+
+    def get_preview_context(self, source_path, url, source_type):
+        if source_path:
+            context = api.content.get(path=source_path)
+        elif (self.context.portal_type == CT_HARVESTER):
+            context = self.context
+        else:
+            context = None
+
+        if url and source_type:
+            if not context:
+                context = self.create_harvester(url, source_type)
+            elif context.url != url or context.source_type != source_type:
+                # in case of add or edit-view fields could have changed
+                context = self.create_harvester(url, source_type)
+
+        return context
