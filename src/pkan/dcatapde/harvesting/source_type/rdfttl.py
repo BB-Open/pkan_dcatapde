@@ -544,7 +544,7 @@ class RDFProcessor(object):
 
         return visitor.to_cytoscape()
 
-    def get_preview(self, query):
+    def get_preview(self, query, bindings={}):
         """
         Preview for sparqle_query
 
@@ -553,7 +553,7 @@ class RDFProcessor(object):
         """
         preview = _(u'Result: ')
         try:
-            res = self.graph.query(query)
+            res = self.graph.query(query, initBindings=bindings)
         except ParseException:
             preview += _(u'Wrong Syntax')
         except SAXParseException:
