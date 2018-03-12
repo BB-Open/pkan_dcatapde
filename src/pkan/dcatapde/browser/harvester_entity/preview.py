@@ -4,12 +4,11 @@ from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.constants import HARVESTER_FOLDER_ID
 from pkan.dcatapde.constants import HARVESTER_FOLDER_TITLE
 from pkan.dcatapde.content.harvester import Harvester
+from pkan.dcatapde.vocabularies.source_type_vocab import SourceTypeVocabFactory
 from plone import api
 from Products.Five import BrowserView
 
 import json
-
-from pkan.dcatapde.vocabularies.source_type_vocab import SourceTypeVocabFactory
 
 
 class HarvesterPreview(BrowserView):
