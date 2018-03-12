@@ -5,7 +5,8 @@ from pkan.dcatapde.content.dcat_catalog import DCATCatalog
 from pkan.dcatapde.content.dcat_dataset import DCATDataset
 from pkan.dcatapde.content.dcat_distribution import DCATDistribution
 from pkan.dcatapde.content.foaf_agent import FOAFAgent
-from plone import api
+from plone.api import content
+from plone.api import portal
 from plone.app.dexterity.behaviors import constrains
 from plone.indexer.interfaces import IIndexer
 from Products.CMFCore.utils import getToolByName
@@ -27,28 +28,20 @@ class HiddenProfiles(object):
     def getNonInstallableProfiles(self):
         """Do not show on Plone's list of installable profiles."""
         return [
-            'pkan.dcatapde:testfixture',
             'pkan.dcatapde:uninstall',
         ]
 
 
-def pre_install(context):
-    """Pre install script."""
-    # Do something at the beginning of the installation of this package.
-
-
 def post_install(context):
-    """Post install script."""
+    """Post install script"""
     # Do something at the end of the installation of this package.
-    portal = _get_navigation_root(context)
-    add_default_folders(portal)
+    add_default_folders(context)
     set_constraints(context)
 
 
-def post_install_testfixture(context):
-    """Post install script for testfixture environments."""
-    portal = _get_navigation_root(context)
-    add_demo_content(portal)
+def pre_install(context):
+    """Pre install script"""
+    # Do something at the beginning of the installation of this package.
 
 
 def uninstall(context):
@@ -56,8 +49,9 @@ def uninstall(context):
     # Do something at the end of the uninstallation of this package.
 
 
-def add_default_folders(portal):
+def add_default_folders(context):
     """Add default folders on first install."""
+    portal = _get_navigation_root(context)
     for folder_name, folder_type in constants.MANDATORY_FOLDERS.items():
         add_folder(portal, folder_name, folder_type)
 
@@ -66,10 +60,10 @@ def add_folder(portal_root, folder_name, folder_type):
     """Add a folder for the exclusive addition of certain CTs"""
     folder = portal_root.get(folder_name)
     if not folder:
-        types = api.portal.get_tool(name='portal_types')
+        types = portal.get_tool(name='portal_types')
         fti = types.getTypeInfo(folder_type)
         fti.global_allow = True
-        folder = api.content.create(
+        folder = content.create(
             container=portal_root,
             type=folder_type,
             id=folder_name,
@@ -83,24 +77,20 @@ def set_constraints(context):
     """Set content type constraints."""
 
 
-def add_demo_content(portal):
-    """Create some demo content."""
-
-
 def _get_navigation_root(context):
     """Find the correct navigation root."""
-    documents = api.content.find(portal_type='Document', id='front-page')
+    documents = content.find(portal_type='Document', id='front-page')
     if len(documents) == 0:
-        return api.portal.get()
+        return portal.get()
     front_page = documents[0].getObject()
 
-    return api.portal.get_navigation_root(front_page)
+    return portal.get_navigation_root(front_page)
 
 
 def _publish(obj):
     """Publish the object if it hasn't been published."""
-    if api.content.get_state(obj=obj) != 'published':
-        api.content.transition(obj=obj, transition='publish')
+    if content.get_state(obj=obj) != 'published':
+        content.transition(obj=obj, transition='publish')
         return True
     return False
 
@@ -115,7 +105,8 @@ def _setup_constrains(container, allowed_types):
 
 @implementer(IIndexer)
 class DelegatingIndexer(object):
-    """An indexer that delegates to a given callable."""
+    """An indexer that delegates to a given callable
+    """
 
     def __init__(self, context, catalog, index_field):
         self.context = context
@@ -129,9 +120,8 @@ class DelegatingIndexer(object):
 
 
 class DelegatingIndexerFactory(object):
-    """An adapter factory for an IIndexer.
-
-    Works by calling a DelegatingIndexer.
+    """An adapter factory for an IIndexer that works by calling a
+    DelegatingIndexer.
     """
 
     def __init__(self, index_field):
@@ -143,10 +133,8 @@ class DelegatingIndexerFactory(object):
 
 
 def indexer_for_field_and_ct(field, ct):
-    """Register a bad handler.
-
-    Raises Attribute error for all other Instances.
-    """
+    """Register a bad handler that raises Attribute error for
+    all other Instances"""
     gsm = getGlobalSiteManager()
     gsm.registerAdapter(
         factory=DelegatingIndexerFactory(None),
@@ -167,7 +155,9 @@ def indexer_for_field_and_ct(field, ct):
 
 
 def catalog_setup(context):
-    """Setup indices in the catalog."""
+    """
+    Setup plone.app.event's indices in the catalog.
+    """
     # check if we are meant or called for other migration
     if context.readDataFile('pkan-various.txt') is None:
         # Not we self so exit

@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="pkan.dcatapde">
 
@@ -14,8 +15,6 @@
   <include package="ps.zope.i18nfield"/>
 
   <include file="permissions.zcml" />
-  <include file="profiles.zcml" />
-  <include file="upgrades.zcml" />
 
   <include package=".browser" />
   <include package=".config" />
@@ -24,6 +23,40 @@
   <include package=".marshall"/>
   <include package=".structure" />
   <include package=".vocabularies" />
+
+  <include file="upgrades.zcml" />
+
+  <genericsetup:registerProfile
+      description="Installs the pkan.dcatapde add-on."
+      directory="profiles/default"
+      name="default"
+      post_handler=".setuphandlers.post_install"
+      pre_handler=".setuphandlers.pre_install"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      title="pkan.dcatapde"
+      />
+
+  <genericsetup:registerProfile
+      description="Uninstalls the pkan.dcatapde add-on."
+      directory="profiles/uninstall"
+      name="uninstall"
+      post_handler=".setuphandlers.uninstall"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      title="pkan.dcatapde (uninstall)"
+      />
+
+  <genericsetup:importStep
+      name="pkan.dcatapde.catalog"
+      handler="pkan.dcatapde.setuphandlers.catalog_setup"
+      title="PKAN Catalog Setup"
+      description="Setup Indexes for the CTs in the Catalog">
+      <depends name="plone.app.registry" />
+  </genericsetup:importStep>
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="pkan.dcatapde-hiddenprofiles"
+      />
 
   <!-- -*- extra stuff goes here -*- -->
 

@@ -5,7 +5,6 @@ from pkan.dcatapde.constants import HARVESTER_FOLDER_ID
 from pkan.dcatapde.constants import HARVESTER_FOLDER_TITLE
 from pkan.dcatapde.content.harvester import Harvester
 from pkan.dcatapde.harvesting.source_type.rdfttl import IFaceToRDFFormatKey
-from pkan.dcatapde.vocabularies.source_type_vocab import SourceTypeVocabFactory
 from plone import api
 from Products.Five import BrowserView
 
@@ -164,13 +163,13 @@ class PreviewFormMixin(object):
 
 class HarvesterPreview(BrowserView):
     """View to get a preview of a harvester sparql query"""
-
     def __call__(self, *args, **kwargs):
         return self.get_preview
 
     @property
     def get_preview(self):
 
+        # todo: get this parameter from request
         # used for for add/edit-forms where url can be changed in form
         url = None
         # used for for context-free views to get harvester
@@ -178,22 +177,8 @@ class HarvesterPreview(BrowserView):
         # query to be used
         query = None
         # used for for add/edit-forms where source_type can be changed in form
+        # todo: source_type from request string to class
         source_type = None
-
-        if self.request.form:
-            form = self.request.form
-            if 'form.widgets.url' in form:
-                url = form['form.widgets.url']
-            if 'source_path' in form:
-                source_path = form['source_path']
-            if 'query_data' in form:
-                query = form['query_data']
-            if 'form.widgets.source_type' in form:
-                source_type_token = form['form.widgets.source_type'][0]
-                vocab = SourceTypeVocabFactory(self.context)
-                terms = vocab.by_token
-                term = terms[source_type_token]
-                source_type = term.value
 
         if source_path:
             context = api.content.get(path=source_path)

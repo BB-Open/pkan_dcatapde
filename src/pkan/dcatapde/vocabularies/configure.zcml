@@ -73,7 +73,7 @@
       />
 
   <utility
-      component=".source_type_vocab.SourceTypeVocabFactory"
+      component=".source_type_vocabulary.SourceTypeVocabularyFactory"
       name="pkan.dcatapde.SourceTypeVocabulary"
       />
 
