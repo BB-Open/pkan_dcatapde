@@ -9,7 +9,7 @@ from pkan.dcatapde.constants import CT_DCT_LOCATION
 from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
 from pkan.dcatapde.constants import CT_DCT_STANDARD
 from pkan.dcatapde.constants import CT_FOAF_AGENT
-from pkan.dcatapde.constants import CT_RDF_LITERAL
+from pkan.dcatapde.constants import CT_RDFS_LITERAL
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
 from pkan.dcatapde.constants import FIELD_BLACKLIST
@@ -22,6 +22,7 @@ from pkan.dcatapde.content.dct_mediatypeorextent import IDCTMediaTypeOrExtent
 from pkan.dcatapde.content.dct_rightsstatement import IDCTRightsStatement
 from pkan.dcatapde.content.dct_standard import IDCTStandard
 from pkan.dcatapde.content.foaf_agent import IFOAFAgent
+from pkan.dcatapde.content.rdfs_literal import IRDFSLiteral
 from pkan.dcatapde.content.skos_concept import ISKOSConcept
 from pkan.dcatapde.content.skos_conceptscheme import ISKOSConceptScheme
 from pkan.dcatapde.structure.interfaces import IStructure
@@ -35,6 +36,7 @@ from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from rdflib.namespace import FOAF
+from rdflib.namespace import RDFS
 from rdflib.namespace import SKOS
 from zope.component import adapter
 from zope.component import getUtility
@@ -163,7 +165,7 @@ class StructBase(object):
                 importance = IMP_OPTIONAL
 
             result[field_name] = {
-                'object': CT_RDF_LITERAL,
+                'object': StructRDFSLiteral,
                 'importance': importance,
                 'predicate': self.fieldname2predicate(field_name),
                 'type': field._type,
@@ -412,7 +414,8 @@ class StructDCATDistribution(StructBase):
             'object': StructDCTMediaTypeOrExtent,
             'importance': IMP_OPTIONAL,
             'type': str,
-            'predicate': DCT.format,
+            # Hack since format is buildin
+            'predicate': str(DCT) + u'/format',
             'target': DCT.MediaTypeOrExtent,
         }
         related['dct_mediaType'] = {
@@ -510,3 +513,12 @@ class StructSKOSConcept(StructBase):
 
     portal_type = CT_SKOS_CONCEPT
     rdf_type = SKOS.Concept
+
+
+@implementer(IStructure)
+@adapter(IRDFSLiteral)
+class StructRDFSLiteral(StructBase):
+    """Structure definition of skos:Concept"""
+
+    portal_type = CT_RDFS_LITERAL
+    rdf_type = RDFS.Literal

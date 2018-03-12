@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """Helpers for SPQRQL"""
 
-# Give me the object to given subject and predicate
-# "Attribute" query
+from rdflib import Graph
 from rdflib.namespace import DCTERMS
 from rdflib.namespace import FOAF
 from rdflib.namespace import Namespace
+from rdflib.namespace import NamespaceManager
 from rdflib.namespace import RDF
+from rdflib.namespace import RDFS
 from rdflib.namespace import SKOS
 from rdflib.plugins.sparql import prepareQuery
 
@@ -22,7 +23,15 @@ INIT_NS = {
     'skos': SKOS,
     'dcat': DCAT,
     'rdf': RDF,
+    'rdfs': RDFS,
 }
+
+# Construct a namespace manager to get abbreviated URIRefs for
+# known namespaces. e.g.
+# dcat:Dataset instead of http://www.w3.org/ns/dcat#Dataset
+namespace_manager = NamespaceManager(Graph())
+for prefix, ns in INIT_NS.items():
+    namespace_manager.bind(prefix, ns)
 
 # Give me the object to a given subject and predicate.
 # E.g. give me the dct:publisher to a dcat:Catalog

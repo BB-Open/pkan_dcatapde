@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
 from DateTime.DateTime import time
-from functools import partial
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_RDF_LITERAL
 from pkan.dcatapde.constants import MAX_QUERY_PREVIEW_LENGTH
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
@@ -14,13 +12,19 @@ from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.source_type.scribe import Scribe
+from pkan.dcatapde.harvesting.source_type.visitors import DCATVisitor
+from pkan.dcatapde.harvesting.source_type.visitors import InputVisitor
+from pkan.dcatapde.harvesting.source_type.visitors import Node
+from pkan.dcatapde.harvesting.source_type.visitors import NS_ERROR
+from pkan.dcatapde.harvesting.source_type.visitors import NS_WARNING
+from pkan.dcatapde.harvesting.source_type.visitors import Scribe
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_ATT
 from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
+from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from plone.api import content
 from plone.api import portal
 from plone.memoize import ram
@@ -184,7 +188,7 @@ class RDFProcessor(object):
 
         return self.reap_logger()
 
-    def top_nodes(self):
+    def top_nodes(self, visitor):
         """Find top nodes: Catalogs or datasets"""
         # check if we get a base object
         if self.harvester.base_object:
@@ -207,35 +211,67 @@ class RDFProcessor(object):
         # Todo : handle more than one hit
         catalog = res.bindings[0]['s']
 
-        self.crawl(self.context, catalog, self.struct_class)
+        struct = self.struct_class(self.harvester)
+        args = {
+            'id': catalog,
+            'structure': struct,
+        }
+        node = Node(**args)
+        visitor.push_node(node)
+
+        self.crawl(
+            visitor,
+            context=self.context,
+            rdf_node=catalog,
+            target_struct=self.struct_class,
+        )
 
     def scribe(self, level=None, msg=None, **kwargs):
         message = _(msg, mapping=kwargs)
         getattr(self.log, level)(message)
 
-    def handle_list(self, context, res, field_name, field, obj_data, scribe):
+    def handle_list(self, visitor, res, **kwargs):
+        obj_data = kwargs['obj_data']
+        field_name = kwargs['field_name']
+        field = kwargs['field']
+        context = kwargs['context']
+
         obj_data[field_name] = []
         for i in res.bindings:
             # If the field is a Literal we simply store it.
-            if field['object'] == CT_RDF_LITERAL:
+            if field['object'] == StructRDFSLiteral:
                 obj_data[field_name].append(i['o'])
+                visitor.end_node(**kwargs)
+
             # if not we have to create a sub object recursively
             else:
-                sub = self.crawl(context, i['o'], field['object'])
+                node = visitor.end_node(**kwargs)
+                visitor.push_node(node)
+                sub = self.crawl(
+                    visitor,
+                    context=context,
+                    rdf_node=i['o'],
+                    target_struct=field['object'],
+                )
                 obj_data[field_name].append(sub)
-            scribe(
+
+            visitor.scribe.write(
                 level='info',
                 msg=u'{type} object {obj}: attribute {att}:= {val}',
                 val=i['o'],
             )
 
-    def handle_dict(self, context, res, field_name, field, obj_data, scribe):
+    def handle_dict(self, visitor, res, **kwargs):
+        obj_data = kwargs['obj_data']
+        field_name = kwargs['field_name']
+        field = kwargs['field']
+
         obj_data[field_name] = {}
         for i in res.bindings:
             # special handling of literals without language
             if not ('o1' in i):
                 obj_data[field_name][self.def_lang] = unicode(i['o'])
-                scribe(
+                visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
                     val=i['o'],
@@ -243,30 +279,38 @@ class RDFProcessor(object):
                 )
             else:
                 obj_data[field_name][i['o1']] = unicode(i['o2'])
-                scribe(
+                visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
                     val=str(i['o1']) + ':' + str(i['o1']),
                     att=field['predicate'],
                 )
 
-    def properties(self, context, rdf_node, struct, obj_data, scribe):
+            visitor.end_node(**kwargs)
+
+    def properties(self, visitor, **kwargs):
         """At first we run over the fields and references only, to collect
         the data necessary to construct the CT instance.
         With the contained instances will be dealed if the CT instance
         is constructed"""
 
+        obj_data = kwargs['obj_data']
+        context = kwargs['context']
+
         # query for an attibute
         query = QUERY_ATT
 
-        for field_name, field in struct.fields_and_referenced.items():
+        field_and_references = kwargs['struct'].fields_and_referenced
+
+        for field_name, field in field_and_references.items():
             # Todo : query the entity mapper
             # if struct.rdf_type in self.harvester.mapper:
             #   query = self.harvester.mapper[struct.rdf_type]
-            if struct.rdf_type == FOAF.Agent and field_name == 'foaf_name':
+            if kwargs['struct'].rdf_type == FOAF.Agent and \
+                    field_name == 'foaf_name':
                 pass
 
-            scribe(
+            visitor.scribe.write(
                 level='info',
                 msg=u'{type} object {obj}: '
                     u'searching {imp} attribute {att}',
@@ -278,89 +322,89 @@ class RDFProcessor(object):
             # to construct. Predicate
             # is the attribute we like to find in the RDF
             bindings = {
-                's': rdf_node,
+                's': kwargs['rdf_node'],
                 'p': field['predicate'],
             }
             res = self.graph.query(query, initBindings=bindings)
 
+            args = kwargs.copy()
+            args['field_name'] = field_name
+            args['field'] = field
+
             # Dealing with required fields not delivered
             if len(res) == 0:
                 if field['importance'] == IMP_REQUIRED:
-                    scribe(
+                    visitor.scribe.write(
                         level='error',
                         msg=u'{type} object {obj}: required '
                             u'attribute {att} not found',
                         att=field['predicate'],
                     )
-                    # Todo: Error handling
-                    raise RequiredPredicateMissing()
+                    args['status'] = NS_ERROR
+                    visitor.end_node(**args)
                 else:
-                    scribe(
+                    visitor.scribe.write(
                         level='warn',
                         msg=u'{type} object {obj}: {imp} '
                             u'attribute {att} not found',
                         att=field['predicate'],
                         imp=field['importance'],
                     )
+                    args['status'] = NS_WARNING
+                    visitor.end_node(**args)
                 continue
-
-            # dealing with lis like fields
-            if field['type'] == list:
-                self.handle_list(
-                    context,
-                    res,
-                    field_name,
-                    field,
-                    obj_data,
-                    scribe,
-                )
-
-            # dealing with dict like fields aka Literals
-            elif field['type'] == dict:
-                self.handle_dict(
-                    context,
-                    res,
-                    field_name,
-                    field,
-                    obj_data,
-                    scribe,
-                )
-            # Iten/list collision checking. Attribute is Item in DCATapded,
-            # but a list is delivered.
-            elif len(res) > 1:
-                scribe(
-                    level='error',
-                    msg=u'{type} object {obj}: '
-                        u'attribute {att} to many values',
-                    att=field['predicate'],
-                )
-                # Todo: Error handling
-                break
-            # Simple case of a single item
             else:
-                # If the field is a Literal we simply store it.
-                if field['object'] == CT_RDF_LITERAL:
-                    obj_data[field_name] = res.bindings[0]['o']
-                # if not we have to create a sub object recursively
-                else:
-                    sub = self.crawl(
-                        context,
-                        res.bindings[0]['o'],
-                        field['object'],
-                    )
-                    obj_data[field_name] = sub
-                scribe(
-                    level='info',
-                    msg=u'{type} object {obj}: attribute {att}:= {val}',
-                    val=obj_data[field_name],
-                    att=field['predicate'],
-                )
+                # dealing with list like fields
+                if field['type'] == list:
+                    self.handle_list(visitor, res, **args)
 
-    def contained(self, obj, rdf_node, struct, scribe):
+                # dealing with dict like fields aka Literals
+                elif field['type'] == dict:
+                    self.handle_dict(visitor, res, **args)
+                # Iten/list collision checking. Attribute is Item in DCATapded,
+                # but a list is delivered.
+                elif len(res) > 1:
+                    visitor.scribe.write(
+                        level='error',
+                        msg=u'{type} object {obj}: '
+                            u'attribute {att} to many values',
+                        att=field['predicate'],
+                    )
+                    # Todo: Error handling
+                    break
+                # Simple case of a single item
+                else:
+                    # If the field is a Literal we simply store it.
+                    if field['object'] == StructRDFSLiteral:
+                        obj_data[field_name] = res.bindings[0]['o']
+                        visitor.end_node(**args)
+                    # if not we have to create a sub object recursively
+                    else:
+                        node = visitor.end_node(**args)
+                        visitor.push_node(node)
+                        sub = self.crawl(
+                            visitor,
+                            context=context,
+                            rdf_node=res.bindings[0]['o'],
+                            target_struct=field['object'],
+                        )
+                        obj_data[field_name] = sub
+                    visitor.scribe.write(
+                        level='info',
+                        msg=u'{type} object {obj}: attribute {att}:= {val}',
+                        val=obj_data[field_name],
+                        att=field['predicate'],
+                    )
+
+    def contained(self, visitor, **kwargs):
         """At first we run over the fields and references only, to collect
         the data necessary to construct the CT instance.
         With the contained instances will be dealed if the CT instance
         is constructed"""
+
+        struct = kwargs['struct']
+        rdf_node = kwargs['rdf_node']
+        obj = kwargs['obj']
 
         # query for an attibute
         query = QUERY_ATT
@@ -369,7 +413,7 @@ class RDFProcessor(object):
             # Todo : query the entity mapper
             # if struct.rdf_type in self.harvester.mapper:
             #                query = self.harvester.mapper[struct.rdf_type]
-            scribe(
+            visitor.scribe.write(
                 level='info',
                 msg=u'{type} object {obj}: searching contained {att}',
                 att=field['predicate'],
@@ -384,15 +428,28 @@ class RDFProcessor(object):
             res = self.graph.query(query, initBindings=bindings)
 
             for i in res.bindings:
-                self.crawl(obj, i['o'], field['object'])
-                scribe(
+                args = {
+                    'field': field,
+                    'field_name': field_name,
+                    'rdf_node': i['o'],
+                }
+                node = visitor.end_node(**args)
+                visitor.push_node(node)
+
+                self.crawl(
+                    visitor,
+                    context=obj,
+                    rdf_node=i['o'],
+                    target_struct=field['object'],
+                )
+                visitor.scribe.write(
                     level='info',
                     msg=u'Crawling to sub obj {obj} of type {type} '
                         u'attribute {att}',
                     att=field['predicate'],
                 )
 
-    def crawl(self, context, rdf_node, target_struct):
+    def crawl(self, visitor, target_struct=None, context=None, rdf_node=None):
         """Analyse the RDF structure"""
 
         # Activate the struct
@@ -401,16 +458,15 @@ class RDFProcessor(object):
         # here we collect the data to generate our DX object
         obj_data = {}
 
-        # Partial scribe with some base arguments
-        scribe_kwargs = {
-            'type': struct.rdf_type,
-            'obj': rdf_node,
-        }
-        scribe = partial(self.scribe.write, **scribe_kwargs)
-
         try:
             # Go for the properties of the current node
-            self.properties(context, rdf_node, struct, obj_data, scribe)
+            self.properties(
+                visitor,
+                context=context,
+                rdf_node=rdf_node,
+                struct=struct,
+                obj_data=obj_data,
+            )
 
             # Create an instance of the node as dexterity object
             title = unicode(obj_data[struct.title_field].items()[0][1])
@@ -420,23 +476,34 @@ class RDFProcessor(object):
                 title=title,
                 **obj_data)
             obj.reindexObject()
-            scribe(
+            visitor.scribe.write(
                 level='info',
                 msg=u'{type} dxobject {obj} created at {context}',
                 context=context.virtual_url_path(),
             )
 
-            self.contained(obj, rdf_node, struct, scribe)
+            self.contained(
+                visitor,
+                context=context,
+                rdf_node=rdf_node,
+                struct=struct,
+                obj_data=obj_data,
+                obj=obj,
+            )
 
             return obj
 
+        except KeyError:
+            return None
         except RequiredPredicateMissing:
             return None
+        finally:
+            visitor.pop_node()
 
-    def real_run(self):
-        """Dry Run: Returns Log-Information.
+    def parse_dcat_data(self):
+        """Parsing the data in respect to the dcat ap.de diagram
         """
-        self.log.info(u'Starting real harvest run')
+        self.log.info(u'Parsing for dcat information')
         uri = self.harvester.url
 
         msg = _(
@@ -446,13 +513,36 @@ class RDFProcessor(object):
         self.log.info(msg)
 
         self.scribe = Scribe()
+        visitor = DCATVisitor()
 
         # start on the top nodes
-        self.top_nodes()
+        self.top_nodes(visitor)
 
-        self.log.info(u'Real harvest run successfull')
+        self.log.info(u'DCAT parsed successfully')
 
-        return self.scribe.read()
+        return visitor.to_cytoscape()
+
+    def parse_input_data(self):
+        """Parsing the data with focus on the input data
+        """
+        self.log.info(u'Parsing for input information')
+        uri = self.harvester.url
+
+        msg = _(
+            u'Reading {kind} file {uri} into rdflib',
+            mapping={'kind': self.serialize_format, 'uri': uri},
+        )
+        self.log.info(msg)
+
+        self.scribe = Scribe()
+        visitor = InputVisitor()
+
+        # start on the top nodes
+        self.top_nodes(visitor)
+
+        self.log.info(u'Input data parsed successfully')
+
+        return visitor.to_cytoscape()
 
     def get_preview(self, query):
         """

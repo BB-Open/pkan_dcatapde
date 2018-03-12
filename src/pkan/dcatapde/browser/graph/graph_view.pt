@@ -1,0 +1,14 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="pkan.dcatapde">
+<body>
+    <metal:content-core fill-slot="content-core">
+    <span tal:replace="structure context/@@authenticator/authenticator"/>
+    <span tal:define="data_pat_graph python:'ajax_url:'+view.ajax_url()">
+    <div class="context pat-graph" tal:attributes="data-pat-graph data_pat_graph"></div>
+    <div id='cy' style="width:1024px;height:768px;display:block" ></div>
+    </span>
+    </metal:content-core>
+</body>
+</html>
