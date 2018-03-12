@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
+from pkan.dcatapde.constants import HARVESTER_DEFAULT_KEY
+from pkan.dcatapde.constants import HARVESTER_DEXTERITY_KEY
 from pkan.dcatapde.constants import HARVESTER_ENTITY_KEY
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
 from pkan.widgets.sparqlquery import SparqlQueryFieldWidget
+from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.autoform import directives as form
 from plone.autoform.form import AutoObjectSubForm
 from plone.dexterity.browser import edit
@@ -30,7 +33,7 @@ from zope.schema.fieldproperty import FieldProperty
 class IHarvesterSingleSchema(model.Schema):
 
     destination = schema.Choice(
-        required=False,
+        required=True,
         title=_(u'Destination'),
         source=DcatFieldVocabulary(),
     )
@@ -40,9 +43,25 @@ class IHarvesterSingleSchema(model.Schema):
         SparqlQueryFieldWidget,
     )
     query = schema.Text(
-        required=True,
+        required=False,
         title=_(u'Query'),
         default=safe_unicode(QUERY_ATT_STR),
+    )
+
+    form.widget(
+        'dext_object',
+        AjaxSelectFieldWidget,
+        initial_path='/',
+    )
+    dext_object = schema.Choice(
+        required=False,
+        title=_(u'Dexterity Object'),
+        vocabulary='pkan.dcatapde.vocabularies.AllDcatObjects',
+    )
+
+    default = schema.TextLine(
+        required=False,
+        title=_(u'Default Value'),
     )
 
 
@@ -51,6 +70,8 @@ class HarvesterSingle(object):
 
     destination = FieldProperty(IHarvesterSingleSchema['destination'])
     query = FieldProperty(IHarvesterSingleSchema['query'])
+    dext_object = FieldProperty(IHarvesterSingleSchema['dext_object'])
+    default = FieldProperty(IHarvesterSingleSchema['default'])
 
 registerFactoryAdapter(IHarvesterSingleSchema, HarvesterSingle)
 
@@ -62,9 +83,17 @@ class HarvesterSingleEntityForm(edit.DefaultEditForm):
     def getContent(self):
         annotations = IAnnotations(self.context)
         if HARVESTER_ENTITY_KEY in annotations:
-            data = annotations[HARVESTER_ENTITY_KEY]
+            sparql = annotations[HARVESTER_ENTITY_KEY]
         else:
-            data = {}
+            sparql = {}
+        if HARVESTER_DEXTERITY_KEY in annotations:
+            dexterity = annotations[HARVESTER_DEXTERITY_KEY]
+        else:
+            dexterity = {}
+        if HARVESTER_DEFAULT_KEY in annotations:
+            default = annotations[HARVESTER_DEFAULT_KEY]
+        else:
+            default = {}
         default_query = QUERY_ATT_STR
         harvester = HarvesterSingle()
         harvester.query = default_query
@@ -72,8 +101,12 @@ class HarvesterSingleEntityForm(edit.DefaultEditForm):
         if self.request.form and 'field_id' in self.request.form:
             field_id = self.request.form['field_id']
             harvester.destination = field_id
-            if field_id in data:
-                harvester.query = data['field_id']
+            if field_id in sparql:
+                harvester.query = sparql[field_id]
+            if field_id in dexterity:
+                harvester.dext_object = dexterity[field_id]
+            if field_id in default:
+                harvester.default = default[field_id]
 
         return harvester
 
@@ -86,13 +119,28 @@ class HarvesterSingleEntityForm(edit.DefaultEditForm):
 
         annotations = IAnnotations(self.context)
         if HARVESTER_ENTITY_KEY in annotations:
-            stored_data = annotations[HARVESTER_ENTITY_KEY]
+            sparql = annotations[HARVESTER_ENTITY_KEY]
         else:
-            stored_data = {}
+            sparql = {}
+        if HARVESTER_DEXTERITY_KEY in annotations:
+            dexterity = annotations[HARVESTER_DEXTERITY_KEY]
+        else:
+            dexterity = {}
+        if HARVESTER_DEFAULT_KEY in annotations:
+            default = annotations[HARVESTER_DEFAULT_KEY]
+        else:
+            default = {}
 
-        stored_data[data['destination']] = data['query']
+        if data['query']:
+            sparql[data['destination']] = data['query']
+        if data['dext_object']:
+            dexterity[data['destination']] = data['dext_object']
+        if data['default']:
+            default[data['destination']] = data['default']
 
-        annotations[HARVESTER_ENTITY_KEY] = stored_data
+        annotations[HARVESTER_ENTITY_KEY] = sparql
+        annotations[HARVESTER_DEXTERITY_KEY] = dexterity
+        annotations[HARVESTER_DEFAULT_KEY] = default
 
         self.status = _(u'Thank you very much!')
 
@@ -161,12 +209,32 @@ class HarvesterMultiEntityForm(edit.DefaultEditForm):
         annotations = IAnnotations(self.context)
         field_data = []
         if HARVESTER_ENTITY_KEY in annotations:
-            data = annotations[HARVESTER_ENTITY_KEY]
-            for el in data.keys():
-                harv = HarvesterSingle()
-                harv.destination = el
-                harv.query = data[el]
-                field_data.append(harv)
+            sparql = annotations[HARVESTER_ENTITY_KEY]
+        else:
+            sparql = {}
+        if HARVESTER_DEXTERITY_KEY in annotations:
+            dexterity = annotations[HARVESTER_DEXTERITY_KEY]
+        else:
+            dexterity = {}
+        if HARVESTER_DEFAULT_KEY in annotations:
+            default = annotations[HARVESTER_DEFAULT_KEY]
+        else:
+            default = {}
+
+        keys = set(default.keys() + dexterity.keys() + sparql.keys())
+
+        for field_id in keys:
+            harv = HarvesterSingle()
+            harv.destination = field_id
+            if field_id in sparql:
+                harv.query = sparql[field_id]
+            else:
+                harv.query = QUERY_ATT_STR
+            if field_id in dexterity:
+                harv.dext_object = dexterity[field_id]
+            if field_id in default:
+                harv.default = default[field_id]
+            field_data.append(harv)
 
         return {'fields': field_data}
 
@@ -179,12 +247,21 @@ class HarvesterMultiEntityForm(edit.DefaultEditForm):
 
         annotations = IAnnotations(self.context)
 
-        stored_data = {}
+        sparql = {}
+        dexterity = {}
+        default = {}
 
         for obj in data['fields']:
-            stored_data[obj.destination] = obj.query
+            if obj.query:
+                sparql[obj.destination] = obj.query
+            if obj.dext_object:
+                dexterity[obj.destination] = obj.dext_object
+            if obj.default:
+                default[obj.destination] = obj.default
 
-        annotations[HARVESTER_ENTITY_KEY] = stored_data
+        annotations[HARVESTER_ENTITY_KEY] = sparql
+        annotations[HARVESTER_DEXTERITY_KEY] = dexterity
+        annotations[HARVESTER_DEFAULT_KEY] = default
 
         self.status = _(u'Thank you very much!')
 

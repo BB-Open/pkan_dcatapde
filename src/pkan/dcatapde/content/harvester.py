@@ -110,7 +110,24 @@ class Harvester(Container):
     @property
     def mapper(self):
         """Dummy mapper since Entity Mapper is working"""
+        # todo: Update results with values from config stored in annotations
+        # annotations = IAnnotations(self)
+        # if HARVESTER_ENTITY_KEY in annotations:
+        #     sparql = annotations[HARVESTER_ENTITY_KEY]
+        # else:
+        #     sparql = {}
+        # if HARVESTER_DEXTERITY_KEY in annotations:
+        #     dexterity = annotations[HARVESTER_DEXTERITY_KEY]
+        # else:
+        #     dexterity = {}
+        # if HARVESTER_DEFAULT_KEY in annotations:
+        #     str_defaults = annotations[HARVESTER_DEFAULT_KEY]
+        # else:
+        #     str_defaults = {}
+
         result = {}
+
+        # todo: read this from harvester directly
         result['dcat:Catalog'] = QUERY_A
         result['dcat:Dataset'] = QUERY_A
         result['dcat:Distribution'] = QUERY_A
