@@ -59,6 +59,11 @@
       name="pkan.dcatapde.vocabularies.SKOSConceptScheme"
       />
 
+  <utility
+      component=".content_types.AllDcatObjectsVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.AllDcatObjects"
+      />
+
 
   <!-- Harvesting Vocabularies. -->
   <!-- ======================== -->
