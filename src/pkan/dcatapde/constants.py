@@ -144,3 +144,5 @@ FIELD_BLACKLIST = [
 
 # Harvester Annotation Key to store harvester_entity
 HARVESTER_ENTITY_KEY = 'pkan.dcatapde.harvesting.entity_mapping'
+HARVESTER_DEXTERITY_KEY = 'pkan.dcatapde.harvesting.dexterity_mapping'
+HARVESTER_DEFAULT_KEY = 'pkan.dcatapde.harvesting.default_mapping'

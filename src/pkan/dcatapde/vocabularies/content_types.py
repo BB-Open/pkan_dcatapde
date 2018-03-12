@@ -150,3 +150,12 @@ class SKOSConceptSchemeVocabulary(BaseContentTypeVocabulary):
 
 
 SKOSConceptSchemeVocabularyFactory = SKOSConceptSchemeVocabulary()
+
+
+@implementer(IVocabularyFactory)
+class AllDcatObjectsVocabulary(BaseContentTypeVocabulary):
+
+    portal_type = constants.DCAT_CTs
+
+
+AllDcatObjectsVocabularyFactory = AllDcatObjectsVocabulary()

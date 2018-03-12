@@ -453,3 +453,65 @@ class TestSKOSConceptSchemeVocabulary(unittest.TestCase):
             vocabulary.getTerm(self.item2.UID()).title,
             self.item2.Title(),
         )
+
+
+class DcatTypesVocabulary(unittest.TestCase):
+    """Validate the `SKOSConceptScheme` vocabulary."""
+
+    layer = testing.INTEGRATION_TESTING
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.item1 = api.content.create(
+            container=self.portal.get(constants.FOLDER_CONCEPTSCHEMES),
+            type=constants.CT_SKOS_CONCEPTSCHEME,
+            id='concept-1',
+            dct_title={u'en': u'Concept Scheme 1'},
+        )
+        self.item2 = api.content.create(
+            container=self.portal.get(constants.FOLDER_CONCEPTSCHEMES),
+            type=constants.CT_SKOS_CONCEPTSCHEME,
+            id='concept-2',
+            dct_title={u'en': u'Concept Scheme 2'},
+        )
+        self.item3 = api.content.create(
+            container=self.portal.get(constants.FOLDER_AGENTS),
+            type=constants.CT_FOAF_AGENT,
+            id='agent-1',
+            dct_title={u'en': u'Agent 1'},
+        )
+        self.item4 = api.content.create(
+            container=self.portal.get(constants.FOLDER_AGENTS),
+            type=constants.CT_FOAF_AGENT,
+            id='agent-2',
+            dct_title={u'en': u'Agent 2'},
+        )
+
+    def test_vocabulary(self):
+        """Validate the vocabulary."""
+        vocab_name = 'pkan.dcatapde.vocabularies.AllDcatObjects'
+        factory = getUtility(IVocabularyFactory, vocab_name)
+        self.assertTrue(IVocabularyFactory.providedBy(factory))
+
+        vocabulary = factory(self.portal)
+        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
+
+        self.assertEqual(len(vocabulary), 4)
+        self.assertEqual(
+            vocabulary.getTerm(self.item1.UID()).title,
+            self.item1.Title(),
+        )
+        self.assertEqual(
+            vocabulary.getTerm(self.item2.UID()).title,
+            self.item2.Title(),
+        )
+        self.assertEqual(
+            vocabulary.getTerm(self.item3.UID()).title,
+            self.item3.Title(),
+        )
+        self.assertEqual(
+            vocabulary.getTerm(self.item4.UID()).title,
+            self.item4.Title(),
+        )

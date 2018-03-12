@@ -27,6 +27,7 @@ from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from plone.api import content
 from plone.api import portal
+from plone.dexterity.utils import safe_unicode
 from plone.memoize import ram
 from pyparsing import ParseException
 from rdflib import Graph
@@ -544,7 +545,7 @@ class RDFProcessor(object):
 
         return visitor.to_cytoscape()
 
-    def get_preview(self, query):
+    def get_preview(self, query, bindings={}):
         """
         Preview for sparqle_query
 
@@ -553,7 +554,7 @@ class RDFProcessor(object):
         """
         preview = _(u'Result: ')
         try:
-            res = self.graph.query(query)
+            res = self.graph.query(query, initBindings=bindings)
         except ParseException:
             preview += _(u'Wrong Syntax')
         except SAXParseException:
@@ -563,8 +564,7 @@ class RDFProcessor(object):
         except TypeError:
             preview += _(u'Did not find correct parameters to request data.')
         else:
-            # Todo: Sometimes None-Type is not iterable exception
-            preview += vkb.xml(res.serialize())
+            preview += safe_unicode(vkb.xml(res.serialize()))
         if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
             preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
         return preview

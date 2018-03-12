@@ -16,7 +16,7 @@ install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
     'chardet',
-    'collective.z3cform.datagridfield >= 1.3.0',
+    # 'collective.z3cform.datagridfield >= 1.3.0',
     'pkan.widgets',
     'plone.api',
     'plone.app.dexterity',
