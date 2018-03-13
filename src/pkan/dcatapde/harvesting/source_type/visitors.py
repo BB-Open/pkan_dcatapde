@@ -3,6 +3,7 @@
 from datetime import datetime
 from pkan.dcatapde.structure.sparql import namespace_manager
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
+from rdflib import URIRef
 
 
 class Scribe(object):
@@ -77,13 +78,13 @@ class Base(object):
     title = None
 
     @property
-    def short_id(self):
-        result = namespace_manager.normalizeUri(self.id)
-        return result
-
-    @property
     def short_title(self):
         result = namespace_manager.normalizeUri(self.title)
+        return result
+
+    def short(self, uri):
+        """Shorten URI the ns-prefix and class"""
+        result = namespace_manager.normalizeUri(uri)
         return result
 
 
@@ -91,27 +92,30 @@ class Node(Base):
     """Represents a node"""
 
     position = None
+    counter = 0
 
     def __init__(
         self,
-        id,
         structure,
         type=NT_NORMAL,
         status=NS_NORMAL,
         title=None,
         position=None,
         parent=None,
+        duplicate=False,
     ):
-        self.id = id
+        self.id = 'n:'+str(self.counter)
+        Node.counter += 1
+
         self.structure = structure
-        if not title:
-            self.title = self.id
+        self.title = title
         self.type = type
         self.status = {}
         self.status[status] = status
         self.position = position
         self.parent = parent
         self.next_child_pos = 0
+        self.duplicate = duplicate
 
     @property
     def child_pos(self):
@@ -123,9 +127,19 @@ class Node(Base):
         result['group'] = 'nodes'
 
         data = {}
-        data['id'] = self.short_id
+        data['id'] = self.id
+        if self.title:
+            data['title'] = self.short_title
+        elif isinstance(self.structure, URIRef):
+            rdf_type = self.structure
+            data['title'] = self.short(rdf_type)
+        elif isinstance(self.structure, basestring):
+            data['title'] = self.structure
+        else:
+            rdf_type = self.structure.rdf_type
+            data['title'] = self.short(rdf_type)
 
-        data['pkwidth'] = str(len(data['id']) * 10)
+        data['pkwidth'] = str(len(data['title']) * 10)
 
         status = NS_NORMAL
         # Determine the Node status
@@ -137,13 +151,16 @@ class Node(Base):
         data['pkshape'] = NODETYPE2SHAPE[self.type]
 
         if self.parent:
-            data['parent'] = self.parent.short_id
+            data['parent'] = self.parent.id
             data['pkvalign'] = 'center'
         else:
             data['pkvalign'] = 'top'
 
         if self.position:
             result['position'] = self.position
+
+        if self.duplicate:
+            result['classes'] = 'duplicate'
 
         result['data'] = data
         return result
@@ -153,8 +170,8 @@ class Edge(Base):
     """Represents an edge"""
     counter = 0
 
-    def __init__(self, source, target, title=None):
-        self.id = self.counter
+    def __init__(self, source, target, title=None, duplicate=False):
+        self.id = 'e:'+str(self.counter)
         Edge.counter += 1
         if title:
             self.title = title
@@ -162,15 +179,18 @@ class Edge(Base):
             self.title = self.id
         self.source = source
         self.target = target
+        self.duplicate = duplicate
 
     def to_cytoscape(self):
         data = {}
-        data['id'] = self.short_id
-        data['source'] = self.source.short_id
-        data['target'] = self.target.short_id
+        data['id'] = self.id
+        data['source'] = self.source.id
+        data['target'] = self.target.id
         data['group'] = 'edges'
         data['label'] = self.short_title
         classes = 'autorotate'
+        if self.duplicate:
+            classes += ' duplicate'
         result = {
             'data': data,
             'classes': classes,
@@ -188,6 +208,11 @@ class BaseVisitor(object):
         self.scribe = Scribe()
         self.node_stack = []
 
+    def short(self, uri):
+        """Shorten URI the ns-prefix and class"""
+        result = namespace_manager.normalizeUri(uri)
+        return result
+
     def pop_node(self):
         return self.node_stack.pop()
 
@@ -200,43 +225,66 @@ class BaseVisitor(object):
         return node
 
     def end_node(self, **kwargs):
+        """Generate an edge and an Node"""
+        # From the field we get the predicate and the object
         field = kwargs['field']
+        predicate = field['predicate']
+        obj = field['object']
+        # the status of the node
         if 'status' in kwargs:
             status = kwargs['status']
         else:
             status = NS_NORMAL
-        predicate = field['predicate']
-        obj = field['object']
+        # Deal with duplicate Nodes
+        is_duplicate = False
+        if 'duplicate' in kwargs:
+            is_duplicate = kwargs['duplicate']
+
+        # If we deal with a literal build a composite node
+        # and omit the edge
+        # aka give a parent node. The parent node is found on the stack
+        # also we derive the position of the childnode
         if obj == StructRDFSLiteral:
             parent = self.node_stack[-1]
             node = Node(
                 predicate,
-                predicate,
                 status=status,
                 parent=parent,
                 position=parent.child_pos,
+                duplicate=is_duplicate,
             )
         else:
+            # not a literal node so we build a node ..
             node = Node(
                 obj.rdf_type,
-                obj.rdf_type,
                 status=status,
+                duplicate=is_duplicate,
             )
+            # .. and an edge
             if self.node_stack:
-                edge = Edge(self.node_stack[-1], node, title=predicate)
+                edge = Edge(
+                    self.node_stack[-1],
+                    node,
+                    title=predicate,
+                    duplicate=is_duplicate,
+                )
                 self.add_edge(edge)
 
+        # in both cases we have to memorize the node
         self.add_node(node)
         return node
 
     def add_edge(self, edge):
+        """Simply memorize the edge"""
         self.edges[edge.id] = edge
         return edge
 
     def get_node(self, id):
+        """Return a node by id"""
         return self.nodes[id]
 
     def get_edge(self, id):
+        """Return an edge by id"""
         return self.edges[id]
 
 
@@ -251,42 +299,50 @@ class DCATVisitor(BaseVisitor):
         """
 
     def __init__(self):
+        # These dicts are the store for duplicate detection of
+        # nodes and edges
         self.edge_uids = {}
+        self.node_uids = {}
         super(DCATVisitor, self).__init__()
 
     def get_entity_mapping(self, source, predicate):
+        """Todo this call should give the entity mapping for the node"""
         return None
 
-    def add_node(self, node):
-        # check if we had such a node already
-        if node.id in self.nodes:
-            self.nodes[node.id].status.update(node.status)
-        else:
-            super(DCATVisitor, self).add_node(node)
-        return node
-
-    def add_edge(self, edge):
-        # check if we had such an edge already
+    def end_node(self, **kwargs):
+        """Determine if the node was already seen"""
+        # Find subject, predicate, object
+        try:
+            struct = kwargs['struct']
+        except:
+            pass
+        subject = self.short(struct.rdf_type)
+        predicate = self.short(kwargs['field']['predicate'])
+        obj_struct = kwargs['field']['object']
+        obj = self.short(obj_struct)
+        # build a uid for the triple
         uid = '_'.join([
-            edge.source.id,
-            edge.target.id,
-            edge.title,
+            subject,
+            predicate,
+            obj,
         ])
-        if uid in self.edge_uids:
-            return
-        super(DCATVisitor, self).add_edge(edge)
-
-        self.edge_uids[uid] = 1
-
-        return edge
+        # check if triple already has been seen then mark
+        # the edge and node as duplicates
+        if uid in self.node_uids:
+            return super(DCATVisitor, self).end_node(duplicate=True, **kwargs)
+        else:
+            return super(DCATVisitor, self).end_node(**kwargs)
 
     def to_cytoscape(self):
-        result = []
+        nodes = []
+        edges = []
         for node in self.nodes.values():
-            result.append(node.to_cytoscape())
+            nodes.append(node.to_cytoscape())
 
         for edge in self.edges.values():
-            result.append(edge.to_cytoscape())
+            edges.append(edge.to_cytoscape())
+
+        result = {'elements': {'nodes': nodes, 'edges': edges}}
 
         return result
 

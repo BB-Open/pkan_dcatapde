@@ -214,7 +214,6 @@ class RDFProcessor(object):
 
         struct = self.struct_class(self.harvester)
         args = {
-            'id': catalog,
             'structure': struct,
         }
         node = Node(**args)
@@ -433,6 +432,7 @@ class RDFProcessor(object):
                     'field': field,
                     'field_name': field_name,
                     'rdf_node': i['o'],
+                    'struct': struct,
                 }
                 node = visitor.end_node(**args)
                 visitor.push_node(node)
@@ -450,7 +450,13 @@ class RDFProcessor(object):
                     att=field['predicate'],
                 )
 
-    def crawl(self, visitor, target_struct=None, context=None, rdf_node=None):
+    def crawl(
+        self,
+        visitor,
+        target_struct=None,
+        context=None,
+        rdf_node=None,
+    ):
         """Analyse the RDF structure"""
 
         # Activate the struct
@@ -459,18 +465,21 @@ class RDFProcessor(object):
         # here we collect the data to generate our DX object
         obj_data = {}
 
-        try:
-            # Go for the properties of the current node
-            self.properties(
-                visitor,
-                context=context,
-                rdf_node=rdf_node,
-                struct=struct,
-                obj_data=obj_data,
-            )
+        # Go for the properties of the current node
+        self.properties(
+            visitor,
+            context=context,
+            rdf_node=rdf_node,
+            struct=struct,
+            obj_data=obj_data,
+        )
 
+        try:
             # Create an instance of the node as dexterity object
-            title = unicode(obj_data[struct.title_field].items()[0][1])
+            try:
+                title = unicode(obj_data[struct.title_field].items()[0][1])
+            except KeyError:
+                raise RequiredPredicateMissing
             obj = content.create(
                 context,
                 target_struct.portal_type,
@@ -482,24 +491,26 @@ class RDFProcessor(object):
                 msg=u'{type} dxobject {obj} created at {context}',
                 context=context.virtual_url_path(),
             )
-
-            self.contained(
-                visitor,
-                context=context,
-                rdf_node=rdf_node,
-                struct=struct,
-                obj_data=obj_data,
-                obj=obj,
-            )
-
-            return obj
-
-        except KeyError:
-            return None
         except RequiredPredicateMissing:
-            return None
-        finally:
-            visitor.pop_node()
+            visitor.scribe.write(
+                level='error',
+                msg=u'{type} dxobject {obj} cannot be created at {context}',
+                context=context.virtual_url_path(),
+            )
+            obj = None
+            title = None
+
+        self.contained(
+            visitor,
+            context=context,
+            rdf_node=rdf_node,
+            struct=struct,
+            obj_data=obj_data,
+            obj=obj,
+        )
+        node = visitor.pop_node()
+        node.title = title
+        return obj
 
     def parse_dcat_data(self):
         """Parsing the data in respect to the dcat ap.de diagram

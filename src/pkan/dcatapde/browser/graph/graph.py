@@ -47,7 +47,7 @@ class Graph(BrowserView):
         # fetch the RDF processor on the harvester
         processor = self.context.source_type(self.context)
         # run the processor and transform the result to JSON
-        pretty = json.dumps(processor.parse_dact_data())
+        pretty = json.dumps(processor.parse_dcat_data())
         # set the content type
         self.request.response.setHeader('Content-type', 'application/json')
         # return the JSON
@@ -65,12 +65,10 @@ class Graph(BrowserView):
         # return the JSON
         return pretty
 
-    def ajax_urls(self):
-        dact_url = self.context.absolute_url() + '/graph_dcat_data'
-        input_url = self.context.absolute_url() + '/graph_imput_data'
+    def ajax_url(self):
+        result = self.context.absolute_url() + '/graph_dcat_data'
+        return result
 
-        result = {
-            'dcat': dact_url,
-            'input': input_url,
-        }
+    def input_url(self):
+        result = self.context.absolute_url() + '/graph_input_data'
         return result
