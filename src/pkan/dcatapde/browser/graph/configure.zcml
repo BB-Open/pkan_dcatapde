@@ -16,7 +16,7 @@
     name="graph_dcat_data"
     class=".graph.Graph"
     attribute="graph_dcat_data"
-    permission="cmf.ManagePortal"
+    permission="zope2.View"
     />
 
   <browser:page
