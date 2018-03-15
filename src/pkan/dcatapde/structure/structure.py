@@ -225,6 +225,22 @@ class StructBase(object):
 
         return self._fields_objects_required
 
+    def field2token(self, field_name, field, importance=None):
+        """Calculate a token for the vocab terms and the parser"""
+        if not importance:
+            importance = field['importance']
+        if importance == IMP_REQUIRED:
+            token = '{CT}__{field_name}__required'.format(
+                CT=self.portal_type,
+                field_name=field_name,
+            )
+        else:
+            token = '{CT}__{field_name}'.format(
+                CT=self.portal_type,
+                field_name=field_name,
+            )
+        return token
+
     @property
     def vocab_terms(self):
         """Terms for a vocabulary. The tokens hold the subjects CT,
@@ -244,10 +260,6 @@ class StructBase(object):
                         u'CT': u'{0}'.format(self.portal_type),
                     },
                 )
-                token = '{CT}__{field_name}__required'.format(
-                    CT=self.portal_type,
-                    field_name=field_name,
-                )
             else:
                 title = _(
                     u'${CT}=>${field_name}',
@@ -256,10 +268,11 @@ class StructBase(object):
                         u'CT': u'{0}'.format(self.portal_type),
                     },
                 )
-                token = '{CT}__{field_name}'.format(
-                    CT=self.portal_type,
-                    field_name=field_name,
-                )
+
+            token = self.field2token(
+                field_name,
+                self.fields_and_referenced[field_name],
+            )
 
             title = translate(
                 title,
@@ -418,11 +431,11 @@ class StructDCATDistribution(StructBase):
             'predicate': str(DCT) + u'/format',
             'target': DCT.MediaTypeOrExtent,
         }
-        related['dct_mediaType'] = {
+        related['dcat_mediaType'] = {
             'object': StructDCTMediaTypeOrExtent,
             'importance': IMP_OPTIONAL,
             'type': str,
-            'predicate': DCT.mediatype,
+            'predicate': DCAT.mediatype,
             'target': DCT.MediaTypeOrExtent,
         }
         related['dct_conformsTo'] = {

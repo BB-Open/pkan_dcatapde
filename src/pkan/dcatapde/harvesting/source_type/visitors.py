@@ -33,15 +33,17 @@ class Scribe(object):
 
 # Node types
 NT_NORMAL = 'Normal'
+NT_DEFAULT = 'Default'
 NT_SPARQL = 'SPARQL'
 NT_DX_DEFAULT = 'DX default'
 NT_DX_LINK = 'DX link'
 
 NODETYPE2SHAPE = {
     NT_NORMAL: 'rectangle',
+    NT_DEFAULT: 'roundrectangle',
+    NT_DX_DEFAULT: 'roundrectangle',
+    NT_DX_LINK: 'roundrectangle',
     NT_SPARQL: 'roundrectangle',
-    NT_DX_DEFAULT: 'hexagon',
-    NT_DX_LINK: 'octagon',
 }
 
 # Node status
@@ -97,19 +99,19 @@ class Node(Base):
     def __init__(
         self,
         structure,
-        type=NT_NORMAL,
+        node_type=NT_NORMAL,
         status=NS_NORMAL,
         title=None,
         position=None,
         parent=None,
         duplicate=False,
     ):
-        self.id = 'n:'+str(self.counter)
+        self.id = 'n:' + str(self.counter)
         Node.counter += 1
 
         self.structure = structure
         self.title = title
-        self.type = type
+        self.node_type = node_type
         self.status = {}
         self.status[status] = status
         self.position = position
@@ -148,13 +150,15 @@ class Node(Base):
                 status = ns
         data['pkbackgroundcolor'] = NODESTATUS2COLOR[status]
 
-        data['pkshape'] = NODETYPE2SHAPE[self.type]
+        data['pkshape'] = NODETYPE2SHAPE[self.node_type]
 
         if self.parent:
             data['parent'] = self.parent.id
             data['pkvalign'] = 'center'
+            data['pkfontsize'] = '20pt'
         else:
             data['pkvalign'] = 'top'
+            data['pkfontsize'] = '25pt'
 
         if self.position:
             result['position'] = self.position
@@ -171,7 +175,7 @@ class Edge(Base):
     counter = 0
 
     def __init__(self, source, target, title=None, duplicate=False):
-        self.id = 'e:'+str(self.counter)
+        self.id = 'e:' + str(self.counter)
         Edge.counter += 1
         if title:
             self.title = title
@@ -235,6 +239,12 @@ class BaseVisitor(object):
             status = kwargs['status']
         else:
             status = NS_NORMAL
+        # the type of the node
+        if 'node_type' in kwargs:
+            node_type = kwargs['node_type']
+        else:
+            node_type = NT_NORMAL
+
         # Deal with duplicate Nodes
         is_duplicate = False
         if 'duplicate' in kwargs:
@@ -252,6 +262,7 @@ class BaseVisitor(object):
                 parent=parent,
                 position=parent.child_pos,
                 duplicate=is_duplicate,
+                node_type=node_type,
             )
         else:
             # not a literal node so we build a node ..
@@ -259,6 +270,7 @@ class BaseVisitor(object):
                 obj.rdf_type,
                 status=status,
                 duplicate=is_duplicate,
+                node_type=node_type,
             )
             # .. and an edge
             if self.node_stack:
@@ -312,10 +324,7 @@ class DCATVisitor(BaseVisitor):
     def end_node(self, **kwargs):
         """Determine if the node was already seen"""
         # Find subject, predicate, object
-        try:
-            struct = kwargs['struct']
-        except:
-            pass
+        struct = kwargs['struct']
         subject = self.short(struct.rdf_type)
         predicate = self.short(kwargs['field']['predicate'])
         obj_struct = kwargs['field']['object']

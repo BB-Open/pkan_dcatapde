@@ -109,7 +109,7 @@ class IDCATDistribution(model.Schema, IDCAT):
 
     dcat_mediatype = schema.Choice(
         description=i18n.HELP_DACT_MEDIATYPE,
-        required=True,
+        required=False,
         title=i18n.LABEL_DCAT_MEDIATYPE,
         vocabulary='pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent',
     )

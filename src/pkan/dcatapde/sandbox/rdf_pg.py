@@ -23,7 +23,7 @@ class SQLStorage(object):
         self.graph.open(self.uri, create=True)
 
     def read(self, data):
-        self.graph.load(data)
+        self.graph.parse(source=data)
 
 # build a storage
 storage = SQLStorage('test1')
@@ -32,8 +32,9 @@ storage = SQLStorage('test1')
 # storage.graph.load('http://dbpedia.org/resource/Semantic_Web')
 
 try:
-    storage.graph.load('http://publications.europa.eu/mdr/resource/authority'
-                       '/licence/skos/licences-skos.rdf')
+    storage.graph.parse(
+        source='http://publications.europa.eu/mdr/resource/authority'
+        '/licence/skos/licences-skos.rdf')
 except IntegrityError:
     pass
 
