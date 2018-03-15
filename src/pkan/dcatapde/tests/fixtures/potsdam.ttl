@@ -1,0 +1,437 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://opendata.potsdam.de/api/v2/catalog/exports/ttl?rows=10&timezone=UTC&include_app_metas=false> a dcat:Catalog ;
+    dct:Language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:description "Potsdam Catalog" ;
+    dct:publisher <http://www.opendatasoft.com> ;
+    dct:title "Potsdam's catalog" ;
+    dcat:dataset <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999> ;
+    dcat:themeTaxonomy <https://opendata.potsdam.de/concept-scheme/themes> ;
+    foaf:homepage <https://opendata.potsdam.de> .
+
+<http://www.opendatasoft.com> a foaf:Agent ;
+    foaf:name "OpenDataSoft" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles> a dcat:Dataset ;
+    dct:description "<p>Dieser Datensatz listet die verschiedenen Bäume der Plätze und Parks der Stadt Versailles als Partnerstadt der Landeshaptstadt Potsdam auf</p>" ;
+    dct:identifier "arbres-dans-les-parcs-de-la-ville-de-versailles" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "Ville de Versailles" ] ;
+    dct:title "Bäume der Partnerstadt Versailles" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles-geojson>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles-json>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles-shp> ;
+    dcat:keyword "Arbres",
+        "Baum",
+        "Ecologie",
+        "Environnement",
+        "Géolocalisation",
+        "Jardins",
+        "Parcs",
+        "Park",
+        "Umwelt" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Umwelt%20und%20Klima> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles" ;
+    dct:format "csv" ;
+    dct:license <http://wiki.data.gouv.fr/wiki/Licence_Ouverte_/_Open_Licence> ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles-geojson> a dcat:Distribution ;
+    dct:description "geojson export of https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles" ;
+    dct:format "geojson" ;
+    dct:license <http://wiki.data.gouv.fr/wiki/Licence_Ouverte_/_Open_Licence> ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles/exports/geojson> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles" ;
+    dct:format "json" ;
+    dct:license <http://wiki.data.gouv.fr/wiki/Licence_Ouverte_/_Open_Licence> ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles-shp> a dcat:Distribution ;
+    dct:description "shp export of https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles" ;
+    dct:format "shp" ;
+    dct:license <http://wiki.data.gouv.fr/wiki/Licence_Ouverte_/_Open_Licence> ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/arbres-dans-les-parcs-de-la-ville-de-versailles/exports/shp> ;
+    dcat:mediaType "application/zip" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan> a dcat:Dataset ;
+    dct:description "<p>Der Digitale Gestaltplan Potsdam ist ein Plandokument zur Abbildung städtebaulicher Entwicklungen, Vorhaben und Konzepte. Er stellt für einen großen Teil der Siedlungsfläche städtebauliche Strukturen in generalisierter Form dar.<br/> In diese Darstellung eingebunden sind zwei Klassen von Planungen: Gesicherte und Langfristige Planungen. Die als \"Gesicherte Planungen\" dargestellten Strukturen sind in der Regel planungsrechtlich gesichert, liegen also innerhalb von rechtsgültigen Bebauungsplänen oder Plänen mit fortgeschrittenem Planungsstand. Bei Bebauungsplänen mit Baufeldern ohne vorliegende konkrete Projekte wird eine mögliche Bebauung dargestellt - dies schließt aber nicht aus, dass auch andere Vorhaben genehmigungsfähig wären.</p>" ;
+    dct:identifier "digitaler-gestaltplan" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Digitaler Gestaltplan" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan-json> ;
+    dcat:keyword "Gestaltplan",
+        "Rahmenplan",
+        "Stadtentwicklung",
+        "Stadtplanung" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Infrastruktur%2C%20Bauen%20und%20Wohnen> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/digitaler-gestaltplan/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992> a dcat:Dataset ;
+    dct:description """<p>Einwohner nach Hauptaltersgruppen seit 1992</p>
+<div>Zeitbezug: 31.12.1992 - 31.12.2016</div>""" ;
+    dct:identifier "einwohner-nach-hauptaltersgruppen-seit-1992" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Einwohner in Potsdam nach Hauptaltersgruppen seit 1992" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992-json> ;
+    dcat:keyword "Einwohner",
+        "Haushalt",
+        "Haushaltsgruppen",
+        "Potsdam" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Bev%C3%B6lkerung> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/einwohner-nach-hauptaltersgruppen-seit-1992/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999> a dcat:Dataset ;
+    dct:description """<p>Gebäude nach Baualter in der LHP</p>
+<div>Zeitbezug: 31.12.1999 - 31.12.2016</div>""" ;
+    dct:identifier "gebaude-nach-baualter-in-der-lhp-seit-1999" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Gebäude nach Baualter in Potsdam seit 1999" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999-json> ;
+    dcat:keyword "Bau",
+        "Gebäude",
+        "Potsdam" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Infrastruktur%2C%20Bauen%20und%20Wohnen> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/gebaude-nach-baualter-in-der-lhp-seit-1999/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete> a dcat:Dataset ;
+    dct:description "<p>Einzugsgebiete der Grundschulen in Potsdam</p>" ;
+    dct:identifier "grundschuleinzugsgebiete" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Grundschuleinzugsgebiete in Potsdam" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete-geojson>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete-json>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete-shp> ;
+    dcat:keyword "Einzugsgebiet",
+        "Grundschule",
+        "Potsdam" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Bildung%20und%20Wissenschaft>,
+        <https://opendata.potsdam.de/id/theme/Geographie%2C%20Geologie%20und%20Geobasisdaten> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete-geojson> a dcat:Distribution ;
+    dct:description "geojson export of https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete" ;
+    dct:format "geojson" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete/exports/geojson> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete-shp> a dcat:Distribution ;
+    dct:description "shp export of https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete" ;
+    dct:format "shp" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/grundschuleinzugsgebiete/exports/shp> ;
+    dcat:mediaType "application/zip" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108> a dcat:Dataset ;
+    dct:description "<p>Daten zu Kindertagesstätten in Potsdam</p>" ;
+    dct:identifier "kitaboerse-20161108" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Kitas in Potsdam" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108-json> ;
+    dcat:keyword "Kinderbetreuung",
+        "Kindertagesstätte",
+        "Kita",
+        "Potsdam" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Soziales> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/kitaboerse-20161108/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile> a dcat:Dataset ;
+    dct:description "<p>Potsdams Stadtteile als Geoflächen</p>" ;
+    dct:identifier "stadtteile" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Stadtteile in Potsdam" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile-geojson>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile-json>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile-shp> ;
+    dcat:keyword "Bezirk",
+        "Potsdam",
+        "Stadtbezirk",
+        "Stadtteil" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Geographie%2C%20Geologie%20und%20Geobasisdaten>,
+        <https://opendata.potsdam.de/id/theme/Infrastruktur%2C%20Bauen%20und%20Wohnen> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile-geojson> a dcat:Distribution ;
+    dct:description "geojson export of https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile" ;
+    dct:format "geojson" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile/exports/geojson> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile-shp> a dcat:Distribution ;
+    dct:description "shp export of https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile" ;
+    dct:format "shp" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/stadtteile/exports/shp> ;
+    dcat:mediaType "application/zip" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam> a dcat:Dataset ;
+    dct:description "<p>verschiedene statistische Daten zu Potsdam</p>" ;
+    dct:identifier "statistik-zur-landeshauptstadt-potsdam" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Statistiken zu Potsdam" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam-json> ;
+    dcat:keyword "Potsdam",
+        "Statistik" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Bev%C3%B6lkerung>,
+        <https://opendata.potsdam.de/id/theme/Bildung%20und%20Wissenschaft>,
+        <https://opendata.potsdam.de/id/theme/Infrastruktur%2C%20Bauen%20und%20Wohnen>,
+        <https://opendata.potsdam.de/id/theme/Kultur%2C%20Freizeit%2C%20Sport%20und%20Tourismus>,
+        <https://opendata.potsdam.de/id/theme/Politik%20und%20Wahlen>,
+        <https://opendata.potsdam.de/id/theme/Soziales>,
+        <https://opendata.potsdam.de/id/theme/Wirtschaft%20und%20Arbeit> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/statistik-zur-landeshauptstadt-potsdam/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise> a dcat:Dataset ;
+    dct:description "<p>Daten zu den Wahlkreisen der Landeshauptstadt Potsdam</p>" ;
+    dct:identifier "wahlkreise" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Wahlbezirke und -räume in Potsdam" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise-json> ;
+    dcat:keyword "Potsdam",
+        "Wahlbezirk",
+        "Wahlen",
+        "Wahlkreis",
+        "Wahllokal" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Politik%20und%20Wahlen> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/wahlkreise/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999> a dcat:Dataset ;
+    dct:description "<p>Wohnungen nach Wohnungsgröße in der Landeshauptstadt Potsdam seit 1999</p>" ;
+    dct:identifier "wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999" ;
+    dct:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dct:publisher [ a foaf:Agent ;
+            rdfs:label "LHP" ] ;
+    dct:title "Wohnungen nach Wohnungsgröße in Potsdam seit 1999" ;
+    dcat:distribution <https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999-csv>,
+        <https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999-json> ;
+    dcat:keyword "Potsdam",
+        "Wohnen ",
+        "Wohnungsgröße" ;
+    dcat:theme <https://opendata.potsdam.de/id/theme/Infrastruktur%2C%20Bauen%20und%20Wohnen> .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999-csv> a dcat:Distribution ;
+    dct:description "csv export of https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999" ;
+    dct:format "csv" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999/exports/csv> ;
+    dcat:mediaType "text/csv" .
+
+<https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999-json> a dcat:Distribution ;
+    dct:description "json export of https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999" ;
+    dct:format "json" ;
+    dct:license "Nutzungsbedingungen der LHP" ;
+    dcat:accessURL <https://opendata.potsdam.de/api/v2/catalog/datasets/wohnungen-nach-wohnungsgrosse-in-der-lhp-seit-1999/exports/json> ;
+    dcat:mediaType "application/json" .
+
+<https://opendata.potsdam.de/id/theme/Kultur%2C%20Freizeit%2C%20Sport%20und%20Tourismus> a skos:Concept ;
+    dct:title "Kultur, Freizeit, Sport und Tourismus" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Kultur, Freizeit, Sport und Tourismus" .
+
+<https://opendata.potsdam.de/id/theme/Umwelt%20und%20Klima> a skos:Concept ;
+    dct:title "Umwelt und Klima" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Umwelt und Klima" .
+
+<https://opendata.potsdam.de/id/theme/Wirtschaft%20und%20Arbeit> a skos:Concept ;
+    dct:title "Wirtschaft und Arbeit" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Wirtschaft und Arbeit" .
+
+<https://opendata.potsdam.de/id/theme/Bev%C3%B6lkerung> a skos:Concept ;
+    dct:title "Bevölkerung" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Bevölkerung" .
+
+<https://opendata.potsdam.de/id/theme/Bildung%20und%20Wissenschaft> a skos:Concept ;
+    dct:title "Bildung und Wissenschaft" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Bildung und Wissenschaft" .
+
+<https://opendata.potsdam.de/id/theme/Geographie%2C%20Geologie%20und%20Geobasisdaten> a skos:Concept ;
+    dct:title "Geographie, Geologie und Geobasisdaten" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Geographie, Geologie und Geobasisdaten" .
+
+<https://opendata.potsdam.de/id/theme/Politik%20und%20Wahlen> a skos:Concept ;
+    dct:title "Politik und Wahlen" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Politik und Wahlen" .
+
+<https://opendata.potsdam.de/id/theme/Soziales> a skos:Concept ;
+    dct:title "Soziales" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Soziales" .
+
+<https://opendata.potsdam.de/id/theme/Infrastruktur%2C%20Bauen%20und%20Wohnen> a skos:Concept ;
+    dct:title "Infrastruktur, Bauen und Wohnen" ;
+    skos:inScheme <https://opendata.potsdam.de/concept-scheme/themes> ;
+    skos:prefLabel "Infrastruktur, Bauen und Wohnen" .
+
+<https://opendata.potsdam.de/concept-scheme/themes> a skos:ConceptScheme ;
+    dct:title "Themes" ;
+    skos:prefLabel "A Set of data themes" ;
+    skos:topConceptOf <https://opendata.potsdam.de/id/theme/Bev%C3%B6lkerung>,
+        <https://opendata.potsdam.de/id/theme/Bildung%20und%20Wissenschaft>,
+        <https://opendata.potsdam.de/id/theme/Geographie%2C%20Geologie%20und%20Geobasisdaten>,
+        <https://opendata.potsdam.de/id/theme/Infrastruktur%2C%20Bauen%20und%20Wohnen>,
+        <https://opendata.potsdam.de/id/theme/Kultur%2C%20Freizeit%2C%20Sport%20und%20Tourismus>,
+        <https://opendata.potsdam.de/id/theme/Politik%20und%20Wahlen>,
+        <https://opendata.potsdam.de/id/theme/Soziales>,
+        <https://opendata.potsdam.de/id/theme/Umwelt%20und%20Klima>,
+        <https://opendata.potsdam.de/id/theme/Wirtschaft%20und%20Arbeit> .
+
