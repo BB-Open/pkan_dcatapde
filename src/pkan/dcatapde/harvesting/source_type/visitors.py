@@ -6,6 +6,8 @@ from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from plone.api.portal import translate
 from rdflib import URIRef
 
+import cgi
+
 
 LEVEL_COLOR = {
     'info': 'green',
@@ -56,8 +58,8 @@ class Scribe(object):
                     new_entry['data'][item] = short(data[item])
 
             try:
-                msg = translate(entry['log'], domain='pkan.dcatapde')
-                msg = str(entry['time']) + ':' + msg.format(
+                msg_trans = translate(entry['log'], domain='pkan.dcatapde')
+                msg = str(entry['time']) + ':' + msg_trans.format(
                     time=entry['time'],
                     level=entry['level'],
                     **new_entry['data'])
@@ -68,13 +70,14 @@ class Scribe(object):
     def html_log(self):
         result = []
         for msg, entry in self.log():
+            html_msg = cgi.escape(msg)
             link = u'<a class="context pat-plone-modal" ' \
                    u'target="_blank" href="{uri}">Modify</a>'
             color = LEVEL_COLOR[entry['level']]
             color_msg = u'<font color={color}>{msg}</font>'
             log_line = color_msg.format(
                 color=color,
-                msg=msg,
+                msg=html_msg,
                 link=link.format(
                     uri=u'http://localhost:8080/Plone6/harvester_preview',
                 ),

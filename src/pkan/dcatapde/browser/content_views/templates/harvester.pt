@@ -11,6 +11,7 @@
                   <td i18n:translate="">Data Source</td>
                   <td i18n:translate="">Edit</td>
                   <td i18n:translate="">Dry Run</td>
+                  <td i18n:translate="">Graph Display</td>
                   <td i18n:translate="">Real Run</td>
                   <td i18n:translate="">Reset Fields</td>
                 </tr>
@@ -25,6 +26,8 @@
                            tal:attributes="href harv/edit">Edit Harvester</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/dry_run">Dry Run</a></td>
+                    <td><a i18n:translate=""
+                           tal:attributes="href harv/graph_display">Graph Display</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/real_run">Real Run</a></td>
                     <td><a i18n:translate=""

@@ -469,7 +469,7 @@ class RDFProcessor(object):
                     visitor.scribe.write(
                         level='info',
                         msg=u'{type} object {obj}: attribute {att}:= {val}',
-                        val=obj_data[field_name],
+                        val=str(obj_data[field_name]),
                         att=field['predicate'],
                         obj=kwargs['rdf_node'],
                         type=kwargs['struct'].rdf_type,
