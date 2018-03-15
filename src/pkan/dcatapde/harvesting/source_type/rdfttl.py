@@ -202,6 +202,12 @@ class RDFProcessor(object):
             mapping={'kind': self.serialize_format, 'uri': uri},
         )
         self.log.info(msg)
+
+        visitor = DCATVisitor()
+
+        # start on the top nodes
+        self.top_nodes(visitor)
+
         msg = _(
             u'{kind} file {uri} read succesfully',
             mapping={'kind': self.serialize_format, 'uri': uri},
@@ -209,7 +215,7 @@ class RDFProcessor(object):
         self.log.info(msg)
         self.log.info(u'Harvesting real run successfully')
 
-        return self.reap_logger()
+        return visitor.scribe.html_log()
 
     def top_nodes(self, visitor):
         """Find top nodes: Catalogs or datasets"""
@@ -281,6 +287,8 @@ class RDFProcessor(object):
                 level='info',
                 msg=u'{type} object {obj}: attribute {att}:= {val}',
                 val=i['o'],
+                obj=kwargs['rdf_node'],
+                type=kwargs['struct'].rdf_type,
             )
 
     def handle_dict(self, visitor, res, **kwargs):
@@ -298,6 +306,8 @@ class RDFProcessor(object):
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
                     val=i['o'],
                     att=field['predicate'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
                 )
             else:
                 obj_data[field_name][i['o1']] = unicode(i['o2'])
@@ -306,6 +316,8 @@ class RDFProcessor(object):
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
                     val=str(i['o1']) + ':' + str(i['o1']),
                     att=field['predicate'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
                 )
 
             visitor.end_node(**kwargs)
@@ -344,6 +356,8 @@ class RDFProcessor(object):
                     u'searching {imp} attribute {att}',
                 att=field['predicate'],
                 imp=field['importance'],
+                obj=kwargs['rdf_node'],
+                type=kwargs['struct'].rdf_type,
             )
             # query for an attibute
             query = QUERY_ATT
@@ -396,6 +410,8 @@ class RDFProcessor(object):
                         msg=u'{type} object {obj}: required '
                             u'attribute {att} not found',
                         att=field['predicate'],
+                        obj=kwargs['rdf_node'],
+                        type=kwargs['struct'].rdf_type,
                     )
                     params['status'] = NS_ERROR
                     visitor.end_node(**params)
@@ -406,6 +422,8 @@ class RDFProcessor(object):
                             u'attribute {att} not found',
                         att=field['predicate'],
                         imp=field['importance'],
+                        obj=kwargs['rdf_node'],
+                        type=kwargs['struct'].rdf_type,
                     )
                     params['status'] = NS_WARNING
                     visitor.end_node(**params)
@@ -426,6 +444,8 @@ class RDFProcessor(object):
                         msg=u'{type} object {obj}: '
                             u'attribute {att} to many values',
                         att=field['predicate'],
+                        obj=kwargs['rdf_node'],
+                        type=kwargs['struct'].rdf_type,
                     )
                     # Todo: Error handling
                     return
@@ -451,6 +471,8 @@ class RDFProcessor(object):
                         msg=u'{type} object {obj}: attribute {att}:= {val}',
                         val=obj_data[field_name],
                         att=field['predicate'],
+                        obj=kwargs['rdf_node'],
+                        type=kwargs['struct'].rdf_type,
                     )
 
     def contained(self, visitor, **kwargs):
@@ -474,6 +496,8 @@ class RDFProcessor(object):
                 level='info',
                 msg=u'{type} object {obj}: searching contained {att}',
                 att=field['predicate'],
+                obj=kwargs['rdf_node'],
+                type=kwargs['struct'].rdf_type,
             )
 
             # Query the RDF db. Subject is still the rdf_node
@@ -505,6 +529,8 @@ class RDFProcessor(object):
                     msg=u'Crawling to sub obj {obj} of type {type} '
                         u'attribute {att}',
                     att=field['predicate'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
                 )
 
     def crawl(
@@ -547,12 +573,16 @@ class RDFProcessor(object):
                 level='info',
                 msg=u'{type} dxobject {obj} created at {context}',
                 context=context.virtual_url_path(),
+                obj=rdf_node,
+                type=struct.rdf_type,
             )
         except RequiredPredicateMissing:
             visitor.scribe.write(
                 level='error',
                 msg=u'{type} dxobject {obj} cannot be created at {context}',
                 context=context.virtual_url_path(),
+                obj=rdf_node,
+                type=struct.rdf_type,
             )
             obj = None
             title = None
@@ -653,6 +683,9 @@ class RDFProcessor(object):
         self.top_nodes(visitor)
 
         self.log.info(u'Input data parsed successfully')
+
+        for line in visitor.scribe.read():
+            self.log.info(line)
 
         return visitor.to_cytoscape()
 

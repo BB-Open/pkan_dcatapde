@@ -3,7 +3,23 @@
 from datetime import datetime
 from pkan.dcatapde.structure.sparql import namespace_manager
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
+from plone.api.portal import translate
 from rdflib import URIRef
+
+
+LEVEL_COLOR = {
+    'info': 'green',
+    'warn': 'orange',
+    'error': 'red',
+}
+
+COLOR_MSG = u'<font color={color}>{msg}</font><div>{link}</div>'
+
+
+def short(uri):
+    """Shorten URI the ns-prefix and class"""
+    result = namespace_manager.normalizeUri(uri)
+    return result
 
 
 class Scribe(object):
@@ -30,6 +46,41 @@ class Scribe(object):
             except KeyError:
                 pass
             yield {'msg': msg, 'data': entry['data']}
+
+    def log(self):
+        for entry in self.data:
+            new_entry = entry.copy()
+            data = entry['data']
+            for item in data:
+                if isinstance(data[item], URIRef):
+                    new_entry['data'][item] = short(data[item])
+
+            try:
+                msg = translate(entry['log'], domain='pkan.dcatapde')
+                msg = str(entry['time']) + ':' + msg.format(
+                    time=entry['time'],
+                    level=entry['level'],
+                    **new_entry['data'])
+            except KeyError:
+                pass
+            yield msg, new_entry
+
+    def html_log(self):
+        result = []
+        for msg, entry in self.log():
+            link = u'<a class="context pat-plone-modal" ' \
+                   u'target="_blank" href="{uri}">Modify</a>'
+            color = LEVEL_COLOR[entry['level']]
+            color_msg = u'<font color={color}>{msg}</font>'
+            log_line = color_msg.format(
+                color=color,
+                msg=msg,
+                link=link.format(
+                    uri=u'http://localhost:8080/Plone6/harvester_preview',
+                ),
+            )
+            result.append(log_line)
+        return result
 
 # Node types
 NT_NORMAL = 'Normal'
