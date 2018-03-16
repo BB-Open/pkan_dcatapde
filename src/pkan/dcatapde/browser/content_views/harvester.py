@@ -21,6 +21,7 @@ class HarvesterListViewMixin(object):
             'graph_display': addTokenToUrl(path + '/graph'),
             'real_run': addTokenToUrl(path + '/real_run'),
             'reset_fields': addTokenToUrl(path + '/reset_fields'),
+            'harvester_entity': addTokenToUrl(path + '/harvester_entity'),
             'edit': addTokenToUrl(path + '/edit'),
         }
 
