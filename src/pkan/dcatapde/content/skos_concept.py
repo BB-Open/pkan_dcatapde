@@ -56,7 +56,7 @@ class SKOSConcept(Item, DCATMixin):
     dct_description = I18NTextProperty(ISKOSConcept['dct_description'])
 
     def Title(self):
-        return unicode(self.dct_title)
+        return self.title_from_title_field()
 
     def Description(self):
         return unicode(self.dct_description)

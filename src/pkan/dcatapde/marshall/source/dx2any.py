@@ -26,7 +26,10 @@ class DX2Any(object):
         """
         self.context = context
         self.marshall_target = marshall_target
-        self.structure = IStructure(self.context)
+        try:
+            self.structure = IStructure(self.context)
+        except TypeError:
+            pass
 
     def marshall_myself(self):
         """Marshall myself."""
@@ -77,7 +80,7 @@ class DX2Any(object):
     def marshall_references(self):
         """Marshall the referenced objects."""
         for item_name in self.structure.referenced:
-            uid = getattr(self.context, item_name)
+            uid = getattr(self.context, item_name, None)
             if not uid:
                 continue
             item = content.get(UID=uid)

@@ -238,7 +238,7 @@ class DCATDataset(Container, DCATMixin):
     adms_versionNotes = I18NTextProperty(IDCATDataset['adms_versionNotes'])
 
     def Title(self):
-        return unicode(self.dct_title)
+        return self.title_from_title_field()
 
     def Description(self):
         return unicode(self.dct_description)

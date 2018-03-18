@@ -11,6 +11,7 @@ from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.source_type.interfaces import IRDFTTL
@@ -22,24 +23,29 @@ from pkan.dcatapde.harvesting.source_type.visitors import NS_ERROR
 from pkan.dcatapde.harvesting.source_type.visitors import NS_WARNING
 from pkan.dcatapde.harvesting.source_type.visitors import NT_DEFAULT
 from pkan.dcatapde.harvesting.source_type.visitors import NT_DX_DEFAULT
+from pkan.dcatapde.harvesting.source_type.visitors import NT_RESIDUAL
 from pkan.dcatapde.harvesting.source_type.visitors import NT_SPARQL
+from pkan.dcatapde.harvesting.source_type.visitors import RealRunVisitor
 from pkan.dcatapde.harvesting.source_type.visitors import Scribe
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_ATT
+from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from plone.api import content
 from plone.api import portal
+from plone.api.exc import InvalidParameterError
 from plone.dexterity.utils import safe_unicode
 from plone.memoize import ram
 from pyparsing import ParseException
 from rdflib import Graph
-from rdflib.namespace import FOAF
 from rdflib.plugins.memory import IOMemory
 from rdflib.store import Store
+from rdflib.term import Literal
+from traceback import format_tb
 from xml.sax import SAXParseException
 from zope.annotation import IAnnotations
 from zope.component import adapter
@@ -47,6 +53,7 @@ from zope.interface import implementer
 
 import io
 import logging
+import sys
 import vkbeautify as vkb
 
 
@@ -187,36 +194,6 @@ class RDFProcessor(object):
         # and return return the log
         return log
 
-    def dry_run(self):
-        """Dry Run: Returns Log-Information.
-        """
-        # Just to have the posibility to reset
-        self.harvester._graph = None
-        self.harvester._rdfstore = None
-
-        self.log.info(u'starting harvestdry run')
-        uri = self.harvester.url
-
-        msg = _(
-            u'Reading {kind} file {uri}',
-            mapping={'kind': self.serialize_format, 'uri': uri},
-        )
-        self.log.info(msg)
-
-        visitor = DCATVisitor()
-
-        # start on the top nodes
-        self.top_nodes(visitor)
-
-        msg = _(
-            u'{kind} file {uri} read succesfully',
-            mapping={'kind': self.serialize_format, 'uri': uri},
-        )
-        self.log.info(msg)
-        self.log.info(u'Harvesting real run successfully')
-
-        return visitor.scribe.html_log()
-
     def top_nodes(self, visitor):
         """Find top nodes: Catalogs or datasets"""
         # check if we get a base object
@@ -249,7 +226,7 @@ class RDFProcessor(object):
 
         self.crawl(
             visitor,
-            context=self.context,
+            context=self.harvester,
             rdf_node=catalog,
             target_struct=self.struct_class,
         )
@@ -263,30 +240,33 @@ class RDFProcessor(object):
         field_name = kwargs['field_name']
         field = kwargs['field']
         context = kwargs['context']
+        predicate = field['predicate']
+        obj_class = field['object']
 
         obj_data[field_name] = []
         for i in res.bindings:
+            rdf_obj = i['o']
             # If the field is a Literal we simply store it.
-            if field['object'] == StructRDFSLiteral:
-                obj_data[field_name].append(i['o'])
-                visitor.end_node(**kwargs)
+            if obj_class == StructRDFSLiteral:
+                obj_data[field_name].append(literal2plone(rdf_obj, field))
+                visitor.end_node(predicate, obj_class, **kwargs)
 
             # if not we have to create a sub object recursively
             else:
-                node = visitor.end_node(**kwargs)
+                node = visitor.end_node(predicate, obj_class, **kwargs)
                 visitor.push_node(node)
                 sub = self.crawl(
                     visitor,
                     context=context,
-                    rdf_node=i['o'],
-                    target_struct=field['object'],
+                    rdf_node=rdf_obj,
+                    target_struct=obj_class,
                 )
-                obj_data[field_name].append(sub)
+                obj_data[field_name].append(sub.getId())
 
             visitor.scribe.write(
                 level='info',
                 msg=u'{type} object {obj}: attribute {att}:= {val}',
-                val=i['o'],
+                val=rdf_obj,
                 obj=kwargs['rdf_node'],
                 type=kwargs['struct'].rdf_type,
             )
@@ -295,16 +275,19 @@ class RDFProcessor(object):
         obj_data = kwargs['obj_data']
         field_name = kwargs['field_name']
         field = kwargs['field']
+        predicate = field['predicate']
+        obj_class = field['object']
 
         obj_data[field_name] = {}
         for i in res.bindings:
             # special handling of literals without language
             if not ('o1' in i):
+                rdf_obj = i['o']
                 obj_data[field_name][self.def_lang] = unicode(i['o'])
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
-                    val=i['o'],
+                    val=rdf_obj,
                     att=field['predicate'],
                     obj=kwargs['rdf_node'],
                     type=kwargs['struct'].rdf_type,
@@ -315,12 +298,12 @@ class RDFProcessor(object):
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
                     val=str(i['o1']) + ':' + str(i['o1']),
-                    att=field['predicate'],
+                    att=predicate,
                     obj=kwargs['rdf_node'],
                     type=kwargs['struct'].rdf_type,
                 )
 
-            visitor.end_node(**kwargs)
+            visitor.end_node(predicate, obj_class, **kwargs)
 
     def properties(self, visitor, **kwargs):
         """At first we run over the fields and references only, to collect
@@ -349,6 +332,8 @@ class RDFProcessor(object):
             field_name = kwargs['field_name']
             obj_data = kwargs['obj_data']
             context = kwargs['context']
+            predicate = field['predicate']
+            obj_class = field['object']
 
             visitor.scribe.write(
                 level='info',
@@ -362,20 +347,15 @@ class RDFProcessor(object):
             # query for an attibute
             query = QUERY_ATT
 
-            # query the entity manager for replacement entities
-            if kwargs['struct'].rdf_type == FOAF.Agent and \
-                    field_name == 'foaf_name':
-                pass
-
             params = kwargs.copy()
 
             token = kwargs['struct'].field2token(field_name, field)
             if token in self.mapping_dexterity:
                 uid = self.mapping_dexterity[token]
                 obj = content.get(UID=uid)
-                obj_data[field_name] = obj
+                obj_data[field_name] = uid
                 params['node_type'] = NT_DX_DEFAULT
-                node = visitor.end_node(**params)
+                node = visitor.end_node(predicate, obj_class, **params)
                 visitor.push_node(node)
                 self.crawl_dx(
                     visitor,
@@ -387,15 +367,14 @@ class RDFProcessor(object):
             if token in self.mapping_default:
                 obj_data[field_name] = self.mapping_default[token]
                 params['node_type'] = NT_DEFAULT
-                visitor.end_node(**params)
+                visitor.end_node(predicate, obj_class, **params)
                 return
 
             if token in self.mapping_sparql:
                 params['node_type'] = NT_SPARQL
                 query = self.mapping_sparql[token]
-            # Query the RDF db. Subject is the node we like
-            # to construct. Predicate
-            # is the attribute we like to find in the RDF
+            # Query the RDF db. Subject is the node we are on
+            # Predicate is the attribute we like to find in the RDF
             bindings = {
                 's': kwargs['rdf_node'],
                 'p': field['predicate'],
@@ -414,7 +393,7 @@ class RDFProcessor(object):
                         type=kwargs['struct'].rdf_type,
                     )
                     params['status'] = NS_ERROR
-                    visitor.end_node(**params)
+                    visitor.end_node(predicate, obj_class, **params)
                 else:
                     visitor.scribe.write(
                         level='warn',
@@ -426,7 +405,7 @@ class RDFProcessor(object):
                         type=kwargs['struct'].rdf_type,
                     )
                     params['status'] = NS_WARNING
-                    visitor.end_node(**params)
+                    visitor.end_node(predicate, obj_class, **params)
                 return
             else:
                 # dealing with list like fields
@@ -453,11 +432,12 @@ class RDFProcessor(object):
                 else:
                     # If the field is a Literal we simply store it.
                     if field['object'] == StructRDFSLiteral:
-                        obj_data[field_name] = res.bindings[0]['o']
-                        visitor.end_node(**params)
+                        val = literal2plone(res.bindings[0]['o'], field)
+                        obj_data[field_name] = val
+                        visitor.end_node(predicate, obj_class, **params)
                     # if not we have to create a sub object recursively
                     else:
-                        node = visitor.end_node(**params)
+                        node = visitor.end_node(predicate, obj_class, **params)
                         visitor.push_node(node)
                         sub = self.crawl(
                             visitor,
@@ -465,7 +445,7 @@ class RDFProcessor(object):
                             rdf_node=res.bindings[0]['o'],
                             target_struct=field['object'],
                         )
-                        obj_data[field_name] = sub
+                        obj_data[field_name] = sub.getId()
                     visitor.scribe.write(
                         level='info',
                         msg=u'{type} object {obj}: attribute {att}:= {val}',
@@ -475,6 +455,87 @@ class RDFProcessor(object):
                         type=kwargs['struct'].rdf_type,
                     )
 
+    def residuals(self, visitor, **kwargs):
+        """Here we look for rdf edges that are not in the DCAT-AP.de norm"""
+
+        subject = kwargs['rdf_node']
+        kwargs['node_type'] = NT_RESIDUAL
+
+        visitor.scribe.write(
+            level='info',
+            msg=u'{type} object {obj}: looking for residual properties',
+            obj=kwargs['rdf_node'],
+            type=kwargs['struct'].rdf_type,
+        )
+        # Query all predicates
+        query = QUERY_P
+        # Query the RDF db. Subject is the node we are on
+        # is the attribute we like to find in the RDF
+        bindings = {
+            's': subject,
+        }
+        results = self.graph.query(query, initBindings=bindings)
+
+        if len(results) > 0:
+            visitor.scribe.write(
+                level='info',
+                msg=u'{type} object {obj}: residual properties found',
+                obj=kwargs['rdf_node'],
+                type=kwargs['struct'].rdf_type,
+            )
+        else:
+            visitor.scribe.write(
+                level='info',
+                msg=u'{type} object {obj}: No residual properties found',
+                obj=kwargs['rdf_node'],
+                type=kwargs['struct'].rdf_type,
+            )
+
+        # Find the predicates we have already processed
+        field_and_references = kwargs['struct'].fields_and_referenced
+        dcat_predicates_values = field_and_references.values()
+        dcat_predicates = [i['predicate'] for i in dcat_predicates_values]
+        dcat_contained_values = kwargs['struct'].contained.values()
+        dcat_contained = [i['predicate'] for i in dcat_contained_values]
+        dcat_predicates += dcat_contained
+
+        # Handle the predicates we have missed
+        for result in results:
+            # if the result is already covered by dcat-ap.de pass
+            if result['p'] in dcat_predicates:
+                continue
+            self.residual(visitor, result, **kwargs)
+
+        visitor.pop_node()
+
+    def residual(self, visitor, predicate_object, **kwargs):
+        """Handle on residual"""
+
+        predicate = predicate_object['p']
+        rdf_obj = predicate_object['o']
+
+        # If the field is a Literal we simply store it.
+        if isinstance(rdf_obj, Literal):
+            val = literal2plone(rdf_obj)
+            visitor.end_node(predicate, rdf_obj, **kwargs)
+        # if not we have to create a sub object recursively
+        else:
+            params = kwargs.copy()
+            params['rdf_node'] = rdf_obj
+            node = visitor.end_node(predicate, rdf_obj, **kwargs)
+            visitor.push_node(node)
+            val = self.residuals(
+                visitor,
+                **params)
+        visitor.scribe.write(
+            level='info',
+            msg=u'{type} object {obj}: attribute {att}:= {val}',
+            val=val,
+            att=predicate,
+            obj=kwargs['rdf_node'],
+            type=kwargs['struct'].rdf_type,
+        )
+
     def contained(self, visitor, **kwargs):
         """At first we run over the fields and references only, to collect
         the data necessary to construct the CT instance.
@@ -483,7 +544,7 @@ class RDFProcessor(object):
 
         struct = kwargs['struct']
         rdf_node = kwargs['rdf_node']
-        obj = kwargs['obj']
+        context = kwargs['obj']
 
         # query for an attibute
         query = QUERY_ATT
@@ -492,10 +553,11 @@ class RDFProcessor(object):
             # Todo : query the entity mapper
             # if struct.rdf_type in self.harvester.mapper:
             #                query = self.harvester.mapper[struct.rdf_type]
+            predicate = field['predicate']
             visitor.scribe.write(
                 level='info',
                 msg=u'{type} object {obj}: searching contained {att}',
-                att=field['predicate'],
+                att=predicate,
                 obj=kwargs['rdf_node'],
                 type=kwargs['struct'].rdf_type,
             )
@@ -504,70 +566,85 @@ class RDFProcessor(object):
             # Predicate is the attribute we like to find in the RDF
             bindings = {
                 's': rdf_node,
-                'p': field['predicate'],
+                'p': predicate,
             }
             res = self.graph.query(query, initBindings=bindings)
 
             for i in res.bindings:
+                rdf_obj = i['o']
                 params = {
                     'field': field,
                     'field_name': field_name,
-                    'rdf_node': i['o'],
+                    'rdf_node': rdf_obj,
                     'struct': struct,
                 }
-                node = visitor.end_node(**params)
+                node = visitor.end_node(predicate, field['object'], **params)
                 visitor.push_node(node)
 
                 self.crawl(
                     visitor,
-                    context=obj,
-                    rdf_node=i['o'],
+                    context=context,
+                    rdf_node=rdf_obj,
                     target_struct=field['object'],
                 )
                 visitor.scribe.write(
                     level='info',
                     msg=u'Crawling to sub obj {obj} of type {type} '
                         u'attribute {att}',
-                    att=field['predicate'],
-                    obj=kwargs['rdf_node'],
-                    type=kwargs['struct'].rdf_type,
+                    att=predicate,
+                    obj=rdf_obj,
+                    type=struct.rdf_type,
                 )
 
-    def crawl(
+    def get_title(self, struct, obj_data):
+        # Find a title for the dxobject to be created
+        title = None
+        for title_field in struct.title_field:
+            try:
+                all_titles = obj_data[title_field]
+                if not all_titles:
+                    continue
+                if isinstance(all_titles, dict):
+                    title = unicode(all_titles.items()[0][1])
+                elif isinstance(all_titles, list):
+                    title = unicode(all_titles[0])
+                else:
+                    title = all_titles
+            except KeyError:
+                continue
+        if not title:
+            raise RequiredPredicateMissing
+        return title
+
+    def create_dx_obj(
         self,
         visitor,
-        target_struct=None,
-        context=None,
-        rdf_node=None,
+        struct,
+        context,
+        rdf_node,
+        obj_data,
+        title,
     ):
-        """Analyse the RDF structure"""
-
-        # Activate the struct
-        struct = target_struct(self.harvester)
-
-        # here we collect the data to generate our DX object
-        obj_data = {}
-
-        # Go for the properties of the current node
-        self.properties(
-            visitor,
-            context=context,
-            rdf_node=rdf_node,
-            struct=struct,
-            obj_data=obj_data,
-        )
-
+        # check if object should be created
+        if not visitor.real_run:
+            return None
         try:
             # Create an instance of the node as dexterity object
             try:
-                title = unicode(obj_data[struct.title_field].items()[0][1])
-            except KeyError:
-                raise RequiredPredicateMissing
-            obj = content.create(
-                context,
-                target_struct.portal_type,
-                title=title,
-                **obj_data)
+                obj = content.create(
+                    context,
+                    struct.portal_type,
+                    title=title,
+                    **obj_data)
+            # We are not allowed to create the content here
+            except InvalidParameterError:
+                # So we try it directly under the harvest
+                obj = content.create(
+                    self.harvester,
+                    struct.portal_type,
+                    title=title,
+                    **obj_data)
+
             obj.reindexObject()
             visitor.scribe.write(
                 level='info',
@@ -585,8 +662,59 @@ class RDFProcessor(object):
                 type=struct.rdf_type,
             )
             obj = None
-            title = None
 
+        return obj
+
+    def crawl(
+        self,
+        visitor,
+        target_struct=None,
+        context=None,
+        rdf_node=None,
+    ):
+        """Analyse the RDF structure"""
+
+        # Activate the struct
+        struct = target_struct(self.harvester)
+
+        # here we collect the data to generate our DX object
+        obj_data = {}
+
+        # set the original URI as rdf_about field:
+        obj_data['rdf_about'] = rdf_node
+
+        # Go for the DCAT-AP.de properties of the current node
+        self.properties(
+            visitor,
+            context=context,
+            rdf_node=rdf_node,
+            struct=struct,
+            obj_data=obj_data,
+        )
+
+        # # Find the edges that are not included in DCAT-Ap.de
+        # self.residuals(
+        #     visitor,
+        #     context=context,
+        #     rdf_node=rdf_node,
+        #     struct=struct,
+        #     obj_data=obj_data,
+        # )
+
+        # get a title for the dxobject
+        title = self.get_title(struct, obj_data)
+
+        # create the DX object
+        obj = self.create_dx_obj(
+            visitor,
+            struct,
+            context,
+            rdf_node,
+            obj_data,
+            title,
+        )
+
+        # deal with the contained objects
         self.contained(
             visitor,
             context=context,
@@ -595,8 +723,12 @@ class RDFProcessor(object):
             obj_data=obj_data,
             obj=obj,
         )
+
+        # end recursion
         node = visitor.pop_node()
+
         node.title = title
+
         return obj
 
     def crawl_dx(
@@ -612,35 +744,38 @@ class RDFProcessor(object):
         obj_data = {}
 
         for field_name, field in field_and_references.items():
-
+            predicate = field['predicate']
+            obj_class = field['object']
             params = {
                 'field': field,
                 'field_name': field_name,
                 'struct': target_struct,
             }
             # If the field is a Literal we simply store it.
-            if field['object'] == StructRDFSLiteral:
+            if obj_class == StructRDFSLiteral:
                 obj_data[field_name] = getattr(context, field_name)
-                visitor.end_node(**params)
+                visitor.end_node(predicate, obj_class, **params)
             # if not we have to create a sub object recursively
             else:
-                node = visitor.end_node(**params)
+                node = visitor.end_node(predicate, obj_class, **params)
                 visitor.push_node(node)
                 sub = self.crawl_dx(
                     visitor,
                     context=context,
-                    target_struct=field['object'],
+                    target_struct=obj_class,
                 )
                 obj_data[field_name] = sub
             visitor.scribe.write(
                 level='info',
-                msg=u'{type} object {obj}: attribute {att}:= {val}',
+                msg=u'{type} DX object {obj}: attribute {att}:= {val}',
                 val=obj_data[field_name],
-                att=field['predicate'],
+                att=predicate,
+                obj=context,
+                type=struct.rdf_type,
             )
 
         node = visitor.pop_node()
-        node.title = context.title
+        node.title = context.Title()
 
     def parse_dcat_data(self):
         """Parsing the data in respect to the dcat ap.de diagram
@@ -712,3 +847,63 @@ class RDFProcessor(object):
         if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
             preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
         return preview
+
+    def run(self, visitor):
+        """Dry Run: Returns Log-Information.
+        """
+        # Just to have the posibility to reset
+        self.harvester._graph = None
+        self.harvester._rdfstore = None
+
+        if visitor.real_run:
+            msg = u'starting harvest real run'
+        else:
+            msg = u'starting harvest dry run'
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+        )
+
+        uri = self.harvester.url
+
+        msg = _(u'Reading {kind} file {uri}')
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+            kind=self.serialize_format,
+            uri=uri,
+        )
+        try:
+            # start on the top nodes
+            self.top_nodes(visitor)
+        except Exception as e:
+            visitor.scribe.write(
+                level='error',
+                msg=e.__class__.__name__ + ': ' + str(e),
+            )
+            visitor.scribe.write(
+                level='error',
+                msg=format_tb(sys.exc_info()[2]),
+            )
+
+        msg = _(u'{kind} file {uri} read succesfully')
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+            kind=self.serialize_format,
+            uri=uri,
+        )
+        visitor.scribe.write(
+            level='info',
+            msg=u'Harvesting real run successfully',
+        )
+
+        return visitor.scribe.html_log()
+
+    def dry_run(self):
+        visitor = DCATVisitor()
+        return self.run(visitor)
+
+    def real_run(self):
+        visitor = RealRunVisitor()
+        return self.run(visitor)

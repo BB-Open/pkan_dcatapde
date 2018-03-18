@@ -125,7 +125,8 @@ class StructBase(object):
 
     # The content type this structure represents
     portal_type = None
-    title_field = 'dct_title'
+    # List of fields that can act as title for dx object creation
+    title_field = ['dct_title']
 
     # caching
     _fields_in_order = None
@@ -408,6 +409,7 @@ class StructDCATDistribution(StructBase):
 
     portal_type = CT_DCAT_DISTRIBUTION
     rdf_type = DCAT.Distribution
+    title_field = ['dct_title', 'dcat_accessURL']
 
     @property
     def referenced(self):
@@ -507,7 +509,7 @@ class StructFOAFAgent(StructBase):
 
     portal_type = CT_FOAF_AGENT
     rdf_type = FOAF.Agent
-    title_field = 'foaf_name'
+    title_field = ['foaf_name']
 
 
 @implementer(IStructure)

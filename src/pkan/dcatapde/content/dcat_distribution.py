@@ -145,7 +145,7 @@ class DCATDistribution(Container, DCATMixin):
     dcat_byteSize = I18NTextProperty(IDCATDistribution['dcat_byteSize'])
 
     def Title(self):
-        return unicode(self.dct_title)
+        return self.title_from_title_field()
 
     def Description(self):
         return unicode(self.dct_description)

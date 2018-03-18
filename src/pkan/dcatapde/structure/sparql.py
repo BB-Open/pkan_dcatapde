@@ -56,3 +56,14 @@ QUERY_A = prepareQuery(
     QUERY_A_STR,
     initNs=INIT_NS,
 )
+
+# Give me all predicates of the current subject
+QUERY_P_STR = u"""SELECT DISTINCT ?p ?o
+       WHERE {
+          ?s ?p ?o
+       }"""
+
+QUERY_P = prepareQuery(
+    QUERY_P_STR,
+    initNs=INIT_NS,
+)

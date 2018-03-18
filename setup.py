@@ -30,6 +30,7 @@ install_requires = [
     'vkbeautify',
     'zope.app.content',
     'psycopg2-binary',
+    'python-dateutil',
 ],
 
 test_requires = [

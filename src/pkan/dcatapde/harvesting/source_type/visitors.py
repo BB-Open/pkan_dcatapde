@@ -57,15 +57,30 @@ class Scribe(object):
                 if isinstance(data[item], URIRef):
                     new_entry['data'][item] = short(data[item])
 
-            try:
-                msg_trans = translate(entry['log'], domain='pkan.dcatapde')
-                msg = str(entry['time']) + ':' + msg_trans.format(
-                    time=entry['time'],
-                    level=entry['level'],
-                    **new_entry['data'])
-            except KeyError:
-                pass
-            yield msg, new_entry
+            # deal with log lines that are multiline like traces
+            if isinstance(entry['log'], list):
+                for line in entry['log']:
+                    try:
+                        msg_trans = translate(
+                            line,
+                            domain='pkan.dcatapde')
+                        msg = str(entry['time']) + ': ' + msg_trans.format(
+                            time=entry['time'],
+                            level=entry['level'],
+                            **new_entry['data'])
+                    except KeyError:
+                        pass
+                    yield msg, new_entry
+            else:
+                try:
+                    msg_trans = translate(entry['log'], domain='pkan.dcatapde')
+                    msg = str(entry['time']) + ': ' + msg_trans.format(
+                        time=entry['time'],
+                        level=entry['level'],
+                        **new_entry['data'])
+                except KeyError:
+                    pass
+                yield msg, new_entry
 
     def html_log(self):
         result = []
@@ -91,6 +106,7 @@ NT_DEFAULT = 'Default'
 NT_SPARQL = 'SPARQL'
 NT_DX_DEFAULT = 'DX default'
 NT_DX_LINK = 'DX link'
+NT_RESIDUAL = 'Residual'
 
 NODETYPE2SHAPE = {
     NT_NORMAL: 'rectangle',
@@ -98,6 +114,25 @@ NODETYPE2SHAPE = {
     NT_DX_DEFAULT: 'roundrectangle',
     NT_DX_LINK: 'roundrectangle',
     NT_SPARQL: 'roundrectangle',
+    NT_RESIDUAL: 'rectangle',
+}
+
+NODETYPE2BORDERCOLOR = {
+    NT_NORMAL: '#000000',
+    NT_DEFAULT: '#000000',
+    NT_DX_DEFAULT: '#000000',
+    NT_DX_LINK: '#000000',
+    NT_SPARQL: '#000000',
+    NT_RESIDUAL: '#FF0000',
+}
+
+NODETYPE2OPACITY = {
+    NT_NORMAL: 1,
+    NT_DEFAULT: 1,
+    NT_DX_DEFAULT: 1,
+    NT_DX_LINK: 1,
+    NT_SPARQL: 1,
+    NT_RESIDUAL: 0.3,
 }
 
 # Node status
@@ -185,7 +220,9 @@ class Node(Base):
         data = {}
         data['id'] = self.id
         if self.title:
-            data['title'] = self.short_title
+            rdf_type = self.structure.rdf_type
+            short_rdf_type = self.short(rdf_type)
+            data['title'] = short_rdf_type + ':\n' + self.short_title
         elif isinstance(self.structure, URIRef):
             rdf_type = self.structure
             data['title'] = self.short(rdf_type)
@@ -205,6 +242,8 @@ class Node(Base):
         data['pkbackgroundcolor'] = NODESTATUS2COLOR[status]
 
         data['pkshape'] = NODETYPE2SHAPE[self.node_type]
+        data['pkbordercolor'] = NODETYPE2BORDERCOLOR[self.node_type]
+        data['pkopacity'] = NODETYPE2OPACITY[self.node_type]
 
         if self.parent:
             data['parent'] = self.parent.id
@@ -259,6 +298,7 @@ class Edge(Base):
 class BaseVisitor(object):
     """Base visitor. Contains a graph consisting of nodes and edges
     as well as a scribe to generate meaningfull logs"""
+    real_run = False
 
     def __init__(self):
         self.nodes = {}
@@ -282,12 +322,12 @@ class BaseVisitor(object):
         self.nodes[node.id] = node
         return node
 
-    def end_node(self, **kwargs):
+    def end_node(self, predicate, obj, **kwargs):
         """Generate an edge and an Node"""
         # From the field we get the predicate and the object
-        field = kwargs['field']
-        predicate = field['predicate']
-        obj = field['object']
+#        field = kwargs['field']
+#        predicate = field['predicate']
+#        obj = field['object']
         # the status of the node
         if 'status' in kwargs:
             status = kwargs['status']
@@ -321,7 +361,7 @@ class BaseVisitor(object):
         else:
             # not a literal node so we build a node ..
             node = Node(
-                obj.rdf_type,
+                obj,
                 status=status,
                 duplicate=is_duplicate,
                 node_type=node_type,
@@ -375,26 +415,32 @@ class DCATVisitor(BaseVisitor):
         """Todo this call should give the entity mapping for the node"""
         return None
 
-    def end_node(self, **kwargs):
+    def end_node(self, predicate, obj, **kwargs):
         """Determine if the node was already seen"""
         # Find subject, predicate, object
         struct = kwargs['struct']
         subject = self.short(struct.rdf_type)
-        predicate = self.short(kwargs['field']['predicate'])
-        obj_struct = kwargs['field']['object']
-        obj = self.short(obj_struct)
+        predicate = self.short(predicate)
+        short_obj = self.short(obj)
         # build a uid for the triple
         uid = '_'.join([
             subject,
             predicate,
-            obj,
+            short_obj,
         ])
         # check if triple already has been seen then mark
         # the edge and node as duplicates
         if uid in self.node_uids:
-            return super(DCATVisitor, self).end_node(duplicate=True, **kwargs)
+            return super(DCATVisitor, self).end_node(
+                predicate,
+                obj,
+                duplicate=True,
+                **kwargs)
         else:
-            return super(DCATVisitor, self).end_node(**kwargs)
+            return super(DCATVisitor, self).end_node(
+                predicate,
+                obj,
+                **kwargs)
 
     def to_cytoscape(self):
         nodes = []
@@ -412,3 +458,9 @@ class DCATVisitor(BaseVisitor):
 
 class InputVisitor(BaseVisitor):
     """Vistor for Input data"""
+
+
+class RealRunVisitor(BaseVisitor):
+    """Vistor for Input data"""
+
+    real_run = True
