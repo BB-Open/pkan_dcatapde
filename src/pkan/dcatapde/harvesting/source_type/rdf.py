@@ -88,14 +88,14 @@ class RDFProcessor(object):
         # remember the harvester
         self.harvester = harvester
         # look if we have a harvesting type adapter
-        try:
-            self.harvesting_type = \
-                self.harvester.harvesting_type(self.harvester)
-        except TypeError:
-            self.harvesting_type = None
+        # try:
+        #     self.harvesting_type = \
+        #         self.harvester.harvesting_type(self.harvester)
+        # except TypeError:
+        #     self.harvesting_type = None
 
         # fetch the preprocessor adapter
-        self.data_cleaner = self.harvester.data_cleaner(self.harvester)
+        # self.data_cleaner = self.harvester.data_cleaner(self.harvester)
         self.cleaned_data = None
         # self.field_config = get_field_config(self.harvester)
         self.context = portal.get()
