@@ -445,7 +445,10 @@ class RDFProcessor(object):
                             rdf_node=res.bindings[0]['o'],
                             target_struct=field['object'],
                         )
-                        obj_data[field_name] = sub.getId()
+                        if sub:
+                            obj_data[field_name] = sub.getId()
+                        else:
+                            obj_data[field_name] = None
                     visitor.scribe.write(
                         level='info',
                         msg=u'{type} object {obj}: attribute {att}:= {val}',
@@ -628,41 +631,31 @@ class RDFProcessor(object):
         # check if object should be created
         if not visitor.real_run:
             return None
+
+        # Create an instance of the node as dexterity object
         try:
-            # Create an instance of the node as dexterity object
-            try:
-                obj = content.create(
-                    context,
-                    struct.portal_type,
-                    title=title,
-                    **obj_data)
-            # We are not allowed to create the content here
-            except InvalidParameterError:
-                # So we try it directly under the harvest
-                obj = content.create(
-                    self.harvester,
-                    struct.portal_type,
-                    title=title,
-                    **obj_data)
+            obj = content.create(
+                context,
+                struct.portal_type,
+                title=title,
+                **obj_data)
+        # We are not allowed to create the content here
+        except InvalidParameterError:
+            # So we try it directly under the harvest
+            obj = content.create(
+                self.harvester,
+                struct.portal_type,
+                title=title,
+                **obj_data)
 
-            obj.reindexObject()
-            visitor.scribe.write(
-                level='info',
-                msg=u'{type} dxobject {obj} created at {context}',
-                context=context.virtual_url_path(),
-                obj=rdf_node,
-                type=struct.rdf_type,
-            )
-        except RequiredPredicateMissing:
-            visitor.scribe.write(
-                level='error',
-                msg=u'{type} dxobject {obj} cannot be created at {context}',
-                context=context.virtual_url_path(),
-                obj=rdf_node,
-                type=struct.rdf_type,
-            )
-            obj = None
-
+        obj.reindexObject()
+        visitor.scribe.write(
+            level='info',
+            msg=u'{type} dxobject {obj} created at {context}',
+            context=context.virtual_url_path(),
+            obj=rdf_node,
+            type=struct.rdf_type,
+        )
         return obj
 
     def crawl(
@@ -701,18 +694,33 @@ class RDFProcessor(object):
         #     obj_data=obj_data,
         # )
 
-        # get a title for the dxobject
-        title = self.get_title(struct, obj_data)
+        try:
+            # get a title for the dxobject
+            title = self.get_title(struct, obj_data)
 
-        # create the DX object
-        obj = self.create_dx_obj(
-            visitor,
-            struct,
-            context,
-            rdf_node,
-            obj_data,
-            title,
-        )
+            # create the DX object
+            obj = self.create_dx_obj(
+                visitor,
+                struct,
+                context,
+                rdf_node,
+                obj_data,
+                title,
+            )
+        except RequiredPredicateMissing:
+            if context:
+                context_url = context.virtual_url_path()
+            else:
+                context_url = '/'
+            visitor.scribe.write(
+                level='error',
+                msg=u'{type} dxobject {obj} cannot be created at {context}',
+                context=context_url,
+                obj=rdf_node,
+                type=struct.rdf_type,
+            )
+            obj = None
+            title = None
 
         # deal with the contained objects
         self.contained(
