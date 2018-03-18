@@ -7,6 +7,7 @@ from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_DCT_LOCATION
 from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
+from pkan.dcatapde.constants import CT_DCT_RIGHTSSTATEMENT
 from pkan.dcatapde.constants import CT_DCT_STANDARD
 from pkan.dcatapde.constants import CT_FOAF_AGENT
 from pkan.dcatapde.constants import CT_RDFS_LITERAL
@@ -333,7 +334,7 @@ class StructDCATCatalog(StructBase):
             'target': DCT.LicenseDocument,
         }
         related['dct_rights'] = {
-            'object': StructDCTRightsstatement,
+            'object': StructDCTRightsStatement,
             'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.rights,
@@ -387,7 +388,7 @@ class StructDCATDataset(StructBase):
             'target': FOAF.Agent,
         }
         related['dct_rights'] = {
-            'object': StructDCTRightsstatement,
+            'object': StructDCTRightsStatement,
             'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.accessRights,
@@ -448,7 +449,7 @@ class StructDCATDistribution(StructBase):
             'target': DCT.Standard,
         }
         related['dct_rights'] = {
-            'object': StructDCTRightsstatement,
+            'object': StructDCTRightsStatement,
             'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.rights,
@@ -495,10 +496,10 @@ class StructDCTStandard(StructBase):
 
 @implementer(IStructure)
 @adapter(IDCTRightsStatement)
-class StructDCTRightsstatement(StructBase):
+class StructDCTRightsStatement(StructBase):
     """Structure definition of dct:RightsStatement"""
 
-    portal_type = CT_DCT_STANDARD
+    portal_type = CT_DCT_RIGHTSSTATEMENT
     rdf_type = DCT.RightsStatement
 
 

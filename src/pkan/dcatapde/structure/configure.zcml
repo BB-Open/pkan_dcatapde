@@ -10,6 +10,12 @@
   />
 
   <adapter
+    factory=".structure.StructDCATCatalog"
+    for="pkan.dcatapde.content.dcat_catalog.IDCATCatalog"
+    provides=".interfaces.IStructure"
+  />
+
+  <adapter
     factory=".structure.StructDCATDataset"
     for="pkan.dcatapde.content.dcat_dataset.IDCATDataset"
     provides=".interfaces.IStructure"
@@ -18,12 +24,6 @@
   <adapter
     factory=".structure.StructDCATDistribution"
     for="pkan.dcatapde.content.dcat_distribution.IDCATDistribution"
-    provides=".interfaces.IStructure"
-  />
-
-  <adapter
-    factory=".structure.StructDCATCatalog"
-    for="pkan.dcatapde.content.dcat_catalog.IDCATCatalog"
     provides=".interfaces.IStructure"
   />
 
@@ -48,6 +48,12 @@
   <adapter
     factory=".structure.StructDCTStandard"
     for="pkan.dcatapde.content.dct_standard.IDCTStandard"
+    provides=".interfaces.IStructure"
+  />
+
+  <adapter
+    factory=".structure.StructDCTRightsStatement"
+    for="pkan.dcatapde.content.dct_rightsstatement.IDCTRightsStatement"
     provides=".interfaces.IStructure"
   />
 
