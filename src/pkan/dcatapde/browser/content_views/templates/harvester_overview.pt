@@ -17,7 +17,7 @@
                   <td i18n:translate="">Dry Run</td>
                   <td i18n:translate="">Graph Display</td>
                   <td i18n:translate="">Real Run</td>
-                  <td i18n:translate="">Reset Fields</td>
+                  <!--<td i18n:translate="">Reset Fields</td>-->
                   <td i18n:translate="">Harvester Entity Mapping</td>
                 </tr>
             </thead>
@@ -35,8 +35,8 @@
                            tal:attributes="href harv/graph_display">Graph Display</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/real_run">Real Run</a></td>
-                    <td><a i18n:translate=""
-                           tal:attributes="href harv/reset_fields">Reset Fields</a></td>
+                    <!--<td><a i18n:translate=""
+                           tal:attributes="href harv/reset_fields">Reset Fields</a></td>-->
                     <td><a i18n:translate=""
                            tal:attributes="href harv/harvester_entity">Harvester Entity Mapping</a></td>
                 </tr>
