@@ -42,31 +42,31 @@ class IHarvester(model.Schema):
         description=i18n.HELP_BASE_OBJECT,
     )
 
-    harvesting_type = schema.Choice(
-        # Todo: reset to true when new adapter are added
-        required=False,
-        title=_(u'Harvesting target'),
-        description=_(
-            u'The Harvesting target chooses the output processor for the '
-            u'harvested data. Here one can chose if the imported triples were '
-            u'added to common catalogs section (default), or if the '
-            u'harvested data is a controlled vacabulary e.g. Licenses from '
-            u'dcat-ap.de that should be imported into the licenses folder'
-            u'Not yet implemented! Choose "default"!',
-        ),
-        vocabulary='pkan.dcatapde.HarvestingVocabulary',
-    )
+    # harvesting_type = schema.Choice(
+    #     # Todo: reset to true when new adapter are added
+    #     required=False,
+    #     title=_(u'Harvesting target'),
+    #     description=_(
+    #         u'The Harvesting target chooses the output processor for the '
+    #         u'harvested data.Here one can chose if the imported triples were'
+    #         u' added to common catalogs section (default), or if the '
+    #         u'harvested data is a controlled vacabulary e.g. Licenses from '
+    #         u'dcat-ap.de that should be imported into the licenses folder'
+    #         u'Not yet implemented! Choose "default"!',
+    #     ),
+    #     vocabulary='pkan.dcatapde.HarvestingVocabulary',
+    # )
 
-    data_cleaner = schema.Choice(
-        required=True,
-        title=_(u'Processor/Filter'),
-        description=_(
-            u'The processor depends on the sematic of the data and may be '
-            u'specific to a certain data provider or data format e.g. OGD.'
-            u'Currently only "PotsdamCleaner" is available.',
-        ),
-        vocabulary='pkan.dcatapde.DataCleanerVocabulary',
-    )
+    # data_cleaner = schema.Choice(
+    #     required=True,
+    #     title=_(u'Processor/Filter'),
+    #     description=_(
+    #         u'The processor depends on the sematic of the data and may be '
+    #         u'specific to a certain data provider or data format e.g. OGD.'
+    #         u'Currently only "PotsdamCleaner" is available.',
+    #     ),
+    #     vocabulary='pkan.dcatapde.DataCleanerVocabulary',
+    # )
 
     source_type = schema.Choice(
         required=True,
