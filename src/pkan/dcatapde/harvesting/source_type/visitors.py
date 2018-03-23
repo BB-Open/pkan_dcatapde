@@ -104,7 +104,7 @@ class Node(Base):
         parent=None,
         duplicate=False,
     ):
-        self.id = 'n:'+str(self.counter)
+        self.id = 'n:' + str(self.counter)
         Node.counter += 1
 
         self.structure = structure
@@ -171,7 +171,7 @@ class Edge(Base):
     counter = 0
 
     def __init__(self, source, target, title=None, duplicate=False):
-        self.id = 'e:'+str(self.counter)
+        self.id = 'e:' + str(self.counter)
         Edge.counter += 1
         if title:
             self.title = title
@@ -312,10 +312,7 @@ class DCATVisitor(BaseVisitor):
     def end_node(self, **kwargs):
         """Determine if the node was already seen"""
         # Find subject, predicate, object
-        try:
-            struct = kwargs['struct']
-        except:
-            pass
+        struct = kwargs['struct']
         subject = self.short(struct.rdf_type)
         predicate = self.short(kwargs['field']['predicate'])
         obj_struct = kwargs['field']['object']

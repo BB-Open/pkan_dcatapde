@@ -132,7 +132,10 @@ LABEL_ADMS_VERSIONNOTES = _(u'Version Notes')
 LABEL_BASE_OBJECT = _(u'Base Object')
 LABEL_DCAT_ACCESSURL = _(u'Access URL')
 LABEL_DCAT_BYTESIZE = _(u'Byte size')
+LABEL_DCAT_CATALOG = _(u'Catalog')
+LABEL_DCAT_DATASET = _(u'Dataset')
 LABEL_DCAT_DOWNLOADURL = _(u'Download URL')
+LABEL_DCAT_DISTRIBUTION = _(u'Distribution')
 LABEL_DCAT_MEDIATYPE = _(u'Media type')
 LABEL_DCATDE_CONTRIBUTORID = _(u'Contributor ID')
 LABEL_DCATDE_GEOCODINGTEXT = _(u'Geocoding text')
@@ -155,12 +158,18 @@ LABEL_DCT_ISPARTOF = _(u'Parent Catalog')
 LABEL_DCT_ISSUED = _(u'Issued')
 LABEL_DCT_LANGUAGE = _(u'Languages')
 LABEL_DCT_LICENSE = _(u'License')
+LABEL_DCT_LICENSEDOCUMENT = _(u'License Document')
+LABEL_DCT_LOCATION = _(u'Location')
 LABEL_DCT_MODIFIED = _(u'Modified')
+LABEL_DCT_MEDIATYPEOREXTENT = _(u'Mediatype')
 LABEL_DCT_PUBLISHER = _(u'Publisher')
 LABEL_DCT_RIGHTS = _(u'Rights')
+LABEL_DCT_RIGHTSSTATEMENT = _(u'Rights statement')
 LABEL_DCT_SPATIAL = _(u'Spatial relevance')
+LABEL_DCT_STANDARD = _(u'Standard')
 LABEL_DCT_THEMETAXONOMY = _(u'Theme Taxonomy')
 LABEL_DCT_TITLE = _(u'Title')
+LABEL_FOAF_AGENT = _(u'Agent')
 LABEL_FOAF_HOMEPAGE = _(u'Homepage')
 LABEL_FOAF_LANDINGPAGE = _(u'Landing page')
 LABEL_FOAF_PAGE = _(u'Page')
@@ -170,9 +179,14 @@ LABEL_FOLDER_LICENSES = _(u'Folder containing licenses')
 LABEL_FOLDER_LOCATIONS = _(u'Folder containing locations')
 LABEL_FOLDER_PUBLISHERS = _(u'Folder containing publishers')
 LABEL_FOLDER_STANDARDS = _(u'Folder containing standards')
+LABEL_HARVESTER = _(u'Harvester')
+LABEL_HARVESTER_FOLDER = _(u'Harvester folder')
 LABEL_OWL_VERSIONINFO = _(u'Version info')
 LABEL_RDF_ABOUT = _(u'Access URI')
+LABEL_RDFS_LITERAL = _(u'Literal')
 LABEL_RDFS_ISDEFINEDBY = _(u'Definition URI')
+LABEL_SKOS_CONCEPT = _(u'SCOS concept')
+LABEL_SKOS_CONCEPTSCHEME = _(u'SCOS concept scheme')
 LABEL_SETTINGS_BASE = _(u'PKAN Base Settings')
 LABEL_SETTINGS_FOLDERS = _(u'PKAN Folder Settings')
 LABEL_SETTINGS_IMPORTS = _(u'PKAN Import Settings')
@@ -184,3 +198,21 @@ LABEL_URL = _(u'URL')
 STATUS_REGISTRY_UPDATED = _(
     u'Registry has been updated. Please reload this page.',
 )
+
+# Content type labels
+CT_LABELS = {
+    constants.CT_DCAT_CATALOG: LABEL_DCAT_CATALOG,
+    constants.CT_DCAT_DATASET: LABEL_DCAT_DATASET,
+    constants.CT_DCAT_DISTRIBUTION: LABEL_DCAT_DISTRIBUTION,
+    constants.CT_DCT_LICENSEDOCUMENT: LABEL_DCT_LICENSEDOCUMENT,
+    constants.CT_DCT_LOCATION: LABEL_DCT_LOCATION,
+    constants.CT_DCT_MEDIATYPEOREXTENT: LABEL_DCT_MEDIATYPEOREXTENT,
+    constants.CT_DCT_RIGHTSSTATEMENT: LABEL_DCT_RIGHTSSTATEMENT,
+    constants.CT_DCT_STANDARD: LABEL_DCT_STANDARD,
+    constants.CT_FOAF_AGENT: LABEL_FOAF_AGENT,
+    constants.CT_HARVESTER: LABEL_HARVESTER,
+    constants.CT_HARVESTER_FOLDER: LABEL_HARVESTER_FOLDER,
+    constants.CT_RDFS_LITERAL: LABEL_RDFS_LITERAL,
+    constants.CT_SKOS_CONCEPT: LABEL_SKOS_CONCEPT,
+    constants.CT_SKOS_CONCEPTSCHEME: LABEL_SKOS_CONCEPTSCHEME,
+}
