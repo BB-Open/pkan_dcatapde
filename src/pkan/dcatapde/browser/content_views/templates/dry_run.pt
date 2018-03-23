@@ -24,8 +24,7 @@
         <div>
             <p i18n:translate="">Log:</p>
             <div tal:repeat="entry view/log">
-              <div tal:content="entry/msg"/>
-              <div tal:content="entry/data"/>
+              <div tal:content="structure entry"/>
             </div>
         </div>
 

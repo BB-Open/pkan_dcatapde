@@ -33,7 +33,7 @@ from zope.schema.fieldproperty import FieldProperty
 class IHarvesterSingleSchema(model.Schema):
 
     destination = schema.Choice(
-        required=True,
+        required=False,
         title=_(u'Destination'),
         source=DcatFieldVocabulary(),
     )
@@ -181,10 +181,11 @@ class IHarvesterMultiSchema(model.Schema):
     fields = schema.List(
         title=_('Select your fields'),
         value_type=schema.Object(
-            required=True,
+            required=False,
             title=_(u'Query'),
             schema=IHarvesterSingleSchema,
         ),
+        required=False,
     )
 
 
@@ -251,13 +252,14 @@ class HarvesterMultiEntityForm(edit.DefaultEditForm):
         dexterity = {}
         default = {}
 
-        for obj in data['fields']:
-            if obj.query:
-                sparql[obj.destination] = obj.query
-            if obj.dext_object:
-                dexterity[obj.destination] = obj.dext_object
-            if obj.default:
-                default[obj.destination] = obj.default
+        if data['fields']:
+            for obj in data['fields']:
+                if obj.query:
+                    sparql[obj.destination] = obj.query
+                if obj.dext_object:
+                    dexterity[obj.destination] = obj.dext_object
+                if obj.default:
+                    default[obj.destination] = obj.default
 
         annotations[HARVESTER_ENTITY_KEY] = sparql
         annotations[HARVESTER_DEXTERITY_KEY] = dexterity

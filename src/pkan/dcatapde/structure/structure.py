@@ -7,6 +7,7 @@ from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_DCT_LOCATION
 from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
+from pkan.dcatapde.constants import CT_DCT_RIGHTSSTATEMENT
 from pkan.dcatapde.constants import CT_DCT_STANDARD
 from pkan.dcatapde.constants import CT_FOAF_AGENT
 from pkan.dcatapde.constants import CT_RDFS_LITERAL
@@ -125,7 +126,8 @@ class StructBase(object):
 
     # The content type this structure represents
     portal_type = None
-    title_field = 'dct_title'
+    # List of fields that can act as title for dx object creation
+    title_field = ['dct_title']
 
     # caching
     _fields_in_order = None
@@ -225,6 +227,22 @@ class StructBase(object):
 
         return self._fields_objects_required
 
+    def field2token(self, field_name, field, importance=None):
+        """Calculate a token for the vocab terms and the parser"""
+        if not importance:
+            importance = field['importance']
+        if importance == IMP_REQUIRED:
+            token = '{CT}__{field_name}__required'.format(
+                CT=self.portal_type,
+                field_name=field_name,
+            )
+        else:
+            token = '{CT}__{field_name}'.format(
+                CT=self.portal_type,
+                field_name=field_name,
+            )
+        return token
+
     @property
     def vocab_terms(self):
         """Terms for a vocabulary. The tokens hold the subjects CT,
@@ -244,10 +262,6 @@ class StructBase(object):
                         u'CT': u'{0}'.format(self.portal_type),
                     },
                 )
-                token = '{CT}__{field_name}__required'.format(
-                    CT=self.portal_type,
-                    field_name=field_name,
-                )
             else:
                 title = _(
                     u'${CT}=>${field_name}',
@@ -256,10 +270,11 @@ class StructBase(object):
                         u'CT': u'{0}'.format(self.portal_type),
                     },
                 )
-                token = '{CT}__{field_name}'.format(
-                    CT=self.portal_type,
-                    field_name=field_name,
-                )
+
+            token = self.field2token(
+                field_name,
+                self.fields_and_referenced[field_name],
+            )
 
             title = translate(
                 title,
@@ -319,7 +334,7 @@ class StructDCATCatalog(StructBase):
             'target': DCT.LicenseDocument,
         }
         related['dct_rights'] = {
-            'object': StructDCTRightsstatement,
+            'object': StructDCTRightsStatement,
             'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.rights,
@@ -373,7 +388,7 @@ class StructDCATDataset(StructBase):
             'target': FOAF.Agent,
         }
         related['dct_rights'] = {
-            'object': StructDCTRightsstatement,
+            'object': StructDCTRightsStatement,
             'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.accessRights,
@@ -395,6 +410,7 @@ class StructDCATDistribution(StructBase):
 
     portal_type = CT_DCAT_DISTRIBUTION
     rdf_type = DCAT.Distribution
+    title_field = ['dct_title', 'dcat_accessURL']
 
     @property
     def referenced(self):
@@ -418,11 +434,11 @@ class StructDCATDistribution(StructBase):
             'predicate': str(DCT) + u'/format',
             'target': DCT.MediaTypeOrExtent,
         }
-        related['dct_mediaType'] = {
+        related['dcat_mediaType'] = {
             'object': StructDCTMediaTypeOrExtent,
             'importance': IMP_OPTIONAL,
             'type': str,
-            'predicate': DCT.mediatype,
+            'predicate': DCAT.mediatype,
             'target': DCT.MediaTypeOrExtent,
         }
         related['dct_conformsTo'] = {
@@ -433,7 +449,7 @@ class StructDCATDistribution(StructBase):
             'target': DCT.Standard,
         }
         related['dct_rights'] = {
-            'object': StructDCTRightsstatement,
+            'object': StructDCTRightsStatement,
             'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.rights,
@@ -480,10 +496,10 @@ class StructDCTStandard(StructBase):
 
 @implementer(IStructure)
 @adapter(IDCTRightsStatement)
-class StructDCTRightsstatement(StructBase):
+class StructDCTRightsStatement(StructBase):
     """Structure definition of dct:RightsStatement"""
 
-    portal_type = CT_DCT_STANDARD
+    portal_type = CT_DCT_RIGHTSSTATEMENT
     rdf_type = DCT.RightsStatement
 
 
@@ -494,7 +510,7 @@ class StructFOAFAgent(StructBase):
 
     portal_type = CT_FOAF_AGENT
     rdf_type = FOAF.Agent
-    title_field = 'foaf_name'
+    title_field = ['foaf_name']
 
 
 @implementer(IStructure)

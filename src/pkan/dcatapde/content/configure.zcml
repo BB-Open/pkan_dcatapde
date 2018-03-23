@@ -189,4 +189,7 @@
       provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
+  <!-- RDFS_LITERAL -->
+  <!-- =============== -->
+
 </configure>

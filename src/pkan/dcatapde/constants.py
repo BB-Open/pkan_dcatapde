@@ -84,7 +84,7 @@ FOLDER_PUBLISHERS = 'publishers'
 FOLDER_STANDARDS = 'standards'
 
 #: Default folder shortname for standards.
-FOLDER_RIGHTS = 'rightsf'
+FOLDER_RIGHTS = 'rightsfolder'
 
 
 # Location of vocabulary sources
@@ -140,6 +140,7 @@ MAX_QUERY_PREVIEW_LENGTH = 1000
 
 FIELD_BLACKLIST = [
     'exclude_from_nav',
+    'changeNode',
 ]
 
 # Harvester Annotation Key to store harvester_entity

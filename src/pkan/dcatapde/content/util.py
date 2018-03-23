@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Utils"""
-from pkan.dcatapde.structure.interfaces import IStructure
 from plone.api import portal
 from plone.app.content.interfaces import INameFromTitle
 from zope.interface import implementer
@@ -27,11 +26,7 @@ class NameFromDCTTitle(object):
     @property
     def title(self):
         # find the title field of the content object
-        struct = IStructure(self.context)
-        try:
-            title_field = getattr(self.context, struct.title_field)
-        except AttributeError:
-            return ''
+        title_field = self.context.Title()
         # if the title field is already unicode use it
         if isinstance(title_field, unicode):
             return title_field

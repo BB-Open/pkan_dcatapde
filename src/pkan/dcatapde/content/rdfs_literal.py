@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """RDFliteral Content Type."""
 
+from datetime import date
+from datetime import datetime
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
@@ -10,6 +12,8 @@ from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope.interface import implementer
+
+import dateutil
 
 
 class IRDFSLiteral(model.Schema, IDCAT):
@@ -35,4 +39,28 @@ class RDFLiteral(Item, DCATMixin):
     dct_title = I18NTextProperty(IRDFSLiteral['dct_title'])
 
     def Title(self):
-        return unicode(self.dct_title)
+        return self.title_from_title_field()
+
+
+def literal2plone(literal, field=None):
+    val = literal.toPython()
+    # if no field specified we can only convert to
+    # python and hope
+    if not field:
+        return val
+    # If we have a field supplied we can make assumptions
+    if field['type'] == date:
+        if isinstance(val, basestring):
+            val = dateutil.parser.parse(val)
+        if isinstance(val, date):
+            return val
+        if isinstance(val, datetime):
+            return val.date
+    elif field['type'] == datetime:
+        if isinstance(val, basestring):
+            val = dateutil.parser.parse(val)
+        return val
+    else:
+        val = literal.toPython()
+
+    return val

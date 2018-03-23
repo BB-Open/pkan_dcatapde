@@ -31,7 +31,7 @@ class IDCTRightsStatement(model.Schema, IDCAT):
     )
 
     rdfs_isDefinedBy = schema.URI(
-        required=True,
+        required=False,
         title=i18n.LABEL_RDFS_ISDEFINEDBY,
     )
 
@@ -54,7 +54,7 @@ class DCTRightsStatement(Item, DCATMixin):
     dct_description = I18NTextProperty(IDCTRightsStatement['dct_description'])
 
     def Title(self):
-        return unicode(self.dct_title)
+        return self.title_from_title_field()
 
     def Description(self):
         return unicode(self.dct_description)

@@ -41,7 +41,7 @@ url = 'https://opendata.potsdam.de/api/v2/catalog/exports/' \
 
 rdfstore = IOMemory()
 graph = Graph(rdfstore)
-graph.load(url)
+graph.parse(source=url)
 
 res_dict = {}
 

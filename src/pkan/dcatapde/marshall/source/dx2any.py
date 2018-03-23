@@ -4,6 +4,7 @@
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.structure.structure import IStructure
 from plone.api import content
+from plone.app.contenttypes.behaviors.collection import ICollection
 from zope.component import adapter
 from zope.component import queryMultiAdapter
 from zope.interface import implementer
@@ -26,7 +27,10 @@ class DX2Any(object):
         """
         self.context = context
         self.marshall_target = marshall_target
-        self.structure = IStructure(self.context)
+        try:
+            self.structure = IStructure(self.context)
+        except TypeError:
+            pass
 
     def marshall_myself(self):
         """Marshall myself."""
@@ -77,10 +81,12 @@ class DX2Any(object):
     def marshall_references(self):
         """Marshall the referenced objects."""
         for item_name in self.structure.referenced:
-            uid = getattr(self.context, item_name)
+            uid = getattr(self.context, item_name, None)
             if not uid:
                 continue
             item = content.get(UID=uid)
+            if not item:
+                continue
             referenced_marshaller = queryMultiAdapter(
                 (item, self.marshall_target),
                 interface=IMarshallSource,
@@ -95,12 +101,37 @@ class DX2Any(object):
                     referenced_marshaller.resource,
                 )
 
+    def marshall_collection(self):
+        """Get content from the collection behavior and marshall it"""
+        collection = ICollection(self.context)
+        for entry in collection.results():
+            item = entry.getObject()
+            collection_marshaller = queryMultiAdapter(
+                (item, self.marshall_target),
+                interface=IMarshallSource,
+                default=DX2Any(item, self.marshall_target),
+            )
+            if collection_marshaller:
+                collection_marshaller.marshall()
+                rdf_type = IStructure(item).rdf_type
+                self.marshall_target.set_link(
+                    self.resource,
+                    rdf_type,
+                    collection_marshaller.resource,
+                )
+
     def marshall(self):
         """Marshall properties, contained items and related items."""
         self.marshall_myself()
         self.marshall_properties()
         self.marshall_references()
         self.marshall_contained()
+        # Todo : find better check
+        try:
+            ICollection(self.context)
+            self.marshall_collection()
+        except TypeError:
+            pass
         self.resource.update()
         self.resource.save()
 
