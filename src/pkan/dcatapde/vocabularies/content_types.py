@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 """Vocabularies and sources for content types."""
-
+from BTrees._IIBTree import intersection
 from pkan.dcatapde import constants
 from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.i18n import CT_LABELS
 from pkan.dcatapde.vocabularies import utils
 from plone import api
+from plone.app.vocabularies.catalog import KeywordsVocabulary
+from plone.app.vocabularies.terms import safe_encode
+from Products.CMFCore.utils import getToolByName
+from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -203,14 +207,65 @@ AllDCATPortalTypesVocabularyFactory = AllDCATPortalTypesVocabulary()
 
 
 @implementer(IVocabularyFactory)
-class SKOSConceptsVocabulary(object):
+class SKOSConceptValueVocabulary(KeywordsVocabulary):
 
-    def __call__(self, *args, **kwargs):
+    keyword_index = 'dcat_theme'
+
+    def safe_simplevocabulary_from_values(self, values, query=None):
+        """Creates (filtered) SimpleVocabulary from iterable of untrusted values.
+        """
         terms = []
-        for ct in DCAT_CTs:
-            ct_label = CT_LABELS[ct]
-            terms.append(SimpleTerm(ct, ct, ct_label))
-
+        for i in values:
+            if query is None or safe_encode(query) in safe_encode(i):
+                title = unicode(api.content.get(UID=i).dct_title)
+                term = SimpleTerm(i, i, title)
+                terms.append(term)
         return SimpleVocabulary(terms)
 
-SKOSConceptsVocabularyFactory = SKOSConceptSchemeVocabulary()
+    def all_keywords(self, kwfilter):
+        site = getSite()
+        self.catalog = getToolByName(site, 'portal_catalog', None)
+        if self.catalog is None:
+            return SimpleVocabulary([])
+        index = self.catalog._catalog.getIndex(self.keyword_index)
+        voc = self.safe_simplevocabulary_from_values(
+            index._index,
+            query=kwfilter,
+        )
+        return voc
+
+    def keywords_of_section(self, section, kwfilter):
+        """Valid keywords under the given section.
+        """
+        pcat = getToolByName(section, 'portal_catalog')
+        cat = pcat._catalog
+        path_idx = cat.indexes[self.path_index]
+        tags_idx = cat.indexes[self.keyword_index]
+        result = []
+        # query all oids of path - low level
+        pquery = {
+            self.path_index: {
+                'query': '/'.join(section.getPhysicalPath()),
+                'depth': -1,
+            },
+        }
+        kwfilter = safe_encode(kwfilter)
+        # uses internal zcatalog specific details to quickly get the values.
+        path_result, info = path_idx._apply_index(pquery)
+        for tag in tags_idx.uniqueValues():
+            if kwfilter and kwfilter not in safe_encode(tag):
+                continue
+            tquery = {self.keyword_index: tag}
+            tags_result, info = tags_idx._apply_index(tquery)
+            if intersection(path_result, tags_result):
+                result.append(tag)
+        # result should be sorted, because uniqueValues are.
+        return self.safe_simplevocabulary_from_values(result)
+
+    def __call__(self, context, query=None):
+        section = self.section(context)
+        if section is None:
+            return self.all_keywords(query)
+        return self.keywords_of_section(section, query)
+
+SKOSConceptValueVocabularyFactory = SKOSConceptValueVocabulary()

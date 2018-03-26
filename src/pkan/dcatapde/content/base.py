@@ -13,7 +13,7 @@ import zope.schema as schema
 class IDCAT(model.Schema):
     """Marker interface for all DCAT-AP.de Content Types"""
 
-    uri_in_triplestore = schema.TextLine(
+    uri_in_triplestore = schema.URI(
         required=False,
         title=_(u'Uri in Triplestore'),
     )

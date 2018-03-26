@@ -36,6 +36,7 @@ from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
+from plone import api
 from plone.api import content
 from plone.api import portal
 from plone.api.exc import InvalidParameterError
@@ -278,7 +279,7 @@ class RDFProcessor(object):
                     target_struct=obj_class,
                 )
                 if sub:
-                    obj_data[field_name].append(sub.getId())
+                    obj_data[field_name].append(sub.UID())
 
             visitor.scribe.write(
                 level='info',
@@ -463,7 +464,7 @@ class RDFProcessor(object):
                             target_struct=field['object'],
                         )
                         if sub:
-                            obj_data[field_name] = sub.getId()
+                            obj_data[field_name] = sub.UID()
                         else:
                             obj_data[field_name] = None
                     visitor.scribe.write(
@@ -636,6 +637,12 @@ class RDFProcessor(object):
             raise RequiredPredicateMissing
         return title
 
+    def checkURI(self, uri):
+        catalog = api.portal.get_tool(name='portal_catalog')
+        query = {'uri_in_triplestore': uri}
+        brains = catalog(query)
+        return brains
+
     def create_dx_obj(
         self,
         visitor,
@@ -649,6 +656,18 @@ class RDFProcessor(object):
         if not visitor.real_run:
             return None
 
+        # check if the URI of the object is already available as DX object
+        brains = self.checkURI(rdf_node.toPython())
+        if len(brains) > 0:
+            visitor.scribe.write(
+                level='warn',
+                msg=u'{type} dxobject {obj} reused from {context}',
+                context=brains[0].getURL(),
+                obj=rdf_node,
+                type=struct.rdf_type,
+            )
+            return brains[0].getObject()
+
         # Create an instance of the node as dexterity object
         try:
             obj = content.create(
@@ -656,6 +675,7 @@ class RDFProcessor(object):
                 struct.portal_type,
                 title=title,
                 in_harvester=self.harvester.UID(),
+                uri_in_triplestore=rdf_node.toPython(),
                 **obj_data)
         # We are not allowed to create the content here
         except InvalidParameterError:
@@ -673,6 +693,7 @@ class RDFProcessor(object):
                 struct.portal_type,
                 title=title,
                 in_harvester=self.harvester.UID(),
+                uri_in_triplestore=rdf_node.toPython(),
                 **obj_data)
 
         obj.reindexObject()
@@ -887,8 +908,10 @@ class RDFProcessor(object):
         # todo: remove in triple store
         uid = self.harvester.UID()
         object_brains = content.find(in_harvester=uid)
-        for brain in object_brains:
+        count = len(object_brains)
+        for i in range(count):
             try:
+                brain = object_brains[i]
                 content.delete(obj=brain.getObject())
             except KeyError:
                 # object is already deleted because parent was deleted

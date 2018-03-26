@@ -6,4 +6,7 @@
  <index name="dcat_theme" meta_type="KeywordIndex">
   <indexed_attr value="dcat_theme"/>
  </index>
+ <index name="uri_in_triplestore" meta_type="FieldIndex">
+  <indexed_attr value="uri_in_triplestore"/>
+ </index>
 </object>
