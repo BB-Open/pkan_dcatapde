@@ -4,6 +4,10 @@
 
   <!-- Content Type Vocabularies. -->
   <!-- ========================== -->
+  <utility
+      component=".content_types.AllDCATPortalTypesVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCATPortalTypes"
+      />
 
   <utility
       component=".content_types.DCATCatalogVocabularyFactory"

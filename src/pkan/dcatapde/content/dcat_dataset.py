@@ -87,6 +87,23 @@ class IDCATDataset(model.Schema, IDCAT):
 
     # Recommended
     # -------------------------------------------------------------------------
+
+    form.widget(
+        'dcat_theme',
+        AjaxSelectAddFieldWidget,
+        content_type=constants.CT_SKOS_CONCEPT,
+        content_type_title=i18n.LABEL_SKOS_CONCEPT,
+        initial_path='/locations/',
+    )
+    dcat_theme = schema.List(
+        description=i18n.HELP_SKOS_CONCEPT,
+        required=False,
+        title=i18n.LABEL_SKOS_CONCEPT,
+        value_type=schema.Choice(
+            vocabulary='pkan.dcatapde.vocabularies.SKOSConcept',
+        ),
+    )
+
     form.widget(
         'dct_creator',
         AjaxSelectAddFieldWidget,

@@ -3,4 +3,7 @@
  <index name="in_harvester" meta_type="FieldIndex">
   <indexed_attr value="in_harvester"/>
  </index>
+ <index name="dcat_theme" meta_type="KeywordIndex">
+  <indexed_attr value="dcat_theme"/>
+ </index>
 </object>

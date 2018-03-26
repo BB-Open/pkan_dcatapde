@@ -401,6 +401,13 @@ class StructDCATDataset(StructBase):
             'predicate': DCT.spatial,
             'target': DCT.Location,
         }
+        related['dcat_theme'] = {
+            'object': StructSKOSConcept,
+            'importance': IMP_RECOMENDED,
+            'type': list,
+            'predicate': DCAT.theme,
+            'target': SKOS.Concept,
+        }
         return related
 
 

@@ -2,6 +2,8 @@
 """Vocabularies and sources for content types."""
 
 from pkan.dcatapde import constants
+from pkan.dcatapde.constants import DCAT_CTs
+from pkan.dcatapde.i18n import CT_LABELS
 from pkan.dcatapde.vocabularies import utils
 from plone import api
 from zope.interface import implementer
@@ -184,3 +186,31 @@ class AllDcatObjectsVocabulary(BaseContentTypeVocabulary):
 
 
 AllDcatObjectsVocabularyFactory = AllDcatObjectsVocabulary()
+
+
+@implementer(IVocabularyFactory)
+class AllDCATPortalTypesVocabulary(object):
+
+    def __call__(self, *args, **kwargs):
+        terms = []
+        for ct in DCAT_CTs:
+            ct_label = CT_LABELS[ct]
+            terms.append(SimpleTerm(ct, ct, ct_label))
+
+        return SimpleVocabulary(terms)
+
+AllDCATPortalTypesVocabularyFactory = AllDCATPortalTypesVocabulary()
+
+
+@implementer(IVocabularyFactory)
+class SKOSConceptsVocabulary(object):
+
+    def __call__(self, *args, **kwargs):
+        terms = []
+        for ct in DCAT_CTs:
+            ct_label = CT_LABELS[ct]
+            terms.append(SimpleTerm(ct, ct, ct_label))
+
+        return SimpleVocabulary(terms)
+
+SKOSConceptsVocabularyFactory = SKOSConceptSchemeVocabulary()

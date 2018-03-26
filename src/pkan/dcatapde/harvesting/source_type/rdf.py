@@ -277,7 +277,8 @@ class RDFProcessor(object):
                     rdf_node=rdf_obj,
                     target_struct=obj_class,
                 )
-                obj_data[field_name].append(sub.getId())
+                if sub:
+                    obj_data[field_name].append(sub.getId())
 
             visitor.scribe.write(
                 level='info',
