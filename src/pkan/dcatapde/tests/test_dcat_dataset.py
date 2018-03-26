@@ -22,6 +22,12 @@ class DatasetIntegrationTest(unittest.TestCase):
     def setUp(self):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
+        self.cat = api.content.create(
+            container=self.portal,
+            type=constants.CT_DCAT_CATALOG,
+            id='catalog-1',
+            dct_title={u'en': u'Catalog 1'},
+        )
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def test_schema(self):
@@ -41,8 +47,9 @@ class DatasetIntegrationTest(unittest.TestCase):
 
     def test_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
+
         obj = api.content.create(
-            container=self.portal,
+            container=self.cat,
             type=constants.CT_DCAT_DATASET,
             id=constants.CT_DCAT_DATASET,
         )

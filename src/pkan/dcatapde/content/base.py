@@ -13,7 +13,7 @@ import zope.schema as schema
 class IDCAT(model.Schema):
     """Marker interface for all DCAT-AP.de Content Types"""
 
-    uri_in_triplestore = schema.Text(
+    uri_in_triplestore = schema.TextLine(
         required=False,
         title=_(u'Uri in Triplestore'),
     )
@@ -27,6 +27,15 @@ class IDCAT(model.Schema):
         required=False,
         title=i18n.LABEL_IN_HARVESTER,
         vocabulary='pkan.dcatapde.vocabularies.Harvester',
+    )
+
+    model.fieldset(
+        'internal_info',
+        label=i18n.FIELDSET_INTERNAL_INFO,
+        fields=[
+            'uri_in_triplestore',
+            'in_harvester',
+        ],
     )
 
 

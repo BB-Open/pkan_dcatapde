@@ -11,6 +11,7 @@ BUTTON_IMPORT_SKOS_CONCEPT = _(u'Import SKOS:Concept')
 FIELDSET_AGENTS = _(u'Agents')
 FIELDSET_DETAILS = _(u'Dates, Geo, etc')
 FIELDSET_RELATIONS = _(u'Relations')
+FIELDSET_INTERNAL_INFO = _(u'Internal Information')
 
 HELP_BASE_OBJECT = _(
     u'Here you may chose the location where to the datasets will be '
@@ -196,6 +197,7 @@ LABEL_SETTINGS_IMPORTS_SKOS_CONCEPT = _('SKOS:Concept Sources')
 LABEL_SKOS_INSCHEME = _(u'Concept scheme URI')
 LABEL_URL = _(u'URL')
 LABEL_IN_HARVESTER = _(u'In Harvester')
+
 
 STATUS_REGISTRY_UPDATED = _(
     u'Registry has been updated. Please reload this page.',

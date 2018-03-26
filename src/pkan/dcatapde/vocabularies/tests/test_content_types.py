@@ -64,14 +64,20 @@ class TestDCATDatasetVocabulary(unittest.TestCase):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.item1 = api.content.create(
+        self.catalog = api.content.create(
             container=self.portal,
+            type=constants.CT_DCAT_CATALOG,
+            id='catalog-1',
+            dct_title={u'en': u'Catalog 1'},
+        )
+        self.item1 = api.content.create(
+            container=self.catalog,
             type=constants.CT_DCAT_DATASET,
             id='dataset-1',
             dct_title={u'en': u'Dataset 1'},
         )
         self.item2 = api.content.create(
-            container=self.portal,
+            container=self.catalog,
             type=constants.CT_DCAT_DATASET,
             id='dataset-2',
             dct_title={u'en': u'Dataset 2'},
