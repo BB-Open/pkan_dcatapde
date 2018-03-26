@@ -5,6 +5,7 @@ from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.constants import DCAT_TOP_NODES
+from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_A_STR
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
@@ -97,7 +98,7 @@ class IHarvester(model.Schema):
 
 
 @implementer(IHarvester)
-class Harvester(Container):
+class Harvester(Container, DCATMixin):
     """Harvester Content Type."""
 
     def __init__(self, *args, **kwargs):

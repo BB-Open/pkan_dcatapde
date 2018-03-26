@@ -125,6 +125,7 @@ HELP_SETTINGS_IMPORTS_SKOS_CONCEPT = _(
     u'Define the import sources for SKOS:Concept objects.',
 )
 HELP_SKOS_INSCHEME = _(u'URI to the concept scheme')
+HELP_IN_HARVESTER = _(u'Harvester that created this object')
 
 
 LABEL_ADMS_IDENTIFIER = _(u'Identifier')
@@ -194,6 +195,7 @@ LABEL_SETTINGS_IMPORTS_DCT_LICENSEDOCUMENT = _('DCT:LicenseDocument Sources')
 LABEL_SETTINGS_IMPORTS_SKOS_CONCEPT = _('SKOS:Concept Sources')
 LABEL_SKOS_INSCHEME = _(u'Concept scheme URI')
 LABEL_URL = _(u'URL')
+LABEL_IN_HARVESTER = _(u'In Harvester')
 
 STATUS_REGISTRY_UPDATED = _(
     u'Registry has been updated. Please reload this page.',

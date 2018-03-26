@@ -50,6 +50,11 @@
       />
 
   <utility
+      component=".content_types.HarvesterVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.Harvester"
+      />
+
+  <utility
       component=".content_types.SKOSConceptVocabularyFactory"
       name="pkan.dcatapde.vocabularies.SKOSConcept"
       />

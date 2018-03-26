@@ -1,11 +1,33 @@
 # -*- coding: utf-8 -*-
 """Base Content Types."""
+from pkan.dcatapde import _
+from pkan.dcatapde import i18n
 from pkan.dcatapde.structure.interfaces import IStructure
-from zope.interface import Interface
+from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
+from plone.autoform import directives as form
+from plone.supermodel import model
+
+import zope.schema as schema
 
 
-class IDCAT(Interface):
+class IDCAT(model.Schema):
     """Marker interface for all DCAT-AP.de Content Types"""
+
+    uri_in_triplestore = schema.Text(
+        required=False,
+        title=_(u'Uri in Triplestore'),
+    )
+
+    form.widget(
+        'in_harvester',
+        AjaxSelectAddFieldWidget,
+    )
+    in_harvester = schema.Choice(
+        description=i18n.HELP_IN_HARVESTER,
+        required=False,
+        title=i18n.LABEL_IN_HARVESTER,
+        vocabulary='pkan.dcatapde.vocabularies.Harvester',
+    )
 
 
 class DCATMixin(object):

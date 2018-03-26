@@ -638,6 +638,7 @@ class RDFProcessor(object):
                 context,
                 struct.portal_type,
                 title=title,
+                in_harvester=self.harvester.UID(),
                 **obj_data)
         # We are not allowed to create the content here
         except InvalidParameterError:
@@ -646,6 +647,7 @@ class RDFProcessor(object):
                 self.harvester,
                 struct.portal_type,
                 title=title,
+                in_harvester=self.harvester.UID(),
                 **obj_data)
 
         obj.reindexObject()
@@ -856,6 +858,16 @@ class RDFProcessor(object):
             preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
         return preview
 
+    def remove_objects(self):
+        uid = self.harvester.UID()
+        object_brains = content.find(in_harvester=uid)
+        for brain in object_brains:
+            try:
+                content.delete(obj=brain.getObject())
+            except KeyError:
+                # object is already deleted because parent was deleted
+                continue
+
     def run(self, visitor):
         """Dry Run: Returns Log-Information.
         """
@@ -871,6 +883,14 @@ class RDFProcessor(object):
             level='info',
             msg=msg,
         )
+
+        if visitor.real_run:
+            msg = 'Removing old objects'
+            visitor.scribe.write(
+                level='info',
+                msg=msg,
+            )
+            self.remove_objects()
 
         uri = self.harvester.url
 

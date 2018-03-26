@@ -133,6 +133,16 @@ FOAFAgentVocabularyFactory = FOAFAgentVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class HarvesterVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning Harvester items."""
+
+    portal_type = constants.CT_HARVESTER
+
+
+HarvesterVocabularyFactory = HarvesterVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class SKOSConceptVocabulary(BaseContentTypeVocabulary):
     """A vocabulary returning SKOSConcept items."""
 
