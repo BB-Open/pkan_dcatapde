@@ -2,6 +2,7 @@
 """Harvesting adapter."""
 from DateTime.DateTime import time
 from pkan.dcatapde import _
+from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import HARVESTER_DEFAULT_KEY
 from pkan.dcatapde.constants import HARVESTER_DEXTERITY_KEY
 from pkan.dcatapde.constants import HARVESTER_ENTITY_KEY
@@ -38,6 +39,7 @@ from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from plone.api import content
 from plone.api import portal
 from plone.api.exc import InvalidParameterError
+from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import safe_unicode
 from plone.memoize import ram
 from pyparsing import ParseException
@@ -49,6 +51,7 @@ from traceback import format_tb
 from xml.sax import SAXParseException
 from zope.annotation import IAnnotations
 from zope.component import adapter
+from zope.component import getUtility
 from zope.interface import implementer
 
 import io
@@ -98,13 +101,12 @@ class RDFProcessor(object):
         # self.data_cleaner = self.harvester.data_cleaner(self.harvester)
         self.cleaned_data = None
         # self.field_config = get_field_config(self.harvester)
-        self.context = portal.get()
+        self.harvesting_context = self.harvester
         if self.harvester:
             if self.harvester.base_object:
-                # Todo: check why sometime to_object and sometimes not
-                self.context = getattr(self.harvester.base_object,
-                                       'to_object',
-                                       self.harvester.base_object)
+                self.harvesting_context = content.get(
+                    UID=self.harvester.base_object,
+                )
 
         # determine the source format serializer string for rdflib from our
         # own interface. Todo this is a bit ugly
@@ -176,7 +178,7 @@ class RDFProcessor(object):
         stream_handler = logging.StreamHandler(self.log_stream)
         # and a formatter for HTML output
         format = '<p>%(asctime)s - %(name)s - %(levelname)s - %(message)s</p>'
-        request = getattr(self.context, 'REQUEST', None)
+        request = getattr(self.harvesting_context, 'REQUEST', None)
         formatter = TranslatingFormatter(format, request=request)
         # and plug things together
         stream_handler.setFormatter(formatter)
@@ -196,13 +198,30 @@ class RDFProcessor(object):
 
     def top_nodes(self, visitor):
         """Find top nodes: Catalogs or datasets"""
-        # check if we get a base object
-        if self.harvester.base_object:
-            self.context = content.get(UID=self.harvester.base_object)
+        # check which top_node we should use
+        if self.harvester.top_node == CT_DCAT_DATASET:
+            # self.context = content.get(UID=self.harvester.base_object)
             self.struct_class = StructDCATDataset
         else:
-            self.context = portal.get()
+            # self.context = portal.get()
             self.struct_class = StructDCATCatalog
+
+        allowed_types = self.harvesting_context.allowedContentTypes()
+        klass = getUtility(IDexterityFTI, name=self.harvester.top_node)
+
+        if klass in allowed_types:
+            pass
+        else:
+            msg = '{top} is not allowed in {context}.'.format(
+                context=self.harvesting_context,
+                top=self.harvester.top_node,
+            )
+            msg += 'Instead, the import uses the harvester as base folder.'
+            self.harvesting_context = self.harvester
+            visitor.scribe.write(
+                msg=msg,
+                level='error',
+            )
 
         struct = self.struct_class(self.harvester)
         # Get Mapping from the harvester
@@ -226,7 +245,7 @@ class RDFProcessor(object):
 
         self.crawl(
             visitor,
-            context=self.harvester,
+            context=self.harvesting_context,
             rdf_node=catalog,
             target_struct=self.struct_class,
         )
@@ -643,6 +662,14 @@ class RDFProcessor(object):
         # We are not allowed to create the content here
         except InvalidParameterError:
             # So we try it directly under the harvest
+            visitor.scribe.write(
+                level='warn',
+                msg=u'{type} dxobject {obj} created at {context}',
+                context=self.harvester.virtual_url_path(),
+                obj=rdf_node,
+                type=struct.rdf_type,
+            )
+
             obj = content.create(
                 self.harvester,
                 struct.portal_type,

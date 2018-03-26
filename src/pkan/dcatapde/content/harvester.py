@@ -39,7 +39,7 @@ class IHarvester(model.Schema):
     base_object = schema.Choice(
         required=False,
         title=i18n.LABEL_BASE_OBJECT,
-        vocabulary='pkan.dcatapde.vocabularies.DCATCatalog',
+        vocabulary='pkan.dcatapde.vocabularies.PortalCatalog',
         description=i18n.HELP_BASE_OBJECT,
     )
 

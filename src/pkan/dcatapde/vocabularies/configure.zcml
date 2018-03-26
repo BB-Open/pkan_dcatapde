@@ -4,6 +4,7 @@
 
   <!-- Content Type Vocabularies. -->
   <!-- ========================== -->
+
   <utility
       component=".content_types.DCATCatalogVocabularyFactory"
       name="pkan.dcatapde.vocabularies.DCATCatalog"
@@ -85,6 +86,11 @@
   <utility
       component=".source_type_vocab.SourceTypeVocabFactory"
       name="pkan.dcatapde.SourceTypeVocabulary"
+      />
+
+  <utility
+      component=".catalog_vocab.PortalCatalogVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.PortalCatalog"
       />
 
   <!-- Language Vocabularies. -->
