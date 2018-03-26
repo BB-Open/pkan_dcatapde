@@ -4,9 +4,15 @@
 
   <!-- Content Type Vocabularies. -->
   <!-- ========================== -->
+
   <utility
       component=".content_types.DCATCatalogVocabularyFactory"
       name="pkan.dcatapde.vocabularies.DCATCatalog"
+      />
+
+  <utility
+      component=".content_types.ContextAwareCatalogFactory"
+      name="pkan.dcatapde.vocabularies.ContextAwareDCATCatalog"
       />
 
   <utility
@@ -47,6 +53,11 @@
   <utility
       component=".content_types.FOAFAgentVocabularyFactory"
       name="pkan.dcatapde.vocabularies.FOAFAgent"
+      />
+
+  <utility
+      component=".content_types.HarvesterVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.Harvester"
       />
 
   <utility

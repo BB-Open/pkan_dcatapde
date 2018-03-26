@@ -53,6 +53,21 @@ DCATCatalogVocabularyFactory = DCATCatalogVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class DcatCatalogContextAwareVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning all objects from portal catalog."""
+
+    portal_type = constants.CT_DCAT_CATALOG
+
+    def __call__(self, context, query=None):
+        query = utils.parse_query(context=context, query=query)
+        if context:
+            query['path'] = '/'.join(context.getPhysicalPath())
+        return self.get_results(query)
+
+ContextAwareCatalogFactory = DcatCatalogContextAwareVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class DCATDatasetVocabulary(BaseContentTypeVocabulary):
     """A vocabulary returning DCATDataset items."""
 
@@ -130,6 +145,16 @@ class FOAFAgentVocabulary(BaseContentTypeVocabulary):
 
 
 FOAFAgentVocabularyFactory = FOAFAgentVocabulary()
+
+
+@implementer(IVocabularyFactory)
+class HarvesterVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning Harvester items."""
+
+    portal_type = constants.CT_HARVESTER
+
+
+HarvesterVocabularyFactory = HarvesterVocabulary()
 
 
 @implementer(IVocabularyFactory)

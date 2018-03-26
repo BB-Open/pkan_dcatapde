@@ -11,12 +11,13 @@ BUTTON_IMPORT_SKOS_CONCEPT = _(u'Import SKOS:Concept')
 FIELDSET_AGENTS = _(u'Agents')
 FIELDSET_DETAILS = _(u'Dates, Geo, etc')
 FIELDSET_RELATIONS = _(u'Relations')
+FIELDSET_INTERNAL_INFO = _(u'Internal Information')
 
 HELP_BASE_OBJECT = _(
     u'Here you may chose the location where to the datasets will be '
     u'imported. If the incoming data has no catalog, choose a '
     u'catalog object.'
-    u'By default incoming catalogues are place in the portal root. ',
+    u'By default incoming catalogues are place in the harvester. ',
 )
 HELP_DACT_MEDIATYPE = _(
     u'Select a media type from the list of available media types or create '
@@ -125,6 +126,7 @@ HELP_SETTINGS_IMPORTS_SKOS_CONCEPT = _(
     u'Define the import sources for SKOS:Concept objects.',
 )
 HELP_SKOS_INSCHEME = _(u'URI to the concept scheme')
+HELP_IN_HARVESTER = _(u'Harvester that created this object')
 
 
 LABEL_ADMS_IDENTIFIER = _(u'Identifier')
@@ -194,6 +196,8 @@ LABEL_SETTINGS_IMPORTS_DCT_LICENSEDOCUMENT = _('DCT:LicenseDocument Sources')
 LABEL_SETTINGS_IMPORTS_SKOS_CONCEPT = _('SKOS:Concept Sources')
 LABEL_SKOS_INSCHEME = _(u'Concept scheme URI')
 LABEL_URL = _(u'URL')
+LABEL_IN_HARVESTER = _(u'In Harvester')
+
 
 STATUS_REGISTRY_UPDATED = _(
     u'Registry has been updated. Please reload this page.',
