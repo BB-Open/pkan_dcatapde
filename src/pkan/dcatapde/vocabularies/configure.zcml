@@ -11,6 +11,11 @@
       />
 
   <utility
+      component=".content_types.ContextAwareCatalogFactory"
+      name="pkan.dcatapde.vocabularies.ContextAwareDCATCatalog"
+      />
+
+  <utility
       component=".content_types.DCATDatasetVocabularyFactory"
       name="pkan.dcatapde.vocabularies.DCATDataset"
       />
@@ -86,11 +91,6 @@
   <utility
       component=".source_type_vocab.SourceTypeVocabFactory"
       name="pkan.dcatapde.SourceTypeVocabulary"
-      />
-
-  <utility
-      component=".catalog_vocab.PortalCatalogVocabularyFactory"
-      name="pkan.dcatapde.vocabularies.PortalCatalog"
       />
 
   <!-- Language Vocabularies. -->

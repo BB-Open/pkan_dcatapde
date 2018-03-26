@@ -209,19 +209,16 @@ class RDFProcessor(object):
         allowed_types = self.harvesting_context.allowedContentTypes()
         klass = getUtility(IDexterityFTI, name=self.harvester.top_node)
 
-        if klass in allowed_types:
-            pass
-        else:
+        if klass not in allowed_types:
             msg = '{top} is not allowed in {context}.'.format(
                 context=self.harvesting_context,
                 top=self.harvester.top_node,
             )
-            msg += 'Instead, the import uses the harvester as base folder.'
-            self.harvesting_context = self.harvester
             visitor.scribe.write(
                 msg=msg,
                 level='error',
             )
+            return
 
         struct = self.struct_class(self.harvester)
         # Get Mapping from the harvester
@@ -886,6 +883,7 @@ class RDFProcessor(object):
         return preview
 
     def remove_objects(self):
+        # todo: remove in triple store
         uid = self.harvester.UID()
         object_brains = content.find(in_harvester=uid)
         for brain in object_brains:

@@ -20,8 +20,6 @@
   <!-- Hierarchy control -->
   <property name="allowed_content_types">
     <element value="dcat_catalog"/>
-    <element value="dcat_dataset"/>
-    <element value="dcat_distribution"/>
     <element value="foaf_agent"/>
     <element value="dct_licensedocument"/>
     <element value="dct_location"/>

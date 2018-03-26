@@ -17,7 +17,7 @@ HELP_BASE_OBJECT = _(
     u'Here you may chose the location where to the datasets will be '
     u'imported. If the incoming data has no catalog, choose a '
     u'catalog object.'
-    u'By default incoming catalogues are place in the portal root. ',
+    u'By default incoming catalogues are place in the harvester. ',
 )
 HELP_DACT_MEDIATYPE = _(
     u'Select a media type from the list of available media types or create '
