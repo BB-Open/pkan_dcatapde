@@ -80,6 +80,8 @@ class Scribe(object):
                         **new_entry['data'])
                 except KeyError:
                     pass
+                except IndexError:
+                    pass
                 yield msg, new_entry
 
     def html_log(self):
