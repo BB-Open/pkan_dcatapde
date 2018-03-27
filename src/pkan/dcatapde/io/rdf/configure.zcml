@@ -35,6 +35,13 @@
       provides=".interfaces.IObject2Surf"
       />
 
+  <adapter
+      factory=".dcat.CollectionCatalog2Surf"
+      for="pkan.dcatapde.content.dcat_catalog.IDCATCollectionCatalog
+           .interfaces.ISurfSession"
+      provides=".interfaces.IObject2Surf"
+      />
+
   <!-- rdfs adapters -->
   <adapter factory=".dexterity.DexterityFTI2Surf" />
 

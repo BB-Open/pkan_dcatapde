@@ -18,6 +18,20 @@
       provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
+  <!-- DCATCollectionCatalog -->
+  <!-- =========== -->
+  <adapter
+      factory=".util.NameFromDCTTitle"
+      for=".dcat_collection_catalog.IDCATCollectionCatalog"
+      provides="plone.app.content.interfaces.INameFromTitle"
+      />
+
+  <utility
+      factory=".dcat_collection_catalog.DCATCollectionCatalogDefaultFactory"
+      name="dcat_collection_catalog"
+      provides="plone.dexterity.interfaces.IDexterityFactory"
+      />
+
 
   <!-- DCATDataset -->
   <!-- =========== -->

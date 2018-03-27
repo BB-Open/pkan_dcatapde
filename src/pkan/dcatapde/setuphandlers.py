@@ -2,6 +2,7 @@
 """Post install import steps for pkan.dcatapde."""
 from pkan.dcatapde import constants
 from pkan.dcatapde.content.dcat_catalog import DCATCatalog
+from pkan.dcatapde.content.dcat_collectioncatalog import DCATCollectionCatalog
 from pkan.dcatapde.content.dcat_dataset import DCATDataset
 from pkan.dcatapde.content.dcat_distribution import DCATDistribution
 from pkan.dcatapde.content.foaf_agent import FOAFAgent
@@ -168,6 +169,7 @@ def catalog_setup(context):
     # Get fields from the different models to build an index for
     content_type_extras = [
         DCATCatalog,
+        DCATCollectionCatalog,
         DCATDataset,
         DCATDistribution,
         FOAFAgent,

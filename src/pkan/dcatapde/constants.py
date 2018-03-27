@@ -3,6 +3,7 @@
 
 # Content Types
 CT_DCAT_CATALOG = 'dcat_catalog'
+CT_DCAT_COLLECTION_CATALOG = 'dcat_collection_catalog'
 CT_DCAT_DATASET = 'dcat_dataset'
 CT_DCAT_DISTRIBUTION = 'dcat_distribution'
 CT_DCT_LICENSEDOCUMENT = 'dct_licensedocument'
@@ -32,6 +33,7 @@ CT_STANDARDS_FOLDER = 'StandardsFolder'
 # list of DCAT CTs
 DCAT_CTs = [
     CT_DCAT_CATALOG,
+    CT_DCAT_COLLECTION_CATALOG,
     CT_DCAT_DATASET,
     CT_DCAT_DISTRIBUTION,
     CT_FOAF_AGENT,

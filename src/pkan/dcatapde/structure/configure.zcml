@@ -16,6 +16,12 @@
   />
 
   <adapter
+    factory=".structure.StructDCATCollectionCatalog"
+    for="pkan.dcatapde.content.dcat_collection_catalog.IDCATCollectionCatalog"
+    provides=".interfaces.IStructure"
+  />
+
+  <adapter
     factory=".structure.StructDCATDataset"
     for="pkan.dcatapde.content.dcat_dataset.IDCATDataset"
     provides=".interfaces.IStructure"

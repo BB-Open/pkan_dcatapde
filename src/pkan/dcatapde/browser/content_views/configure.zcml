@@ -43,5 +43,12 @@
     permission="cmf.ManagePortal"
     />
 
+  <browser:page
+      for="pkan.dcatapde.content.dcat_collection_catalog.IDCATCollectionCatalog"
+      name="folder_listing"
+      class=".dcat_collection_catalog.DcatCollectionCatalogFolderListing"
+      template="templates/folder_listing.pt"
+      permission="zope2.View"
+      />
 
 </configure>
