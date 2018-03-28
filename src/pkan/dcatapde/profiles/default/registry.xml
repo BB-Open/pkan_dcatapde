@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
-<registry>
+<registry
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="pkan.dcatapde">
   <records interface="pkan.dcatapde.interfaces.IPKANBaseSettings" />
   <records interface="pkan.dcatapde.interfaces.IPKANFolderSettings" />
   <records interface="pkan.dcatapde.interfaces.IPKANImportSettings" />
@@ -19,4 +21,17 @@
     <value key="compile">False</value>
     <value key="depends">plone</value>
   </records>
+
+  <records interface="plone.app.querystring.interfaces.IQueryField"
+             prefix="plone.app.querystring.field.dcat_theme">
+        <value key="title" i18n:translate="">Dcat Theme</value>
+        <value key="description" i18n:translate="">A Skos Concept Theme</value>
+        <value key="enabled">True</value>
+        <value key="sortable">False</value>
+        <value key="operations">
+            <element>plone.app.querystring.operation.selection.any</element>
+        </value>
+        <value key="vocabulary">pkan.dcatapde.vocabularies.SKOSConceptValues</value>
+       <value key="group" i18n:translate="">PKAN</value>
+</records>
 </registry>

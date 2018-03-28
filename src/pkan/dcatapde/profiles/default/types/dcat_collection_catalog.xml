@@ -27,10 +27,10 @@
 
   <!-- Schema, class and security -->
   <property name="add_permission">pkan.dcatapde.AddDCATCollectionCatalog</property>
-  <property name="klass">pkan.dcatapde.content.dcat_collection_catalog.DCATCollectionCatalog</property>
+  <property name="klass">pkan.dcatapde.content.dcat_collectioncatalog.DCATCollectionCatalog</property>
   <property name="model_file"></property>
   <property name="model_source"></property>
-  <property name="schema">pkan.dcatapde.content.dcat_collection_catalog.IDCATCollectionCatalog</property>
+  <property name="schema">pkan.dcatapde.content.dcat_collectioncatalog.IDCATCollectionCatalog</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">

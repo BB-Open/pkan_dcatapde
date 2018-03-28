@@ -22,12 +22,12 @@
   <!-- =========== -->
   <adapter
       factory=".util.NameFromDCTTitle"
-      for=".dcat_collection_catalog.IDCATCollectionCatalog"
+      for=".dcat_collectioncatalog.IDCATCollectionCatalog"
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
   <utility
-      factory=".dcat_collection_catalog.DCATCollectionCatalogDefaultFactory"
+      factory=".dcat_collectioncatalog.DCATCollectionCatalogDefaultFactory"
       name="dcat_collection_catalog"
       provides="plone.dexterity.interfaces.IDexterityFactory"
       />

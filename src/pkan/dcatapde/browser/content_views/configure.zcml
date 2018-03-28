@@ -44,7 +44,7 @@
     />
 
   <browser:page
-      for="pkan.dcatapde.content.dcat_collection_catalog.IDCATCollectionCatalog"
+      for="pkan.dcatapde.content.dcat_collectioncatalog.IDCATCollectionCatalog"
       name="folder_listing"
       class=".dcat_collection_catalog.DcatCollectionCatalogFolderListing"
       template="templates/folder_listing.pt"

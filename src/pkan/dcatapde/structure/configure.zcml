@@ -17,7 +17,7 @@
 
   <adapter
     factory=".structure.StructDCATCollectionCatalog"
-    for="pkan.dcatapde.content.dcat_collection_catalog.IDCATCollectionCatalog"
+    for="pkan.dcatapde.content.dcat_collectioncatalog.IDCATCollectionCatalog"
     provides=".interfaces.IStructure"
   />
 
