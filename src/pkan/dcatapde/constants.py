@@ -149,3 +149,10 @@ FIELD_BLACKLIST = [
 HARVESTER_ENTITY_KEY = 'pkan.dcatapde.harvesting.entity_mapping'
 HARVESTER_DEXTERITY_KEY = 'pkan.dcatapde.harvesting.dexterity_mapping'
 HARVESTER_DEFAULT_KEY = 'pkan.dcatapde.harvesting.default_mapping'
+
+# Import Views
+# mapping Folder from MANDATORY_FOLDERS to View name
+IMPORT_URLS = {
+    FOLDER_LICENSES: 'update_licenses',
+    # FOLDER_CONCEPTS: 'update_themes',
+}
