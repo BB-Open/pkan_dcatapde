@@ -154,5 +154,5 @@ HARVESTER_DEFAULT_KEY = 'pkan.dcatapde.harvesting.default_mapping'
 # mapping Folder from MANDATORY_FOLDERS to View name
 IMPORT_URLS = {
     FOLDER_LICENSES: 'update_licenses',
-    # FOLDER_CONCEPTS: 'update_themes',
+    FOLDER_CONCEPTS: 'update_themes',
 }

@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
+from pkan.dcatapde.api.functions import get_ancestor
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_DATASET
+from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
+from plone import api
 from plone.app.contenttypes.behaviors.collection import ICollection
 from plone.app.dexterity.browser.folder_listing import FolderView
+from plone.dexterity.browser.view import DefaultView
 
 
 class DcatCollectionCatalogFolderListing(FolderView):
@@ -32,3 +38,72 @@ class DcatCollectionCatalogFolderListing(FolderView):
 
         results = self.collection_behavior.results(**kwargs)
         return results
+
+    def get_catalog(self, obj):
+        if obj.portal_type == CT_DCAT_CATALOG:
+            catalog = None
+        else:
+            catalog = get_ancestor(obj, CT_DCAT_CATALOG)
+        if catalog:
+            return {
+                'title': catalog.title,
+                'url': catalog.absolute_url(),
+            }
+        else:
+            return {}
+
+    def get_category(self, obj):
+        dcat_theme = getattr(obj, 'dcat_theme', None)
+        if dcat_theme:
+            titles = []
+            for uid in dcat_theme:
+                theme = api.content.get(UID=uid)
+                titles.append(theme.title)
+            return {
+                'title': ' ,'.join(titles),
+            }
+        else:
+            return {}
+
+    def get_license(self, obj):
+        license_uid = getattr(obj, 'dct_license', None)
+        if not license_uid:
+            catalog = get_ancestor(obj, CT_DCAT_CATALOG)
+            if catalog:
+                license_uid = getattr(catalog, 'dct_license', None)
+        if license_uid:
+            license = api.content.get(UID=license_uid)
+            return {
+                'title': license.Title(),
+                'url': license.absolute_url(),
+            }
+        else:
+            return {}
+
+    def get_formats(self, obj):
+        if obj.portal_type == CT_DCAT_DATASET:
+            items = obj.contentItems()
+            formats = []
+            for id, item in items:
+                if item.portal_type == CT_DCAT_DISTRIBUTION:
+                    format = getattr(item, 'dct_format', None)
+                    if not format:
+                        continue
+                    format_obj = api.content.get(UID=format)
+                    format_title = format_obj.Title()
+                    formats.append(format_title)
+            title = ', '.join(set(formats))
+        else:
+            title = ''
+        if title:
+            return {
+                'title': title,
+            }
+        else:
+            return {}
+
+
+class DcatCollectionCatalogView(DefaultView):
+    """
+    Default View for DcatCollectionCatalog
+    """
