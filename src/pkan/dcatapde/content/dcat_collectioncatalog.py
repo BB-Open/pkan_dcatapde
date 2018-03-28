@@ -37,12 +37,12 @@ class DCATCollectionCatalogDefaultFactory(DexterityFactory):
     """Custom DX factory for DCATCatalog."""
 
     def __init__(self):
-        self.portal_type = constants.CT_DCAT_CATALOG
+        self.portal_type = constants.CT_DCAT_COLLECTION_CATALOG
 
     def __call__(self, *args, **kw):
-        from pkan.dcatapde.api.dcat_catalog import clean_catalog
+        from pkan.dcatapde.api.dcat_collection_catalog import clean_collection
 
-        data, errors = clean_catalog(**kw)
+        data, errors = clean_collection(**kw)
 
         return super(
             DCATCollectionCatalogDefaultFactory,

@@ -9,7 +9,7 @@ from zope.schema import getValidationErrors
 
 
 # Data Cleaning Methods
-def clean_collection_catalog(**data):
+def clean_collection(**data):
     """Clean CollectionCatalogs."""
     test_catalog = DCATCollectionCatalog()
 
@@ -28,7 +28,7 @@ def clean_collection_catalog(**data):
 # Add Methods
 def add_collection_catalog(context, **data):
     """Add a new CollectionCatalog."""
-    data, errors = clean_collection_catalog(**data)
+    data, errors = clean_collection(**data)
 
     catalog = create(container=context,
                      type=CT_DCAT_COLLECTION_CATALOG,
