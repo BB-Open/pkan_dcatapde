@@ -9,6 +9,7 @@ import surf
 
 
 surf.namespace.register(dct=surf.ns.DCTERMS)
+surf.namespace.register(DCAT='http://www.w3.org/ns/dcat#')
 
 
 @implementer(IRDFMarshallTarget)
