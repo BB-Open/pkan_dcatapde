@@ -51,4 +51,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      for="pkan.dcatapde.content.dcat_collectioncatalog.IDCATCollectionCatalog"
+      name="short_view"
+      class=".dcat_collection_catalog.DcatCollectionCatalogView"
+      template="templates/dcat_collection_catalog.pt"
+      permission="zope2.View"
+      />
+
 </configure>

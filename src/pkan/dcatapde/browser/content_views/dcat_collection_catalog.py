@@ -7,6 +7,7 @@ from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from plone import api
 from plone.app.contenttypes.behaviors.collection import ICollection
 from plone.app.dexterity.browser.folder_listing import FolderView
+from plone.dexterity.browser.view import DefaultView
 
 
 class DcatCollectionCatalogFolderListing(FolderView):
@@ -100,3 +101,9 @@ class DcatCollectionCatalogFolderListing(FolderView):
             }
         else:
             return {}
+
+
+class DcatCollectionCatalogView(DefaultView):
+    """
+    Default View for DcatCollectionCatalog
+    """
