@@ -2,6 +2,7 @@
 """Structure of the dcat-AP.de scheme"""
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
@@ -15,6 +16,7 @@ from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
 from pkan.dcatapde.constants import FIELD_BLACKLIST
 from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
+from pkan.dcatapde.content.dcat_collectioncatalog import IDCATCollectionCatalog
 from pkan.dcatapde.content.dcat_dataset import IDCATDataset
 from pkan.dcatapde.content.dcat_distribution import IDCATDistribution
 from pkan.dcatapde.content.dct_licensedocument import IDCTLicenseDocument
@@ -348,6 +350,16 @@ class StructDCATCatalog(StructBase):
             'target': DCT.Location,
         }
         return related
+
+
+@implementer(IStructure)
+@adapter(IDCATCollectionCatalog)
+class StructDCATCollectionCatalog(StructDCATCatalog):
+    """
+    Structure definition for CollectionCatalog
+    """
+
+    portal_type = CT_DCAT_COLLECTION_CATALOG
 
 
 @implementer(IStructure)

@@ -4,6 +4,7 @@
 
   <!-- DCAT Content types -->
   <object meta_type="Dexterity FTI" name="dcat_catalog"/>
+  <object meta_type="Dexterity FTI" name="dcat_collection_catalog"/>
   <object meta_type="Dexterity FTI" name="dcat_dataset"/>
   <object meta_type="Dexterity FTI" name="dcat_distribution"/>
   <object meta_type="Dexterity FTI" name="dct_licensedocument"/>

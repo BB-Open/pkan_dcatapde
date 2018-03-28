@@ -18,6 +18,11 @@
         />
 
     <permission
+        id="pkan.dcatapde.AddDCATCollectionCatalog"
+        title="pkan.dcatapde: Add DCATCollectionCatalog"
+        />
+
+    <permission
         id="pkan.dcatapde.AddDCATDataset"
         title="pkan.dcatapde: Add DCATDataset"
         />
