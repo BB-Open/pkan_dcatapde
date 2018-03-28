@@ -130,6 +130,7 @@ class StructBase(object):
     portal_type = None
     # List of fields that can act as title for dx object creation
     title_field = ['dct_title']
+    desc_field = ['dct_description']
 
     # caching
     _fields_in_order = None

@@ -668,6 +668,18 @@ class RDFProcessor(object):
             )
             return brains[0].getObject()
 
+        # Handle not given descriptions to prevent u'None' brains
+        desc_found = False
+        for desc_field in struct.desc_field:
+            if desc_field in obj_data:
+                desc_found = True
+                break
+
+        if not desc_found:
+            for desc_field in struct.desc_field:
+                obj_data[desc_field] = None
+            obj_data['description'] = None
+
         # Create an instance of the node as dexterity object
         try:
             obj = content.create(
