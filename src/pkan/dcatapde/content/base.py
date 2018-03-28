@@ -65,3 +65,21 @@ class DCATMixin(object):
             except KeyError:
                 continue
         return title
+
+    def desc_from_desc_field(self):
+        desc = None
+        struct = IStructure(self)
+        for desc_field in struct.desc_field:
+            try:
+                all_descs = getattr(self, desc_field)
+                if not all_descs:
+                    continue
+                if isinstance(all_descs, dict):
+                    desc = unicode(all_descs.items()[0][1])
+                elif isinstance(all_descs, list):
+                        desc = unicode(all_descs[0])
+                else:
+                    desc = unicode(all_descs)
+            except KeyError:
+                continue
+        return desc

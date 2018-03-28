@@ -41,6 +41,9 @@ class RDFLiteral(Item, DCATMixin):
     def Title(self):
         return self.title_from_title_field()
 
+    def Description(self):
+        return self.desc_from_desc_field()
+
 
 def literal2plone(literal, field=None):
     val = literal.toPython()

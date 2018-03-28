@@ -51,7 +51,7 @@ class SKOSConceptScheme(Item, DCATMixin):
         return self.title_from_title_field()
 
     def Description(self):
-        return unicode(self.dct_description)
+        return self.desc_from_desc_field()
 
 
 class SKOSConceptSchemeDefaultFactory(DexterityFactory):
