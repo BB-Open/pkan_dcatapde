@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
+from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
+from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.constants import VOCAB_SOURCES
 from plone.api import content
 from plone.api import portal
+from plone.dexterity.utils import safe_unicode
+from zope.i18n import translate
 
 import rdflib
 import surf
@@ -41,8 +45,9 @@ class UpdateThemes(object):
         # get the surf license objects
         themes = self.load_themes_from_rdf()
 
-        default_language = portal.get_default_language()
+        default_language = safe_unicode(portal.get_default_language())
 
+        count = 0
         for theme in themes:
             # map the properties
             mapping = {
@@ -59,14 +64,19 @@ class UpdateThemes(object):
                     att_data = {}
                     for literal in attribute:
                         # check if language attribute exists
-                        try:
-                            att_data[theme.language] = unicode(literal)
-                        except AttributeError:
+                        if getattr(literal, 'language', None):
+                            lang = safe_unicode(literal.language)
+                            att_data[lang] = unicode(literal)
+                        else:
                             att_data[default_language] = unicode(literal)
                 else:
-                    att_data = unicode(attribute.first)
+                    if not attribute.first:
+                        att_data = None
+                    else:
+                        att_data = unicode(attribute.first)
 
                 params[key] = att_data
+
 
 #            # Special case of adms_identifier. Target type is string not
 #            # i18ntext. Therefore no dict but string has to be extracted
@@ -82,12 +92,30 @@ class UpdateThemes(object):
             # Todo : Check for collisions. Probably not by title but by
             # rdfs_isDefinedBy
 
-            # create a license document object
-            content.create(
-                container=self.context,
-                type=CT_SKOS_CONCEPT,
-                id=params['dc_identifier'],
-                title=params['dct_title'][default_language],
-                **params)
+            if not params['dct_title']:
+                params['dct_title'] = params['dc_identifier']
 
-            # Todo : Logging or response to user
+            # create a license document object
+            try:
+                content.create(
+                    container=self.context,
+                    type=CT_SKOS_CONCEPT,
+                    id=params['dc_identifier'][default_language],
+                    title=params['dct_title'][default_language],
+                    **params)
+            except Exception:
+                continue
+            else:
+                count += 1
+
+        msg = _('Imported ${count} DCT:LicenseDocument items.', mapping={
+            'count': count,
+        })
+        msg = translate(msg, context=self.request)
+        portal.show_message(message=msg, request=self.request)
+        url = '/'.join([
+            portal.get().absolute_url(),
+            FOLDER_CONCEPTS,
+        ])
+        self.request.response.redirect(url)
+        return u''
