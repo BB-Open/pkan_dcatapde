@@ -64,9 +64,8 @@ class HarvesterPreview(BrowserView):
 
         processor = self.context.source_type(context)
         preview = processor.get_preview(query, bindings=bindings)
-        pretty = json.dumps(preview)
-        self.request.response.setHeader('Content-type', 'application/json')
-        return pretty
+        self.request.response.setHeader('Content-type', 'application/html')
+        return preview
 
     def create_harvester(self, url, source_type):
         """
