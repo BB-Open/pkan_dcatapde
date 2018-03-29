@@ -62,7 +62,7 @@ class HarvesterPreview(BrowserView):
                 _(u'Did not find correct parameters to request data.'),
             )
 
-        processor = self.context.source_type(context)
+        processor = context.source_type(context)
         preview = processor.get_preview(query, bindings=bindings)
         pretty = json.dumps(preview)
         self.request.response.setHeader('Content-type', 'application/json')
