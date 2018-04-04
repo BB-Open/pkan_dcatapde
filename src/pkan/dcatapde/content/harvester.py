@@ -2,7 +2,6 @@
 """Harvester Content Type."""
 from pkan.dcatapde import _
 from pkan.dcatapde import i18n
-from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.constants import DCAT_TOP_NODES
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.structure.sparql import QUERY_A
@@ -11,7 +10,6 @@ from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from pkan.widgets.sparqlquery import SparqlQueryFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
-from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from z3c.form.interfaces import IEditForm
 from zope.interface import implementer
@@ -106,22 +104,3 @@ class Harvester(Container, DCATMixin):
         result['dcat:Dataset'] = QUERY_A
         result['dcat:Distribution'] = QUERY_A
         return result
-
-
-class HarvesterDefaultFactory(DexterityFactory):
-    """Custom DX factory for Harvester."""
-
-    def __init__(self):
-        self.portal_type = CT_HARVESTER
-
-    def __call__(self, *args, **kw):
-        # Fix: get context and maybe change it
-        from pkan.dcatapde.api.harvester import clean_harvester
-        data, errors = clean_harvester(**kw)
-        folder = DexterityFactory.__call__(self, *args, **data)
-
-        # raises AttributeError
-        # Fix: Solve Attribute Error
-        # add_harvester_field_config(folder)
-
-        return folder

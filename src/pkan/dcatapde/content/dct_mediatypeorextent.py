@@ -6,7 +6,6 @@ from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from plone.dexterity.content import Item
-from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
@@ -55,21 +54,3 @@ class DCTMediaTypeOrExtent(Item, DCATMixin):
 
     def Description(self):
         return self.desc_from_desc_field()
-
-
-class DCTMediaTypeOrExtentDefaultFactory(DexterityFactory):
-    """Custom DX factory for DCTMediaTypeOrExtent."""
-
-    def __init__(self):
-        self.portal_type = constants.CT_DCT_MEDIATYPEOREXTENT
-
-    def __call__(self, *args, **kw):
-        # Fix: get context and maybe change it
-        from pkan.dcatapde.api.dct_mediatypeorextend import \
-            clean_dct_mediatypeorextent
-        data, errors = clean_dct_mediatypeorextent(**kw)
-
-        return super(
-            DCTMediaTypeOrExtentDefaultFactory,
-            self,
-        ).__call__(*args, **data)

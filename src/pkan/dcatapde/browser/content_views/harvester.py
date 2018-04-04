@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.api.harvester import get_all_harvester_folder
+from pkan.dcatapde.api.functions import get_all_harvester_folder
 from plone.protect.utils import addTokenToUrl
 from Products.Five import BrowserView
 

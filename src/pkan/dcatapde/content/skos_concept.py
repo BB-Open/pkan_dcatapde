@@ -6,7 +6,6 @@ from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from plone.dexterity.content import Item
-from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
@@ -60,21 +59,3 @@ class SKOSConcept(Item, DCATMixin):
 
     def Description(self):
         return self.desc_from_desc_field()
-
-
-class SKOSConceptDefaultFactory(DexterityFactory):
-    """Custom DX factory for SKOSConcept."""
-
-    def __init__(self):
-        self.portal_type = constants.CT_SKOS_CONCEPT
-
-    def __call__(self, *args, **kw):
-        # Fix: get context and maybe change it
-        from pkan.dcatapde.api.skos_concept import \
-            clean_skos_concept
-        data, errors = clean_skos_concept(**kw)
-
-        return super(
-            SKOSConceptDefaultFactory,
-            self,
-        ).__call__(*args, **data)

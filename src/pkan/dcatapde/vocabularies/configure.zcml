@@ -93,11 +93,6 @@
       />
 
   <utility
-      component=".data_cleaner_vocabulary.DataCleanerVocabularyFactory"
-      name="pkan.dcatapde.DataCleanerVocabulary"
-      />
-
-  <utility
       component=".source_type_vocab.SourceTypeVocabFactory"
       name="pkan.dcatapde.SourceTypeVocabulary"
       />
