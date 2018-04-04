@@ -7,7 +7,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 
 @implementer(IVocabularyFactory)
-class SourceTypeVocabulary(object):
+class RdfTypeVocabulary(object):
     """
     """
 
@@ -48,4 +48,4 @@ class SourceTypeVocabulary(object):
         return SimpleVocabulary(terms)
 
 
-SourceTypeVocabFactory = SourceTypeVocabulary()
+RdfTypeVocabFactory = RdfTypeVocabulary()

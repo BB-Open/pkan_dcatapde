@@ -48,7 +48,7 @@ class IHarvester(model.Schema):
             u'variant like (JSON-LD, XML, Turtle), or a generic '
             u'source like "JSON generic"',
         ),
-        vocabulary='pkan.dcatapde.SourceTypeVocabulary',
+        vocabulary='pkan.dcatapde.RdfTypeVocabulary',
     )
 
     top_node = schema.Choice(

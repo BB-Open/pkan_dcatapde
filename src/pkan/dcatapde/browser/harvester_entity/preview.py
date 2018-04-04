@@ -4,7 +4,7 @@ from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.constants import HARVESTER_FOLDER_ID
 from pkan.dcatapde.constants import HARVESTER_FOLDER_TITLE
 from pkan.dcatapde.content.harvester import Harvester
-from pkan.dcatapde.vocabularies.source_type_vocab import SourceTypeVocabFactory
+from pkan.dcatapde.vocabularies.rdf_type_vocab import RdfTypeVocabFactory
 from plone import api
 from Products.Five import BrowserView
 
@@ -40,7 +40,7 @@ class HarvesterPreview(BrowserView):
                 query = form['query_data']
             if 'form.widgets.source_type' in form:
                 source_type_token = form['form.widgets.source_type'][0]
-                vocab = SourceTypeVocabFactory(self.context)
+                vocab = RdfTypeVocabFactory(self.context)
                 terms = vocab.by_token
                 term = terms[source_type_token]
                 source_type = term.value
