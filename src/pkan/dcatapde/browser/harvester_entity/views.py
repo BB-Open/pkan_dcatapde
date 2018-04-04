@@ -189,19 +189,6 @@ class IHarvesterMultiSchema(model.Schema):
     )
 
 
-# @implementer(IHarvesterMultiSchema)
-# class HarvesterMulti(object):
-#
-#     def __init__(self, fields, context):
-#         self.fields = fields
-#         self.context = context
-#
-#     def absolute_url(self):
-#         return self.context.absolute_url()
-#
-# registerFactoryAdapter(IHarvesterMultiSchema, HarvesterMulti)
-
-
 class HarvesterMultiEntityForm(edit.DefaultEditForm):
     schema = IHarvesterMultiSchema
     additionalSchemata = []

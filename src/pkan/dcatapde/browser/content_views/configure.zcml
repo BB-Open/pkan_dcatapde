@@ -19,14 +19,6 @@
     permission="cmf.ManagePortal"
     />
 
- <browser:page
-    for="pkan.dcatapde.content.harvester.IHarvester"
-    name="reset_fields"
-    class=".harvester.ResetFieldsView"
-    template="templates/dry_run.pt"
-    permission="cmf.ManagePortal"
-    />
-
   <browser:page
     for="*"
     name="harvester_overview"
