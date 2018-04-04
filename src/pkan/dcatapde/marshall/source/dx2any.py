@@ -80,26 +80,36 @@ class DX2Any(object):
 
     def marshall_references(self):
         """Marshall the referenced objects."""
-        for item_name in self.structure.referenced:
-            uid = getattr(self.context, item_name, None)
-            if not uid:
-                continue
-            item = content.get(UID=uid)
-            if not item:
-                continue
-            referenced_marshaller = queryMultiAdapter(
-                (item, self.marshall_target),
-                interface=IMarshallSource,
-                default=DX2Any(item, self.marshall_target),
-            )
-            if referenced_marshaller:
-                referenced_marshaller.marshall()
+        for ref_name in self.structure.referenced:
 
-                self.marshall_target.set_link(
-                    self.resource,
-                    item_name,
-                    referenced_marshaller.resource,
+            if self.structure.referenced[ref_name]['type'] != list:
+                uid = getattr(self.context, ref_name, None)
+                if not uid:
+                    continue
+                uid_list = [uid]
+            else:
+                uid_list = getattr(self.context, ref_name, None)
+                if not uid_list:
+                    continue
+            resources = []
+            for uid in uid_list:
+                ref = content.get(UID=uid)
+                if not ref:
+                    continue
+                referenced_marshaller = queryMultiAdapter(
+                    (ref, self.marshall_target),
+                    interface=IMarshallSource,
+                    default=DX2Any(ref, self.marshall_target),
                 )
+                if referenced_marshaller:
+                    referenced_marshaller.marshall()
+                    resources.append(referenced_marshaller.resource)
+
+            self.marshall_target.set_links(
+                self.resource,
+                ref_name,
+                resources,
+            )
 
     def marshall_collection(self):
         """Get content from the collection behavior and marshall it"""
