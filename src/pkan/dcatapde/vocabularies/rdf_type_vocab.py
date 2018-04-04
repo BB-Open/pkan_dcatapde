@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.harvesting.source_type import interfaces
+from pkan.dcatapde.harvesting.rdf import interfaces
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm

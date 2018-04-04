@@ -14,20 +14,19 @@ from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
-from pkan.dcatapde.harvesting.source_type.interfaces import IRDFJSONLD
-from pkan.dcatapde.harvesting.source_type.interfaces import IRDFTTL
-from pkan.dcatapde.harvesting.source_type.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.source_type.visitors import DCATVisitor
-from pkan.dcatapde.harvesting.source_type.visitors import InputVisitor
-from pkan.dcatapde.harvesting.source_type.visitors import Node
-from pkan.dcatapde.harvesting.source_type.visitors import NS_ERROR
-from pkan.dcatapde.harvesting.source_type.visitors import NS_WARNING
-from pkan.dcatapde.harvesting.source_type.visitors import NT_DEFAULT
-from pkan.dcatapde.harvesting.source_type.visitors import NT_DX_DEFAULT
-from pkan.dcatapde.harvesting.source_type.visitors import NT_RESIDUAL
-from pkan.dcatapde.harvesting.source_type.visitors import NT_SPARQL
-from pkan.dcatapde.harvesting.source_type.visitors import RealRunVisitor
-from pkan.dcatapde.harvesting.source_type.visitors import Scribe
+from pkan.dcatapde.harvesting.rdf.interfaces import IRDFJSONLD
+from pkan.dcatapde.harvesting.rdf.interfaces import IRDFTTL
+from pkan.dcatapde.harvesting.rdf.interfaces import IRDFXML
+from pkan.dcatapde.harvesting.rdf.visitors import DCATVisitor
+from pkan.dcatapde.harvesting.rdf.visitors import InputVisitor
+from pkan.dcatapde.harvesting.rdf.visitors import Node
+from pkan.dcatapde.harvesting.rdf.visitors import NS_ERROR
+from pkan.dcatapde.harvesting.rdf.visitors import NS_WARNING
+from pkan.dcatapde.harvesting.rdf.visitors import NT_DEFAULT
+from pkan.dcatapde.harvesting.rdf.visitors import NT_DX_DEFAULT
+from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
+from pkan.dcatapde.harvesting.rdf.visitors import NT_SPARQL
+from pkan.dcatapde.harvesting.rdf.visitors import RealRunVisitor
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_ATT
@@ -46,7 +45,6 @@ from plone.memoize import ram
 from pyparsing import ParseException
 from rdflib import Graph
 from rdflib.plugins.memory import IOMemory
-from rdflib.store import Store
 from rdflib.term import Literal
 from traceback import format_tb
 from xml.sax import SAXParseException
@@ -118,16 +116,6 @@ class RDFProcessor(object):
         self.setup_logger()
         self.get_entity_mapping()
 
-    def read_rdf_file(self, uri):
-        """Load the rdf data"""
-        rdfstore = Store()
-        # self.session = self.harvester.rdfstore.session
-        # self.harvester.rdfstore.store.load_triples(source=uri, format=format)
-        graph = Graph(rdfstore)
-        # graph.open(uri)
-        graph.parse(source=uri)
-        return rdfstore, graph
-
     def get_entity_mapping(self):
         """Fill the mappings for the entities"""
         annotations = IAnnotations(self.harvester)
@@ -151,24 +139,6 @@ class RDFProcessor(object):
         _graph.parse(source=self.harvester.url, format=self.serialize_format)
         return _graph
 
-    def read_classes(self):
-        """Read the classes of the rdf data for the vocabulary to assign
-         to DX classes"""
-        SPARQL = """SELECT DISCTINCT ?o WHERE {?s a ?o .}"""
-        result = self.harvester.graph.query(SPARQL)
-        return result
-
-    def read_dcat_fields(self, *args, **kwargs):
-        """Dummy"""
-        return []
-
-    def read_fields(self, *args, **kwargs):
-        """Dummy"""
-        return []
-
-    def clean_data(self, *arg, **kwargs):
-        """Dummy"""
-
     def setup_logger(self):
         """Log to a io.stream that can later be embedded in the view output"""
         # get a logger named after the serializing format we use
@@ -185,17 +155,6 @@ class RDFProcessor(object):
         stream_handler.setFormatter(formatter)
         log.addHandler(stream_handler)
         self.log = log
-
-    def reap_logger(self):
-        """return the log output"""
-        # rewind the stream
-        self.log_stream.seek(0)
-        # read the stream into a string
-        log = self.log_stream.read()
-        # get rid of the stream
-        self.log_stream.close()
-        # and return return the log
-        return log
 
     def top_nodes(self, visitor):
         """Find top nodes: Catalogs or datasets"""
@@ -247,10 +206,6 @@ class RDFProcessor(object):
             rdf_node=catalog,
             target_struct=self.struct_class,
         )
-
-    def scribe(self, level=None, msg=None, **kwargs):
-        message = _(msg, mapping=kwargs)
-        getattr(self.log, level)(message)
 
     def handle_list(self, visitor, res, **kwargs):
         obj_data = kwargs['obj_data']
@@ -821,7 +776,9 @@ class RDFProcessor(object):
             }
             # If the field is a Literal we simply store it.
             if obj_class == StructRDFSLiteral:
-                obj_data[field_name] = getattr(context, field_name)
+                # todo: is None as default correct or should
+                # this case be ignored
+                obj_data[field_name] = getattr(context, field_name, None)
                 visitor.end_node(predicate, obj_class, **params)
             # if not we have to create a sub object recursively
             else:
@@ -843,7 +800,11 @@ class RDFProcessor(object):
             )
 
         node = visitor.pop_node()
-        node.title = context.Title()
+        # todo: check if this is correct
+        if context:
+            node.title = context.Title()
+        else:
+            node.title = ''
 
     def parse_dcat_data(self):
         """Parsing the data in respect to the dcat ap.de diagram
@@ -857,7 +818,7 @@ class RDFProcessor(object):
         )
         self.log.info(msg)
 
-        self.scribe = Scribe()
+        # self.scribe = Scribe()
         visitor = DCATVisitor()
 
         # start on the top nodes
@@ -879,7 +840,7 @@ class RDFProcessor(object):
         )
         self.log.info(msg)
 
-        self.scribe = Scribe()
+        # self.scribe = Scribe()
         visitor = InputVisitor()
 
         # start on the top nodes

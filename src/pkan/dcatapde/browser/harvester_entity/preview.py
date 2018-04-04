@@ -25,7 +25,7 @@ class HarvesterPreview(BrowserView):
         source_path = None
         # query to be used
         query = None
-        # used for for add/edit-forms where source_type can be changed in form
+        # used for for add/edit-forms where rdf can be changed in form
         source_type = None
         # used to give context information to sparqle query
         bindings = {}
@@ -38,8 +38,8 @@ class HarvesterPreview(BrowserView):
                 source_path = form['source_path']
             if 'query_data' in form:
                 query = form['query_data']
-            if 'form.widgets.source_type' in form:
-                source_type_token = form['form.widgets.source_type'][0]
+            if 'form.widgets.rdf' in form:
+                source_type_token = form['form.widgets.rdf'][0]
                 vocab = RdfTypeVocabFactory(self.context)
                 terms = vocab.by_token
                 term = terms[source_type_token]
