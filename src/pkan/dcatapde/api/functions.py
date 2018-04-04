@@ -1,34 +1,7 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import constants
-from pkan.dcatapde.harvesting.field_adapter.interfaces import IFieldProcessor
 from plone import api
-from plone.dexterity.interfaces import IDexterityFTI
-from zope.component import ComponentLookupError
-from zope.component import getUtility
 from zope.component.hooks import getSite
-from zope.schema import getFieldsInOrder
-
-
-# security related functions
-
-# vocabulary related functions
-def get_terms_for_ct(CT, prefix='', required=False):
-    terms = []
-    try:
-        schema = getUtility(IDexterityFTI,
-                            name=CT).lookupSchema()
-    except ComponentLookupError:
-        return terms
-    fields = getFieldsInOrder(schema)
-    for field_name, field in fields:
-        adapter = IFieldProcessor(field)
-
-        terms += adapter.get_terms_for_vocab(CT,
-                                             field_name,
-                                             prefix=prefix,
-                                             required=required)
-
-    return terms
 
 
 # get functions
