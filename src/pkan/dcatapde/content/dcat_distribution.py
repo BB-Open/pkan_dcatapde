@@ -8,7 +8,6 @@ from pkan.dcatapde.content.base import IDCAT
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
-from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
@@ -149,20 +148,3 @@ class DCATDistribution(Container, DCATMixin):
 
     def Description(self):
         return self.desc_from_desc_field()
-
-
-class DCATDistributionDefaultFactory(DexterityFactory):
-    """Custom DX factory for DCATDistribution."""
-
-    def __init__(self):
-        self.portal_type = constants.CT_DCAT_DISTRIBUTION
-
-    def __call__(self, *args, **kw):
-        # Fix: get context and maybe change it
-        from pkan.dcatapde.api.dcat_distribution import clean_distribution
-        data, errors = clean_distribution(**kw)
-
-        return super(
-            DCATDistributionDefaultFactory,
-            self,
-        ).__call__(*args, **data)

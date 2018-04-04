@@ -20,7 +20,6 @@
   <include file="permissions.zcml" />
 
   <include package=".browser" />
-  <include package=".config" />
   <include package=".content" />
   <include package=".harvesting"/>
   <include package=".marshall"/>

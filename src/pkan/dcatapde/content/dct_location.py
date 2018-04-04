@@ -6,7 +6,6 @@ from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from plone.dexterity.content import Item
-from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
@@ -60,20 +59,3 @@ class DCTLocation(Item, DCATMixin):
             title=self.Title(),
             url=self.rdfs_isDefinedBy,
         )
-
-
-class DCTLocationDefaultFactory(DexterityFactory):
-    """Custom DX factory for DCTLocation."""
-
-    def __init__(self):
-        self.portal_type = constants.CT_DCT_LOCATION
-
-    def __call__(self, *args, **kw):
-        # Fix: get context and maybe change it
-        from pkan.dcatapde.api import dct_location
-        data, errors = dct_location.clean(**kw)
-
-        return super(
-            DCTLocationDefaultFactory,
-            self,
-        ).__call__(*args, **data)

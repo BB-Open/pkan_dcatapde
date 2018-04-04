@@ -1,7 +1,5 @@
 <configure
   xmlns="http://namespaces.zope.org/zope"
-  xmlns:browser="http://namespaces.zope.org/browser"
-  xmlns:plone="http://namespaces.plone.org/plone"
   i18n_domain="pkan.dcatapde">
 
   <!-- DCATCatalog -->
@@ -12,12 +10,6 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
-  <utility
-      factory=".dcat_catalog.DCATCatalogDefaultFactory"
-      name="dcat_catalog"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
   <!-- DCATCollectionCatalog -->
   <!-- =========== -->
   <adapter
@@ -26,25 +18,12 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
-  <utility
-      factory=".dcat_collectioncatalog.DCATCollectionCatalogDefaultFactory"
-      name="dcat_collection_catalog"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
-
   <!-- DCATDataset -->
   <!-- =========== -->
   <adapter
       factory=".util.NameFromDCTTitle"
       for=".dcat_dataset.IDCATDataset"
       provides="plone.app.content.interfaces.INameFromTitle"
-      />
-
-  <utility
-      factory=".dcat_dataset.DCATDatasetDefaultFactory"
-      name="dcat_dataset"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
 
@@ -56,12 +35,6 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
-  <utility
-      factory=".dcat_distribution.DCATDistributionDefaultFactory"
-      name="dcat_distribution"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
 
   <!-- DCTLicenseDocument -->
   <!-- ================== -->
@@ -71,12 +44,6 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
-  <utility
-      factory=".dct_licensedocument.DCTLicenseDocumentDefaultFactory"
-      name="dct_licensedocument"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
 
   <!-- DCTLocation -->
   <!-- =========== -->
@@ -84,12 +51,6 @@
       factory=".util.NameFromDCTTitle"
       for=".dct_location.IDCTLocation"
       provides="plone.app.content.interfaces.INameFromTitle"
-      />
-
-  <utility
-      factory=".dct_location.DCTLocationDefaultFactory"
-      name="dct_location"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
 
@@ -110,12 +71,6 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
-  <utility
-      factory=".dct_rightsstatement.DCTRightsstatementDefaultFactory"
-      name="dct_rightsstatement"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
 
   <!-- DCTStandard -->
   <!-- =========== -->
@@ -125,12 +80,6 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
-  <utility
-      factory=".dct_standard.DCTStandardDefaultFactory"
-      name="dct_standard"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
 
   <!-- FOAFAgent -->
   <!-- ========= -->
@@ -138,12 +87,6 @@
       factory=".util.NameFromDCTTitle"
       for=".foaf_agent.IFOAFAgent"
       provides="plone.app.content.interfaces.INameFromTitle"
-      />
-
-  <utility
-      factory=".foaf_agent.FOAFAgentDefaultFactory"
-      name="foaf_agent"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
   <adapter
@@ -158,12 +101,6 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
-  <utility
-      factory=".skos_concept.SKOSConceptDefaultFactory"
-      name="skos_concept"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
 
   <!-- SKOSConceptScheme -->
   <!-- ================= -->
@@ -171,12 +108,6 @@
       factory=".util.NameFromDCTTitle"
       for=".skos_conceptscheme.ISKOSConceptScheme"
       provides="plone.app.content.interfaces.INameFromTitle"
-      />
-
-  <utility
-      factory=".skos_conceptscheme.SKOSConceptSchemeDefaultFactory"
-      name="skos_conceptscheme"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
       />
 
 
@@ -188,20 +119,9 @@
     handler=".harvester.add_field_config"
     />
 -->
-  <utility
-      factory=".harvester.HarvesterDefaultFactory"
-      name="harvester"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
-
 
   <!-- HarvesterFolder -->
   <!-- =============== -->
-  <utility
-      factory=".harvesterfolder.HarvesterFolderDefaultFactory"
-      name="harvesterfolder"
-      provides="plone.dexterity.interfaces.IDexterityFactory"
-      />
 
   <!-- RDFS_LITERAL -->
   <!-- =============== -->

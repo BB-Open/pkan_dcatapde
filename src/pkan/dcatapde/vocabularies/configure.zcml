@@ -87,19 +87,11 @@
 
   <!-- Harvesting Vocabularies. -->
   <!-- ======================== -->
-  <utility
-      component=".harvesting_vocabulary.HarvestingVocabularyFactory"
-      name="pkan.dcatapde.HarvestingVocabulary"
-      />
+
 
   <utility
-      component=".data_cleaner_vocabulary.DataCleanerVocabularyFactory"
-      name="pkan.dcatapde.DataCleanerVocabulary"
-      />
-
-  <utility
-      component=".source_type_vocab.SourceTypeVocabFactory"
-      name="pkan.dcatapde.SourceTypeVocabulary"
+      component=".rdf_type_vocab.RdfTypeVocabFactory"
+      name="pkan.dcatapde.RdfTypeVocabulary"
       />
 
   <!-- Language Vocabularies. -->

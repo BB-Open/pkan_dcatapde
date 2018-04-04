@@ -6,7 +6,6 @@ from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from plone.dexterity.content import Item
-from plone.dexterity.factory import DexterityFactory
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
@@ -65,21 +64,3 @@ class DCTLicenseDocument(Item, DCATMixin):
             title=self.Title(),
             url=self.rdfs_isDefinedBy,
         )
-
-
-class DCTLicenseDocumentDefaultFactory(DexterityFactory):
-    """Custom DX factory for DCTLicenseDocument."""
-
-    def __init__(self):
-        self.portal_type = constants.CT_DCT_LICENSEDOCUMENT
-
-    def __call__(self, *args, **kw):
-        # Fix: get context and maybe change it
-        from pkan.dcatapde.api.dct_licensedocument import \
-            clean_dct_licensedocument
-        data, errors = clean_dct_licensedocument(**kw)
-
-        return super(
-            DCTLicenseDocumentDefaultFactory,
-            self,
-        ).__call__(*args, **data)

@@ -24,4 +24,12 @@
       permission="pkan.dcatapde.controlpanel.PKAN"
       />
 
+  <browser:page
+      class=".views.MainControlPanelView"
+      for="*"
+      name="pkan-dcatapde-config"
+      permission="cmf.ManagePortal"
+      template="templates/controlpanel.pt"
+      />
+
 </configure>

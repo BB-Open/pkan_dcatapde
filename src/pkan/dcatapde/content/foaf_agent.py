@@ -7,7 +7,6 @@ from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from pkan.dcatapde.content.util import I18NField2Unique
 from plone.dexterity.content import Item
-from plone.dexterity.factory import DexterityFactory
 from plone.indexer import indexer
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
@@ -55,23 +54,6 @@ class FOAFAgent(Item, DCATMixin):
 
     def Description(self):
         return self.desc_from_desc_field()
-
-
-class FOAFAgentDefaultFactory(DexterityFactory):
-    """Custom DX factory for FOAFAgent."""
-
-    def __init__(self):
-        self.portal_type = constants.CT_FOAF_AGENT
-
-    def __call__(self, *args, **kw):
-        # Fix: get context and maybe change it
-        from pkan.dcatapde.api.foaf_agent import clean_foafagent
-        data, errors = clean_foafagent(**kw)
-
-        return super(
-            FOAFAgentDefaultFactory,
-            self,
-        ).__call__(*args, **data)
 
 
 @indexer(IFOAFAgent)

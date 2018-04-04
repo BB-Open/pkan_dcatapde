@@ -11,5 +11,13 @@
       handler=".upgrades.reload_gs_profile"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1002"
+      title="Remove DefaultFactories"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.remove_defaultfactories"
+      />
 
 </configure>
