@@ -51,7 +51,7 @@ class UpdateThemes(object):
         for theme in themes:
             # map the properties
             mapping = {
-                'dct_title': 'skos_preflabel',
+                'dct_title': 'skos_prefLabel',
                 'skos_inScheme': 'skos_inScheme',
                 'dc_identifier': 'dc_identifier',
             }
