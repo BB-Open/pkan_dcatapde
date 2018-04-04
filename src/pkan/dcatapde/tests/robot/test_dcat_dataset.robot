@@ -10,16 +10,13 @@ Suite Teardown  Teardown
 
 Scenario: As a site administrator I can add a dataset
   Given a logged-in site administrator
+    and a catalog 'My Catalog'
     and an add dataset form
    When I type 'My Dataset' into the title field
+    and I type 'a dataset' into the description field
+    and I type 'testid' into the dcatde_contributorID field
     and I submit the form
    Then a dataset with the title 'My Dataset' has been created
-
-Scenario: As a site administrator I can view a dataset
-  Given a logged-in site administrator
-    and a dataset 'My Dataset'
-   When I go to the dataset view
-   Then I can see the dataset title 'My Dataset'
 
 
 *** Keywords *****************************************************************
@@ -29,17 +26,23 @@ Scenario: As a site administrator I can view a dataset
 a logged-in site administrator
   Enable autologin as  Site Administrator
 
-an add dataset form
-  Go To  ${PLONE_URL}/++add++dataset
+a catalog 'My Catalog'
+  Create content  type=dcat_catalog  id=my-catalog  title=My Catalog
 
-a dataset 'My Dataset'
-  Create content  type=dataset  id=my-dataset  title=My Dataset
+an add dataset form
+  Go To  ${PLONE_URL}/my-catalog/++add++dcat_dataset
 
 
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.IDublinCore.title  ${title}
+  Input Text  form.widgets.dct_title.en  ${title}
+
+I type '${description}' into the description field
+  Input Text  form.widgets.dct_description.en  ${description}
+
+I type '${dcatde_contributorID}' into the dcatde_contributorID field
+  Input Text  form.widgets.dcatde_contributorID.en  ${dcatde_contributorID}
 
 I submit the form
   Click Button  Save
