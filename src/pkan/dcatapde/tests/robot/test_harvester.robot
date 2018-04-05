@@ -64,35 +64,21 @@ Scenario: As a manager I can view harvester_entity-View
     and I go to harvester_entity view
    Then I can see the harvester title 'My Harvester'
 
-# Scenario: As a manager I can request preview data on harvester_entity-view
-#   Given a logged-in manager
-#     and a harvester folder 'Harvester Folder'
-#     and an add harvester form
-#    When I type 'My Harvester' into the title field
-#     and I type 'https://demoapi.com/licenses/licenses.rdf' into the url field
-#     and I select 'RDF/XML' in 'form.widgets.source_type'
-#     and I submit the form
-#     and I go to harvester_entity view
-#     and I enter the query ${query}
-#     and I click the button 'Run'
-#    Then I can see the harvester title 'My Harvester'
-#     and I can see the preview '<?xml version="1.0" encoding="utf-8"?>'
-#     and I can see the preview '<variable name="definition">'
-#     and I can see the preview '<variable name="label">'
-#     and I can see the preview '...'
+Scenario: As a manager I can go to harvester_entity-view
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and a harvester 'My Harvester'
+   When I go to harvester_entity view
+   Then I can see the text 'Edit Harvester'
+    and I can see the text 'Select your fields'
 
-
-# Scenario: As a manger I can submit data on harvester_entity-view
-#   Given a logged-in manager
-#     and a harvester folder 'Harvester Folder'
-#     and an add harvester form
-#    When I type 'My Harvester' into the title field
-#     and I type 'http://www.test.de' into the url field
-#     and I submit the form
-#     and I go to harvester_entity view
-#     and I submit the form
-#    Then I can see the harvester title 'My Harvester'
-#     and I can see the success message 'Thank you very much!'
+Scenario: As a manger I can submit data on harvester_entity-view
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and a harvester 'My Harvester'
+   When I go to harvester_entity view
+    and I submit the form
+   Then I can see the success message 'Thank you very much!'
 
 *** Keywords *****************************************************************
 
@@ -103,6 +89,14 @@ a logged-in manager
 
 a harvester folder 'Harvester Folder'
   Create content  type=harvesterfolder  id=my-harvesterfolder  title=My HarvesterFolder
+
+a harvester 'My Harvester'
+  Create content
+  ...  type=harvester
+  ...  id=my-harvester
+  ...  title=My Harvester
+  ...  container=/plone/my-harvesterfolder
+  ...  url=https://example.com
 
 an add harvester form
   Go To  ${PLONE_URL}/my-harvesterfolder/++add++harvester
@@ -150,6 +144,10 @@ a harvester with the title '${title}' has been created
 I can see the harvester title '${title}'
   Wait until page contains  Site Map
   Page should contain  ${title}
+
+I can see the text '${text}'
+  Wait until page contains  Site Map
+  Page should contain  ${text}
 
 I can see the success message '${message}'
   Wait until page contains  Site Map
