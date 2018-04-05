@@ -10,16 +10,12 @@ Suite Teardown  Teardown
 
 Scenario: As a site administrator I can add a distribution
   Given a logged-in site administrator
+    and a catalog 'My Catalog'
+    and a dataset 'My Dataset'
     and an add distribution form
    When I type 'My DCATDistribution' into the title field
     and I submit the form
    Then a distribution with the title 'My DCATDistribution' has been created
-
-Scenario: As a site administrator I can view a distribution
-  Given a logged-in site administrator
-    and a distribution 'My DCATDistribution'
-   When I go to the distribution view
-   Then I can see the distribution title 'My DCATDistribution'
 
 
 *** Keywords *****************************************************************
@@ -30,10 +26,13 @@ a logged-in site administrator
   Enable autologin as  Site Administrator
 
 an add distribution form
-  Go To  ${PLONE_URL}/++add++dcat_distribution
+  Go To  ${PLONE_URL}/my-catalog/my-dataset/++add++dcat_distribution
 
-a distribution 'My DCATDistribution'
-  Create content  type=dcat_distribution  id=my-distribution  title=My DCATDistribution
+a catalog 'My Catalog'
+  Create content  type=dcat_catalog  id=my-catalog  title=My Catalog
+
+a dataset 'My Dataset'
+  Create content  type=dcat_dataset  id=my-dataset  title=My Dataset  container=/plone/my-catalog
 
 
 # --- WHEN -------------------------------------------------------------------
