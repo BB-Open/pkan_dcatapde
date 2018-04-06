@@ -34,6 +34,39 @@ I select '${choice}' from an AJAX select widget with id '${field}'
 I select '${value}' in '${field}'
     Select From List  name=${field}:list  ${value}
 
+I set the criteria ${type} in row ${number} to the option '${label}'
+  [Documentation]  A couple of times we shift the focus so the input sticks, and wait a bit,
+  ...              to make the test more stable.
+  ${criteria_row} =  Convert to String  .querystring-criteria-wrapper:nth-child(${number})
+  Wait until page contains element  css=${criteria_row} .querystring-criteria-${type} .select2-choice
+  Click Element  css=${criteria_row} .querystring-criteria-${type} .select2-choice
+  Sleep  1.5
+  Focus  css=body
+  Wait until element is visible  css=#select2-drop input
+  Input Text  css=#select2-drop input  ${label}
+  Sleep  1.5
+  Focus  css=body
+  Wait until element is visible  css=#select2-drop .select2-match
+  Click Element  css=#select2-drop .select2-match
+  Sleep  1.5
+  Focus  css=body
+
+I set the criteria ${type} in row ${number} to the options '${label}'
+  ${criteria_row} =  Convert to String  .querystring-criteria-wrapper:nth-child(${number})
+  Wait until page contains element  css=${criteria_row} .querystring-criteria-${type} .select2-choices
+  Click Element  css=${criteria_row} .querystring-criteria-${type} .select2-choices
+  Wait until page contains element  css=.select2-input.select2-focused
+  Input text  css=.select2-input.select2-focused  ${label}\n
+  Sleep  1.5
+
+I set the criteria ${type} in row ${number} to the text '${label}'
+  ${criteria_row} =  Convert to String  .querystring-criteria-wrapper:nth-child(${number})
+  Input text  css=${criteria_row} .querystring-criteria-value input  ${label}\t
+  [Documentation]  Shift the focus so the input sticks, and wait a bit
+  Sleep  1.5
+  Focus  css=.querystring-sortreverse
+  Sleep  1.5
+
 
 
 *** Variables ****************************************************************
