@@ -72,13 +72,31 @@ Scenario: As a manager I can go to harvester_entity-view
    Then I can see the text 'Edit Harvester'
     and I can see the text 'Select your fields'
 
-Scenario: As a manger I can submit data on harvester_entity-view
+Scenario: As a manger I can submit empty data on harvester_entity-view
   Given a logged-in manager
     and a harvester folder 'Harvester Folder'
     and a harvester 'My Harvester'
    When I go to harvester_entity view
     and I submit the form
    Then I can see the success message 'Thank you very much!'
+
+Scenario: As a manger I can submit data on single_harvester_entity-view
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and a harvester 'My Harvester'
+   When I go to harvester_single_entity view
+    and I select 'dcat_catalog=>dcat_themeTaxonomy' in 'form.widgets.destination'
+    and I submit the form
+   Then I can see the success message 'Thank you very much!'
+
+Scenario: As a manger I can submit data on harvester_single_entity-view and review it on harvester_entity view
+  Given a logged-in manager
+    and a harvester folder 'Harvester Folder'
+    and a harvester 'My Harvester'
+   When I go to harvester_single_entity view
+    and I select 'dcat_catalog=>dcat_themeTaxonomy' in 'form.widgets.destination'
+    and I submit the form
+   Then I can see the text 'dcat_catalog=>dcat_themeTaxonomy'
 
 *** Keywords *****************************************************************
 
@@ -132,6 +150,10 @@ I go to controlpanel view
 
 I go to harvester_entity view
   Go To  ${PLONE_URL}/my-harvesterfolder/my-harvester/harvester_entity
+  Wait until page contains  Site Map
+
+I go to harvester_single_entity view
+  Go To  ${PLONE_URL}/my-harvesterfolder/my-harvester/harvester_single_entity
   Wait until page contains  Site Map
 
 # --- THEN -------------------------------------------------------------------
