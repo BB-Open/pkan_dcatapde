@@ -102,7 +102,7 @@ class RDFProcessor(object):
         # self.field_config = get_field_config(self.harvester)
         self.harvesting_context = self.harvester
         if self.harvester:
-            if self.harvester.base_object:
+            if getattr(self.harvester, 'base_object', None):
                 self.harvesting_context = content.get(
                     UID=self.harvester.base_object,
                 )

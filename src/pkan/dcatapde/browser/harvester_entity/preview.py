@@ -38,8 +38,10 @@ class HarvesterPreview(BrowserView):
                 source_path = form['source_path']
             if 'query_data' in form:
                 query = form['query_data']
-            if 'form.widgets.rdf' in form:
-                source_type_token = form['form.widgets.rdf'][0]
+            if 'form.widgets.source_type' in form:
+                source_type_token = form['form.widgets.source_type']
+                if isinstance(source_type_token, list):
+                    source_type_token = source_type_token[0]
                 vocab = RdfTypeVocabFactory(self.context)
                 terms = vocab.by_token
                 term = terms[source_type_token]
@@ -57,15 +59,15 @@ class HarvesterPreview(BrowserView):
             source_type,
         )
 
-        if not context:
+        if not context or not getattr(context, 'source_type', None):
             return json.dumps(
-                _(u'Did not find correct parameters to request data.'),
+                _(u'Result: Did not find correct parameters to request data.'),
             )
 
         processor = context.source_type(context)
         preview = processor.get_preview(query, bindings=bindings)
-        self.request.response.setHeader('Content-type', 'application/html')
-        return preview
+        # self.request.response.setHeader('Content-type', 'application/html')
+        return json.dumps(preview)
 
     def create_harvester(self, url, source_type):
         """
@@ -78,7 +80,7 @@ class HarvesterPreview(BrowserView):
         harvester.id = HARVESTER_FOLDER_ID
         harvester.title = HARVESTER_FOLDER_TITLE
         harvester.url = url
-        harvester.rdf_format = source_type
+        harvester.source_type = source_type
 
         return harvester
 
@@ -93,7 +95,8 @@ class HarvesterPreview(BrowserView):
         if url and source_type:
             if not context:
                 context = self.create_harvester(url, source_type)
-            elif context.url != url or context.source_type != source_type:
+            elif getattr(context, 'url', None) != url or \
+                    getattr(context, 'source_type', None) != source_type:
                 # in case of add or edit-view fields could have changed
                 context = self.create_harvester(url, source_type)
 
