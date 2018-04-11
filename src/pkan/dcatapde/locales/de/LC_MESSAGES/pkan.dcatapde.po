@@ -23,19 +23,19 @@ msgstr ""
 
 #: pkan/dcatapde/harvesting/field_adapter/base.py:56
 msgid "${field_path}"
-msgstr ""
+msgstr "${field_path}"
 
 #: pkan/dcatapde/harvesting/field_adapter/base.py:41
 msgid "${field_path} (required)"
-msgstr ""
+msgstr "${field_path} (erforderlich)"
 
 #: pkan/dcatapde/harvesting/field_adapter/i18n.py:48
 msgid "${field_path}: ${suffix}"
-msgstr ""
+msgstr "${field_path}: ${suffix}"
 
 #: pkan/dcatapde/harvesting/field_adapter/i18n.py:33
 msgid "${field_path}: ${suffix} (required)"
-msgstr ""
+msgstr "${field_path}: ${suffix} (erforderlich)"
 
 #: pkan/dcatapde/config/templates/controlpanel.pt:48
 msgid ""
@@ -46,12 +46,13 @@ msgstr ""
 
 #: pkan/dcatapde/api/harvester_field_config.py:37
 msgid "API: Cannot create second field config for harvester"
-msgstr ""
-"API: Für Harvester kann kein zweites Konfigurationsfeld angelegt werden"
+msgstr "API: Für Harvester kann keine zweite Konfiguration angelegt werden."
 
 #: pkan/dcatapde/api/harvester.py:64
 msgid "API: Cannot create second harvester_folder folder"
-msgstr "API: harvester_folder kann nicht doppelt angelegt werden"
+msgstr ""
+"API: Es kann kein weiteres Harvester-Verzeichnis angelegt werden, da bereits"
+" einer im System existiert."
 
 #: pkan/dcatapde/i18n.py:153
 msgid "Access URI"
@@ -59,7 +60,7 @@ msgstr "URI für Zugriff"
 
 #: pkan/dcatapde/i18n.py:113
 msgid "Access URL"
-msgstr ""
+msgstr "URL für Zugriff"
 
 #: pkan/dcatapde/profiles/default/types/AgentFolder.xml
 msgid "AgentFolder"
@@ -205,7 +206,7 @@ msgstr ""
 
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:12
 msgid "Dry Run"
-msgstr ""
+msgstr "Probelauf"
 
 #: pkan/dcatapde/profiles/default/types/dcat_catalog.xml
 #: pkan/dcatapde/profiles/default/types/dcat_dataset.xml
@@ -341,7 +342,7 @@ msgstr ""
 
 #: pkan/dcatapde/i18n.py:135
 msgid "Languages"
-msgstr ""
+msgstr "Sprachen"
 
 #: pkan/dcatapde/i18n.py:119
 msgid "Legal basis text"
@@ -353,7 +354,7 @@ msgstr ""
 
 #: pkan/dcatapde/i18n.py:136
 msgid "License"
-msgstr ""
+msgstr "Lizenz"
 
 #: pkan/dcatapde/content/harvester_field_config.py:142
 msgid "License Fields"
@@ -499,7 +500,7 @@ msgstr "Veröffentlicher"
 
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:13
 msgid "Real Run"
-msgstr ""
+msgstr "Import starten"
 
 #: pkan/dcatapde/i18n.py:160
 msgid "Registry has been updated. Please reload this page."
@@ -620,12 +621,12 @@ msgstr ""
 #: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_base.pt:26
 #: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_folders.pt:26
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: pkan/dcatapde/browser/content_views/templates/fieldconfig.pt:20
 #: pkan/dcatapde/content/harvester_field_config.py:25
 msgid "Source Field"
-msgstr ""
+msgstr "Quell-Feld"
 
 #: pkan/dcatapde/content/harvester.py:42
 msgid "Source Type"
