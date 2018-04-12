@@ -2,7 +2,9 @@
 """Vocabularies and sources for content types."""
 from BTrees._IIBTree import intersection
 from pkan.dcatapde import constants
+from pkan.dcatapde.constants import CT_CONCEPT_FOLDER
 from pkan.dcatapde.constants import DCAT_CTs
+from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.i18n import CT_LABELS
 from pkan.dcatapde.vocabularies import utils
 from plone import api
@@ -269,3 +271,38 @@ class SKOSConceptValueVocabulary(KeywordsVocabulary):
         return self.keywords_of_section(section, query)
 
 SKOSConceptValueVocabularyFactory = SKOSConceptValueVocabulary()
+
+
+@implementer(IVocabularyFactory)
+class SKOSConceptDefaultVocabulary(KeywordsVocabulary):
+
+    def safe_simplevocabulary_from_values(self, values):
+        """Creates (filtered) SimpleVocabulary from iterable of untrusted values.
+        """
+        terms = []
+        for id, obj in values:
+            title = obj.Title()
+            uid = obj.UID()
+            term = SimpleTerm(uid, uid, title)
+            terms.append(term)
+        return SimpleVocabulary(terms)
+
+    def all_keywords(self):
+        site = getSite()
+        self.catalog = getToolByName(site, 'portal_catalog', None)
+        if self.catalog is None:
+            return SimpleVocabulary([])
+        parent_brain = self.catalog.searchResults(
+            portal_type=CT_CONCEPT_FOLDER,
+            title=FOLDER_CONCEPTS,
+        )
+        parent = parent_brain[0].getObject()
+        voc = self.safe_simplevocabulary_from_values(
+            parent.contentItems(),
+        )
+        return voc
+
+    def __call__(self, context, query=None):
+        return self.all_keywords()
+
+SKOSConceptDefaultVocabularyFactory = SKOSConceptDefaultVocabulary()

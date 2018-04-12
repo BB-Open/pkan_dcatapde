@@ -15,6 +15,11 @@
       />
 
   <utility
+      component=".content_types.SKOSConceptDefaultVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.SKOSConceptDefault"
+      />
+
+  <utility
       component=".content_types.DCATCatalogVocabularyFactory"
       name="pkan.dcatapde.vocabularies.DCATCatalog"
       />

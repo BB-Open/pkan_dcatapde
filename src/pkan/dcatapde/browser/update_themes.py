@@ -108,7 +108,7 @@ class UpdateThemes(object):
             else:
                 count += 1
 
-        msg = _('Imported ${count} DCT:LicenseDocument items.', mapping={
+        msg = _('Imported ${count} concepts items.', mapping={
             'count': count,
         })
         msg = translate(msg, context=self.request)
