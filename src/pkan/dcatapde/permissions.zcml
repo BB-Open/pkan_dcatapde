@@ -83,14 +83,19 @@
         />
 
     <permission
-        id="pkan.dcatapde.AddHarvesterFieldConfig"
-        title="pkan.dcatapde: Add HarvesterFieldConfig"
-        />
+      id="pkan.dcatapde.PkanEditor"
+      title="pkan.dcatapde: View and Edit as Pkan Editor"
+      />
 
     <permission
-        id="pkan.dcatapde.AddHarvesterEntity"
-        title="pkan.dcatapde: Add HarvesterEntity"
-        />
+      id="pkan.dcatapde.CatalogAdmin"
+      title="pkan.dcatapde: View and Edit as CatalogAdmin"
+      />
+
+    <permission
+      id="pkan.dcatapde.Admin"
+      title="pkan.dcatapde: View and Edit as Admin"
+      />
 
   </configure>
 

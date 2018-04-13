@@ -7,6 +7,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATCollectionCatalog" acquire="True">
@@ -14,6 +16,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATDataset" acquire="True">
@@ -21,6 +25,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATDistribution" acquire="True">
@@ -28,6 +34,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLicenseDocument" acquire="True">
@@ -35,6 +43,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLocation" acquire="True">
@@ -42,6 +52,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTMediaTypeOrExtent" acquire="True">
@@ -49,6 +61,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTStandard" acquire="True">
@@ -63,6 +77,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add FOAFAgent" acquire="True">
@@ -70,6 +86,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add SKOSConcept" acquire="True">
@@ -77,6 +95,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add SKOSConceptScheme" acquire="True">
@@ -84,6 +104,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
 
@@ -101,18 +123,26 @@
       <role name="Contributor" />
     </permission>
 
-    <permission name="pkan.dcatapde: Add HarvesterFieldConfig" acquire="True">
+    <permission name="pkan.dcatapde: View and Edit as Admin" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
     </permission>
 
-    <permission name="pkan.dcatapde: Add HarvesterEntity" acquire="True">
+    <permission name="pkan.dcatapde: View and Edit as CatalogAdmin" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
+      <role name="CatalogAdmin" />
+    </permission>
+
+    <permission name="pkan.dcatapde: View and Edit as Pkan Editor" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
     </permission>
 
   </permissions>

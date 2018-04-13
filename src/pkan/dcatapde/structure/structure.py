@@ -432,7 +432,7 @@ class StructDCATDistribution(StructBase):
     rdf_type = DCAT.Distribution
     title_field = [
         'dct_title',
-        # 'dcat_accessURL'
+        'dcat_accessURL',
     ]
 
     @property

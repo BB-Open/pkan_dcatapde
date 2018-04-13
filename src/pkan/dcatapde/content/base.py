@@ -5,6 +5,8 @@ from pkan.dcatapde import i18n
 from pkan.dcatapde.structure.interfaces import IStructure
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
+from plone.autoform.directives import read_permission
+from plone.autoform.directives import write_permission
 from plone.supermodel import model
 
 import zope.schema as schema
@@ -13,11 +15,15 @@ import zope.schema as schema
 class IDCAT(model.Schema):
     """Marker interface for all DCAT-AP.de Content Types"""
 
+    read_permission(uri_in_triplestore='pkan.dcatapde.Admin')
+    write_permission(uri_in_triplestore='pkan.dcatapde.Admin')
     uri_in_triplestore = schema.URI(
         required=False,
         title=_(u'Uri in Triplestore'),
     )
 
+    read_permission(in_harvester='pkan.dcatapde.Admin')
+    write_permission(in_harvester='pkan.dcatapde.Admin')
     form.widget(
         'in_harvester',
         AjaxSelectAddFieldWidget,
@@ -64,6 +70,8 @@ class DCATMixin(object):
                     title = unicode(all_titles)
             except KeyError:
                 continue
+            if title:
+                break
         return title
 
     def desc_from_desc_field(self):

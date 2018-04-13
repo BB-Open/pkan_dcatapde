@@ -20,4 +20,13 @@
       handler=".upgrades.remove_defaultfactories"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1003"
+      title="Reload GS profiles: Updated Roles and Permissions"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
+
 </configure>

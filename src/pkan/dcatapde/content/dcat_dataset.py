@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """DCATDataset Content Type."""
-
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
+from plone.autoform.directives import read_permission
+from plone.autoform.directives import write_permission
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
@@ -65,6 +66,8 @@ class IDCATDataset(model.Schema, IDCAT):
         title=i18n.LABEL_DCT_DESCRIPTION,
     )
 
+    read_permission(dcatde_contributorID='pkan.dcatapde.PkanEditor')
+    write_permission(dcatde_contributorID='pkan.dcatapde.PkanEditor')
     dcatde_contributorID = I18NTextLine(
         required=True,
         title=i18n.LABEL_DCATDE_CONTRIBUTORID,
@@ -184,11 +187,15 @@ class IDCATDataset(model.Schema, IDCAT):
         title=i18n.LABEL_DCATDE_POLITICALGEOCODINGLEVELURI,
     )
 
+    read_permission(dct_identifier='pkan.dcatapde.PkanEditor')
+    write_permission(dct_identifier='pkan.dcatapde.PkanEditor')
     dct_identifier = I18NTextLine(
         required=False,
         title=i18n.LABEL_DCT_IDENTIFIER,
     )
 
+    read_permission(owl_versionInfo='pkan.dcatapde.PkanEditor')
+    write_permission(owl_versionInfo='pkan.dcatapde.PkanEditor')
     owl_versionInfo = I18NTextLine(
         required=False,
         title=i18n.LABEL_OWL_VERSIONINFO,
@@ -213,6 +220,8 @@ class IDCATDataset(model.Schema, IDCAT):
         vocabulary='pkan.dcatapde.vocabularies.DCTRightsStatement',
     )
 
+    read_permission(adms_versionNotes='pkan.dcatapde.PkanEditor')
+    write_permission(adms_versionNotes='pkan.dcatapde.PkanEditor')
     adms_versionNotes = I18NTextLine(
         required=False,
         title=i18n.LABEL_ADMS_VERSIONNOTES,
