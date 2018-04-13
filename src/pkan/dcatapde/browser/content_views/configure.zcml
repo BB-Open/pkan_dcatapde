@@ -51,4 +51,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+    for="pkan.dcatapde.content.base.IDCAT"
+    name="view"
+    class=".default_view.PKANDefaultView"
+    template="templates/default_view.pt"
+    permission="zope2.View"
+    />
+
 </configure>
