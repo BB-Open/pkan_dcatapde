@@ -430,7 +430,10 @@ class StructDCATDistribution(StructBase):
 
     portal_type = CT_DCAT_DISTRIBUTION
     rdf_type = DCAT.Distribution
-    title_field = ['dct_title', 'dcat_accessURL']
+    title_field = [
+        'dct_title',
+        # 'dcat_accessURL'
+    ]
 
     @property
     def referenced(self):
