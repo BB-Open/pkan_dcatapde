@@ -111,7 +111,7 @@ I type '${dcatde_contributorID}' into the dcatde_contributorID field
 a collectioncatalog with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
-  Page should contain  Item created
+#  Page should contain  Item created
 
 I can see the collectioncatalog title '${title}'
   Wait until page contains  Site Map

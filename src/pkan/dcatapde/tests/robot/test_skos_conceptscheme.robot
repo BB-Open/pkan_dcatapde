@@ -53,7 +53,7 @@ I submit the form
 a concept scheme document with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
-  Page should contain  Item created
+#  Page should contain  Item created
 
 take a screenshot '${name}'
   Capture and crop page screenshot
