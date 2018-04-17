@@ -156,3 +156,7 @@ IMPORT_URLS = {
     FOLDER_LICENSES: 'update_licenses',
     FOLDER_CONCEPTS: 'update_themes',
 }
+
+# Fieldsets that should be ordered at the and of display views, even after
+# folder contents
+FIELDSET_ORDER_AT_END = ['internal_info']

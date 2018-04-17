@@ -35,6 +35,15 @@
       </tal:block>
   </fieldset>
 
+  <fieldset tal:repeat="group view/groups_at_end"
+            tal:attributes="id python:''.join((group.prefix, 'groups.', group.__name__)).replace('.', '-')"
+            tal:condition="view/groups_at_end">
+      <legend tal:content="group/label" />
+      <tal:block tal:repeat="widget group/widgets/values">
+          <tal:widget tal:replace="structure widget/@@ploneform-render-widget"/>
+      </tal:block>
+  </fieldset>
+
 </metal:content-core>
 </metal:main>
 
