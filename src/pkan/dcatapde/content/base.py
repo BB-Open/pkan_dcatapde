@@ -72,7 +72,10 @@ class DCATMixin(object):
                 continue
             if title:
                 break
-        return title
+        if title:
+            return title
+        else:
+            return ''
 
     def desc_from_desc_field(self):
         desc = None
@@ -90,4 +93,9 @@ class DCATMixin(object):
                     desc = unicode(all_descs)
             except KeyError:
                 continue
-        return desc
+            if desc:
+                break
+        if desc:
+            return desc
+        else:
+            return ''
