@@ -219,7 +219,10 @@ class SKOSConceptValueVocabulary(KeywordsVocabulary):
         terms = []
         for i in values:
             if query is None or safe_encode(query) in safe_encode(i):
-                title = unicode(api.content.get(UID=i).dct_title)
+                obj = api.content.get(UID=i)
+                if not obj:
+                    continue
+                title = unicode(obj.dct_title)
                 term = SimpleTerm(i, i, title)
                 terms.append(term)
         return SimpleVocabulary(terms)
