@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde.constants import FIELDSET_ORDER_AT_END
+from plone import api
 from plone.dexterity.browser.view import DefaultView
 from Products.CMFCore.interfaces import IFolderish
 
@@ -19,6 +20,32 @@ class PKANDefaultView(DefaultView):
         self.groups_at_end = ()
         super(PKANDefaultView, self).__call__(*args, **kwargs)
 
+        # filter fields for not logged in user
+        if api.user.is_anonymous():
+            groups, groups_at_end = self.groups_for_anonymous()
+        # just sort fieldsets for logged in user
+        else:
+            groups, groups_at_end = self.groups_for_logged_in()
+
+        self.groups = tuple(groups)
+        self.groups_at_end = tuple(groups_at_end)
+
+        return self.render()
+
+    def groups_for_logged_in(self):
+        groups = []
+        groups_at_end = []
+        for group_name in self.fieldsets:
+            group = self.fieldsets[group_name]
+            if group_name in self.fieldset_order_end:
+                groups_at_end.append(group)
+            else:
+                groups.append(group)
+        return groups, groups_at_end
+
+    def groups_for_anonymous(self):
+        groups = []
+        groups_at_end = []
         # filter empty fields
         # use self.w holding all widgets because iterating over
         # self.widgets still display some empty fields
@@ -31,8 +58,6 @@ class PKANDefaultView(DefaultView):
                 except KeyError:
                     pass
 
-        groups = []
-        groups_at_end = []
         # filter empty groups
         for group_name in self.fieldsets.keys():
             group = self.fieldsets[group_name]
@@ -59,7 +84,4 @@ class PKANDefaultView(DefaultView):
             else:
                 del self.fieldsets[group_name]
 
-        self.groups = tuple(groups)
-        self.groups_at_end = tuple(groups_at_end)
-
-        return self.render()
+        return groups, groups_at_end
