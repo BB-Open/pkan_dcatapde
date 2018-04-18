@@ -5,6 +5,8 @@ from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import FOLDER_LICENSES
 from pkan.dcatapde.constants import VOCAB_SOURCES
+from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
+from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
 from plone.api import content
 from plone.api import portal
 from zope.i18n import translate
@@ -64,9 +66,16 @@ class UpdateLicenses(object):
                     for literal in attribute:
                         # check if language attribute exists
                         try:
-                            att_data[literal.language] = unicode(literal)
+                            lang = literal.language
                         except AttributeError:
-                            att_data[default_language] = unicode(literal)
+                            lang = default_language
+                        lang = unicode(lang)
+                        if lang in AVAILABLE_LANGUAGES_ISO:
+                            lang = AVAILABLE_LANGUAGES_ISO[lang]
+                        if lang not in AVAILABLE_LANGUAGES_TITLE:
+                            continue
+                        att_data[lang] = unicode(literal)
+
                 else:
                     att_data = unicode(attribute.first)
 
