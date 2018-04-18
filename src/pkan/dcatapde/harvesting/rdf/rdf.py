@@ -27,6 +27,8 @@ from pkan.dcatapde.harvesting.rdf.visitors import NT_DX_DEFAULT
 from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
 from pkan.dcatapde.harvesting.rdf.visitors import NT_SPARQL
 from pkan.dcatapde.harvesting.rdf.visitors import RealRunVisitor
+from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
+from pkan.dcatapde.languages import DEFAULT_LANGUAGE
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_ATT
@@ -112,7 +114,11 @@ class RDFProcessor(object):
         self.rdf_format_key = IFaceToRDFFormatKey[self.harvester.source_type]
         self.rdf_format = RDF_FORMAT_METADATA[self.rdf_format_key]
         self.serialize_format = self.rdf_format['serialize_as']
-        self.def_lang = unicode(portal.get_default_language()[:2])
+        lang = unicode(portal.get_default_language()[:2])
+        if lang in AVAILABLE_LANGUAGES_ISO:
+            self.def_lang = AVAILABLE_LANGUAGES_ISO[lang]
+        else:
+            self.def_lang = DEFAULT_LANGUAGE
         self.setup_logger()
         self.get_entity_mapping()
 
@@ -266,7 +272,13 @@ class RDFProcessor(object):
                     type=kwargs['struct'].rdf_type,
                 )
             else:
-                obj_data[field_name][i['o1']] = unicode(i['o2'])
+                lang = i['o1']
+
+                # convert 2-letter-format to 3-letter-format
+                if unicode(lang) in AVAILABLE_LANGUAGES_ISO:
+                    lang = AVAILABLE_LANGUAGES_ISO[unicode(lang)]
+
+                obj_data[field_name][lang] = unicode(i['o2'])
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
