@@ -29,4 +29,12 @@
       handler=".upgrades.reload_gs_profile"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1004"
+      title="Reload GS profiles: Updated Languages"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.update_languages"
+      />
 </configure>

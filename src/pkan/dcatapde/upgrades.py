@@ -1,17 +1,35 @@
 # -*- coding: utf-8 -*-
 """Upgrades."""
+from languages import AVAILABLE_LANGUAGES_ISO
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_DATASET
+from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
+from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
+from pkan.dcatapde.constants import CT_DCT_LOCATION
+from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
+from pkan.dcatapde.constants import CT_DCT_RIGHTSSTATEMENT
+from pkan.dcatapde.constants import CT_DCT_STANDARD
+from pkan.dcatapde.constants import CT_FOAF_AGENT
 from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.constants import CT_HARVESTER_FOLDER
+from pkan.dcatapde.constants import CT_RDFS_LITERAL
+from pkan.dcatapde.constants import CT_SKOS_CONCEPT
+from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
 from pkan.dcatapde.constants import DCAT_CTs
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.dexterity.factory import DexterityFactory
 from plone.dexterity.interfaces import IDexterityFactory
 from plone.dexterity.interfaces import IDexterityFTI
 from Products.CMFCore.interfaces import ISiteRoot
+from ps.zope.i18nfield.field import I18NText
+from ps.zope.i18nfield.field import I18NTextLine
 from zope.component import getSiteManager
 from zope.component import getUtility
 from zope.component import IFactory
 from zope.component import queryUtility
+from zope.component.hooks import getSite
+from zope.schema import getFields
 
 import transaction
 
@@ -50,4 +68,69 @@ def remove_defaultfactories(context):
                 fti.factory,
                 info='plone.dexterity.dynamic',
             )
+    transaction.commit()
+
+
+def clean_value(field_value):
+    new_value = {}
+    for x in field_value.keys():
+        lang = unicode(x)
+        mess = field_value[x]
+        if lang in AVAILABLE_LANGUAGES_ISO:
+            new_value[AVAILABLE_LANGUAGES_ISO[lang]] = mess
+    return new_value
+
+
+def update_languages(context):
+    cts = [
+        CT_DCAT_CATALOG,
+        CT_DCAT_COLLECTION_CATALOG,
+        CT_DCAT_DATASET,
+        CT_DCAT_DISTRIBUTION,
+        CT_DCT_LICENSEDOCUMENT,
+        CT_DCT_LOCATION,
+        CT_DCT_MEDIATYPEOREXTENT,
+        CT_DCT_RIGHTSSTATEMENT,
+        CT_DCT_STANDARD,
+        CT_FOAF_AGENT,
+        CT_SKOS_CONCEPTSCHEME,
+        CT_RDFS_LITERAL,
+        CT_SKOS_CONCEPT,
+    ]
+
+    portal = getSite()
+    if portal is None:
+        return None
+    catalog = portal.portal_catalog
+
+    changed_obj = []
+
+    for ct in cts:
+        results = catalog.searchResults({'portal_type': ct})
+        if not results:
+            continue
+        fti = getUtility(IDexterityFTI, name=ct)
+        schema = fti.lookupSchema()
+        fields = getFields(schema)
+
+        for field_name in fields:
+            field = fields[field_name]
+            if isinstance(field, I18NText) or isinstance(field, I18NTextLine):
+                for res in results:
+                    obj = res.getObject()
+                    field_value = getattr(obj, field_name, {})
+                    if not field_value:
+                        continue
+
+                    new_value = clean_value(field_value)
+
+                    if not new_value:
+                        continue
+
+                    setattr(obj, field_name, new_value)
+                    if obj not in changed_obj:
+                        changed_obj.append(obj)
+
+    for obj in changed_obj:
+        obj.reindexObject()
     transaction.commit()
