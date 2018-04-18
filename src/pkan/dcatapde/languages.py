@@ -33,6 +33,7 @@ AVAILABLE_LANGUAGES_ISO = {
     u'el': u'ell',
     u'sk': u'slk',
     u'pl': u'pol',
+    u'ae': u'ave',
 }
 
 AVAILABLE_LANGUAGES_TITLE = {
@@ -63,4 +64,5 @@ AVAILABLE_LANGUAGES_TITLE = {
     u'ell': _(u'Modern Greek'),
     u'slk': _(u'Slovak'),
     u'pol': _(u'Polish'),
+    u'ave': _(u'Avestan'),
 }
