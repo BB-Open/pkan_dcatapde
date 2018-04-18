@@ -62,4 +62,8 @@
 
   <!-- -*- extra stuff goes here -*- -->
 
+  <utility
+      factory=".utils.PKANLanguages"
+      />
+
 </configure>
