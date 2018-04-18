@@ -36,13 +36,13 @@ an add dataset form
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  form.widgets.dct_title.en  ${title}
+  Input Text  form.widgets.dct_title.eng  ${title}
 
 I type '${description}' into the description field
-  Input Text  form.widgets.dct_description.en  ${description}
+  Input Text  form.widgets.dct_description.eng  ${description}
 
 I type '${dcatde_contributorID}' into the dcatde_contributorID field
-  Input Text  form.widgets.dcatde_contributorID.en  ${dcatde_contributorID}
+  Input Text  form.widgets.dcatde_contributorID.eng  ${dcatde_contributorID}
 
 I submit the form
   Click Button  Save
