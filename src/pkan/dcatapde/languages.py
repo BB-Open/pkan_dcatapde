@@ -2,7 +2,7 @@
 from pkan.dcatapde import _
 
 
-DEFAULT_LANGUAGE = u'gbr'
+DEFAULT_LANGUAGE = u'eng'
 
 AVAILABLE_LANGUAGES_ISO = {
     u'de': u'deu',
