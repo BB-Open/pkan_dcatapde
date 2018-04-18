@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Utilities."""
-
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
 from pkan.dcatapde.languages import DEFAULT_LANGUAGE
+from plone.api import portal
 from ps.zope.i18nfield.interfaces import ILanguageAvailability
 from ps.zope.i18nfield.plone.utils import LanguageAvailability
 from zope.annotation.interfaces import IAnnotations
@@ -68,3 +68,23 @@ def set_request_annotations(key, data, request=None):
     else:
         annotations[key] = data
         return True
+
+
+def get_default_language():
+    lang = unicode(portal.get_default_language()[:2])
+    if lang in AVAILABLE_LANGUAGES_ISO:
+        def_lang = AVAILABLE_LANGUAGES_ISO[lang]
+    else:
+        def_lang = DEFAULT_LANGUAGE
+
+    return def_lang
+
+
+def get_current_language():
+    lang = unicode(portal.get_current_language()[:2])
+    if lang in AVAILABLE_LANGUAGES_ISO:
+        cur_lang = AVAILABLE_LANGUAGES_ISO[lang]
+    else:
+        cur_lang = DEFAULT_LANGUAGE
+
+    return cur_lang

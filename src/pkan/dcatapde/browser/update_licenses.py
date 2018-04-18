@@ -7,6 +7,7 @@ from pkan.dcatapde.constants import FOLDER_LICENSES
 from pkan.dcatapde.constants import VOCAB_SOURCES
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
+from pkan.dcatapde.utils import get_default_language
 from plone.api import content
 from plone.api import portal
 from zope.i18n import translate
@@ -46,7 +47,7 @@ class UpdateLicenses(object):
         # get the surf license objects
         licenses = self.load_licenses_from_rdf()
 
-        default_language = portal.get_default_language()
+        default_language = get_default_language()
 
         count = 0
         for license in licenses:

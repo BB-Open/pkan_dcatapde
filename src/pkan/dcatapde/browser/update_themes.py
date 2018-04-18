@@ -6,9 +6,9 @@ from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.constants import VOCAB_SOURCES
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
+from pkan.dcatapde.utils import get_default_language
 from plone.api import content
 from plone.api import portal
-from plone.dexterity.utils import safe_unicode
 from zope.i18n import translate
 
 import rdflib
@@ -47,7 +47,7 @@ class UpdateThemes(object):
         # get the surf license objects
         themes = self.load_themes_from_rdf()
 
-        default_language = safe_unicode(portal.get_default_language())
+        default_language = get_default_language()
 
         count = 0
         for theme in themes:

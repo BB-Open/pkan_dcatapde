@@ -32,8 +32,8 @@ from pkan.dcatapde.structure.interfaces import IStructure
 from pkan.dcatapde.structure.sparql import DCAT
 from pkan.dcatapde.structure.sparql import DCT
 from pkan.dcatapde.structure.sparql import INIT_NS
+from pkan.dcatapde.utils import get_current_language
 from plone.api import portal
-from plone.api.portal import get_current_language
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI

@@ -28,7 +28,6 @@ from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
 from pkan.dcatapde.harvesting.rdf.visitors import NT_SPARQL
 from pkan.dcatapde.harvesting.rdf.visitors import RealRunVisitor
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
-from pkan.dcatapde.languages import DEFAULT_LANGUAGE
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_ATT
@@ -37,9 +36,9 @@ from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
+from pkan.dcatapde.utils import get_default_language
 from plone import api
 from plone.api import content
-from plone.api import portal
 from plone.api.exc import InvalidParameterError
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import safe_unicode
@@ -114,11 +113,7 @@ class RDFProcessor(object):
         self.rdf_format_key = IFaceToRDFFormatKey[self.harvester.source_type]
         self.rdf_format = RDF_FORMAT_METADATA[self.rdf_format_key]
         self.serialize_format = self.rdf_format['serialize_as']
-        lang = unicode(portal.get_default_language()[:2])
-        if lang in AVAILABLE_LANGUAGES_ISO:
-            self.def_lang = AVAILABLE_LANGUAGES_ISO[lang]
-        else:
-            self.def_lang = DEFAULT_LANGUAGE
+        self.def_lang = get_default_language()
         self.setup_logger()
         self.get_entity_mapping()
 
