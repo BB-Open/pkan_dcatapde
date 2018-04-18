@@ -36,10 +36,10 @@ an add skos_conceptscheme document form
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  form.widgets.dct_title.en  ${title}
+  Input Text  form.widgets.dct_title.eng  ${title}
 
 I type '${description}' into the description field
-  Input Text  form.widgets.dct_description.en  ${description}
+  Input Text  form.widgets.dct_description.eng  ${description}
 
 I type '${uri}' into the definition uri field
   Input Text  form.widgets.rdfs_isDefinedBy  ${uri}

@@ -38,7 +38,7 @@ a dataset 'My Dataset'
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.dct_title.i18n.en  ${title}
+  Input Text  name=form.widgets.dct_title.i18n.eng  ${title}
 
 I submit the form
   Click Button  Save
