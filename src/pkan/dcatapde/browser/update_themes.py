@@ -4,6 +4,8 @@ from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.constants import VOCAB_SOURCES
+from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
+from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
 from plone.api import content
 from plone.api import portal
 from plone.dexterity.utils import safe_unicode
@@ -63,12 +65,13 @@ class UpdateThemes(object):
                 if isinstance(attribute.first, rdflib.term.Literal):
                     att_data = {}
                     for literal in attribute:
-                        # check if language attribute exists
-                        if getattr(literal, 'language', None):
-                            lang = safe_unicode(literal.language)
-                            att_data[lang] = unicode(literal)
-                        else:
-                            att_data[default_language] = unicode(literal)
+                        lang = getattr(literal, 'language', default_language)
+                        lang = unicode(lang)
+                        if lang in AVAILABLE_LANGUAGES_ISO:
+                            lang = AVAILABLE_LANGUAGES_ISO[lang]
+                        if lang not in AVAILABLE_LANGUAGES_TITLE:
+                            continue
+                        att_data[lang] = unicode(literal)
                 else:
                     if not attribute.first:
                         att_data = None
