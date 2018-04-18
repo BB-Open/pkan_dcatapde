@@ -65,7 +65,7 @@ class DCATMixin(object):
                 if isinstance(all_titles, dict):
                     title = unicode(all_titles.items()[0][1])
                 elif isinstance(all_titles, list):
-                        title = unicode(all_titles[0])
+                    title = unicode(all_titles[0])
                 else:
                     title = unicode(all_titles)
             except KeyError:
