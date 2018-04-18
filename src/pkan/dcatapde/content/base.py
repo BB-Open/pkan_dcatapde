@@ -60,6 +60,7 @@ class DCATMixin(object):
         for title_field in struct.title_field:
             try:
                 all_titles = getattr(self, title_field)
+                all_titles = getattr(all_titles, 'data', all_titles)
                 if not all_titles:
                     continue
                 if isinstance(all_titles, dict):
