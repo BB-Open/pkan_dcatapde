@@ -45,6 +45,7 @@ DCAT_CTs = [
     CT_DCT_STANDARD,
     CT_SKOS_CONCEPT,
     CT_SKOS_CONCEPTSCHEME,
+    CT_DCT_LANGUAGE,
 ]
 
 # list of DCAT Top nodes
@@ -95,11 +96,12 @@ FOLDER_LANGUAGES = 'languages'
 
 
 # Location of vocabulary sources
+# todo move to registry
 VOCAB_SOURCES = {
     CT_DCT_LICENSEDOCUMENT: 'http://www.dcat-ap.de/def/licenses/1_0.rdf',
     CT_SKOS_CONCEPT: 'http://publications.europa.eu/mdr/resource/authority'
                      '/data-theme/skos/data-theme-skos.rdf',
-    CT_DCT_LANGUAGE: 'data/laguages.rdf',
+    CT_DCT_LANGUAGE: 'data/languages.rdf',
 }
 
 #: All folders to be created at installation of the module
@@ -162,6 +164,7 @@ HARVESTER_DEFAULT_KEY = 'pkan.dcatapde.harvesting.default_mapping'
 IMPORT_URLS = {
     FOLDER_LICENSES: 'update_licenses',
     FOLDER_CONCEPTS: 'update_themes',
+    FOLDER_LANGUAGES: 'update_languages',
 }
 
 # Fieldsets that should be ordered at the and of display views, even after
