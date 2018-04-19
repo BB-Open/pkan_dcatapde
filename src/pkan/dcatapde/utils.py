@@ -58,7 +58,7 @@ class PKANLanguages(LanguageAvailability):
 
     def getAvailableLanguages(self, combined=False):
         """Return a sequence of language tags for available languages."""
-        res = AVAILABLE_LANGUAGES_TITLE.keys()
+        res = self.avaible_languages_title.keys()
         return res
 
     def getDefaultLanguage(self):
