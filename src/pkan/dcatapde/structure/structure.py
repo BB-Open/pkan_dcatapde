@@ -5,6 +5,7 @@ from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
+from pkan.dcatapde.constants import CT_DCT_LANGUAGE
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_DCT_LOCATION
 from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
@@ -19,6 +20,7 @@ from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
 from pkan.dcatapde.content.dcat_collectioncatalog import IDCATCollectionCatalog
 from pkan.dcatapde.content.dcat_dataset import IDCATDataset
 from pkan.dcatapde.content.dcat_distribution import IDCATDistribution
+from pkan.dcatapde.content.dct_language import IDCTLanguage
 from pkan.dcatapde.content.dct_licensedocument import IDCTLicenseDocument
 from pkan.dcatapde.content.dct_location import IDCTLocation
 from pkan.dcatapde.content.dct_mediatypeorextent import IDCTMediaTypeOrExtent
@@ -497,6 +499,15 @@ class StructDCTLocation(StructBase):
 
     portal_type = CT_DCT_LOCATION
     rdf_type = DCT.Location
+
+
+@implementer(IStructure)
+@adapter(IDCTLanguage)
+class StructDCTLanguage(StructBase):
+    """Structure definition of dct:Language"""
+
+    portal_type = CT_DCT_LANGUAGE
+    rdf_type = DCT.Language
 
 
 @implementer(IStructure)

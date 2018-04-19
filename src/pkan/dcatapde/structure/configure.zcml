@@ -46,6 +46,12 @@
   />
 
   <adapter
+    factory=".structure.StructDCTLanguage"
+    for="pkan.dcatapde.content.dct_language.IDCTLanguage"
+    provides=".interfaces.IStructure"
+  />
+
+  <adapter
     factory=".structure.StructDCTMediaTypeOrExtent"
     for="pkan.dcatapde.content.dct_mediatypeorextent.IDCTMediaTypeOrExtent"
     provides=".interfaces.IStructure"

@@ -115,6 +115,12 @@ HELP_FOLDER_STANDARDS = _(
         u'folder': u'/{0}'.format(constants.FOLDER_STANDARDS),
     },
 )
+HELP_FOLDER_LANGUAGES = _(
+    u'Please enter the folder containing all languages, eg. ${folder}.',
+    mapping={
+        u'folder': u'/{0}'.format(constants.FOLDER_LANGUAGES),
+    },
+)
 HELP_RDFS_ISDEFINEDBY = _(u'The URI describing this concept')
 HELP_SKOS_CONCEPT = _(u'Select some SKOS Concepts')
 HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
@@ -181,6 +187,7 @@ LABEL_FOLDER_AGENTS = _(u'Folder containing agents')
 LABEL_FOLDER_FORMATS = _(u'Folder containing formats')
 LABEL_FOLDER_LICENSES = _(u'Folder containing licenses')
 LABEL_FOLDER_LOCATIONS = _(u'Folder containing locations')
+LABEL_FOLDER_LANGUAGES = _(u'Folder containing languages')
 LABEL_FOLDER_PUBLISHERS = _(u'Folder containing publishers')
 LABEL_FOLDER_STANDARDS = _(u'Folder containing standards')
 LABEL_HARVESTER = _(u'Harvester')
@@ -213,6 +220,7 @@ CT_LABELS = {
     constants.CT_DCAT_DISTRIBUTION: LABEL_DCAT_DISTRIBUTION,
     constants.CT_DCT_LICENSEDOCUMENT: LABEL_DCT_LICENSEDOCUMENT,
     constants.CT_DCT_LOCATION: LABEL_DCT_LOCATION,
+    constants.CT_DCT_LANGUAGE: LABEL_DCT_LANGUAGE,
     constants.CT_DCT_MEDIATYPEOREXTENT: LABEL_DCT_MEDIATYPEOREXTENT,
     constants.CT_DCT_RIGHTSSTATEMENT: LABEL_DCT_RIGHTSSTATEMENT,
     constants.CT_DCT_STANDARD: LABEL_DCT_STANDARD,
