@@ -35,7 +35,7 @@ class IDCTLanguage(model.Schema, IDCAT):
     )
 
     old_representation = schema.TextLine(
-        required=True,
+        required=False,
         title=u'2 Letter Representation',
     )
 

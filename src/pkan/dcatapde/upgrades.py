@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Upgrades."""
-from languages import AVAILABLE_LANGUAGES_ISO
+from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
@@ -17,6 +17,7 @@ from pkan.dcatapde.constants import CT_RDFS_LITERAL
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
 from pkan.dcatapde.constants import DCAT_CTs
+from pkan.dcatapde.utils import get_available_languages_iso
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.dexterity.factory import DexterityFactory
 from plone.dexterity.interfaces import IDexterityFactory
@@ -76,12 +77,20 @@ def clean_value(field_value):
     for x in field_value.keys():
         lang = unicode(x)
         mess = field_value[x]
-        if lang in AVAILABLE_LANGUAGES_ISO:
-            new_value[AVAILABLE_LANGUAGES_ISO[lang]] = mess
+        available_languages_iso = get_available_languages_iso()
+        if lang in available_languages_iso:
+            new_value[available_languages_iso[lang]] = mess
     return new_value
 
 
 def update_languages(context):
+    reload_gs_profile(context)
+
+    view = UpdateLanguages()
+    view()
+
+    transaction.commit()
+
     cts = [
         CT_DCAT_CATALOG,
         CT_DCAT_COLLECTION_CATALOG,

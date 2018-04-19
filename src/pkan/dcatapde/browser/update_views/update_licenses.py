@@ -5,8 +5,8 @@ from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import FOLDER_LICENSES
 from pkan.dcatapde.constants import VOCAB_SOURCES
-from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
-from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
+from pkan.dcatapde.utils import get_available_languages_iso
+from pkan.dcatapde.utils import get_available_languages_title
 from pkan.dcatapde.utils import get_default_language
 from plone.api import content
 from plone.api import portal
@@ -48,6 +48,8 @@ class UpdateLicenses(object):
         licenses = self.load_licenses_from_rdf()
 
         default_language = get_default_language()
+        available_languages = get_available_languages_iso()
+        available_languages_title = get_available_languages_title()
 
         count = 0
         for license in licenses:
@@ -71,9 +73,10 @@ class UpdateLicenses(object):
                         except AttributeError:
                             lang = default_language
                         lang = unicode(lang)
-                        if lang in AVAILABLE_LANGUAGES_ISO:
-                            lang = AVAILABLE_LANGUAGES_ISO[lang]
-                        if lang not in AVAILABLE_LANGUAGES_TITLE:
+
+                        if lang in available_languages:
+                            lang = available_languages[lang]
+                        if lang not in available_languages_title:
                             continue
                         att_data[lang] = unicode(literal)
 

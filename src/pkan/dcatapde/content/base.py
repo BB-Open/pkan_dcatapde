@@ -3,6 +3,7 @@
 from pkan.dcatapde import _
 from pkan.dcatapde import i18n
 from pkan.dcatapde.structure.interfaces import IStructure
+from pkan.dcatapde.utils import get_current_language
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.autoform.directives import read_permission
@@ -64,6 +65,11 @@ class DCATMixin(object):
                 if not all_titles:
                     continue
                 if isinstance(all_titles, dict):
+                    curr_lang = get_current_language()
+                    if curr_lang and \
+                            curr_lang in all_titles and \
+                            all_titles[curr_lang]:
+                        return all_titles[curr_lang]
                     title = unicode(all_titles.items()[0][1])
                 elif isinstance(all_titles, list):
                     title = unicode(all_titles[0])
