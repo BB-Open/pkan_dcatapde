@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="pkan.dcatapde">
+
+ <!-- Demostration view to import licenses from external source -->
+ <browser:page
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="update_licenses"
+    class=".update_licenses.UpdateLicenses"
+    permission="cmf.ManagePortal"
+    />
+
+ <!-- Demostration view to import themes from external source -->
+ <browser:page
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="update_themes"
+    class=".update_themes.UpdateThemes"
+    permission="cmf.ManagePortal"
+    />
+
+  <!-- Demostration view to import themes from external source -->
+ <browser:page
+    for="plone.dexterity.interfaces.IDexterityContent"
+    name="update_languages"
+    class=".update_languages.UpdateLanguages"
+    permission="cmf.ManagePortal"
+    />
+
+</configure>

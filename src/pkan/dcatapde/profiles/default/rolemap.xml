@@ -1,5 +1,13 @@
 <?xml version="1.0"?>
 <rolemap>
+  <roles>
+    <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
+  </roles>
   <permissions>
 
     <permission name="pkan.dcatapde: Add DCATCatalog" acquire="True">
@@ -48,6 +56,15 @@
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLocation" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
+    </permission>
+
+    <permission name="pkan.dcatapde: Add DCTLanguage" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner" />

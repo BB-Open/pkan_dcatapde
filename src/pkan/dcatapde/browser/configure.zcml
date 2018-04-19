@@ -11,6 +11,7 @@
   <include package=".harvester_entity" />
   <include package=".graph" />
   <include package=".util_views" />
+  <include package=".update_views" />
   <!-- Publish static files -->
 
 
@@ -40,22 +41,6 @@
     name="rdf_ttl"
     class=".rdf.RDF_TURTLE"
     permission="zope2.View"
-    />
-
- <!-- Demostration view to import licenses from external source -->
- <browser:page
-    for="plone.dexterity.interfaces.IDexterityContent"
-    name="update_licenses"
-    class=".update_licenses.UpdateLicenses"
-    permission="cmf.ManagePortal"
-    />
-
- <!-- Demostration view to import themes from external source -->
- <browser:page
-    for="plone.dexterity.interfaces.IDexterityContent"
-    name="update_themes"
-    class=".update_themes.UpdateThemes"
-    permission="cmf.ManagePortal"
     />
 
 </configure>

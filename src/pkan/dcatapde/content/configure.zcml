@@ -53,6 +53,14 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
+  <!-- DCTLanguage -->
+  <!-- =========== -->
+  <adapter
+      factory=".util.NameFromDCTTitle"
+      for=".dct_language.IDCTLanguage"
+      provides="plone.app.content.interfaces.INameFromTitle"
+      />
+
 
   <!-- DCTMediaTypeOrExtent -->
   <!-- ==================== -->

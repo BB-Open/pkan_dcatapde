@@ -23,6 +23,7 @@
     <element value="foaf_agent"/>
     <element value="dct_licensedocument"/>
     <element value="dct_location"/>
+    <element value="dct_language"/>
     <element value="dct_mediatypeorextent"/>
     <element value="dct_rightsstatement"/>
     <element value="dct_standard"/>

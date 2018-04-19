@@ -8,6 +8,8 @@
       title="Plone Site Setup: PKAN">
     <role name="Manager" />
     <role name="Site Administrator" />
+    <role name="PkanEditor"/>
+    <role name="CatalogAdmin"/>
   </permission>
 
   <configure zcml:condition="installed AccessControl.security">
@@ -40,6 +42,11 @@
     <permission
         id="pkan.dcatapde.AddDCTLocation"
         title="pkan.dcatapde: Add DCTLocation"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddDCTLanguage"
+        title="pkan.dcatapde: Add DCTLanguage"
         />
 
     <permission
