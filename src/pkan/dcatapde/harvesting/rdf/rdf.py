@@ -107,11 +107,18 @@ class RDFProcessor(object):
                     UID=self.harvester.base_object,
                 )
 
+        # check which top_node we should use
+        if self.harvester.top_node == CT_DCAT_DATASET:
+            self.struct_class = StructDCATDataset
+        else:
+            self.struct_class = StructDCATCatalog
+
         # determine the source format serializer string for rdflib from our
         # own interface. Todo this is a bit ugly
         self.rdf_format_key = IFaceToRDFFormatKey[self.harvester.source_type]
         self.rdf_format = RDF_FORMAT_METADATA[self.rdf_format_key]
         self.serialize_format = self.rdf_format['serialize_as']
+        # Todo include alpha-3 notation
         self.def_lang = unicode(portal.get_default_language()[:2])
         self.setup_logger()
         self.get_entity_mapping()
@@ -158,13 +165,6 @@ class RDFProcessor(object):
 
     def top_nodes(self, visitor):
         """Find top nodes: Catalogs or datasets"""
-        # check which top_node we should use
-        if self.harvester.top_node == CT_DCAT_DATASET:
-            # self.context = content.get(UID=self.harvester.base_object)
-            self.struct_class = StructDCATDataset
-        else:
-            # self.context = portal.get()
-            self.struct_class = StructDCATCatalog
 
         allowed_types = self.harvesting_context.allowedContentTypes()
         klass = getUtility(IDexterityFTI, name=self.harvester.top_node)
@@ -190,22 +190,9 @@ class RDFProcessor(object):
             query = QUERY_A
             bindings = {'o': struct.rdf_type}
         res = self.graph.query(query, initBindings=bindings)
-        # Todo : handle more than one hit
-        catalog = res.bindings[0]['s']
 
-        struct = self.struct_class(self.harvester)
-        args = {
-            'structure': struct,
-        }
-        node = Node(**args)
-        visitor.push_node(node)
-
-        self.crawl(
-            visitor,
-            context=self.harvesting_context,
-            rdf_node=catalog,
-            target_struct=self.struct_class,
-        )
+        for top_node in res.bindings:
+            yield top_node['s']
 
     def handle_list(self, visitor, res, **kwargs):
         obj_data = kwargs['obj_data']
@@ -890,7 +877,38 @@ class RDFProcessor(object):
                 # object is already deleted because parent was deleted
                 continue
 
-    def run(self, visitor):
+    def run(self, top_nodes, visitor):
+        """crawl the top nodes"""
+        for top_node in top_nodes:
+            msg = _(u'Reading {top_node}')
+            visitor.scribe.write(
+                level='info',
+                msg=msg,
+                kind=self.serialize_format,
+                top_node=top_node,
+            )
+            struct = self.struct_class(self.harvester)
+            args = {
+                'structure': struct,
+            }
+            node = Node(**args)
+            visitor.push_node(node)
+
+            self.crawl(
+                visitor,
+                context=self.harvesting_context,
+                rdf_node=top_node,
+                target_struct=self.struct_class,
+            )
+            msg = _(u'Finished reading of {top_node}')
+            visitor.scribe.write(
+                level='info',
+                msg=msg,
+                kind=self.serialize_format,
+                top_node=top_node,
+            )
+
+    def prepare_and_run(self, visitor):
         """Dry Run: Returns Log-Information.
         """
         # Just to have the posibility to reset
@@ -925,7 +943,7 @@ class RDFProcessor(object):
         )
         try:
             # start on the top nodes
-            self.top_nodes(visitor)
+            self.run(self.top_nodes(visitor), visitor)
         except Exception as e:
             visitor.scribe.write(
                 level='error',
@@ -952,8 +970,8 @@ class RDFProcessor(object):
 
     def dry_run(self):
         visitor = DCATVisitor()
-        return self.run(visitor)
+        return self.prepare_and_run(visitor)
 
     def real_run(self):
         visitor = RealRunVisitor()
-        return self.run(visitor)
+        return self.prepare_and_run(visitor)
