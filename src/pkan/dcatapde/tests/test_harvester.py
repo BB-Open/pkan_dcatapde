@@ -4,10 +4,11 @@
 from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from pkan.dcatapde.content.harvester import IHarvester
+from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
-# from zope.component import createObject
+from zope.component import createObject
 from zope.component import queryUtility
 
 import unittest
@@ -32,17 +33,17 @@ class HarvesterIntegrationTest(unittest.TestCase):
         fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER)
         self.assertTrue(fti)
 
-    # def test_factory(self):
-    #     fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER)
-    #     factory = fti.factory
-    #     obj = createObject(factory)
-    #     self.assertTrue(IHarvester.providedBy(obj))
+    def test_factory(self):
+        fti = queryUtility(IDexterityFTI, name=constants.CT_HARVESTER)
+        factory = fti.factory
+        obj = createObject(factory)
+        self.assertTrue(IHarvester.providedBy(obj))
 
-    # def test_adding(self):
-    #     setRoles(self.portal, TEST_USER_ID, ['Contributor'])
-    #     obj = api.content.create(
-    #         container=self.portal,
-    #         type=constants.CT_HARVESTER,
-    #         id=constants.CT_HARVESTER,
-    #     )
-    #     self.assertTrue(IHarvester.providedBy(obj))
+    def test_adding(self):
+        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
+        obj = api.content.create(
+            container=self.portal,
+            type=constants.CT_HARVESTER,
+            id=constants.CT_HARVESTER,
+        )
+        self.assertTrue(IHarvester.providedBy(obj))
