@@ -170,3 +170,6 @@ IMPORT_URLS = {
 # Fieldsets that should be ordered at the and of display views, even after
 # folder contents
 FIELDSET_ORDER_AT_END = ['internal_info']
+
+# Time Out for language cache in seconds
+LANGUAGE_CACHE_TIMEOUT = 300

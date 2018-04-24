@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 """Utilities."""
+from DateTime.DateTime import time
 from pkan.dcatapde.constants import CT_LANGUAGE_FOLDER
 from pkan.dcatapde.constants import FOLDER_LANGUAGES
+from pkan.dcatapde.constants import LANGUAGE_CACHE_TIMEOUT
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
 from pkan.dcatapde.languages import DEFAULT_LANGUAGE
 from plone import api
 from plone.api import portal
+from plone.memoize import ram
 from ps.zope.i18nfield.interfaces import ILanguageAvailability
 from ps.zope.i18nfield.plone.utils import LanguageAvailability
 from zope.annotation.interfaces import IAnnotations
@@ -15,13 +18,36 @@ from zope.globalrequest import getRequest
 from zope.interface import implementer
 
 
+def cache_key_iso(func, self):
+    """cache key factory for lamguage isos.
+    :param func:
+    :param self:
+    :return:
+    """
+    key = u'{0}_language_iso'.format(
+        time() // LANGUAGE_CACHE_TIMEOUT,
+    )
+    return key
+
+
+def cache_key_title(func, self):
+    """cache key factory for language titles.
+    :param func:
+    :param self:
+    :return:
+    """
+    key = u'{0}_language_title'.format(
+        time() // LANGUAGE_CACHE_TIMEOUT,
+    )
+    return key
+
+
 @implementer(ILanguageAvailability)
 class PKANLanguages(LanguageAvailability):
     """A list of available languages."""
 
     @property
     def language_folder(self):
-        # todo: Caching
         catalog = api.portal.get_tool('portal_catalog')
         results = catalog.searchResults(**{'portal_type': CT_LANGUAGE_FOLDER,
                                            'title': FOLDER_LANGUAGES})
@@ -31,8 +57,8 @@ class PKANLanguages(LanguageAvailability):
             return results[0].getObject()
 
     @property
+    @ram.cache(cache_key_iso)
     def available_languages_iso(self):
-        # todo: Caching
         if not self.language_folder or not self.language_folder.contentItems():
             return AVAILABLE_LANGUAGES_ISO
         res = {}
@@ -42,10 +68,10 @@ class PKANLanguages(LanguageAvailability):
         return res
 
     @property
+    @ram.cache(cache_key_title)
     def avaible_languages_title(self):
-        # todo: Caching
         if not self.language_folder or not self.language_folder.contentItems():
-            return AVAILABLE_LANGUAGES_ISO
+            return AVAILABLE_LANGUAGES_TITLE
         res = {}
         for id, obj in self.language_folder.contentItems():
             if getattr(obj, 'new_representation', None):
