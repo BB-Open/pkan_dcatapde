@@ -109,7 +109,8 @@ class RDFProcessor(object):
                 )
 
         # check which top_node we should use
-        if self.harvester.top_node == CT_DCAT_DATASET:
+        if getattr(self.harvester, 'top_node', None) and \
+                self.harvester.top_node == CT_DCAT_DATASET:
             self.struct_class = StructDCATDataset
         else:
             self.struct_class = StructDCATCatalog
