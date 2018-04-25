@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from pkan.dcatapde.api.functions import get_ancestor
+from pkan.dcatapde.api.functions import restore_user
+from pkan.dcatapde.api.functions import work_as_admin
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
@@ -56,9 +58,11 @@ class DcatCollectionCatalogFolderListing(FolderView):
         dcat_theme = getattr(obj, 'dcat_theme', None)
         if dcat_theme:
             titles = []
+            rs = work_as_admin()
             for uid in dcat_theme:
                 theme = api.content.get(UID=uid)
                 titles.append(theme.title)
+            restore_user(rs)
             return {
                 'title': ' ,'.join(titles),
             }
