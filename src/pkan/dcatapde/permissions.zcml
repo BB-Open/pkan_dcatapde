@@ -104,6 +104,18 @@
       title="pkan.dcatapde: View and Edit as Admin"
       />
 
+    <!-- Local roles managed in the @@sharing view -->
+
+    <utility
+        name="PkanEditor"
+        factory=".localroles.PkanEditor"
+        />
+
+    <utility
+        name="CatalogAdmin"
+        factory=".localroles.CatalogAdmin"
+        />
+
   </configure>
 
 </configure>

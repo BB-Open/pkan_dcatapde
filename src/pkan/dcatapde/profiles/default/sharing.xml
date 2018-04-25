@@ -1,9 +1,0 @@
-<sharing xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-         i18n:domain="plone">
-  <role name="Manager" />
-  <role name="Site Administrator" />
-  <role name="Owner" />
-  <role name="Contributor" />
-  <role name="CatalogAdmin" />
-  <role name="PkanEditor" />
-</sharing>
