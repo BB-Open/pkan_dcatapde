@@ -29,7 +29,7 @@ script:
   - bin/code-analysis
   - bin/test
 after_success:
-  - travis_wait 30 bin/createcoverage
+  - travis_wait 45 bin/createcoverage
   - pip install coveralls
   - coveralls
 notifications:
