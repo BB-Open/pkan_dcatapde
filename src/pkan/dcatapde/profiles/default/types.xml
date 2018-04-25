@@ -9,6 +9,7 @@
   <object meta_type="Dexterity FTI" name="dcat_distribution"/>
   <object meta_type="Dexterity FTI" name="dct_licensedocument"/>
   <object meta_type="Dexterity FTI" name="dct_location"/>
+  <object meta_type="Dexterity FTI" name="dct_language"/>
   <object meta_type="Dexterity FTI" name="dct_mediatypeorextent"/>
   <object meta_type="Dexterity FTI" name="dct_rightsstatement" />
   <object meta_type="Dexterity FTI" name="dct_standard" />
@@ -18,6 +19,7 @@
 
   <!-- DCAT Folders -->
   <object meta_type="Dexterity FTI" name="AgentFolder" />
+  <object meta_type="Dexterity FTI" name="LanguageFolder" />
   <object meta_type="Dexterity FTI" name="ConceptFolder" />
   <object meta_type="Dexterity FTI" name="ConceptSchemeFolder" />
   <object meta_type="Dexterity FTI" name="FormatFolder" />

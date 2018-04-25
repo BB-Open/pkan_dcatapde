@@ -41,8 +41,13 @@ class HarvesterIntegrationTest(unittest.TestCase):
 
     def test_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
-        obj = api.content.create(
+        folder = api.content.create(
             container=self.portal,
+            type=constants.CT_HARVESTER_FOLDER,
+            id=constants.CT_HARVESTER_FOLDER,
+        )
+        obj = api.content.create(
+            container=folder,
             type=constants.CT_HARVESTER,
             id=constants.CT_HARVESTER,
         )

@@ -13,7 +13,7 @@
       <a id="setup-link" class="link-parent"
           tal:attributes="href string:$portal_url/@@overview-controlpanel"
           i18n:translate=""
-          i18n:domain="plone">Site Setup</a>
+          i18n:domain="pkan.dcatapde">Site Setup</a>
 
       <h1 class="documentFirstHeading" i18n:translate="">PKAN Settings</h1>
 

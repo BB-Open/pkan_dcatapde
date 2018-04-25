@@ -47,6 +47,13 @@ class IPKANFolderSettings(model.Schema):
         title=i18n.LABEL_FOLDER_LOCATIONS,
     )
 
+    folder_languages = schema.TextLine(
+        default=u'/{0}'.format(constants.FOLDER_LANGUAGES),
+        description=i18n.HELP_FOLDER_LANGUAGES,
+        required=True,
+        title=i18n.LABEL_FOLDER_LANGUAGES,
+    )
+
     folder_publishers = schema.TextLine(
         default=u'/{0}'.format(constants.FOLDER_PUBLISHERS),
         description=i18n.HELP_FOLDER_PUBLISHERS,

@@ -35,9 +35,10 @@ from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
+from pkan.dcatapde.utils import get_available_languages_iso
+from pkan.dcatapde.utils import get_default_language
 from plone import api
 from plone.api import content
-from plone.api import portal
 from plone.api.exc import InvalidParameterError
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import safe_unicode
@@ -108,7 +109,8 @@ class RDFProcessor(object):
                 )
 
         # check which top_node we should use
-        if self.harvester.top_node == CT_DCAT_DATASET:
+        if getattr(self.harvester, 'top_node', None) and \
+                self.harvester.top_node == CT_DCAT_DATASET:
             self.struct_class = StructDCATDataset
         else:
             self.struct_class = StructDCATCatalog
@@ -118,8 +120,8 @@ class RDFProcessor(object):
         self.rdf_format_key = IFaceToRDFFormatKey[self.harvester.source_type]
         self.rdf_format = RDF_FORMAT_METADATA[self.rdf_format_key]
         self.serialize_format = self.rdf_format['serialize_as']
-        # Todo include alpha-3 notation
-        self.def_lang = unicode(portal.get_default_language()[:2])
+        self.def_lang = get_default_language()
+        self.available_languages = get_available_languages_iso()
         self.setup_logger()
         self.get_entity_mapping()
 
@@ -253,7 +255,13 @@ class RDFProcessor(object):
                     type=kwargs['struct'].rdf_type,
                 )
             else:
-                obj_data[field_name][i['o1']] = unicode(i['o2'])
+                lang = i['o1']
+
+                # convert 2-letter-format to 3-letter-format
+                if unicode(lang) in self.available_languages:
+                    lang = self.available_languages[unicode(lang)]
+
+                obj_data[field_name][lang] = unicode(i['o2'])
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',

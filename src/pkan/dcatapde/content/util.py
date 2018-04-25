@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Utils"""
-from plone.api import portal
+from pkan.dcatapde.utils import get_current_language
+from pkan.dcatapde.utils import get_default_language
 from plone.app.content.interfaces import INameFromTitle
 from zope.interface import implementer
 
@@ -30,12 +31,15 @@ class NameFromDCTTitle(object):
         # if the title field is already unicode use it
         if isinstance(title_field, unicode):
             return title_field
+        # if it is a string, convert it to unicode
+        if isinstance(title_field, str):
+            return unicode(title_field)
         # If not get title from i18nfield
-        default_language = portal.get_default_language()[:2]
+        default_language = get_default_language()
         if default_language in title_field:
             return title_field[default_language]
         else:
-            current_language = portal.get_current_language()[:2]
+            current_language = get_current_language()
             if current_language in title_field:
                 return title_field[current_language]
 

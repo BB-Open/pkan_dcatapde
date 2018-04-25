@@ -7,6 +7,7 @@ CT_DCAT_COLLECTION_CATALOG = 'dcat_collection_catalog'
 CT_DCAT_DATASET = 'dcat_dataset'
 CT_DCAT_DISTRIBUTION = 'dcat_distribution'
 CT_DCT_LICENSEDOCUMENT = 'dct_licensedocument'
+CT_DCT_LANGUAGE = 'dct_language'
 CT_DCT_LOCATION = 'dct_location'
 CT_DCT_MEDIATYPEOREXTENT = 'dct_mediatypeorextent'
 CT_DCT_RIGHTSSTATEMENT = 'dct_rightsstatement'
@@ -29,6 +30,7 @@ CT_LOCATION_FOLDER = 'LocationFolder'
 CT_MEDIATYPE_FOLDER = 'MediaTypeFolder'
 CT_RIGHTS_FOLDER = 'RightsFolder'
 CT_STANDARDS_FOLDER = 'StandardsFolder'
+CT_LANGUAGE_FOLDER = 'LanguageFolder'
 
 # list of DCAT CTs
 DCAT_CTs = [
@@ -43,6 +45,7 @@ DCAT_CTs = [
     CT_DCT_STANDARD,
     CT_SKOS_CONCEPT,
     CT_SKOS_CONCEPTSCHEME,
+    CT_DCT_LANGUAGE,
 ]
 
 # list of DCAT Top nodes
@@ -88,12 +91,17 @@ FOLDER_STANDARDS = 'standards'
 #: Default folder shortname for standards.
 FOLDER_RIGHTS = 'rightsfolder'
 
+#: Default folder shortname for languages
+FOLDER_LANGUAGES = 'languages'
+
 
 # Location of vocabulary sources
+# todo move to registry
 VOCAB_SOURCES = {
     CT_DCT_LICENSEDOCUMENT: 'http://www.dcat-ap.de/def/licenses/1_0.rdf',
     CT_SKOS_CONCEPT: 'http://publications.europa.eu/mdr/resource/authority'
                      '/data-theme/skos/data-theme-skos.rdf',
+    CT_DCT_LANGUAGE: 'data/languages.rdf',
 }
 
 #: All folders to be created at installation of the module
@@ -108,6 +116,7 @@ MANDATORY_FOLDERS = {
     FOLDER_PUBLISHERS: CT_AGENT_FOLDER,
     FOLDER_RIGHTS: CT_RIGHTS_FOLDER,
     FOLDER_STANDARDS: CT_STANDARDS_FOLDER,
+    FOLDER_LANGUAGES: CT_LANGUAGE_FOLDER,
 }
 
 HARVESTER_FOLDER_TITLE = 'Harvester Folder'
@@ -155,8 +164,12 @@ HARVESTER_DEFAULT_KEY = 'pkan.dcatapde.harvesting.default_mapping'
 IMPORT_URLS = {
     FOLDER_LICENSES: 'update_licenses',
     FOLDER_CONCEPTS: 'update_themes',
+    FOLDER_LANGUAGES: 'update_languages',
 }
 
 # Fieldsets that should be ordered at the and of display views, even after
 # folder contents
 FIELDSET_ORDER_AT_END = ['internal_info']
+
+# Time Out for language cache in seconds
+LANGUAGE_CACHE_TIMEOUT = 300

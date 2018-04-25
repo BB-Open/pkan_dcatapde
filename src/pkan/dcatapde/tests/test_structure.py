@@ -6,6 +6,7 @@ from pkan.dcatapde.structure.structure import StructBase
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructDCATDistribution
+from pkan.dcatapde.structure.structure import StructDCTLanguage
 from pkan.dcatapde.structure.structure import StructDCTLicenseDocument
 from pkan.dcatapde.structure.structure import StructDCTLocation
 from pkan.dcatapde.structure.structure import StructDCTMediaTypeOrExtent
@@ -51,6 +52,10 @@ class HarvesterIntegrationTest(unittest.TestCase):
 
     def test_dct_location_struct(self):
         base = StructDCTLocation('dummy context')
+        self.assertGreater(len(base.vocab_terms), 0)
+
+    def test_dct_language_struct(self):
+        base = StructDCTLanguage('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dct_mediatypeorextent(self):

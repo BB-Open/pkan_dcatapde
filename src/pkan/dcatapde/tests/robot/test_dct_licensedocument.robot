@@ -37,10 +37,10 @@ an add license document form
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.dct_title.i18n.en  ${title}
+  Input Text  name=form.widgets.dct_title.i18n.eng  ${title}
 
 I type '${description}' into the description field
-  Input Text  form.widgets.dct_description.i18n.en  ${description}
+  Input Text  form.widgets.dct_description.i18n.eng  ${description}
 
 I type '${uri}' into the isDefinedBy URI field
   Input Text  form.widgets.rdfs_isDefinedBy   ${uri}
