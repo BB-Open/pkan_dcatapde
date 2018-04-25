@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-04-11 09:20+0000\n"
+"POT-Creation-Date: 2018-04-25 09:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: pkan.dcatapde\n"
 
-#: pkan/dcatapde/structure/structure.py:269
+#: pkan/dcatapde/structure/structure.py:271
 msgid "${CT}=>${field_name}"
 msgstr ""
 
-#: pkan/dcatapde/structure/structure.py:261
+#: pkan/dcatapde/structure/structure.py:263
 msgid "${CT}=>${field_name} (required)"
 msgstr ""
 
@@ -33,19 +33,19 @@ msgstr ""
 msgid "A Skos Concept Theme"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:153
+#: pkan/dcatapde/i18n.py:159
 msgid "Access Rights"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:189
+#: pkan/dcatapde/i18n.py:196
 msgid "Access URI"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:136
+#: pkan/dcatapde/i18n.py:142
 msgid "Access URL"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:176
+#: pkan/dcatapde/i18n.py:182
 msgid "Agent"
 msgstr ""
 
@@ -57,15 +57,23 @@ msgstr ""
 msgid "Agents"
 msgstr ""
 
+#: pkan/dcatapde/languages.py:67
+msgid "Avestan"
+msgstr ""
+
 #: pkan/dcatapde/profiles/default/types/harvesterfolder.xml
 msgid "Base Folder for Havester"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:135
+#: pkan/dcatapde/i18n.py:141
 msgid "Base Object"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:137
+#: pkan/dcatapde/languages.py:62
+msgid "Bulgarian"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:143
 msgid "Byte size"
 msgstr ""
 
@@ -73,15 +81,23 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:138
+#: pkan/dcatapde/i18n.py:144
 msgid "Catalog"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:139
+#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:80
+msgid "Catalog:"
+msgstr ""
+
+#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:86
+msgid "Category:"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:145
 msgid "Collection Catalog"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:199
+#: pkan/dcatapde/i18n.py:206
 msgid "Concept scheme URI"
 msgstr ""
 
@@ -97,20 +113,33 @@ msgstr ""
 msgid "Content:"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:155
+#: pkan/dcatapde/browser/content_views/templates/dcat_collection_catalog.pt:14
+#: pkan/dcatapde/browser/content_views/templates/default_view.pt:32
+msgid "Contents"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:161
 msgid "Contributor"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:144
+#: pkan/dcatapde/i18n.py:150
 msgid "Contributor ID"
 msgstr ""
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:869
+#: pkan/dcatapde/harvesting/rdf/rdf.py:864
 msgid "Could not read source."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:156
+#: pkan/dcatapde/i18n.py:162
 msgid "Creator"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:63
+msgid "Croation"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:51
+msgid "Czech"
 msgstr ""
 
 #: pkan/dcatapde/profiles/default/types/dcat_catalog.xml
@@ -157,11 +186,15 @@ msgstr ""
 msgid "DCT Rights Statement"
 msgstr ""
 
+#: pkan/dcatapde/profiles/default/types/dct_language.xml
+msgid "DCT:Language"
+msgstr ""
+
 #: pkan/dcatapde/profiles/default/types/dct_licensedocument.xml
 msgid "DCT:LicenseDocument"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:197
+#: pkan/dcatapde/i18n.py:204
 msgid "DCT:LicenseDocument Sources"
 msgstr ""
 
@@ -181,12 +214,16 @@ msgstr ""
 msgid "DCT:Standard"
 msgstr ""
 
+#: pkan/dcatapde/languages.py:45
+msgid "Danish"
+msgstr ""
+
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:11
 #: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:15
 msgid "Data Source"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:140
+#: pkan/dcatapde/i18n.py:146
 msgid "Dataset"
 msgstr ""
 
@@ -202,19 +239,19 @@ msgstr ""
 msgid "Default Value"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:123
+#: pkan/dcatapde/i18n.py:129
 msgid "Define the import sources for DCT:LicenseDocument objects."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:126
+#: pkan/dcatapde/i18n.py:132
 msgid "Define the import sources for SKOS:Concept objects."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:191
+#: pkan/dcatapde/i18n.py:198
 msgid "Definition URI"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:157
+#: pkan/dcatapde/i18n.py:163
 msgid "Description"
 msgstr ""
 
@@ -226,21 +263,25 @@ msgstr ""
 msgid "Dexterity Object"
 msgstr ""
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:871
+#: pkan/dcatapde/harvesting/rdf/rdf.py:866
 msgid "Did not find correct parameters to request data."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:142
+#: pkan/dcatapde/i18n.py:148
 msgid "Distribution"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:141
+#: pkan/dcatapde/i18n.py:147
 msgid "Download URL"
 msgstr ""
 
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:13
 #: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:17
 msgid "Dry Run"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:48
+msgid "Dutch"
 msgstr ""
 
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:12
@@ -252,6 +293,22 @@ msgstr ""
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:26
 #: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:30
 msgid "Edit Harvester"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:42
+msgid "Egnlish (GB)"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:44
+msgid "English"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:41
+msgid "English (USA)"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:43
+msgid "Ethiopia"
 msgstr ""
 
 #: pkan/dcatapde/profiles/default/actions.xml
@@ -274,27 +331,39 @@ msgstr ""
 msgid "FOAF:Agent"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:180
+#: pkan/dcatapde/harvesting/rdf/rdf.py:911
+msgid "Finished reading of {top_node}"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:46
+msgid "Finnish"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:186
 msgid "Folder containing agents"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:181
+#: pkan/dcatapde/i18n.py:187
 msgid "Folder containing formats"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:182
+#: pkan/dcatapde/i18n.py:190
+msgid "Folder containing languages"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:188
 msgid "Folder containing licenses"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:183
+#: pkan/dcatapde/i18n.py:189
 msgid "Folder containing locations"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:184
+#: pkan/dcatapde/i18n.py:191
 msgid "Folder containing publishers"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:185
+#: pkan/dcatapde/i18n.py:192
 msgid "Folder containing standards"
 msgstr ""
 
@@ -304,7 +373,7 @@ msgstr ""
 msgid "Folders"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:158
+#: pkan/dcatapde/i18n.py:164
 msgid "Format"
 msgstr ""
 
@@ -312,8 +381,20 @@ msgstr ""
 msgid "FormatFolder"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:145
+#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:89
+msgid "Formats:"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:50
+msgid "French"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:151
 msgid "Geocoding text"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:40
+msgid "German"
 msgstr ""
 
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:14
@@ -323,7 +404,7 @@ msgstr ""
 
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:10
 #: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:14
-#: pkan/dcatapde/i18n.py:186
+#: pkan/dcatapde/i18n.py:193
 msgid "Harvester"
 msgstr ""
 
@@ -340,11 +421,11 @@ msgstr ""
 msgid "Harvester Overview"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:187
+#: pkan/dcatapde/i18n.py:194
 msgid "Harvester folder"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:130
+#: pkan/dcatapde/i18n.py:136
 msgid "Harvester that created this object"
 msgstr ""
 
@@ -364,11 +445,15 @@ msgstr ""
 msgid "Here you may chose the location where to the datasets will be imported. If the incoming data has no catalog, choose a catalog object.By default incoming catalogues are place in the harvester. "
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:177
+#: pkan/dcatapde/i18n.py:183
 msgid "Homepage"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:133
+#: pkan/dcatapde/languages.py:58
+msgid "Hungarian"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:139
 msgid "Identifier"
 msgstr ""
 
@@ -380,9 +465,16 @@ msgstr ""
 msgid "Import SKOS:Concept"
 msgstr ""
 
-#: pkan/dcatapde/browser/update_licenses.py:107
-#: pkan/dcatapde/browser/update_themes.py:111
+#: pkan/dcatapde/browser/update_views/update_languages.py:156
+msgid "Imported ${count} DCT:Language items."
+msgstr ""
+
+#: pkan/dcatapde/browser/update_views/update_licenses.py:120
 msgid "Imported ${count} DCT:LicenseDocument items."
+msgstr ""
+
+#: pkan/dcatapde/browser/update_views/update_themes.py:117
+msgid "Imported ${count} concepts items."
 msgstr ""
 
 #: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_base.pt:32
@@ -391,7 +483,7 @@ msgstr ""
 msgid "Imports"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:201
+#: pkan/dcatapde/i18n.py:208
 msgid "In Harvester"
 msgstr ""
 
@@ -404,32 +496,52 @@ msgstr ""
 msgid "Internal Information"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:162
+#: pkan/dcatapde/languages.py:61
+msgid "Irish"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:168
 msgid "Issued"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:178
+#: pkan/dcatapde/languages.py:57
+msgid "Italian"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:184
 msgid "Landing page"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:163
+#: pkan/dcatapde/profiles/default/types/LanguageFolder.xml
+msgid "LanguageFolder"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:169
 msgid "Languages"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:146
+#: pkan/dcatapde/languages.py:52
+msgid "Latvian"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:152
 msgid "Legal basis text"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:147
+#: pkan/dcatapde/i18n.py:153
 msgid "Licence attribution by text"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:164
+#: pkan/dcatapde/i18n.py:170
 msgid "License"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:165
+#: pkan/dcatapde/i18n.py:171
 msgid "License Document"
+msgstr ""
+
+#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:83
+msgid "License:"
 msgstr ""
 
 #: pkan/dcatapde/profiles/default/types/LicenseFolder.xml
@@ -444,11 +556,15 @@ msgstr ""
 msgid "Link to an existing parent catalog or or create a new one by using the 'add' button below."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:190
+#: pkan/dcatapde/i18n.py:197
 msgid "Literal"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:166
+#: pkan/dcatapde/languages.py:47
+msgid "Lithuanian"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:172
 msgid "Location"
 msgstr ""
 
@@ -460,23 +576,27 @@ msgstr ""
 msgid "Log:"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:148
+#: pkan/dcatapde/i18n.py:154
 msgid "Maintainer"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:120
+#: pkan/dcatapde/languages.py:56
+msgid "Maltese"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:126
 msgid "Manage base settings for PKAN."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:121
+#: pkan/dcatapde/i18n.py:127
 msgid "Manage folder settings for PKAN."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:122
+#: pkan/dcatapde/i18n.py:128
 msgid "Manage import settings for PKAN."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:143
+#: pkan/dcatapde/i18n.py:149
 msgid "Media type"
 msgstr ""
 
@@ -484,15 +604,23 @@ msgstr ""
 msgid "MediaTypeFolder"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:168
+#: pkan/dcatapde/i18n.py:174
 msgid "Mediatype"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:167
+#: pkan/dcatapde/languages.py:64
+msgid "Modern Greek"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:173
 msgid "Modified"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:152
+#: pkan/dcatapde/languages.py:60
+msgid "Norwegian"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:158
 msgid "Originator"
 msgstr ""
 
@@ -500,7 +628,7 @@ msgstr ""
 msgid "PKAN"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:194
+#: pkan/dcatapde/i18n.py:201
 msgid "PKAN Base Settings"
 msgstr ""
 
@@ -508,11 +636,11 @@ msgstr ""
 msgid "PKAN Dcatapde Configuration"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:195
+#: pkan/dcatapde/i18n.py:202
 msgid "PKAN Folder Settings"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:196
+#: pkan/dcatapde/i18n.py:203
 msgid "PKAN Import Settings"
 msgstr ""
 
@@ -522,15 +650,15 @@ msgstr ""
 msgid "PKAN Settings"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:179
+#: pkan/dcatapde/i18n.py:185
 msgid "Page"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:161
+#: pkan/dcatapde/i18n.py:167
 msgid "Parent Catalog"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:159
+#: pkan/dcatapde/i18n.py:165
 msgid "Parts"
 msgstr ""
 
@@ -538,7 +666,7 @@ msgstr ""
 msgid "Pkan Dcatapde Main Config"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:149
+#: pkan/dcatapde/i18n.py:155
 msgid "Planed availability"
 msgstr ""
 
@@ -548,6 +676,10 @@ msgstr ""
 
 #: pkan/dcatapde/i18n.py:88
 msgid "Please enter the folder containing all formats, eg. ${folder}."
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:118
+msgid "Please enter the folder containing all languages, eg. ${folder}."
 msgstr ""
 
 #: pkan/dcatapde/i18n.py:94
@@ -566,11 +698,15 @@ msgstr ""
 msgid "Please enter the folder containing all standards, eg. ${folder}."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:150
+#: pkan/dcatapde/languages.py:66
+msgid "Polish"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:156
 msgid "PoliticalGeocodingLevelURI"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:151
+#: pkan/dcatapde/i18n.py:157
 msgid "PoliticalGeocodingURI"
 msgstr ""
 
@@ -578,7 +714,11 @@ msgstr ""
 msgid "Portal Type of Top Node"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:169
+#: pkan/dcatapde/languages.py:53
+msgid "Portuguese"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:175
 msgid "Publisher"
 msgstr ""
 
@@ -587,12 +727,16 @@ msgstr ""
 msgid "Query"
 msgstr ""
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:919
+#: pkan/dcatapde/harvesting/rdf/rdf.py:945
 msgid "Reading {kind} file {uri}"
 msgstr ""
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:815
+#: pkan/dcatapde/harvesting/rdf/rdf.py:810
 msgid "Reading {kind} file {uri} into rdflib"
+msgstr ""
+
+#: pkan/dcatapde/harvesting/rdf/rdf.py:891
+msgid "Reading {top_node}"
 msgstr ""
 
 #: pkan/dcatapde/browser/content_views/templates/harvester.pt:15
@@ -600,7 +744,7 @@ msgstr ""
 msgid "Real Run"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:204
+#: pkan/dcatapde/i18n.py:211
 msgid "Registry has been updated. Please reload this page."
 msgstr ""
 
@@ -608,7 +752,7 @@ msgstr ""
 msgid "Relations"
 msgstr ""
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:863
+#: pkan/dcatapde/harvesting/rdf/rdf.py:858
 msgid "Result: "
 msgstr ""
 
@@ -616,11 +760,11 @@ msgstr ""
 msgid "Result: Did not find correct parameters to request data."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:170
+#: pkan/dcatapde/i18n.py:176
 msgid "Rights"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:171
+#: pkan/dcatapde/i18n.py:177
 msgid "Rights statement"
 msgstr ""
 
@@ -628,11 +772,15 @@ msgstr ""
 msgid "RightsFolder"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:192
+#: pkan/dcatapde/languages.py:49
+msgid "Romanian"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:199
 msgid "SCOS concept"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:193
+#: pkan/dcatapde/i18n.py:200
 msgid "SCOS concept scheme"
 msgstr ""
 
@@ -648,7 +796,7 @@ msgstr ""
 msgid "SKOS:Concept"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:198
+#: pkan/dcatapde/i18n.py:205
 msgid "SKOS:Concept Sources"
 msgstr ""
 
@@ -713,7 +861,7 @@ msgstr ""
 msgid "Select an originator from the list of available originators or create a new one by using the 'add' button below."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:119
+#: pkan/dcatapde/i18n.py:125
 msgid "Select some SKOS Concepts"
 msgstr ""
 
@@ -727,24 +875,42 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+#: pkan/dcatapde/browser/controlpanel/templates/controlpanel.pt:15
+#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_base.pt:13
+#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_folders.pt:13
+msgid "Site Setup"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:54
+msgid "Slovak"
+msgstr ""
+
 #: pkan/dcatapde/content/harvester.py:45
 msgid "Source Format"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:172
+#: pkan/dcatapde/languages.py:55
+msgid "Spanish"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:178
 msgid "Spatial relevance"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:173
+#: pkan/dcatapde/i18n.py:179
 msgid "Standard"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:154
+#: pkan/dcatapde/i18n.py:160
 msgid "Standards"
 msgstr ""
 
 #: pkan/dcatapde/profiles/default/types/StandardsFolder.xml
 msgid "StandardsFolder"
+msgstr ""
+
+#: pkan/dcatapde/languages.py:59
+msgid "Swedish"
 msgstr ""
 
 #: pkan/dcatapde/profiles.zcml:26
@@ -755,7 +921,7 @@ msgstr ""
 msgid "Thank you very much!"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:118
+#: pkan/dcatapde/i18n.py:124
 msgid "The URI describing this concept"
 msgstr ""
 
@@ -763,11 +929,11 @@ msgstr ""
 msgid "The URI of the source of data to be harvested."
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:174
+#: pkan/dcatapde/i18n.py:180
 msgid "Theme Taxonomy"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:175
+#: pkan/dcatapde/i18n.py:181
 msgid "Title"
 msgstr ""
 
@@ -775,11 +941,11 @@ msgstr ""
 msgid "Transport format of the source. Usually this will be a RDF variant like (JSON-LD, XML, Turtle), or a generic source like \"JSON generic\""
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:129
+#: pkan/dcatapde/i18n.py:135
 msgid "URI to the concept scheme"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:200
+#: pkan/dcatapde/i18n.py:207
 msgid "URL"
 msgstr ""
 
@@ -788,15 +954,15 @@ msgstr ""
 msgid "Uninstalls the pkan.dcatapde add-on."
 msgstr ""
 
-#: pkan/dcatapde/content/base.py:18
+#: pkan/dcatapde/content/base.py:23
 msgid "Uri in Triplestore"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:134
+#: pkan/dcatapde/i18n.py:140
 msgid "Version Notes"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:188
+#: pkan/dcatapde/i18n.py:195
 msgid "Version info"
 msgstr ""
 
@@ -806,8 +972,18 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:867
+#: pkan/dcatapde/harvesting/rdf/rdf.py:862
 msgid "Wrong Syntax"
+msgstr ""
+
+#. Default: "last modified"
+#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:59
+msgid "box_last_modified"
+msgstr ""
+
+#. Default: "Up to Site Setup"
+#: pkan/dcatapde/browser/controlpanel/templates/controlpanel.pt:31
+msgid "label_up_to_plone_setup"
 msgstr ""
 
 #: pkan/dcatapde/configure.zcml:39
@@ -824,6 +1000,6 @@ msgstr ""
 msgid "pkan.dcatapde testfixture profile"
 msgstr ""
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:939
+#: pkan/dcatapde/harvesting/rdf/rdf.py:965
 msgid "{kind} file {uri} read succesfully"
 msgstr ""
