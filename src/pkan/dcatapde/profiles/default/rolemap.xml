@@ -16,7 +16,6 @@
       <role name="Owner" />
       <role name="Contributor" />
       <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATCollectionCatalog" acquire="True">

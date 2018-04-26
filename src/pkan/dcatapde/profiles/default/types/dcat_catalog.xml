@@ -95,7 +95,7 @@
     title="Edit"
     url_expr="string:${object_url}/edit"
     visible="True">
-    <permission value="Modify portal content"/>
+    <permission value="pkan.dcatapde: View and Edit as CatalogAdmin"/>
   </action>
 
 </object>
