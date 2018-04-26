@@ -1,0 +1,14 @@
+ <configure
+      xmlns="http://namespaces.zope.org/zope"
+      xmlns:browser="http://namespaces.zope.org/browser"
+      >
+
+      <browser:page
+       name="landing_page"
+       for="*"
+       class=".landing_page.LandingPageView"
+       template="templates/landing_page.pt"
+       permission="zope2.View"
+       />
+
+</configure>
