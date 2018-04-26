@@ -1,0 +1,12 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  i18n_domain="inqbus.mailcenter3">
+
+
+    <subscriber
+      for="*
+           Products.PlonePAS.interfaces.events.IUserLoggedInEvent"
+      handler=".events.userLogin"
+      />
+
+</configure>

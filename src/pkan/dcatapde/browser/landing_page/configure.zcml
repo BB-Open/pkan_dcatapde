@@ -2,7 +2,7 @@
       xmlns="http://namespaces.zope.org/zope"
       xmlns:browser="http://namespaces.zope.org/browser"
       >
-
+      <include package=".login" />
       <browser:page
        name="landing_page"
        for="*"
