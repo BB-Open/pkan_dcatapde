@@ -92,9 +92,9 @@ class UpdateLanguages(object):
 
                 params[key] = att_data
 
-                self.select_data(params)
+            self.select_data(params)
 
-            self.create_objects(self.data, self.all_languages)
+        self.create_objects(self.data, self.all_languages)
 
     def select_data(self, params):
         # select data
