@@ -99,6 +99,8 @@ class UpdateLanguages(object):
     def select_data(self, params):
         # select data
         use_data = False
+        if 'dct_title' not in params:
+            return
         titles = params['dct_title'].copy()
         lang = params['new_representation']
         if not lang:
