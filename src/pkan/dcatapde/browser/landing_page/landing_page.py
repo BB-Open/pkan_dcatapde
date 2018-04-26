@@ -40,6 +40,12 @@ class LandingPageView(BrowserView):
             if PKAN_EDITOR_ROLE in roles:
                 self.pkan_editor.append(obj)
 
+        if not self.catalog_admin or self.pkan_editor:
+            self.request.response.redirect(
+                self.context.absolute_url(),
+            )
+            return
+
         return super(LandingPageView, self).__call__(*args, **kwargs)
 
     def catalogadmin_heading(self):
