@@ -86,7 +86,7 @@ def clean_value(field_value):
 def update_languages(context):
     reload_gs_profile(context)
 
-    view = UpdateLanguages()
+    view = UpdateLanguages(context, getattr(context, 'REQUEST', None))
     view()
 
     transaction.commit()
