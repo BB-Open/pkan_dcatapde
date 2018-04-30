@@ -253,6 +253,15 @@
       <role name="Contributor"/>
       <role name="CommuneEditor" />
     </permission>
+    <permission name="Review portal content" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
+      <role name="CommuneEditor" />
+    </permission>
 
   </permissions>
 </rolemap>
