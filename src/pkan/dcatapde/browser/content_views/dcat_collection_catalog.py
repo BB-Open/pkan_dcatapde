@@ -45,10 +45,12 @@ class DcatCollectionCatalogFolderListing(FolderView):
         if obj.portal_type == CT_DCAT_CATALOG:
             catalog = None
         else:
+            rm = work_as_admin()
             catalog = get_ancestor(obj, CT_DCAT_CATALOG)
+            restore_user(rm)
         if catalog:
             return {
-                'title': catalog.title,
+                'title': catalog.Title(),
                 'url': catalog.absolute_url(),
             }
         else:
@@ -61,7 +63,7 @@ class DcatCollectionCatalogFolderListing(FolderView):
             rs = work_as_admin()
             for uid in dcat_theme:
                 theme = api.content.get(UID=uid)
-                titles.append(theme.title)
+                titles.append(theme.Title())
             restore_user(rs)
             return {
                 'title': ' ,'.join(titles),
