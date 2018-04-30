@@ -37,4 +37,13 @@
       profile="pkan.dcatapde:default"
       handler=".upgrades.update_languages"
       />
+
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1005"
+      title="Reload GS profiles: Overwrite Workflow for View permissions"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.new_workflow"
+      />
 </configure>

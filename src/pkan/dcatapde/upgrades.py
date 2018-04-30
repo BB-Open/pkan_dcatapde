@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Upgrades."""
+from Acquisition import aq_base
+from Acquisition import aq_inner
 from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
@@ -18,6 +20,7 @@ from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
 from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.utils import get_available_languages_iso
+from plone import api
 from plone.app.upgrade.utils import loadMigrationProfile
 from plone.dexterity.factory import DexterityFactory
 from plone.dexterity.interfaces import IDexterityFactory
@@ -33,6 +36,19 @@ from zope.component.hooks import getSite
 from zope.schema import getFields
 
 import transaction
+
+
+def update_role_mappings(context):
+    wtool = api.portal.get_tool(name='portal_workflow')
+    # copied from WorkflowTool.updateRoleMappings()
+    # to enable context passing to wftool._recursiveUpdateRoleMappings()
+    wfs = {}
+    for id in wtool.objectIds():
+        wf = wtool.getWorkflowById(id)
+        if getattr(aq_base(wf), 'updateRoleMappingsFor', None):
+            wfs[id] = wf
+    context = aq_inner(context)
+    wtool._recursiveUpdateRoleMappings(context, wfs)
 
 
 def reload_gs_profile(context):
@@ -142,4 +158,21 @@ def update_languages(context):
 
     for obj in changed_obj:
         obj.reindexObject()
+    transaction.commit()
+
+
+def new_workflow(context):
+    reload_gs_profile(context)
+
+    portal = getSite()
+    if portal is None:
+        return None
+    catalog = portal.portal_catalog
+    results = catalog.searchResults()
+    for res in results:
+        obj = res.getObject()
+        update_role_mappings(obj)
+        obj.reindexObjectSecurity()
+        obj.reindexObject()
+
     transaction.commit()

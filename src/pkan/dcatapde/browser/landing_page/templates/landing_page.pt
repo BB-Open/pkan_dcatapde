@@ -39,6 +39,15 @@
             </ul>
         </div>
 
+        <div tal:condition="view/display_communeeditor" class="info-column">
+            <h3 tal:content="view/communeeditor_heading"></h3>
+            <ul>
+                <li tal:repeat="communeeditor view/communeeditor">
+                    <a tal:content="communeeditor/communeeditor_name" tal:attributes="href communeeditor/path"></a>
+                </li>
+            </ul>
+        </div>
+
     </metal:content-core>
 </body>
 </html>
