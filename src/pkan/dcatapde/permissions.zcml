@@ -9,6 +9,7 @@
     <role name="Manager" />
     <role name="Site Administrator" />
     <role name="PkanEditor"/>
+    <role name="CommuneEditor"/>
     <role name="CatalogAdmin"/>
   </permission>
 
@@ -95,6 +96,11 @@
       />
 
     <permission
+      id="pkan.dcatapde.CommuneEditor"
+      title="pkan.dcatapde: View and Edit as Commune Editor"
+      />
+
+    <permission
       id="pkan.dcatapde.CatalogAdmin"
       title="pkan.dcatapde: View and Edit as CatalogAdmin"
       />
@@ -109,6 +115,11 @@
     <utility
         name="PkanEditor"
         factory=".localroles.PkanEditor"
+        />
+
+    <utility
+        name="CommuneEditor"
+        factory=".localroles.CommuneEditor"
         />
 
     <utility

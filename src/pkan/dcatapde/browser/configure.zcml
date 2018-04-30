@@ -12,6 +12,7 @@
   <include package=".graph" />
   <include package=".util_views" />
   <include package=".update_views" />
+  <include package=".landing_page" />
   <!-- Publish static files -->
 
 

@@ -20,3 +20,11 @@ class CatalogAdmin(object):
     title = _(u'CatalogAdmin', default=u'CatalogAdmin')
     required_permission = permissions.DelegateEditorRole
     required_interface = None
+
+
+@implementer(ISharingPageRole)
+class CommuneEditor(object):
+
+    title = _(u'CommuneEditor', default=u'CommuneEditor')
+    required_permission = DelegateRoles
+    required_interface = None

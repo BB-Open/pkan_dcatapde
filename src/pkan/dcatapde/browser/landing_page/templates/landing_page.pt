@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="inqbus.mailcenter">
+<body>
+    <metal:content-core fill-slot="content-core">
+        <style>
+
+          .info-section {
+                overflow: auto;
+                }
+
+          .info-column {
+                display: inline-block;
+                padding: 1.5em 1.5em 0 0;
+                vertical-align: top;
+                width: 33%;
+                }
+
+        </style>
+
+        <div class="info-section">
+
+        <div tal:condition="view/display_catalogadmin" class="info-column">
+            <h3 tal:content="view/catalogadmin_heading"></h3>
+            <ul>
+                <li tal:repeat="catalogadmin view/catalogadmin">
+                    <a tal:content="catalogadmin/catalogadmin_name" tal:attributes="href catalogadmin/path"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div tal:condition="view/display_pkaneditor" class="info-column">
+            <h3 tal:content="view/pkaneditor_heading"></h3>
+            <ul>
+                <li tal:repeat="pkaneditor view/pkaneditor">
+                    <a tal:content="pkaneditor/pkaneditor_name" tal:attributes="href pkaneditor/path"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div tal:condition="view/display_communeeditor" class="info-column">
+            <h3 tal:content="view/communeeditor_heading"></h3>
+            <ul>
+                <li tal:repeat="communeeditor view/communeeditor">
+                    <a tal:content="communeeditor/communeeditor_name" tal:attributes="href communeeditor/path"></a>
+                </li>
+            </ul>
+        </div>
+
+    </metal:content-core>
+</body>
+</html>

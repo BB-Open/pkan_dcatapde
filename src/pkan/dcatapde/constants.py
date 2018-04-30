@@ -173,3 +173,9 @@ FIELDSET_ORDER_AT_END = ['internal_info']
 
 # Time Out for language cache in seconds
 LANGUAGE_CACHE_TIMEOUT = 300
+
+# ROLES
+CATALOG_ADMIN_ROLE = 'CatalogAdmin'
+PKAN_EDITOR_ROLE = 'PkanEditor'
+COMMUNE_EDITOR_ROLE = 'CommuneEditor'
+LANDING_PAGE_VIEW = 'landing_page'
