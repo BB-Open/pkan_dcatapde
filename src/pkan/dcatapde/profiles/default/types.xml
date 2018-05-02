@@ -16,6 +16,7 @@
   <object meta_type="Dexterity FTI" name="foaf_agent"/>
   <object meta_type="Dexterity FTI" name="skos_concept" />
   <object meta_type="Dexterity FTI" name="skos_conceptscheme" />
+  <object meta_type="Dexterity FTI" name="vcard_kind" />
 
   <!-- DCAT Folders -->
   <object meta_type="Dexterity FTI" name="AgentFolder" />
@@ -28,6 +29,8 @@
   <object meta_type="Dexterity FTI" name="MediaTypeFolder" />
   <object meta_type="Dexterity FTI" name="RightsFolder" />
   <object meta_type="Dexterity FTI" name="StandardsFolder" />
+  <object meta_type="Dexterity FTI" name="VcardKindFolder" />
+
 
   <!-- PKAN Types -->
   <object meta_type="Dexterity FTI" name="harvester"/>

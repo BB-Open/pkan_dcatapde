@@ -138,6 +138,16 @@
       <role name="CommuneEditor" />
     </permission>
 
+    <permission name="pkan.dcatapde: Add VCARDKind" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+      <role name="CatalogAdmin" />
+      <role name="PkanEditor" />
+      <role name="CommuneEditor" />
+    </permission>
+
 
     <permission name="pkan.dcatapde: Add Harvester" acquire="True">
       <role name="Manager" />

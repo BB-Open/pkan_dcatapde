@@ -123,6 +123,7 @@ HELP_FOLDER_LANGUAGES = _(
 )
 HELP_RDFS_ISDEFINEDBY = _(u'The URI describing this concept')
 HELP_SKOS_CONCEPT = _(u'Select some SKOS Concepts')
+HELP_VCARD_KIND = _(u'Select a contact information.')
 HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
 HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
 HELP_SETTINGS_IMPORTS = _(u'Manage import settings for PKAN.')
@@ -198,6 +199,7 @@ LABEL_RDFS_LITERAL = _(u'Literal')
 LABEL_RDFS_ISDEFINEDBY = _(u'Definition URI')
 LABEL_SKOS_CONCEPT = _(u'SCOS concept')
 LABEL_SKOS_CONCEPTSCHEME = _(u'SCOS concept scheme')
+LABEL_VCARD_KIND = _(u'Vcard Kind')
 LABEL_SETTINGS_BASE = _(u'PKAN Base Settings')
 LABEL_SETTINGS_FOLDERS = _(u'PKAN Folder Settings')
 LABEL_SETTINGS_IMPORTS = _(u'PKAN Import Settings')
@@ -230,4 +232,5 @@ CT_LABELS = {
     constants.CT_RDFS_LITERAL: LABEL_RDFS_LITERAL,
     constants.CT_SKOS_CONCEPT: LABEL_SKOS_CONCEPT,
     constants.CT_SKOS_CONCEPTSCHEME: LABEL_SKOS_CONCEPTSCHEME,
+    constants.CT_VCARD_KIND: LABEL_VCARD_KIND,
 }

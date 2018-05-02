@@ -82,6 +82,12 @@
   />
 
   <adapter
+    factory=".structure.StructVCARDKind"
+    for="pkan.dcatapde.content.vcard_kind.IVCARDKind"
+    provides=".interfaces.IStructure"
+  />
+
+  <adapter
     factory=".structure.StructSKOSConcept"
     for="pkan.dcatapde.content.skos_concept.ISKOSConcept"
     provides=".interfaces.IStructure"

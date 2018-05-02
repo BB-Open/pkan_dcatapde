@@ -15,6 +15,7 @@ from pkan.dcatapde.constants import CT_FOAF_AGENT
 from pkan.dcatapde.constants import CT_RDFS_LITERAL
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
+from pkan.dcatapde.constants import CT_VCARD_KIND
 from pkan.dcatapde.constants import FIELD_BLACKLIST
 from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
 from pkan.dcatapde.content.dcat_collectioncatalog import IDCATCollectionCatalog
@@ -30,10 +31,12 @@ from pkan.dcatapde.content.foaf_agent import IFOAFAgent
 from pkan.dcatapde.content.rdfs_literal import IRDFSLiteral
 from pkan.dcatapde.content.skos_concept import ISKOSConcept
 from pkan.dcatapde.content.skos_conceptscheme import ISKOSConceptScheme
+from pkan.dcatapde.content.vcard_kind import IVCARDKind
 from pkan.dcatapde.structure.interfaces import IStructure
 from pkan.dcatapde.structure.sparql import DCAT
 from pkan.dcatapde.structure.sparql import DCT
 from pkan.dcatapde.structure.sparql import INIT_NS
+from pkan.dcatapde.structure.sparql import VCARD
 from pkan.dcatapde.utils import get_current_language
 from plone.api import portal
 from plone.autoform.interfaces import IFormFieldProvider
@@ -554,6 +557,16 @@ class StructSKOSConceptScheme(StructBase):
 
     portal_type = CT_SKOS_CONCEPTSCHEME
     rdf_type = SKOS.ConceptSchema
+
+
+@implementer(IStructure)
+@adapter(IVCARDKind)
+class StructVCARDKind(StructBase):
+    """Structure definition of skos:ConceptSchema"""
+
+    portal_type = CT_VCARD_KIND
+    rdf_type = VCARD.Kind
+    title_field = ['vcard_fn']
 
 
 @implementer(IStructure)

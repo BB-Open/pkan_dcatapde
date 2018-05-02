@@ -46,4 +46,13 @@
       profile="pkan.dcatapde:default"
       handler=".upgrades.new_workflow"
       />
+
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1006"
+      title="Reload GS profiles: Add VCard Kind"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
 </configure>

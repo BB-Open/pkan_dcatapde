@@ -18,12 +18,14 @@ CT_HARVESTER_FOLDER = 'harvesterfolder'
 CT_RDFS_LITERAL = 'rdfs_literal'
 CT_SKOS_CONCEPT = 'skos_concept'
 CT_SKOS_CONCEPTSCHEME = 'skos_conceptscheme'
+CT_VCARD_KIND = 'vcard_kind'
 CT_PLONE_SITE = 'Plone Site'
 
 # Folder CTs to contain CTs
 CT_AGENT_FOLDER = 'AgentFolder'
 CT_CONCEPT_FOLDER = 'ConceptFolder'
 CT_CONCEPTSCHEME_FOLDER = 'ConceptSchemeFolder'
+CT_VCARDKIND_FOLDER = 'VcardKindFolder'
 CT_FORMAT_FOLDER = 'FormatFolder'
 CT_LICENSE_FOLDER = 'LicenseFolder'
 CT_LOCATION_FOLDER = 'LocationFolder'
@@ -46,6 +48,7 @@ DCAT_CTs = [
     CT_SKOS_CONCEPT,
     CT_SKOS_CONCEPTSCHEME,
     CT_DCT_LANGUAGE,
+    CT_VCARD_KIND,
 ]
 
 # list of DCAT Top nodes
@@ -69,6 +72,9 @@ FOLDER_CONCEPTS = 'concepts'
 
 #: Default folder shortname for conceptschemes.
 FOLDER_CONCEPTSCHEMES = 'conceptschemes'
+
+#: Default folder shortname for vcard kinds.
+FOLDER_VCARD_KIND = 'vcardkinds'
 
 #: Default folder shortname for formats.
 FOLDER_FORMATS = 'formats'
@@ -109,6 +115,7 @@ MANDATORY_FOLDERS = {
     FOLDER_AGENTS: CT_AGENT_FOLDER,
     FOLDER_CONCEPTS: CT_CONCEPT_FOLDER,
     FOLDER_CONCEPTSCHEMES: CT_CONCEPTSCHEME_FOLDER,
+    FOLDER_VCARD_KIND: CT_VCARDKIND_FOLDER,
     FOLDER_FORMATS: CT_FORMAT_FOLDER,
     FOLDER_LICENSES: CT_LICENSE_FOLDER,
     FOLDER_LOCATIONS: CT_LOCATION_FOLDER,
