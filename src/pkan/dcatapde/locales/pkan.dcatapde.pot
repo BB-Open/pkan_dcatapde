@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-04-25 09:58+0000\n"
+"POT-Creation-Date: 2018-05-02 07:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,12 +89,30 @@ msgstr ""
 msgid "Catalog:"
 msgstr ""
 
+#. Default: "CatalogAdmin"
+#: pkan/dcatapde/localroles.py:20
+msgid "CatalogAdmin"
+msgstr ""
+
+#: pkan/dcatapde/browser/landing_page/landing_page.py:78
+msgid "Catalogs managed as Catalog Admin"
+msgstr ""
+
+#: pkan/dcatapde/browser/landing_page/landing_page.py:123
+msgid "Catalogs managed as PKAN Editor"
+msgstr ""
+
 #: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:86
 msgid "Category:"
 msgstr ""
 
 #: pkan/dcatapde/i18n.py:145
 msgid "Collection Catalog"
+msgstr ""
+
+#. Default: "CommuneEditor"
+#: pkan/dcatapde/localroles.py:28
+msgid "CommuneEditor"
 msgstr ""
 
 #: pkan/dcatapde/i18n.py:206
@@ -465,7 +483,7 @@ msgstr ""
 msgid "Import SKOS:Concept"
 msgstr ""
 
-#: pkan/dcatapde/browser/update_views/update_languages.py:156
+#: pkan/dcatapde/browser/update_views/update_languages.py:158
 msgid "Imported ${count} DCT:Language items."
 msgstr ""
 
@@ -654,6 +672,10 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
+#: pkan/dcatapde/browser/landing_page/landing_page.py:129
+msgid "Pages managed as Commune Editor"
+msgstr ""
+
 #: pkan/dcatapde/i18n.py:167
 msgid "Parent Catalog"
 msgstr ""
@@ -664,6 +686,11 @@ msgstr ""
 
 #: pkan/dcatapde/browser/controlpanel/views.py:11
 msgid "Pkan Dcatapde Main Config"
+msgstr ""
+
+#. Default: "PkanEditor"
+#: pkan/dcatapde/localroles.py:12
+msgid "PkanEditor"
 msgstr ""
 
 #: pkan/dcatapde/i18n.py:155

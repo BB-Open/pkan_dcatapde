@@ -1,7 +1,10 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: pkan.dcatapde\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2018-05-02 07:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,3 +16,83 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "- Simple workflow that is useful for basic web sites. - Things start out as private, and can either be submitted for review, or published directly. - The creator of a content item can edit the item even after it is published."
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Can only be seen and edited by the owner."
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "If you submitted the item by mistake or want to perform additional edits, this will take it back."
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Member retracts submission"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Member submits content for publication"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Pending review"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Private"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Publish"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Published"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Publishing the item makes it visible to other users."
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Puts your item in a review queue, so it can be published on the site."
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Retract"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Reviewer publishes content"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Reviewer sends content back for re-drafting"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Send back"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Sending the item back will return the item to the original author instead of publishing it. You should preferably include a reason for why it was not published."
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Simple Publication Workflow"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Submit for publication"
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Visible to everyone, editable by the owner."
+msgstr ""
+
+#: pkan/dcatapde/profiles/default/workflows/simple_publication_workflow/definition.xml
+msgid "Waiting to be reviewed, not editable by the owner."
+msgstr ""
