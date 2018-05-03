@@ -14,6 +14,7 @@ from pkan.dcatapde.structure.structure import StructDCTStandard
 from pkan.dcatapde.structure.structure import StructFOAFAgent
 from pkan.dcatapde.structure.structure import StructSKOSConcept
 from pkan.dcatapde.structure.structure import StructSKOSConceptScheme
+from pkan.dcatapde.structure.structure import StructVCARDKind
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 
@@ -76,4 +77,8 @@ class HarvesterIntegrationTest(unittest.TestCase):
 
     def test_skos_conceptscheme_struct(self):
         base = StructSKOSConceptScheme('dummy context')
+        self.assertGreater(len(base.vocab_terms), 0)
+
+    def test_vcard_kind_struct(self):
+        base = StructVCARDKind('dummy context')
         self.assertGreater(len(base.vocab_terms), 0)

@@ -237,6 +237,22 @@ class IDCATDataset(model.Schema, IDCAT):
         title=i18n.LABEL_FOAF_PAGE,
     )
 
+    form.widget(
+        'contactPoint',
+        AjaxSelectAddFieldWidget,
+        content_type=constants.CT_VCARD_KIND,
+        content_type_title=i18n.LABEL_VCARD_KIND,
+        initial_path='/vcardkinds/',
+    )
+    contactPoint = schema.List(
+        description=i18n.HELP_VCARD_KIND,
+        required=False,
+        title=i18n.LABEL_VCARD_KIND,
+        value_type=schema.Choice(
+            vocabulary='pkan.dcatapde.vocabularies.VCARDKind',
+        ),
+    )
+
 
 @implementer(IDCATDataset)
 class DCATDataset(Container, DCATMixin):

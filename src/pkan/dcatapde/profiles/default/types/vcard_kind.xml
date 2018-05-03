@@ -1,42 +1,40 @@
 <?xml version="1.0"?>
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-        name="dcat_catalog"
+        name="vcard_kind"
         meta_type="Dexterity FTI"
         i18n:domain="pkan.dcatapde">
 
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">DCAT:Catalog
+    name="title">VCARD:Kind
   </property>
   <property
     i18n:translate=""
-    name="description">DCAT Catalog
+    name="description">VCARD Kind for Contact Information
   </property>
 
   <property name="allow_discussion">False</property>
-  <property name="factory">dcat_catalog</property>
+  <property name="factory">vcard_kind</property>
   <property name="icon_expr"></property>
   <property name="link_target"></property>
 
   <!-- Hierarchy control -->
   <property name="allowed_content_types">
-    <element value="dcat_dataset"/>
-    <element value="vcard_kind"/>
   </property>
   <property name="filter_content_types">True</property>
   <property name="global_allow">True</property>
 
   <!-- Schema, class and security -->
-  <property name="add_permission">pkan.dcatapde.AddDCATCatalog</property>
-  <property name="klass">pkan.dcatapde.content.dcat_catalog.DCATCatalog</property>
+  <property name="add_permission">pkan.dcatapde.AddVCARDKind</property>
+  <property name="klass">pkan.dcatapde.content.vcard_kind.VCARDKind</property>
   <property name="model_file"></property>
   <property name="model_source"></property>
-  <property name="schema">pkan.dcatapde.content.dcat_catalog.IDCATCatalog</property>
+  <property name="schema">pkan.dcatapde.content.vcard_kind.IVCARDKind</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
-    <element value="plone.app.content.interfaces.INameFromTitle"/>
+    <!--<element value="plone.app.content.interfaces.INameFromTitle"/>-->
     <!--<element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion"/>-->
     <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
     <!--<element value="plone.app.dexterity.behaviors.id.IShortName"/>-->
@@ -51,7 +49,7 @@
   </property>
 
   <!-- View information -->
-  <property name="add_view_expr">string:${folder_url}/++add++dcat_catalog</property>
+  <property name="add_view_expr">string:${folder_url}/++add++vcard_kind</property>
   <property name="default_view">view</property>
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>
@@ -96,7 +94,7 @@
     title="Edit"
     url_expr="string:${object_url}/edit"
     visible="True">
-    <permission value="pkan.dcatapde: View and Edit as CatalogAdmin"/>
+    <permission value="Modify portal content"/>
   </action>
 
 </object>

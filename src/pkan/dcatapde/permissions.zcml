@@ -81,6 +81,11 @@
         />
 
     <permission
+        id="pkan.dcatapde.AddVCARDKind"
+        title="pkan.dcatapde: Add VCARDKind"
+        />
+
+    <permission
         id="pkan.dcatapde.AddHarvester"
         title="pkan.dcatapde: Add Harvester"
         />

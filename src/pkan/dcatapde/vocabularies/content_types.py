@@ -186,6 +186,16 @@ SKOSConceptSchemeVocabularyFactory = SKOSConceptSchemeVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class VCARDKindVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning SKOSConceptScheme items."""
+
+    portal_type = constants.CT_VCARD_KIND
+
+
+VCARDKindVocabularyFactory = VCARDKindVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class AllDcatObjectsVocabulary(BaseContentTypeVocabulary):
 
     portal_type = constants.DCAT_CTs

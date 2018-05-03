@@ -118,6 +118,13 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
+  <!-- VCARDKind -->
+  <!-- ================= -->
+  <adapter
+      factory=".util.NameFromDCTTitle"
+      for=".vcard_kind.IVCARDKind"
+      provides="plone.app.content.interfaces.INameFromTitle"
+      />
 
   <!-- Harvester -->
   <!-- ========= -->

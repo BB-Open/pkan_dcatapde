@@ -80,6 +80,11 @@
       />
 
   <utility
+      component=".content_types.VCARDKindVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.VCARDKind"
+      />
+
+  <utility
       component=".content_types.SKOSConceptSchemeVocabularyFactory"
       name="pkan.dcatapde.vocabularies.SKOSConceptScheme"
       />
