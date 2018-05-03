@@ -42,7 +42,7 @@ class LandingPageView(BrowserView):
 
         portal_catalog = api.portal.get_tool('portal_catalog')
         res = portal_catalog.searchResults(
-            {'portal_type': CT_DCAT_CATALOG})
+            {'portal_type': [CT_DCAT_CATALOG, 'Folder']})
 
         for brain in res:
             try:
@@ -51,31 +51,20 @@ class LandingPageView(BrowserView):
                 continue
             roles = api.user.get_roles(user=user,
                                        obj=obj)
-            if CATALOG_ADMIN_ROLE in roles:
+            roles_parent = api.user.get_roles(user=user,
+                                              obj=get_parent(obj))
+            if CATALOG_ADMIN_ROLE in roles and \
+                    CATALOG_ADMIN_ROLE not in roles_parent:
                 self.catalog_admin.append(obj)
-            if PKAN_EDITOR_ROLE in roles:
+            if PKAN_EDITOR_ROLE in roles and \
+                    PKAN_EDITOR_ROLE not in roles_parent:
                 self.pkan_editor.append(obj)
-
-        res = portal_catalog.searchResults(
-            {'portal_type': 'Folder'},
-        )
-
-        for brain in res:
-            try:
-                obj = brain.getObject()
-            except Unauthorized:
-                continue
-
-            roles = api.user.get_roles(user=user,
-                                       obj=obj)
-            if COMMUNE_EDITOR_ROLE in roles:
-                roles_parent = api.user.get_roles(user=user,
-                                                  obj=get_parent(obj))
-                if COMMUNE_EDITOR_ROLE not in roles_parent:
-                    self.commune_editor.append(obj)
+            if COMMUNE_EDITOR_ROLE in roles and \
+                    COMMUNE_EDITOR_ROLE not in roles_parent:
+                self.commune_editor.append(obj)
 
     def catalogadmin_heading(self):
-        return _('Catalogs managed as Catalog Admin')
+        return _(u'Folders and Catalogs managed as Catalog Admin')
 
     def pkaneditor(self):
         results = []
@@ -120,10 +109,10 @@ class LandingPageView(BrowserView):
         return self.pkan_editor
 
     def pkaneditor_heading(self):
-        return _(u'Catalogs managed as PKAN Editor')
+        return _(u'Folders and Catalogs managed as PKAN Editor')
 
     def display_communeeditor(self):
         return self.commune_editor
 
     def communeeditor_heading(self):
-        return _(u'Pages managed as Commune Editor')
+        return _(u'Folders managed as Commune Editor')
