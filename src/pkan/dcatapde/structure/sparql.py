@@ -14,7 +14,7 @@ from rdflib.plugins.sparql import prepareQuery
 
 DCT = DCTERMS
 DCAT = Namespace('http://www.w3.org/ns/dcat#')
-VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
+VCARD = Namespace('http://nwalsh.com/rdf/vCard#')
 
 # List of namespaces for SPARQL Queries.
 # Todo: would be good if this list came from the plone config
