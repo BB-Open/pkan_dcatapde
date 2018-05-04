@@ -31,18 +31,18 @@
    <permission-role>Contributor</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
   <permission-map name="Modify portal content"
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
@@ -52,9 +52,9 @@
    <permission-role>Contributor</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
 
  </state>
@@ -72,9 +72,9 @@
    <permission-role>Reader</permission-role>
    <permission-role>Contributor</permission-role>
    <permission-role>Site Administrator</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
   <permission-map name="Modify portal content"
                   acquired="False">
@@ -82,9 +82,9 @@
    <permission-role>Owner</permission-role>
    <permission-role>Editor</permission-role>
    <permission-role>Site Administrator</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Manager</permission-role>
@@ -93,9 +93,9 @@
    <permission-role>Reader</permission-role>
    <permission-role>Contributor</permission-role>
    <permission-role>Site Administrator</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
  </state>
  <state state_id="published" title="Published" i18n:attributes="title">
@@ -107,9 +107,9 @@
   <permission-map name="Access contents information"
                   acquired="False">
    <permission-role>Anonymous</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
   <permission-map name="Modify portal content"
                   acquired="False">
@@ -117,15 +117,15 @@
    <permission-role>Owner</permission-role>
    <permission-role>Editor</permission-role>
    <permission-role>Site Administrator</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
   <permission-map name="View" acquired="False">
    <permission-role>Anonymous</permission-role>
-    <permission-role>CatalogAdmin</permission-role>
-   <permission-role>PkanEditor</permission-role>
-   <permission-role>CommuneEditor</permission-role>
+    <permission-role>ProviderChiefEditor</permission-role>
+   <permission-role>ProviderDataEditor</permission-role>
+   <permission-role>ProviderAdmin</permission-role>
   </permission-map>
  </state>
 

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """Upgrades."""
+from AccessControl import Unauthorized
 from Acquisition import aq_base
 from Acquisition import aq_inner
+from pkan.dcatapde.api.functions import get_parent
 from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
@@ -19,9 +21,13 @@ from pkan.dcatapde.constants import CT_RDFS_LITERAL
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
 from pkan.dcatapde.constants import DCAT_CTs
+from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
+from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
+from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
 from pkan.dcatapde.utils import get_available_languages_iso
 from plone import api
 from plone.app.upgrade.utils import loadMigrationProfile
+from plone.app.workflow.interfaces import ISharingPageRole
 from plone.dexterity.factory import DexterityFactory
 from plone.dexterity.interfaces import IDexterityFactory
 from plone.dexterity.interfaces import IDexterityFTI
@@ -176,3 +182,65 @@ def new_workflow(context):
         obj.reindexObject()
 
     transaction.commit()
+
+
+def remove_role_utility(roles):
+    site = queryUtility(ISiteRoot)
+    if site is None:
+        return
+
+    sm = getSiteManager(site)
+    for name in roles:
+        sm.unregisterUtility(name=name, provided=ISharingPageRole)
+
+
+def renamed_roles(context):
+    reload_gs_profile(context)
+    old_roles = {
+        'PkanEditor': PROVIDER_DATA_EDITOR_ROLE,
+        'CatalogAdmin': PROVIDER_CHIEF_EDITOR_ROLE,
+        'CommuneEditor': PROVIDER_ADMIN_ROLE,
+    }
+
+    remove_role_utility(old_roles.keys())
+
+    users = api.user.get_users()
+    portal_catalog = api.portal.get_tool('portal_catalog')
+    res = portal_catalog.searchResults(
+        {'portal_type': [CT_DCAT_CATALOG, 'Folder']})
+
+    for user in users:
+        roles = api.user.get_roles(user=user)
+        for role_name in old_roles.keys():
+            if role_name in roles:
+                roles.remove(role_name)
+                roles.append(old_roles[role_name])
+                api.user.grant_roles(user=user,
+                                     roles=roles,
+                                     )
+        for brain in res:
+            try:
+                obj = brain.getObject()
+            except Unauthorized:
+                continue
+            roles = api.user.get_roles(user=user,
+                                       obj=obj)
+            roles_parent = api.user.get_roles(user=user,
+                                              obj=get_parent(obj))
+            new_roles = []
+            old_roles_to_remove = []
+            for role_name in old_roles.keys():
+                if role_name in roles and role_name not in roles_parent:
+                    old_roles_to_remove.append(role_name)
+                    new_roles.append(old_roles[role_name])
+            if new_roles:
+                api.user.grant_roles(user=user,
+                                     roles=new_roles,
+                                     obj=obj)
+            if old_roles_to_remove:
+                api.user.revoke_roles(user=user,
+                                      roles=old_roles_to_remove,
+                                      obj=obj)
+            update_role_mappings(obj)
+            obj.reindexObjectSecurity()
+            obj.reindexObject()

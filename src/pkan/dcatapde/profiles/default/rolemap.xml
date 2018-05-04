@@ -5,9 +5,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
   </roles>
   <permissions>
 
@@ -16,8 +16,8 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATCollectionCatalog" acquire="True">
@@ -25,9 +25,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATDataset" acquire="True">
@@ -35,9 +35,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATDistribution" acquire="True">
@@ -45,9 +45,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLicenseDocument" acquire="True">
@@ -55,9 +55,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLocation" acquire="True">
@@ -65,9 +65,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLanguage" acquire="True">
@@ -75,9 +75,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTMediaTypeOrExtent" acquire="True">
@@ -85,9 +85,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTStandard" acquire="True">
@@ -95,7 +95,7 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTRightsStatement" acquire="True">
@@ -103,9 +103,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add FOAFAgent" acquire="True">
@@ -113,9 +113,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add SKOSConcept" acquire="True">
@@ -123,9 +123,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add SKOSConceptScheme" acquire="True">
@@ -133,9 +133,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add VCARDKind" acquire="True">
@@ -143,9 +143,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
 
@@ -168,13 +168,13 @@
       <role name="Site Administrator" />
     </permission>
 
-    <permission name="pkan.dcatapde: View and Edit as CatalogAdmin" acquire="True">
+    <permission name="pkan.dcatapde: View and Edit as ProviderChiefEditor" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: View and Edit as Pkan Editor" acquire="True">
@@ -182,9 +182,9 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: View and Edit as Commune Editor" acquire="True">
@@ -192,7 +192,7 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <!-- Overwrite Plone permissions -->
@@ -202,9 +202,9 @@
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="plone.app.contenttypes: Add Collection" acquire="True">
@@ -212,65 +212,65 @@
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Document" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Event" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add File" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Folder" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Image" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Link" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add News Item" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CommuneEditor" />
+      <role name="ProviderAdmin" />
     </permission>
     <permission name="Review portal content" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="CatalogAdmin" />
-      <role name="PkanEditor" />
-      <role name="CommuneEditor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
     </permission>
 
   </permissions>

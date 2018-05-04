@@ -2,10 +2,10 @@
 from AccessControl import Unauthorized
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_parent
-from pkan.dcatapde.constants import CATALOG_ADMIN_ROLE
-from pkan.dcatapde.constants import COMMUNE_EDITOR_ROLE
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
-from pkan.dcatapde.constants import PKAN_EDITOR_ROLE
+from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
+from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
+from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
 from plone import api
 from Products.Five import BrowserView
 
@@ -23,13 +23,15 @@ class LandingPageView(BrowserView):
             )
             return
 
-        self.catalog_admin = []
-        self.pkan_editor = []
-        self.commune_editor = []
+        self.provider_chief_editor_obj = []
+        self.provider_data_editor_obj = []
+        self.provider_admin_obj = []
 
         self.read_data()
 
-        if not (self.catalog_admin or self.pkan_editor or self.commune_editor):
+        if not (self.provider_chief_editor_obj or
+                self.provider_data_editor_obj or
+                self.provider_admin_obj):
             self.request.response.redirect(
                 self.context.absolute_url(),
             )
@@ -53,66 +55,66 @@ class LandingPageView(BrowserView):
                                        obj=obj)
             roles_parent = api.user.get_roles(user=user,
                                               obj=get_parent(obj))
-            if CATALOG_ADMIN_ROLE in roles and \
-                    CATALOG_ADMIN_ROLE not in roles_parent:
-                self.catalog_admin.append(obj)
-            if PKAN_EDITOR_ROLE in roles and \
-                    PKAN_EDITOR_ROLE not in roles_parent:
-                self.pkan_editor.append(obj)
-            if COMMUNE_EDITOR_ROLE in roles and \
-                    COMMUNE_EDITOR_ROLE not in roles_parent:
-                self.commune_editor.append(obj)
+            if PROVIDER_CHIEF_EDITOR_ROLE in roles and \
+                    PROVIDER_CHIEF_EDITOR_ROLE not in roles_parent:
+                self.provider_chief_editor_obj.append(obj)
+            if PROVIDER_DATA_EDITOR_ROLE in roles and \
+                    PROVIDER_DATA_EDITOR_ROLE not in roles_parent:
+                self.provider_data_editor_obj.append(obj)
+            if PROVIDER_ADMIN_ROLE in roles and \
+                    PROVIDER_ADMIN_ROLE not in roles_parent:
+                self.provider_admin_obj.append(obj)
 
-    def catalogadmin_heading(self):
-        return _(u'Folders and Catalogs managed as Catalog Admin')
+    def providerchiefeditor_heading(self):
+        return _(u'Folders and Catalogs managed as Provider Chief Editor')
 
-    def pkaneditor(self):
+    def providerdataeditor(self):
         results = []
 
-        for pkaneditor in self.pkan_editor:
+        for providerdataeditor in self.provider_data_editor_obj:
             data = {
-                'pkaneditor_name': pkaneditor.Title(),
-                'path': pkaneditor.absolute_url(),
+                'providerdataeditor_name': providerdataeditor.Title(),
+                'path': providerdataeditor.absolute_url(),
             }
 
             results.append(data)
         return results
 
-    def communeeditor(self):
+    def provideradmin(self):
         results = []
 
-        for communeeditor in self.commune_editor:
+        for provideradmin in self.provider_admin_obj:
             data = {
-                'communeeditor_name': communeeditor.Title(),
-                'path': communeeditor.absolute_url(),
+                'provideradmin_name': provideradmin.Title(),
+                'path': provideradmin.absolute_url(),
             }
 
             results.append(data)
         return results
 
-    def catalogadmin(self):
+    def providerchiefeditor(self):
         results = []
 
-        for catalogadmin in self.catalog_admin:
+        for providerchiefeditor in self.provider_chief_editor_obj:
             data = {
-                'catalogadmin_name': catalogadmin.Title(),
-                'path': catalogadmin.absolute_url(),
+                'providerchiefeditor_name': providerchiefeditor.Title(),
+                'path': providerchiefeditor.absolute_url(),
             }
 
             results.append(data)
         return results
 
-    def display_catalogadmin(self):
-        return self.catalog_admin
+    def display_providerchiefeditor(self):
+        return self.provider_chief_editor_obj
 
-    def display_pkaneditor(self):
-        return self.pkan_editor
+    def display_providerdataeditor(self):
+        return self.provider_data_editor_obj
 
-    def pkaneditor_heading(self):
-        return _(u'Folders and Catalogs managed as PKAN Editor')
+    def providerdataeditor_heading(self):
+        return _(u'Folders and Catalogs managed as Provider Data Editor')
 
-    def display_communeeditor(self):
-        return self.commune_editor
+    def display_provideradmin(self):
+        return self.provider_admin_obj
 
-    def communeeditor_heading(self):
-        return _(u'Folders managed as Commune Editor')
+    def provideradmin_heading(self):
+        return _(u'Folders managed as Provider Admin')

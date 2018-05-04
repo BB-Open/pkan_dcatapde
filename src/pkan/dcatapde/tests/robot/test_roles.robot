@@ -11,9 +11,9 @@ Suite Teardown  Teardown
 Scenario: As a site administrator I can see all roles in Sharing Tab
   Given a logged-in site administrator
    When I go to sharing view
-   Then I can see role 'CatalogAdmin'
-    and I can see role 'CommuneEditor'
-    and I can see role 'PkanEditor'
+   Then I can see role 'ProviderChiefEditor'
+    and I can see role 'ProviderAdmin'
+    and I can see role 'ProviderDataEditor'
 
 
 *** Keywords *****************************************************************

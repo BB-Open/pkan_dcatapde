@@ -182,7 +182,7 @@ FIELDSET_ORDER_AT_END = ['internal_info']
 LANGUAGE_CACHE_TIMEOUT = 300
 
 # ROLES
-CATALOG_ADMIN_ROLE = 'CatalogAdmin'
-PKAN_EDITOR_ROLE = 'PkanEditor'
-COMMUNE_EDITOR_ROLE = 'CommuneEditor'
+PROVIDER_CHIEF_EDITOR_ROLE = 'ProviderChiefEditor'
+PROVIDER_DATA_EDITOR_ROLE = 'ProviderDataEditor'
+PROVIDER_ADMIN_ROLE = 'ProviderAdmin'
 LANDING_PAGE_VIEW = 'landing_page'

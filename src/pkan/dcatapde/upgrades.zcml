@@ -55,4 +55,13 @@
       profile="pkan.dcatapde:default"
       handler=".upgrades.reload_gs_profile"
       />
+
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1007"
+      title="Reload GS profiles: Renamed roles"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.renamed_roles"
+      />
 </configure>

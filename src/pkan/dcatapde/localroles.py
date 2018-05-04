@@ -7,24 +7,24 @@ from zope.interface import implementer
 
 
 @implementer(ISharingPageRole)
-class PkanEditor(object):
+class ProviderDataEditor(object):
 
-    title = _(u'PkanEditor', default=u'PkanEditor')
+    title = _(u'ProviderDataEditor', default=u'ProviderDataEditor')
     required_permission = DelegateRoles
     required_interface = None
 
 
 @implementer(ISharingPageRole)
-class CatalogAdmin(object):
+class ProviderChiefEditor(object):
 
-    title = _(u'CatalogAdmin', default=u'CatalogAdmin')
+    title = _(u'ProviderChiefEditor', default=u'ProviderChiefEditor')
     required_permission = permissions.DelegateEditorRole
     required_interface = None
 
 
 @implementer(ISharingPageRole)
-class CommuneEditor(object):
+class ProviderAdmin(object):
 
-    title = _(u'CommuneEditor', default=u'CommuneEditor')
+    title = _(u'ProviderAdmin', default=u'ProviderAdmin')
     required_permission = DelegateRoles
     required_interface = None

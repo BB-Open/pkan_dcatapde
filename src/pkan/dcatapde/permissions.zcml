@@ -8,9 +8,9 @@
       title="Plone Site Setup: PKAN">
     <role name="Manager" />
     <role name="Site Administrator" />
-    <role name="PkanEditor"/>
-    <role name="CommuneEditor"/>
-    <role name="CatalogAdmin"/>
+    <role name="ProviderDataEditor"/>
+    <role name="ProviderAdmin"/>
+    <role name="ProviderChiefEditor"/>
   </permission>
 
   <configure zcml:condition="installed AccessControl.security">
@@ -96,18 +96,18 @@
         />
 
     <permission
-      id="pkan.dcatapde.PkanEditor"
+      id="pkan.dcatapde.ProviderDataEditor"
       title="pkan.dcatapde: View and Edit as Pkan Editor"
       />
 
     <permission
-      id="pkan.dcatapde.CommuneEditor"
+      id="pkan.dcatapde.ProviderAdmin"
       title="pkan.dcatapde: View and Edit as Commune Editor"
       />
 
     <permission
-      id="pkan.dcatapde.CatalogAdmin"
-      title="pkan.dcatapde: View and Edit as CatalogAdmin"
+      id="pkan.dcatapde.ProviderChiefEditor"
+      title="pkan.dcatapde: View and Edit as ProviderChiefEditor"
       />
 
     <permission
@@ -118,18 +118,18 @@
     <!-- Local roles managed in the @@sharing view -->
 
     <utility
-        name="PkanEditor"
-        factory=".localroles.PkanEditor"
+        name="ProviderDataEditor"
+        factory=".localroles.ProviderDataEditor"
         />
 
     <utility
-        name="CommuneEditor"
-        factory=".localroles.CommuneEditor"
+        name="ProviderAdmin"
+        factory=".localroles.ProviderAdmin"
         />
 
     <utility
-        name="CatalogAdmin"
-        factory=".localroles.CatalogAdmin"
+        name="ProviderChiefEditor"
+        factory=".localroles.ProviderChiefEditor"
         />
 
   </configure>

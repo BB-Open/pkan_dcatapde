@@ -66,8 +66,8 @@ class IDCATDataset(model.Schema, IDCAT):
         title=i18n.LABEL_DCT_DESCRIPTION,
     )
 
-    read_permission(dcatde_contributorID='pkan.dcatapde.PkanEditor')
-    write_permission(dcatde_contributorID='pkan.dcatapde.PkanEditor')
+    read_permission(dcatde_contributorID='pkan.dcatapde.ProviderDataEditor')
+    write_permission(dcatde_contributorID='pkan.dcatapde.ProviderDataEditor')
     dcatde_contributorID = I18NTextLine(
         required=True,
         title=i18n.LABEL_DCATDE_CONTRIBUTORID,
@@ -187,15 +187,15 @@ class IDCATDataset(model.Schema, IDCAT):
         title=i18n.LABEL_DCATDE_POLITICALGEOCODINGLEVELURI,
     )
 
-    read_permission(dct_identifier='pkan.dcatapde.PkanEditor')
-    write_permission(dct_identifier='pkan.dcatapde.PkanEditor')
+    read_permission(dct_identifier='pkan.dcatapde.ProviderDataEditor')
+    write_permission(dct_identifier='pkan.dcatapde.ProviderDataEditor')
     dct_identifier = I18NTextLine(
         required=False,
         title=i18n.LABEL_DCT_IDENTIFIER,
     )
 
-    read_permission(owl_versionInfo='pkan.dcatapde.PkanEditor')
-    write_permission(owl_versionInfo='pkan.dcatapde.PkanEditor')
+    read_permission(owl_versionInfo='pkan.dcatapde.ProviderDataEditor')
+    write_permission(owl_versionInfo='pkan.dcatapde.ProviderDataEditor')
     owl_versionInfo = I18NTextLine(
         required=False,
         title=i18n.LABEL_OWL_VERSIONINFO,
@@ -220,8 +220,8 @@ class IDCATDataset(model.Schema, IDCAT):
         vocabulary='pkan.dcatapde.vocabularies.DCTRightsStatement',
     )
 
-    read_permission(adms_versionNotes='pkan.dcatapde.PkanEditor')
-    write_permission(adms_versionNotes='pkan.dcatapde.PkanEditor')
+    read_permission(adms_versionNotes='pkan.dcatapde.ProviderDataEditor')
+    write_permission(adms_versionNotes='pkan.dcatapde.ProviderDataEditor')
     adms_versionNotes = I18NTextLine(
         required=False,
         title=i18n.LABEL_ADMS_VERSIONNOTES,
