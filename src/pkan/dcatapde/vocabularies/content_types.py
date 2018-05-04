@@ -37,6 +37,7 @@ class BaseContentTypeVocabulary(object):
         for brain in brains:
             obj = brain.getObject()
             if brain.UID in uids:
+                # todo: how can this happen?
                 continue
             uids.append(brain.UID)
             terms.append(
