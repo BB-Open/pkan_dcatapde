@@ -31,10 +31,14 @@ class BaseContentTypeVocabulary(object):
 
         catalog = api.portal.get_tool(name='portal_catalog')
         brains = catalog(query)
+        uids = []
         terms = []
 
         for brain in brains:
             obj = brain.getObject()
+            if brain.UID in uids:
+                continue
+            uids.append(brain.UID)
             terms.append(
                 SimpleTerm(
                     value=brain.UID,
