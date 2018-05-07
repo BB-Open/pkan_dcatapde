@@ -45,8 +45,8 @@
   <adapter
     factory=".fields.I18NField2RDF"
     for="plone.dexterity.interfaces.IDexterityContent
-           ps.zope.i18nfield.interfaces.II18NField
-           pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
+         ps.zope.i18nfield.interfaces.II18NDict
+         pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
     provides="..interfaces.IDXField2RDF"
   />
 

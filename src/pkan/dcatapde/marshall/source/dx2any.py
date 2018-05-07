@@ -63,17 +63,22 @@ class DX2Any(object):
                 if property_marshaller:
                     # let the adapter marshall the property
                     marshalled_property = property_marshaller.marshall(self)
-                    values.append(marshalled_property)
+                    self.marshall_target.add_property(
+                        self.resource,
+                        rdf_name,
+                        marshalled_property,
+                    )
                 else:
                     # No adapter can be found, convert the field value
                     # to a string.
                     value = str(property)
                     values.append(value)
-            self.marshall_target.add_property(
-                self.resource,
-                rdf_name,
-                values,
-            )
+            if values:
+                self.marshall_target.add_property(
+                    self.resource,
+                    rdf_name,
+                    values,
+                )
 
     def marshall_contained(self):
         """Marshall contained objects."""

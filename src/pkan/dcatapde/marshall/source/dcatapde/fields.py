@@ -19,7 +19,7 @@ class I18NField2RDF(DCATField2RDF):
     def marshall_myself(self, obj):
         """Marshall myself."""
         # get value of the field
-        field_value = getattr(self.context, self.field.getName())
+        field_value = self.field
 
         # The field emit a list of literals
         literals = []
