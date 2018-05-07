@@ -64,4 +64,13 @@
       profile="pkan.dcatapde:default"
       handler=".upgrades.renamed_roles"
       />
+
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1008"
+      title="Reload GS profiles: Added Categorisation Behavior"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
 </configure>
