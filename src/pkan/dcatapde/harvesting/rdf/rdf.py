@@ -296,135 +296,135 @@ class RDFProcessor(object):
 
     def property(self, visitor, **kwargs):
 
-            field = kwargs['field']
-            field_name = kwargs['field_name']
-            obj_data = kwargs['obj_data']
-            context = kwargs['context']
-            predicate = field['predicate']
-            obj_class = field['object']
+        field = kwargs['field']
+        field_name = kwargs['field_name']
+        obj_data = kwargs['obj_data']
+        context = kwargs['context']
+        predicate = field['predicate']
+        obj_class = field['object']
 
-            visitor.scribe.write(
-                level='info',
-                msg=u'{type} object {obj}: '
-                    u'searching {imp} attribute {att}',
-                att=field['predicate'],
-                imp=field['importance'],
-                obj=kwargs['rdf_node'],
-                type=kwargs['struct'].rdf_type,
+        visitor.scribe.write(
+            level='info',
+            msg=u'{type} object {obj}: '
+                u'searching {imp} attribute {att}',
+            att=field['predicate'],
+            imp=field['importance'],
+            obj=kwargs['rdf_node'],
+            type=kwargs['struct'].rdf_type,
+        )
+        # query for an attibute
+        query = QUERY_ATT
+
+        params = kwargs.copy()
+
+        token = kwargs['struct'].field2token(field_name, field)
+        if token in self.mapping_dexterity:
+            uid = self.mapping_dexterity[token]
+            obj = content.get(UID=uid)
+            obj_data[field_name] = uid
+            params['node_type'] = NT_DX_DEFAULT
+            node = visitor.end_node(predicate, obj_class, **params)
+            visitor.push_node(node)
+            self.crawl_dx(
+                visitor,
+                context=obj,
+                target_struct=field['object'],
             )
-            # query for an attibute
-            query = QUERY_ATT
+            return
 
-            params = kwargs.copy()
+        if token in self.mapping_default:
+            obj_data[field_name] = self.mapping_default[token]
+            params['node_type'] = NT_DEFAULT
+            visitor.end_node(predicate, obj_class, **params)
+            return
 
-            token = kwargs['struct'].field2token(field_name, field)
-            if token in self.mapping_dexterity:
-                uid = self.mapping_dexterity[token]
-                obj = content.get(UID=uid)
-                obj_data[field_name] = uid
-                params['node_type'] = NT_DX_DEFAULT
-                node = visitor.end_node(predicate, obj_class, **params)
-                visitor.push_node(node)
-                self.crawl_dx(
-                    visitor,
-                    context=obj,
-                    target_struct=field['object'],
+        if token in self.mapping_sparql:
+            params['node_type'] = NT_SPARQL
+            query = self.mapping_sparql[token]
+        # Query the RDF db. Subject is the node we are on
+        # Predicate is the attribute we like to find in the RDF
+        bindings = {
+            's': kwargs['rdf_node'],
+            'p': field['predicate'],
+        }
+        res = self.graph.query(query, initBindings=bindings)
+
+        # Dealing with required fields not delivered
+        if len(res) == 0:
+            if field['importance'] == IMP_REQUIRED:
+                visitor.scribe.write(
+                    level='error',
+                    msg=u'{type} object {obj}: required '
+                        u'attribute {att} not found',
+                    att=field['predicate'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
                 )
-                return
-
-            if token in self.mapping_default:
-                obj_data[field_name] = self.mapping_default[token]
-                params['node_type'] = NT_DEFAULT
+                params['status'] = NS_ERROR
                 visitor.end_node(predicate, obj_class, **params)
-                return
-
-            if token in self.mapping_sparql:
-                params['node_type'] = NT_SPARQL
-                query = self.mapping_sparql[token]
-            # Query the RDF db. Subject is the node we are on
-            # Predicate is the attribute we like to find in the RDF
-            bindings = {
-                's': kwargs['rdf_node'],
-                'p': field['predicate'],
-            }
-            res = self.graph.query(query, initBindings=bindings)
-
-            # Dealing with required fields not delivered
-            if len(res) == 0:
-                if field['importance'] == IMP_REQUIRED:
-                    visitor.scribe.write(
-                        level='error',
-                        msg=u'{type} object {obj}: required '
-                            u'attribute {att} not found',
-                        att=field['predicate'],
-                        obj=kwargs['rdf_node'],
-                        type=kwargs['struct'].rdf_type,
-                    )
-                    params['status'] = NS_ERROR
-                    visitor.end_node(predicate, obj_class, **params)
-                else:
-                    visitor.scribe.write(
-                        level='warn',
-                        msg=u'{type} object {obj}: {imp} '
-                            u'attribute {att} not found',
-                        att=field['predicate'],
-                        imp=field['importance'],
-                        obj=kwargs['rdf_node'],
-                        type=kwargs['struct'].rdf_type,
-                    )
-                    params['status'] = NS_WARNING
-                    visitor.end_node(predicate, obj_class, **params)
-                return
             else:
-                # dealing with list like fields
-                if field['type'] == list:
-                    self.handle_list(visitor, res, **params)
+                visitor.scribe.write(
+                    level='warn',
+                    msg=u'{type} object {obj}: {imp} '
+                        u'attribute {att} not found',
+                    att=field['predicate'],
+                    imp=field['importance'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
+                )
+                params['status'] = NS_WARNING
+                visitor.end_node(predicate, obj_class, **params)
+            return
+        else:
+            # dealing with list like fields
+            if field['type'] == list:
+                self.handle_list(visitor, res, **params)
 
-                # dealing with dict like fields aka Literals
-                elif field['type'] == dict:
-                    self.handle_dict(visitor, res, **params)
-                # Iten/list collision checking. Attribute is Item in DCATapded,
-                # but a list is delivered.
-                elif len(res) > 1:
-                    visitor.scribe.write(
-                        level='error',
-                        msg=u'{type} object {obj}: '
-                            u'attribute {att} to many values',
-                        att=field['predicate'],
-                        obj=kwargs['rdf_node'],
-                        type=kwargs['struct'].rdf_type,
-                    )
-                    # Todo: Error handling
-                    return
-                # Simple case of a single item
+            # dealing with dict like fields aka Literals
+            elif field['type'] == dict:
+                self.handle_dict(visitor, res, **params)
+            # Iten/list collision checking. Attribute is Item in DCATapded,
+            # but a list is delivered.
+            elif len(res) > 1:
+                visitor.scribe.write(
+                    level='error',
+                    msg=u'{type} object {obj}: '
+                        u'attribute {att} to many values',
+                    att=field['predicate'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
+                )
+                # Todo: Error handling
+                return
+            # Simple case of a single item
+            else:
+                # If the field is a Literal we simply store it.
+                if field['object'] == StructRDFSLiteral:
+                    val = literal2plone(res.bindings[0]['o'], field)
+                    obj_data[field_name] = val
+                    visitor.end_node(predicate, obj_class, **params)
+                # if not we have to create a sub object recursively
                 else:
-                    # If the field is a Literal we simply store it.
-                    if field['object'] == StructRDFSLiteral:
-                        val = literal2plone(res.bindings[0]['o'], field)
-                        obj_data[field_name] = val
-                        visitor.end_node(predicate, obj_class, **params)
-                    # if not we have to create a sub object recursively
-                    else:
-                        node = visitor.end_node(predicate, obj_class, **params)
-                        visitor.push_node(node)
-                        sub = self.crawl(
-                            visitor,
-                            context=context,
-                            rdf_node=res.bindings[0]['o'],
-                            target_struct=field['object'],
-                        )
-                        if sub:
-                            obj_data[field_name] = sub.UID()
-                        else:
-                            obj_data[field_name] = None
-                    visitor.scribe.write(
-                        level='info',
-                        msg=u'{type} object {obj}: attribute {att}:= {val}',
-                        val=str(obj_data[field_name]),
-                        att=field['predicate'],
-                        obj=kwargs['rdf_node'],
-                        type=kwargs['struct'].rdf_type,
+                    node = visitor.end_node(predicate, obj_class, **params)
+                    visitor.push_node(node)
+                    sub = self.crawl(
+                        visitor,
+                        context=context,
+                        rdf_node=res.bindings[0]['o'],
+                        target_struct=field['object'],
                     )
+                    if sub:
+                        obj_data[field_name] = sub.UID()
+                    else:
+                        obj_data[field_name] = None
+                visitor.scribe.write(
+                    level='info',
+                    msg=u'{type} object {obj}: attribute {att}:= {val}',
+                    val=str(obj_data[field_name]),
+                    att=field['predicate'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
+                )
 
     def residuals(self, visitor, **kwargs):
         """Here we look for rdf edges that are not in the DCAT-AP.de norm"""

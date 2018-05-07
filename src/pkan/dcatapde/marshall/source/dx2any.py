@@ -44,12 +44,16 @@ class DX2Any(object):
                 (self.context, property, self.marshall_target),
                 interface=IMarshallSource,
             )
+            if 'rdf_name' in self.structure.properties[property_name]:
+                rdf_name = self.structure.properties[property_name]['rdf_name']
+            else:
+                rdf_name = property_name
             if property_marshaller:
                 # let the adapter marshall the property
                 marshalled_property = property_marshaller.marshall(self)
                 self.marshall_target.add_property(
                     self.resource,
-                    property_name,
+                    rdf_name,
                     marshalled_property,
                 )
             else:
@@ -57,7 +61,7 @@ class DX2Any(object):
                 value = str(getattr(self.context, property_name))
                 self.marshall_target.add_property(
                     self.resource,
-                    property_name,
+                    rdf_name,
                     value,
                 )
 

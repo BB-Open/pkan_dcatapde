@@ -180,6 +180,16 @@ class StructBase(object):
                 'predicate': self.fieldname2predicate(field_name),
                 'type': field._type,
             }
+
+        # add subjects
+        result['subject'] = {
+            'object': StructRDFSLiteral,
+            'importance': IMP_OPTIONAL,
+            'predicate': DCAT.keyword,
+            'type': list,
+            'rdf_name': 'dcat_keyword',
+        }
+
         return result
 
     @property

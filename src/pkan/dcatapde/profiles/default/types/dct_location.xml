@@ -30,6 +30,8 @@
     <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
     <element value="plone.app.lockingbehavior.behaviors.ILocking"/>
     <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
+    <element value="plone.app.dexterity.behaviors.metadata.ICategorization" />
+
   </property>
 
   <!-- View information -->
