@@ -39,31 +39,41 @@ class DX2Any(object):
     def marshall_properties(self):
         """Marshall properties."""
         for property_name in self.structure.properties:
-            property = getattr(self.context, property_name)
-            property_marshaller = queryMultiAdapter(
-                (self.context, property, self.marshall_target),
-                interface=IMarshallSource,
-            )
-            if 'rdf_name' in self.structure.properties[property_name]:
-                rdf_name = self.structure.properties[property_name]['rdf_name']
+            struct_info = self.structure.properties[property_name]
+            property_value = getattr(self.context, property_name)
+            if not property_value:
+                # do not marshall empty fields
+                continue
+            if struct_info['type'] != list:
+                property_list = [property_value]
+            else:
+                property_list = property_value
+            if 'rdf_name' in struct_info:
+                rdf_name = struct_info['rdf_name']
             else:
                 rdf_name = property_name
-            if property_marshaller:
-                # let the adapter marshall the property
-                marshalled_property = property_marshaller.marshall(self)
-                self.marshall_target.add_property(
-                    self.resource,
-                    rdf_name,
-                    marshalled_property,
+
+            values = []
+            for property in property_list:
+                property_marshaller = queryMultiAdapter(
+                    (self.context, property, self.marshall_target),
+                    interface=IMarshallSource,
                 )
-            else:
-                # No adapter can be found, convert the field value to a string.
-                value = str(getattr(self.context, property_name))
-                self.marshall_target.add_property(
-                    self.resource,
-                    rdf_name,
-                    value,
-                )
+
+                if property_marshaller:
+                    # let the adapter marshall the property
+                    marshalled_property = property_marshaller.marshall(self)
+                    values.append(marshalled_property)
+                else:
+                    # No adapter can be found, convert the field value
+                    # to a string.
+                    value = str(property)
+                    values.append(value)
+            self.marshall_target.add_property(
+                self.resource,
+                rdf_name,
+                values,
+            )
 
     def marshall_contained(self):
         """Marshall contained objects."""
