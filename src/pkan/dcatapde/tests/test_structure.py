@@ -21,7 +21,7 @@ from plone.app.testing import TEST_USER_ID
 import unittest
 
 
-class HarvesterIntegrationTest(unittest.TestCase):
+class StructureTest(unittest.TestCase):
     """Validate the `structure classes`."""
 
     layer = testing.INTEGRATION_TESTING
@@ -33,7 +33,7 @@ class HarvesterIntegrationTest(unittest.TestCase):
 
     def test_base_struct(self):
         base = StructBase('dummy context')
-        self.assertEqual(base.vocab_terms, [])
+        self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dcat_catalog_struct(self):
         base = StructDCATCatalog('dummy context')
