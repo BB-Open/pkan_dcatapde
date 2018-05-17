@@ -4,6 +4,7 @@
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.source.dcatapde.dcat2rdf import DCATField2RDF
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
+from pkan.dcatapde.utils import get_default_language
 from ps.zope.i18nfield.field import I18NField
 from zope.component import adapter
 from zope.interface import implementer
@@ -25,6 +26,8 @@ class I18NField2RDF(DCATField2RDF):
         literals = []
         if field_value:
             for lang, text in field_value.items():
+                if lang == u'__default_value':
+                    lang = get_default_language()
                 literal = rdflib.term.Literal(text, lang=lang)
                 literals.append(literal)
 
