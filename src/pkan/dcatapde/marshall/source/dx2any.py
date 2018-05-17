@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Recursive crawler through objects and properties for marshalling"""
-
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.structure.structure import IStructure
 from plone.api import content
@@ -71,7 +70,7 @@ class DX2Any(object):
                 else:
                     # No adapter can be found, convert the field value
                     # to a string.
-                    value = str(property)
+                    value = unicode(property)
                     values.append(value)
             if values:
                 self.marshall_target.add_property(
