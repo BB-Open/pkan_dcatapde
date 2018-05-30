@@ -82,6 +82,7 @@ class DX2Any(object):
     def marshall_contained(self):
         """Marshall contained objects."""
         for item_name in self.structure.contained:
+            resources = []
             for item in self.context.values():
                 contained_marshaller = queryMultiAdapter(
                     (item, self.marshall_target),
@@ -90,11 +91,13 @@ class DX2Any(object):
                 )
                 if contained_marshaller:
                     contained_marshaller.marshall()
-                    self.marshall_target.set_link(
-                        self.resource,
-                        item_name,
-                        contained_marshaller.resource,
-                    )
+                    resources.append(contained_marshaller.resource)
+
+            self.marshall_target.set_links(
+                self.resource,
+                item_name,
+                resources,
+            )
 
     def marshall_references(self):
         """Marshall the referenced objects."""
