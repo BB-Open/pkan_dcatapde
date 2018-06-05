@@ -44,7 +44,7 @@ class FOAFAgent(Item, DCATMixin):
     portal_type = constants.CT_FOAF_AGENT
     content_schema = IFOAFAgent
     _namespace = 'foaf'
-    _ns_class = 'agent'
+    _ns_class = 'Agent'
 
     foaf_name = I18NTextProperty(IFOAFAgent['foaf_name'])
     dct_description = I18NTextProperty(IFOAFAgent['dct_description'])

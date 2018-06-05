@@ -261,7 +261,7 @@ class DCATDataset(Container, DCATMixin):
     portal_type = constants.CT_DCAT_DATASET
     content_schema = IDCATDataset
     _namespace = 'dcat'
-    _ns_class = 'dataset'
+    _ns_class = 'Dataset'
 
     dct_title = I18NTextProperty(IDCATDataset['dct_title'])
     dct_description = I18NTextProperty(IDCATDataset['dct_description'])

@@ -41,7 +41,7 @@ class SKOSConceptScheme(Item, DCATMixin):
 
     portal_type = constants.CT_SKOS_CONCEPTSCHEME
     _namespace = 'skos'
-    _ns_class = 'conceptscheme'
+    _ns_class = 'ConceptScheme'
 
     dct_title = I18NTextProperty(ISKOSConceptScheme['dct_title'])
     dct_description = I18NTextProperty(ISKOSConceptScheme['dct_description'])

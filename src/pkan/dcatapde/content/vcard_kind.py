@@ -72,7 +72,7 @@ class VCARDKind(Container, DCATMixin):
     portal_type = constants.CT_VCARD_KIND
     content_schema = IVCARDKind
     _namespace = 'vcard'
-    _ns_class = 'kind'
+    _ns_class = 'Kind'
 
     vcard_fn = I18NTextProperty(IVCARDKind['vcard_fn'])
     dct_description = I18NTextProperty(IVCARDKind['dct_description'])

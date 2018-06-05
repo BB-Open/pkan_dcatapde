@@ -131,7 +131,7 @@ class DCATDistribution(Container, DCATMixin):
     portal_type = constants.CT_DCAT_DISTRIBUTION
     content_schema = IDCATDistribution
     _namespace = 'dcat'
-    _ns_class = 'distribution'
+    _ns_class = 'Distribution'
 
     dct_title = I18NTextProperty(IDCATDistribution['dct_title'])
     dct_description = I18NTextProperty(IDCATDistribution['dct_description'])

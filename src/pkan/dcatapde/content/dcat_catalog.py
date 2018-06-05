@@ -185,7 +185,7 @@ class DCATCatalog(Container, DCATMixin):
     portal_type = constants.CT_DCAT_CATALOG
     content_schema = IDCATCatalog
     _namespace = 'dcat'
-    _ns_class = 'catalog'
+    _ns_class = 'Catalog'
 
     dct_title = I18NTextProperty(IDCATCatalog['dct_title'])
     dct_description = I18NTextProperty(IDCATCatalog['dct_description'])

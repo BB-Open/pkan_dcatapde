@@ -34,7 +34,7 @@ class RDFLiteral(Item, DCATMixin):
     portal_type = constants.CT_SKOS_CONCEPT
     content_schema = IRDFSLiteral
     _namespace = 'rdfs'
-    _ns_class = 'literal'
+    _ns_class = 'Literal'
 
     dct_title = I18NTextProperty(IRDFSLiteral['dct_title'])
 

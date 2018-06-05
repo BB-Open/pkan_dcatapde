@@ -52,7 +52,7 @@ class DCTLanguage(Item, DCATMixin):
     portal_type = constants.CT_DCT_LANGUAGE
     content_schema = IDCTLanguage
     _namespace = 'dct'
-    _ns_class = 'language'
+    _ns_class = 'Language'
 
     dct_title = I18NTextProperty(IDCTLanguage['dct_title'])
     dct_description = I18NTextProperty(IDCTLanguage['dct_description'])

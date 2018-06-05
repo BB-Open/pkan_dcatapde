@@ -42,7 +42,7 @@ class DCTLocation(Item, DCATMixin):
     portal_type = constants.CT_DCT_LOCATION
     content_schema = IDCTLocation
     _namespace = 'dct'
-    _ns_class = 'location'
+    _ns_class = 'Location'
 
     dct_title = I18NTextProperty(IDCTLocation['dct_title'])
     dct_description = I18NTextProperty(IDCTLocation['dct_description'])

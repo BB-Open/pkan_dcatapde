@@ -47,7 +47,7 @@ class DCTLicenseDocument(Item, DCATMixin):
     portal_type = constants.CT_DCT_LICENSEDOCUMENT
     content_schema = IDCTLicenseDocument
     _namespace = 'dct'
-    _ns_class = 'licensedocument'
+    _ns_class = 'LicenseDocument'
 
     dct_title = I18NTextProperty(IDCTLicenseDocument['dct_title'])
     dct_description = I18NTextProperty(IDCTLicenseDocument['dct_description'])
