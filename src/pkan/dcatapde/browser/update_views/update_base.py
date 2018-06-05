@@ -89,7 +89,7 @@ class UpdateObjectsBase(object):
                 if not attribute.first:
                     att_data = None
                 else:
-                    att_data = unicode(attribute.first.lower())
+                    att_data = unicode(attribute.first).lower()
 
             params[key] = att_data
         return params

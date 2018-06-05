@@ -26,6 +26,7 @@ class BaseContentTypeVocabulary(object):
     def get_results(self, query):
         params = {
             'portal_type': self.portal_type,
+            'sort_on': 'sortable_title',
         }
         query.update(params)
 
