@@ -36,6 +36,7 @@ from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from pkan.dcatapde.utils import get_available_languages_iso
+from pkan.dcatapde.utils import get_available_languages_title
 from pkan.dcatapde.utils import get_default_language
 from plone import api
 from plone.api import content
@@ -122,6 +123,7 @@ class RDFProcessor(object):
         self.serialize_format = self.rdf_format['serialize_as']
         self.def_lang = get_default_language()
         self.available_languages = get_available_languages_iso()
+        self.all_languages = get_available_languages_title().values()
         self.setup_logger()
         self.get_entity_mapping()
 
@@ -260,6 +262,9 @@ class RDFProcessor(object):
                 # convert 2-letter-format to 3-letter-format
                 if unicode(lang) in self.available_languages:
                     lang = self.available_languages[unicode(lang)]
+
+                elif lang not in self.all_languages:
+                    lang = self.def_lang
 
                 obj_data[field_name][lang] = unicode(i['o2'])
                 visitor.scribe.write(

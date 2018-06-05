@@ -18,6 +18,7 @@ install_requires = [
     'chardet',
     # 'collective.z3cform.datagridfield >= 1.3.0',
     'pkan.widgets',
+    'pkan.tiles',
     'plone.api',
     'plone.app.dexterity',
     'Products.GenericSetup >= 1.8.2',

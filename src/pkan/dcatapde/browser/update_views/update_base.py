@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
-
 from pkan.dcatapde import _
 from pkan.dcatapde.utils import get_available_languages_iso
 from pkan.dcatapde.utils import get_available_languages_title
@@ -8,9 +7,11 @@ from pkan.dcatapde.utils import get_default_language
 from plone.api import content
 from plone.api import portal
 from plone.i18n.normalizer import idnormalizer
+from rdflib import URIRef
 from zExceptions import BadRequest
 from zope.i18n import translate
 
+import os
 import rdflib
 import surf
 
@@ -33,6 +34,12 @@ class UpdateObjectsBase(object):
         self.default_language = get_default_language()
         self.available_languages = get_available_languages_iso()
         self.available_languages_title = get_available_languages_title()
+
+        if self.uri.startswith('http') or self.uri.startswith('/'):
+            pass
+        else:
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            self.uri = os.path.join(dir_path, self.uri)
 
     def load_objects_from_rdf(self):
 
@@ -58,7 +65,9 @@ class UpdateObjectsBase(object):
             attribute = getattr(obj, value)
             # deal wth more than one attribute, e.g. different languages
             #  in Literals
-            if isinstance(attribute.first, rdflib.term.Literal):
+            if isinstance(attribute, URIRef):
+                att_data = unicode(attribute)
+            elif isinstance(attribute.first, rdflib.term.Literal):
                 att_data = {}
                 for literal in attribute:
                     # check if language attribute exists
@@ -77,7 +86,10 @@ class UpdateObjectsBase(object):
                     att_data[lang] = unicode(literal)
 
             else:
-                att_data = unicode(attribute.first)
+                if not attribute.first:
+                    att_data = None
+                else:
+                    att_data = unicode(attribute.first.lower())
 
             params[key] = att_data
         return params
@@ -111,14 +123,18 @@ class UpdateObjectsBase(object):
             if not params['dct_title']:
                 params['dct_title'] = params['dc_identifier']
 
-            if isinstance(params['dc_identifier'], list):
+            if isinstance(params['dc_identifier'], dict):
                 id = params['dc_identifier'][self.default_language]
+            elif isinstance(params['dc_identifier'], list):
+                id = params['dc_identifier'][0]
             else:
                 id = params['dc_identifier']
             id = idnormalizer.normalize(id)
 
-            if isinstance(params['dct_title'], list):
+            if isinstance(params['dct_title'], dict):
                 title = params['dct_title'][self.default_language]
+            elif isinstance(params['dct_title'], list):
+                title = params['dct_title'][0]
             else:
                 title = params['dct_title']
 
