@@ -65,7 +65,7 @@ class IDCATDistribution(model.Schema, IDCAT):
         title=i18n.LABEL_DCATDE_LICENSEATTRIBUTIONBYTEXT,
     )
 
-    dcat_byteSize = I18NText(
+    dcat_byteSize = I18NTextLine(
         required=False,
         title=i18n.LABEL_DCAT_BYTESIZE,
     )
