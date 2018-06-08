@@ -6,14 +6,24 @@ from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from plone.dexterity.content import Container
-from plone.schema import Email
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope.interface import implementer
+from zope.interface import Invalid
 
+import re
 import zope.schema as schema
+
+
+def is_email(value):
+    _isemail = r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}'
+    _isemail = re.compile(_isemail).match
+    if not _isemail(value):
+        raise Invalid(_(u'${value} is not a valid Emailaddress',
+                        mapping={u'value': value}))
+    return True
 
 
 class IVCARDKind(model.Schema, IDCAT):
@@ -37,9 +47,11 @@ class IVCARDKind(model.Schema, IDCAT):
     vcard_hasEmail = schema.List(
         required=False,
         title=_(u'Emails'),
-        value_type=Email(
+        value_type=schema.TextLine(
             title=_(u'Email'),
+            constraint=is_email,
         ),
+        description=_(u'Add one Email per Line.'),
     )
     vcard_hasTelephone = schema.List(
         required=False,
