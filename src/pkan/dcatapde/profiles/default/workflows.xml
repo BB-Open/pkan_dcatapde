@@ -3,9 +3,11 @@
  <property
     name="title">Contains workflow definitions for your portal</property>
  <object name="simple_publication_workflow" meta_type="Workflow"/>
+  <object name="pkan_activation_workflow" meta_type="Workflow"/>
  <bindings>
   <default>
    <bound-workflow workflow_id="simple_publication_workflow"/>
+   <bound-workflow workflow_id="pkan_activation_workflow" />
   </default>
   <type type_id="ATBooleanCriterion"/>
   <type type_id="ATCurrentAuthorCriterion"/>

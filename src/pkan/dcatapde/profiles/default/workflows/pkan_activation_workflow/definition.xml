@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="pkan_activation_workflow"
+             title="Pkan Activation Workflow"
+             description="Activate and Deactivate Objects"
+             state_variable="pkan_state" initial_state="deactive"
+             manager_bypass="False">
+
+
+  <state state_id="active" title="Active">
+    <exit-transition transition_id="deactivate"/>
+
+
+  </state>
+  <state state_id="deactive" title="Deactive">
+    <exit-transition transition_id="activate"/>
+
+
+  </state>
+  <transition transition_id="activate" title="Activate" new_state="active"
+              trigger="USER" before_script="" after_script="">
+    <description>Activate Objects</description>
+    <action url="%(content_url)s/content_status_modify?workflow_action=activate"
+            category="pkan_workflow" icon="">Activate
+    </action>
+    <guard>
+      <guard-role>Manager</guard-role>
+    </guard>
+
+  </transition>
+  <transition transition_id="deactivate" title="Deactivate" new_state="deactive"
+              trigger="USER" before_script="" after_script="">
+    <description>Deactivate Object</description>
+    <action
+      url="%(content_url)s/content_status_modify?workflow_action=deactivate"
+      category="pkan_workflow" icon="">Deactivate
+    </action>
+    <guard>
+      <guard-role>Manager</guard-role>
+    </guard>
+
+  </transition>
+
+
+</dc-workflow>
