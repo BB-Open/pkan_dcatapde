@@ -177,7 +177,7 @@
       <role name="ProviderAdmin" />
     </permission>
 
-    <permission name="pkan.dcatapde: View and Edit as Pkan Editor" acquire="True">
+    <permission name="pkan.dcatapde: View and Edit as ProviderDataEditor" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner" />
@@ -187,7 +187,7 @@
       <role name="ProviderAdmin" />
     </permission>
 
-    <permission name="pkan.dcatapde: View and Edit as Commune Editor" acquire="True">
+    <permission name="pkan.dcatapde: View and Edit as ProviderAdmin" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner" />

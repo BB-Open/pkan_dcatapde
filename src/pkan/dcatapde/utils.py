@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Utilities."""
 from DateTime.DateTime import time
+from pkan.dcatapde.api.functions import query_active_objects
+from pkan.dcatapde.constants import CT_DCT_LANGUAGE
 from pkan.dcatapde.constants import CT_LANGUAGE_FOLDER
 from pkan.dcatapde.constants import FOLDER_LANGUAGES
 from pkan.dcatapde.constants import LANGUAGE_CACHE_TIMEOUT
@@ -59,10 +61,12 @@ class PKANLanguages(LanguageAvailability):
     @property
     @ram.cache(cache_key_iso)
     def available_languages_iso(self):
-        if not self.language_folder or not self.language_folder.contentItems():
+        brains = query_active_objects({}, CT_DCT_LANGUAGE)
+        if not brains:
             return AVAILABLE_LANGUAGES_ISO
         res = {}
-        for id, element in self.language_folder.contentItems():
+        for brain in brains:
+            element = brain.getObject()
             if getattr(element, 'old_representation', None):
                 res[element.old_representation] = element.new_representation
         return res
@@ -70,10 +74,12 @@ class PKANLanguages(LanguageAvailability):
     @property
     @ram.cache(cache_key_title)
     def avaible_languages_title(self):
-        if not self.language_folder or not self.language_folder.contentItems():
+        brains = query_active_objects({}, CT_DCT_LANGUAGE)
+        if not brains:
             return AVAILABLE_LANGUAGES_TITLE
         res = {}
-        for id, obj in self.language_folder.contentItems():
+        for brain in brains:
+            obj = brain.getObject()
             if getattr(obj, 'new_representation', None):
                 title = obj.Title()
                 if title:

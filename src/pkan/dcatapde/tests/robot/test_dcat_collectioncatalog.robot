@@ -62,6 +62,8 @@ a publisher 'Test-Publisher'
   Go To  ${PLONE_URL}/publishers/++add++foaf_agent
   I type 'Test-Publisher' into the name field
   I submit the form
+  I activate the object
+  Wait until page contains  Site Map
 
 a catalog 'My Catalog'
   Go To  ${PLONE_URL}/++add++dcat_catalog

@@ -7,6 +7,14 @@
       i18n:domain="pkan.dcatpade">
 <body>
 
+<metal:head fill-slot="style_slot">
+  <style type="text/css">
+    .formHelp {
+      display: none;
+    }
+  </style>
+</metal:head>
+
 <metal:main fill-slot="content-description">
   <!-- hide description -->
 </metal:main>

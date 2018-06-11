@@ -9,4 +9,7 @@
  <index name="uri_in_triplestore" meta_type="FieldIndex">
   <indexed_attr value="uri_in_triplestore"/>
  </index>
+ <index name="pkan_state" meta_type="FieldIndex">
+  <indexed_attr value="pkan_state"/>
+ </index>
 </object>

@@ -97,12 +97,12 @@
 
     <permission
       id="pkan.dcatapde.ProviderDataEditor"
-      title="pkan.dcatapde: View and Edit as Pkan Editor"
+      title="pkan.dcatapde: View and Edit as ProviderDataEditor"
       />
 
     <permission
       id="pkan.dcatapde.ProviderAdmin"
-      title="pkan.dcatapde: View and Edit as Commune Editor"
+      title="pkan.dcatapde: View and Edit as ProviderAdmin"
       />
 
     <permission

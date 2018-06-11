@@ -8,18 +8,14 @@ Suite Teardown  Teardown
 
 *** Test Cases ***************************************************************
 
-Scenario: As a site administrator I can add a distribution
+Scenario: As a site administrator I can add a foafagent
   Given a logged-in site administrator
-    and an add distribution form
-   When I type 'My DCATDistribution' into the title field
+    and an add foafagent form
+   When I type 'My FOAFAgent' into the title field
+    and I type 'A description' into the description field
+    and I type 'https://example.com/publisher' into the isDefinedBy uri field
     and I submit the form
-   Then a distribution with the title 'My DCATDistribution' has been created
-
-Scenario: As a site administrator I can view a distribution
-  Given a logged-in site administrator
-    and a distribution 'My DCATDistribution'
-   When I go to the distribution view
-   Then I can see the distribution title 'My DCATDistribution'
+   Then a foafagent with the title 'My FOAFAgent' has been created
 
 
 *** Keywords *****************************************************************
@@ -29,33 +25,36 @@ Scenario: As a site administrator I can view a distribution
 a logged-in site administrator
   Enable autologin as  Site Administrator
 
-an add distribution form
-  Go To  ${PLONE_URL}/++add++distribution
-
-a distribution 'My DCATDistribution'
-  Create content  type=distribution  id=my-distribution  title=My DCATDistribution
+an add foafagent form
+  Go To  ${PLONE_URL}/agents/++add++foaf_agent
 
 
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  name=form.widgets.IDublinCore.title  ${title}
+  Input Text  form.widgets.foaf_name.eng  ${title}
+
+I type '${description}' into the description field
+  Input Text  form.widgets.dct_description.eng  ${description}
+
+I type '${uri}' into the isDefinedBy uri field
+  Input Text  form-widgets-rdfs_isDefinedBy  ${uri}
 
 I submit the form
   Click Button  Save
 
-I go to the distribution view
-  Go To  ${PLONE_URL}/my-distribution
+I go to the foafagent view
+  Go To  ${PLONE_URL}/agents/my-foafagent
   Wait until page contains  Site Map
 
 
 # --- THEN -------------------------------------------------------------------
 
-a distribution with the title '${title}' has been created
+a foafagent with the title '${title}' has been created
   Wait until page contains  Site Map
   Page should contain  ${title}
-  Page should contain  Item created
+#  Page should contain  Item created
 
-I can see the distribution title '${title}'
+I can see the foafagent title '${title}'
   Wait until page contains  Site Map
   Page should contain  ${title}

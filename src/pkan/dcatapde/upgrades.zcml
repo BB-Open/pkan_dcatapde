@@ -73,4 +73,13 @@
       profile="pkan.dcatapde:default"
       handler=".upgrades.reload_gs_profile"
       />
+
+    <genericsetup:upgradeStep
+      source="*"
+      destination="1009"
+      title="Reload GS profiles: Added PKAN State"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.pkan_state"
+      />
 </configure>

@@ -44,4 +44,15 @@
     permission="zope2.View"
     />
 
+  <browser:menu
+    id="pkan_activation"
+    title="The PKAN 'workflow' menu - allows the user to execute pkan workflow transitions"
+    class=".menu.PKANWorkflowMenu"
+    />
+
+  <adapter for="* *"
+         name="pkan_activation_menuitems"
+         factory=".menu.PKANSubMenuItem"
+         provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+
 </configure>
