@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Test license document related vocabularies."""
-
 from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.interfaces import IVocabularyTokenized
@@ -13,7 +13,43 @@ from zope.schema.interfaces import IVocabularyTokenized
 import unittest
 
 
-class TestDCATCatalogVocabulary(unittest.TestCase):
+class BaseTestMixin():
+
+    def vocab_test(self, vocab_name):
+        workflowTool = getToolByName(self.item1, 'portal_workflow')
+        workflowTool.doActionFor(self.item1, 'activate')
+        factory = getUtility(IVocabularyFactory, vocab_name)
+        self.assertTrue(IVocabularyFactory.providedBy(factory))
+
+        vocabulary = factory(self.portal)
+        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
+
+        self.assertEqual(len(vocabulary), 1)
+        self.assertEqual(
+            vocabulary.getTerm(self.item1.UID()).title,
+            self.item1.Title(),
+        )
+
+    def vocab_test_formatted(self, vocab_name):
+        workflowTool = getToolByName(self.item1, 'portal_workflow')
+        workflowTool.doActionFor(self.item1, 'activate')
+        factory = getUtility(IVocabularyFactory, vocab_name)
+        self.assertTrue(IVocabularyFactory.providedBy(factory))
+
+        vocabulary = factory(self.portal)
+        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
+
+        self.assertEqual(len(vocabulary), 1)
+        self.assertEqual(
+            vocabulary.getTerm(self.item1.UID()).title,
+            '{0} ({1})'.format(
+                self.item1.Title(),
+                self.item1.rdfs_isDefinedBy,
+            ),
+        )
+
+
+class TestDCATCatalogVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `DCATCatalogVocabulary` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -28,6 +64,7 @@ class TestDCATCatalogVocabulary(unittest.TestCase):
             id='catalog-1',
             dct_title={u'en': u'Catalog 1'},
         )
+
         self.item2 = api.content.create(
             container=self.portal,
             type=constants.CT_DCAT_CATALOG,
@@ -38,24 +75,10 @@ class TestDCATCatalogVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.DCATCatalog'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            self.item1.Title(),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            self.item2.Title(),
-        )
+        self.vocab_test(vocab_name)
 
 
-class TestDCATDatasetVocabulary(unittest.TestCase):
+class TestDCATDatasetVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `DCATDatasetVocabulary` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -86,24 +109,10 @@ class TestDCATDatasetVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.DCATDataset'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            self.item1.Title(),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            self.item2.Title(),
-        )
+        self.vocab_test(vocab_name)
 
 
-class TestDCATDistributionVocabulary(unittest.TestCase):
+class TestDCATDistributionVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `DCATDistributionVocabulary` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -128,24 +137,10 @@ class TestDCATDistributionVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.DCATDistribution'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            self.item1.Title(),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            self.item2.Title(),
-        )
+        self.vocab_test(vocab_name)
 
 
-class TestDCTLicenseDocumentVocabulary(unittest.TestCase):
+class TestDCTLicenseDocumentVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `DCTLicenseDocumentVocabulary` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -172,30 +167,10 @@ class TestDCTLicenseDocumentVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.DCTLicenseDocument'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            '{0} ({1})'.format(
-                self.item1.Title(),
-                self.item1.rdfs_isDefinedBy,
-            ),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            '{0} ({1})'.format(
-                self.item2.Title(),
-                self.item2.rdfs_isDefinedBy,
-            ),
-        )
+        self.vocab_test_formatted(vocab_name)
 
 
-class TestDCTLocationVocabulary(unittest.TestCase):
+class TestDCTLocationVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `DCTLocationVocabulary` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -222,30 +197,10 @@ class TestDCTLocationVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.DCTLocation'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            '{0} ({1})'.format(
-                self.item1.Title(),
-                self.item1.rdfs_isDefinedBy,
-            ),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            '{0} ({1})'.format(
-                self.item2.Title(),
-                self.item2.rdfs_isDefinedBy,
-            ),
-        )
+        self.vocab_test_formatted(vocab_name)
 
 
-class TestDCTMediaTypeOrExtentVocabulary(unittest.TestCase):
+class TestDCTMediaTypeOrExtentVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `DCTMediaTypeOrExtentVocabulary` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -270,24 +225,10 @@ class TestDCTMediaTypeOrExtentVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            self.item1.Title(),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            self.item2.Title(),
-        )
+        self.vocab_test(vocab_name)
 
 
-class TestDCTStandardVocabulary(unittest.TestCase):
+class TestDCTStandardVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `DCTStandardVocabulary` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -312,30 +253,10 @@ class TestDCTStandardVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.DCTStandard'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            '{0} ({1})'.format(
-                self.item1.Title(),
-                self.item1.rdfs_isDefinedBy,
-            ),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            '{0} ({1})'.format(
-                self.item2.Title(),
-                self.item2.rdfs_isDefinedBy,
-            ),
-        )
+        self.vocab_test_formatted(vocab_name)
 
 
-class TestFOAFAgentVocabulary(unittest.TestCase):
+class TestFOAFAgentVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `FOAFAgentVocabulary` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -360,24 +281,10 @@ class TestFOAFAgentVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.FOAFAgent'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            self.item1.Title(),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            self.item2.Title(),
-        )
+        self.vocab_test(vocab_name)
 
 
-class TestSKOSConceptVocabulary(unittest.TestCase):
+class TestSKOSConceptVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `SKOSConcept` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -402,24 +309,10 @@ class TestSKOSConceptVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.SKOSConcept'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            self.item1.Title(),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            self.item2.Title(),
-        )
+        self.vocab_test(vocab_name)
 
 
-class TestSKOSConceptSchemeVocabulary(unittest.TestCase):
+class TestSKOSConceptSchemeVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `SKOSConceptScheme` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -444,21 +337,7 @@ class TestSKOSConceptSchemeVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.SKOSConceptScheme'
-        factory = getUtility(IVocabularyFactory, vocab_name)
-        self.assertTrue(IVocabularyFactory.providedBy(factory))
-
-        vocabulary = factory(self.portal)
-        self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
-
-        self.assertEqual(len(vocabulary), 2)
-        self.assertEqual(
-            vocabulary.getTerm(self.item1.UID()).title,
-            self.item1.Title(),
-        )
-        self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            self.item2.Title(),
-        )
+        self.vocab_test(vocab_name)
 
 
 class DcatTypesVocabulary(unittest.TestCase):
@@ -498,26 +377,50 @@ class DcatTypesVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.AllDcatObjects'
+        workflowTool = getToolByName(self.item1, 'portal_workflow')
+        workflowTool.doActionFor(self.item1, 'activate')
+        workflowTool = getToolByName(self.item3, 'portal_workflow')
+        workflowTool.doActionFor(self.item3, 'activate')
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
         vocabulary = factory(self.portal)
         self.assertTrue(IVocabularyTokenized.providedBy(vocabulary))
 
-        self.assertEqual(len(vocabulary), 4)
+        self.assertEqual(len(vocabulary), 2)
         self.assertEqual(
             vocabulary.getTerm(self.item1.UID()).title,
             self.item1.Title(),
         )
         self.assertEqual(
-            vocabulary.getTerm(self.item2.UID()).title,
-            self.item2.Title(),
-        )
-        self.assertEqual(
             vocabulary.getTerm(self.item3.UID()).title,
             self.item3.Title(),
         )
-        self.assertEqual(
-            vocabulary.getTerm(self.item4.UID()).title,
-            self.item4.Title(),
+
+
+class TestVCARDKindVocabulary(unittest.TestCase, BaseTestMixin):
+    """Validate the `SKOSConceptScheme` vocabulary."""
+
+    layer = testing.INTEGRATION_TESTING
+
+    def setUp(self):
+        """Custom shared utility setup for tests."""
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.item1 = api.content.create(
+            container=self.portal.get(constants.FOLDER_VCARD_KIND),
+            type=constants.CT_VCARD_KIND,
+            id='contact-1',
+            dct_title={u'en': u'Concept Scheme 1'},
         )
+        self.item2 = api.content.create(
+            container=self.portal.get(constants.FOLDER_VCARD_KIND),
+            type=constants.CT_VCARD_KIND,
+            id='contact-2',
+            dct_title={u'en': u'Concept Scheme 2'},
+        )
+
+    def test_vocabulary(self):
+        """Validate the vocabulary."""
+        vocab_name = 'pkan.dcatapde.vocabularies.VCARDKind'
+        self.vocab_test(vocab_name)

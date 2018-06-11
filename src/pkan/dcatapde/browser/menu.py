@@ -35,12 +35,12 @@ class PKANSubMenuItem(WorkflowSubMenuItem):
         tool = getToolByName(self.context, 'portal_workflow')
         state = tool.getInfoFor(aq_inner(self.context), 'pkan_state', None)
         stateTitle = self._currentStateTitle()
-        return {'id': 'plone-contentmenu-workflow',
+        return {'id': self.submenuId,
                 'class': 'state-{0}'.format(state),
                 'state': state,
                 'stateTitle': stateTitle,
                 'shortTitle': self.short_title,
-                'li_class': 'plonetoolbar-workfow-transition'}
+                'li_class': 'plonetoolbar-workflow-transition'}
 
     @memoize
     def available(self):

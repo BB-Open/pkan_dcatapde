@@ -67,7 +67,18 @@ I set the criteria ${type} in row ${number} to the text '${label}'
   Focus  css=.querystring-sortreverse
   Sleep  1.5
 
+Open PKANWorkflowMenu
+    [Arguments]  ${elementId}
+    Element Should Be Visible  css=li#${elementId}
+    Element Should Not Be Visible  css=li.plonetoolbar-workflow-transition
+    Click link  css=li#${elementId} a
+    Wait until keyword succeeds  1  5  Element Should Be Visible  css=li.plonetoolbar-workflow-transition
 
+
+I activate the object
+  Open PKANWorkflowMenu  pkan_activation
+  Click Link  workflow-transition-activate
+  Sleep  1.5
 
 *** Variables ****************************************************************
 
