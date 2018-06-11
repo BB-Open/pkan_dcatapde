@@ -32,7 +32,7 @@ an add foafagent form
 # --- WHEN -------------------------------------------------------------------
 
 I type '${title}' into the title field
-  Input Text  form.widgets.dct_title.eng  ${title}
+  Input Text  form.widgets.foaf_name.eng  ${title}
 
 I type '${description}' into the description field
   Input Text  form.widgets.dct_description.eng  ${description}
