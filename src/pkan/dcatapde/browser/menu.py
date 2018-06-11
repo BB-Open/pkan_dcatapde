@@ -1,39 +1,59 @@
 # -*- coding: utf-8 -*-
-
+from Acquisition import aq_inner
+from pkan.dcatapde import _
 from plone.app.contentmenu.interfaces import IActionsSubMenuItem
 from plone.app.contentmenu.interfaces import IWorkflowMenu
 from plone.app.contentmenu.menu import BrowserSubMenuItem
 from plone.app.contentmenu.menu import WorkflowMenu
+from plone.app.contentmenu.menu import WorkflowSubMenuItem
+from plone.memoize.instance import memoize
 from plone.protect.utils import addTokenToUrl
 from Products.CMFCore.utils import getToolByName
+from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implementer
-from zope.security import checkPermission
 
 
 @implementer(IActionsSubMenuItem)
-class MyGroupSubMenuItem(BrowserSubMenuItem):
-    title = 'Title of menu'
-    submenuId = 'my_id'
+class PKANSubMenuItem(WorkflowSubMenuItem):
+    title = _(u'PKAN Object Status')
+    submenuId = 'pkan_activation'
+    short_title = _(u'State')
 
-    extra = {
-        'id': 'plone-mymenuid',
-        'li_class': 'plonetoolbar-myclass',
-    }
+    order = 21
 
-    order = 70
+    def __init__(self, context, request):
+        BrowserSubMenuItem.__init__(self, context, request)
+        self.tools = getMultiAdapter((context, request), name='plone_tools')
+        self.context = context
 
     @property
-    def action(self):
-        return 'url-for-action'
+    def extra(self):
+        tool = getToolByName(self.context, 'portal_workflow')
+        state = tool.getInfoFor(aq_inner(self.context), 'pkan_state', None)
+        stateTitle = self._currentStateTitle()
+        return {'id': 'plone-contentmenu-workflow',
+                'class': 'state-{0}'.format(state),
+                'state': state,
+                'stateTitle': stateTitle,
+                'shortTitle': self.short_title,
+                'li_class': 'plonetoolbar-workfow-transition'}
 
+    @memoize
     def available(self):
-        if checkPermission('cmf.ModifyPortalContent', self.context):
-            return True
-        return False
+        tool = getToolByName(self.context, 'portal_workflow')
+        state = tool.getInfoFor(aq_inner(self.context), 'pkan_state', None)
+        return (state is not None)
 
-    def selected(self):
-        return False
+    @memoize
+    def _currentStateTitle(self):
+        tool = getToolByName(self.context, 'portal_workflow')
+        state = tool.getInfoFor(aq_inner(self.context), 'pkan_state', None)
+        workflows = self.tools.workflow().getWorkflowsFor(self.context)
+        if workflows:
+            for w in workflows:
+                if state in w.states:
+                    return w.states[state].title or state
 
 
 @implementer(IWorkflowMenu)

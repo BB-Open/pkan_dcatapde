@@ -45,14 +45,14 @@
     />
 
   <browser:menu
-    id="my_id"
+    id="pkan_activation"
     title="The PKAN 'workflow' menu - allows the user to execute pkan workflow transitions"
     class=".menu.PKANWorkflowMenu"
     />
 
   <adapter for="* *"
-         name="my_name"
-         factory=".menu.MyGroupSubMenuItem"
+         name="pkan_activation_menuitems"
+         factory=".menu.PKANSubMenuItem"
          provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
 
 </configure>
