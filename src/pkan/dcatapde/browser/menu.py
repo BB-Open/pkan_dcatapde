@@ -16,6 +16,9 @@ from zope.interface import implementer
 
 @implementer(IActionsSubMenuItem)
 class PKANSubMenuItem(WorkflowSubMenuItem):
+    MANAGE_SETTINGS_PERMISSION = \
+        'pkan.dcatapde: View and Edit as ProviderDataEditor'
+
     title = _(u'PKAN Object Status')
     submenuId = 'pkan_activation'
     short_title = _(u'State')

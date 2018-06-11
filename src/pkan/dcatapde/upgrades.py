@@ -244,3 +244,8 @@ def renamed_roles(context):
             update_role_mappings(obj)
             obj.reindexObjectSecurity()
             obj.reindexObject()
+
+
+def pkan_state(context):
+    reload_gs_profile(context)
+    new_workflow(context)

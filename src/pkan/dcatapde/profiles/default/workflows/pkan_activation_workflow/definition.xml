@@ -23,7 +23,7 @@
             category="pkan_workflow" icon="">Activate
     </action>
     <guard>
-      <guard-role>Manager</guard-role>
+      <guard-permission>pkan.dcatapde: View and Edit as ProviderDataEditor</guard-permission>
     </guard>
 
   </transition>
@@ -35,7 +35,7 @@
       category="pkan_workflow" icon="">Deactivate
     </action>
     <guard>
-      <guard-role>Manager</guard-role>
+      <guard-permission>pkan.dcatapde: View and Edit as ProviderDataEditor</guard-permission>
     </guard>
 
   </transition>

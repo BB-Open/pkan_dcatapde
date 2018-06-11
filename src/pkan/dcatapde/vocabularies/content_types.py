@@ -2,6 +2,7 @@
 """Vocabularies and sources for content types."""
 from BTrees._IIBTree import intersection
 from pkan.dcatapde import constants
+from pkan.dcatapde.api.functions import query_active_objects
 from pkan.dcatapde.constants import CT_CONCEPT_FOLDER
 from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.constants import FOLDER_CONCEPTS
@@ -13,25 +14,22 @@ from plone.app.vocabularies.terms import safe_encode
 from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
 from zope.interface import implementer
+from zope.interface import provider
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
+@provider(IContextSourceBinder)
 class BaseContentTypeVocabulary(object):
     """A vocabulary returning a list of objects from a content type."""
 
     portal_type = None
 
-    def get_results(self, query):
-        params = {
-            'portal_type': self.portal_type,
-            'sort_on': 'sortable_title',
-        }
-        query.update(params)
+    def get_results(self, query, context):
+        brains = query_active_objects(query, self.portal_type, context=context)
 
-        catalog = api.portal.get_tool(name='portal_catalog')
-        brains = catalog(query)
         uids = []
         terms = []
 
@@ -53,7 +51,7 @@ class BaseContentTypeVocabulary(object):
 
     def __call__(self, context, query=None):
         query = utils.parse_query(context=context, query=query)
-        return self.get_results(query=query)
+        return self.get_results(query=query, context=context)
 
 
 @implementer(IVocabularyFactory)

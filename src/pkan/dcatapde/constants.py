@@ -186,3 +186,8 @@ PROVIDER_CHIEF_EDITOR_ROLE = 'ProviderChiefEditor'
 PROVIDER_DATA_EDITOR_ROLE = 'ProviderDataEditor'
 PROVIDER_ADMIN_ROLE = 'ProviderAdmin'
 LANDING_PAGE_VIEW = 'landing_page'
+
+# STATES
+ACTIVE_STATE = 'active'
+DEACTIVE_STATE = 'deactive'
+PKAN_STATE_NAME = 'pkan_state'

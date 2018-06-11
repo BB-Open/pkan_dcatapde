@@ -3,11 +3,14 @@ from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager
 from AccessControl.SecurityManagement import setSecurityManager
 from pkan.dcatapde import constants
+# get functions
+from pkan.dcatapde.constants import ACTIVE_STATE
+from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.constants import PKAN_STATE_NAME
 from plone import api
 from zope.component.hooks import getSite
 
 
-# get functions
 def get_parent(context):
     """
     get the parent return None if no parent is found
@@ -92,3 +95,22 @@ def restore_user(old_sm):
     # restore security context of user
     if old_sm:
         setSecurityManager(old_sm)
+
+
+def query_active_objects(query, portal_type, context=None):
+    params = {
+        'portal_type': portal_type,
+        'sort_on': 'sortable_title',
+        PKAN_STATE_NAME: ACTIVE_STATE,
+    }
+    query.update(params)
+
+    catalog = api.portal.get_tool(name='portal_catalog')
+    brains = list(catalog(query))
+
+    harvester = get_ancestor(context, CT_HARVESTER)
+    if context and harvester:
+        query['path'] = '/'.join(harvester.getPhysicalPath())
+        brains += list(catalog(query))
+
+    return brains
