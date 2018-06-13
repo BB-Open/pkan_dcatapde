@@ -8,6 +8,9 @@ from pkan.dcatapde import constants
 BUTTON_IMPORT_DCT_LICENSEDOCUMENT = _(u'Import DCT:LicenseDocument')
 BUTTON_IMPORT_SKOS_CONCEPT = _(u'Import SKOS:Concept')
 
+PERMISSION_DENIED = _(u'Permission Denied')
+DEPRECATED = _(u':Deprecated')
+
 FIELDSET_AGENTS = _(u'Agents')
 FIELDSET_DETAILS = _(u'Dates, Geo, etc')
 FIELDSET_RELATIONS = _(u'Relations')
