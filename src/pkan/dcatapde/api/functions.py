@@ -6,9 +6,17 @@ from pkan.dcatapde import constants
 # get functions
 from pkan.dcatapde.constants import ACTIVE_STATE
 from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.constants import DEACTIVE_STATE
 from pkan.dcatapde.constants import PKAN_STATE_NAME
+from pkan.dcatapde.constants import PROVIDER_ADMIN_PERM
+from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
+from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_PERM
+from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
+from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
+from pkan.dcatapde.constants import PRVIDER_DATA_EDITOR_PERM
 from plone import api
 from zope.component.hooks import getSite
+from zope.security import checkPermission
 
 
 def get_parent(context):
@@ -110,7 +118,26 @@ def query_active_objects(query, portal_type, context=None):
 
     harvester = get_ancestor(context, CT_HARVESTER)
     if context and harvester:
+        # add objects from the same harvest
         query['path'] = '/'.join(harvester.getPhysicalPath())
         brains += list(catalog(query))
+    elif context:
+        # add objects of the same user
+        current = api.user.get_current()
+        roles = api.user.get_roles(user=current, obj=context)
+        if (PROVIDER_ADMIN_ROLE in roles or
+                PROVIDER_DATA_EDITOR_ROLE in roles or
+                PROVIDER_CHIEF_EDITOR_ROLE in roles):
+            query[PKAN_STATE_NAME] = DEACTIVE_STATE
+            new_brains = catalog(query)
+            for brain in new_brains:
+                obj = brain.getObject()
+                perm = checkPermission(PRVIDER_DATA_EDITOR_PERM, obj)
+                perm = perm or checkPermission(PROVIDER_ADMIN_PERM, obj)
+                perm = perm or checkPermission(PROVIDER_CHIEF_EDITOR_PERM,
+                                               obj)
+
+                if perm:
+                    brains.append(brain)
 
     return brains
