@@ -15,6 +15,7 @@ from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
 from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
 from pkan.dcatapde.constants import PRVIDER_DATA_EDITOR_PERM
 from plone import api
+from plone.api.exc import UserNotFoundError
 from zope.component.hooks import getSite
 from zope.security import checkPermission
 
@@ -123,8 +124,11 @@ def query_active_objects(query, portal_type, context=None):
         brains += list(catalog(query))
     elif context:
         # add objects of the same user
-        current = api.user.get_current()
-        roles = api.user.get_roles(user=current, obj=context)
+        try:
+            current = api.user.get_current()
+            roles = api.user.get_roles(user=current, obj=context)
+        except UserNotFoundError:
+            return brains
         if (PROVIDER_ADMIN_ROLE in roles or
                 PROVIDER_DATA_EDITOR_ROLE in roles or
                 PROVIDER_CHIEF_EDITOR_ROLE in roles):
