@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Utilities."""
+from collections import OrderedDict
 from DateTime.DateTime import time
 from pkan.dcatapde.api.functions import query_active_objects
 from pkan.dcatapde.constants import CT_DCT_LANGUAGE
@@ -64,7 +65,7 @@ class PKANLanguages(LanguageAvailability):
         brains = query_active_objects({}, CT_DCT_LANGUAGE)
         if not brains:
             return AVAILABLE_LANGUAGES_ISO
-        res = {}
+        res = OrderedDict()
         for brain in brains:
             element = brain.getObject()
             if getattr(element, 'old_representation', None):
@@ -76,16 +77,18 @@ class PKANLanguages(LanguageAvailability):
     def avaible_languages_title(self):
         brains = query_active_objects({}, CT_DCT_LANGUAGE)
         if not brains:
-            return AVAILABLE_LANGUAGES_TITLE
-        res = {}
-        for brain in brains:
-            obj = brain.getObject()
-            if getattr(obj, 'new_representation', None):
-                title = obj.Title()
-                if title:
-                    res[obj.new_representation] = title
-                else:
-                    res[obj.new_representation] = obj.new_representation
+            res = AVAILABLE_LANGUAGES_TITLE
+        else:
+            res = OrderedDict()
+            for brain in brains:
+                obj = brain.getObject()
+                if getattr(obj, 'new_representation', None):
+                    title = obj.Title()
+                    if title:
+                        res[obj.new_representation] = title
+                    else:
+                        res[obj.new_representation] = obj.new_representation
+        res = OrderedDict(sorted(res.iteritems(), key=lambda x: x[1]))
         return res
 
     def getAvailableLanguages(self, combined=False):
@@ -103,11 +106,10 @@ class PKANLanguages(LanguageAvailability):
 
     def getLanguages(self, combined=False):
         """Return a sequence of Language objects for available languages."""
-        res = {}
+        res = OrderedDict()
 
         for lang in self.avaible_languages_title.keys():
             res[lang] = {u'name': self.avaible_languages_title[lang]}
-
         return res
 
     def getLanguageListing(self, combined=False):
@@ -116,6 +118,9 @@ class PKANLanguages(LanguageAvailability):
         for lang in self.avaible_languages_title.keys():
             res.append((lang, self.avaible_languages_title[lang]))
         return res
+
+    def getSortedLanguages(self):
+        return self.getAvailableLanguages()
 
 
 def get_request_annotations(key, request=None, default=None):
