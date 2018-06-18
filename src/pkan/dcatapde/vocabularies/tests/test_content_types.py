@@ -121,14 +121,25 @@ class TestDCATDistributionVocabulary(unittest.TestCase, BaseTestMixin):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.item1 = api.content.create(
+        self.cat = api.content.create(
             container=self.portal,
+            type=constants.CT_DCAT_CATALOG,
+            id='catalog-1',
+            dct_title={u'en': u'Catalog 1'},
+        )
+        self.dataset = api.content.create(
+            container=self.cat,
+            type=constants.CT_DCAT_DATASET,
+            id=constants.CT_DCAT_DATASET,
+        )
+        self.item1 = api.content.create(
+            container=self.dataset,
             type=constants.CT_DCAT_DISTRIBUTION,
             id='distribution-1',
             dct_title={u'en': u'Distribution 1'},
         )
         self.item2 = api.content.create(
-            container=self.portal,
+            container=self.dataset,
             type=constants.CT_DCAT_DISTRIBUTION,
             id='distribution-2',
             dct_title={u'en': u'Distribution 2'},

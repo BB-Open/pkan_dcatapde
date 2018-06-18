@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """DCATDistribution Content Type."""
-
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
+from plone.autoform.directives import read_permission
+from plone.autoform.directives import write_permission
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
@@ -55,6 +56,8 @@ class IDCATDistribution(model.Schema, IDCAT):
         title=i18n.LABEL_DCAT_DOWNLOADURL,
     )
 
+    read_permission(dcatde_plannedAvailability='pkan.dcatapde.Admin')
+    write_permission(dcatde_plannedAvailability='pkan.dcatapde.Admin')
     dcatde_plannedAvailability = I18NText(
         required=False,
         title=i18n.LABEL_DCATDE_PLANNED_AVAILABLITY,
@@ -65,11 +68,15 @@ class IDCATDistribution(model.Schema, IDCAT):
         title=i18n.LABEL_DCATDE_LICENSEATTRIBUTIONBYTEXT,
     )
 
+    read_permission(dcat_byteSize='pkan.dcatapde.Admin')
+    write_permission(dcat_byteSize='pkan.dcatapde.Admin')
     dcat_byteSize = I18NTextLine(
         required=False,
         title=i18n.LABEL_DCAT_BYTESIZE,
     )
 
+    read_permission(dct_conformsTo='pkan.dcatapde.Admin')
+    write_permission(dct_conformsTo='pkan.dcatapde.Admin')
     form.widget(
         'dct_conformsTo',
         AjaxSelectAddFieldWidget,
@@ -98,6 +105,8 @@ class IDCATDistribution(model.Schema, IDCAT):
         vocabulary='pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent',
     )
 
+    read_permission(dcat_mediatype='pkan.dcatapde.Admin')
+    write_permission(dcat_mediatype='pkan.dcatapde.Admin')
     form.widget(
         'dcat_mediatype',
         AjaxSelectAddFieldWidget,

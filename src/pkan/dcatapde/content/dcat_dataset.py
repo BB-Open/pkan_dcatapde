@@ -27,7 +27,6 @@ class IDCATDataset(model.Schema, IDCAT):
         'agents',
         label=i18n.FIELDSET_AGENTS,
         fields=[
-            'dct_publisher',
             'dct_creator',
             'dct_contributor',
             'dcatde_originator',
@@ -41,8 +40,10 @@ class IDCATDataset(model.Schema, IDCAT):
         fields=[
             'dct_issued',
             'dct_modified',
+            'dcatde_contributorID',
             'dcatde_politicalGeocodingURI',
             'dcatde_politicalGeocodingLevelURI',
+            'dcatde_geocodingText',
             'dct_identifier',
             'dct_accessRights',
             'owl_versionInfo',
@@ -69,7 +70,7 @@ class IDCATDataset(model.Schema, IDCAT):
     read_permission(dcatde_contributorID='pkan.dcatapde.ProviderDataEditor')
     write_permission(dcatde_contributorID='pkan.dcatapde.ProviderDataEditor')
     dcatde_contributorID = I18NTextLine(
-        required=True,
+        required=False,
         title=i18n.LABEL_DCATDE_CONTRIBUTORID,
     )
 

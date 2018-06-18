@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde.constants import FIELDSET_ORDER_AT_END
-from plone import api
 from plone.dexterity.browser.view import DefaultView
 from Products.CMFCore.interfaces import IFolderish
 
@@ -21,29 +20,15 @@ class PKANDefaultView(DefaultView):
         super(PKANDefaultView, self).__call__(*args, **kwargs)
 
         # filter fields for not logged in user
-        if api.user.is_anonymous():
-            groups, groups_at_end = self.groups_for_anonymous()
+        groups, groups_at_end = self.filtered_groups()
         # just sort fieldsets for logged in user
-        else:
-            groups, groups_at_end = self.groups_for_logged_in()
 
         self.groups = tuple(groups)
         self.groups_at_end = tuple(groups_at_end)
 
         return self.render()
 
-    def groups_for_logged_in(self):
-        groups = []
-        groups_at_end = []
-        for group_name in self.fieldsets:
-            group = self.fieldsets[group_name]
-            if group_name in self.fieldset_order_end:
-                groups_at_end.append(group)
-            else:
-                groups.append(group)
-        return groups, groups_at_end
-
-    def groups_for_anonymous(self):
+    def filtered_groups(self):
         groups = []
         groups_at_end = []
         # filter empty fields

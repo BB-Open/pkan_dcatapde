@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-06-13 13:12+0000\n"
+"POT-Creation-Date: 2018-06-18 09:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,6 +120,10 @@ msgstr ""
 
 #: pkan/dcatapde/profiles/default/types/ConceptSchemeFolder.xml
 msgid "ConceptSchemeFolder"
+msgstr ""
+
+#: pkan/dcatapde/i18n.py:164
+msgid "Conform to Standard"
 msgstr ""
 
 #: pkan/dcatapde/content/vcard_kind.py:67
@@ -967,10 +971,6 @@ msgstr ""
 
 #: pkan/dcatapde/i18n.py:183
 msgid "Standard"
-msgstr ""
-
-#: pkan/dcatapde/i18n.py:164
-msgid "Standards"
 msgstr ""
 
 #: pkan/dcatapde/profiles/default/types/StandardsFolder.xml

@@ -207,6 +207,46 @@
       <role name="ProviderAdmin" />
     </permission>
 
+    <permission name="Modify view template" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
+    </permission>
+
+    <permission name="Plone: Manage Content Layouts" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
+    </permission>
+
+    <permission name="Plone: Customize Content Layouts" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
+    </permission>
+
+    <permission name="Delete objects" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
+    </permission>
+
     <permission name="plone.app.contenttypes: Add Collection" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
