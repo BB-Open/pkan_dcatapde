@@ -8,8 +8,7 @@
   <property i18n:translate="" name="title">DCT:MediaTypeOrExtent</property>
   <property
     i18n:translate=""
-    name="description">DCT Media Type or Extend
-  </property>
+    name="description">DCT Media Type or Extend</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">dct_mediatypeorextent</property>

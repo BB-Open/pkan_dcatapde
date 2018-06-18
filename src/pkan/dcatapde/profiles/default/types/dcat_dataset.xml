@@ -7,12 +7,10 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">DCAT:Dataset
-  </property>
+    name="title">DCAT:Dataset</property>
   <property
     i18n:translate=""
-    name="description">DCAT Dataset
-  </property>
+    name="description">DCAT Dataset</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">dcat_dataset</property>

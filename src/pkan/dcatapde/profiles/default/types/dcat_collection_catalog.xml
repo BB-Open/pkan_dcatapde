@@ -7,12 +7,10 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">DCAT:CollectionCatalog
-  </property>
+    name="title">DCAT:CollectionCatalog</property>
   <property
     i18n:translate=""
-    name="description">DCAT Collection Catalog
-  </property>
+    name="description">DCAT Collection Catalog</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">dcat_collection_catalog</property>

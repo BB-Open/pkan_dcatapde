@@ -7,12 +7,10 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">DCAT:Distribution
-  </property>
+    name="title">DCAT:Distribution</property>
   <property
     i18n:translate=""
-    name="description">DCAT distribution
-  </property>
+    name="description">DCAT distribution</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">dcat_distribution</property>

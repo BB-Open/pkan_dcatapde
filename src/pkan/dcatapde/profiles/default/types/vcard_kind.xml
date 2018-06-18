@@ -7,12 +7,10 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">VCARD:Kind
-  </property>
+    name="title">VCARD:Kind</property>
   <property
     i18n:translate=""
-    name="description">VCARD Kind for Contact Information
-  </property>
+    name="description">VCARD Kind for Contact Information</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">vcard_kind</property>

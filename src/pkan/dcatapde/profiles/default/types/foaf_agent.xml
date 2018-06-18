@@ -7,12 +7,10 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">FOAF:Agent
-  </property>
+    name="title">FOAF:Agent</property>
   <property
     i18n:translate=""
-    name="description">FOAF Agent
-  </property>
+    name="description">FOAF Agent</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">foaf_agent</property>

@@ -7,12 +7,10 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">SKOS:ConceptScheme
-  </property>
+    name="title">SKOS:ConceptScheme</property>
   <property
     i18n:translate=""
-    name="description">SKOS Concept Scheme
-  </property>
+    name="description">SKOS Concept Scheme</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">skos_conceptscheme</property>

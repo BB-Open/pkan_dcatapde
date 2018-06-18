@@ -7,12 +7,10 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">SKOS:Concept
-  </property>
+    name="title">SKOS:Concept</property>
   <property
     i18n:translate=""
-    name="description">SKOS Concept
-  </property>
+    name="description">SKOS Concept</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">skos_concept</property>

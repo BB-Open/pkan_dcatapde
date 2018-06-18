@@ -6,7 +6,7 @@
 
   <!-- Basic properties -->
   <property i18n:translate="" name="title">DCT:Language</property>
-  <property i18n:translate="" name="description"></property>
+  <property i18n:translate="" name="description">DCT Language Object</property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">dct_language</property>
