@@ -119,7 +119,7 @@ class PKANLanguages(LanguageAvailability):
             res.append((lang, self.avaible_languages_title[lang]))
         return res
 
-    def getSortedLanguages(self):
+    def get_sorted_languages(self):
         return self.getAvailableLanguages()
 
 
