@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
     lang="en"
     metal:use-macro="context/main_template/macros/master"
-    i18n:domain="inqbus.mailcenter">
+    i18n:domain="pkan.dcatapde">
 <body>
     <metal:content-core fill-slot="content-core">
         <style>
@@ -28,6 +28,12 @@
                     <a tal:content="providerchiefeditor/providerchiefeditor_name" tal:attributes="href providerchiefeditor/path"></a>
                 </li>
             </ul>
+            <h3 i18n:translate="">Addititonal Catalogs:</h3>
+            <ul>
+                <li tal:repeat="providerchiefeditor view/providerchiefeditor_cat">
+                    <a tal:content="providerchiefeditor/providerchiefeditor_name" tal:attributes="href providerchiefeditor/path"></a>
+                </li>
+            </ul>
         </div>
 
         <div tal:condition="view/display_providerdataeditor" class="info-column">
@@ -37,12 +43,24 @@
                     <a tal:content="providerdataeditor/providerdataeditor_name" tal:attributes="href providerdataeditor/path"></a>
                 </li>
             </ul>
+            <h3 i18n:translate="">Addititonal Catalogs:</h3>
+            <ul>
+                <li tal:repeat="providerdataeditor view/providerdataeditor_cat">
+                    <a tal:content="providerdataeditor/providerdataeditor_name" tal:attributes="href providerdataeditor/path"></a>
+                </li>
+            </ul>
         </div>
 
         <div tal:condition="view/display_provideradmin" class="info-column">
             <h3 tal:content="view/provideradmin_heading"></h3>
             <ul>
                 <li tal:repeat="provideradmin view/provideradmin">
+                    <a tal:content="provideradmin/provideradmin_name" tal:attributes="href provideradmin/path"></a>
+                </li>
+            </ul>
+            <h3 i18n:translate="">Additional Catalogs:</h3>
+            <ul>
+                <li tal:repeat="provideradmin view/provideradmin_cat">
                     <a tal:content="provideradmin/provideradmin_name" tal:attributes="href provideradmin/path"></a>
                 </li>
             </ul>

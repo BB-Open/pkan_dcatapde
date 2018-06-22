@@ -123,9 +123,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add SKOSConceptScheme" acquire="True">
@@ -133,9 +130,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add VCARDKind" acquire="True">

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-06-18 09:08+0000\n"
+"POT-Creation-Date: 2018-06-22 14:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Sandra Rum <sandra.rum@inqbus.de>, 2018\n"
 "Language-Team: German (https://www.transifex.com/bb-open/teams/82830/de/)\n"
@@ -70,6 +70,14 @@ msgstr "Jede E-Mail-Adresse in einer neuen Zeile hinzufügen."
 #: pkan/dcatapde/content/vcard_kind.py:59
 msgid "Add one number per Line"
 msgstr "Jede Nummer in einer neuen Zeile"
+
+#: pkan/dcatapde/browser/landing_page/templates/landing_page.pt:61
+msgid "Additional Catalogs:"
+msgstr "Zusätzliche Kataloge:"
+
+#: pkan/dcatapde/browser/landing_page/templates/landing_page.pt:31
+msgid "Addititonal Catalogs:"
+msgstr "Zusätzliche Kataloge:"
 
 #: pkan/dcatapde/i18n.py:186
 msgid "Agent"
@@ -137,7 +145,7 @@ msgstr ""
 
 #: pkan/dcatapde/i18n.py:164
 msgid "Conform to Standard"
-msgstr ""
+msgstr "Dem Standard entsprechend"
 
 #: pkan/dcatapde/content/vcard_kind.py:67
 msgid "Contact Formular"
@@ -208,6 +216,10 @@ msgstr "Datenstruktur"
 msgid "DCAT:Distribution"
 msgstr "Distribution"
 
+#: pkan/dcatapde/profiles/default/types/dct_language.xml
+msgid "DCT Language Object"
+msgstr ""
+
 #: pkan/dcatapde/profiles/default/types/dct_licensedocument.xml
 msgid "DCT License Document"
 msgstr "Lizenz-Dokument"
@@ -238,7 +250,7 @@ msgstr "Standort"
 
 #: pkan/dcatapde/profiles/default/types/dct_mediatypeorextent.xml
 msgid "DCT:MediaTypeOrExtent"
-msgstr "DCT:MedienTypOderErweiterung"
+msgstr "Medien-Typ / Erweiterung"
 
 #: pkan/dcatapde/profiles/default/types/dct_rightsstatement.xml
 msgid "DCT:RightsStatement"
@@ -343,11 +355,11 @@ msgstr "E-Mail-Adressen"
 
 #: pkan/dcatapde/languages.py:44
 msgid "English"
-msgstr ""
+msgstr "Englisch"
 
 #: pkan/dcatapde/languages.py:41
 msgid "English (USA)"
-msgstr ""
+msgstr "Englisch (USA)"
 
 #: pkan/dcatapde/languages.py:43
 msgid "Ethiopia"
@@ -423,15 +435,15 @@ msgstr "Verzeichnis der Standards"
 msgid "Folders"
 msgstr "Verzeichnisse"
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:69
+#: pkan/dcatapde/browser/landing_page/landing_page.py:82
 msgid "Folders and Catalogs managed as Provider Chief Editor"
 msgstr "Vezeichnisse und Kataloge der Chef-Redaktion "
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:114
+#: pkan/dcatapde/browser/landing_page/landing_page.py:163
 msgid "Folders and Catalogs managed as Provider Data Editor"
 msgstr "Vezeichnisse und Kataloge der Daten-Redaktion"
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:120
+#: pkan/dcatapde/browser/landing_page/landing_page.py:169
 msgid "Folders managed as Provider Admin"
 msgstr "Vezeichnisse der Administration"
 
@@ -449,7 +461,7 @@ msgstr "Formate:"
 
 #: pkan/dcatapde/languages.py:50
 msgid "French"
-msgstr ""
+msgstr "Französisch"
 
 #: pkan/dcatapde/i18n.py:155
 msgid "Geocoding text"
@@ -519,7 +531,7 @@ msgstr "Homepage"
 
 #: pkan/dcatapde/languages.py:58
 msgid "Hungarian"
-msgstr ""
+msgstr "Ungarisch"
 
 #: pkan/dcatapde/i18n.py:143
 msgid "Identifier"
@@ -553,7 +565,7 @@ msgstr "Interne Information"
 
 #: pkan/dcatapde/languages.py:61
 msgid "Irish"
-msgstr ""
+msgstr "Irisch"
 
 #: pkan/dcatapde/i18n.py:172
 msgid "Issued"
@@ -561,7 +573,7 @@ msgstr "Veröffentlicht"
 
 #: pkan/dcatapde/languages.py:57
 msgid "Italian"
-msgstr ""
+msgstr "Italienisch"
 
 #: pkan/dcatapde/i18n.py:188
 msgid "Landing page"
