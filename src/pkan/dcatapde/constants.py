@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Constants for easier access."""
+from pkan.dcatapde import _
+
 
 # Content Types
 CT_DCAT_CATALOG = 'dcat_catalog'
@@ -186,6 +188,7 @@ PROVIDER_CHIEF_EDITOR_ROLE = 'ProviderChiefEditor'
 PROVIDER_DATA_EDITOR_ROLE = 'ProviderDataEditor'
 PROVIDER_ADMIN_ROLE = 'ProviderAdmin'
 LANDING_PAGE_VIEW = 'landing_page'
+ADMIN_LANDING_PAGE = 'admin_landing_page'
 
 # STATES
 ACTIVE_STATE = 'active'
@@ -194,3 +197,12 @@ PKAN_STATE_NAME = 'pkan_state'
 PRVIDER_DATA_EDITOR_PERM = 'pkan.dcatapde.ProviderDataEditor'
 PROVIDER_ADMIN_PERM = 'pkan.dcatapde.ProviderAdmin'
 PROVIDER_CHIEF_EDITOR_PERM = 'pkan.dcatapde.ProviderChiefEditor'
+
+VOLUMN_TYPES = {
+    _(u'File'): ['file', 'size'],
+    _(u'Image'): ['image', 'size'],
+}
+
+SIZE_UNIT = 'MB'
+SIZE_FACTOR = 1024**2
+SIZE_ROUND = 2

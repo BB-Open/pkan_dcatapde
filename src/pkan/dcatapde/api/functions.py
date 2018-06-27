@@ -20,6 +20,24 @@ from zope.component.hooks import getSite
 from zope.security import checkPermission
 
 
+def get_user_roles():
+    """
+    Retrieve the roles of the current user
+    :return:
+    """
+    roles = api.user.get_roles(user=api.user.get_current())
+    return roles
+
+
+def is_admin():
+    """
+    Check if the current user is SiteAdministrator
+    :return:
+    """
+    roles = get_user_roles()
+    return 'Manager' in roles
+
+
 def get_parent(context):
     """
     get the parent return None if no parent is found

@@ -2,12 +2,21 @@
 from AccessControl import Unauthorized
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_parent
+from pkan.dcatapde.api.functions import is_admin
+from pkan.dcatapde.constants import ADMIN_LANDING_PAGE
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
 from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
 from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
+from pkan.dcatapde.constants import SIZE_FACTOR
+from pkan.dcatapde.constants import SIZE_ROUND
+from pkan.dcatapde.constants import SIZE_UNIT
+from pkan.dcatapde.constants import VOLUMN_TYPES
+from pkan.dcatapde.i18n import LABEL_SUM
+from pkan.dcatapde.i18n import VOLUMN_RESULT_STRING
 from plone import api
 from Products.Five import BrowserView
+from zope.i18n import translate
 
 
 class LandingPageView(BrowserView):
@@ -20,6 +29,12 @@ class LandingPageView(BrowserView):
         if api.user.is_anonymous():
             self.request.response.redirect(
                 self.context.absolute_url() + '/login',
+            )
+            return
+
+        if is_admin():
+            self.request.response.redirect(
+                self.context.absolute_url() + '/' + ADMIN_LANDING_PAGE,
             )
             return
 
@@ -89,6 +104,7 @@ class LandingPageView(BrowserView):
                 'providerdataeditor_name': providerdataeditor.Title(),
                 'path': providerdataeditor.absolute_url(),
             }
+            data.update(self.stat(providerdataeditor))
 
             results.append(data)
         return results
@@ -101,6 +117,7 @@ class LandingPageView(BrowserView):
                 'provideradmin_name': provideradmin.Title(),
                 'path': provideradmin.absolute_url(),
             }
+            data.update(self.stat(provideradmin))
 
             results.append(data)
         return results
@@ -113,6 +130,7 @@ class LandingPageView(BrowserView):
                 'providerchiefeditor_name': providerchiefeditor.Title(),
                 'path': providerchiefeditor.absolute_url(),
             }
+            data.update(self.stat(providerchiefeditor))
 
             results.append(data)
         return results
@@ -167,3 +185,89 @@ class LandingPageView(BrowserView):
 
     def provideradmin_heading(self):
         return _(u'Folders managed as Provider Admin')
+
+    def stat(self, context):
+        catalog = api.portal.get_tool('portal_catalog')
+        portal_types = VOLUMN_TYPES.keys()
+        folder_path = '/'.join(context.getPhysicalPath())
+        data = []
+        size_all = 0.0
+        count_all = 0
+        for portal_type in portal_types:
+            results = catalog.searchResults(**{'portal_type': portal_type,
+                                               'path': folder_path})
+            count = len(results)
+            size = 0
+            for brain in results:
+                obj = brain.getObject()
+                res = obj
+                for element in VOLUMN_TYPES[portal_type]:
+                    res = getattr(res, element, None)
+                if res:
+                    size += res
+            if size:
+                data.append(
+                    _(VOLUMN_RESULT_STRING, mapping={
+                        'label': translate(portal_type, context=self.request),
+                        'size': round(float(size) / float(SIZE_FACTOR),
+                                      SIZE_ROUND),
+                        'count': count,
+                        'unit': SIZE_UNIT,
+                    }),
+                )
+
+                size_all += size
+                count_all += count
+        if size_all:
+            data.append(
+                _(VOLUMN_RESULT_STRING, mapping={
+                    'label': LABEL_SUM,
+                    'size': round(float(size_all) / float(SIZE_FACTOR),
+                                  SIZE_ROUND),
+                    'count': count_all,
+                    'unit': SIZE_UNIT,
+                }),
+            )
+
+        return {'load_data': data}
+
+
+class AdminLandingPageView(LandingPageView):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def __call__(self, *args, **kwargs):
+
+        self.data = self.read_data()
+
+        return super(LandingPageView, self).__call__(*args, **kwargs)
+
+    def read_data(self, context=None, current_depth=0):
+        if current_depth > 2:
+            return None
+        current_depth = current_depth + 1
+
+        if not context:
+            context = self.context
+
+        result_data = []
+        for id, obj in context.contentItems():
+            if obj.portal_type != 'Folder':
+                continue
+            if obj == context:
+                continue
+            stat = self.stat(obj)
+            if not stat['load_data']:
+                continue
+            sub_elements = self.read_data(obj, current_depth=current_depth)
+
+            data = {
+                'title': obj.Title(),
+                'url': obj.absolute_url(),
+                'stat': stat,
+                'sub_elements': sub_elements,
+            }
+
+            result_data.append(data)
+        return result_data

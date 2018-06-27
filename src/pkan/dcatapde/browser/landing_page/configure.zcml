@@ -11,4 +11,12 @@
        permission="zope2.View"
        />
 
+      <browser:page
+       name="admin_landing_page"
+       for="*"
+       class=".landing_page.AdminLandingPageView"
+       template="templates/landing_page_admin.pt"
+       permission="cmf.ManagePortal"
+       />
+
 </configure>

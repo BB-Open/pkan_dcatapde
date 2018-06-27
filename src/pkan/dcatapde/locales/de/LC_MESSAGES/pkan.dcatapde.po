@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-06-22 14:16+0000\n"
+"POT-Creation-Date: 2018-06-26 13:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Sandra Rum <sandra.rum@inqbus.de>, 2018\n"
 "Language-Team: German (https://www.transifex.com/bb-open/teams/82830/de/)\n"
@@ -26,6 +26,10 @@ msgstr "${CT}=>${field_name}"
 #: pkan/dcatapde/structure/structure.py:276
 msgid "${CT}=>${field_name} (required)"
 msgstr "${CT}=>${field_name} (erforderlich)"
+
+#: pkan/dcatapde/i18n.py:243
+msgid "${label}: Count: ${count}; Size: ${size} ${unit}"
+msgstr "${label}: Anzahl: ${count}; Größe: ${size} ${unit}"
 
 #: pkan/dcatapde/content/vcard_kind.py:24
 msgid "${value} is not a valid Emailaddress"
@@ -71,11 +75,11 @@ msgstr "Jede E-Mail-Adresse in einer neuen Zeile hinzufügen."
 msgid "Add one number per Line"
 msgstr "Jede Nummer in einer neuen Zeile"
 
-#: pkan/dcatapde/browser/landing_page/templates/landing_page.pt:61
+#: pkan/dcatapde/browser/landing_page/templates/landing_page.pt:82
 msgid "Additional Catalogs:"
 msgstr "Zusätzliche Kataloge:"
 
-#: pkan/dcatapde/browser/landing_page/templates/landing_page.pt:31
+#: pkan/dcatapde/browser/landing_page/templates/landing_page.pt:38
 msgid "Addititonal Catalogs:"
 msgstr "Zusätzliche Kataloge:"
 
@@ -393,6 +397,10 @@ msgstr "Telefax"
 msgid "Fax Numbers"
 msgstr "Telefax"
 
+#: pkan/dcatapde/constants.py:200
+msgid "File"
+msgstr "Datei"
+
 #: pkan/dcatapde/harvesting/rdf/rdf.py:916
 msgid "Finished reading of {top_node}"
 msgstr "Beende einlesen von {top_node}"
@@ -435,15 +443,15 @@ msgstr "Verzeichnis der Standards"
 msgid "Folders"
 msgstr "Verzeichnisse"
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:82
+#: pkan/dcatapde/browser/landing_page/landing_page.py:87
 msgid "Folders and Catalogs managed as Provider Chief Editor"
 msgstr "Vezeichnisse und Kataloge der Chef-Redaktion "
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:163
+#: pkan/dcatapde/browser/landing_page/landing_page.py:171
 msgid "Folders and Catalogs managed as Provider Data Editor"
 msgstr "Vezeichnisse und Kataloge der Daten-Redaktion"
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:169
+#: pkan/dcatapde/browser/landing_page/landing_page.py:177
 msgid "Folders managed as Provider Admin"
 msgstr "Vezeichnisse der Administration"
 
@@ -536,6 +544,10 @@ msgstr "Ungarisch"
 #: pkan/dcatapde/i18n.py:143
 msgid "Identifier"
 msgstr "ID"
+
+#: pkan/dcatapde/constants.py:201
+msgid "Image"
+msgstr "Bilddatei"
 
 #: pkan/dcatapde/i18n.py:8
 msgid "Import DCT:LicenseDocument"
@@ -1070,6 +1082,10 @@ msgstr "StandardsVerzeichnis"
 #: pkan/dcatapde/browser/menu.py:24
 msgid "State"
 msgstr ""
+
+#: pkan/dcatapde/i18n.py:242
+msgid "Sum"
+msgstr "Summe"
 
 #: pkan/dcatapde/languages.py:59
 msgid "Swedish"

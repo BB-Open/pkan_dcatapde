@@ -237,3 +237,7 @@ CT_LABELS = {
     constants.CT_SKOS_CONCEPTSCHEME: LABEL_SKOS_CONCEPTSCHEME,
     constants.CT_VCARD_KIND: LABEL_VCARD_KIND,
 }
+
+# Data Volumn
+LABEL_SUM = _(u'Sum')
+VOLUMN_RESULT_STRING = _(u'${label}: Count: ${count}; Size: ${size} ${unit}')

@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="pkan.dcatapde">
+<body>
+    <metal:content-core fill-slot="content-core">
+
+
+      <ul>
+          <li tal:repeat="element view/data">
+              <a tal:content="element/title" tal:attributes="href element/url"></a>
+              <nav id="category" class="documentByLine" role="navigation">
+                <ul aria-labelledby="categories-filed-under" tal:repeat="line element/stat/load_data">
+                  <li >
+                    <span class="link-category" tal:content="line"/>
+                  </li>
+                </ul>
+              </nav>
+              <ul>
+                  <li tal:repeat="sub_element element/sub_elements">
+                      <a tal:content="sub_element/title" tal:attributes="href sub_element/url"></a>
+                      <nav id="category" class="documentByLine" role="navigation">
+                        <ul aria-labelledby="categories-filed-under" tal:repeat="line sub_element/stat/load_data">
+                          <li >
+                            <span class="link-category" tal:content="line"/>
+                          </li>
+                        </ul>
+                      </nav>
+                      <ul>
+                          <li tal:repeat="sub_sub_element sub_element/sub_elements">
+                              <a tal:content="sub_sub_element/title" tal:attributes="href sub_sub_element/url"></a>
+                              <nav id="category" class="documentByLine" role="navigation">
+                                <ul aria-labelledby="categories-filed-under" tal:repeat="line sub_sub_element/stat/load_data">
+                                  <li >
+                                    <span class="link-category" tal:content="line"/>
+                                  </li>
+                                </ul>
+                              </nav>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+
+    </metal:content-core>
+</body>
+</html>

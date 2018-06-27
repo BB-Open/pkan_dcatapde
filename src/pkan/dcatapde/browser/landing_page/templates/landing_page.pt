@@ -26,6 +26,13 @@
             <ul>
                 <li tal:repeat="providerchiefeditor view/providerchiefeditor">
                     <a tal:content="providerchiefeditor/providerchiefeditor_name" tal:attributes="href providerchiefeditor/path"></a>
+                    <nav id="category" class="documentByLine" role="navigation">
+                      <ul aria-labelledby="categories-filed-under" tal:repeat="line providerchiefeditor/load_data">
+                        <li >
+                          <span class="link-category" tal:content="line"/>
+                        </li>
+                      </ul>
+                    </nav>
                 </li>
             </ul>
             <h3 i18n:translate="">Addititonal Catalogs:</h3>
@@ -41,6 +48,13 @@
             <ul>
                 <li tal:repeat="providerdataeditor view/providerdataeditor">
                     <a tal:content="providerdataeditor/providerdataeditor_name" tal:attributes="href providerdataeditor/path"></a>
+                    <nav id="category" class="documentByLine" role="navigation">
+                      <ul aria-labelledby="categories-filed-under" tal:repeat="line providerdataeditor/load_data">
+                        <li >
+                          <span class="link-category" tal:content="line"/>
+                        </li>
+                      </ul>
+                    </nav>
                 </li>
             </ul>
             <h3 i18n:translate="">Addititonal Catalogs:</h3>
@@ -56,6 +70,13 @@
             <ul>
                 <li tal:repeat="provideradmin view/provideradmin">
                     <a tal:content="provideradmin/provideradmin_name" tal:attributes="href provideradmin/path"></a>
+                    <nav id="category" class="documentByLine" role="navigation">
+                      <ul aria-labelledby="categories-filed-under" tal:repeat="line provideradmin/load_data">
+                        <li >
+                          <span class="link-category" tal:content="line"/>
+                        </li>
+                      </ul>
+                    </nav>
                 </li>
             </ul>
             <h3 i18n:translate="">Additional Catalogs:</h3>
