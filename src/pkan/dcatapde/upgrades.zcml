@@ -100,4 +100,13 @@
       profile="pkan.dcatapde:default"
       handler=".upgrades.reload_gs_profile"
       />
+
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1012"
+      title="Reload GS profiles: Update Roles and Permissions"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
 </configure>

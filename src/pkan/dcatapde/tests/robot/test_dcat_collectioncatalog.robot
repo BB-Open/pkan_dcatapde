@@ -62,6 +62,7 @@ a publisher 'Test-Publisher'
   Go To  ${PLONE_URL}/publishers/++add++foaf_agent
   I type 'Test-Publisher' into the name field
   I submit the form
+  Wait until page contains  Site Map
   I activate the object
   Wait until page contains  Site Map
 
@@ -71,13 +72,14 @@ a catalog 'My Catalog'
   I type 'A description' into the description field
   I select 'Test-Publisher' from an AJAX select widget with id 'formfield-form-widgets-dct_publisher'
   I submit the form
+  Wait until page contains  Site Map
 
 a dataset 'My Dataset'
   Go To  ${PLONE_URL}/dcat_catalog/++add++dcat_dataset
   I type 'My Dataset' into the title field
   I type 'A description' into the description field
-  I type 'testid' into the dcatde_contributorID field
   I submit the form
+  Wait until page contains  Site Map
 
 
 # --- WHEN -------------------------------------------------------------------
@@ -104,9 +106,6 @@ I set the collection's type criterion to
     I set the criteria index in row 1 to the option 'Type'
     I set the criteria operator in row 1 to the option 'Any'
     I set the criteria value in row 1 to the options '${criterion}'
-
-I type '${dcatde_contributorID}' into the dcatde_contributorID field
-  Input Text  form.widgets.dcatde_contributorID.eng  ${dcatde_contributorID}
 
 # --- THEN -------------------------------------------------------------------
 

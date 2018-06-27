@@ -105,17 +105,17 @@ class IDCATDistribution(model.Schema, IDCAT):
         vocabulary='pkan.dcatapde.vocabularies.DCTMediaTypeOrExtent',
     )
 
-    read_permission(dcat_mediatype='pkan.dcatapde.Admin')
-    write_permission(dcat_mediatype='pkan.dcatapde.Admin')
+    read_permission(dcat_mediaType='pkan.dcatapde.Admin')
+    write_permission(dcat_mediaType='pkan.dcatapde.Admin')
     form.widget(
-        'dcat_mediatype',
+        'dcat_mediaType',
         AjaxSelectAddFieldWidget,
         content_type=constants.CT_DCT_MEDIATYPEOREXTENT,
         content_type_title=i18n.LABEL_DCAT_MEDIATYPE,
         initial_path='/formats/',
     )
 
-    dcat_mediatype = schema.Choice(
+    dcat_mediaType = schema.Choice(
         description=i18n.HELP_DACT_MEDIATYPE,
         required=False,
         title=i18n.LABEL_DCAT_MEDIATYPE,

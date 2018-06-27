@@ -16,7 +16,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
       <role name="ProviderAdmin" />
     </permission>
 
@@ -25,8 +24,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
       <role name="ProviderAdmin" />
     </permission>
 
@@ -55,9 +52,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLocation" acquire="True">
@@ -65,9 +59,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLanguage" acquire="True">
@@ -75,9 +66,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTMediaTypeOrExtent" acquire="True">
@@ -85,9 +73,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTStandard" acquire="True">
@@ -103,9 +88,6 @@
       <role name="Site Administrator" />
       <role name="Owner" />
       <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
     </permission>
 
     <permission name="pkan.dcatapde: Add FOAFAgent" acquire="True">
@@ -253,6 +235,7 @@
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
+      <role name="ProviderChiefEditor" />
       <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Event" acquire="True">
@@ -260,13 +243,13 @@
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add File" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
+      <role name="ProviderChiefEditor" />
       <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Folder" acquire="True">
@@ -274,6 +257,7 @@
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
+      <role name="ProviderChiefEditor" />
       <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Image" acquire="True">
@@ -281,6 +265,7 @@
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
+      <role name="ProviderChiefEditor" />
       <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Link" acquire="True">
@@ -288,14 +273,12 @@
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add News Item" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderAdmin" />
     </permission>
     <permission name="Review portal content" acquire="True">
       <role name="Manager"/>

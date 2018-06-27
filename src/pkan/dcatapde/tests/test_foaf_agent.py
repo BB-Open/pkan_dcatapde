@@ -23,6 +23,7 @@ class FoafagentIntegrationTest(unittest.TestCase):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.folder = self.portal.get(constants.FOLDER_AGENTS)
 
     def test_schema(self):
         fti = queryUtility(IDexterityFTI, name=constants.CT_FOAF_AGENT)
@@ -42,7 +43,7 @@ class FoafagentIntegrationTest(unittest.TestCase):
     def test_adding(self):
         setRoles(self.portal, TEST_USER_ID, ['Contributor'])
         obj = api.content.create(
-            container=self.portal,
+            container=self.folder,
             type=constants.CT_FOAF_AGENT,
             id=constants.CT_FOAF_AGENT,
         )

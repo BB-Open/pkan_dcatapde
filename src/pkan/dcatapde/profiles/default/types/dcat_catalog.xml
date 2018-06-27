@@ -20,6 +20,7 @@
   <property name="allowed_content_types">
     <element value="dcat_dataset"/>
     <element value="vcard_kind"/>
+    <element value="foaf_agent"/>
   </property>
   <property name="filter_content_types">True</property>
   <property name="global_allow">True</property>

@@ -14,7 +14,6 @@ Scenario: As a site administrator I can add a dataset
     and an add dataset form
    When I type 'My Dataset' into the title field
     and I type 'a dataset' into the description field
-    and I type 'testid' into the dcatde_contributorID field
     and I submit the form
    Then a dataset with the title 'My Dataset' has been created
 
@@ -40,9 +39,6 @@ I type '${title}' into the title field
 
 I type '${description}' into the description field
   Input Text  form.widgets.dct_description.eng  ${description}
-
-I type '${dcatde_contributorID}' into the dcatde_contributorID field
-  Input Text  form.widgets.dcatde_contributorID.eng  ${dcatde_contributorID}
 
 I submit the form
   Click Button  Save

@@ -59,4 +59,21 @@
     permission="zope2.View"
     />
 
+  <browser:page
+      name="mail_password_form"
+      for="*"
+      template="templates/mail_password_form.pt"
+      permission="zope.Public"
+      class=".contact.RedirectImpressumIfExists"
+      layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
+      />
+
+  <browser:page
+      for="*"
+      name="contact-info"
+      class=".contact.ContactFormRedirect"
+      permission="zope.Public"
+      layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
+      />
+
 </configure>

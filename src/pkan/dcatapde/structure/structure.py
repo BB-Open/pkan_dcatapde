@@ -472,11 +472,11 @@ class StructDCATDistribution(StructBase):
             'predicate': str(DCT) + u'/format',
             'target': DCT.MediaTypeOrExtent,
         }
-        related['dcat_mediatype'] = {
+        related['dcat_mediaType'] = {
             'object': StructDCTMediaTypeOrExtent,
             'importance': IMP_OPTIONAL,
             'type': str,
-            'predicate': DCAT.mediatype,
+            'predicate': DCAT.mediaType,
             'target': DCT.MediaTypeOrExtent,
         }
         related['dct_conformsTo'] = {
