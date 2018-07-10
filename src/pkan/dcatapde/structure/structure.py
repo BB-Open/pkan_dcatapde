@@ -137,6 +137,8 @@ class StructBase(object):
     title_field = ['dct_title']
     desc_field = ['dct_description']
 
+    literal_field = {}
+
     # caching
     _fields_in_order = None
     _fields_objects_required = {}
@@ -530,6 +532,10 @@ class StructDCTMediaTypeOrExtent(StructBase):
 
     portal_type = CT_DCT_MEDIATYPEOREXTENT
     rdf_type = DCT.MediaTypeOrExtent
+
+    literal_field = {
+        'field': 'dct_title',
+    }
 
 
 @implementer(IStructure)

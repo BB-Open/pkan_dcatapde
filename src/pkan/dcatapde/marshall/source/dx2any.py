@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Recursive crawler through objects and properties for marshalling"""
+
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.structure.structure import IStructure
 from plone.api import content
@@ -34,6 +35,38 @@ class DX2Any(object):
     def marshall_myself(self):
         """Marshall myself."""
         self.resource = self.marshall_target.marshall(self)
+
+    def marshall_as_literal(self):
+        if not self.structure.literal_field:
+            return None
+        property_name = self.structure.literal_field['field']
+        struct_info = self.structure.properties[property_name]
+        property_value = getattr(self.context, property_name)
+        if not property_value:
+            # do not marshall empty fields
+            return []
+        if struct_info['type'] != list:
+            property_list = [property_value]
+        else:
+            property_list = property_value
+
+        values = []
+        for property in property_list:
+            property_marshaller = queryMultiAdapter(
+                (self.context, property, self.marshall_target),
+                interface=IMarshallSource,
+            )
+
+            if property_marshaller:
+                # let the adapter marshall the property
+                marshalled_property = property_marshaller.marshall(self)
+                return marshalled_property
+            else:
+                # No adapter can be found, convert the field value
+                # to a string.
+                value = unicode(property)
+                values.append(value)
+        return values
 
     def marshall_properties(self):
         """Marshall properties."""
@@ -123,14 +156,23 @@ class DX2Any(object):
                     default=DX2Any(ref, self.marshall_target),
                 )
                 if referenced_marshaller:
-                    referenced_marshaller.marshall()
-                    resources.append(referenced_marshaller.resource)
-
-            self.marshall_target.set_links(
-                self.resource,
-                ref_name,
-                resources,
-            )
+                    # referenced object should be a literal instead of a object
+                    literals = referenced_marshaller.marshall_as_literal()
+                    if literals is not None:
+                        self.marshall_target.add_property(
+                            self.resource,
+                            ref_name,
+                            literals,
+                        )
+                    else:
+                        referenced_marshaller.marshall()
+                        resources.append(referenced_marshaller.resource)
+            if resources:
+                self.marshall_target.set_links(
+                    self.resource,
+                    ref_name,
+                    resources,
+                )
 
     def marshall_collection(self):
         """Get content from the collection behavior and marshall it"""
