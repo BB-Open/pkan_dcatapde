@@ -1,30 +1,98 @@
 <?xml version="1.0"?>
 <object name="portal_workflow" meta_type="Plone Workflow Tool">
- <property
-    name="title">Contains workflow definitions for your portal</property>
- <object name="simple_publication_workflow" meta_type="Workflow"/>
+  <property
+    name="title">Contains workflow definitions for your portal
+  </property>
+  <object name="simple_publication_workflow" meta_type="Workflow"/>
   <object name="pkan_activation_workflow" meta_type="Workflow"/>
- <bindings>
-  <default>
-   <bound-workflow workflow_id="simple_publication_workflow"/>
-   <bound-workflow workflow_id="pkan_activation_workflow" />
-  </default>
-  <type type_id="ATBooleanCriterion"/>
-  <type type_id="ATCurrentAuthorCriterion"/>
-  <type type_id="ATDateCriteria"/>
-  <type type_id="ATDateRangeCriterion"/>
-  <type type_id="ATListCriterion"/>
-  <type type_id="ATPathCriterion"/>
-  <type type_id="ATPortalTypeCriterion"/>
-  <type type_id="ATReferenceCriterion"/>
-  <type type_id="ATRelativePathCriterion"/>
-  <type type_id="ATSelectionCriterion"/>
-  <type type_id="ATSimpleIntCriterion"/>
-  <type type_id="ATSimpleStringCriterion"/>
-  <type type_id="ATSortCriterion"/>
-  <type type_id="Discussion Item"/>
-  <type type_id="File"/>
-  <type type_id="Image"/>
-  <type type_id="Plone Site"/>
- </bindings>
+  <bindings>
+    <default>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+    </default>
+    <type type_id="ATBooleanCriterion"/>
+    <type type_id="ATCurrentAuthorCriterion"/>
+    <type type_id="ATDateCriteria"/>
+    <type type_id="ATDateRangeCriterion"/>
+    <type type_id="ATListCriterion"/>
+    <type type_id="ATPathCriterion"/>
+    <type type_id="ATPortalTypeCriterion"/>
+    <type type_id="ATReferenceCriterion"/>
+    <type type_id="ATRelativePathCriterion"/>
+    <type type_id="ATSelectionCriterion"/>
+    <type type_id="ATSimpleIntCriterion"/>
+    <type type_id="ATSimpleStringCriterion"/>
+    <type type_id="ATSortCriterion"/>
+    <type type_id="Discussion Item"/>
+    <type type_id="File"/>
+    <type type_id="Image"/>
+    <type type_id="Plone Site"/>
+    <type type_id="dcat_catalog">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+    </type>
+    <type type_id="dcat_collection_catalog">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+    </type>
+    <type type_id="dcat_dataset">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="dcat_distribution">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="dct_language">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="dct_mediatypeorextent">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="dct_rightsstatement">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="dct_standard">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="foaf_agent">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="skos_concept">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="skos_conceptscheme">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="vcard_kind">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="dct_location">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+    <type type_id="dct_licensedocument">
+      <bound-workflow workflow_id="pkan_activation_workflow"/>
+      <bound-workflow workflow_id="simple_publication_workflow"/>
+
+    </type>
+  </bindings>
 </object>

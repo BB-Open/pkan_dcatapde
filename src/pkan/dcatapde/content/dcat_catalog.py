@@ -64,6 +64,7 @@ class IDCATCatalog(model.Schema, IDCAT):
     form.widget(
         'dct_license',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_DCT_LICENSEDOCUMENT,
         content_type_title=i18n.LABEL_DCT_LICENSE,
         initial_path='/licenses/',
@@ -96,6 +97,7 @@ class IDCATCatalog(model.Schema, IDCAT):
     form.widget(
         'dcat_themeTaxonomy',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_SKOS_CONCEPTSCHEME,
         content_type_title=i18n.LABEL_DCT_THEMETAXONOMY,
         initial_path='/conceptschemes/',
@@ -112,6 +114,7 @@ class IDCATCatalog(model.Schema, IDCAT):
     form.widget(
         'dct_rights',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_DCT_RIGHTSSTATEMENT,
         content_type_title=i18n.LABEL_DCT_RIGHTS,
         initial_path='/rights/',

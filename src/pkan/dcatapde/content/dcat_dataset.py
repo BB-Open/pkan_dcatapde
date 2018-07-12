@@ -94,6 +94,7 @@ class IDCATDataset(model.Schema, IDCAT):
     form.widget(
         'dcat_theme',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_SKOS_CONCEPT,
         content_type_title=i18n.LABEL_SKOS_CONCEPT,
         initial_path='/locations/',
@@ -210,6 +211,7 @@ class IDCATDataset(model.Schema, IDCAT):
     form.widget(
         'dct_accessRights',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_DCT_RIGHTSSTATEMENT,
         content_type_title=i18n.LABEL_DCT_ACCESSRIGHTS,
         initial_path='/rights/',

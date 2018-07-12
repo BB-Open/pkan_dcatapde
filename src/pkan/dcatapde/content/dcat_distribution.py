@@ -35,6 +35,7 @@ class IDCATDistribution(model.Schema, IDCAT):
     form.widget(
         'dct_license',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_DCT_LICENSEDOCUMENT,
         content_type_title=i18n.LABEL_DCT_LICENSE,
         initial_path='/licenses/',
@@ -80,6 +81,7 @@ class IDCATDistribution(model.Schema, IDCAT):
     form.widget(
         'dct_conformsTo',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_DCT_STANDARD,
         content_type_title=i18n.LABEL_DCT_CONFORMSTO,
         initial_path='/standards/',
@@ -94,6 +96,7 @@ class IDCATDistribution(model.Schema, IDCAT):
     form.widget(
         'dct_format',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_DCT_MEDIATYPEOREXTENT,
         content_type_title=i18n.LABEL_DCT_FORMAT,
         initial_path='/formats/',
@@ -110,6 +113,7 @@ class IDCATDistribution(model.Schema, IDCAT):
     form.widget(
         'dcat_mediaType',
         AjaxSelectAddFieldWidget,
+        display_deprecated=True,
         content_type=constants.CT_DCT_MEDIATYPEOREXTENT,
         content_type_title=i18n.LABEL_DCAT_MEDIATYPE,
         initial_path='/formats/',

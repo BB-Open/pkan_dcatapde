@@ -163,3 +163,16 @@ def query_active_objects(query, portal_type, context=None):
                     brains.append(brain)
 
     return brains
+
+
+def query_objects_no_pkanstate(query, portal_type, context=None):
+    params = {
+        'portal_type': portal_type,
+        'sort_on': 'sortable_title',
+    }
+    query.update(params)
+
+    catalog = api.portal.get_tool(name='portal_catalog')
+    brains = list(catalog(query))
+
+    return brains

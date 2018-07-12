@@ -3,6 +3,7 @@
 from BTrees._IIBTree import intersection
 from pkan.dcatapde import constants
 from pkan.dcatapde.api.functions import query_active_objects
+from pkan.dcatapde.api.functions import query_objects_no_pkanstate
 from pkan.dcatapde.constants import CT_CONCEPT_FOLDER
 from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.constants import FOLDER_CONCEPTS
@@ -54,6 +55,34 @@ class BaseContentTypeVocabulary(object):
         return self.get_results(query=query, context=context)
 
 
+@provider(IContextSourceBinder)
+class BAseContentTypeVocabularyNoPkanState(BaseContentTypeVocabulary):
+
+    def get_results(self, query, context):
+        brains = query_objects_no_pkanstate(query,
+                                            self.portal_type,
+                                            context=context)
+
+        uids = []
+        terms = []
+
+        for brain in brains:
+            obj = brain.getObject()
+            if brain.UID in uids:
+                # todo: how can this happen?
+                continue
+            uids.append(brain.UID)
+            terms.append(
+                SimpleTerm(
+                    value=brain.UID,
+                    token=str(brain.UID),
+                    title=obj.title_for_vocabulary(),
+                ),
+            )
+
+        return SimpleVocabulary(terms)
+
+
 @implementer(IVocabularyFactory)
 class DCATCatalogVocabulary(BaseContentTypeVocabulary):
     """A vocabulary returning DCATCatalog items."""
@@ -74,7 +103,7 @@ class DcatCatalogContextAwareVocabulary(BaseContentTypeVocabulary):
         query = utils.parse_query(context=context, query=query)
         if context:
             query['path'] = '/'.join(context.getPhysicalPath())
-        return self.get_results(query)
+        return self.get_results(query, context)
 
 ContextAwareCatalogFactory = DcatCatalogContextAwareVocabulary()
 
@@ -160,7 +189,7 @@ FOAFAgentVocabularyFactory = FOAFAgentVocabulary()
 
 
 @implementer(IVocabularyFactory)
-class HarvesterVocabulary(BaseContentTypeVocabulary):
+class HarvesterVocabulary(BAseContentTypeVocabularyNoPkanState):
     """A vocabulary returning Harvester items."""
 
     portal_type = constants.CT_HARVESTER
