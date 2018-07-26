@@ -4,32 +4,21 @@ about: Create a report to help us improve
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## BUG/PROBLEM REPORT (OR OTHER COMMON ISSUE)
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+Please make sure that the issue you like to address is not already reported in https://github.com/BB-Open/pkan.dcatapde/issues
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+Please use the labels at Github, at least one of the types: bug, regression, question, enhancement.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+Please include tracebacks, screenshots, code of debugging sessions or code that reproduces the issue if possible.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+### What I did:
 
-**Additional context**
-Add any other context about the problem here.
+<!-- Please a reproducable description, including preconditions. -->
+
+### What I expect to happen:
+
+### What actually happened:
+
+### What version of PKAN.dactapde I am using:
