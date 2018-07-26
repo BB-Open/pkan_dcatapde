@@ -26,7 +26,7 @@ class I18NField2RDF(DCATField2RDF):
 
         # The field emit a list of literals
         literals = []
-        if field_value:
+        if field_value is not None:
             for lang, text in field_value.items():
                 if lang == u'__default_value':
                     lang = get_default_language()
@@ -35,6 +35,8 @@ class I18NField2RDF(DCATField2RDF):
                 literal = rdflib.term.Literal(text, lang=lang)
                 literals.append(literal)
 
+        if not literals:
+            return None
         return literals
 
     def marshall(self, obj):

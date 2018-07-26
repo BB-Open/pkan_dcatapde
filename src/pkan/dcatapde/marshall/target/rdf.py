@@ -10,6 +10,7 @@ import surf
 
 surf.namespace.register(dct=surf.ns.DCTERMS)
 surf.namespace.register(DCAT='http://www.w3.org/ns/dcat#')
+surf.namespace.register(DCATDE='http://dcat-ap.de/def/dcatde/1_0/')
 
 
 @implementer(IRDFMarshallTarget)
@@ -38,6 +39,7 @@ class RDFMarshallTarget(object):
         store.reader.graph.bind('owl', surf.ns.OWL, override=True)
         store.reader.graph.bind('dcat', surf.ns.DCAT, override=True)
         store.reader.graph.bind('foaf', surf.ns.FOAF, override=True)
+        store.reader.graph.bind('dcatde', surf.ns.DCATDE, override=True)
 
         self._store = store
 

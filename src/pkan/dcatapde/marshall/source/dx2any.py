@@ -68,49 +68,76 @@ class DX2Any(object):
                 values.append(value)
         return values
 
+    def marshall_property(self, rdf_name, property):
+        # Marshall a property that contains a single value.
+        # At first check for an available adapter to do this.
+        property_marshaller = queryMultiAdapter(
+            (self.context, property, self.marshall_target),
+            interface=IMarshallSource,
+        )
+
+        if property_marshaller:
+            # let the adapter marshall the property
+            marshalled_property = property_marshaller.marshall(self)
+        else:
+            # No adapter can be found, convert the field value
+            # to a string.
+            marshalled_property = unicode(property)
+        if marshalled_property is not None:
+            self.marshall_target.add_property(
+                self.resource,
+                rdf_name,
+                marshalled_property,
+            )
+
+    def marshall_listproperty(self, rdf_name, listproperty):
+        # handle a list property. This code is unstable.
+        # May fail if the property marshaller if a list element returns
+        # a list of results.
+        values = []
+        for property in listproperty:
+            property_marshaller = queryMultiAdapter(
+                (self.context, property, self.marshall_target),
+                interface=IMarshallSource,
+            )
+            if property_marshaller:
+                # let the adapter marshall the property
+                marshalled_property = property_marshaller.marshall(self)
+                self.marshall_target.add_property(
+                    self.resource,
+                    rdf_name,
+                    marshalled_property,
+                )
+            else:
+                # No adapter can be found, convert the field value
+                # to a string.
+                value = unicode(property)
+                values.append(value)
+        if values:
+            self.marshall_target.add_property(
+                self.resource,
+                rdf_name,
+                values,
+            )
+
     def marshall_properties(self):
         """Marshall properties."""
         for property_name in self.structure.properties:
             struct_info = self.structure.properties[property_name]
             property_value = getattr(self.context, property_name)
-            if not property_value:
+            if property_value is None:
                 # do not marshall empty fields
                 continue
-            if struct_info['type'] != list:
-                property_list = [property_value]
-            else:
-                property_list = property_value
+            # get the rdf_name of the property
             if 'rdf_name' in struct_info:
                 rdf_name = struct_info['rdf_name']
             else:
                 rdf_name = property_name
-
-            values = []
-            for property in property_list:
-                property_marshaller = queryMultiAdapter(
-                    (self.context, property, self.marshall_target),
-                    interface=IMarshallSource,
-                )
-
-                if property_marshaller:
-                    # let the adapter marshall the property
-                    marshalled_property = property_marshaller.marshall(self)
-                    self.marshall_target.add_property(
-                        self.resource,
-                        rdf_name,
-                        marshalled_property,
-                    )
-                else:
-                    # No adapter can be found, convert the field value
-                    # to a string.
-                    value = unicode(property)
-                    values.append(value)
-            if values:
-                self.marshall_target.add_property(
-                    self.resource,
-                    rdf_name,
-                    values,
-                )
+            # is the property a list or a single value
+            if struct_info['type'] == list:
+                self.marshall_listproperty(rdf_name, property_value)
+            else:
+                self.marshall_property(rdf_name, property_value)
 
     def marshall_contained(self):
         """Marshall contained objects."""

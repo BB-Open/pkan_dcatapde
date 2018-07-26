@@ -53,6 +53,8 @@ from zope.interface import implementer
 from zope.schema import getFieldsInOrder
 from zope.schema.vocabulary import SimpleTerm
 
+import rdflib
+
 
 IMP_OPTIONAL = 'optional'
 IMP_RECOMENDED = 'recommended'
@@ -471,7 +473,7 @@ class StructDCATDistribution(StructBase):
             'importance': IMP_OPTIONAL,
             'type': str,
             # Hack since format is buildin
-            'predicate': str(DCT) + u'/format',
+            'predicate': rdflib.term.URIRef(str(DCT) + u'format'),
             'target': DCT.MediaTypeOrExtent,
         }
         related['dcat_mediaType'] = {
