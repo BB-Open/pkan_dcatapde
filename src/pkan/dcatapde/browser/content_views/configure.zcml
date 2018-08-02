@@ -21,6 +21,14 @@
 
   <browser:page
     for="*"
+    name="real_run_chron"
+    class=".harvester.RealRunChronView"
+    template="templates/dry_run.pt"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+    for="*"
     name="harvester_overview"
     class=".harvester.HarvesterOverview"
     template="templates/harvester_overview.pt"
