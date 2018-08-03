@@ -138,7 +138,12 @@ HELP_SETTINGS_IMPORTS_SKOS_CONCEPT = _(
 )
 HELP_SKOS_INSCHEME = _(u'URI to the concept scheme')
 HELP_IN_HARVESTER = _(u'Harvester that created this object')
-
+HELP_REHARVESTING_PERIOD = _(
+    u'Decide how often the harvester should be reharvested automatically. ',
+    u'Leave empty for no reharvesting. Shortest intervall is one day. ',
+    u'Period is parsed using pytimeparse. ',
+    u'Read about on https://pypi.org/project/pytimeparse/',
+)
 
 LABEL_ADMS_IDENTIFIER = _(u'Local identifier')
 LABEL_ADMS_VERSIONNOTES = _(u'Version Notes')

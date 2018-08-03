@@ -104,6 +104,12 @@
       name="pkan.dcatapde.RdfTypeVocabulary"
       />
 
+  <utility
+        component=".workflow_states.WorkflowStatesFactory"
+        name="pkan.dcatapde.WorkflowStates"
+    />
+
+
   <!-- Language Vocabularies. -->
   <!-- ======================== -->
 

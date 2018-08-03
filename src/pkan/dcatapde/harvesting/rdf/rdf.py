@@ -56,6 +56,7 @@ from zope.component import adapter
 from zope.component import getUtility
 from zope.interface import implementer
 
+import datetime
 import io
 import logging
 import sys
@@ -1032,5 +1033,6 @@ class RDFProcessor(object):
         return self.prepare_and_run(visitor)
 
     def real_run(self):
+        self.harvester.last_run = datetime.datetime.now()
         visitor = RealRunVisitor()
         return self.prepare_and_run(visitor)

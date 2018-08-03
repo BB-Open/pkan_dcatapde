@@ -32,6 +32,7 @@ install_requires = [
     'zope.app.content',
     'psycopg2-binary',
     'python-dateutil',
+    'pytimeparse',
 ],
 
 test_requires = [

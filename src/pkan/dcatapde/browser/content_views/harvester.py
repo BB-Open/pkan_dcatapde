@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+from datetime import timedelta
+from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
+from pkan.dcatapde.constants import CT_HARVESTER
 from plone.protect.utils import addTokenToUrl
 from Products.Five import BrowserView
+from pytimeparse import parse
+from zope.component.hooks import getSite
+from zope.i18n import translate
 
 
 class HarvesterListViewMixin(object):
@@ -92,3 +99,44 @@ class RealRunView(BrowserView):
         self.log = source.real_run()
 
         return super(RealRunView, self).__call__(*args, **kwargs)
+
+
+class RealRunChronView(BrowserView):
+
+    def real_run(self, harv):
+        source = harv.source_type(harv)
+
+        return source.real_run()
+
+    def __call__(self, *args, **kwargs):
+        portal = getSite()
+        if portal is None:
+            return None
+        catalog = portal.portal_catalog
+        self.log = []
+
+        results = catalog.searchResults({'portal_type': CT_HARVESTER})
+
+        for brain in results:
+            obj = brain.getObject()
+            no_run_message = translate(_(u'<p>Nothing to do</p>'),
+                                       context=self.request)
+            self.log.append(u'<h2>{title}</h2>'.format(title=obj.title))
+
+            if obj.reharvesting_period is None:
+                self.log.append(no_run_message)
+            elif obj.reharvesting_period and obj.last_run is None:
+                self.log += self.real_run(obj)
+            else:
+                seconds = parse(obj.reharvesting_period)
+                delta = timedelta(seconds=seconds)
+
+                # noinspection PyTypeChecker
+                current_delta = datetime.now() - obj.last_run
+
+                if current_delta >= delta:
+                    self.log += self.real_run(obj)
+                else:
+                    self.log.append(no_run_message)
+
+        return super(RealRunChronView, self).__call__(*args, **kwargs)

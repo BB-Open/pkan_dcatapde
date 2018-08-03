@@ -4,6 +4,7 @@ from pkan.dcatapde import _
 from pkan.dcatapde import i18n
 from pkan.dcatapde.constants import DCAT_TOP_NODES
 from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.i18n import HELP_REHARVESTING_PERIOD
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_A_STR
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
@@ -11,11 +12,20 @@ from pkan.widgets.sparqlquery import SparqlQueryFieldWidget
 from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
+from pytimeparse import parse
 from z3c.form.interfaces import IEditForm
 from zope.interface import implementer
+from zope.interface import Invalid
 from zope.schema.vocabulary import SimpleVocabulary
 
 import zope.schema as schema
+
+
+def period_constraint(value):
+    res = parse(value)
+    if not res:
+        raise Invalid(_(u'Expression can not be parsed.'))
+    return True
 
 
 class IHarvester(model.Schema):
@@ -65,6 +75,26 @@ class IHarvester(model.Schema):
         required=True,
         title=_(u'Query'),
         default=QUERY_A_STR,
+    )
+
+    # Todo: use in harvesting process
+    new_workflow_state = schema.Choice(
+        required=False,
+        title=_(u'Workflow State of created objects'),
+        vocabulary='pkan.dcatapde.WorkflowStates',
+    )
+
+    reharvesting_period = schema.TextLine(
+        required=False,
+        title=_(u'Reharvesting Period'),
+        description=_(HELP_REHARVESTING_PERIOD),
+        constraint=period_constraint,
+    )
+
+    last_run = schema.Datetime(
+        required=False,
+        title=_(u'Last Run'),
+        readonly=True,
     )
 
 
