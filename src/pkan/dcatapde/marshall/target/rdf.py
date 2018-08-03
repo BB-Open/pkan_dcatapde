@@ -40,6 +40,7 @@ class RDFMarshallTarget(object):
         store.reader.graph.bind('dcat', surf.ns.DCAT, override=True)
         store.reader.graph.bind('foaf', surf.ns.FOAF, override=True)
         store.reader.graph.bind('dcatde', surf.ns.DCATDE, override=True)
+        store.reader.graph.bind('adms', surf.ns.ADMS, override=True)
 
         self._store = store
 

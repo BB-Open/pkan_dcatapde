@@ -118,4 +118,15 @@
       profile="pkan.dcatapde:default"
       handler=".upgrades.pkan_state"
       />
+<!--
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1014"
+      title="Reload GS profiles: update_uri_in_triplestore"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.update_uri_in_triplestore"
+      />
+</-->
+
 </configure>

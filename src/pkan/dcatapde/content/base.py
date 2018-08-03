@@ -16,6 +16,20 @@ import zope.schema as schema
 class IDCAT(model.Schema):
     """Marker interface for all DCAT-AP.de Content Types"""
 
+    read_permission(dct_identifier='pkan.dcatapde.ProviderDataEditor')
+    write_permission(dct_identifier='pkan.dcatapde.ProviderDataEditor')
+    dct_identifier = schema.URI(
+        required=False,
+        title=i18n.LABEL_DCT_IDENTIFIER,
+    )
+
+    read_permission(adms_identifier='pkan.dcatapde.ProviderDataEditor')
+    write_permission(adms_identifier='pkan.dcatapde.ProviderDataEditor')
+    adms_identifier = schema.URI(
+        required=False,
+        title=i18n.LABEL_ADMS_IDENTIFIER,
+    )
+
     read_permission(uri_in_triplestore='pkan.dcatapde.Admin')
     write_permission(uri_in_triplestore='pkan.dcatapde.Admin')
     uri_in_triplestore = schema.URI(
@@ -42,6 +56,8 @@ class IDCAT(model.Schema):
         fields=[
             'uri_in_triplestore',
             'in_harvester',
+            'dct_identifier',
+            'adms_identifier',
         ],
     )
 

@@ -41,3 +41,51 @@ class I18NField2RDF(DCATField2RDF):
 
     def marshall(self, obj):
         return self.marshall_myself(obj)
+
+
+@implementer(IMarshallSource)
+@adapter(IRDFMarshallTarget)
+class ADMS_IDINTIFIER2RDF(DCATField2RDF):
+    """Marshall adms_identifier None Values as link to local data"""
+
+    def __init__(self, context, marshall_target):
+        """Initialization.
+
+        :param context: Content object to start crawl
+        :param marshall_target: marshalling target e.g. an RDF store
+        """
+        self.context = context
+        self.marshall_target = marshall_target
+
+    def marshall_myself(self, obj):
+        """Marshall myself."""
+        # get value of the field
+        field_value = self.context.adms_identifier
+        if field_value is None:
+            return self.context.absolute_url()
+        else:
+            return field_value
+
+
+@implementer(IMarshallSource)
+@adapter(IRDFMarshallTarget)
+class DCT_IDINTIFIER2RDF(DCATField2RDF):
+    """Marshall adms_identifier None Values as link to local data"""
+
+    def __init__(self, context, marshall_target):
+        """Initialization.
+
+        :param context: Content object to start crawl
+        :param marshall_target: marshalling target e.g. an RDF store
+        """
+        self.context = context
+        self.marshall_target = marshall_target
+
+    def marshall_myself(self, obj):
+        """Marshall myself."""
+        # get value of the field
+        field_value = self.context.dct_identifier
+        if field_value is None:
+            return self.context.absolute_url()
+        else:
+            return field_value

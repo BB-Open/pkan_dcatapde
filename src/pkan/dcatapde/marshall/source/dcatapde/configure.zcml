@@ -50,4 +50,13 @@
     provides="..interfaces.IDXField2RDF"
   />
 
+    <adapter
+    factory=".fields.ADMS_IDINTIFIER2RDF"
+    for="plone.dexterity.interfaces.IDexterityContent
+         pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
+    name="adms_identifier"
+    provides="..interfaces.IDXField2RDF"
+  />
+
+
 </configure>

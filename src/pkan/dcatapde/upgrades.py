@@ -249,3 +249,21 @@ def renamed_roles(context):
 def pkan_state(context):
     reload_gs_profile(context)
     new_workflow(context)
+
+
+def update_uri_in_triplestore(context):
+    """
+    Updates skos concepts by setting their rdfs_isDefinedBy
+    into uri_in_triplestore
+    :param context:
+    :return:
+    """
+    reload_gs_profile(context)
+    portal_catalog = api.portal.get_tool('portal_catalog')
+    res = portal_catalog.searchResults(
+        {'portal_type': [CT_SKOS_CONCEPT, 'Folder']})
+
+    for brain in res:
+        obj = brain.getObject()
+        obj.uri_in_triplestore = obj.rdfs_isDefinedBy
+        obj.reindexObject()

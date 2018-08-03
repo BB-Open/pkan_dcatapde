@@ -44,7 +44,6 @@ class IDCATDataset(model.Schema, IDCAT):
             'dcatde_politicalGeocodingURI',
             'dcatde_politicalGeocodingLevelURI',
             'dcatde_geocodingText',
-            'dct_identifier',
             'dct_accessRights',
             'owl_versionInfo',
             'dcatde_legalbasisText',
@@ -189,13 +188,6 @@ class IDCATDataset(model.Schema, IDCAT):
         title=i18n.LABEL_DCATDE_POLITICALGEOCODINGLEVELURI,
     )
 
-    read_permission(dct_identifier='pkan.dcatapde.ProviderDataEditor')
-    write_permission(dct_identifier='pkan.dcatapde.ProviderDataEditor')
-    dct_identifier = I18NTextLine(
-        required=False,
-        title=i18n.LABEL_DCT_IDENTIFIER,
-    )
-
     read_permission(owl_versionInfo='pkan.dcatapde.ProviderDataEditor')
     write_permission(owl_versionInfo='pkan.dcatapde.ProviderDataEditor')
     owl_versionInfo = I18NTextLine(
@@ -274,7 +266,6 @@ class DCATDataset(Container, DCATMixin):
     dcatde_geocodingText = I18NTextProperty(
         IDCATDataset['dcatde_geocodingText'],
     )
-    dct_identifier = I18NTextProperty(IDCATDataset['dct_identifier'])
     owl_versionInfo = I18NTextProperty(IDCATDataset['owl_versionInfo'])
     dcatde_legalbasisText = I18NTextProperty(
         IDCATDataset['dcatde_legalbasisText'],

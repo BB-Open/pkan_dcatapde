@@ -48,6 +48,7 @@ from pyparsing import ParseException
 from rdflib import Graph
 from rdflib.plugins.memory import IOMemory
 from rdflib.term import Literal
+from rdflib.term import URIRef
 from traceback import format_tb
 from xml.sax import SAXParseException
 from zope.annotation import IAnnotations
@@ -58,6 +59,7 @@ from zope.interface import implementer
 import io
 import logging
 import sys
+import urlparse
 import vkbeautify as vkb
 
 
@@ -79,6 +81,47 @@ def cache_key(func, self):
         self.harvester.url,
     )
     return key
+
+
+def handle_identifiers(obj):
+    """
+    Handle Konv 24/25/26/27
+    Deal with duplicates and push trough Id information
+    """
+
+    params = {}
+
+    # Special case of dct_identifier. If dct:identifier is set conserve it.
+    dct_identifier = unicode(getattr(obj, 'dct_identifier', None))
+    if isinstance(obj, URIRef):
+        subject = unicode(obj)
+    else:
+        subject = unicode(getattr(obj, 'subject'))
+
+    # if no dct:Identifier is set
+    if dct_identifier is None:
+        # set it to the subject
+        params['dct_identifier'] = subject
+    else:
+        # check if dct:Identifier is really an URI
+        if urlparse.urlparse(dct_identifier).scheme != '':
+            params['dct_identifier'] = dct_identifier
+        else:
+            params['dct_identifier'] = subject
+
+            # Special case of adms_identifier. If adms:identifier is set
+    # conserve it.
+    adms_identifier = unicode(getattr(obj, 'adms_identifier', None))
+    if adms_identifier is not None:
+        # check if adms:dientifier is really an URI
+        if urlparse.urlparse(adms_identifier).scheme != '':
+            params['adms_identifier'] = adms_identifier
+        else:
+            params['adms_identifier'] = None
+    else:
+        params['adms_identifier'] = None
+
+    return params
 
 
 @adapter(IHarvester)
@@ -594,7 +637,7 @@ class RDFProcessor(object):
 
     def checkURI(self, uri):
         catalog = api.portal.get_tool(name='portal_catalog')
-        query = {'uri_in_triplestore': uri}
+        query = {'dct_identifier': uri}
         brains = catalog(query)
         return brains
 
@@ -623,6 +666,10 @@ class RDFProcessor(object):
             )
             return brains[0].getObject()
 
+        # Handle identifier fields
+        identifier_fields = handle_identifiers(rdf_node)
+        obj_data.update(identifier_fields)
+
         # Handle not given descriptions to prevent u'None' brains
         desc_found = False
         for desc_field in struct.desc_field:
@@ -642,13 +689,12 @@ class RDFProcessor(object):
                 struct.portal_type,
                 title=title,
                 in_harvester=self.harvester.UID(),
-                uri_in_triplestore=rdf_node.toPython(),
                 **obj_data)
         # We are not allowed to create the content here
         except InvalidParameterError:
             # So we try it directly under the harvest
             visitor.scribe.write(
-                level='warn',
+                level='error',
                 msg=u'{type} dxobject {obj} created at {context}',
                 context=self.harvester.virtual_url_path(),
                 obj=rdf_node,

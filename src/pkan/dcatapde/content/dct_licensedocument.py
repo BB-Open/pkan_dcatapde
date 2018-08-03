@@ -34,10 +34,10 @@ class IDCTLicenseDocument(model.Schema, IDCAT):
         title=i18n.LABEL_RDFS_ISDEFINEDBY,
     )
 
-    adms_identifier = schema.TextLine(
-        required=True,
-        title=i18n.LABEL_ADMS_IDENTIFIER,
-    )
+#    adms_identifier = schema.TextLine(
+#        required=True,
+#        title=i18n.LABEL_ADMS_IDENTIFIER,
+#    )
 
 
 @implementer(IDCTLicenseDocument)

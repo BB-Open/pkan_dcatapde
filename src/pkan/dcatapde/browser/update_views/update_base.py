@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
 from pkan.dcatapde import _
+from pkan.dcatapde.harvesting.rdf.rdf import handle_identifiers
 from pkan.dcatapde.utils import get_available_languages_iso
 from pkan.dcatapde.utils import get_available_languages_title
 from pkan.dcatapde.utils import get_default_language
@@ -27,6 +28,7 @@ class UpdateObjectsBase(object):
     object_dx_class = 'Dexterityclass'
     target_folder = None
     mapping = None
+    uri_field = None
 
     def __init__(self, context, request):
         self.context = context
@@ -101,11 +103,8 @@ class UpdateObjectsBase(object):
         for obj in objects:
             params = self.import_object(obj)
 
-            # Special case of adms_identifier. Target type is string not
-            # i18ntext. Therefore no dict but string has to be extracted
-            attribute = getattr(obj, 'dc_identifier')
-            att_data = unicode(attribute.first)
-            params['dc_identifier'] = att_data
+            # take care of harvested dct:Indentifier/adms:Identifier
+            params.update(handle_identifiers(obj))
 
             # Special case of isDefiendBy. If not given use rdfabout URI
             attribute = getattr(obj, 'rdfs_isDefinedBy')
@@ -116,19 +115,19 @@ class UpdateObjectsBase(object):
 
             params['rdfs_isDefinedBy'] = att_data
 
-            # Todo : Check for collisions. Probably not by title but by
-            # rdfs_isDefinedBy
+            # Get a label for the item
+            label = unicode(getattr(obj, 'dc_identifier'))
 
-            # if there is no title use the identifier
+            # if there is no title use the dc_identifier
             if not params['dct_title']:
-                params['dct_title'] = params['dc_identifier']
+                params['dct_title'] = label
 
-            if isinstance(params['dc_identifier'], dict):
-                id = params['dc_identifier'][self.default_language]
-            elif isinstance(params['dc_identifier'], list):
-                id = params['dc_identifier'][0]
+            if isinstance(label, dict):
+                id = label[self.default_language]
+            elif isinstance(label, list):
+                id = label[0]
             else:
-                id = params['dc_identifier']
+                id = label
             id = idnormalizer.normalize(id)
 
             if isinstance(params['dct_title'], dict):
@@ -140,7 +139,7 @@ class UpdateObjectsBase(object):
 
             try:
                 # create a license document object
-                content.create(
+                new_obj = content.create(
                     container=self.context,
                     type=self.object_dx_class,
                     id=id,
@@ -152,6 +151,11 @@ class UpdateObjectsBase(object):
                 continue
             else:
                 good_count += 1
+
+            # set adms_identifier to the local URI of the item
+            if new_obj.adms_identifier is None:
+                new_obj.adms_identifier = new_obj.absolute_url()
+
         return good_count, ignored_count
 
     def __call__(self):

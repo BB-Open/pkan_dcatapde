@@ -70,19 +70,31 @@ class DX2Any(object):
 
     def marshall_property(self, rdf_name, property):
         # Marshall a property that contains a single value.
-        # At first check for an available adapter to do this.
-        property_marshaller = queryMultiAdapter(
-            (self.context, property, self.marshall_target),
+        # At first check for an available filed_name adapter to do this.
+        field_name_property_marshaller = queryMultiAdapter(
+            (self.context, self.marshall_target),
             interface=IMarshallSource,
+            name=rdf_name,
         )
-
-        if property_marshaller:
-            # let the adapter marshall the property
-            marshalled_property = property_marshaller.marshall(self)
+        if field_name_property_marshaller:
+            marshalled_property = field_name_property_marshaller.marshall(self)
         else:
-            # No adapter can be found, convert the field value
-            # to a string.
-            marshalled_property = unicode(property)
+            # if no field_name_adapter is available
+            # check for a more general property adapter
+            property_marshaller = queryMultiAdapter(
+                (self.context, property, self.marshall_target),
+                interface=IMarshallSource,
+            )
+
+            if property_marshaller:
+                # let the adapter marshall the property
+                marshalled_property = property_marshaller.marshall(self)
+            else:
+                # No adapter can be found, convert the field value
+                # to a string.
+                if property is None:
+                    return
+                marshalled_property = unicode(property)
         if marshalled_property is not None:
             self.marshall_target.add_property(
                 self.resource,
@@ -94,6 +106,8 @@ class DX2Any(object):
         # handle a list property. This code is unstable.
         # May fail if the property marshaller if a list element returns
         # a list of results.
+        if listproperty is None:
+            return
         values = []
         for property in listproperty:
             property_marshaller = queryMultiAdapter(
@@ -125,9 +139,6 @@ class DX2Any(object):
         for property_name in self.structure.properties:
             struct_info = self.structure.properties[property_name]
             property_value = getattr(self.context, property_name)
-            if property_value is None:
-                # do not marshall empty fields
-                continue
             # get the rdf_name of the property
             if 'rdf_name' in struct_info:
                 rdf_name = struct_info['rdf_name']
