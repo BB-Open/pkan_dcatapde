@@ -58,5 +58,13 @@
     provides="..interfaces.IDXField2RDF"
   />
 
+    <adapter
+    factory=".fields.DCT_IDINTIFIER2RDF"
+    for="plone.dexterity.interfaces.IDexterityContent
+         pkan.dcatapde.marshall.target.interfaces.IRDFMarshallTarget"
+    name="dct_identifier"
+    provides="..interfaces.IDXField2RDF"
+  />
+
 
 </configure>

@@ -9,6 +9,7 @@ from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
+from pkan.dcatapde.constants import CT_DCT_LANGUAGE
 from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import CT_DCT_LOCATION
 from pkan.dcatapde.constants import CT_DCT_MEDIATYPEOREXTENT
@@ -260,10 +261,37 @@ def update_uri_in_triplestore(context):
     """
     reload_gs_profile(context)
     portal_catalog = api.portal.get_tool('portal_catalog')
-    res = portal_catalog.searchResults(
-        {'portal_type': [CT_SKOS_CONCEPT, 'Folder']})
 
-    for brain in res:
-        obj = brain.getObject()
-        obj.uri_in_triplestore = obj.rdfs_isDefinedBy
-        obj.reindexObject()
+    cts = [
+        CT_DCAT_CATALOG,
+        CT_DCAT_COLLECTION_CATALOG,
+        CT_DCAT_DATASET,
+        CT_DCAT_DISTRIBUTION,
+        CT_DCT_LICENSEDOCUMENT,
+        CT_DCT_LOCATION,
+        CT_DCT_MEDIATYPEOREXTENT,
+        CT_DCT_RIGHTSSTATEMENT,
+        CT_DCT_STANDARD,
+        CT_FOAF_AGENT,
+        CT_SKOS_CONCEPTSCHEME,
+        CT_RDFS_LITERAL,
+        CT_DCT_LANGUAGE,
+        CT_SKOS_CONCEPT,
+    ]
+
+    for ct in cts:
+        brains = portal_catalog.searchResults({'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+            try:
+                uri = obj.uri_in_triplestore
+            except AttributeError:
+                try:
+                    uri = obj.rdfs_isDefinedBy
+                except AttributeError:
+                    continue
+            obj.dct_identifier = uri
+
+            obj.reindexObject()
