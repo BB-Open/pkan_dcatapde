@@ -14,12 +14,17 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 
 def get_states(wf):
-    states = []
+    states_res = {}
     state_folder = getattr(wf, 'states', None)
+    states = []
     if state_folder is not None:
         states = state_folder.values()
 
-    return [(s.title, s.getId()) for s in states]
+    for state in states:
+        states_res[state.getId()] = {'title': state.title,
+                                     'transitions': state.transitions}
+
+    return states_res
 
 
 @implementer(IVocabularyFactory)
@@ -30,30 +35,53 @@ class WorkflowStates(object):
     def __call__(self, context):
         # Just an example list of content for our vocabulary,
         # this can be any static or dynamic data, a catalog result for example.
+        wf_name = 'simple_publication_workflow'
+        start_state = 'private'
+
         site = getSite()
         wtool = getToolByName(site, 'portal_workflow', None)
         if wtool is None:
             return SimpleVocabulary([])
 
+        wf = wtool.getWorkflowById(wf_name)
         # we get REQUEST from wtool because context may be an adapter
         request = aq_get(wtool, 'REQUEST', None)
 
-        wf = wtool.getWorkflowById('simple_publication_workflow')
+        transitions = {}
+        states = get_states(wf)
 
-        items = get_states(wf)
-        items = [(safe_unicode(i[0]), i[1]) for i in items]
-        items_dict = dict(  # no dict comprehension in py 2.6
-            [
-                (i[1], translate(_(i[0]), context=request))
-                for i in items
-            ],
-        )
-        items_list = [(k, v) for k, v in items_dict.items()]
-        items_list.sort(lambda x, y: cmp(x[1], y[1]))
-        terms = [
-            SimpleTerm(k, title=u'{0} [{1}]'.format(v, k))
-            for k, v in items_list
-        ]
+        transition_folder = getattr(wf, 'transitions', None)
+        wf_name = wf.title or wf.id
+        if transition_folder is not None:
+
+            for transition in transition_folder.values():
+                # zope.i18nmessageid will choke
+                # if undecoded UTF-8 bytestrings slip through
+                # which we may encounter on international sites
+                # where transition names are in local language.
+                # This may break overlying functionality even
+                # if the terms themselves are never used
+                name = safe_unicode(transition.actbox_name)
+                new_state = transition.new_state_id
+
+                transition_title = translate(
+                    _(name),
+                    context=aq_get(wtool, 'REQUEST', None))
+                transitions[transition.id] = {'title': transition_title,
+                                              'state': new_state}
+        terms = []
+        for t in states[start_state]['transitions']:
+            t_info = transitions[t]
+            t_state = t_info['state']
+            t_state_title = translate(_(states[t_state]['title']),
+                                      context=request)
+
+            terms.append(
+                SimpleTerm(t, title=u'{0} [{1}]'.format(
+                    t_state_title,
+                    t_state,
+                )),
+            )
 
         return SimpleVocabulary(terms)
 

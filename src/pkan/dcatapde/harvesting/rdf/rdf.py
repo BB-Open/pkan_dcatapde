@@ -44,6 +44,8 @@ from plone.api.exc import InvalidParameterError
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import safe_unicode
 from plone.memoize import ram
+from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
 from pyparsing import ParseException
 from rdflib import Graph
 from rdflib.plugins.memory import IOMemory
@@ -710,6 +712,8 @@ class RDFProcessor(object):
                 uri_in_triplestore=rdf_node.toPython(),
                 **obj_data)
 
+        self.apply_workflow(obj)
+
         obj.reindexObject()
         visitor.scribe.write(
             level='info',
@@ -719,6 +723,16 @@ class RDFProcessor(object):
             type=struct.rdf_type,
         )
         return obj
+
+    def apply_workflow(self, obj):
+        if self.harvester.new_workflow_state:
+            workflowTool = getToolByName(obj, 'portal_workflow')
+            try:
+                workflowTool.doActionFor(obj,
+                                         self.harvester.new_workflow_state)
+                obj.reindexObjectSecurity()
+            except WorkflowException:
+                pass
 
     def crawl(
         self,
