@@ -289,7 +289,7 @@ class RDFProcessor(object):
         obj_data[field_name] = {}
         for i in res.bindings:
             # special handling of literals without language
-            if not ('o1' in i):
+            if not ('o' in i):
                 rdf_obj = i['o']
                 obj_data[field_name][self.def_lang] = unicode(i['o'])
                 visitor.scribe.write(
@@ -301,7 +301,7 @@ class RDFProcessor(object):
                     type=kwargs['struct'].rdf_type,
                 )
             else:
-                lang = i['o1']
+                lang = i['o'].language
 
                 # convert 2-letter-format to 3-letter-format
                 if unicode(lang) in self.available_languages:
@@ -310,11 +310,12 @@ class RDFProcessor(object):
                 elif lang not in self.all_languages:
                     lang = self.def_lang
 
-                obj_data[field_name][lang] = unicode(i['o2'])
+                obj_data[field_name][lang] = i['o'].value
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
-                    val=str(i['o1']) + ':' + str(i['o1']),
+                    val=unicode(i['o'].value) + u':' +
+                        unicode(i['o'].language),
                     att=predicate,
                     obj=kwargs['rdf_node'],
                     type=kwargs['struct'].rdf_type,
