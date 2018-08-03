@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Base Content Types."""
-from pkan.dcatapde import _
 from pkan.dcatapde import i18n
 from pkan.dcatapde.structure.interfaces import IStructure
 from pkan.dcatapde.utils import get_current_language
@@ -30,12 +29,12 @@ class IDCAT(model.Schema):
         title=i18n.LABEL_ADMS_IDENTIFIER,
     )
 
-    read_permission(uri_in_triplestore='pkan.dcatapde.Admin')
-    write_permission(uri_in_triplestore='pkan.dcatapde.Admin')
-    uri_in_triplestore = schema.URI(
-        required=False,
-        title=_(u'Uri in Triplestore'),
-    )
+#    read_permission(uri_in_triplestore='pkan.dcatapde.Admin')
+#    write_permission(uri_in_triplestore='pkan.dcatapde.Admin')
+#    uri_in_triplestore = schema.URI(
+#        required=False,
+#        title=_(u'Uri in Triplestore'),
+#    )
 
     read_permission(in_harvester='pkan.dcatapde.Admin')
     write_permission(in_harvester='pkan.dcatapde.Admin')
@@ -54,7 +53,6 @@ class IDCAT(model.Schema):
         'internal_info',
         label=i18n.FIELDSET_INTERNAL_INFO,
         fields=[
-            'uri_in_triplestore',
             'in_harvester',
             'dct_identifier',
             'adms_identifier',

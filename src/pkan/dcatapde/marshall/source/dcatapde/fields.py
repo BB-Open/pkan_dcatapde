@@ -66,6 +66,9 @@ class ADMS_IDINTIFIER2RDF(DCATField2RDF):
         else:
             return field_value
 
+    def marshall(self, obj):
+        return self.marshall_myself(obj)
+
 
 @implementer(IMarshallSource)
 @adapter(IRDFMarshallTarget)
@@ -89,3 +92,6 @@ class DCT_IDINTIFIER2RDF(DCATField2RDF):
             return self.context.absolute_url()
         else:
             return field_value
+
+    def marshall(self, obj):
+        return self.marshall_myself(obj)
