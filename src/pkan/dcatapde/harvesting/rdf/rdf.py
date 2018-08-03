@@ -99,7 +99,11 @@ def handle_identifiers(obj):
     if isinstance(obj, URIRef):
         subject = unicode(obj)
     else:
-        subject = unicode(getattr(obj, 'subject'))
+        try:
+            subject = unicode(getattr(obj, 'subject'))
+        except AttributeError:
+            # This is the case for Literal
+            subject = None
 
     # if no dct:Identifier is set
     if dct_identifier is None:
@@ -710,7 +714,6 @@ class RDFProcessor(object):
                 struct.portal_type,
                 title=title,
                 in_harvester=self.harvester.UID(),
-                uri_in_triplestore=rdf_node.toPython(),
                 **obj_data)
 
         self.apply_workflow(obj)
@@ -774,6 +777,10 @@ class RDFProcessor(object):
         try:
             # get a title for the dxobject
             title = self.get_title(struct, obj_data)
+
+            # Hack for convention 31: Handle dct_format as literal
+            if struct.literal_field is not None:
+                obj_data[struct.literal_field] = title
 
             # create the DX object
             obj = self.create_dx_obj(

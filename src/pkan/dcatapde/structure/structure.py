@@ -139,7 +139,7 @@ class StructBase(object):
     title_field = ['dct_title']
     desc_field = ['dct_description']
 
-    literal_field = {}
+    literal_field = None
 
     # caching
     _fields_in_order = None
@@ -535,9 +535,11 @@ class StructDCTMediaTypeOrExtent(StructBase):
     portal_type = CT_DCT_MEDIATYPEOREXTENT
     rdf_type = DCT.MediaTypeOrExtent
 
-    literal_field = {
-        'field': 'dct_title',
-    }
+    # This is a hack to fullfill Convention 31
+    literal_field = 'dct_title'
+
+    # This is a hack to fullfill Convention 31
+    title_field = ['rdf_about']
 
 
 @implementer(IStructure)

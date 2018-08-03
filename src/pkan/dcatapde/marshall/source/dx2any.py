@@ -39,7 +39,7 @@ class DX2Any(object):
     def marshall_as_literal(self):
         if not self.structure.literal_field:
             return None
-        property_name = self.structure.literal_field['field']
+        property_name = self.structure.literal_field
         struct_info = self.structure.properties[property_name]
         property_value = getattr(self.context, property_name)
         if not property_value:

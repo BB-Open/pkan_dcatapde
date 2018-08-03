@@ -89,7 +89,7 @@ class DCATMixin(object):
                     title = unicode(all_titles[0])
                 else:
                     title = unicode(all_titles)
-            except KeyError:
+            except (KeyError, AttributeError):
                 continue
             if title:
                 break
