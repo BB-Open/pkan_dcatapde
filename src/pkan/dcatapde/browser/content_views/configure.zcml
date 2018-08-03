@@ -21,8 +21,8 @@
 
   <browser:page
     for="*"
-    name="real_run_chron"
-    class=".harvester.RealRunChronView"
+    name="real_run_cron"
+    class=".harvester.RealRunCronView"
     template="templates/dry_run.pt"
     permission="cmf.ManagePortal"
     />

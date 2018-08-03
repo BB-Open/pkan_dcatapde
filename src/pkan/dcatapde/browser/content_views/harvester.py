@@ -101,7 +101,7 @@ class RealRunView(BrowserView):
         return super(RealRunView, self).__call__(*args, **kwargs)
 
 
-class RealRunChronView(BrowserView):
+class RealRunCronView(BrowserView):
 
     def real_run(self, harv):
         source = harv.source_type(harv)
@@ -139,4 +139,4 @@ class RealRunChronView(BrowserView):
                 else:
                     self.log.append(no_run_message)
 
-        return super(RealRunChronView, self).__call__(*args, **kwargs)
+        return super(RealRunCronView, self).__call__(*args, **kwargs)
