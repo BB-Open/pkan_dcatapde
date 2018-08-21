@@ -9,6 +9,7 @@ from plone.autoform import directives as form
 from plone.autoform.directives import read_permission
 from plone.autoform.directives import write_permission
 from plone.dexterity.content import Container
+from plone.namedfile.field import NamedFile
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
@@ -55,6 +56,11 @@ class IDCATDistribution(model.Schema, IDCAT):
     dcat_downloadURL = schema.URI(
         required=False,
         title=i18n.LABEL_DCAT_DOWNLOADURL,
+    )
+
+    local_file = NamedFile(
+        required=False,
+        title=i18n.LABEL_LOCAL_FILE,
     )
 
     read_permission(dcatde_plannedAvailability='pkan.dcatapde.Admin')
