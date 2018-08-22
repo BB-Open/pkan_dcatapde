@@ -35,6 +35,11 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
+   <subscriber
+      for=".dcat_distribution.IDCATDistribution
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".dcat_distribution.distribution_add_handler"
+      />
 
   <!-- DCTLicenseDocument -->
   <!-- ================== -->

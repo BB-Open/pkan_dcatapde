@@ -30,9 +30,18 @@
              zope.publisher.interfaces.browser.IDefaultBrowserLayer
              plone.dexterity.interfaces.IDexterityFTI"
         provides="zope.publisher.interfaces.browser.IBrowserPage"
-        factory=".default_add_view.PkanDefaultAddView"
-        name="distribution"
+        factory=".distribution.DistributionAddView"
+        name="dcat_distribution"
         />
+
+    <class class=".distribution.DistributionAddView">
+        <require
+            permission="cmf.AddPortalContent"
+            interface="zope.publisher.interfaces.browser.IBrowserPage"
+            />
+    </class>
+
+
 
     <adapter
         for="Products.CMFCore.interfaces.IFolderish

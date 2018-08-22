@@ -9,4 +9,13 @@
     class=".harvester.HarvesterEditView"
     permission="cmf.ModifyPortalContent"
     />
+
+ <browser:page
+    for="pkan.dcatapde.content.dcat_distribution.IDCATDistribution"
+    name="edit"
+    class=".distribution.DistributionEditView"
+    permission="cmf.ModifyPortalContent"
+    />
+
+
 </configure>

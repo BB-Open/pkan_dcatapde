@@ -167,3 +167,9 @@ class DCATDistribution(Container, DCATMixin):
 
     def Description(self):
         return self.desc_from_desc_field()
+
+
+def distribution_add_handler(sender, event):
+    download_postfix = '/@@download/local_file'
+    sender.dcat_downloadURL = sender.absolute_url() \
+        + download_postfix
