@@ -54,3 +54,7 @@ class DCTMediaTypeOrExtent(Item, DCATMixin):
 
     def Description(self):
         return self.desc_from_desc_field()
+
+    def title_for_vocabulary(self):
+        """Return a title suitable for vocabulary terms."""
+        return self.dct_title[u'deu']
