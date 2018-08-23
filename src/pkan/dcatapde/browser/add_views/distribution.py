@@ -10,7 +10,11 @@ class DistributionAddForm(PkanDefaultAddForm):
     """Default add form."""
 
     def create(self, data):
-        local_file_obj = data['local_file']
+        try:
+            local_file_obj = data['local_file']
+        except KeyError:
+            return super(DistributionAddForm, self).create(data)
+
         if local_file_obj is not None:
             download_postfix = '/@@download/local_file'
             data['dcat_downloadURL'] = self.context.absolute_url() \
