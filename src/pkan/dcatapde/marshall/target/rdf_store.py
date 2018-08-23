@@ -1,20 +1,13 @@
 # -*- coding: utf-8 -*-
 """RDF Backend store"""
 
-# from plone.api.portal import get_tool
-# from Products.CMFCore.interfaces._tools import ITypesTool
-# from zope.component import adapter
-# from zope.component import queryMultiAdapter
-# from zope.component import subscribers
-# from zope.interface import implementer
-# from zope.interface import Interface
+
+from pkan.dcatapde.structure.namespaces import INIT_NS
 
 import surf
 
 
-surf.namespace.register(dct=surf.ns.DCTERMS)
-surf.namespace.register(DCAT='http://www.w3.org/ns/dcat#')
-surf.namespace.register(DCATDE='http://dcat-ap.de/def/dcatde/1_0/')
+surf.namespace.register(**INIT_NS)
 
 DEBUG = True
 

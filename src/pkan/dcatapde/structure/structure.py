@@ -33,10 +33,10 @@ from pkan.dcatapde.content.skos_concept import ISKOSConcept
 from pkan.dcatapde.content.skos_conceptscheme import ISKOSConceptScheme
 from pkan.dcatapde.content.vcard_kind import IVCARDKind
 from pkan.dcatapde.structure.interfaces import IStructure
-from pkan.dcatapde.structure.sparql import DCAT
-from pkan.dcatapde.structure.sparql import DCT
-from pkan.dcatapde.structure.sparql import INIT_NS
-from pkan.dcatapde.structure.sparql import VCARD
+from pkan.dcatapde.structure.namespaces import DCAT
+from pkan.dcatapde.structure.namespaces import DCT
+from pkan.dcatapde.structure.namespaces import INIT_NS
+from pkan.dcatapde.structure.namespaces import VCARD
 from pkan.dcatapde.utils import get_current_language
 from plone.api import portal
 from plone.autoform.interfaces import IFormFieldProvider
@@ -539,7 +539,7 @@ class StructDCTMediaTypeOrExtent(StructBase):
     literal_field = 'dct_title'
 
     # This is a hack to fullfill Convention 31
-    title_field = ['rdf_about']
+    title_field = ['dct_title']
 
 
 @implementer(IStructure)

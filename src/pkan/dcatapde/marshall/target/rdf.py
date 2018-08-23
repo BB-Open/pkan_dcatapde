@@ -2,15 +2,13 @@
 """RDF Marshaller."""
 
 from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
+from pkan.dcatapde.structure.namespaces import INIT_NS
 from zope.interface import implementer
 
-# import rdflib
 import surf
 
 
-surf.namespace.register(dct=surf.ns.DCTERMS)
-surf.namespace.register(DCAT='http://www.w3.org/ns/dcat#')
-surf.namespace.register(DCATDE='http://dcat-ap.de/def/dcatde/1_0/')
+surf.namespace.register(**INIT_NS)
 
 
 @implementer(IRDFMarshallTarget)

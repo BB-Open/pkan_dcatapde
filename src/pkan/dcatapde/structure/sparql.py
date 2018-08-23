@@ -1,32 +1,11 @@
 # -*- coding: utf-8 -*-
 """Helpers for SPQRQL"""
 
+from namespaces import INIT_NS
 from rdflib import Graph
-from rdflib.namespace import DCTERMS
-from rdflib.namespace import FOAF
-from rdflib.namespace import Namespace
 from rdflib.namespace import NamespaceManager
-from rdflib.namespace import RDF
-from rdflib.namespace import RDFS
-from rdflib.namespace import SKOS
 from rdflib.plugins.sparql import prepareQuery
 
-
-DCT = DCTERMS
-DCAT = Namespace('http://www.w3.org/ns/dcat#')
-VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
-
-# List of namespaces for SPARQL Queries.
-# Todo: would be good if this list came from the plone config
-INIT_NS = {
-    'dct': DCTERMS,
-    'foaf': FOAF,
-    'skos': SKOS,
-    'dcat': DCAT,
-    'rdf': RDF,
-    'rdfs': RDFS,
-    'vcard': VCARD,
-}
 
 # Construct a namespace manager to get abbreviated URIRefs for
 # known namespaces. e.g.
