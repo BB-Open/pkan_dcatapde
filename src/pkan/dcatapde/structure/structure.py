@@ -539,7 +539,7 @@ class StructDCTMediaTypeOrExtent(StructBase):
     literal_field = 'dct_title'
 
     # This is a hack to fullfill Convention 31
-    title_field = ['dct_title']
+    title_field = ['rdf_about']
 
 
 @implementer(IStructure)

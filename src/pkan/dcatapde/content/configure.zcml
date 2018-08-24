@@ -75,6 +75,11 @@
       provides="plone.app.content.interfaces.INameFromTitle"
       />
 
+  <!-- Custom indexer for dct_title -->
+  <adapter
+      factory=".dct_mediatypeorextent.DCTMediaTypeOrExtent_dct_title"
+      name="dct_title"
+      />
 
   <!-- DCTRighststatement -->
   <!-- =========== -->

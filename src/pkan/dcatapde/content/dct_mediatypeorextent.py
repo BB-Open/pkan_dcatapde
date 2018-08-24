@@ -6,6 +6,7 @@ from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 from plone.dexterity.content import Item
+from plone.indexer.decorator import indexer
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
@@ -50,7 +51,7 @@ class DCTMediaTypeOrExtent(Item, DCATMixin):
     )
 
     def Title(self):
-        return self.title_from_title_field()
+        return self.dct_title
 
     def Description(self):
         return self.desc_from_desc_field()
@@ -58,3 +59,14 @@ class DCTMediaTypeOrExtent(Item, DCATMixin):
     def title_for_vocabulary(self):
         """Return a title suitable for vocabulary terms."""
         return self.dct_title[u'deu']
+
+
+@indexer(IDCTMediaTypeOrExtent)
+def DCTMediaTypeOrExtent_dct_title(object, **kw):
+    try:
+        return object.dct_title[u'deu']
+    except KeyError:
+        try:
+            return object.dct_title[u'de']
+        except KeyError:
+            return object.dct_title

@@ -35,9 +35,8 @@ from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
-from pkan.dcatapde.utils import get_available_languages_iso
-from pkan.dcatapde.utils import get_available_languages_title
 from pkan.dcatapde.utils import get_default_language
+from pkan.dcatapde.utils import LiteralHandler
 from plone import api
 from plone.api import content
 from plone.api.exc import InvalidParameterError
@@ -172,8 +171,7 @@ class RDFProcessor(object):
         self.rdf_format = RDF_FORMAT_METADATA[self.rdf_format_key]
         self.serialize_format = self.rdf_format['serialize_as']
         self.def_lang = get_default_language()
-        self.available_languages = get_available_languages_iso()
-        self.all_languages = get_available_languages_title().values()
+        self.literal_handler = LiteralHandler()
         self.setup_logger()
         self.get_entity_mapping()
 
@@ -307,16 +305,8 @@ class RDFProcessor(object):
                     type=kwargs['struct'].rdf_type,
                 )
             else:
-                lang = i['o'].language
-
-                # convert 2-letter-format to 3-letter-format
-                if unicode(lang) in self.available_languages:
-                    lang = self.available_languages[unicode(lang)]
-
-                elif lang not in self.all_languages:
-                    lang = self.def_lang
-
-                obj_data[field_name][lang] = i['o'].value
+                lit_dict = self.literal_handler.literal2dict(i['o'])
+                obj_data[field_name].update(lit_dict)
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
@@ -643,9 +633,11 @@ class RDFProcessor(object):
             raise RequiredPredicateMissing
         return title
 
-    def checkURI(self, uri):
+    def checkURI(self, uri, field_name=None):
         catalog = api.portal.get_tool(name='portal_catalog')
-        query = {'dct_identifier': uri}
+        if field_name is None:
+            field_name = 'dct_identifier'
+        query = {field_name: uri}
         brains = catalog(query)
         return brains
 
@@ -663,7 +655,11 @@ class RDFProcessor(object):
             return None
 
         # check if the URI of the object is already available as DX object
-        brains = self.checkURI(rdf_node.toPython())
+        if struct.literal_field is not None:
+            brains = self.checkURI(rdf_node.toPython(), struct.literal_field)
+        else:
+            brains = self.checkURI(rdf_node.toPython())
+
         if len(brains) > 0:
             visitor.scribe.write(
                 level='warn',
@@ -780,7 +776,11 @@ class RDFProcessor(object):
 
             # Hack for convention 31: Handle dct_format as literal
             if struct.literal_field is not None:
-                obj_data[struct.literal_field] = title
+                if isinstance(title, Literal):
+                    lit2dict = self.literal_handler.literal2dict(title)
+                    obj_data[struct.literal_field] = lit2dict
+                else:
+                    obj_data[struct.literal_field] = title
 
             # create the DX object
             obj = self.create_dx_obj(

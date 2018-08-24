@@ -188,3 +188,27 @@ def get_available_languages_title():
     else:
         languages = AVAILABLE_LANGUAGES_TITLE
     return languages
+
+
+class LiteralHandler(object):
+    """Handles Literal to I18Nfield conversion"""
+
+    def __init__(self):
+        self.available_languages = get_available_languages_iso()
+        self.all_languages = get_available_languages_title().values()
+        self.def_lang = get_default_language()
+
+    def literal2dict(self, literal):
+        res = {}
+        lang = literal.language
+
+        # convert 2-letter-format to 3-letter-format
+        if unicode(lang) in self.available_languages:
+            lang = self.available_languages[unicode(lang)]
+
+        elif lang not in self.all_languages:
+            lang = self.def_lang
+
+        res[lang] = literal.value
+
+        return res
