@@ -51,7 +51,7 @@ class DCTMediaTypeOrExtent(Item, DCATMixin):
     )
 
     def Title(self):
-        return self.dct_title
+        return self.dct_title[u'deu']
 
     def Description(self):
         return self.desc_from_desc_field()
