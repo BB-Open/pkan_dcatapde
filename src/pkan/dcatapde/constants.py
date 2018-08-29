@@ -198,9 +198,11 @@ PRVIDER_DATA_EDITOR_PERM = 'pkan.dcatapde.ProviderDataEditor'
 PROVIDER_ADMIN_PERM = 'pkan.dcatapde.ProviderAdmin'
 PROVIDER_CHIEF_EDITOR_PERM = 'pkan.dcatapde.ProviderChiefEditor'
 
+CT_DCAT_DISTRIBUTION_TRANS = _(u'dcat_distribution')
 VOLUMN_TYPES = {
     _(u'File'): ['file', 'size'],
     _(u'Image'): ['image', 'size'],
+    CT_DCAT_DISTRIBUTION_TRANS: ['local_file', '_size'],
 }
 
 SIZE_UNIT = 'MB'
