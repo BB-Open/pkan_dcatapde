@@ -222,13 +222,12 @@ class RDFProcessor(object):
         klass = getUtility(IDexterityFTI, name=self.harvester.top_node)
 
         if klass not in allowed_types:
-            msg = '{top} is not allowed in {context}.'.format(
-                context=self.harvesting_context,
-                top=self.harvester.top_node,
-            )
+            msg = '{top} is not allowed in {context}.'
             visitor.scribe.write(
                 msg=msg,
                 level='error',
+                context=self.harvesting_context,
+                top=self.harvester.top_node,
             )
             return
 
@@ -1029,11 +1028,13 @@ class RDFProcessor(object):
         except Exception as e:
             visitor.scribe.write(
                 level='error',
-                msg=e.__class__.__name__ + ': ' + str(e),
+                msg='{error}',
+                error=e.__class__.__name__ + ': ' + str(e),
             )
             visitor.scribe.write(
                 level='error',
-                msg=format_tb(sys.exc_info()[2]),
+                msg='{error}',
+                error=format_tb(sys.exc_info()[2]),
             )
 
         msg = _(u'{kind} file {uri} read succesfully')
