@@ -265,7 +265,7 @@ class SKOSConceptValueVocabulary(KeywordsVocabulary):
                 obj = api.content.get(UID=i)
                 if not obj:
                     continue
-                title = unicode(obj.dct_title)
+                title = str(obj.dct_title)
                 term = SimpleTerm(i, i, title)
                 terms.append(term)
         return SimpleVocabulary(terms)

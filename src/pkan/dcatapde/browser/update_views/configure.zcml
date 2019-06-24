@@ -4,7 +4,7 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="pkan.dcatapde">
 
- <!-- Demostration view to import licenses from external source -->
+ <!-- View to import licenses from external source -->
  <browser:page
     for="plone.dexterity.interfaces.IDexterityContent"
     name="update_licenses"
@@ -12,7 +12,7 @@
     permission="cmf.ManagePortal"
     />
 
- <!-- Demostration view to import themes from external source -->
+ <!-- View to import themes from external source -->
  <browser:page
     for="plone.dexterity.interfaces.IDexterityContent"
     name="update_themes"
@@ -20,7 +20,8 @@
     permission="cmf.ManagePortal"
     />
 
-  <!-- Demostration view to import themes from external source -->
+
+<!-- View to import themes from external source -->
  <browser:page
     for="plone.dexterity.interfaces.IDexterityContent"
     name="update_languages"

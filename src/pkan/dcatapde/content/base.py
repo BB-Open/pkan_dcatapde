@@ -84,11 +84,11 @@ class DCATMixin(object):
                             curr_lang in all_titles and \
                             all_titles[curr_lang]:
                         return all_titles[curr_lang]
-                    title = unicode(all_titles.items()[0][1])
+                    title = str(all_titles.items()[0][1])
                 elif isinstance(all_titles, list):
-                    title = unicode(all_titles[0])
+                    title = str(all_titles[0])
                 else:
-                    title = unicode(all_titles)
+                    title = str(all_titles)
             except (KeyError, AttributeError):
                 continue
             if title:
@@ -107,11 +107,11 @@ class DCATMixin(object):
                 if not all_descs:
                     continue
                 if isinstance(all_descs, dict):
-                    desc = unicode(all_descs.items()[0][1])
+                    desc = str(all_descs.items()[0][1])
                 elif isinstance(all_descs, list):
-                        desc = unicode(all_descs[0])
+                        desc = str(all_descs[0])
                 else:
-                    desc = unicode(all_descs)
+                    desc = str(all_descs)
             except KeyError:
                 continue
             if desc:

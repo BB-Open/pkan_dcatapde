@@ -61,7 +61,7 @@ import datetime
 import io
 import logging
 import sys
-import urlparse
+from urllib import parse
 import vkbeautify as vkb
 
 
@@ -94,12 +94,12 @@ def handle_identifiers(obj):
     params = {}
 
     # Special case of dct_identifier. If dct:identifier is set conserve it.
-    dct_identifier = unicode(getattr(obj, 'dct_identifier', None))
+    dct_identifier = str(getattr(obj, 'dct_identifier', None))
     if isinstance(obj, URIRef):
-        subject = unicode(obj)
+        subject = str(obj)
     else:
         try:
-            subject = unicode(getattr(obj, 'subject'))
+            subject = str(getattr(obj, 'subject'))
         except AttributeError:
             # This is the case for Literal
             subject = None
@@ -110,17 +110,17 @@ def handle_identifiers(obj):
         params['dct_identifier'] = subject
     else:
         # check if dct:Identifier is really an URI
-        if urlparse.urlparse(dct_identifier).scheme != '':
+        if parse.urlparse(dct_identifier).scheme != '':
             params['dct_identifier'] = dct_identifier
         else:
             params['dct_identifier'] = subject
 
             # Special case of adms_identifier. If adms:identifier is set
     # conserve it.
-    adms_identifier = unicode(getattr(obj, 'adms_identifier', None))
+    adms_identifier = str(getattr(obj, 'adms_identifier', None))
     if adms_identifier is not None:
         # check if adms:dientifier is really an URI
-        if urlparse.urlparse(adms_identifier).scheme != '':
+        if parse.urlparse(adms_identifier).scheme != '':
             params['adms_identifier'] = adms_identifier
         else:
             params['adms_identifier'] = None
@@ -294,7 +294,7 @@ class RDFProcessor(object):
             # special handling of literals without language
             if not ('o' in i):
                 rdf_obj = i['o']
-                obj_data[field_name][self.def_lang] = unicode(i['o'])
+                obj_data[field_name][self.def_lang] = str(i['o'])
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
@@ -309,8 +309,8 @@ class RDFProcessor(object):
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
-                    val=unicode(i['o'].value) + u':' +
-                        unicode(i['o'].language),
+                    val=str(i['o'].value) + u':' +
+                        str(i['o'].language),
                     att=predicate,
                     obj=kwargs['rdf_node'],
                     type=kwargs['struct'].rdf_type,
@@ -621,9 +621,9 @@ class RDFProcessor(object):
                 if not all_titles:
                     continue
                 if isinstance(all_titles, dict):
-                    title = unicode(all_titles.items()[0][1])
+                    title = str(list(all_titles.items())[0][1])
                 elif isinstance(all_titles, list):
-                    title = unicode(all_titles[0])
+                    title = str(all_titles[0])
                 else:
                     title = all_titles
             except KeyError:

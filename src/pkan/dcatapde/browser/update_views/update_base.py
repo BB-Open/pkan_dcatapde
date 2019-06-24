@@ -68,7 +68,7 @@ class UpdateObjectsBase(object):
             # deal wth more than one attribute, e.g. different languages
             #  in Literals
             if isinstance(attribute, URIRef):
-                att_data = unicode(attribute)
+                att_data = atr(attribute)
             elif isinstance(attribute.first, rdflib.term.Literal):
                 att_data = {}
                 for literal in attribute:
@@ -79,19 +79,19 @@ class UpdateObjectsBase(object):
                         lang = self.default_language
                     if lang is None:
                         lang = self.default_language
-                    lang = unicode(lang)
+                    lang = atr(lang)
 
                     if lang in self.available_languages:
                         lang = self.available_languages[lang]
                     if lang not in self.available_languages_title:
                         continue
-                    att_data[lang] = unicode(literal)
+                    att_data[lang] = str(literal)
 
             else:
                 if not attribute.first:
                     att_data = None
                 else:
-                    att_data = unicode(attribute.first).lower()
+                    att_data = str(attribute.first).lower()
 
             params[key] = att_data
         return params
@@ -109,14 +109,14 @@ class UpdateObjectsBase(object):
             # Special case of isDefiendBy. If not given use rdfabout URI
             attribute = getattr(obj, 'rdfs_isDefinedBy')
             if attribute:
-                att_data = unicode(attribute.first)
+                att_data = str(attribute.first)
             else:
-                att_data = unicode(getattr(obj, 'subject'))
+                att_data = str(getattr(obj, 'subject'))
 
             params['rdfs_isDefinedBy'] = att_data
 
             # Get a label for the item
-            label = unicode(getattr(obj, 'dc_identifier'))
+            label = str(getattr(obj, 'dc_identifier'))
 
             # if there is no title use the dc_identifier
             if not params['dct_title']:
