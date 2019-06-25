@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 """Vocabularies and sources for content types."""
 from BTrees._IIBTree import intersection
+from Products.CMFCore.utils import getToolByName
 from pkan.dcatapde import constants
 from pkan.dcatapde.api.functions import query_active_objects
 from pkan.dcatapde.api.functions import query_objects_no_pkanstate
+from pkan.dcatapde.browser.add_views.default_add_view import PkanDefaultAddForm
 from pkan.dcatapde.constants import CT_CONCEPT_FOLDER
 from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.i18n import CT_LABELS
-from pkan.dcatapde.vocabularies import utils
+from pkan.dcatapde.vocabularies import utils as vutils
+from pkan.dcatapde import utils
 from plone import api
 from plone.app.vocabularies.catalog import KeywordsVocabulary
 from plone.app.vocabularies.terms import safe_encode
-from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.interface import provider
@@ -29,6 +31,9 @@ class BaseContentTypeVocabulary(object):
     portal_type = None
 
     def get_results(self, query, context):
+        if isinstance(context, PkanDefaultAddForm):
+            context = utils.get_request_annotations('pkan.vocabularies.context')
+
         brains = query_active_objects(query, self.portal_type, context=context)
 
         uids = []
@@ -51,14 +56,16 @@ class BaseContentTypeVocabulary(object):
         return SimpleVocabulary(terms)
 
     def __call__(self, context, query=None):
-        query = utils.parse_query(context=context, query=query)
+        query = vutils.parse_query(context=context, query=query)
         return self.get_results(query=query, context=context)
 
 
 @provider(IContextSourceBinder)
-class BAseContentTypeVocabularyNoPkanState(BaseContentTypeVocabulary):
+class BaseContentTypeVocabularyNoPkanState(BaseContentTypeVocabulary):
 
     def get_results(self, query, context):
+        if isinstance(context, PkanDefaultAddForm):
+            context = utils.get_request_annotations('pkan.vocabularies.context')
         brains = query_objects_no_pkanstate(query,
                                             self.portal_type,
                                             context=context)
@@ -94,13 +101,13 @@ DCATCatalogVocabularyFactory = DCATCatalogVocabulary()
 
 
 @implementer(IVocabularyFactory)
-class DcatCatalogContextAwareVocabulary(BAseContentTypeVocabularyNoPkanState):
+class DcatCatalogContextAwareVocabulary(BaseContentTypeVocabularyNoPkanState):
     """A vocabulary returning all objects from portal catalog."""
 
     portal_type = constants.CT_DCAT_CATALOG
 
     def __call__(self, context, query=None):
-        query = utils.parse_query(context=context, query=query)
+        query = vutils.parse_query(context=context, query=query)
         if context:
             query['path'] = '/'.join(context.getPhysicalPath())
         return self.get_results(query, context)
@@ -189,7 +196,7 @@ FOAFAgentVocabularyFactory = FOAFAgentVocabulary()
 
 
 @implementer(IVocabularyFactory)
-class HarvesterVocabulary(BAseContentTypeVocabularyNoPkanState):
+class HarvesterVocabulary(BaseContentTypeVocabularyNoPkanState):
     """A vocabulary returning Harvester items."""
 
     portal_type = constants.CT_HARVESTER
