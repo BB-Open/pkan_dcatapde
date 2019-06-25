@@ -31,6 +31,7 @@ class BaseContentTypeVocabulary(object):
     portal_type = None
 
     def get_results(self, query, context):
+        #todo: isinstance is not nice, but if its another form, it does not set this annotations
         if isinstance(context, PkanDefaultAddForm):
             context = utils.get_request_annotations('pkan.vocabularies.context')
 
