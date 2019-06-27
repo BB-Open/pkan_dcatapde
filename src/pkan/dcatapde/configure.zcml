@@ -75,7 +75,7 @@
     expose_headers="Content-Length,Access-Control-Allow-Origin"
     allow_headers="Accept,Authorization,Content-Type,Access-Control-Allow-Origin,Origin"
     max_age="3600"
-    layer="pkan.plone.interfaces.IPkanPloneLayer"
+    layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
   />
 
 </configure>
