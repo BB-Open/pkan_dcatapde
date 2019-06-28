@@ -13,8 +13,7 @@
   <div tal:define="picture nocall:context/logo"
        tal:condition="nocall:picture">
     <img
-      tal:attributes="src string:${context/absolute_url}/@@download/logo/${picture/filename}"
-      style="height:150;"/>
+      tal:attributes="src string:${context/absolute_url}/@@download/logo/${picture/filename}"/>
   </div>
   <div tal:content="structure context/text" />
 
