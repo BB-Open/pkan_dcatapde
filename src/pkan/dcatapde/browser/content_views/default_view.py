@@ -70,3 +70,8 @@ class PKANDefaultView(DefaultView):
                 del self.fieldsets[group_name]
 
         return groups, groups_at_end
+
+class PublisherCardDefaultView(DefaultView):
+    """
+    View for Publisher Card
+    """

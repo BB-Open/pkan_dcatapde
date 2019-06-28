@@ -68,6 +68,14 @@
     />
 
   <browser:page
+    for="pkan.dcatapde.content.publisher_card.IPublisherCard"
+    name="view"
+    class=".default_view.PublisherCardDefaultView"
+    template="templates/publisher_card.pt"
+    permission="zope2.View"
+    />
+
+  <browser:page
       name="mail_password_form"
       for="*"
       template="templates/mail_password_form.pt"
