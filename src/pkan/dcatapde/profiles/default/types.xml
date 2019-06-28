@@ -31,6 +31,8 @@
   <object meta_type="Dexterity FTI" name="StandardsFolder" />
   <object meta_type="Dexterity FTI" name="VcardKindFolder" />
 
+  <object meta_type="Dexterity FTI" name="PublisherCard" />
+
 
   <!-- PKAN Types -->
   <object meta_type="Dexterity FTI" name="harvester"/>
