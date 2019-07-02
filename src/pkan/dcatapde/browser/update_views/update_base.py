@@ -22,7 +22,8 @@ surf.namespace.register(ADMS='http://www.w3.org/ns/adms#')
 
 class UpdateObjectsBase(object):
 
-    uri = None
+    uri_registry_key = None
+    uri_registry_interface = None
     object_class = surf.ns.SKOS['Concept']
     object_title = 'Class:Object'
     object_dx_class = 'Dexterityclass'
@@ -37,11 +38,17 @@ class UpdateObjectsBase(object):
         self.available_languages = get_available_languages_iso()
         self.available_languages_title = get_available_languages_title()
 
-        if self.uri.startswith('http') or self.uri.startswith('/'):
-            pass
-        else:
-            dir_path = os.path.dirname(os.path.realpath(__file__))
-            self.uri = os.path.join(dir_path, self.uri)
+    @property
+    def uris(self):
+        uris = portal.get_registry_record(name=self.uri_registry_key, interface=self.uri_registry_interface)
+        result = []
+        for uri in uris:
+            if uri.startswith('http') or uri.startswith('/'):
+                result.append(uri)
+            else:
+                dir_path = os.path.dirname(os.path.realpath(__file__))
+                result.append( os.path.join(dir_path, uri))
+        return result
 
     def load_objects_from_rdf(self):
 
@@ -52,8 +59,9 @@ class UpdateObjectsBase(object):
         )
         # Get a new surf session
         session = surf.Session(store)
-        # Load the license list
-        store.load_triples(source=self.uri)
+        # Load the rdf data from the uris
+        for uri in self.uris:
+            store.load_triples(source=uri)
         # Define the License class as an skos:concept object
         Object = session.get_class(self.object_class)
         # Get the licenses objects
@@ -68,7 +76,7 @@ class UpdateObjectsBase(object):
             # deal wth more than one attribute, e.g. different languages
             #  in Literals
             if isinstance(attribute, URIRef):
-                att_data = atr(attribute)
+                att_data = str(attribute)
             elif isinstance(attribute.first, rdflib.term.Literal):
                 att_data = {}
                 for literal in attribute:
@@ -79,7 +87,7 @@ class UpdateObjectsBase(object):
                         lang = self.default_language
                     if lang is None:
                         lang = self.default_language
-                    lang = atr(lang)
+                    lang = str(lang)
 
                     if lang in self.available_languages:
                         lang = self.available_languages[lang]

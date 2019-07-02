@@ -4,6 +4,7 @@ from pkan.dcatapde.browser.update_views.update_base import UpdateObjectsBase
 from pkan.dcatapde.constants import CT_DCT_LANGUAGE
 from pkan.dcatapde.constants import FOLDER_LANGUAGES
 from pkan.dcatapde.constants import VOCAB_SOURCES
+from pkan.dcatapde.interfaces import IPKANImportSettings
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
 from plone.api import content
 from plone.i18n.normalizer import idnormalizer
@@ -24,7 +25,10 @@ MAPPING = mapping = {
 
 class UpdateLanguages(UpdateObjectsBase):
 
-    uri = VOCAB_SOURCES[CT_DCT_LANGUAGE]
+
+    uri_registry_key = CT_DCT_LANGUAGE
+    uri_registry_interface = IPKANImportSettings
+
     object_title = 'DCT:Language'
     object_dx_class = CT_DCT_LANGUAGE
     target_folder = FOLDER_LANGUAGES

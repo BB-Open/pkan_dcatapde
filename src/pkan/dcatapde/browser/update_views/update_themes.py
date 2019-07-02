@@ -1,12 +1,23 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
+
+import rdflib
+import surf
+
+from pkan.dcatapde import _
 from pkan.dcatapde.browser.update_views.update_base import UpdateObjectsBase
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.constants import VOCAB_SOURCES
+from pkan.dcatapde.interfaces import IPKANImportSettings
 
-import surf
+from pkan.dcatapde.utils import (
+    get_available_languages_iso,
+    get_available_languages_title, )
+from ps.zope.i18nfield.utils import get_default_language
 
+from plone.api import content, portal
+from zope.i18n import translate
 
 MAPPING = {
     'dct_title': 'skos_prefLabel',
@@ -17,7 +28,8 @@ MAPPING = {
 
 class UpdateThemes(UpdateObjectsBase):
 
-    uri = VOCAB_SOURCES[CT_SKOS_CONCEPT]
+    uri_registry_key = CT_SKOS_CONCEPT
+    uri_registry_interface = IPKANImportSettings
     object_class = surf.ns.SKOS['Concept']
     object_title = 'skos:concepts'
     object_dx_class = CT_SKOS_CONCEPT
@@ -28,29 +40,10 @@ class UpdateThemes(UpdateObjectsBase):
         self.context = context
         self.request = request
 
-    def load_themes_from_rdf(self):
-        uri = VOCAB_SOURCES[CT_SKOS_CONCEPT]
-
-        store = surf.Store(
-            reader='rdflib',
-            writer='rdflib',
-            rdflib_store='IOMemory',
-        )
-        # Get a new surf session
-        session = surf.Session(store)
-        # Load the license list
-        store.load_triples(source=uri)
-        # Define the License class as an owl:class object
-        Theme = session.get_class(surf.ns.SKOS['Concept'])
-        # Get the licenses objects
-        themes = Theme.all().full()
-
-        # Iterate over the licenses and yoiedl them
-        return themes
 
     def __call__(self):
         # get the surf license objects
-        themes = self.load_themes_from_rdf()
+        themes = self.load_objects_from_rdf()
 
         default_language = get_default_language()
 

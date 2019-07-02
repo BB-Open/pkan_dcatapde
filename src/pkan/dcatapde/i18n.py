@@ -136,6 +136,10 @@ HELP_SETTINGS_IMPORTS_DCT_LICENSEDOCUMENT = _(
 HELP_SETTINGS_IMPORTS_SKOS_CONCEPT = _(
     u'Define the import sources for SKOS:Concept objects.',
 )
+HELP_SETTINGS_IMPORTS_DCT_LANGUAGE = _(
+    u'Define the import sources for DCT:Language objects.',
+)
+
 HELP_SKOS_INSCHEME = _(u'URI to the concept scheme')
 HELP_IN_HARVESTER = _(u'Harvester that created this object')
 HELP_REHARVESTING_PERIOD = _(
@@ -214,6 +218,7 @@ LABEL_SETTINGS_FOLDERS = _(u'PKAN Folder Settings')
 LABEL_SETTINGS_IMPORTS = _(u'PKAN Import Settings')
 LABEL_SETTINGS_IMPORTS_DCT_LICENSEDOCUMENT = _('DCT:LicenseDocument Sources')
 LABEL_SETTINGS_IMPORTS_SKOS_CONCEPT = _('SKOS:Concept Sources')
+LABEL_SETTINGS_IMPORTS_DCT_LANGUAGE = _('DCT:Language Sources')
 LABEL_SKOS_INSCHEME = _(u'Concept scheme URI')
 LABEL_URL = _(u'URL')
 LABEL_IN_HARVESTER = _(u'In Harvester')

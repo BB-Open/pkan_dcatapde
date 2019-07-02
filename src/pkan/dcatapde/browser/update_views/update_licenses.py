@@ -8,6 +8,8 @@ from pkan.dcatapde.constants import VOCAB_SOURCES
 
 
 # map the properties
+from pkan.dcatapde.interfaces import IPKANImportSettings
+
 MAPPING = {
     'dct_title': 'dc_identifier',
     'dct_description': 'skos_prefLabel',
@@ -17,7 +19,8 @@ MAPPING = {
 
 class UpdateLicenses(UpdateObjectsBase):
 
-    uri = VOCAB_SOURCES[CT_DCT_LICENSEDOCUMENT]
+    uri_registry_key = CT_DCT_LICENSEDOCUMENT
+    uri_registry_interface = IPKANImportSettings
     object_title = 'DCT:LicenseDocument'
     object_dx_class = CT_DCT_LICENSEDOCUMENT
     target_folder = FOLDER_LICENSES
