@@ -128,4 +128,13 @@
       handler=".upgrades.update_uri_in_triplestore"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1015"
+      title="Reload GS profiles: Updated Roles and Permissions"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
+
 </configure>

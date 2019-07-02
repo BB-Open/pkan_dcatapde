@@ -36,6 +36,8 @@ CT_RIGHTS_FOLDER = 'RightsFolder'
 CT_STANDARDS_FOLDER = 'StandardsFolder'
 CT_LANGUAGE_FOLDER = 'LanguageFolder'
 
+CT_PUBLISHER_CARD = 'PublisherCard'
+
 # list of DCAT CTs
 DCAT_CTs = [
     CT_DCAT_CATALOG,
