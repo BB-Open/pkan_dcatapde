@@ -106,7 +106,7 @@ class RealRunView(BrowserView):
 class RealRunCronView(BrowserView):
 
     def __init__(self, context, request):
-        super(self, RealRunCronView).__init__(context, request)
+        super(RealRunCronView, self).__init__(context, request)
         alsoProvides(self.request, IDisableCSRFProtection)
 
     def real_run(self, harv):
