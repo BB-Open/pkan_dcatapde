@@ -11,6 +11,10 @@ env:
   - PLONE_VERSION=5.2rc1
 matrix:
   fast_finish: true
+  include:
+    - name: "Python 3.7.1 on Xenial Linux"
+      python: 3.7           # this works for Linux but is ignored on macOS or Windows
+      dist: xenial          # required for Python >= 3.7
 addons:
   firefox: 45.8.0esr
 before_install:
