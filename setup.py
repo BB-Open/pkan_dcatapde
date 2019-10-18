@@ -16,9 +16,7 @@ install_requires = [
     'setuptools',
     # -*- Extra requirements: -*-
     'chardet',
-    # 'collective.z3cform.datagridfield >= 1.3.0',
     'pkan.widgets',
-    'pkan.tiles',
     'plone.api',
     'plone.app.dexterity',
     'Products.GenericSetup >= 1.8.2',
@@ -30,7 +28,6 @@ install_requires = [
     'surf',
     'vkbeautify',
     'zope.app.content',
-    'psycopg2-binary',
     'python-dateutil',
     'pytimeparse',
 ],
