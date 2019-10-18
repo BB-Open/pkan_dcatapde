@@ -38,3 +38,5 @@ after_success:
 notifications:
   email:
     - volker.jaenisch@inqbus.de
+services:
+  - xvfb
