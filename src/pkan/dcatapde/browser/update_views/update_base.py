@@ -40,14 +40,16 @@ class UpdateObjectsBase(object):
 
     @property
     def uris(self):
-        uris = portal.get_registry_record(name=self.uri_registry_key, interface=self.uri_registry_interface)
+        uris = portal.get_registry_record(
+            name=self.uri_registry_key,
+            interface=self.uri_registry_interface)
         result = []
         for uri in uris:
             if uri.startswith('http') or uri.startswith('/'):
                 result.append(uri)
             else:
                 dir_path = os.path.dirname(os.path.realpath(__file__))
-                result.append( os.path.join(dir_path, uri))
+                result.append(os.path.join(dir_path, uri))
         return result
 
     def load_objects_from_rdf(self):

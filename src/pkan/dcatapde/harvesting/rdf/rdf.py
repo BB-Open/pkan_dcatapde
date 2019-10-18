@@ -43,7 +43,6 @@ from plone.api.exc import InvalidParameterError
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import safe_unicode
 from plone.memoize import ram
-from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from pyparsing import ParseException
 from rdflib import Graph
@@ -51,6 +50,7 @@ from rdflib.plugins.memory import IOMemory
 from rdflib.term import Literal
 from rdflib.term import URIRef
 from traceback import format_tb
+from urllib import parse
 from xml.sax import SAXParseException
 from zope.annotation import IAnnotations
 from zope.component import adapter
@@ -61,7 +61,6 @@ import datetime
 import io
 import logging
 import sys
-from urllib import parse
 import vkbeautify as vkb
 
 
@@ -725,10 +724,8 @@ class RDFProcessor(object):
 
     def apply_workflow(self, obj):
         if self.harvester.new_workflow_state:
-            workflowTool = getToolByName(obj, 'portal_workflow')
             try:
-                workflowTool.doActionFor(obj,
-                                         self.harvester.new_workflow_state)
+                api.content.transition(obj, self.harvester.new_workflow_state)
                 obj.reindexObjectSecurity()
             except WorkflowException:
                 pass

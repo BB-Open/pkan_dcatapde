@@ -53,14 +53,14 @@ def literal2plone(literal, field=None):
         return val
     # If we have a field supplied we can make assumptions
     if field['type'] == date:
-        if isinstance(val, basestring):
+        if isinstance(val, str):
             val = dateutil.parser.parse(val)
         if isinstance(val, date):
             return val
         if isinstance(val, datetime):
             return val.date
     elif field['type'] == datetime:
-        if isinstance(val, basestring):
+        if isinstance(val, str):
             val = dateutil.parser.parse(val)
         return val
     else:

@@ -17,7 +17,7 @@
   </div>
   <div tal:content="structure context/text" />
 
-  <div><span>SPARQL-Url: </span><span tal:content="context/sparql_identifier"></span></div>
+  <div><span></span><span tal:content="context/sparql_identifier"></span></div>
 
 
 </metal:content-core>

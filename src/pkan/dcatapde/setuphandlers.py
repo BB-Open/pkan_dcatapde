@@ -10,12 +10,10 @@ from plone.api import content
 from plone.api import portal
 from plone.app.dexterity.behaviors import constrains
 from plone.indexer.interfaces import IIndexer
-from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import INonInstallable
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 from Products.ZCatalog.interfaces import IZCatalog
 from zope.component import getGlobalSiteManager
-from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.interface import Interface
 from zope.interface.declarations import implementedBy
@@ -164,8 +162,8 @@ def catalog_setup(context):
         # Not we self so exit
         return
 
-    site = getSite()
-    catalog = getToolByName(site, 'portal_catalog')
+    site = portal.get()
+    catalog = portal.get_tool(site, 'portal_catalog')
     # Get fields from the different models to build an index for
     content_type_extras = [
         DCATCatalog,

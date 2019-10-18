@@ -4,7 +4,7 @@ from AccessControl import Unauthorized
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from pkan.dcatapde.api.functions import get_parent
-#from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
+from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
@@ -39,7 +39,6 @@ from zope.component import getSiteManager
 from zope.component import getUtility
 from zope.component import IFactory
 from zope.component import queryUtility
-from zope.component.hooks import getSite
 from zope.schema import getFields
 
 import transaction
@@ -130,15 +129,14 @@ def update_languages(context):
         CT_SKOS_CONCEPT,
     ]
 
-    portal = getSite()
+    portal = api.portal.get()
     if portal is None:
         return None
-    catalog = portal.portal_catalog
 
     changed_obj = []
 
     for ct in cts:
-        results = catalog.searchResults({'portal_type': ct})
+        results = api.content.find({'portal_type': ct})
         if not results:
             continue
         fti = getUtility(IDexterityFTI, name=ct)
@@ -171,11 +169,10 @@ def update_languages(context):
 def new_workflow(context):
     reload_gs_profile(context)
 
-    portal = getSite()
+    portal = api.portal.get()
     if portal is None:
         return None
-    catalog = portal.portal_catalog
-    results = catalog.searchResults()
+    results = api.content.find()
     for res in results:
         obj = res.getObject()
         update_role_mappings(obj)
@@ -206,8 +203,7 @@ def renamed_roles(context):
     remove_role_utility(old_roles.keys())
 
     users = api.user.get_users()
-    portal_catalog = api.portal.get_tool('portal_catalog')
-    res = portal_catalog.searchResults(
+    res = api.content.find(
         {'portal_type': [CT_DCAT_CATALOG, 'Folder']})
 
     for user in users:
@@ -260,7 +256,6 @@ def update_uri_in_triplestore(context):
     :return:
     """
     reload_gs_profile(context)
-    portal_catalog = api.portal.get_tool('portal_catalog')
 
     cts = [
         CT_DCAT_CATALOG,
@@ -280,7 +275,7 @@ def update_uri_in_triplestore(context):
     ]
 
     for ct in cts:
-        brains = portal_catalog.searchResults({'portal_type': ct})
+        brains = api.content.find({'portal_type': ct})
         if not brains:
             continue
         for brain in brains:

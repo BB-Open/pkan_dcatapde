@@ -51,9 +51,8 @@ class PKANLanguages(LanguageAvailability):
 
     @property
     def language_folder(self):
-        catalog = api.portal.get_tool('portal_catalog')
-        results = catalog.searchResults(**{'portal_type': CT_LANGUAGE_FOLDER,
-                                           'title': FOLDER_LANGUAGES})
+        results = api.content.find(**{'portal_type': CT_LANGUAGE_FOLDER,
+                                      'title': FOLDER_LANGUAGES})
         if not results:
             return None
         else:

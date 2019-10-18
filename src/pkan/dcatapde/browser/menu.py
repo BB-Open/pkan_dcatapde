@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from pkan.dcatapde import _
+from plone import api
 from plone.app.contentmenu.interfaces import IActionsSubMenuItem
 from plone.app.contentmenu.interfaces import IWorkflowMenu
 from plone.app.contentmenu.menu import BrowserSubMenuItem
@@ -8,7 +9,6 @@ from plone.app.contentmenu.menu import WorkflowMenu
 from plone.app.contentmenu.menu import WorkflowSubMenuItem
 from plone.memoize.instance import memoize
 from plone.protect.utils import addTokenToUrl
-from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implementer
@@ -32,8 +32,8 @@ class PKANSubMenuItem(WorkflowSubMenuItem):
 
     @property
     def extra(self):
-        tool = getToolByName(self.context, 'portal_workflow')
-        state = tool.getInfoFor(aq_inner(self.context), 'pkan_state', None)
+        state = api.content.get_state(
+            aq_inner(self.context), 'pkan_state', None)
         stateTitle = self._currentStateTitle()
         return {'id': self.submenuId,
                 'class': 'state-{0}'.format(state),
@@ -44,14 +44,14 @@ class PKANSubMenuItem(WorkflowSubMenuItem):
 
     @memoize
     def available(self):
-        tool = getToolByName(self.context, 'portal_workflow')
-        state = tool.getInfoFor(aq_inner(self.context), 'pkan_state', None)
+        state = api.content.get_state(
+            aq_inner(self.context), 'pkan_state', None)
         return (state is not None)
 
     @memoize
     def _currentStateTitle(self):
-        tool = getToolByName(self.context, 'portal_workflow')
-        state = tool.getInfoFor(aq_inner(self.context), 'pkan_state', None)
+        state = api.content.get_state(
+            aq_inner(self.context), 'pkan_state', None)
         workflows = self.tools.workflow().getWorkflowsFor(self.context)
         if workflows:
             for w in workflows:
@@ -71,7 +71,7 @@ class PKANWorkflowMenu(WorkflowMenu):
         if locking_info and locking_info.is_locked_for_current_user():
             return []
 
-        wf_tool = getToolByName(context, 'portal_workflow')
+        wf_tool = api.portal.get_tool(context, 'portal_workflow')
 
         workflowActions = wf_tool.listActionInfos(object=context)
 

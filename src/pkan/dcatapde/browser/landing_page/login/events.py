@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde.constants import LANDING_PAGE_VIEW
-from zope.component.hooks import getSite
+from plone import api
 
 
 def userLogin(obj, event):
     """Redirects logged in users to personal dashboard"""
 
     # get portal object
-    portal = getSite()
+    portal = api.portal.get()
 
     # check if we have an access to request object
     request = getattr(portal, 'REQUEST', None)

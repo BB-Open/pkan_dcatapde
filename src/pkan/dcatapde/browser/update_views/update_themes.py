@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
-
-import rdflib
-import surf
-
 from pkan.dcatapde import _
 from pkan.dcatapde.browser.update_views.update_base import UpdateObjectsBase
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import FOLDER_CONCEPTS
-from pkan.dcatapde.constants import VOCAB_SOURCES
 from pkan.dcatapde.interfaces import IPKANImportSettings
-
-from pkan.dcatapde.utils import (
-    get_available_languages_iso,
-    get_available_languages_title, )
+from pkan.dcatapde.utils import get_available_languages_iso
+from pkan.dcatapde.utils import get_available_languages_title
+from plone.api import content
+from plone.api import portal
 from ps.zope.i18nfield.utils import get_default_language
-
-from plone.api import content, portal
 from zope.i18n import translate
+
+import rdflib
+import surf
+
 
 MAPPING = {
     'dct_title': 'skos_prefLabel',
@@ -40,82 +37,27 @@ class UpdateThemes(UpdateObjectsBase):
         self.context = context
         self.request = request
 
-
     def __call__(self):
-        # get the surf license objects
+        # get the surf theme objects
         themes = self.load_objects_from_rdf()
 
-        default_language = get_default_language()
+        self.default_language = get_default_language()
 
-        available_languages = get_available_languages_iso()
-        available_languages_title = get_available_languages_title()
+        self.available_languages = get_available_languages_iso()
+        self.available_languages_title = get_available_languages_title()
 
-        count = 0
+        # map the properties
+        self.mapping = {
+            'dct_title': 'skos_prefLabel',
+            'skos_inScheme': 'skos_inScheme',
+            'dc_identifier': 'dc_identifier',
+        }
+        self.count = 0
         for theme in themes:
-            # map the properties
-            mapping = {
-                'dct_title': 'skos_prefLabel',
-                'skos_inScheme': 'skos_inScheme',
-                'dc_identifier': 'dc_identifier',
-            }
-            params = {}
-            for key, value in mapping.items():
-                attribute = getattr(theme, value)
-                # deal wth more than one attribute, e.g. different languages
-                #  in Literals
-                if isinstance(attribute.first, rdflib.term.Literal):
-                    att_data = {}
-                    for literal in attribute:
-                        lang = getattr(literal, 'language', default_language)
-                        lang = str(lang)
-                        if lang in available_languages:
-                            lang = available_languages[lang]
-                        if lang not in available_languages_title:
-                            continue
-                        att_data[lang] = str(literal)
-                else:
-                    if not attribute.first:
-                        att_data = None
-                    else:
-                        att_data = str(attribute.first)
-
-                params[key] = att_data
-
-            # Use subject as rdfabout
-            att_data = str(getattr(theme, 'subject'))
-
-            params['rdfs_isDefinedBy'] = att_data
-
-            # Todo : Check for collisions. Probably not by title but by
-            # rdfs_isDefinedBy
-
-            if not params['dct_title']:
-                params['dct_title'] = params['dc_identifier']
-
-            # create a license document object
-            try:
-                if isinstance(params['dc_identifier'], list):
-                    id = params['dc_identifier'][default_language]
-                else:
-                    id = params['dc_identifier']
-                if isinstance(params['dc_title'], list):
-                    title = params['dct_title'][default_language]
-                else:
-                    title = params['dct_title']
-
-                content.create(
-                    container=self.context,
-                    type=CT_SKOS_CONCEPT,
-                    id=id,
-                    title=title,
-                    **params)
-            except Exception:
-                continue
-            else:
-                count += 1
+            self.update(theme)
 
         msg = _('Imported ${count} concepts items.', mapping={
-            'count': count,
+            'count': self.count,
         })
         msg = translate(msg, context=self.request)
         portal.show_message(message=msg, request=self.request)
@@ -125,3 +67,60 @@ class UpdateThemes(UpdateObjectsBase):
         ])
         self.request.response.redirect(url)
         return u''
+
+    def update(self, theme):
+        params = {}
+        for key, value in self.mapping.items():
+            attribute = getattr(theme, value)
+            # deal wth more than one attribute, e.g. different languages
+            #  in Literals
+            if isinstance(attribute.first, rdflib.term.Literal):
+                att_data = {}
+                for literal in attribute:
+                    lang = getattr(literal, 'language', self.default_language)
+                    lang = str(lang)
+                    if lang in self.available_languages:
+                        lang = self.available_languages[lang]
+                    if lang not in self.available_languages_title:
+                        continue
+                    att_data[lang] = str(literal)
+            else:
+                if not attribute.first:
+                    att_data = None
+                else:
+                    att_data = str(attribute.first)
+
+            params[key] = att_data
+
+        # Use subject as rdfabout
+        att_data = str(getattr(theme, 'subject'))
+
+        params['rdfs_isDefinedBy'] = att_data
+
+        # Todo : Check for collisions. Probably not by title but by
+        # rdfs_isDefinedBy
+
+        if not params['dct_title']:
+            params['dct_title'] = params['dc_identifier']
+
+        # create a license document object
+        try:
+            if isinstance(params['dc_identifier'], list):
+                id = params['dc_identifier'][self.default_language]
+            else:
+                id = params['dc_identifier']
+            if isinstance(params['dc_title'], list):
+                title = params['dct_title'][self.default_language]
+            else:
+                title = params['dct_title']
+
+            content.create(
+                container=self.context,
+                type=CT_SKOS_CONCEPT,
+                id=id,
+                title=title,
+                **params)
+        except Exception:
+            return
+        else:
+            self.count += 1

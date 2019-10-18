@@ -61,8 +61,7 @@ class LandingPageView(BrowserView):
     def read_data(self):
         user = api.user.get_current()
 
-        portal_catalog = api.portal.get_tool('portal_catalog')
-        res = portal_catalog.searchResults(
+        res = api.content.find(
             {'portal_type': [CT_DCAT_CATALOG, 'Folder']})
 
         for brain in res:
@@ -187,15 +186,14 @@ class LandingPageView(BrowserView):
         return _(u'Folders managed as Provider Admin')
 
     def stat(self, context):
-        catalog = api.portal.get_tool('portal_catalog')
         portal_types = VOLUMN_TYPES.keys()
         folder_path = '/'.join(context.getPhysicalPath())
         data = []
         size_all = 0.0
         count_all = 0
         for portal_type in portal_types:
-            results = catalog.searchResults(**{'portal_type': portal_type,
-                                               'path': folder_path})
+            results = api.content.find(**{'portal_type': portal_type,
+                                          'path': folder_path})
             count = len(results)
             size = 0
             for brain in results:

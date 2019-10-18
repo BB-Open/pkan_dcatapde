@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from AccessControl import getSecurityManager
-from AccessControl.SecurityManagement import newSecurityManager
-from AccessControl.SecurityManagement import setSecurityManager
 from pkan.dcatapde import constants
 # get functions
 from pkan.dcatapde.constants import ACTIVE_STATE
@@ -16,8 +13,7 @@ from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
 from pkan.dcatapde.constants import PRVIDER_DATA_EDITOR_PERM
 from plone import api
 from plone.api.exc import UserNotFoundError
-from zope.component.hooks import getSite
-from zope.security import checkPermission
+from plone.api.user import has_permission
 
 
 def get_user_roles():
@@ -89,39 +85,14 @@ def get_ancestor(context, portal_type):
 
 def get_all_harvester_folder():
     """Find all HarvesterFolder"""
-    portal = getSite()
+    portal = api.portal.get()
     if not portal:
         return None
-    catalog = portal.portal_catalog
-    res = catalog.searchResults({'portal_type': constants.CT_HARVESTER_FOLDER})
+    res = api.content.find({'portal_type': constants.CT_HARVESTER_FOLDER})
     folder = []
     for brain in res:
         folder.append(brain.getObject())
     return folder
-
-
-def work_as_admin():
-    """
-    Analog to doing an "su root"
-    :param request:
-    :return:
-    """
-    current = api.user.get_current()
-    old_sm = getSecurityManager()
-    if current.id == 'admin':
-        return old_sm
-    # Save old user security context
-
-    portal = getSite()
-    # start using as admin
-    newSecurityManager(portal, portal.getOwner())
-    return old_sm
-
-
-def restore_user(old_sm):
-    # restore security context of user
-    if old_sm:
-        setSecurityManager(old_sm)
 
 
 def query_active_objects(query, portal_type, context=None):
@@ -154,10 +125,9 @@ def query_active_objects(query, portal_type, context=None):
             new_brains = catalog(query)
             for brain in new_brains:
                 obj = brain.getObject()
-                perm = checkPermission(PRVIDER_DATA_EDITOR_PERM, obj)
-                perm = perm or checkPermission(PROVIDER_ADMIN_PERM, obj)
-                perm = perm or checkPermission(PROVIDER_CHIEF_EDITOR_PERM,
-                                               obj)
+                perm = has_permission(PRVIDER_DATA_EDITOR_PERM, obj)
+                perm = perm or has_permission(PROVIDER_ADMIN_PERM, obj)
+                perm = perm or has_permission(PROVIDER_CHIEF_EDITOR_PERM, obj)
 
                 if perm:
                     brains.append(brain)

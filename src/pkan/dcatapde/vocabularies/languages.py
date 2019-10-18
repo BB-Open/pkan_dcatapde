@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """Vocabularies and sources for content types."""
 from operator import itemgetter
+from plone import api
 from plone.app.vocabularies.language import AvailableContentLanguageVocabulary
-from Products.CMFCore.utils import getToolByName
-from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -18,8 +17,8 @@ class PKANLanguageVocabulary(AvailableContentLanguageVocabulary):
         query = query or u''
         query = safe_unicode(query)
         items = [SimpleTerm('en', 'en', 'English')]  # default, only english
-        site = getSite()
-        ltool = getToolByName(site, 'portal_languages', None)
+        site = api.portal.get()
+        ltool = api.portal.get_tool(site, 'portal_languages', None)
         if ltool is not None:
             languages = ltool.getAvailableLanguages()
             items = [

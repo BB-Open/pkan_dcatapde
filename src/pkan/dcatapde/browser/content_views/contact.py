@@ -8,9 +8,7 @@ from Products.Five import BrowserView
 class RedirectImpressumIfExists(BrowserView):
 
     def __call__(self, *args, **kwargs):
-        catalog = api.portal.get_tool('portal_catalog')
-
-        impressum = catalog.searchResults(Title=IMPRESSUM)
+        impressum = api.content.find(Title=IMPRESSUM)
 
         if impressum:
             self.request.response.redirect(
@@ -24,9 +22,7 @@ class RedirectImpressumIfExists(BrowserView):
 
 class ContactFormRedirect(ContactForm):
     def __call__(self, *args, **kwargs):
-        catalog = api.portal.get_tool('portal_catalog')
-
-        impressum = catalog.searchResults(Title=IMPRESSUM)
+        impressum = api.content.find(Title=IMPRESSUM)
 
         if impressum:
             self.request.response.redirect(

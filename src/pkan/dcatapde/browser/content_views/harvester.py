@@ -4,11 +4,11 @@ from datetime import timedelta
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER
+from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
 from Products.Five import BrowserView
 from pytimeparse import parse
-from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import alsoProvides
 
@@ -115,13 +115,12 @@ class RealRunCronView(BrowserView):
         return source.real_run()
 
     def __call__(self, *args, **kwargs):
-        portal = getSite()
+        portal = api.portal.get()
         if portal is None:
             return None
-        catalog = portal.portal_catalog
         self.log = []
 
-        results = catalog.searchResults({'portal_type': CT_HARVESTER})
+        results = api.content.find({'portal_type': CT_HARVESTER})
 
         for brain in results:
             obj = brain.getObject()

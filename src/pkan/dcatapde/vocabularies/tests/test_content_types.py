@@ -5,7 +5,6 @@ from pkan.dcatapde import testing
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.interfaces import IVocabularyTokenized
@@ -16,8 +15,7 @@ import unittest
 class BaseTestMixin():
 
     def vocab_test(self, vocab_name):
-        workflowTool = getToolByName(self.item1, 'portal_workflow')
-        workflowTool.doActionFor(self.item1, 'activate')
+        api.content.transition(self.item1, 'activate')
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
@@ -31,8 +29,7 @@ class BaseTestMixin():
         )
 
     def vocab_test_formatted(self, vocab_name):
-        workflowTool = getToolByName(self.item1, 'portal_workflow')
-        workflowTool.doActionFor(self.item1, 'activate')
+        api.content.transition(self.item1, 'activate')
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
@@ -388,10 +385,8 @@ class DcatTypesVocabulary(unittest.TestCase):
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.AllDcatObjects'
-        workflowTool = getToolByName(self.item1, 'portal_workflow')
-        workflowTool.doActionFor(self.item1, 'activate')
-        workflowTool = getToolByName(self.item3, 'portal_workflow')
-        workflowTool.doActionFor(self.item3, 'activate')
+        api.content.transition(self.item1, 'activate')
+        api.content.transition(self.item3, 'activate')
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 

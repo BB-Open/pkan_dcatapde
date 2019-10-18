@@ -3,9 +3,8 @@
 # from plone import api
 from Acquisition import aq_get
 from pkan.dcatapde import _
-from Products.CMFCore.utils import getToolByName
+from plone import api
 from Products.CMFDiffTool.utils import safe_unicode
-from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
@@ -38,8 +37,8 @@ class WorkflowStates(object):
         wf_name = 'simple_publication_workflow'
         start_state = 'private'
 
-        site = getSite()
-        wtool = getToolByName(site, 'portal_workflow', None)
+        site = api.portal.get()
+        wtool = api.portal.get_tool(site, 'portal_workflow', None)
         if wtool is None:
             return SimpleVocabulary([])
 

@@ -11,7 +11,7 @@ def parse_query(context=None, query=None):
     if not query:
         return parsed
 
-    if isinstance(query, basestring):
+    if isinstance(query, str):
         q = query.strip()
         if len(q) <= 1:
             return parsed

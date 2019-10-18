@@ -228,7 +228,7 @@ class Node(Base):
         elif isinstance(self.structure, URIRef):
             rdf_type = self.structure
             data['title'] = self.short(rdf_type)
-        elif isinstance(self.structure, basestring):
+        elif isinstance(self.structure, str):
             data['title'] = self.structure
         else:
             rdf_type = self.structure.rdf_type

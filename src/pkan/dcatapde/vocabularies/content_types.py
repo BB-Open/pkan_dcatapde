@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Vocabularies and sources for content types."""
 from BTrees._IIBTree import intersection
-from Products.CMFCore.utils import getToolByName
 from pkan.dcatapde import constants
 from pkan.dcatapde.api.functions import query_active_objects
 from pkan.dcatapde.api.functions import query_objects_no_pkanstate
@@ -10,12 +9,11 @@ from pkan.dcatapde.constants import CT_CONCEPT_FOLDER
 from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.i18n import CT_LABELS
+from pkan.dcatapde.utils import get_request_annotations
 from pkan.dcatapde.vocabularies import utils as vutils
-from pkan.dcatapde import utils
 from plone import api
 from plone.app.vocabularies.catalog import KeywordsVocabulary
 from plone.app.vocabularies.terms import safe_encode
-from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.interface import provider
 from zope.schema.interfaces import IContextSourceBinder
@@ -31,9 +29,10 @@ class BaseContentTypeVocabulary(object):
     portal_type = None
 
     def get_results(self, query, context):
-        #todo: isinstance is not nice, but if its another form, it does not set this annotations
+        # todo: isinstance is not nice, but if its another form,
+        # it does not set this annotations
         if isinstance(context, PkanDefaultAddForm):
-            context = utils.get_request_annotations('pkan.vocabularies.context')
+            context = get_request_annotations('pkan.vocabularies.context')
 
         brains = query_active_objects(query, self.portal_type, context=context)
 
@@ -66,7 +65,7 @@ class BaseContentTypeVocabularyNoPkanState(BaseContentTypeVocabulary):
 
     def get_results(self, query, context):
         if isinstance(context, PkanDefaultAddForm):
-            context = utils.get_request_annotations('pkan.vocabularies.context')
+            context = get_request_annotations('pkan.vocabularies.context')
         brains = query_objects_no_pkanstate(query,
                                             self.portal_type,
                                             context=context)
@@ -279,8 +278,7 @@ class SKOSConceptValueVocabulary(KeywordsVocabulary):
         return SimpleVocabulary(terms)
 
     def all_keywords(self, kwfilter):
-        site = getSite()
-        self.catalog = getToolByName(site, 'portal_catalog', None)
+        self.catalog = api.portal.get_tool('portal_catalog', None)
         if self.catalog is None:
             return SimpleVocabulary([])
         index = self.catalog._catalog.getIndex(self.keyword_index)
@@ -293,7 +291,7 @@ class SKOSConceptValueVocabulary(KeywordsVocabulary):
     def keywords_of_section(self, section, kwfilter):
         """Valid keywords under the given section.
         """
-        pcat = getToolByName(section, 'portal_catalog')
+        pcat = api.portal.get_tool(section, 'portal_catalog')
         cat = pcat._catalog
         path_idx = cat.indexes[self.path_index]
         tags_idx = cat.indexes[self.keyword_index]
@@ -342,11 +340,11 @@ class SKOSConceptDefaultVocabulary(KeywordsVocabulary):
         return SimpleVocabulary(terms)
 
     def all_keywords(self):
-        site = getSite()
-        self.catalog = getToolByName(site, 'portal_catalog', None)
+        site = api.portal.get()
+        self.catalog = api.portal.get_tool(site, 'portal_catalog', None)
         if self.catalog is None:
             return SimpleVocabulary([])
-        parent_brain = self.catalog.searchResults(
+        parent_brain = api.content.find(
             portal_type=CT_CONCEPT_FOLDER,
             title=FOLDER_CONCEPTS,
         )

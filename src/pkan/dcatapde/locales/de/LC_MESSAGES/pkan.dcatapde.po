@@ -1103,6 +1103,11 @@ msgstr "Format der Quelle"
 msgid "Spanish"
 msgstr ""
 
+#: pkan/dcatapde/languages.py:55
+msgid "SPARQL-Url:"
+msgstr "SPARQL-Url:"
+
+
 #: pkan/dcatapde/i18n.py:188
 msgid "Spatial relevance"
 msgstr "Räumliche Bedeutung"
