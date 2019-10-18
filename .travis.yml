@@ -20,7 +20,7 @@ addons:
 before_install:
   - pip uninstall -y six
 install:
-  - sed -ie "s#test-5.1.x.cfg#test-$PLONE_VERSION.x.cfg#" buildout.cfg
+  - sed -ie "s#test-5.2.x.cfg#test-$PLONE_VERSION.x.cfg#" buildout.cfg
   - pip install -r requirements.txt
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
