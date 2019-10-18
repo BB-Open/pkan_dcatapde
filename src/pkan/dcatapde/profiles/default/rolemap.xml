@@ -193,7 +193,7 @@
       <role name="ProviderAdmin" />
     </permission>
 
-    <permission name="Plone: Manage Content Layouts" acquire="True">
+<!--    <permission name="Plone: Manage Content Layouts" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
@@ -212,7 +212,7 @@
       <role name="ProviderDataEditor" />
       <role name="ProviderAdmin" />
     </permission>
-
+-->
     <permission name="Delete objects" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
