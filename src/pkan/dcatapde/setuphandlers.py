@@ -68,7 +68,7 @@ def add_folder(portal_root, folder_name, folder_type):
             container=portal_root,
             type=folder_type,
             id=folder_name,
-            title=unicode(folder_name),
+            title=str(folder_name),
         )
         fti.global_allow = False
         _publish(folder)

@@ -29,11 +29,11 @@ class NameFromDCTTitle(object):
         # find the title field of the content object
         title_field = self.context.Title()
         # if the title field is already unicode use it
-        if isinstance(title_field, unicode):
+        if isinstance(title_field, str):
             return title_field
         # if it is a string, convert it to unicode
         if isinstance(title_field, str):
-            return unicode(title_field)
+            return str(title_field)
         # If not get title from i18nfield
         default_language = get_default_language()
         if default_language in title_field:

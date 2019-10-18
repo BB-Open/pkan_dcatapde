@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Helpers for SPQRQL"""
 
-from namespaces import INIT_NS
+from .namespaces import INIT_NS
 from rdflib import Graph
 from rdflib.namespace import NamespaceManager
 from rdflib.plugins.sparql import prepareQuery

@@ -88,19 +88,19 @@ class PKANLanguages(LanguageAvailability):
                         res[obj.new_representation] = title
                     else:
                         res[obj.new_representation] = obj.new_representation
-        res = OrderedDict(sorted(res.iteritems(), key=lambda x: x[1]))
+        res = OrderedDict(sorted(res.items(), key=lambda x: x[1]))
         return res
 
     def getAvailableLanguages(self, combined=False):
         """Return a sequence of language tags for available languages."""
-        res = self.avaible_languages_title.keys()
+        res = list(self.avaible_languages_title.keys())
         return res
 
     def getDefaultLanguage(self):
         """Return the system default language."""
-        res = unicode(super(PKANLanguages, self).getDefaultLanguage())
+        res = str(super(PKANLanguages, self).getDefaultLanguage())
         if res in self.available_languages_iso:
-            return self.available_languages_iso[unicode(res)]
+            return self.available_languages_iso[str(res)]
         else:
             return DEFAULT_LANGUAGE
 
@@ -149,7 +149,7 @@ def set_request_annotations(key, data, request=None):
 
 
 def get_default_language():
-    lang = unicode(portal.get_default_language()[:2])
+    lang = str(portal.get_default_language()[:2])
     languages = get_available_languages_iso()
     if lang in languages:
         def_lang = languages[lang]
@@ -160,7 +160,7 @@ def get_default_language():
 
 
 def get_current_language():
-    lang = unicode(portal.get_current_language()[:2])
+    lang = str(portal.get_current_language()[:2])
     languages = get_available_languages_iso()
     if lang in languages:
         cur_lang = languages[lang]
@@ -203,8 +203,8 @@ class LiteralHandler(object):
         lang = literal.language
 
         # convert 2-letter-format to 3-letter-format
-        if unicode(lang) in self.available_languages:
-            lang = self.available_languages[unicode(lang)]
+        if str(lang) in self.available_languages:
+            lang = self.available_languages[str(lang)]
 
         elif lang not in self.all_languages:
             lang = self.def_lang

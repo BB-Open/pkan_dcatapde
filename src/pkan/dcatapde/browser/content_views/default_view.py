@@ -34,7 +34,7 @@ class PKANDefaultView(DefaultView):
         # filter empty fields
         # use self.w holding all widgets because iterating over
         # self.widgets still display some empty fields
-        for x in self.w.keys():
+        for x in list(self.w.keys()):
             value = getattr(self.context, x, None)
             if not value:
                 try:
@@ -44,7 +44,7 @@ class PKANDefaultView(DefaultView):
                     pass
 
         # filter empty groups
-        for group_name in self.fieldsets.keys():
+        for group_name in list(self.fieldsets.keys()):
             group = self.fieldsets[group_name]
             group_is_empty = True
 
@@ -52,7 +52,7 @@ class PKANDefaultView(DefaultView):
 
             # use self.w holding all widgets because iterating over
             # group.widgets still display some empty fields
-            for x in self.w.keys():
+            for x in list(self.w.keys()):
                 if x in group.widgets:
                     value = getattr(self.context, x, None)
                     if not value:
@@ -70,3 +70,8 @@ class PKANDefaultView(DefaultView):
                 del self.fieldsets[group_name]
 
         return groups, groups_at_end
+
+class PublisherCardDefaultView(DefaultView):
+    """
+    View for Publisher Card
+    """

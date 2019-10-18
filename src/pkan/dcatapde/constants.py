@@ -36,6 +36,8 @@ CT_RIGHTS_FOLDER = 'RightsFolder'
 CT_STANDARDS_FOLDER = 'StandardsFolder'
 CT_LANGUAGE_FOLDER = 'LanguageFolder'
 
+CT_PUBLISHER_CARD = 'PublisherCard'
+
 # list of DCAT CTs
 DCAT_CTs = [
     CT_DCAT_CATALOG,
@@ -107,8 +109,8 @@ FOLDER_LANGUAGES = 'languages'
 # todo move to registry
 VOCAB_SOURCES = {
     CT_DCT_LICENSEDOCUMENT: 'http://www.dcat-ap.de/def/licenses/20180514.rdf',
-    CT_SKOS_CONCEPT: 'http://publications.europa.eu/mdr/resource/authority'
-                     '/data-theme/skos/data-theme-skos.rdf',
+    CT_SKOS_CONCEPT: 'http://publications.europa.eu/resource/authority'
+                     '/data-theme',
     CT_DCT_LANGUAGE: 'data/languages.rdf',
 }
 

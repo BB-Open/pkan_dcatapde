@@ -290,5 +290,15 @@
       <role name="ProviderAdmin" />
     </permission>
 
+    <permission name="pkan.dcatapde: Add PublisherCard" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+      <role name="ProviderChiefEditor" />
+      <role name="ProviderDataEditor" />
+      <role name="ProviderAdmin" />
+    </permission>
+
   </permissions>
 </rolemap>

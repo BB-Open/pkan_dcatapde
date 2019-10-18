@@ -4,6 +4,7 @@ from pkan.dcatapde.browser.update_views.update_base import UpdateObjectsBase
 from pkan.dcatapde.constants import CT_DCT_LANGUAGE
 from pkan.dcatapde.constants import FOLDER_LANGUAGES
 from pkan.dcatapde.constants import VOCAB_SOURCES
+from pkan.dcatapde.interfaces import IPKANImportSettings
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
 from plone.api import content
 from plone.i18n.normalizer import idnormalizer
@@ -24,7 +25,10 @@ MAPPING = mapping = {
 
 class UpdateLanguages(UpdateObjectsBase):
 
-    uri = VOCAB_SOURCES[CT_DCT_LANGUAGE]
+
+    uri_registry_key = CT_DCT_LANGUAGE
+    uri_registry_interface = IPKANImportSettings
+
     object_title = 'DCT:Language'
     object_dx_class = CT_DCT_LANGUAGE
     target_folder = FOLDER_LANGUAGES
@@ -49,15 +53,15 @@ class UpdateLanguages(UpdateObjectsBase):
             # Special case of adms_identifier. Target type is string not
             # i18ntext. Therefore no dict but string has to be extracted
             attribute = getattr(obj, 'dc_identifier')
-            att_data = unicode(attribute.first)
+            att_data = str(attribute.first)
             params['dc_identifier'] = att_data
 
             # Special case of isDefiendBy. If not given use rdfabout URI
             attribute = getattr(obj, 'rdfs_isDefinedBy')
             if attribute:
-                att_data = unicode(attribute.first)
+                att_data = str(attribute.first)
             else:
-                att_data = unicode(getattr(obj, 'subject'))
+                att_data = str(getattr(obj, 'subject'))
 
             params['rdfs_isDefinedBy'] = att_data
 
@@ -81,7 +85,7 @@ class UpdateLanguages(UpdateObjectsBase):
         use_data = False
         if 'dct_title' not in params:
             return use_data
-        elif isinstance(params['dct_title'], unicode):
+        elif isinstance(params['dct_title'], str):
             return use_data
         titles = params['dct_title'].copy()
         lang = params['new_representation']

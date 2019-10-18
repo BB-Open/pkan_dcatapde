@@ -64,7 +64,7 @@ class DX2Any(object):
             else:
                 # No adapter can be found, convert the field value
                 # to a string.
-                value = unicode(property)
+                value = str(property)
                 values.append(value)
         return values
 
@@ -94,7 +94,7 @@ class DX2Any(object):
                 # to a string.
                 if property is None:
                     return
-                marshalled_property = unicode(property)
+                marshalled_property = str(property)
         if marshalled_property is not None:
             self.marshall_target.add_property(
                 self.resource,
@@ -125,7 +125,7 @@ class DX2Any(object):
             else:
                 # No adapter can be found, convert the field value
                 # to a string.
-                value = unicode(property)
+                value = str(property)
                 values.append(value)
         if values:
             self.marshall_target.add_property(

@@ -37,7 +37,7 @@ class RDF_XML(object):
 
     def sanitize(self, text):
         """Remove."""
-        if not isinstance(text, unicode):
+        if not isinstance(text, str):
             text = text.decode('utf-8')
 
         # Fast sanitize ASCII text

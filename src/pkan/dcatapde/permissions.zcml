@@ -115,6 +115,11 @@
       title="pkan.dcatapde: View and Edit as Admin"
       />
 
+    <permission
+        id="pkan.dcatapde.AddPublisherCard"
+        title="pkan.dcatapde: Add PublisherCard"
+        />
+
     <!-- Local roles managed in the @@sharing view -->
 
     <utility

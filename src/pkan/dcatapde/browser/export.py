@@ -30,7 +30,7 @@ class RDFExport(object):
     def sanitize(self, text):
         """ Remove
         """
-        if not isinstance(text, unicode):
+        if not isinstance(text):
             text = text.decode('utf-8')
 
         # Fast sanitize ASCII text

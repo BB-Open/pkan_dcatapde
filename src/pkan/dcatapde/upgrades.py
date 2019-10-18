@@ -4,7 +4,7 @@ from AccessControl import Unauthorized
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from pkan.dcatapde.api.functions import get_parent
-from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
+#from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
@@ -98,7 +98,7 @@ def remove_defaultfactories(context):
 def clean_value(field_value):
     new_value = {}
     for x in field_value.keys():
-        lang = unicode(x)
+        lang = str(x)
         mess = field_value[x]
         available_languages_iso = get_available_languages_iso()
         if lang in available_languages_iso:

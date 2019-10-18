@@ -7,7 +7,7 @@
              plone.dexterity.interfaces.IDexterityFTI"
         provides="zope.publisher.interfaces.browser.IBrowserPage"
         factory=".default_add_view.PkanDefaultAddView"
-        name="catalog"
+        name="dcat_catalog"
         />
     <class class=".default_add_view.PkanDefaultAddView">
         <require
@@ -22,7 +22,7 @@
              plone.dexterity.interfaces.IDexterityFTI"
         provides="zope.publisher.interfaces.browser.IBrowserPage"
         factory=".default_add_view.PkanDefaultAddView"
-        name="dataset"
+        name="dcat_dataset"
         />
 
     <adapter

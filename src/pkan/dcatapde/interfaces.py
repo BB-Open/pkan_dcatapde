@@ -91,3 +91,13 @@ class IPKANImportSettings(model.Schema):
             title=i18n.LABEL_URL,
         ),
     )
+
+    dct_language = schema.List(
+        default=[constants.VOCAB_SOURCES[constants.CT_DCT_LANGUAGE]],
+        description=i18n.HELP_SETTINGS_IMPORTS_DCT_LANGUAGE,
+        required=False,
+        title=i18n.LABEL_SETTINGS_IMPORTS_DCT_LANGUAGE,
+        value_type=schema.URI(
+            title=i18n.LABEL_URL,
+        ),
+    )
