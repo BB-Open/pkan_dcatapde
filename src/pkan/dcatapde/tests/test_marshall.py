@@ -38,4 +38,4 @@ class CatalogIntegrationTest(unittest.TestCase):
         marshaller.marshall()
 
         result = target._store.reader.graph.serialize()
-        self.assertTrue('dcat_catalog_test' in result)
+        self.assertTrue(b'dcat_catalog_test' in result)

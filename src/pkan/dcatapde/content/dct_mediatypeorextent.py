@@ -51,14 +51,18 @@ class DCTMediaTypeOrExtent(Item, DCATMixin):
     )
 
     def Title(self):
-        return self.dct_title[u'deu']
+        try:
+            return self.dct_title[u'deu']
+        except KeyError:
+            key = list(self.dct_title.keys())[0]
+            return self.dct_title[key]
 
     def Description(self):
         return self.desc_from_desc_field()
 
     def title_for_vocabulary(self):
         """Return a title suitable for vocabulary terms."""
-        return self.dct_title[u'deu']
+        return self.Title()
 
 
 @indexer(IDCTMediaTypeOrExtent)

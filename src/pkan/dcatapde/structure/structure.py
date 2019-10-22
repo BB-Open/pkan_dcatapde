@@ -270,7 +270,7 @@ class StructBase(object):
         """Terms for a vocabulary. The tokens hold the subjects CT,
         and the predicate. The objects type information is neglected."""
 
-        field_names = self.fields_and_referenced.keys()
+        field_names = list(self.fields_and_referenced.keys())
         field_names.sort()
 
         terms = []

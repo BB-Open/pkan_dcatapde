@@ -84,7 +84,7 @@ class DCATMixin(object):
                             curr_lang in all_titles and \
                             all_titles[curr_lang]:
                         return all_titles[curr_lang]
-                    title = str(all_titles.items()[0][1])
+                    title = str(list(all_titles.items())[0][1])
                 elif isinstance(all_titles, list):
                     title = str(all_titles[0])
                 else:
@@ -107,7 +107,7 @@ class DCATMixin(object):
                 if not all_descs:
                     continue
                 if isinstance(all_descs, dict):
-                    desc = str(all_descs.items()[0][1])
+                    desc = str(list(all_descs.items())[0][1])
                 elif isinstance(all_descs, list):
                         desc = str(all_descs[0])
                 else:

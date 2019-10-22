@@ -48,5 +48,6 @@ class DCTMediaTypeOrExtentIntegrationTest(unittest.TestCase):
             container=self.portal,
             type=constants.CT_DCT_MEDIATYPEOREXTENT,
             id=constants.CT_DCT_MEDIATYPEOREXTENT,
+            dct_title={'deu': 'Mediatype'},
         )
         self.assertTrue(IDCTMediaTypeOrExtent.providedBy(obj))

@@ -15,7 +15,7 @@ import unittest
 class BaseTestMixin():
 
     def vocab_test(self, vocab_name):
-        api.content.transition(self.item1, 'activate')
+        api.content.transition(obj=self.item1, transition='activate')
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
@@ -29,7 +29,7 @@ class BaseTestMixin():
         )
 
     def vocab_test_formatted(self, vocab_name):
-        api.content.transition(self.item1, 'activate')
+        api.content.transition(obj=self.item1, transition='activate')
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
@@ -59,14 +59,14 @@ class TestDCATCatalogVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal,
             type=constants.CT_DCAT_CATALOG,
             id='catalog-1',
-            dct_title={u'en': u'Catalog 1'},
+            dct_title={'deu': u'Catalog 1'},
         )
 
         self.item2 = api.content.create(
             container=self.portal,
             type=constants.CT_DCAT_CATALOG,
             id='catalog-2',
-            dct_title={u'en': u'Catalog 2'},
+            dct_title={'deu': u'Catalog 2'},
         )
 
     def test_vocabulary(self):
@@ -88,19 +88,19 @@ class TestDCATDatasetVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal,
             type=constants.CT_DCAT_CATALOG,
             id='catalog-1',
-            dct_title={u'en': u'Catalog 1'},
+            dct_title={'deu': u'Catalog 1'},
         )
         self.item1 = api.content.create(
             container=self.catalog,
             type=constants.CT_DCAT_DATASET,
             id='dataset-1',
-            dct_title={u'en': u'Dataset 1'},
+            dct_title={'deu': u'Dataset 1'},
         )
         self.item2 = api.content.create(
             container=self.catalog,
             type=constants.CT_DCAT_DATASET,
             id='dataset-2',
-            dct_title={u'en': u'Dataset 2'},
+            dct_title={'deu': u'Dataset 2'},
         )
 
     def test_vocabulary(self):
@@ -122,7 +122,7 @@ class TestDCATDistributionVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal,
             type=constants.CT_DCAT_CATALOG,
             id='catalog-1',
-            dct_title={u'en': u'Catalog 1'},
+            dct_title={'deu': u'Catalog 1'},
         )
         self.dataset = api.content.create(
             container=self.cat,
@@ -133,13 +133,13 @@ class TestDCATDistributionVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.dataset,
             type=constants.CT_DCAT_DISTRIBUTION,
             id='distribution-1',
-            dct_title={u'en': u'Distribution 1'},
+            dct_title={'deu': u'Distribution 1'},
         )
         self.item2 = api.content.create(
             container=self.dataset,
             type=constants.CT_DCAT_DISTRIBUTION,
             id='distribution-2',
-            dct_title={u'en': u'Distribution 2'},
+            dct_title={'deu': u'Distribution 2'},
         )
 
     def test_vocabulary(self):
@@ -161,14 +161,14 @@ class TestDCTLicenseDocumentVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal.get(constants.FOLDER_LICENSES),
             type=constants.CT_DCT_LICENSEDOCUMENT,
             id='license-1',
-            dct_title={u'en': u'License 1'},
+            dct_title={'deu': u'License 1'},
             rdfs_isDefinedBy='https://example.com/license-1',
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_LICENSES),
             type=constants.CT_DCT_LICENSEDOCUMENT,
             id='license-2',
-            dct_title={u'en': u'License 2'},
+            dct_title={'deu': u'License 2'},
             rdfs_isDefinedBy='https://example.com/license-2',
         )
 
@@ -191,14 +191,14 @@ class TestDCTLocationVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal.get(constants.FOLDER_LOCATIONS),
             type=constants.CT_DCT_LOCATION,
             id='location-1',
-            dct_title={u'en': u'Location 1'},
+            dct_title={'deu': u'Location 1'},
             rdfs_isDefinedBy='https://example.com/location-1',
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_LOCATIONS),
             type=constants.CT_DCT_LOCATION,
             id='location-2',
-            dct_title={u'en': u'Location 2'},
+            dct_title={'deu': u'Location 2'},
             rdfs_isDefinedBy='https://example.com/location-2',
         )
 
@@ -221,13 +221,13 @@ class TestDCTMediaTypeOrExtentVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal.get(constants.FOLDER_MEDIATYPES),
             type=constants.CT_DCT_MEDIATYPEOREXTENT,
             id='mediatype-1',
-            dct_title={u'en': u'Mediatype 1'},
+            dct_title={'deu': 'Mediatype 1'},
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_MEDIATYPES),
             type=constants.CT_DCT_MEDIATYPEOREXTENT,
             id='mediatype-2',
-            dct_title={u'en': u'Mediatype 2'},
+            dct_title={'deu': u'Mediatype 2'},
         )
 
     def test_vocabulary(self):
@@ -249,13 +249,13 @@ class TestDCTStandardVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal.get(constants.FOLDER_STANDARDS),
             type=constants.CT_DCT_STANDARD,
             id='standard-1',
-            dct_title={u'en': u'Standard 1'},
+            dct_title={'deu': u'Standard 1'},
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_STANDARDS),
             type=constants.CT_DCT_STANDARD,
             id='standard-2',
-            dct_title={u'en': u'Standard 2'},
+            dct_title={'deu': u'Standard 2'},
         )
 
     def test_vocabulary(self):
@@ -277,13 +277,13 @@ class TestFOAFAgentVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal.get(constants.FOLDER_AGENTS),
             type=constants.CT_FOAF_AGENT,
             id='agent-1',
-            dct_title={u'en': u'Agent 1'},
+            foaf_name={'deu': u'Agent 1'},
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_AGENTS),
             type=constants.CT_FOAF_AGENT,
             id='agent-2',
-            dct_title={u'en': u'Agent 2'},
+            foaf_name={'deu': u'Agent 2'},
         )
 
     def test_vocabulary(self):
@@ -305,13 +305,13 @@ class TestSKOSConceptVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal.get(constants.FOLDER_CONCEPTS),
             type=constants.CT_SKOS_CONCEPT,
             id='concept-1',
-            dct_title={u'en': u'Concept 1'},
+            dct_title={'deu': u'Concept 1'},
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_CONCEPTS),
             type=constants.CT_SKOS_CONCEPT,
             id='concept-2',
-            dct_title={u'en': u'Concept 2'},
+            dct_title={'deu': u'Concept 2'},
         )
 
     def test_vocabulary(self):
@@ -333,13 +333,13 @@ class TestSKOSConceptSchemeVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal.get(constants.FOLDER_CONCEPTSCHEMES),
             type=constants.CT_SKOS_CONCEPTSCHEME,
             id='concept-1',
-            dct_title={u'en': u'Concept Scheme 1'},
+            dct_title={'deu': u'Concept Scheme 1'},
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_CONCEPTSCHEMES),
             type=constants.CT_SKOS_CONCEPTSCHEME,
             id='concept-2',
-            dct_title={u'en': u'Concept Scheme 2'},
+            dct_title={'deu': u'Concept Scheme 2'},
         )
 
     def test_vocabulary(self):
@@ -348,7 +348,7 @@ class TestSKOSConceptSchemeVocabulary(unittest.TestCase, BaseTestMixin):
         self.vocab_test(vocab_name)
 
 
-class DcatTypesVocabulary(unittest.TestCase):
+class TestDcatTypesVocabulary(unittest.TestCase, BaseTestMixin):
     """Validate the `SKOSConceptScheme` vocabulary."""
 
     layer = testing.INTEGRATION_TESTING
@@ -360,33 +360,33 @@ class DcatTypesVocabulary(unittest.TestCase):
         self.item1 = api.content.create(
             container=self.portal.get(constants.FOLDER_CONCEPTSCHEMES),
             type=constants.CT_SKOS_CONCEPTSCHEME,
-            id='concept-1',
-            dct_title={u'en': u'Concept Scheme 1'},
+            id='concept-2',
+            dct_title={'deu': 'Concept Scheme 1'},
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_CONCEPTSCHEMES),
             type=constants.CT_SKOS_CONCEPTSCHEME,
-            id='concept-2',
-            dct_title={u'en': u'Concept Scheme 2'},
+            id='concept-3',
+            dct_title={'deu': 'Concept Scheme 2'},
         )
         self.item3 = api.content.create(
             container=self.portal.get(constants.FOLDER_AGENTS),
             type=constants.CT_FOAF_AGENT,
-            id='agent-1',
-            dct_title={u'en': u'Agent 1'},
+            id='agent-3',
+            foaf_name={'deu': u'Agent 1'},
         )
         self.item4 = api.content.create(
             container=self.portal.get(constants.FOLDER_AGENTS),
             type=constants.CT_FOAF_AGENT,
-            id='agent-2',
-            dct_title={u'en': u'Agent 2'},
+            id='agent-4',
+            foaf_name={'deu': u'Agent 2'},
         )
 
     def test_vocabulary(self):
         """Validate the vocabulary."""
         vocab_name = 'pkan.dcatapde.vocabularies.AllDcatObjects'
-        api.content.transition(self.item1, 'activate')
-        api.content.transition(self.item3, 'activate')
+        api.content.transition(obj=self.item1, transition='activate')
+        api.content.transition(obj=self.item3, transition='activate')
         factory = getUtility(IVocabularyFactory, vocab_name)
         self.assertTrue(IVocabularyFactory.providedBy(factory))
 
@@ -417,13 +417,13 @@ class TestVCARDKindVocabulary(unittest.TestCase, BaseTestMixin):
             container=self.portal.get(constants.FOLDER_VCARD_KIND),
             type=constants.CT_VCARD_KIND,
             id='contact-1',
-            dct_title={u'en': u'Concept Scheme 1'},
+            dct_title={'deu': u'Concept Scheme 1'},
         )
         self.item2 = api.content.create(
             container=self.portal.get(constants.FOLDER_VCARD_KIND),
             type=constants.CT_VCARD_KIND,
             id='contact-2',
-            dct_title={u'en': u'Concept Scheme 2'},
+            dct_title={'deu': u'Concept Scheme 2'},
         )
 
     def test_vocabulary(self):
