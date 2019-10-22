@@ -17,8 +17,7 @@ class PKANLanguageVocabulary(AvailableContentLanguageVocabulary):
         query = query or u''
         query = safe_unicode(query)
         items = [SimpleTerm('en', 'en', 'English')]  # default, only english
-        site = api.portal.get()
-        ltool = api.portal.get_tool(site, 'portal_languages', None)
+        ltool = api.portal.get_tool('portal_languages')
         if ltool is not None:
             languages = ltool.getAvailableLanguages()
             items = [

@@ -278,7 +278,7 @@ class SKOSConceptValueVocabulary(KeywordsVocabulary):
         return SimpleVocabulary(terms)
 
     def all_keywords(self, kwfilter):
-        self.catalog = api.portal.get_tool('portal_catalog', None)
+        self.catalog = api.portal.get_tool('portal_catalog')
         if self.catalog is None:
             return SimpleVocabulary([])
         index = self.catalog._catalog.getIndex(self.keyword_index)
@@ -291,7 +291,7 @@ class SKOSConceptValueVocabulary(KeywordsVocabulary):
     def keywords_of_section(self, section, kwfilter):
         """Valid keywords under the given section.
         """
-        pcat = api.portal.get_tool(section, 'portal_catalog')
+        pcat = api.portal.get_tool('portal_catalog')
         cat = pcat._catalog
         path_idx = cat.indexes[self.path_index]
         tags_idx = cat.indexes[self.keyword_index]
@@ -340,8 +340,7 @@ class SKOSConceptDefaultVocabulary(KeywordsVocabulary):
         return SimpleVocabulary(terms)
 
     def all_keywords(self):
-        site = api.portal.get()
-        self.catalog = api.portal.get_tool(site, 'portal_catalog', None)
+        self.catalog = api.portal.get_tool('portal_catalog')
         if self.catalog is None:
             return SimpleVocabulary([])
         parent_brain = api.content.find(

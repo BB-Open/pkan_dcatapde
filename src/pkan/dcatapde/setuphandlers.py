@@ -59,7 +59,7 @@ def add_folder(portal_root, folder_name, folder_type):
     """Add a folder for the exclusive addition of certain CTs"""
     folder = portal_root.get(folder_name)
     if not folder:
-        types = portal.get_tool(name='portal_types')
+        types = portal.get_tool('portal_types')
         fti = types.getTypeInfo(folder_type)
         fti.global_allow = True
         folder = content.create(
@@ -162,8 +162,7 @@ def catalog_setup(context):
         # Not we self so exit
         return
 
-    site = portal.get()
-    catalog = portal.get_tool(site, 'portal_catalog')
+    catalog = portal.get_tool('portal_catalog')
     # Get fields from the different models to build an index for
     content_type_extras = [
         DCATCatalog,

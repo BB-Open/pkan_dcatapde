@@ -103,7 +103,7 @@ def query_active_objects(query, portal_type, context=None):
     }
     query.update(params)
 
-    catalog = api.portal.get_tool(name='portal_catalog')
+    catalog = api.portal.get_tool('portal_catalog')
     brains = list(catalog(query))
 
     harvester = get_ancestor(context, CT_HARVESTER)
@@ -142,7 +142,7 @@ def query_objects_no_pkanstate(query, portal_type, context=None):
     }
     query.update(params)
 
-    catalog = api.portal.get_tool(name='portal_catalog')
+    catalog = api.portal.get_tool('portal_catalog')
     brains = list(catalog(query))
 
     return brains

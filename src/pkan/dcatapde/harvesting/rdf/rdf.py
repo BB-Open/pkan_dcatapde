@@ -632,7 +632,7 @@ class RDFProcessor(object):
         return title
 
     def checkURI(self, uri, field_name=None):
-        catalog = api.portal.get_tool(name='portal_catalog')
+        catalog = api.portal.get_tool('portal_catalog')
         if field_name is None:
             field_name = 'dct_identifier'
         query = {field_name: uri}

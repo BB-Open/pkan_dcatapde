@@ -37,8 +37,7 @@ class WorkflowStates(object):
         wf_name = 'simple_publication_workflow'
         start_state = 'private'
 
-        site = api.portal.get()
-        wtool = api.portal.get_tool(site, 'portal_workflow', None)
+        wtool = api.portal.get_tool('portal_workflow')
         if wtool is None:
             return SimpleVocabulary([])
 

@@ -71,7 +71,7 @@ class PKANWorkflowMenu(WorkflowMenu):
         if locking_info and locking_info.is_locked_for_current_user():
             return []
 
-        wf_tool = api.portal.get_tool(context, 'portal_workflow')
+        wf_tool = api.portal.get_tool('portal_workflow')
 
         workflowActions = wf_tool.listActionInfos(object=context)
 

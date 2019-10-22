@@ -45,7 +45,7 @@ import transaction
 
 
 def update_role_mappings(context):
-    wtool = api.portal.get_tool(name='portal_workflow')
+    wtool = api.portal.get_tool('portal_workflow')
     # copied from WorkflowTool.updateRoleMappings()
     # to enable context passing to wftool._recursiveUpdateRoleMappings()
     wfs = {}

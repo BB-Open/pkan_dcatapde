@@ -19,6 +19,7 @@ install_requires = [
     'pkan.widgets',
     'plone.api',
     'plone.app.dexterity',
+    'plone.restapi',
     'Products.GenericSetup >= 1.8.2',
     'ps.zope.i18nfield >= 0.7',
     'rdflib',
@@ -30,6 +31,7 @@ install_requires = [
     'zope.app.content',
     'python-dateutil',
     'pytimeparse',
+    ''
 ],
 
 test_requires = [
