@@ -26,6 +26,9 @@ install:
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
 before_script:
   - export DISPLAY=:99.0
+  - export ZSERVER_HOST=127.0.0.1
+  - export ZSERVER_PORT=36007
+  - export DISPLAY=:99.0
   - firefox -v
 script:
   - bin/code-analysis
