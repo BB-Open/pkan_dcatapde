@@ -4,8 +4,8 @@ from datetime import timedelta
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER
-from pkan.dcatapde.harvesting.rdf2tripelstore.rdf2 import RDFProcessorTS
-from pkan.dcatapde.harvesting.rdf.rdf import RDFProcessor
+from pkan.dcatapde.harvesting.rdf.rdf2plone import RDFProcessor
+from pkan.dcatapde.harvesting.rdf.rdf2tripelstore import RDFProcessorTS
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_PLONE
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from plone import api
