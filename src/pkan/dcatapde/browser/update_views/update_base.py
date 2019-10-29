@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
 from pkan.dcatapde import _
-from pkan.dcatapde.harvesting.rdf.rdf import handle_identifiers
+from pkan.dcatapde.harvesting.rdf.rdf2plone import handle_identifiers
 from pkan.dcatapde.utils import get_available_languages_iso
 from pkan.dcatapde.utils import get_available_languages_title
 from pkan.dcatapde.utils import get_default_language
