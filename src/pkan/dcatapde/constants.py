@@ -212,3 +212,5 @@ SIZE_FACTOR = 1024**2
 SIZE_ROUND = 2
 
 IMPRESSUM = 'Impressum'
+
+BLAZEGRAPH_BASE = 'http://localhost:9999'

@@ -61,6 +61,15 @@ class IHarvester(model.Schema):
         vocabulary='pkan.dcatapde.RdfTypeVocabulary',
     )
 
+    target = schema.Choice(
+        required=True,
+        title=_(u'Target'),
+        description=_(
+            u'Harvest to Plone or to the Tripel store',
+        ),
+        vocabulary='pkan.dcatapde.HarvesterTargetVocabulary',
+    )
+
     top_node = schema.Choice(
         required=True,
         title=_(u'Portal Type of Top Node'),

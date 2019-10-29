@@ -4,6 +4,10 @@ from datetime import timedelta
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.harvesting.rdf2tripelstore.rdf2 import RDFProcessorTS
+from pkan.dcatapde.harvesting.rdf.rdf import RDFProcessor
+from pkan.dcatapde.vocabularies.harvester_target import HARVEST_PLONE
+from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
@@ -32,6 +36,7 @@ class HarvesterListViewMixin(object):
             'reset_fields': addTokenToUrl(path + '/reset_fields'),
             'harvester_entity': addTokenToUrl(path + '/harvester_entity'),
             'edit': addTokenToUrl(path + '/edit'),
+            'target': harv.target,
         }
 
         return data
@@ -82,13 +87,20 @@ class HarvesterOverview(BrowserView, HarvesterListViewMixin):
         return super(HarvesterOverview, self).__call__(*args, **kwargs)
 
 
+def RDFProcessor_factory(harvester):
+    if harvester.target == HARVEST_PLONE:
+        return RDFProcessor(harvester)
+    elif harvester.target == HARVEST_TRIPELSTORE:
+        return RDFProcessorTS(harvester)
+
+
 class DryRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
 
-        source = self.context.source_type(self.context)
+        rdfproc = RDFProcessor_factory(self.context)
 
-        self.log = source.dry_run()
+        self.log = rdfproc.dry_run()
 
         return super(DryRunView, self).__call__(*args, **kwargs)
 
@@ -96,9 +108,9 @@ class DryRunView(BrowserView):
 class RealRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
-        source = self.context.source_type(self.context)
+        rdfproc = RDFProcessor_factory(self.context)
 
-        self.log = source.real_run()
+        self.log = rdfproc.real_run()
 
         return super(RealRunView, self).__call__(*args, **kwargs)
 
@@ -110,9 +122,9 @@ class RealRunCronView(BrowserView):
         alsoProvides(self.request, IDisableCSRFProtection)
 
     def real_run(self, harv):
-        source = harv.source_type(harv)
+        rdfproc = RDFProcessor_factory(harv)
 
-        return source.real_run()
+        return rdfproc.real_run()
 
     def __call__(self, *args, **kwargs):
         portal = api.portal.get()

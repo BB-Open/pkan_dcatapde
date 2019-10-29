@@ -31,7 +31,7 @@ install_requires = [
     'zope.app.content',
     'python-dateutil',
     'pytimeparse',
-    ''
+    'SPARQLWrapper',
 ],
 
 test_requires = [

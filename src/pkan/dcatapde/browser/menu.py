@@ -33,7 +33,7 @@ class PKANSubMenuItem(WorkflowSubMenuItem):
     @property
     def extra(self):
         state = api.content.get_state(
-            aq_inner(self.context), 'pkan_state', None)
+            aq_inner(self.context), 'pkan_state')
         stateTitle = self._currentStateTitle()
         return {'id': self.submenuId,
                 'class': 'state-{0}'.format(state),
@@ -45,13 +45,13 @@ class PKANSubMenuItem(WorkflowSubMenuItem):
     @memoize
     def available(self):
         state = api.content.get_state(
-            aq_inner(self.context), 'pkan_state', None)
+            aq_inner(self.context), 'pkan_state')
         return (state is not None)
 
     @memoize
     def _currentStateTitle(self):
         state = api.content.get_state(
-            aq_inner(self.context), 'pkan_state', None)
+            aq_inner(self.context), 'pkan_state')
         workflows = self.tools.workflow().getWorkflowsFor(self.context)
         if workflows:
             for w in workflows:

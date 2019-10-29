@@ -105,6 +105,11 @@
       />
 
   <utility
+      component=".harvester_target_vocab.HarvesterTargetVocabFactory"
+      name="pkan.dcatapde.HarvesterTargetVocabulary"
+      />
+
+  <utility
         component=".workflow_states.WorkflowStatesFactory"
         name="pkan.dcatapde.WorkflowStates"
     />
