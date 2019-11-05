@@ -21,6 +21,9 @@
     <element value="dcat_dataset"/>
     <element value="vcard_kind"/>
     <element value="foaf_agent"/>
+    <element value="skos_concept"/>
+    <element value="dct_licensedocument"/>
+
   </property>
   <property name="filter_content_types">True</property>
   <property name="global_allow">True</property>

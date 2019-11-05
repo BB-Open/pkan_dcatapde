@@ -135,9 +135,10 @@ def handle_identifiers(obj):
 class RDFProcessor(object):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
-    def __init__(self, harvester):
+    def __init__(self, harvester, raise_exceptions=False):
         # remember the harvester
         self.harvester = harvester
+        self.raise_exceptions = raise_exceptions
         # look if we have a harvesting type adapter
         # try:
         #     self.harvesting_type = \
@@ -1079,6 +1080,8 @@ class RDFProcessor(object):
                 msg='{error}',
                 error=format_tb(sys.exc_info()[2]),
             )
+            if self.raise_exceptions:
+                raise e
 
         msg = _(u'{kind} file {uri} read succesfully')
         visitor.scribe.write(

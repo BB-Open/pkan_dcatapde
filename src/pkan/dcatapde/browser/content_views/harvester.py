@@ -87,11 +87,11 @@ class HarvesterOverview(BrowserView, HarvesterListViewMixin):
         return super(HarvesterOverview, self).__call__(*args, **kwargs)
 
 
-def RDFProcessor_factory(harvester):
+def RDFProcessor_factory(harvester, raise_exceptions=False):
     if harvester.target == HARVEST_PLONE:
-        return RDFProcessor(harvester)
+        return RDFProcessor(harvester, raise_exceptions=raise_exceptions)
     elif harvester.target == HARVEST_TRIPELSTORE:
-        return RDFProcessorTS(harvester)
+        return RDFProcessorTS(harvester, raise_exceptions=raise_exceptions)
 
 
 class DryRunView(BrowserView):
