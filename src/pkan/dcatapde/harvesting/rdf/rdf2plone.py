@@ -25,7 +25,6 @@ from pkan.dcatapde.harvesting.rdf.visitors import NS_WARNING
 from pkan.dcatapde.harvesting.rdf.visitors import NT_DEFAULT
 from pkan.dcatapde.harvesting.rdf.visitors import NT_DX_DEFAULT
 from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
-from pkan.dcatapde.harvesting.rdf.visitors import NT_SPARQL
 from pkan.dcatapde.harvesting.rdf.visitors import RealRunVisitor
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
@@ -174,6 +173,9 @@ class RDFProcessor(object):
         self.setup_logger()
         self.get_entity_mapping()
 
+    def prepare_harvest(self):
+        pass
+
     def get_entity_mapping(self):
         """Fill the mappings for the entities"""
         annotations = IAnnotations(self.harvester)
@@ -214,6 +216,41 @@ class RDFProcessor(object):
         log.addHandler(stream_handler)
         self.log = log
 
+    def query_a(self, o):
+        """Query the RDF db for a given object type
+        """
+
+        query = QUERY_A
+        bindings = {
+            'o': o,
+        }
+        res = self.graph.query(query, initBindings=bindings)
+        return res
+
+    def query_attribute(self, s, p):
+        """Query the RDF db. Subject is the node we are on
+        Predicate is the attribute we like to find in the RDF
+        """
+
+        query = QUERY_ATT
+        bindings = {
+            's': s,
+            'p': p,
+        }
+        res = self.graph.query(query, initBindings=bindings)
+        return res
+
+    def query_predicates(self, s):
+        """Query the RDF db. Subject is the node we are on
+        """
+
+        query = QUERY_P
+        bindings = {
+            's': s,
+        }
+        res = self.graph.query(query, initBindings=bindings)
+        return res
+
     def top_nodes(self, visitor):
         """Find top nodes: Catalogs or datasets"""
 
@@ -231,15 +268,17 @@ class RDFProcessor(object):
             return
 
         struct = self.struct_class(self.harvester)
-        # Get Mapping from the harvester
-        if struct.rdf_type in self.harvester.mapper:
-            query = self.harvester.mapper[struct.rdf_type]
-            bindings = {'o': struct.rdf_type}
-        else:
-            # Since we have no rdf_parent we have to look for types of nodes
-            query = QUERY_A
-            bindings = {'o': struct.rdf_type}
-        res = self.graph.query(query, initBindings=bindings)
+#        # Get Mapping from the harvester
+#        if struct.rdf_type in self.harvester.mapper:
+#            query = self.harvester.mapper[struct.rdf_type]
+#            bindings = {'o': struct.rdf_type}
+#        else:
+#            # Since we have no rdf_parent we have to look for types of nodes
+#            query = QUERY_A
+#            bindings = {'o': struct.rdf_type}
+#        res = self.query_source(query, initBindings=bindings)
+
+        res = self.query_a(struct.rdf_type)
 
         for top_node in res.bindings:
             yield top_node['s']
@@ -356,8 +395,6 @@ class RDFProcessor(object):
             obj=kwargs['rdf_node'],
             type=kwargs['struct'].rdf_type,
         )
-        # query for an attibute
-        query = QUERY_ATT
 
         params = kwargs.copy()
 
@@ -382,16 +419,20 @@ class RDFProcessor(object):
             visitor.end_node(predicate, obj_class, **params)
             return
 
-        if token in self.mapping_sparql:
-            params['node_type'] = NT_SPARQL
-            query = self.mapping_sparql[token]
+        # query for an attibute
+#        query = QUERY_ATT
+#        if token in self.mapping_sparql:
+#            params['node_type'] = NT_SPARQL
+#            query = self.mapping_sparql[token]
         # Query the RDF db. Subject is the node we are on
         # Predicate is the attribute we like to find in the RDF
-        bindings = {
-            's': kwargs['rdf_node'],
-            'p': field['predicate'],
-        }
-        res = self.graph.query(query, initBindings=bindings)
+#        bindings = {
+#            's': kwargs['rdf_node'],
+#            'p': field['predicate'],
+#        }
+#        res = self.graph.query(query, initBindings=bindings)
+
+        res = self.query_attribute(kwargs['rdf_node'], field['predicate'])
 
         # Dealing with required fields not delivered
         if len(res) == 0:
@@ -483,13 +524,15 @@ class RDFProcessor(object):
             type=kwargs['struct'].rdf_type,
         )
         # Query all predicates
-        query = QUERY_P
-        # Query the RDF db. Subject is the node we are on
-        # is the attribute we like to find in the RDF
-        bindings = {
-            's': subject,
-        }
-        results = self.graph.query(query, initBindings=bindings)
+#        query = QUERY_P
+#        # Query the RDF db. Subject is the node we are on
+#        # is the attribute we like to find in the RDF
+#        bindings = {
+#            's': subject,
+#        }
+#        results = self.graph.query(query, initBindings=bindings)
+
+        results = self.query_predicates(subject)
 
         if len(results) > 0:
             visitor.scribe.write(
@@ -561,8 +604,7 @@ class RDFProcessor(object):
         rdf_node = kwargs['rdf_node']
         context = kwargs['obj']
 
-        # query for an attibute
-        query = QUERY_ATT
+#       query = QUERY_ATT
         #   Handle the contained objects
         for field_name, field in struct.contained.items():
             # Todo : query the entity mapper
@@ -579,11 +621,12 @@ class RDFProcessor(object):
 
             # Query the RDF db. Subject is still the rdf_node
             # Predicate is the attribute we like to find in the RDF
-            bindings = {
-                's': rdf_node,
-                'p': predicate,
-            }
-            res = self.graph.query(query, initBindings=bindings)
+#            bindings = {
+#                's': rdf_node,
+#                'p': predicate,
+#            }
+#            res = self.graph.query(query, initBindings=bindings)
+            res = self.query_attribute(rdf_node, predicate)
 
             for i in res.bindings:
                 rdf_obj = i['o']
@@ -992,6 +1035,9 @@ class RDFProcessor(object):
         # Just to have the posibility to reset
         self.harvester._graph = None
         self.harvester._rdfstore = None
+
+        # Connect to the data to be harvested
+        self.prepare_harvest()
 
         if visitor.real_run:
             msg = u'starting harvest real run'

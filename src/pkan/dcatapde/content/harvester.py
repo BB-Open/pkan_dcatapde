@@ -143,3 +143,7 @@ class Harvester(Container, DCATMixin):
         result['dcat:Dataset'] = QUERY_A
         result['dcat:Distribution'] = QUERY_A
         return result
+
+    def id_in_tripel_store(self):
+        """This has to be improved"""
+        return self.UID()

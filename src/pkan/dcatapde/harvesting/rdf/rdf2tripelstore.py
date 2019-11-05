@@ -11,6 +11,7 @@ from pkan.dcatapde.harvesting.rdf.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.rdf.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.rdf.interfaces import IRDFXML
 from pkan.dcatapde.harvesting.rdf.rdf2plone import RDFProcessor
+from pkan.dcatapde.harvesting.rdf.tripelstore import tripel_store
 from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
@@ -94,6 +95,40 @@ def handle_identifiers(obj):
 @implementer(IRDFXML)
 class RDFProcessorTS(RDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
+
+    def __init__(self, harvester):
+        super(RDFProcessorTS, self).__init__(harvester)
+        self.tripel_tempdb = None    # Temporary tripel store
+        self.tripeldb = None         # Tripestore for dcapt-ap.de data
+        self._target_graph = None        # Target graph instance
+
+    def prepare_harvest(self):
+        """Load data to be harvested into a temperary namespace on the tripelstore.
+        Then set a rdflib grpah instance to it for reading.
+        Open a target namespace for the dcat-ap.de compatible data and
+        set a rdflib grpah instance to it for writing and reading.
+        """
+
+        tripel_db_name = self.harvester.id_in_tripel_store()
+        tripel_temp_db_name = tripel_db_name + '_temp'
+
+        self._graph = tripel_store.graph_from_uri(
+            tripel_temp_db_name,
+            self.harvester.url,
+        )
+        self._target_graph = tripel_store.create_namespace(tripel_db_name)
+
+    @property
+    def graph(self):
+        """Interface to incoming RDF graph"""
+        if not self._graph:
+            self.prepare_harvest()
+        return self._graph
+
+    @property
+    def target_graph(self):
+        """Interface to the target graph in the tripel store"""
+        return self._target_graph
 
     def residuals(self, visitor, **kwargs):
         """Here we look for rdf edges that are not in the DCAT-AP.de norm"""

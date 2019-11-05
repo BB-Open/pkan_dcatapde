@@ -47,7 +47,7 @@ class Tripelstore(object):
     def sparql_for_namespace(self, namespace):
         return SPARQL(self.namespace_uris[namespace])
 
-    def create_namespace(self, namespace):
+    def rest_create_namespace(self, namespace):
         """
         Creates a namespace in the tripelstore and registers
         a namespace sparqlwrapper for it
@@ -81,18 +81,28 @@ class Tripelstore(object):
 
         return response
 
-    def bulk_load_from_uri(self, namespace, uri):
+    def rest_bulk_load_from_uri(self, namespace, uri):
         params = {'uri': uri}
         blaze_uri = \
             BLAZEGRAPH_BASE + \
             '/blazegraph/namespace/{namespace}/sparql'
-        blaze_uri.format(namespace=namespace)
+        blaze_uri_with_namespace = blaze_uri.format(namespace=namespace)
         response = requests.post(
-            blaze_uri,
+            blaze_uri_with_namespace,
             data=params,
         )
         return response
 
+    def graph_from_uri(self, namespace, uri):
+        self.create_namespace(namespace)
+        response = self.rest_bulk_load_from_uri(namespace, uri)
+        if response.status_code == 200:
+            return self.sparql_for_namespace(namespace)
+
+    def create_namespace(self, namespace):
+        response = self.rest_create_namespace(namespace)
+        if response.status_code == 200 or response.status_code == 409:
+            return self.sparql_for_namespace(namespace)
 
 # sparql.setReturnFormat(XML)
 # results = sparql.query()
