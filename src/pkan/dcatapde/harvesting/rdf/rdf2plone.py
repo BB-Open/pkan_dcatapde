@@ -48,6 +48,7 @@ from rdflib import Graph
 from rdflib.plugins.memory import IOMemory
 from rdflib.term import Literal
 from rdflib.term import URIRef
+from SPARQLWrapper.SmartWrapper import Value
 from traceback import format_tb
 from urllib import parse
 from xml.sax import SAXParseException
@@ -436,7 +437,7 @@ class RDFProcessor(object):
         res = self.query_attribute(kwargs['rdf_node'], field['predicate'])
 
         # Dealing with required fields not delivered
-        if len(res) == 0:
+        if len(res.bindings) == 0:
             if field['importance'] == IMP_REQUIRED:
                 visitor.scribe.write(
                     level='error',
@@ -471,7 +472,7 @@ class RDFProcessor(object):
                 self.handle_dict(visitor, res, **params)
             # Iten/list collision checking. Attribute is Item in DCATapded,
             # but a list is delivered.
-            elif len(res) > 1:
+            elif len(res.bindings) > 1:
                 visitor.scribe.write(
                     level='error',
                     msg=u'{type} object {obj}: '
@@ -789,6 +790,10 @@ class RDFProcessor(object):
         # here we collect the data to generate our DX object
         obj_data = {}
 
+        # Check if we have a Value object instead of an URI
+        if isinstance(rdf_node, Value):
+            rdf_node = rdf_node.value
+
         # set the original URI as rdf_about field:
         obj_data['rdf_about'] = rdf_node
 
@@ -1002,6 +1007,9 @@ class RDFProcessor(object):
     def run(self, top_nodes, visitor):
         """crawl the top nodes"""
         for top_node in top_nodes:
+            if isinstance(top_node, Value):
+                top_node = top_node.value
+
             msg = _(u'Reading {top_node}')
             visitor.scribe.write(
                 level='info',

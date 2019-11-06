@@ -7,6 +7,7 @@ from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.rdf import interfaces
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_PLONE
+from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -45,10 +46,19 @@ class HarvestTest(unittest.TestCase):
         )
         self.assertTrue(IHarvester.providedBy(self.obj))
 
-    def testHarvest(self):
+    def testHarvestPlone(self):
         req = requests.get(FIXTURE_URL)
         self.assertEqual(req.status_code, 200)
 
+        rdfproc = RDFProcessor_factory(self.obj, raise_exceptions=True)
+
+        self.log = rdfproc.real_run()
+
+    def testHarvestTripelstore(self):
+        req = requests.get(FIXTURE_URL)
+        self.assertEqual(req.status_code, 200)
+
+        self.obj.target = HARVEST_TRIPELSTORE
         rdfproc = RDFProcessor_factory(self.obj, raise_exceptions=True)
 
         self.log = rdfproc.real_run()

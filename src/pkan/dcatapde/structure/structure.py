@@ -330,7 +330,7 @@ class StructDCATCatalog(StructBase):
             'importance': IMP_REQUIRED,
             'type': list,
             'predicate': DCAT.dataset,
-            'target': DCT.Dataset,
+            'target': DCAT.Dataset,
         }
         return result
 

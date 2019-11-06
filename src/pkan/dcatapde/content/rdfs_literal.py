@@ -11,6 +11,7 @@ from plone.dexterity.content import Item
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
+from SPARQLWrapper.SmartWrapper import Value
 from zope.interface import implementer
 
 import dateutil
@@ -45,7 +46,29 @@ class RDFLiteral(Item, DCATMixin):
         return self.desc_from_desc_field()
 
 
+def value2plone(literal, field=None):
+    if not field:
+        return literal.value
+    else:
+        val = literal.value
+        # If we have a field supplied we can make assumptions
+        if field['type'] == date:
+            if isinstance(val, str):
+                val = dateutil.parser.parse(val)
+            if isinstance(val, date):
+                return val
+            if isinstance(val, datetime):
+                return val.date
+        elif field['type'] == datetime:
+            if isinstance(val, str):
+                val = dateutil.parser.parse(val)
+            return val
+        return val
+
+
 def literal2plone(literal, field=None):
+    if isinstance(literal, Value):
+        return value2plone(literal, field)
     val = literal.toPython()
     # if no field specified we can only convert to
     # python and hope

@@ -211,3 +211,18 @@ class LiteralHandler(object):
         res[lang] = literal.value
 
         return res
+
+    def literal2dict_ts(self, literal):
+        res = {}
+        lang = literal.lang
+
+        # convert 2-letter-format to 3-letter-format
+        if str(lang) in self.available_languages:
+            lang = self.available_languages[str(lang)]
+
+        elif lang not in self.all_languages:
+            lang = self.def_lang
+
+        res[lang] = literal.value
+
+        return res

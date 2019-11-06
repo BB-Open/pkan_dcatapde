@@ -74,10 +74,10 @@ class Tripelstore(object):
             data=params,
             headers=headers,
         )
-
-        self.namespace_uris[namespace] = \
-            BLAZEGRAPH_BASE + \
-            '/{namespace}/sparql'.format(namespace=namespace)
+        blaze_uri = BLAZEGRAPH_BASE + \
+            '/blazegraph/namespace/{namespace}/sparql'
+        blaze_uri_with_namespace = blaze_uri.format(namespace=namespace)
+        self.namespace_uris[namespace] = blaze_uri_with_namespace
 
         return response
 

@@ -13,10 +13,11 @@ from pkan.dcatapde.harvesting.rdf.interfaces import IRDFXML
 from pkan.dcatapde.harvesting.rdf.rdf2plone import RDFProcessor
 from pkan.dcatapde.harvesting.rdf.tripelstore import tripel_store
 from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
+from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
+from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
+from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
-from plone.api import content
-from plone.api.exc import InvalidParameterError
 from rdflib.term import Literal
 from rdflib.term import URIRef
 from urllib import parse
@@ -96,8 +97,8 @@ def handle_identifiers(obj):
 class RDFProcessorTS(RDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
-    def __init__(self, harvester):
-        super(RDFProcessorTS, self).__init__(harvester)
+    def __init__(self, harvester, raise_exceptions=True):
+        super(RDFProcessorTS, self).__init__(harvester, raise_exceptions)
         self.tripel_tempdb = None    # Temporary tripel store
         self.tripeldb = None         # Tripestore for dcapt-ap.de data
         self._target_graph = None        # Target graph instance
@@ -129,6 +130,44 @@ class RDFProcessorTS(RDFProcessor):
     def target_graph(self):
         """Interface to the target graph in the tripel store"""
         return self._target_graph
+
+    def query(self, query, bindings):
+        prepared_query = query.format(**bindings)
+        self.graph.sparql.setQuery(prepared_query)
+        res = self.graph.sparql.query()
+        return res
+
+    def query_a(self, o):
+        """Query the RDF db for a given object type
+        """
+
+        query = QUERY_A_STR_SPARQL
+        bindings = {
+            'o': o,
+        }
+        return self.query(query, bindings)
+
+    def query_attribute(self, s, p):
+        """Query the RDF db. Subject is the node we are on
+        Predicate is the attribute we like to find in the RDF
+        """
+
+        query = QUERY_ATT_STR_SPARQL
+        bindings = {
+            's': s,
+            'p': p,
+        }
+        return self.query(query, bindings)
+
+    def query_predicates(self, s):
+        """Query the RDF db. Subject is the node we are on
+        """
+
+        query = QUERY_P_STR_SPARQL
+        bindings = {
+            's': s,
+        }
+        return self.query(query, bindings)
 
     def residuals(self, visitor, **kwargs):
         """Here we look for rdf edges that are not in the DCAT-AP.de norm"""
@@ -220,6 +259,105 @@ class RDFProcessorTS(RDFProcessor):
         """
         return
 
+    def handle_dict(self, visitor, res, **kwargs):
+        obj_data = kwargs['obj_data']
+        field_name = kwargs['field_name']
+        field = kwargs['field']
+        predicate = field['predicate']
+        obj_class = field['object']
+
+        obj_data[field_name] = {}
+        for i in res.bindings:
+            rdf_obj = i['o']
+            # special handling of literals without language
+            if not rdf_obj.lang:
+                obj_data[field_name][self.def_lang] = rdf_obj.value
+                visitor.scribe.write(
+                    level='info',
+                    msg=u'{type} object {obj}: attribute {att}:= {val}',
+                    val=rdf_obj,
+                    att=field['predicate'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
+                )
+            else:
+                lit_dict = self.literal_handler.literal2dict_ts(rdf_obj)
+                obj_data[field_name].update(lit_dict)
+                visitor.scribe.write(
+                    level='info',
+                    msg=u'{type} object {obj}: attribute {att}:= {val}',
+                    val=str(rdf_obj.value) + u':' +
+                        str(rdf_obj.lang),
+                    att=predicate,
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
+                )
+
+            visitor.end_node(predicate, obj_class, **kwargs)
+
+    def insert(self, s, p, o):
+        if p.type == 'uri':
+            p_out = '<' + p.value + '>'
+        else:
+            p_out = '"' + p.value + '"'
+        if o.type == 'uri':
+            o_out = '<' + o.value + '>'
+        else:
+            o_out = '"' + o.value + '"'
+        INSERT = """INSERT DATA {{ <{s}> {p} {o} . }}"""
+        insert = INSERT.format(
+            s=s,
+            p=p_out,
+            o=o_out,
+        )
+        self.target_graph.sparql.setQuery(query=insert)
+        res = self.target_graph.sparql.query()
+        return res
+
+    def construct(self, rdf_node, struct=None):
+        """
+        Construct a subgraph containing all the 'properties' of the rdf_node
+        entity WITHOUT the 'contained' entities.
+
+        :param rdf_node:
+        :param struct:
+        :return:
+        """
+
+        FILTER = """
+        FILTER NOT EXISTS {{
+               VALUES ?clazz {{ {classes_comb} }}
+               ?o rdf:type ?clazz.
+        }}"""
+
+        QUERY = """
+        select ?s ?p ?o
+        where {{ <{rdf_node}> ?p ?o .
+                {filter}
+        }}
+        """
+        if struct:
+            classes_list = ['<' + i['target'] + '>' for i in struct.contained.values()]  # noqa: E501
+            classes_comb = ' '.join(classes_list)
+            filter = FILTER.format(classes_comb=classes_comb)
+        else:
+            filter = ''
+
+        prepared_query = QUERY.format(
+            rdf_node=rdf_node,
+            filter=filter,
+        )
+
+        self.graph.sparql.setQuery(prepared_query)
+        results = self.graph.sparql.query()
+
+        for res in results.bindings:
+            self.insert(
+                s=rdf_node,
+                p=res['p'],
+                o=res['o'],
+            )
+
     def create_dx_obj(
         self,
         visitor,
@@ -233,67 +371,12 @@ class RDFProcessorTS(RDFProcessor):
         if not visitor.real_run:
             return None
 
-        # check if the URI of the object is already available as DX object
-        if struct.literal_field is not None:
-            brains = self.checkURI(rdf_node.toPython(), struct.literal_field)
-        else:
-            brains = self.checkURI(rdf_node.toPython())
-
-        if len(brains) > 0:
-            visitor.scribe.write(
-                level='warn',
-                msg=u'{type} dxobject {obj} reused from {context}',
-                context=brains[0].getURL(),
-                obj=rdf_node,
-                type=struct.rdf_type,
-            )
-            return brains[0].getObject()
+        self.construct(rdf_node, struct)
 
         # Handle identifier fields
         identifier_fields = handle_identifiers(rdf_node)
         obj_data.update(identifier_fields)
 
-        # Handle not given descriptions to prevent u'None' brains
-        desc_found = False
-        for desc_field in struct.desc_field:
-            if desc_field in obj_data:
-                desc_found = True
-                break
-
-        if not desc_found:
-            for desc_field in struct.desc_field:
-                obj_data[desc_field] = None
-            obj_data['description'] = None
-
-        # Create an instance of the node as dexterity object
-        try:
-            obj = content.create(
-                context,
-                struct.portal_type,
-                title=title,
-                in_harvester=self.harvester.UID(),
-                **obj_data)
-        # We are not allowed to create the content here
-        except InvalidParameterError:
-            # So we try it directly under the harvest
-            visitor.scribe.write(
-                level='error',
-                msg=u'{type} dxobject {obj} created at {context}',
-                context=self.harvester.virtual_url_path(),
-                obj=rdf_node,
-                type=struct.rdf_type,
-            )
-
-            obj = content.create(
-                self.harvester,
-                struct.portal_type,
-                title=title,
-                in_harvester=self.harvester.UID(),
-                **obj_data)
-
-        self.apply_workflow(obj)
-
-        obj.reindexObject()
         visitor.scribe.write(
             level='info',
             msg=u'{type} dxobject {obj} created at {context}',
@@ -301,7 +384,7 @@ class RDFProcessorTS(RDFProcessor):
             obj=rdf_node,
             type=struct.rdf_type,
         )
-        return obj
+        return None
 
     def crawl(
         self,

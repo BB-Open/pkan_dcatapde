@@ -26,6 +26,12 @@ QUERY_ATT = prepareQuery(
     initNs=INIT_NS,
 )
 
+QUERY_ATT_STR_SPARQL = u"""SELECT DISTINCT ?o
+       WHERE {{
+          <{s}> <{p}> ?o
+       }}"""
+
+
 # Give me the objects to given predicate
 # "a" query
 QUERY_A_STR = u"""SELECT DISTINCT ?s
@@ -38,6 +44,12 @@ QUERY_A = prepareQuery(
     initNs=INIT_NS,
 )
 
+QUERY_A_STR_SPARQL = u"""SELECT DISTINCT ?s
+       WHERE {{
+          ?s a <{o}>
+       }}"""
+
+
 # Give me all predicates of the current subject
 QUERY_P_STR = u"""SELECT DISTINCT ?p ?o
        WHERE {
@@ -48,3 +60,8 @@ QUERY_P = prepareQuery(
     QUERY_P_STR,
     initNs=INIT_NS,
 )
+
+QUERY_P_STR_SPARQL = u"""SELECT DISTINCT ?p ?o
+       WHERE {{
+          <{s}> ?p ?o
+       }}"""
