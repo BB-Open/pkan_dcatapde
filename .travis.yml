@@ -31,7 +31,7 @@ before_script:
   - export ZSERVER_PORT=36007
   - export DISPLAY=:99.0
   - firefox -v
-  - blazegraph start
+  - sudo blazegraph start
 script:
   - bin/code-analysis
   - bin/test
