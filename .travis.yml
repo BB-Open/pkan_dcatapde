@@ -24,12 +24,14 @@ install:
   - pip install -r requirements.txt
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
+  - apt-get install blazegraph
 before_script:
   - export DISPLAY=:99.0
   - export ZSERVER_HOST=127.0.0.1
   - export ZSERVER_PORT=36007
   - export DISPLAY=:99.0
   - firefox -v
+  - blazegraph start
 script:
   - bin/code-analysis
   - bin/test
