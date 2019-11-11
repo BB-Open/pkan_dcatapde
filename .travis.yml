@@ -24,7 +24,7 @@ install:
   - pip install -r requirements.txt
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate
   - buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
-  - apt-get install blazegraph
+  - sudo apt-get install blazegraph
 before_script:
   - export DISPLAY=:99.0
   - export ZSERVER_HOST=127.0.0.1
