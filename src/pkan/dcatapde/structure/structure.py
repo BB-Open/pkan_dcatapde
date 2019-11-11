@@ -144,8 +144,10 @@ class StructBase(object):
     # caching
     _fields_in_order = None
     _fields_objects_required = {}
-
+    # List of DX fields to ignore at output
     _blacklist = FIELD_BLACKLIST
+    # List of fields which shounld not be required
+    _not_required = []
 
     def __init__(self, context):
         self.context = context
@@ -173,7 +175,7 @@ class StructBase(object):
             if field_name in self._blacklist:
                 continue
 
-            if field.required:
+            if field.required and field_name not in self._not_required:
                 importance = IMP_REQUIRED
             else:
                 importance = IMP_OPTIONAL
@@ -540,6 +542,8 @@ class StructDCTMediaTypeOrExtent(StructBase):
 
     # This is a hack to fullfill Convention 31
     title_field = ['rdf_about']
+
+    _not_required = ['dct_title']
 
 
 @implementer(IStructure)

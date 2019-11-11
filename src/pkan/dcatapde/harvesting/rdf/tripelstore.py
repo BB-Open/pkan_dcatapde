@@ -2,6 +2,9 @@
 """Tripel store access"""
 
 from pkan.dcatapde.constants import BLAZEGRAPH_BASE
+from pkan.dcatapde.harvesting.errors import HarvestURINotReachable
+from pkan.dcatapde.harvesting.errors import TripelStoreBulkLoadError
+from pkan.dcatapde.harvesting.errors import TripelStoreCreateNamespaceError
 from SPARQLWrapper import SPARQLWrapper2
 
 import requests
@@ -81,39 +84,50 @@ class Tripelstore(object):
 
         return response
 
-    def rest_bulk_load_from_uri(self, namespace, uri):
-        params = {'uri': uri}
+    def rest_bulk_load_from_uri(self, namespace, uri, content_type):
+        """
+        Load the tripel_data from the harvest uri
+        and push it into the tripelstore
+        :param namespace:
+        :param uri:
+        :param content_type:
+        :return:
+        """
+        # Load the tripel_data from the harvest uri
+        response = requests.get(uri)
+        if response.status_code != 200:
+            raise HarvestURINotReachable(response.content)
+        tripel_data = response.content
+
+        # push it into the tripelstore
         blaze_uri = \
             BLAZEGRAPH_BASE + \
             '/blazegraph/namespace/{namespace}/sparql'
         blaze_uri_with_namespace = blaze_uri.format(namespace=namespace)
+        headers = {'Content-Type': content_type}
         response = requests.post(
             blaze_uri_with_namespace,
-            data=params,
+            data=tripel_data,
+            headers=headers,
         )
         return response
 
-    def graph_from_uri(self, namespace, uri):
+    def graph_from_uri(self, namespace, uri, content_type):
         self.create_namespace(namespace)
-        response = self.rest_bulk_load_from_uri(namespace, uri)
+        response = self.rest_bulk_load_from_uri(namespace, uri, content_type)
         if response.status_code == 200:
             return self.sparql_for_namespace(namespace)
+        else:
+            raise TripelStoreBulkLoadError(response.content)
 
     def create_namespace(self, namespace):
         response = self.rest_create_namespace(namespace)
-        if response.status_code == 200 or response.status_code == 409:
+        if response.status_code in [200, 201, 409]:
             return self.sparql_for_namespace(namespace)
-
-# sparql.setReturnFormat(XML)
-# results = sparql.query()
-# print(results)
-
-# for result in results.bindings:
-#    print(result)
-#    print('%s: %s' % (result["label"].lang, result["label"].value))
+        else:
+            msg = str(response.status_code) + ': ' + response.content
+            raise TripelStoreCreateNamespaceError(msg)
 
 
+# ToDo make to utility
 tripel_store = Tripelstore()
-# tripel_store.create_namespace('test3')
-# tripel_store.bulk_load_from_uri('test3',
-# "https://opendata.potsdam.de/api/v2/catalog/exports/ttl?rows=10&timezone=UTC&include_app_metas=false")

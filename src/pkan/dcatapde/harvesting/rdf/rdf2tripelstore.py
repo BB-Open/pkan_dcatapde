@@ -7,6 +7,7 @@ from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
+from pkan.dcatapde.harvesting.errors import UnkownBindingType
 from pkan.dcatapde.harvesting.rdf.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.rdf.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.rdf.interfaces import IRDFXML
@@ -20,6 +21,7 @@ from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from rdflib.term import Literal
 from rdflib.term import URIRef
+from SPARQLWrapper.SmartWrapper import Value
 from urllib import parse
 from zope.component import adapter
 from zope.interface import implementer
@@ -116,6 +118,7 @@ class RDFProcessorTS(RDFProcessor):
         self._graph = tripel_store.graph_from_uri(
             tripel_temp_db_name,
             self.harvester.url,
+            self.serialize_format,
         )
         self._target_graph = tripel_store.create_namespace(tripel_db_name)
 
@@ -132,6 +135,23 @@ class RDFProcessorTS(RDFProcessor):
         return self._target_graph
 
     def query(self, query, bindings):
+        for key, binding in bindings.items():
+            if isinstance(binding, Value):
+                if binding.type == 'uri':
+                    bindings[key] = '<' + binding.value + '>'
+                elif binding.type == 'literal':
+                    bindings[key] = '"' + binding.value + '"'
+                else:
+                    raise UnkownBindingType(binding)
+            elif isinstance(binding, URIRef):
+                bindings[key] = '<' + binding + '>'
+            else:
+                if binding[0] not in ['"', '<']:
+                    if key in ['s', 'p']:
+                        bindings[key] = '<' + binding + '>'
+                    else:
+                        bindings[key] = '"' + binding + '"'
+
         prepared_query = query.format(**bindings)
         self.graph.sparql.setQuery(prepared_query)
         res = self.graph.sparql.query()
@@ -296,6 +316,7 @@ class RDFProcessorTS(RDFProcessor):
             visitor.end_node(predicate, obj_class, **kwargs)
 
     def insert(self, s, p, o):
+        # Todo melt with self.query
         if p.type == 'uri':
             p_out = '<' + p.value + '>'
         else:
@@ -332,7 +353,7 @@ class RDFProcessorTS(RDFProcessor):
 
         QUERY = """
         select ?s ?p ?o
-        where {{ <{rdf_node}> ?p ?o .
+        where {{ {rdf_node} ?p ?o .
                 {filter}
         }}
         """
@@ -344,7 +365,7 @@ class RDFProcessorTS(RDFProcessor):
             filter = ''
 
         prepared_query = QUERY.format(
-            rdf_node=rdf_node,
+            rdf_node='<' + rdf_node.value + '>',
             filter=filter,
         )
 
@@ -379,8 +400,8 @@ class RDFProcessorTS(RDFProcessor):
 
         visitor.scribe.write(
             level='info',
-            msg=u'{type} dxobject {obj} created at {context}',
-            context=context.virtual_url_path(),
+            msg=u'{type} node {obj} created at {context}',
+            context=rdf_node,
             obj=rdf_node,
             type=struct.rdf_type,
         )

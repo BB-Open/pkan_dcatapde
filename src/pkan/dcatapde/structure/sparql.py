@@ -28,7 +28,7 @@ QUERY_ATT = prepareQuery(
 
 QUERY_ATT_STR_SPARQL = u"""SELECT DISTINCT ?o
        WHERE {{
-          <{s}> <{p}> ?o
+          {s} {p} ?o
        }}"""
 
 
@@ -46,7 +46,7 @@ QUERY_A = prepareQuery(
 
 QUERY_A_STR_SPARQL = u"""SELECT DISTINCT ?s
        WHERE {{
-          ?s a <{o}>
+          ?s a {o}
        }}"""
 
 
@@ -63,5 +63,5 @@ QUERY_P = prepareQuery(
 
 QUERY_P_STR_SPARQL = u"""SELECT DISTINCT ?p ?o
        WHERE {{
-          <{s}> ?p ?o
+          {s} ?p ?o
        }}"""

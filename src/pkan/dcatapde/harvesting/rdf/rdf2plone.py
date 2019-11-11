@@ -449,6 +449,7 @@ class RDFProcessor(object):
                 )
                 params['status'] = NS_ERROR
                 visitor.end_node(predicate, obj_class, **params)
+                raise RequiredPredicateMissing
             else:
                 visitor.scribe.write(
                     level='warn',
@@ -792,7 +793,7 @@ class RDFProcessor(object):
 
         # Check if we have a Value object instead of an URI
         if isinstance(rdf_node, Value):
-            rdf_node = rdf_node.value
+            rdf_node = rdf_node
 
         # set the original URI as rdf_about field:
         obj_data['rdf_about'] = rdf_node
@@ -1008,7 +1009,7 @@ class RDFProcessor(object):
         """crawl the top nodes"""
         for top_node in top_nodes:
             if isinstance(top_node, Value):
-                top_node = top_node.value
+                top_node = top_node
 
             msg = _(u'Reading {top_node}')
             visitor.scribe.write(

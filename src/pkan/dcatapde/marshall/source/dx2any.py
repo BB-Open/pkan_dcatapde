@@ -155,14 +155,15 @@ class DX2Any(object):
         for item_name in self.structure.contained:
             resources = []
             for item in self.context.values():
-                contained_marshaller = queryMultiAdapter(
-                    (item, self.marshall_target),
-                    interface=IMarshallSource,
-                    default=DX2Any(item, self.marshall_target),
-                )
-                if contained_marshaller:
-                    contained_marshaller.marshall()
-                    resources.append(contained_marshaller.resource)
+                if item_name == item.portal_type:
+                    contained_marshaller = queryMultiAdapter(
+                        (item, self.marshall_target),
+                        interface=IMarshallSource,
+                        default=DX2Any(item, self.marshall_target),
+                    )
+                    if contained_marshaller:
+                        contained_marshaller.marshall()
+                        resources.append(contained_marshaller.resource)
 
             self.marshall_target.set_links(
                 self.resource,
