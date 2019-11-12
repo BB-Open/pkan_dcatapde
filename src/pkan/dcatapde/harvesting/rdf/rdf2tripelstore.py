@@ -118,7 +118,7 @@ class RDFProcessorTS(RDFProcessor):
         self._graph = tripel_store.graph_from_uri(
             tripel_temp_db_name,
             self.harvester.url,
-            self.serialize_format,
+            self.mime_type,
         )
         self._target_graph = tripel_store.create_namespace(tripel_db_name)
 
@@ -142,7 +142,8 @@ class RDFProcessorTS(RDFProcessor):
                 elif binding.type == 'literal':
                     bindings[key] = '"' + binding.value + '"'
                 else:
-                    raise UnkownBindingType(binding)
+                    raise UnkownBindingType
+
             elif isinstance(binding, URIRef):
                 bindings[key] = '<' + binding + '>'
             else:
@@ -414,7 +415,10 @@ class RDFProcessorTS(RDFProcessor):
         context=None,
         rdf_node=None,
     ):
-        """Analyse the RDF structure"""
+        # Return if we have hit a Blank node
+        if isinstance(rdf_node, Value):
+            if rdf_node.type == 'bnode':
+                return None
 
         # Activate the struct
         struct = target_struct(self.harvester)

@@ -170,6 +170,7 @@ class RDFProcessor(object):
         self.rdf_format_key = IFaceToRDFFormatKey[self.harvester.source_type]
         self.rdf_format = RDF_FORMAT_METADATA[self.rdf_format_key]
         self.serialize_format = self.rdf_format['serialize_as']
+        self.mime_type = self.rdf_format['mime_type']
         self.def_lang = get_default_language()
         self.literal_handler = LiteralHandler()
         self.setup_logger()
@@ -1078,6 +1079,9 @@ class RDFProcessor(object):
         try:
             # start on the top nodes
             self.run(self.top_nodes(visitor), visitor)
+
+        except RequiredPredicateMissing:
+            return visitor.scribe.html_log()
         except Exception as e:
             visitor.scribe.write(
                 level='error',
