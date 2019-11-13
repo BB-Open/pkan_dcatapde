@@ -48,3 +48,4 @@ class FoafagentIntegrationTest(unittest.TestCase):
             id=constants.CT_FOAF_AGENT,
         )
         self.assertTrue(IFOAFAgent.providedBy(obj))
+        obj.reindexObject()

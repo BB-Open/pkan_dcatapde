@@ -108,7 +108,18 @@
       />
 
   <adapter
-    factory=".foaf_agent.foaf_name" name="foaf_name"
+    factory=".foaf_agent.foaf_name"
+    name="foaf_name"
+  />
+
+  <adapter
+    factory=".foaf_agent.foaf_name"
+    name="dct_title"
+  />
+
+  <adapter
+    name="dct_description"
+    factory=".foaf_agent.dct_description"
   />
 
   <!-- SKOSConcept -->
