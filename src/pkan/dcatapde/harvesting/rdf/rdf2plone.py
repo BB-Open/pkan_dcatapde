@@ -2,6 +2,8 @@
 """Harvesting adapter."""
 from DateTime.DateTime import time
 from pkan.dcatapde import _
+from pkan.dcatapde.constants import CT_ANY
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import HARVESTER_DEFAULT_KEY
 from pkan.dcatapde.constants import HARVESTER_DEXTERITY_KEY
@@ -28,9 +30,11 @@ from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
 from pkan.dcatapde.harvesting.rdf.visitors import RealRunVisitor
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
+from pkan.dcatapde.structure.sparql import QUERY_ALL
 from pkan.dcatapde.structure.sparql import QUERY_ATT
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.structure import IMP_REQUIRED
+from pkan.dcatapde.structure.structure import STRUCT_BY_NS_CLASS
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
@@ -40,7 +44,6 @@ from plone import api
 from plone.api import content
 from plone.api.exc import InvalidParameterError
 from plone.dexterity.interfaces import IDexterityFTI
-from plone.dexterity.utils import safe_unicode
 from plone.memoize import ram
 from Products.CMFCore.WorkflowCore import WorkflowException
 from pyparsing import ParseException
@@ -60,6 +63,7 @@ from zope.interface import implementer
 import datetime
 import io
 import logging
+import rdflib
 import sys
 import vkbeautify as vkb
 
@@ -162,8 +166,10 @@ class RDFProcessor(object):
         if getattr(self.harvester, 'top_node', None) and \
                 self.harvester.top_node == CT_DCAT_DATASET:
             self.struct_class = StructDCATDataset
-        else:
+        elif self.harvester.top_node == CT_DCAT_CATALOG:
             self.struct_class = StructDCATCatalog
+        else:
+            self.struct_class = None
 
         # determine the source format serializer string for rdflib from our
         # own interface. Todo this is a bit ugly
@@ -219,6 +225,16 @@ class RDFProcessor(object):
         log.addHandler(stream_handler)
         self.log = log
 
+    def query_all(self):
+        """Query the RDF db for all objects
+        """
+
+        query = QUERY_ALL
+        bindings = {
+        }
+        res = self.graph.query(query, initBindings=bindings)
+        return res
+
     def query_a(self, o):
         """Query the RDF db for a given object type
         """
@@ -257,34 +273,33 @@ class RDFProcessor(object):
     def top_nodes(self, visitor):
         """Find top nodes: Catalogs or datasets"""
 
-        allowed_types = self.harvesting_context.allowedContentTypes()
-        klass = getUtility(IDexterityFTI, name=self.harvester.top_node)
+        top_node_class = self.harvester.top_node
+        if top_node_class == CT_ANY:
+            res = self.query_all()
+            for top_node in res.bindings:
+                yield top_node['s']
 
-        if klass not in allowed_types:
-            msg = '{top} is not allowed in {context}.'
-            visitor.scribe.write(
-                msg=msg,
-                level='error',
-                context=self.harvesting_context,
-                top=self.harvester.top_node,
-            )
-            return
+        else:
+            klass = getUtility(IDexterityFTI, name=top_node_class)
 
-        struct = self.struct_class(self.harvester)
-#        # Get Mapping from the harvester
-#        if struct.rdf_type in self.harvester.mapper:
-#            query = self.harvester.mapper[struct.rdf_type]
-#            bindings = {'o': struct.rdf_type}
-#        else:
-#            # Since we have no rdf_parent we have to look for types of nodes
-#            query = QUERY_A
-#            bindings = {'o': struct.rdf_type}
-#        res = self.query_source(query, initBindings=bindings)
+            allowed_types = self.harvesting_context.allowedContentTypes()
 
-        res = self.query_a(struct.rdf_type)
+            if klass not in allowed_types:
+                msg = '{top} is not allowed in {context}.'
+                visitor.scribe.write(
+                    msg=msg,
+                    level='error',
+                    context=self.harvesting_context,
+                    top=self.harvester.top_node,
+                )
+                return
 
-        for top_node in res.bindings:
-            yield top_node['s']
+            struct = self.struct_class(self.harvester)
+
+            res = self.query_a(struct.rdf_type)
+
+            for top_node in res.bindings:
+                yield top_node['s']
 
     def handle_list(self, visitor, res, **kwargs):
         obj_data = kwargs['obj_data']
@@ -988,7 +1003,7 @@ class RDFProcessor(object):
         except TypeError:
             preview += _(u'Did not find correct parameters to request data.')
         else:
-            preview += safe_unicode(vkb.xml(res.serialize()))
+            preview += vkb.xml(res.serialize().decode('utf-8'))
         if preview and len(preview) > MAX_QUERY_PREVIEW_LENGTH:
             preview = preview[:MAX_QUERY_PREVIEW_LENGTH] + '...'
         return preview
@@ -1019,7 +1034,19 @@ class RDFProcessor(object):
                 kind=self.serialize_format,
                 top_node=top_node,
             )
-            struct = self.struct_class(self.harvester)
+            if self.struct_class:
+                struct = self.struct_class(self.harvester)
+                struct_class = self.struct_class
+            else:
+                node_type = self.query_attribute(
+                    top_node,
+                    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+                )
+                node_type_value = node_type.bindings[0]['o'].value
+                node_type_class = rdflib.term.URIRef(node_type_value)
+                struct_class = STRUCT_BY_NS_CLASS[node_type_class]
+                struct = struct_class(self.harvester)
+
             args = {
                 'structure': struct,
             }
@@ -1030,7 +1057,7 @@ class RDFProcessor(object):
                 visitor,
                 context=self.harvesting_context,
                 rdf_node=top_node,
-                target_struct=self.struct_class,
+                target_struct=struct_class,
             )
             msg = _(u'Finished reading of {top_node}')
             visitor.scribe.write(

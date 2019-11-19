@@ -22,6 +22,7 @@ CT_SKOS_CONCEPT = 'skos_concept'
 CT_SKOS_CONCEPTSCHEME = 'skos_conceptscheme'
 CT_VCARD_KIND = 'vcard_kind'
 CT_PLONE_SITE = 'Plone Site'
+CT_ANY = 'any'
 
 # Folder CTs to contain CTs
 CT_AGENT_FOLDER = 'AgentFolder'
@@ -59,6 +60,7 @@ DCAT_CTs = [
 DCAT_TOP_NODES = [
     CT_DCAT_CATALOG,
     CT_DCAT_DATASET,
+    CT_ANY,
 ]
 
 # DCAT predicates
@@ -109,8 +111,22 @@ FOLDER_LANGUAGES = 'languages'
 # todo move to registry
 VOCAB_SOURCES = {
     CT_DCT_LICENSEDOCUMENT: 'http://www.dcat-ap.de/def/licenses/20180514.rdf',
-    CT_SKOS_CONCEPT: 'http://publications.europa.eu/resource/authority'
-                     '/data-theme',
+    CT_SKOS_CONCEPT: {
+        'http://publications.europa.eu/resource/authority/data-theme/AGRI': 'fa-tree',              # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/ECON': 'fa-shopping-cart',     # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/EDUC': 'fa-laptop',            # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/ENER': 'fa-battery-full',      # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/ENVI': 'fa-leaf',              # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/HEAL': 'fa-stethoscope',       # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/INTR': 'fa-globe',             # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/JUST': 'fa-balance-scales',    # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/SOCI': 'fa-github',            # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/GOVE': 'fa-inbox',             # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/REGI': 'fa-building',          # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/TECH': 'fa-microchip',         # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/TRAN': 'fa-train',             # noqa E501
+    },
+
     CT_DCT_LANGUAGE: 'data/languages.rdf',
 }
 

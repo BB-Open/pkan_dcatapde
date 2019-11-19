@@ -582,6 +582,22 @@ class StructSKOSConceptScheme(StructBase):
     portal_type = CT_SKOS_CONCEPTSCHEME
     rdf_type = SKOS.ConceptSchema
 
+    @property
+    def contained(self):
+        """Return all contained items.
+
+        :return:
+        """
+        result = {}
+        result['skos_concept'] = {
+            'object': StructSKOSConcept,
+            'importance': IMP_OPTIONAL,
+            'type': list,
+            'predicate': SKOS.member,
+            'target': SKOS.Concept,
+        }
+        return result
+
 
 @implementer(IStructure)
 @adapter(IVCARDKind)
@@ -609,3 +625,25 @@ class StructRDFSLiteral(StructBase):
 
     portal_type = CT_RDFS_LITERAL
     rdf_type = RDFS.Literal
+
+
+STRUCTURES = [
+    StructRDFSLiteral,
+    StructSKOSConcept,
+    StructVCARDKind,
+    StructSKOSConceptScheme,
+    StructFOAFAgent,
+    StructDCTRightsStatement,
+    StructDCTStandard,
+    StructDCTMediaTypeOrExtent,
+    StructDCTLanguage,
+    StructDCTLocation,
+    StructDCTLicenseDocument,
+    StructDCATDistribution,
+    StructDCATCatalog,
+    StructDCATDataset,
+]
+
+STRUCT_BY_NS_CLASS = {
+    i.rdf_type: i for i in STRUCTURES
+}

@@ -83,7 +83,9 @@ class IPKANImportSettings(model.Schema):
     )
 
     skos_concept = schema.List(
-        default=[constants.VOCAB_SOURCES[constants.CT_SKOS_CONCEPT]],
+        default=list(
+            constants.VOCAB_SOURCES[constants.CT_SKOS_CONCEPT].keys(),
+        ),
         description=i18n.HELP_SETTINGS_IMPORTS_SKOS_CONCEPT,
         required=False,
         title=i18n.LABEL_SETTINGS_IMPORTS_SKOS_CONCEPT,

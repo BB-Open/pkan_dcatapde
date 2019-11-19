@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
 from pkan.dcatapde import _
+from pkan.dcatapde import constants
 from pkan.dcatapde.browser.update_views.update_base import UpdateObjectsBase
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import FOLDER_CONCEPTS
@@ -81,9 +82,9 @@ class UpdateThemes(UpdateObjectsBase):
                     lang = str(lang)
                     if lang in self.available_languages:
                         lang = self.available_languages[lang]
-                    if lang not in self.available_languages_title:
-                        continue
-                    att_data[lang] = str(literal)
+                        att_data[lang] = str(literal)
+                if not att_data:
+                    att_data = str(attribute.first)
             else:
                 if not attribute.first:
                     att_data = None
@@ -97,19 +98,23 @@ class UpdateThemes(UpdateObjectsBase):
 
         params['rdfs_isDefinedBy'] = att_data
 
+        FOAF_DEPICTION = constants.VOCAB_SOURCES[constants.CT_SKOS_CONCEPT]
+
+        params['foaf_depiction'] = FOAF_DEPICTION[att_data]
+
         # Todo : Check for collisions. Probably not by title but by
         # rdfs_isDefinedBy
 
         if not params['dct_title']:
             params['dct_title'] = params['dc_identifier']
 
-        # create a license document object
+        # create a skos:concept object
         try:
-            if isinstance(params['dc_identifier'], list):
+            if isinstance(params['dc_identifier'], dict):
                 id = params['dc_identifier'][self.default_language]
             else:
                 id = params['dc_identifier']
-            if isinstance(params['dc_title'], list):
+            if isinstance(params['dct_title'], dict):
                 title = params['dct_title'][self.default_language]
             else:
                 title = params['dct_title']
@@ -120,7 +125,8 @@ class UpdateThemes(UpdateObjectsBase):
                 id=id,
                 title=title,
                 **params)
-        except Exception:
+        except Exception as e:
+            portal.show_message(message=str(e), request=self.request)
             return
         else:
             self.count += 1

@@ -58,7 +58,7 @@ class RDFMarshallTarget(object):
             resource_class = self.session.get_class(surf_ns[obj.ns_class])
             resource = resource_class(obj.rdf_about)
         except AttributeError:
-            surf_ns = getattr(surf.ns, 'RDF')
+            surf_ns = getattr(surf.ns, 'RDFS')
             resource_class = self.session.get_class(surf_ns['Literal'])
             resource = resource_class(obj.context.absolute_url())
 

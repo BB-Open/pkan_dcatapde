@@ -36,7 +36,7 @@
     <element value="plone.app.relationfield.behavior.IRelatedItems" />
     <element value="plone.app.dexterity.behaviors.nextprevious.INextPreviousToggle" />
   </property>
-  <property name="schema"></property>
+  <property name="schema">pkan.dcatapde.content.skos_conceptscheme.ISKOSConceptScheme</property>
   <property name="model_source"></property>
   <property name="model_file">plone.app.contenttypes.schema:folder.xml</property>
   <property name="schema_policy">dexterity</property>

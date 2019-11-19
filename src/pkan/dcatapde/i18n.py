@@ -148,6 +148,7 @@ HELP_REHARVESTING_PERIOD = _(
     u'Period is parsed using pytimeparse. '
     u'Read about on https://pypi.org/project/pytimeparse/',
 )
+HELP_FOAF_DEPICTION = _(u'Visual representation of the category')
 
 LABEL_ADMS_IDENTIFIER = _(u'Local identifier')
 LABEL_ADMS_VERSIONNOTES = _(u'Version Notes')

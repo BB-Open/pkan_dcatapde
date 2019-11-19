@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """SKOSConcept Content Type."""
 
+from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
+from pkan.dcatapde.i18n import HELP_FOAF_DEPICTION
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
@@ -39,6 +41,13 @@ class ISKOSConcept(model.Schema, IDCAT):
         description=i18n.HELP_RDFS_ISDEFINEDBY,
         required=False,
         title=i18n.LABEL_RDFS_ISDEFINEDBY,
+    )
+
+    foaf_depiction = schema.TextLine(
+        required=False,
+        title=_(u'Icon class for category'),
+        description=_(HELP_FOAF_DEPICTION),
+
     )
 
 

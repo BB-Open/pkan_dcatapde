@@ -32,6 +32,23 @@ QUERY_ATT_STR_SPARQL = u"""SELECT DISTINCT ?o
        }}"""
 
 
+# Give me all objects
+# "all" query
+QUERY_ALL_STR = u"""SELECT DISTINCT ?s
+       WHERE {
+          ?s ?p ?o
+       }"""
+
+QUERY_ALL = prepareQuery(
+    QUERY_ALL_STR,
+    initNs=INIT_NS,
+)
+
+QUERY_ALL_STR_SPARQL = u"""SELECT DISTINCT ?s
+       WHERE {{
+          ?s ?p ?o
+       }}"""
+
 # Give me the objects to given predicate
 # "a" query
 QUERY_A_STR = u"""SELECT DISTINCT ?s

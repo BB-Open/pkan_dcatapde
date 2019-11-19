@@ -15,6 +15,7 @@ from pkan.dcatapde.harvesting.rdf.rdf2plone import RDFProcessor
 from pkan.dcatapde.harvesting.rdf.tripelstore import tripel_store
 from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
 from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
+from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
@@ -156,6 +157,16 @@ class RDFProcessorTS(RDFProcessor):
         prepared_query = query.format(**bindings)
         self.graph.sparql.setQuery(prepared_query)
         res = self.graph.sparql.query()
+        return res
+
+    def query_all(self):
+        """Query the RDF db for all objects
+        """
+
+        query = QUERY_ALL_STR_SPARQL
+        bindings = {
+        }
+        res = self.query(query, bindings)
         return res
 
     def query_a(self, o):
