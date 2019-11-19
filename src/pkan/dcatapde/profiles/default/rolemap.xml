@@ -228,15 +228,12 @@
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Document" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderAdmin" />
     </permission>
     <permission name="plone.app.contenttypes: Add Event" acquire="True">
       <role name="Manager" />
@@ -296,7 +293,6 @@
       <role name="Owner" />
       <role name="Contributor" />
       <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
       <role name="ProviderAdmin" />
     </permission>
 
