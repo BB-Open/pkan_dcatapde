@@ -76,7 +76,7 @@ def get_ancestor(context, portal_type):
         obj = get_parent(obj)
         new_portal_type = getattr(obj, 'portal_type', None)
         if (not new_portal_type or
-                (new_portal_type == constants.CT_PLONE_SITE) or
+            (new_portal_type == constants.CT_PLONE_SITE) or
                 not obj):
             return None
 
@@ -125,9 +125,13 @@ def query_active_objects(query, portal_type, context=None):
             new_brains = catalog(query)
             for brain in new_brains:
                 obj = brain.getObject()
-                perm = has_permission(PRVIDER_DATA_EDITOR_PERM, obj)
-                perm = perm or has_permission(PROVIDER_ADMIN_PERM, obj)
-                perm = perm or has_permission(PROVIDER_CHIEF_EDITOR_PERM, obj)
+                perm = has_permission(PRVIDER_DATA_EDITOR_PERM, obj=obj,
+                                      user=current)
+                perm = perm or has_permission(PROVIDER_ADMIN_PERM, obj=obj,
+                                              user=current)
+                perm = perm or has_permission(PROVIDER_CHIEF_EDITOR_PERM,
+                                              obj=obj,
+                                              user=current)
 
                 if perm:
                     brains.append(brain)

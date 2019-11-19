@@ -61,8 +61,8 @@ class LandingPageView(BrowserView):
     def read_data(self):
         user = api.user.get_current()
 
-        res = api.content.find(
-            {'portal_type': [CT_DCAT_CATALOG, 'Folder']})
+        res = api.content.find(context=None,
+                               portal_type=[CT_DCAT_CATALOG, 'Folder'])
 
         for brain in res:
             try:
