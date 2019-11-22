@@ -15,8 +15,6 @@ matrix:
     - name: "Python 3.7 on Xenial Linux"
       python: 3.7           # this works for Linux but is ignored on macOS or Windows
       dist: xenial          # required for Python >= 3.7
-addons:
-  firefox: 45.8.0esr
 before_install:
   - pip uninstall -y six
 install:
@@ -27,11 +25,6 @@ install:
   - wget https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_RELEASE_2_1_5/blazegraph.deb
   - sudo dpkg -i blazegraph.deb
 before_script:
-  - export DISPLAY=:99.0
-  - export ZSERVER_HOST=127.0.0.1
-  - export ZSERVER_PORT=36007
-  - export DISPLAY=:99.0
-  - firefox -v
   - sudo blazegraph start
 script:
   - bin/code-analysis

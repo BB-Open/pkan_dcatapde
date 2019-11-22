@@ -37,6 +37,7 @@ class HarvesterListViewMixin(object):
             'harvester_entity': addTokenToUrl(path + '/harvester_entity'),
             'edit': addTokenToUrl(path + '/edit'),
             'target': harv.target,
+            'target_namespace': harv.target_namespace,
         }
 
         return data

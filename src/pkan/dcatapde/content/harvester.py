@@ -13,6 +13,7 @@ from plone.autoform import directives as form
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from pytimeparse import parse
+from re import fullmatch
 from z3c.form.interfaces import IEditForm
 from zope.interface import implementer
 from zope.interface import Invalid
@@ -21,11 +22,19 @@ from zope.schema.vocabulary import SimpleVocabulary
 import zope.schema as schema
 
 
+TARGET_NAMESPACE_REGEX = r'[a-zA-Z0-9_\-]*'
+
+
 def period_constraint(value):
     res = parse(value)
     if not res:
         raise Invalid(_(u'Expression can not be parsed.'))
     return True
+
+
+def target_namespace_constraint(value):
+    res = fullmatch(TARGET_NAMESPACE_REGEX, value)
+    return res
 
 
 class IHarvester(model.Schema):
@@ -68,6 +77,15 @@ class IHarvester(model.Schema):
             u'Harvest to Plone or to the Tripel store',
         ),
         vocabulary='pkan.dcatapde.HarvesterTargetVocabulary',
+    )
+
+    target_namespace = schema.TextLine(
+        title=_(u'Target Namespace'),
+        description=_(
+            u'Specify a name for the tripelstore to harvest to. '
+            u'Only a single word without blanks allowed',
+        ),
+        constraint=target_namespace_constraint,
     )
 
     top_node = schema.Choice(
@@ -146,4 +164,6 @@ class Harvester(Container, DCATMixin):
 
     def id_in_tripel_store(self):
         """This has to be improved"""
+        if self.target_namespace:
+            return self.target_namespace
         return self.UID()
