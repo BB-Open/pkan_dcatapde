@@ -17,7 +17,6 @@ install_requires = [
     # -*- Extra requirements: -*-
     'chardet',
     'pkan.widgets',
-    'pkan.tiles',
     'plone.api',
     'plone.app.dexterity',
     'plone.restapi',

@@ -10,6 +10,7 @@
                   <td i18n:translate="">Harvester</td>
                   <td i18n:translate="">Data Source</td>
                   <td i18n:translate="">Target</td>
+                  <td i18n:translate="">Target namespace</td>
                   <td i18n:translate="">Edit</td>
                   <td i18n:translate="">Dry Run</td>
                   <td i18n:translate="">Graph Display</td>
@@ -25,6 +26,7 @@
                     <td><a tal:attributes="href harv/source_url"
                             tal:content="harv/source_url"></a></td>
                     <td tal:content="harv/target"></td>
+                    <td tal:content="harv/target_namespace"></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/edit">Edit Harvester</a></td>
                     <td><a i18n:translate=""
