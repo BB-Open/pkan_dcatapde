@@ -43,7 +43,8 @@ class UpdateLanguages(UpdateObjectsBase):
             params = self.import_object(obj)
             # special case, should be string not dict
             if 'new_representation' in params:
-                lang = params['new_representation'].values()[0].lower()
+                lang = list(params['new_representation'].values())
+                lang = lang[0].lower()
                 params['new_representation'] = lang
             else:
                 params['new_representation'] = None
