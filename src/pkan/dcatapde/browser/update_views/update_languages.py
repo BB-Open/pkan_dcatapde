@@ -105,7 +105,7 @@ class UpdateLanguages(UpdateObjectsBase):
         if not use_data:
             return use_data
 
-        for short, long in AVAILABLE_LANGUAGES_ISO.iteritems():
+        for short, long in AVAILABLE_LANGUAGES_ISO.items():
             if long == lang:
                 params['old_representation'] = short
                 break
@@ -126,16 +126,17 @@ class UpdateLanguages(UpdateObjectsBase):
                 continue
             params['dct_title'] = titles
 
-            if isinstance(params['dc_identifier'], dict):
-                id = params['dc_identifier'][self.default_language]
-            else:
-                id = params['dc_identifier']
+            id = self.get_language_value(params, 'dct_identifier')
+            if not id:
+                ignored_count += 1
+                continue
             id = idnormalizer.normalize(id)
 
-            if isinstance(params['dct_title'], dict):
-                title = params['dct_title'][self.default_language]
-            else:
-                title = params['dct_title']
+            title = self.get_language_value(params, 'dct_title')
+
+            if not title:
+                ignored_count += 1
+                continue
 
             try:
                 # create a license document object
@@ -152,3 +153,17 @@ class UpdateLanguages(UpdateObjectsBase):
             else:
                 good_count += 1
         return good_count, ignored_count
+
+    def get_language_value(self, params, attr):
+        if isinstance(params[attr], dict):
+            try:
+                id = params[attr][self.default_language]
+            except KeyError:
+                try:
+                    id = params[attr]['eng']
+                except KeyError:
+                    return None
+        else:
+            id = params[attr]
+
+        return id
