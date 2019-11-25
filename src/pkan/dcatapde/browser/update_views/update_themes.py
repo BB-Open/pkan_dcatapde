@@ -98,9 +98,7 @@ class UpdateThemes(UpdateObjectsBase):
 
         params['rdfs_isDefinedBy'] = att_data
 
-        FOAF_DEPICTION = constants.VOCAB_SOURCES[constants.CT_SKOS_CONCEPT]
-
-        params['foaf_depiction'] = FOAF_DEPICTION[att_data]
+        params = self.get_foaf_depiction(params, att_data)
 
         # Todo : Check for collisions. Probably not by title but by
         # rdfs_isDefinedBy
@@ -130,3 +128,14 @@ class UpdateThemes(UpdateObjectsBase):
             return
         else:
             self.count += 1
+
+    def get_foaf_depiction(self, params, att_data):
+        FOAF_DEPICTION = constants.VOCAB_SOURCES[constants.CT_SKOS_CONCEPT]
+
+        try:
+            params['foaf_depiction'] = FOAF_DEPICTION[att_data]
+        except KeyError:
+            # no image provided
+            pass
+
+        return params
