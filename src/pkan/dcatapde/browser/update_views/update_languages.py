@@ -126,7 +126,7 @@ class UpdateLanguages(UpdateObjectsBase):
                 continue
             params['dct_title'] = titles
 
-            id = self.get_language_value(params, 'dct_identifier')
+            id = self.get_language_value(params, 'dc_identifier')
             if not id:
                 ignored_count += 1
                 continue
