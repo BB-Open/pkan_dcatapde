@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
 from DateTime.DateTime import time
+from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.constants import RDF_FORMAT_XML
@@ -12,7 +13,6 @@ from pkan.dcatapde.harvesting.rdf.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.rdf.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.rdf.interfaces import IRDFXML
 from pkan.dcatapde.harvesting.rdf.rdf2plone import RDFProcessor
-from pkan.dcatapde.harvesting.rdf.tripelstore import tripel_store
 from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
 from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
