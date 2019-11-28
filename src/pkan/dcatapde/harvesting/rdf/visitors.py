@@ -102,6 +102,7 @@ class Scribe(object):
             result.append(log_line)
         return result
 
+
 # Node types
 NT_NORMAL = 'Normal'
 NT_DEFAULT = 'Default'
@@ -327,9 +328,9 @@ class BaseVisitor(object):
     def end_node(self, predicate, obj, **kwargs):
         """Generate an edge and an Node"""
         # From the field we get the predicate and the object
-#        field = kwargs['field']
-#        predicate = field['predicate']
-#        obj = field['object']
+        #        field = kwargs['field']
+        #        predicate = field['predicate']
+        #        obj = field['object']
         # the status of the node
         if 'status' in kwargs:
             status = kwargs['status']

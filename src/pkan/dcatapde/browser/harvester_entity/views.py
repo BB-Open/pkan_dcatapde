@@ -31,7 +31,6 @@ from zope.schema.fieldproperty import FieldProperty
 
 
 class IHarvesterSingleSchema(model.Schema):
-
     destination = schema.Choice(
         required=False,
         title=_(u'Destination'),
@@ -67,11 +66,11 @@ class IHarvesterSingleSchema(model.Schema):
 
 @implementer(IHarvesterSingleSchema)
 class HarvesterSingle(object):
-
     destination = FieldProperty(IHarvesterSingleSchema['destination'])
     query = FieldProperty(IHarvesterSingleSchema['query'])
     dext_object = FieldProperty(IHarvesterSingleSchema['dext_object'])
     default = FieldProperty(IHarvesterSingleSchema['default'])
+
 
 registerFactoryAdapter(IHarvesterSingleSchema, HarvesterSingle)
 
@@ -144,6 +143,7 @@ class HarvesterSingleEntityForm(edit.DefaultEditForm):
 
         self.status = _(u'Thank you very much!')
 
+
 HarvesterSingleEntityView = layout.wrap_form(HarvesterSingleEntityForm)
 classImplements(HarvesterSingleEntityView, IDexterityEditForm)
 
@@ -160,24 +160,24 @@ class HarvesterSubForm(AutoObjectSubForm, ObjectSubForm):
 
 @implementer(interfaces.ISubformFactory)
 @adapter(
-    Interface,              # widget value
+    Interface,  # widget value
     interfaces.IFormLayer,  # request
-    Interface,              # widget context
-    Interface,              # form
-    ObjectWidget,           # widget
-    Interface,              # field
-    Interface,              # field.schema
+    Interface,  # widget context
+    Interface,  # form
+    ObjectWidget,  # widget
+    Interface,  # field
+    Interface,  # field.schema
 )
 class HarvesterSubformAdapter(SubformAdapter):
     """Subform Adapter."""
 
     factory = HarvesterSubForm
 
+
 provideAdapter(HarvesterSubformAdapter)
 
 
 class IHarvesterMultiSchema(model.Schema):
-
     fields = schema.List(
         title=_('Select your fields'),
         value_type=schema.Object(

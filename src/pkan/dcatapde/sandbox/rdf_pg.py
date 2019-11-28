@@ -25,6 +25,7 @@ class SQLStorage(object):
     def read(self, data):
         self.graph.parse(source=data)
 
+
 # build a storage
 storage = SQLStorage('test1')
 
@@ -34,7 +35,7 @@ storage = SQLStorage('test1')
 try:
     storage.graph.parse(
         source='http://publications.europa.eu/mdr/resource/authority'
-        '/licence/skos/licences-skos.rdf')
+               '/licence/skos/licences-skos.rdf')
 except IntegrityError:
     pass
 
@@ -48,7 +49,6 @@ qres = storage.graph.query(
           ?license rdfs:isDefinedBy ?definition .
           ?license rdfs:label ?label .
        }""")
-
 
 res = vkb.xml(qres.serialize())
 # print(res)

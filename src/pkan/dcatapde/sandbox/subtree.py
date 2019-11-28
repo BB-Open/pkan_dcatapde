@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from pkan.dcatapde.structure.sparql import DCAT
 from pkan.dcatapde.structure.sparql import QUERY_A
 from rdflib import Graph
@@ -35,6 +36,7 @@ def get_nodes_for_ref(ref, depth=0):
         else:
             res[s][p] = o
     return res
+
 
 url = 'https://opendata.potsdam.de/api/v2/catalog/exports/' \
       'rdf?rows=10&timezone=UTC&include_app_metas=false'

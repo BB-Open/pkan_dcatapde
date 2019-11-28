@@ -112,6 +112,7 @@ class DcatCatalogContextAwareVocabulary(BaseContentTypeVocabularyNoPkanState):
             query['path'] = '/'.join(context.getPhysicalPath())
         return self.get_results(query, context)
 
+
 ContextAwareCatalogFactory = DcatCatalogContextAwareVocabulary()
 
 
@@ -237,7 +238,6 @@ VCARDKindVocabularyFactory = VCARDKindVocabulary()
 
 @implementer(IVocabularyFactory)
 class AllDcatObjectsVocabulary(BaseContentTypeVocabulary):
-
     portal_type = constants.DCAT_CTs
 
 
@@ -255,12 +255,12 @@ class AllDCATPortalTypesVocabulary(object):
 
         return SimpleVocabulary(terms)
 
+
 AllDCATPortalTypesVocabularyFactory = AllDCATPortalTypesVocabulary()
 
 
 @implementer(IVocabularyFactory)
 class SKOSConceptValueVocabulary(KeywordsVocabulary):
-
     keyword_index = 'dcat_theme'
 
     def safe_simplevocabulary_from_values(self, values, query=None):
@@ -322,6 +322,7 @@ class SKOSConceptValueVocabulary(KeywordsVocabulary):
             return self.all_keywords(query)
         return self.keywords_of_section(section, query)
 
+
 SKOSConceptValueVocabularyFactory = SKOSConceptValueVocabulary()
 
 
@@ -355,5 +356,6 @@ class SKOSConceptDefaultVocabulary(KeywordsVocabulary):
 
     def __call__(self, context, query=None):
         return self.all_keywords()
+
 
 SKOSConceptDefaultVocabularyFactory = SKOSConceptDefaultVocabulary()

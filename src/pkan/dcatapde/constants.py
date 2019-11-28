@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Constants for easier access."""
+
 from pkan.dcatapde import _
 
 
@@ -66,7 +67,6 @@ DCAT_TOP_NODES = [
 # DCAT predicates
 DP_DCAT_DATASET = 'dcat:Dataset'
 
-
 # HTML filled with error information from harvesting dry_run
 ERROR_HTML_LINE = '<p>Found error {error} on field {field}</p>'
 
@@ -106,25 +106,24 @@ FOLDER_RIGHTS = 'rightsfolder'
 #: Default folder shortname for languages
 FOLDER_LANGUAGES = 'languages'
 
-
 # Location of vocabulary sources
 # todo move to registry
 VOCAB_SOURCES = {
     CT_DCT_LICENSEDOCUMENT: 'http://www.dcat-ap.de/def/licenses/20180514.rdf',
     CT_SKOS_CONCEPT: {
-        'http://publications.europa.eu/resource/authority/data-theme/AGRI': 'fa-tree',              # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/ECON': 'fa-shopping-cart',     # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/EDUC': 'fa-laptop',            # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/ENER': 'fa-battery-full',      # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/ENVI': 'fa-leaf',              # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/HEAL': 'fa-stethoscope',       # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/INTR': 'fa-globe',             # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/JUST': 'fa-balance-scales',    # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/SOCI': 'fa-github',            # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/GOVE': 'fa-inbox',             # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/REGI': 'fa-building',          # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/TECH': 'fa-microchip',         # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/TRAN': 'fa-train',             # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/AGRI': 'fa-tree',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/ECON': 'fa-shopping-cart',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/EDUC': 'fa-laptop',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/ENER': 'fa-battery-full',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/ENVI': 'fa-leaf',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/HEAL': 'fa-stethoscope',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/INTR': 'fa-globe',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/JUST': 'fa-balance-scales',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/SOCI': 'fa-github',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/GOVE': 'fa-inbox',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/REGI': 'fa-building',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/TECH': 'fa-microchip',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/TRAN': 'fa-train',  # noqa E501
     },
 
     CT_DCT_LANGUAGE: 'data/languages.rdf',
@@ -224,9 +223,7 @@ VOLUMN_TYPES = {
 }
 
 SIZE_UNIT = 'MB'
-SIZE_FACTOR = 1024**2
+SIZE_FACTOR = 1024 ** 2
 SIZE_ROUND = 2
 
 IMPRESSUM = 'Impressum'
-
-BLAZEGRAPH_BASE = 'http://localhost:9999'
