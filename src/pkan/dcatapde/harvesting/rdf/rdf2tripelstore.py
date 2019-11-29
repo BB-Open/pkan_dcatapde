@@ -386,7 +386,7 @@ class RDFProcessorTS(RDFProcessor):
 
         for res in results.bindings:
             self.insert(
-                s=rdf_node,
+                s=rdf_node.value,
                 p=res['p'],
                 o=res['o'],
             )
@@ -438,7 +438,7 @@ class RDFProcessorTS(RDFProcessor):
         obj_data = {}
 
         # set the original URI as rdf_about field:
-        obj_data['rdf_about'] = rdf_node
+        obj_data['rdf_about'] = rdf_node.value
 
         # Go for the DCAT-AP.de properties of the current node
         self.properties(
