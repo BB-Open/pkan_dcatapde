@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="pkan.dcatapde">
+<body>
+    <metal:content-core fill-slot="content-core">
+        <table>
+            <thead>
+                <tr>
+                  <td i18n:translate="">Transfer</td>
+                  <td i18n:translate="">Data Source Url</td>
+                  <td i18n:translate="">Data Source Namespace</td>
+                  <td i18n:translate="">Target namespace</td>
+                  <td i18n:translate="">Edit</td>
+                  <td i18n:translate="">Real Run</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr tal:repeat="trans view/data">
+                    <td><a tal:attributes="href trans/path"
+                            tal:content="trans/title"></a></td>
+                    <td><a tal:attributes="href trans/source_url"
+                            tal:content="trans/source_url"></a></td>
+                  <td tal:content="trans/source_namespace"></td>
+                    <td tal:content="trans/target_namespace"></td>
+                    <td><a i18n:translate=""
+                           tal:attributes="href trans/edit">Edit Transfer</a></td>
+                    <td><a i18n:translate=""
+                           tal:attributes="href trans/real_run">Real Run</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </metal:content-core>
+</body>
+</html>

@@ -86,6 +86,16 @@
         />
 
     <permission
+        id="pkan.dcatapde.AddTransfer"
+        title="pkan.dcatapde: Add Transfer"
+        />
+
+    <permission
+        id="pkan.dcatapde.AddTransferfolder"
+        title="pkan.dcatapde: Add Transferfolder"
+        />
+
+    <permission
         id="pkan.dcatapde.AddHarvester"
         title="pkan.dcatapde: Add Harvester"
         />

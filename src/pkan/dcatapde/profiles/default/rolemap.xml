@@ -125,6 +125,20 @@
     </permission>
 
 
+    <permission name="pkan.dcatapde: Add Transfer" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+    </permission>
+
+    <permission name="pkan.dcatapde: Add Transferfolder" acquire="True">
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Owner" />
+      <role name="Contributor" />
+    </permission>
+
     <permission name="pkan.dcatapde: Add Harvester" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />

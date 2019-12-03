@@ -137,4 +137,13 @@
       handler=".upgrades.reload_gs_profile"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1016"
+      title="Reload GS profiles: Add Transfer Type"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
+
 </configure>

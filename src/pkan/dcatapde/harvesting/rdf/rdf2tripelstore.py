@@ -116,7 +116,7 @@ class RDFProcessorTS(RDFProcessor):
         tripel_db_name = self.harvester.id_in_tripel_store()
         tripel_temp_db_name = tripel_db_name + '_temp'
 
-        self._graph = tripel_store.graph_from_uri(
+        self._graph, _response = tripel_store.graph_from_uri(
             tripel_temp_db_name,
             self.harvester.url,
             self.mime_type,

@@ -1,23 +1,23 @@
 <configure
-      xmlns="http://namespaces.zope.org/zope"
-      xmlns:browser="http://namespaces.zope.org/browser"
-      >
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+>
 
- <browser:page
+  <browser:page
     for="pkan.dcatapde.content.harvester.IHarvester"
     name="dry_run"
     class=".harvester.DryRunView"
     template="templates/dry_run.pt"
     permission="cmf.ManagePortal"
-    />
+  />
 
- <browser:page
+  <browser:page
     for="pkan.dcatapde.content.harvester.IHarvester"
     name="real_run"
     class=".harvester.RealRunView"
     template="templates/dry_run.pt"
     permission="cmf.ManagePortal"
-    />
+  />
 
   <browser:page
     for="*"
@@ -25,7 +25,7 @@
     class=".harvester.RealRunCronView"
     template="templates/dry_run.pt"
     permission="cmf.ManagePortal"
-    />
+  />
 
   <browser:page
     for="*"
@@ -33,7 +33,31 @@
     class=".harvester.HarvesterOverview"
     template="templates/harvester_overview.pt"
     permission="cmf.ManagePortal"
-    />
+  />
+
+  <browser:page
+    for="*"
+    name="transfer_overview"
+    class=".transfer.TransferOverview"
+    template="templates/transfer_overview.pt"
+    permission="cmf.ManagePortal"
+  />
+
+  <browser:page
+    for="pkan.dcatapde.content.transfer.ITransfer"
+    name="real_run_transfer"
+    class=".transfer.RealRunView"
+    template="templates/dry_run.pt"
+    permission="cmf.ManagePortal"
+  />
+
+  <browser:page
+    for="*"
+    name="real_run_cron_transfer"
+    class=".transfer.RealRunCronView"
+    template="templates/dry_run.pt"
+    permission="cmf.ManagePortal"
+  />
 
   <browser:page
     for="pkan.dcatapde.content.harvesterfolder.IHarvesterfolder"
@@ -41,23 +65,31 @@
     class=".harvester.HarvesterFolderView"
     template="templates/harvester.pt"
     permission="cmf.ManagePortal"
-    />
+  />
 
   <browser:page
-      for="pkan.dcatapde.content.dcat_collectioncatalog.IDCATCollectionCatalog"
-      name="folder_listing"
-      class=".dcat_collection_catalog.DcatCollectionCatalogFolderListing"
-      template="templates/folder_listing.pt"
-      permission="zope2.View"
-      />
+    for="pkan.dcatapde.content.transferfolder.ITransferfolder"
+    name="transfer_overview"
+    class=".transfer.TransferFolderView"
+    template="templates/transfer.pt"
+    permission="cmf.ManagePortal"
+  />
 
   <browser:page
-      for="pkan.dcatapde.content.dcat_collectioncatalog.IDCATCollectionCatalog"
-      name="short_view"
-      class=".dcat_collection_catalog.DcatCollectionCatalogView"
-      template="templates/dcat_collection_catalog.pt"
-      permission="zope2.View"
-      />
+    for="pkan.dcatapde.content.dcat_collectioncatalog.IDCATCollectionCatalog"
+    name="folder_listing"
+    class=".dcat_collection_catalog.DcatCollectionCatalogFolderListing"
+    template="templates/folder_listing.pt"
+    permission="zope2.View"
+  />
+
+  <browser:page
+    for="pkan.dcatapde.content.dcat_collectioncatalog.IDCATCollectionCatalog"
+    name="short_view"
+    class=".dcat_collection_catalog.DcatCollectionCatalogView"
+    template="templates/dcat_collection_catalog.pt"
+    permission="zope2.View"
+  />
 
   <browser:page
     for="pkan.dcatapde.content.base.IDCAT"
@@ -65,7 +97,7 @@
     class=".default_view.PKANDefaultView"
     template="templates/default_view.pt"
     permission="zope2.View"
-    />
+  />
 
   <browser:page
     for="pkan.dcatapde.content.publisher_card.IPublisherCard"
@@ -73,23 +105,23 @@
     class=".default_view.PublisherCardDefaultView"
     template="templates/publisher_card.pt"
     permission="zope2.View"
-    />
+  />
 
   <browser:page
-      name="mail_password_form"
-      for="*"
-      template="templates/mail_password_form.pt"
-      permission="zope.Public"
-      class=".contact.RedirectImpressumIfExists"
-      layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
-      />
+    name="mail_password_form"
+    for="*"
+    template="templates/mail_password_form.pt"
+    permission="zope.Public"
+    class=".contact.RedirectImpressumIfExists"
+    layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
+  />
 
   <browser:page
-      for="*"
-      name="contact-info"
-      class=".contact.ContactFormRedirect"
-      permission="zope.Public"
-      layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
-      />
+    for="*"
+    name="contact-info"
+    class=".contact.ContactFormRedirect"
+    permission="zope.Public"
+    layer="pkan.dcatapde.interfaces.IPkanDcatapdeLayer"
+  />
 
 </configure>

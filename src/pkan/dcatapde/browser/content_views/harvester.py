@@ -133,7 +133,7 @@ class RealRunCronView(BrowserView):
             return None
         self.log = []
 
-        results = api.content.find({'portal_type': CT_HARVESTER})
+        results = api.content.find(**{'portal_type': CT_HARVESTER})
 
         for brain in results:
             obj = brain.getObject()

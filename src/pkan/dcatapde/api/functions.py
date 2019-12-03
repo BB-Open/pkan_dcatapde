@@ -88,7 +88,19 @@ def get_all_harvester_folder():
     portal = api.portal.get()
     if not portal:
         return None
-    res = api.content.find({'portal_type': constants.CT_HARVESTER_FOLDER})
+    res = api.content.find(**{'portal_type': constants.CT_HARVESTER_FOLDER})
+    folder = []
+    for brain in res:
+        folder.append(brain.getObject())
+    return folder
+
+
+def get_all_transfer_folder():
+    """Find all HarvesterFolder"""
+    portal = api.portal.get()
+    if not portal:
+        return None
+    res = api.content.find(**{'portal_type': constants.CT_TRANSFER_FOLDER})
     folder = []
     for brain in res:
         folder.append(brain.getObject())
