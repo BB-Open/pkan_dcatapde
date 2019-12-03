@@ -335,6 +335,10 @@ class RDFProcessorTS(RDFProcessor):
             p_out = '"' + p.value + '"'
         if o.type == 'uri':
             o_out = '<' + o.value + '>'
+        elif o.type == 'literal':
+            o_out = '"' + o.value + '"'
+            if o.lang:
+                o_out += '@' + o.lang
         else:
             o_out = '"' + o.value + '"'
         INSERT = """INSERT DATA {{ <{s}> {p} {o} . }}"""
