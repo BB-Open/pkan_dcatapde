@@ -120,7 +120,7 @@ VOCAB_SOURCES = {
         'http://publications.europa.eu/resource/authority/data-theme/ENVI': 'fa-leaf',  # noqa E501
         'http://publications.europa.eu/resource/authority/data-theme/HEAL': 'fa-stethoscope',  # noqa E501
         'http://publications.europa.eu/resource/authority/data-theme/INTR': 'fa-globe',  # noqa E501
-        'http://publications.europa.eu/resource/authority/data-theme/JUST': 'fa-balance-scales',  # noqa E501
+        'http://publications.europa.eu/resource/authority/data-theme/JUST': 'fa-balance-scale',  # noqa E501
         'http://publications.europa.eu/resource/authority/data-theme/SOCI': 'fa-github',  # noqa E501
         'http://publications.europa.eu/resource/authority/data-theme/GOVE': 'fa-inbox',  # noqa E501
         'http://publications.europa.eu/resource/authority/data-theme/REGI': 'fa-building',  # noqa E501
