@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
+import rdflib
 from DateTime.DateTime import time
 from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
@@ -329,7 +330,17 @@ class RDFProcessorTS(RDFProcessor):
 
     def insert(self, s, p, o):
         # Todo melt with self.query
-        if p.type == 'uri':
+        if isinstance(s, rdflib.term.URIRef):
+            s_out = '<' + s.toPython() + '>'
+        elif isinstance(s, str):
+            s_out = '<' + s + '>'
+        elif s.type == 'uri':
+            s_out = '<' + s.value + '>'
+        else:
+            s_out = '"' + s.value + '"'
+        if isinstance(p, rdflib.term.URIRef):
+            p_out = '<' + p.toPython() + '>'
+        elif p.type == 'uri':
             p_out = '<' + p.value + '>'
         else:
             p_out = '"' + p.value + '"'
@@ -341,9 +352,9 @@ class RDFProcessorTS(RDFProcessor):
                 o_out += '@' + o.lang
         else:
             o_out = '"' + o.value + '"'
-        INSERT = """INSERT DATA {{ <{s}> {p} {o} . }}"""
+        INSERT = """INSERT DATA {{ {s} {p} {o} . }}"""
         insert = INSERT.format(
-            s=s,
+            s=s_out,
             p=p_out,
             o=o_out,
         )
