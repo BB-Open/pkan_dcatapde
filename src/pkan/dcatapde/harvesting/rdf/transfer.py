@@ -61,7 +61,6 @@ class RDFProcessorTransfer(RDFProcessor):
         Open a target namespace for the dcat-ap.de compatible data and
         set a rdflib grpah instance to it for writing and reading.
         """
-
         tripel_db_name = self.transfer.id_in_tripel_store()
 
         self._graph, response = tripel_store.graph_from_uri(
