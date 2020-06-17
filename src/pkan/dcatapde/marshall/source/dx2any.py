@@ -156,7 +156,8 @@ class DX2Any(object):
             resources = []
             try:
                 # Do we have a collection?
-                items = [item.getObject() for item in ICollection(self.context).results(batch=False)]
+                items = [item.getObject() for item in ICollection(
+                    self.context).results(batch=False)]
             except TypeError as e:
                 # if not we have a folder
                 items = self.context.values()
