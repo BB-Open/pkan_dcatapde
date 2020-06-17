@@ -154,7 +154,13 @@ class DX2Any(object):
         """Marshall contained objects."""
         for item_name in self.structure.contained:
             resources = []
-            for item in self.context.values():
+            try:
+                # Do we have a collection?
+                items = [item.getObject() for item in ICollection(self.context).results(batch=False)]
+            except TypeError as e:
+                # if not we have a folder
+                items = self.context.values()
+            for item in items:
                 if item_name == item.portal_type:
                     contained_marshaller = queryMultiAdapter(
                         (item, self.marshall_target),

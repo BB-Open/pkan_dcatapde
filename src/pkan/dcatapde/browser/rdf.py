@@ -63,6 +63,10 @@ class RDF_XML(object):
             'Content-Type',
             RDF_FORMAT_METADATA[format]['mime_type'],
         )
+        self.request.response.setHeader(
+            'Cache-Control',
+            'no-cache, no-store, must-revalidate',
+        )
         data = target._store.reader.graph.serialize(
             format=RDF_FORMAT_METADATA[format]['serialize_as'],
         )

@@ -382,6 +382,23 @@ class StructDCATCollectionCatalog(StructDCATCatalog):
     """
 
     portal_type = CT_DCAT_COLLECTION_CATALOG
+    rdf_type = DCAT.Catalog
+
+    @property
+    def contained(self):
+        """Return all contained items.
+
+        :return:
+        """
+        result = {}
+        result['dcat_catalog'] = {
+            'object': StructDCATCatalog,
+            'importance': IMP_REQUIRED,
+            'type': list,
+            'predicate': DCAT.catalog,
+            'target': DCAT.Catalog,
+        }
+        return result
 
 
 @implementer(IStructure)

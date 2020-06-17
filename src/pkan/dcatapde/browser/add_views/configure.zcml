@@ -22,6 +22,15 @@
              plone.dexterity.interfaces.IDexterityFTI"
         provides="zope.publisher.interfaces.browser.IBrowserPage"
         factory=".default_add_view.PkanDefaultAddView"
+        name="dcat_collection_catalog"
+        />
+
+    <adapter
+        for="Products.CMFCore.interfaces.IFolderish
+             zope.publisher.interfaces.browser.IDefaultBrowserLayer
+             plone.dexterity.interfaces.IDexterityFTI"
+        provides="zope.publisher.interfaces.browser.IBrowserPage"
+        factory=".default_add_view.PkanDefaultAddView"
         name="dcat_dataset"
         />
 
@@ -40,8 +49,6 @@
             interface="zope.publisher.interfaces.browser.IBrowserPage"
             />
     </class>
-
-
 
     <adapter
         for="Products.CMFCore.interfaces.IFolderish
