@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from datetime import timedelta
+from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_transfer_folder
 from pkan.dcatapde.constants import CT_TRANSFER
@@ -9,7 +8,7 @@ from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
 from Products.Five import BrowserView
-from pytimeparse import parse
+from requests.exceptions import SSLError
 from zope.i18n import translate
 from zope.interface import alsoProvides
 
@@ -108,11 +107,13 @@ class RealRunCronView(BrowserView):
 
     def real_run(self, trans):
         rdfproc = RDFProcessor_factory(trans)
-
-        response = rdfproc.real_run()
-
-        text = 'Database Response: '
-        text = text + response.text.replace('<', '&lt;').replace('>', '&gt;')
+        try:
+            response = rdfproc.real_run()
+            text = 'Database Response: '
+            text = text + \
+                response.text.replace('<', '&lt;').replace('>', '&gt;')
+        except SSLError:
+            text = 'Database not reachable.'
 
         return [text]
 
@@ -123,27 +124,41 @@ class RealRunCronView(BrowserView):
         self.log = []
 
         results = api.content.find(**{'portal_type': CT_TRANSFER})
+        target_namespaces = []
+        url_transfers = []
+        name_space_transfers = []
 
         for brain in results:
             obj = brain.getObject()
-            no_run_message = translate(_(u'<p>Nothing to do</p>'),
-                                       context=self.request)
-            self.log.append(u'<h2>{title}</h2>'.format(title=obj.title))
 
             if obj.reharvesting_period is None:
+                no_run_message = translate(_(u'<p>Nothing to do</p>'),
+                                           context=self.request)
+                self.log.append(u'<h2>{title}</h2>'.format(title=obj.title))
                 self.log.append(no_run_message)
-            elif obj.reharvesting_period and obj.last_run is None:
-                self.log += self.real_run(obj)
+            # cause we empty, we have to rerun all
+            # elif obj.reharvesting_period and obj.last_run is None:
+            #     self.log += self.real_run(obj)
             else:
-                seconds = parse(obj.reharvesting_period)
-                delta = timedelta(seconds=seconds)
+                target_namespaces.append(obj.id_in_tripel_store())
+                if obj.url:
+                    url_transfers.append(obj)
+                elif obj.source_namespace:
+                    name_space_transfers.append(obj)
 
-                # noinspection PyTypeChecker
-                current_delta = datetime.now() - obj.last_run
-
-                if current_delta >= delta:
-                    self.log += self.real_run(obj)
-                else:
-                    self.log.append(no_run_message)
+        for namespace in target_namespaces:
+            self.log.append(
+                u'<h2>Clear Namespace {title}</h2>'.format(title=namespace))
+            tripel_store.empty_namespace(namespace)
+            self.log.append(u'<p>Erledigt</p>')
+        for obj in url_transfers:
+            self.log.append(
+                u'<h2>URL Transfer: {title}</h2>'.format(title=obj.title))
+            self.log += self.real_run(obj)
+        for obj in name_space_transfers:
+            self.log.append(
+                u'<h2>Namespace Transfer: {title}</h2>'.format(
+                    title=obj.title))
+            self.log += self.real_run(obj)
 
         return super(RealRunCronView, self).__call__(*args, **kwargs)

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
-import rdflib
 from DateTime.DateTime import time
 from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
@@ -27,6 +26,8 @@ from SPARQLWrapper.SmartWrapper import Value
 from urllib import parse
 from zope.component import adapter
 from zope.interface import implementer
+
+import rdflib
 
 
 IFaceToRDFFormatKey = {
@@ -116,6 +117,9 @@ class RDFProcessorTS(RDFProcessor):
 
         tripel_db_name = self.harvester.id_in_tripel_store()
         tripel_temp_db_name = tripel_db_name + '_temp'
+
+        tripel_store.empty_namespace(tripel_db_name)
+        tripel_store.empty_namespace(tripel_temp_db_name)
 
         self._graph, _response = tripel_store.graph_from_uri(
             tripel_temp_db_name,
