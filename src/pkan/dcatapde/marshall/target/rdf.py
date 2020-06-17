@@ -74,8 +74,8 @@ class RDFMarshallTarget(object):
     def set_link(self, resource, name, other_resource):
         """Link two resources."""
         rdf_name = name.replace(':', '_')
-        if hasattr(resource, rdf_name):
-            prop = getattr(resource, rdf_name)
+        prop = getattr(resource, rdf_name, None)
+        if prop:
             if isinstance(prop, list):
                 prop.append(other_resource.subject)
             else:

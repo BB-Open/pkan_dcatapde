@@ -75,10 +75,13 @@ class DcatCollectionCatalogFolderListing(FolderView):
                 license_uid = getattr(catalog, 'dct_license', None)
         if license_uid:
             license = api.content.get(UID=license_uid)
-            return {
-                'title': license.Title(),
-                'url': license.absolute_url(),
-            }
+            if license:
+                return {
+                    'title': license.Title(),
+                    'url': license.absolute_url(),
+                }
+            else:
+                return {}
         else:
             return {}
 
