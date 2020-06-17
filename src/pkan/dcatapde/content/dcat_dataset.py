@@ -15,6 +15,7 @@ from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope.interface import implementer
 
+import datetime
 import zope.schema as schema
 
 
@@ -171,6 +172,7 @@ class IDCATDataset(model.Schema, IDCAT):
     dct_modified = schema.Date(
         required=False,
         title=i18n.LABEL_DCT_MODIFIED,
+        default=datetime.date.today(),
     )
 
     dcatde_geocodingText = I18NTextLine(

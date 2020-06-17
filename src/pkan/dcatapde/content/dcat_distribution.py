@@ -17,6 +17,8 @@ from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope import schema
 from zope.interface import implementer
 
+import datetime
+
 
 class IDCATDistribution(model.Schema, IDCAT):
     """Marker interface and Dexterity Python Schema for DCATDistribution."""
@@ -140,6 +142,7 @@ class IDCATDistribution(model.Schema, IDCAT):
     dct_modified = schema.Date(
         required=False,
         title=i18n.LABEL_DCT_MODIFIED,
+        default=datetime.date.today(),
     )
 
 

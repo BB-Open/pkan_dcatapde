@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """DCATCatalog Content Type."""
-
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde.content.base import DCATMixin
@@ -15,6 +14,7 @@ from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope.interface import implementer
 
+import datetime
 import zope.schema as schema
 
 
@@ -134,6 +134,7 @@ class IDCATCatalog(model.Schema, IDCAT):
     dct_modified = schema.Date(
         required=False,
         title=i18n.LABEL_DCT_MODIFIED,
+        default=datetime.date.today(),
     )
 
     form.widget(

@@ -118,14 +118,13 @@ class RDFProcessorTS(RDFProcessor):
         tripel_db_name = self.harvester.id_in_tripel_store()
         tripel_temp_db_name = tripel_db_name + '_temp'
 
-        tripel_store.empty_namespace(tripel_db_name)
-        tripel_store.empty_namespace(tripel_temp_db_name)
-
         self._graph, _response = tripel_store.graph_from_uri(
             tripel_temp_db_name,
             self.harvester.url,
             self.mime_type,
+            clear_namespace=True,
         )
+        tripel_store.empty_namespace(tripel_db_name)
         self._target_graph = tripel_store.create_namespace(tripel_db_name)
 
     @property
