@@ -319,6 +319,7 @@ class StructDCATCatalog(StructBase):
 
     portal_type = CT_DCAT_CATALOG
     rdf_type = DCAT.Catalog
+    predicate = 'dcat:catalog'
 
     @property
     def contained(self):
@@ -383,6 +384,7 @@ class StructDCATCollectionCatalog(StructDCATCatalog):
 
     portal_type = CT_DCAT_COLLECTION_CATALOG
     rdf_type = DCAT.Catalog
+    predicate = DCAT.catalog
 
     @property
     def contained(self):
