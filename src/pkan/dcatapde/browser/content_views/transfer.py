@@ -30,6 +30,7 @@ class TransferListViewMixin(object):
             'edit': addTokenToUrl(path + '/edit'),
             'target_namespace': trans.target_namespace,
             'source_namespace': trans.source_namespace,
+            'reharvesting_period': trans.reharvesting_period,
         }
 
         return data

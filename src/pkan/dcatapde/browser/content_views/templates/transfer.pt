@@ -13,6 +13,7 @@
                   <td i18n:translate="">Target namespace</td>
                   <td i18n:translate="">Edit</td>
                   <td i18n:translate="">Real Run</td>
+                  <td i18n:translate="">Run in Cron</td>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,7 @@
                            tal:attributes="href trans/edit">Edit Transfer</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href trans/real_run">Real Run</a></td>
+                  <td tal:content="trans/reharvesting_period"></td>
                 </tr>
             </tbody>
         </table>

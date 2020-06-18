@@ -38,6 +38,7 @@ class HarvesterListViewMixin(object):
             'edit': addTokenToUrl(path + '/edit'),
             'target': harv.target,
             'target_namespace': harv.target_namespace,
+            'reharvesting_period': harv.reharvesting_period,
         }
 
         return data
