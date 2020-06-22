@@ -82,7 +82,7 @@ def _register(
             ])
             responses.add(
                 responses.GET,
-                re.compile('\?'.join((base_url, query))),
+                re.compile('\\?'.join((base_url, query))),
                 body=content,
                 match_querystring=True,
                 status=200,

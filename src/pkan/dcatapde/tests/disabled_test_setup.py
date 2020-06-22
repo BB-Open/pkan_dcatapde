@@ -26,7 +26,7 @@ class TestSetup(unittest.TestCase):
 
     def test_browserlayer(self):
         """Validate that the browserlayer for our product is installed."""
-        layers = [l.getName() for l in registered_layers()]
+        layers = [ly.getName() for ly in registered_layers()]
         self.assertIn('IPkanDcatapdeLayer', layers)
 
 
@@ -49,5 +49,5 @@ class TestUninstall(unittest.TestCase):
 
     def test_browserlayer_removed(self):
         """Validate that the browserlayer is removed."""
-        layers = [l.getName() for l in registered_layers()]
+        layers = [ly.getName() for ly in registered_layers()]
         self.assertNotIn('IPkanDcatapdeLayer', layers)
