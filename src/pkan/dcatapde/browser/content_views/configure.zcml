@@ -21,8 +21,16 @@
 
   <browser:page
     for="*"
-    name="real_run_cron"
+    name="real_run_cron_harvest"
     class=".harvester.RealRunCronView"
+    template="templates/dry_run.pt"
+    permission="cmf.ManagePortal"
+  />
+
+  <browser:page
+    for="*"
+    name="real_run_cron"
+    class=".cron.RealRunCronView"
     template="templates/dry_run.pt"
     permission="cmf.ManagePortal"
   />
