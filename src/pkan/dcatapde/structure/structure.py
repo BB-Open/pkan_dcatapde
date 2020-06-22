@@ -596,10 +596,10 @@ class StructFOAFAgent(StructBase):
 @implementer(IStructure)
 @adapter(ISKOSConceptScheme)
 class StructSKOSConceptScheme(StructBase):
-    """Structure definition of skos:ConceptSchema"""
+    """Structure definition of skos:ConceptScheme"""
 
     portal_type = CT_SKOS_CONCEPTSCHEME
-    rdf_type = SKOS.ConceptSchema
+    rdf_type = SKOS.ConceptScheme
 
     @property
     def contained(self):
@@ -621,7 +621,7 @@ class StructSKOSConceptScheme(StructBase):
 @implementer(IStructure)
 @adapter(IVCARDKind)
 class StructVCARDKind(StructBase):
-    """Structure definition of skos:ConceptSchema"""
+    """Structure definition of vcard:Kind"""
 
     portal_type = CT_VCARD_KIND
     rdf_type = VCARD.Kind

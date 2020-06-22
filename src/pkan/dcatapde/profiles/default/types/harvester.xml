@@ -28,7 +28,7 @@
     <element value="dct_rightsstatement"/>
     <element value="dct_standard"/>
     <element value="skos_concept"/>
-    <element value="skos_conceptschema"/>
+    <element value="skos_conceptscheme"/>
     <element value="dcat_dataset"/>
     <element value="dct_language"/>
     <element value="vcard_kind"/>
