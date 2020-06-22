@@ -322,8 +322,7 @@ class RDFProcessorTS(RDFProcessor):
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
-                    val=str(rdf_obj.value) + u':' +
-                        str(rdf_obj.lang),
+                    val=str(rdf_obj.value) + u':' + str(rdf_obj.lang),
                     att=predicate,
                     obj=kwargs['rdf_node'],
                     type=kwargs['struct'].rdf_type,

@@ -75,9 +75,8 @@ def get_ancestor(context, portal_type):
     while obj.portal_type != portal_type:
         obj = get_parent(obj)
         new_portal_type = getattr(obj, 'portal_type', None)
-        if (not new_portal_type or
-            (new_portal_type == constants.CT_PLONE_SITE) or
-                not obj):
+        pt_check = new_portal_type == constants.CT_PLONE_SITE
+        if not new_portal_type or pt_check or not obj:
             return None
 
     return obj
@@ -130,9 +129,10 @@ def query_active_objects(query, portal_type, context=None):
             roles = api.user.get_roles(user=current, obj=context)
         except UserNotFoundError:
             return brains
-        if (PROVIDER_ADMIN_ROLE in roles or
-                PROVIDER_DATA_EDITOR_ROLE in roles or
-                PROVIDER_CHIEF_EDITOR_ROLE in roles):
+        check_admin = PROVIDER_ADMIN_ROLE in roles
+        check_editor = PROVIDER_DATA_EDITOR_ROLE in roles
+        check_chief = PROVIDER_CHIEF_EDITOR_ROLE in roles
+        if check_admin or check_editor or check_chief:
             query[PKAN_STATE_NAME] = DEACTIVE_STATE
             new_brains = catalog(query)
             for brain in new_brains:

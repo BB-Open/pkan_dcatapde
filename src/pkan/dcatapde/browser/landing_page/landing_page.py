@@ -38,9 +38,9 @@ class LandingPageView(BrowserView):
             )
             return
 
-        self.provider_chief_editor_obj = []
-        self.provider_data_editor_obj = []
-        self.provider_admin_obj = []
+        self.chief_editor_obj = []
+        self.data_editor_obj = []
+        self.admin_obj = []
 
         self.provider_chief_editor_cat = []
         self.provider_data_editor_cat = []
@@ -48,9 +48,9 @@ class LandingPageView(BrowserView):
 
         self.read_data()
 
-        if not (self.provider_chief_editor_obj or
-                self.provider_data_editor_obj or
-                self.provider_admin_obj):
+        check = self.chief_editor_obj or self.data_editor_obj or self.admin_obj
+
+        if not check:
             self.request.response.redirect(
                 self.context.absolute_url(),
             )
@@ -75,19 +75,19 @@ class LandingPageView(BrowserView):
                                               obj=get_parent(obj))
             if PROVIDER_CHIEF_EDITOR_ROLE in roles and \
                     PROVIDER_CHIEF_EDITOR_ROLE not in roles_parent:
-                self.provider_chief_editor_obj.append(obj)
+                self.chief_editor_obj.append(obj)
             elif PROVIDER_CHIEF_EDITOR_ROLE in roles and \
                     obj.portal_type == CT_DCAT_CATALOG:
                 self.provider_chief_editor_cat.append(obj)
             if PROVIDER_DATA_EDITOR_ROLE in roles and \
                     PROVIDER_DATA_EDITOR_ROLE not in roles_parent:
-                self.provider_data_editor_obj.append(obj)
+                self.data_editor_obj.append(obj)
             elif PROVIDER_DATA_EDITOR_ROLE in roles and \
                     obj.portal_type == CT_DCAT_CATALOG:
                 self.provider_data_editor_cat.append(obj)
             if PROVIDER_ADMIN_ROLE in roles and \
                     PROVIDER_ADMIN_ROLE not in roles_parent:
-                self.provider_admin_obj.append(obj)
+                self.admin_obj.append(obj)
             elif PROVIDER_ADMIN_ROLE in roles and \
                     obj.portal_type == CT_DCAT_CATALOG:
                 self.provider_admin_cat.append(obj)
@@ -98,7 +98,7 @@ class LandingPageView(BrowserView):
     def providerdataeditor(self):
         results = []
 
-        for providerdataeditor in self.provider_data_editor_obj:
+        for providerdataeditor in self.data_editor_obj:
             data = {
                 'providerdataeditor_name': providerdataeditor.Title(),
                 'path': providerdataeditor.absolute_url(),
@@ -111,7 +111,7 @@ class LandingPageView(BrowserView):
     def provideradmin(self):
         results = []
 
-        for provideradmin in self.provider_admin_obj:
+        for provideradmin in self.admin_obj:
             data = {
                 'provideradmin_name': provideradmin.Title(),
                 'path': provideradmin.absolute_url(),
@@ -124,7 +124,7 @@ class LandingPageView(BrowserView):
     def providerchiefeditor(self):
         results = []
 
-        for providerchiefeditor in self.provider_chief_editor_obj:
+        for providerchiefeditor in self.chief_editor_obj:
             data = {
                 'providerchiefeditor_name': providerchiefeditor.Title(),
                 'path': providerchiefeditor.absolute_url(),
@@ -171,16 +171,16 @@ class LandingPageView(BrowserView):
         return results
 
     def display_providerchiefeditor(self):
-        return self.provider_chief_editor_obj
+        return self.chief_editor_obj
 
     def display_providerdataeditor(self):
-        return self.provider_data_editor_obj
+        return self.data_editor_obj
 
     def providerdataeditor_heading(self):
         return _(u'Folders and Catalogs managed as Provider Data Editor')
 
     def display_provideradmin(self):
-        return self.provider_admin_obj
+        return self.admin_obj
 
     def provideradmin_heading(self):
         return _(u'Folders managed as Provider Admin')
