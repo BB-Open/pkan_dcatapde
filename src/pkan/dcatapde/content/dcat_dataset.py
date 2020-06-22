@@ -49,7 +49,7 @@ class IDCATDataset(model.Schema, IDCAT):
             'owl_versionInfo',
             'dcatde_legalbasisText',
             'adms_versionNotes',
-            'foaf_landingpage',
+            'dcat_landingpage',
             'foaf_page',
 
         ],
@@ -224,9 +224,9 @@ class IDCATDataset(model.Schema, IDCAT):
         title=i18n.LABEL_ADMS_VERSIONNOTES,
     )
 
-    foaf_landingpage = schema.URI(
+    dcat_landingpage = schema.URI(
         required=False,
-        title=i18n.LABEL_FOAF_LANDINGPAGE,
+        title=i18n.LABEL_DCAT_LANDINGPAGE,
     )
 
     foaf_page = schema.URI(

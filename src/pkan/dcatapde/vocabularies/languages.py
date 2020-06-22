@@ -21,8 +21,8 @@ class PKANLanguageVocabulary(AvailableContentLanguageVocabulary):
         if ltool is not None:
             languages = ltool.getAvailableLanguages()
             items = [
-                (l, languages[l].get('native', l)) for l in languages
-                if query.lower() in languages[l].get('native', l).lower()
+                (lg, languages[lg].get('native', lg)) for lg in languages
+                if query.lower() in languages[lg].get('native', lg).lower()
             ]
             items.sort(key=itemgetter(1))
             items = [SimpleTerm(i[0], i[0], i[1]) for i in items]

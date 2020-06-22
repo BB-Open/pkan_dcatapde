@@ -109,7 +109,7 @@ class DCATMixin(object):
                 if isinstance(all_descs, dict):
                     desc = str(list(all_descs.items())[0][1])
                 elif isinstance(all_descs, list):
-                        desc = str(all_descs[0])
+                    desc = str(all_descs[0])
                 else:
                     desc = str(all_descs)
             except KeyError:
