@@ -820,14 +820,16 @@ class RDFProcessor(object):
         obj_data['rdf_about'] = rdf_node
 
         # Go for the DCAT-AP.de properties of the current node
-        self.properties(
-            visitor,
-            context=context,
-            rdf_node=rdf_node,
-            struct=struct,
-            obj_data=obj_data,
-        )
-
+        try:
+            self.properties(
+                visitor,
+                context=context,
+                rdf_node=rdf_node,
+                struct=struct,
+                obj_data=obj_data,
+            )
+        except RequiredPredicateMissing:
+            pass
         # # Find the edges that are not included in DCAT-Ap.de
         # self.residuals(
         #     visitor,
