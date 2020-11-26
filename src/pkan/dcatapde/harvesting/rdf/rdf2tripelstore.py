@@ -349,7 +349,7 @@ class RDFProcessorTS(RDFProcessor):
         if o.type == 'uri':
             o_out = '<' + o.value + '>'
         elif o.type == 'literal':
-            o_out = '"' + o.value + '"'
+            o_out = '"' + o.value.replace('\n','') + '"'
             if o.lang:
                 o_out += '@' + o.lang
         else:
@@ -421,7 +421,10 @@ class RDFProcessorTS(RDFProcessor):
         if not visitor.real_run:
             return None
 
-        self.construct(rdf_node, struct)
+        try:
+            self.construct(rdf_node, struct)
+        except Exception as e:
+            a=5
 
         # Handle identifier fields
         identifier_fields = handle_identifiers(rdf_node)

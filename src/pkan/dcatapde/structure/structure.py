@@ -315,7 +315,7 @@ class StructBase(object):
 @implementer(IStructure)
 @adapter(IDCATCatalog)
 class StructDCATCatalog(StructBase):
-    """Structure definition of foafdcat:Catalog"""
+    """Structure definition of dcat:Catalog"""
 
     portal_type = CT_DCAT_CATALOG
     rdf_type = DCAT.Catalog
