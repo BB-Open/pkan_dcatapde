@@ -34,6 +34,7 @@ install_requires = [
     'python-dateutil',
     'pytimeparse',
     'SPARQLWrapper',
+    'addict'
 ],
 
 test_requires = [
