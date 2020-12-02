@@ -8,7 +8,7 @@ from pkan.dcatapde.constants import (
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.errors import UnkownBindingType
-from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
+from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor, handle_identifiers
 from pkan.dcatapde.harvesting.processors.visitors import (
     NT_RESIDUAL,
     DCATVisitor, )
