@@ -38,6 +38,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         Open a target namespace for the dcat-ap.de compatible data and
         set a rdflib grpah instance to it for writing and reading.
         """
+        # todo: Missing Attribute, should it be 2 or 3 letters?
+        self.def_lang = 'de'
 
         tripel_db_name = self.harvester.id_in_tripel_store
         tripel_temp_db_name = tripel_db_name + '_temp'
@@ -548,6 +550,7 @@ def main():
 
     rdf_import = TripleStoreRDFProcessor(harvester)
     visitor = DCATVisitor()
+    visitor.real_run = True
     rdf_import.prepare_and_run(visitor)
 
 
