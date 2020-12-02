@@ -103,6 +103,7 @@ class Transfer(Container, DCATMixin):
 
         super(Transfer, self).__init__(*args, **kwargs)
 
+    @property
     def id_in_tripel_store(self):
         """This has to be improved"""
         if self.target_namespace:

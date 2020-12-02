@@ -3,10 +3,14 @@
 from datetime import datetime
 from pkan.dcatapde.structure.sparql import namespace_manager
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
-from plone.api.portal import translate
+#from plone.api.portal import translate
 from rdflib import URIRef
 
 import cgi
+import logging
+
+
+logger = logging.getLogger("Plone")
 
 
 LEVEL_COLOR = {
@@ -31,12 +35,18 @@ class Scribe(object):
         self.data = []
 
     def write(self, msg=None, level=None, **data):
-        self.data.append({
+        entry = {
             'time': datetime.now(),
             'log': msg,
             'level': level,
             'data': data,
-        })
+        }
+        self.data.append(entry)
+        self.log_entry(entry)
+
+    def log_entry(self, entry):
+        for msg, entry in self.format_entry(entry):
+            logger.info(msg=msg)
 
     def read(self):
         for entry in self.data:
@@ -46,43 +56,45 @@ class Scribe(object):
                     level=entry['level'],
                     **entry['data'])
             except KeyError:
+                a=6
                 pass
             yield {'msg': msg, 'data': entry['data']}
 
-    def log(self):
-        for entry in self.data:
-            new_entry = entry.copy()
-            data = entry['data']
-            for item in data:
-                if isinstance(data[item], URIRef):
-                    new_entry['data'][item] = short(data[item])
+    def format_entry(self, entry):
+        new_entry = entry.copy()
+        data = entry['data']
+        for item in data:
+            if isinstance(data[item], URIRef):
+                new_entry['data'][item] = short(data[item])
 
-            # deal with log lines that are multiline like traces
-            if isinstance(entry['log'], list):
-                for line in entry['log']:
-                    try:
-                        msg_trans = translate(
-                            line,
-                            domain='pkan.dcatapde')
-                        msg = str(entry['time']) + ': ' + msg_trans.format(
-                            time=entry['time'],
-                            level=entry['level'],
-                            **new_entry['data'])
-                    except KeyError:
-                        pass
-                    yield msg, new_entry
-            else:
+        # deal with log lines that are multiline like traces
+        if isinstance(entry['log'], list):
+            for line in entry['log']:
                 try:
-                    msg_trans = translate(entry['log'], domain='pkan.dcatapde')
+                    msg_trans = line
                     msg = str(entry['time']) + ': ' + msg_trans.format(
                         time=entry['time'],
                         level=entry['level'],
                         **new_entry['data'])
                 except KeyError:
                     pass
-                except IndexError:
-                    pass
                 yield msg, new_entry
+        else:
+            try:
+                msg_trans = entry['log']
+                msg = str(entry['time']) + ': ' + msg_trans.format(
+                    time=entry['time'],
+                    level=entry['level'],
+                    **new_entry['data'])
+            except KeyError:
+                pass
+            except IndexError:
+                pass
+        yield msg, new_entry
+
+    def log(self):
+        for entry in self.data:
+            return self.format_entry(entry)
 
     def html_log(self):
         result = []

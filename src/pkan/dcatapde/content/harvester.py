@@ -162,6 +162,7 @@ class Harvester(Container, DCATMixin):
         result['dcat:Distribution'] = QUERY_A
         return result
 
+    @property
     def id_in_tripel_store(self):
         """This has to be improved"""
         if self.target_namespace:

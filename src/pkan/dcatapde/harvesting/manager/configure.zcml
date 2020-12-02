@@ -2,19 +2,19 @@
     i18n_domain="pkan.dcatapde">
 
   <adapter
-    factory=".rdf2plone.RDFProcessor"
+    factory=".plone.PloneHarvestManager"
     for="pkan.dcatapde.content.harvester.IHarvester"
     provides=".interfaces.IRDFTTL"
   />
 
   <adapter
-    factory=".rdf2plone.RDFProcessor"
+    factory=".plone.PloneHarvestManager"
     for="pkan.dcatapde.content.harvester.IHarvester"
     provides=".interfaces.IRDFXML"
   />
 
   <adapter
-    factory=".rdf2plone.RDFProcessor"
+    factory=".plone.PloneHarvestManager"
     for="pkan.dcatapde.content.harvester.IHarvester"
     provides=".interfaces.IRDFJSONLD"
   />

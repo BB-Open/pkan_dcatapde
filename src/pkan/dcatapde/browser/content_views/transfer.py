@@ -3,7 +3,7 @@ from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_transfer_folder
 from pkan.dcatapde.constants import CT_TRANSFER
-from pkan.dcatapde.harvesting.rdf.transfer import RDFProcessorTransfer
+from pkan.dcatapde.harvesting.processors.transfer import RDFProcessorTransfer
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl

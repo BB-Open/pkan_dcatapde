@@ -1,112 +1,36 @@
 # -*- coding: utf-8 -*-
+
 """Harvesting adapter."""
-from DateTime.DateTime import time
 from pkan.blazegraph.api import tripel_store
-from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
-from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
-from pkan.dcatapde.constants import RDF_FORMAT_XML
-from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.constants import (
+    RDF_FORMAT_TURTLE, RDF_FORMAT_METADATA,
+    CT_DCAT_CATALOG, CT_ANY, )
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.errors import UnkownBindingType
-from pkan.dcatapde.harvesting.rdf.interfaces import IRDFJSONLD
-from pkan.dcatapde.harvesting.rdf.interfaces import IRDFTTL
-from pkan.dcatapde.harvesting.rdf.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.rdf.rdf2plone import RDFProcessor
-from pkan.dcatapde.harvesting.rdf.visitors import NT_RESIDUAL
+from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
+from pkan.dcatapde.harvesting.processors.visitors import (
+    NT_RESIDUAL,
+    DCATVisitor, )
 from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
-from pkan.dcatapde.structure.structure import StructRDFSLiteral
+from pkan.dcatapde.structure.structure import (
+    StructRDFSLiteral,
+    STRUCT_BY_PORTAL_TYPE, )
+from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from rdflib.term import Literal
 from rdflib.term import URIRef
 from SPARQLWrapper.SmartWrapper import Value
-from urllib import parse
-from zope.component import adapter
-from zope.interface import implementer
 
 import rdflib
 
 
-IFaceToRDFFormatKey = {
-    IRDFTTL: RDF_FORMAT_TURTLE,
-    IRDFJSONLD: RDF_FORMAT_JSONLD,
-    IRDFXML: RDF_FORMAT_XML,
-}
-
-
-def cache_key(func, self):
-    """cache key factory for rdf graph. With timeout 300 seconds
-    :param func:
-    :param self:
-    :return:
-    """
-    key = u'{0}_{1}'.format(
-        time() // 300,
-        self.harvester.url,
-    )
-    return key
-
-
-def handle_identifiers(obj):
-    """
-    Handle Konv 24/25/26/27
-    Deal with duplicates and push trough Id information
-    """
-
-    params = {}
-
-    # Special case of dct_identifier. If dct:identifier is set conserve it.
-    dct_identifier = str(getattr(obj, 'dct_identifier', None))
-    if isinstance(obj, URIRef):
-        subject = str(obj)
-    else:
-        try:
-            subject = str(getattr(obj, 'subject'))
-        except AttributeError:
-            # This is the case for Literal
-            subject = None
-
-    # if no dct:Identifier is set
-    if dct_identifier is None:
-        # set it to the subject
-        params['dct_identifier'] = subject
-    else:
-        # check if dct:Identifier is really an URI
-        if parse.urlparse(dct_identifier).scheme != '':
-            params['dct_identifier'] = dct_identifier
-        else:
-            params['dct_identifier'] = subject
-
-            # Special case of adms_identifier. If adms:identifier is set
-    # conserve it.
-    adms_identifier = str(getattr(obj, 'adms_identifier', None))
-    if adms_identifier is not None:
-        # check if adms:dientifier is really an URI
-        if parse.urlparse(adms_identifier).scheme != '':
-            params['adms_identifier'] = adms_identifier
-        else:
-            params['adms_identifier'] = None
-    else:
-        params['adms_identifier'] = None
-
-    return params
-
-
-@adapter(IHarvester)
-@implementer(IRDFTTL)
-@implementer(IRDFJSONLD)
-@implementer(IRDFXML)
-class RDFProcessorTS(RDFProcessor):
+class TripleStoreRDFProcessor(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
-    def __init__(self, harvester, raise_exceptions=True):
-        super(RDFProcessorTS, self).__init__(harvester, raise_exceptions)
-        self.tripel_tempdb = None    # Temporary tripel store
-        self.tripeldb = None         # Tripestore for dcapt-ap.de data
-        self._target_graph = None        # Target graph instance
 
     def prepare_harvest(self):
         """Load data to be harvested into a temperary namespace on the tripelstore.
@@ -115,13 +39,13 @@ class RDFProcessorTS(RDFProcessor):
         set a rdflib grpah instance to it for writing and reading.
         """
 
-        tripel_db_name = self.harvester.id_in_tripel_store()
+        tripel_db_name = self.harvester.id_in_tripel_store
         tripel_temp_db_name = tripel_db_name + '_temp'
 
         self._graph, _response = tripel_store.graph_from_uri(
             tripel_temp_db_name,
             self.harvester.url,
-            self.mime_type,
+            self.harvester.mime_type,
             clear_namespace=True,
         )
         tripel_store.empty_namespace(tripel_db_name)
@@ -140,25 +64,27 @@ class RDFProcessorTS(RDFProcessor):
         return self._target_graph
 
     def query(self, query, bindings):
+        query_params = {}
         for key, binding in bindings.items():
             if isinstance(binding, Value):
                 if binding.type == 'uri':
-                    bindings[key] = '<' + binding.value + '>'
+                    query_params[key] = '<' + binding.value + '>'
                 elif binding.type == 'literal':
-                    bindings[key] = '"' + binding.value + '"'
+                    query_params[key] = '"' + binding.value + '"'
                 else:
                     raise UnkownBindingType
-
             elif isinstance(binding, URIRef):
-                bindings[key] = '<' + binding + '>'
+                query_params[key] = '<' + str(binding) + '>'
             else:
-                if binding[0] not in ['"', '<']:
+                if str(binding)[0] not in ['"', '<']:
                     if key in ['s', 'p']:
-                        bindings[key] = '<' + binding + '>'
+                        query_params[key] = '<' + str(binding) + '>'
                     else:
-                        bindings[key] = '"' + binding + '"'
+                        query_params[key] = '"' + str(binding) + '"'
+                else:
+                    query_params[key] = str(binding)
 
-        prepared_query = query.format(**bindings)
+        prepared_query = query.format(**query_params)
         self.graph.sparql.setQuery(prepared_query)
         res = self.graph.sparql.query()
         return res
@@ -584,3 +510,46 @@ class RDFProcessorTS(RDFProcessor):
             node.title = context.Title()
         else:
             node.title = ''
+
+    def top_nodes(self, visitor):
+        """Find top nodes: Catalogs or datasets"""
+
+        top_node_class = self.harvester.top_node
+
+        if top_node_class == CT_ANY:
+            res = self.query_all()
+            for top_node in res.bindings:
+                yield top_node['s']
+
+        else :
+            struct_class = STRUCT_BY_PORTAL_TYPE[top_node_class]
+
+            res = self.query_a(struct_class.rdf_type)
+
+            for top_node in res.bindings:
+                yield top_node['s']
+
+
+def main():
+    from addict import Dict
+
+    harvester = Dict()
+    harvester.id_in_tripel_store = 'test'
+    harvester.url = 'https://opendata.potsdam.de/api/v2/catalog/exports/ttl'
+    harvester.base_object = None
+    harvester.source_type = RDF_FORMAT_TURTLE
+    harvester.serialize_format = RDF_FORMAT_METADATA[harvester.source_type]['serialize_as']
+    harvester.mime_type = RDF_FORMAT_METADATA[harvester.source_type]['mime_type']
+    harvester.target = HARVEST_TRIPELSTORE
+    harvester.target_namespace = 'test2NS'
+    harvester.top_node = CT_DCAT_CATALOG
+
+
+
+    rdf_import = TripleStoreRDFProcessor(harvester)
+    visitor = DCATVisitor()
+    rdf_import.prepare_and_run(visitor)
+
+
+if __name__ == '__main__':
+    main()

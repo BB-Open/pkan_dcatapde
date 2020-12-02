@@ -1,7 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
     i18n_domain="pkan.dcatapde">
 
-  <include package=".rdf"/>
+  <include package=".manager"/>
 
 
 </configure>

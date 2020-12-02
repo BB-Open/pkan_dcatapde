@@ -3,11 +3,11 @@
 from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.content.transfer import ITransfer
-from pkan.dcatapde.harvesting.rdf.interfaces import IRDFJSONLD
-from pkan.dcatapde.harvesting.rdf.interfaces import IRDFTTL
-from pkan.dcatapde.harvesting.rdf.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.rdf.rdf2plone import IFaceToRDFFormatKey
-from pkan.dcatapde.harvesting.rdf.rdf2plone import RDFProcessor
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
+from pkan.dcatapde.harvesting.processors.rdf2plone import IFaceToRDFFormatKey
+from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
 from plone.api import content
 from zope.component import adapter
 from zope.interface import implementer
@@ -17,7 +17,7 @@ from zope.interface import implementer
 @implementer(IRDFTTL)
 @implementer(IRDFJSONLD)
 @implementer(IRDFXML)
-class RDFProcessorTransfer(RDFProcessor):
+class RDFProcessorTransfer(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
     def __init__(self, transfer, raise_exceptions=True):

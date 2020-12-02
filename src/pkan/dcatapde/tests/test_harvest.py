@@ -5,7 +5,7 @@ from pkan.dcatapde import testing
 from pkan.dcatapde.browser.content_views.harvester import RDFProcessor_factory
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.harvesting.rdf import interfaces
+from pkan.dcatapde.harvesting.manager import interfaces
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_PLONE
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from plone import api

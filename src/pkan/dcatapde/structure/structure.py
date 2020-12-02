@@ -149,6 +149,9 @@ class StructBase(object):
     # List of fields which shounld not be required
     _not_required = []
 
+    # the list dict of properties formerly from Plone now to be implemented explizit
+    _properties = {}
+
     def __init__(self, context):
         self.context = context
 
@@ -171,6 +174,9 @@ class StructBase(object):
         """
 
         result = {}
+        if self._properties is not None:
+            return self._properties
+
         for field_name, field in self.fields_in_order:
             if field_name in self._blacklist:
                 continue
@@ -665,4 +671,8 @@ STRUCTURES = [
 
 STRUCT_BY_NS_CLASS = {
     i.rdf_type: i for i in STRUCTURES
+}
+
+STRUCT_BY_PORTAL_TYPE = {
+    i.portal_type: i for i in STRUCTURES
 }
