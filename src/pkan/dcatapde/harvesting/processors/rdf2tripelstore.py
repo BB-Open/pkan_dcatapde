@@ -365,7 +365,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             obj=rdf_node,
             type=struct.rdf_type,
         )
-        return None
+        return obj_data
 
     def crawl(
         self,
@@ -374,6 +374,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         context=None,
         rdf_node=None,
     ):
+        # todo: is context always non in this method?
+        context = None
         # Return if we have hit a Blank node
         if isinstance(rdf_node, Value):
             if rdf_node.type == 'bnode':

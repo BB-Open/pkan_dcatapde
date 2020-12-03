@@ -239,7 +239,8 @@ class BaseRDFProcessor(object):
                         target_struct=field['object'],
                     )
                     if sub:
-                        obj_data[field_name] = sub.UID()
+                        #todo: check if rdf_about ist the correct field
+                        obj_data[field_name] = sub['rdf_about']
                     else:
                         if field['importance'] == IMP_REQUIRED:
                             visitor.scribe.write(
