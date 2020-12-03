@@ -47,6 +47,8 @@ class Scribe(object):
     def log_entry(self, entry):
         for msg, entry in self.format_entry(entry):
             logger.info(msg=msg)
+            # Todo: Logger must be configured to write console even if run without plone
+            print(msg)
 
     def read(self):
         for entry in self.data:

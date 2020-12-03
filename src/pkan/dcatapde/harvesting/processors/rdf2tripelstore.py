@@ -38,7 +38,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         Open a target namespace for the dcat-ap.de compatible data and
         set a rdflib grpah instance to it for writing and reading.
         """
-        # todo: Missing Attribute, should it be 2 or 3 letters?
+        # todo: Missing Attribute, should it be 2 or 3 letters? Should be set by harvester
         self.def_lang = 'de'
 
         tripel_db_name = self.harvester.id_in_tripel_store
@@ -536,14 +536,18 @@ def main():
     from addict import Dict
 
     harvester = Dict()
-    harvester.id_in_tripel_store = 'test'
+
     harvester.url = 'https://opendata.potsdam.de/api/v2/catalog/exports/ttl'
     harvester.base_object = None
     harvester.source_type = RDF_FORMAT_TURTLE
     harvester.serialize_format = RDF_FORMAT_METADATA[harvester.source_type]['serialize_as']
     harvester.mime_type = RDF_FORMAT_METADATA[harvester.source_type]['mime_type']
     harvester.target = HARVEST_TRIPELSTORE
+
+    # todo: should be one attribute, cause we just have one namespace name
+    harvester.id_in_tripel_store = 'test2NS'
     harvester.target_namespace = 'test2NS'
+
     harvester.top_node = CT_DCAT_CATALOG
 
 
