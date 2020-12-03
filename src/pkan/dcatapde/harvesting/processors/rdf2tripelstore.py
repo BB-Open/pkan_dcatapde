@@ -398,7 +398,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
                 obj_data=obj_data,
             )
         except RequiredPredicateMissing:
-            pass
+            # if a property is missing, we return None. Object is not available
+            return None
         # # Find the edges that are not included in DCAT-Ap.de
         # self.residuals(
         #     visitor,
