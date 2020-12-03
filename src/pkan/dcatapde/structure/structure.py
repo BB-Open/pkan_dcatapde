@@ -401,6 +401,7 @@ class StructDCATCatalog(StructBase):
         related['dct_publisher'] = {
             'object': StructFOAFAgent,
             'importance': IMP_REQUIRED,
+            # 'importance': IMP_OPTIONAL,
             'type': str,
             'predicate': DCT.publisher,
             'target': FOAF.Agent,
@@ -475,9 +476,6 @@ class StructDCATDataset(StructBase):
                                     'type': str},
                 'dct_title': {'object': StructRDFSLiteral, 'importance': 'required',
                               'predicate': rdflib.term.URIRef('http://purl.org/dc/terms/title'), 'type': dict},
-                'dct_publisher': {'object': StructRDFSLiteral, 'importance': 'optional',
-                                  'predicate': rdflib.term.URIRef('http://purl.org/dc/terms/publisher'),
-                                  'type': None},
                 'contactPoint': {'object': StructRDFSLiteral, 'importance': 'optional',
                                  'predicate': 'contactPoint', 'type': list},
                 'dct_creator': {'object': StructRDFSLiteral, 'importance': 'optional',
