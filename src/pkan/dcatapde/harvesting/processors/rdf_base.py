@@ -241,6 +241,30 @@ class BaseRDFProcessor(object):
                     if sub:
                         obj_data[field_name] = sub.UID()
                     else:
+                        if field['importance'] == IMP_REQUIRED:
+                            visitor.scribe.write(
+                                level='error',
+                                msg=u'{type} object {obj}: required '
+                                    u'attribute {att} not found',
+                                att=field['predicate'],
+                                obj=kwargs['rdf_node'],
+                                type=kwargs['struct'].rdf_type,
+                            )
+                            params['status'] = NS_ERROR
+                            visitor.end_node(predicate, obj_class, **params)
+                            raise RequiredPredicateMissing
+                        else:
+                            visitor.scribe.write(
+                                level='warn',
+                                msg=u'{type} object {obj}: {imp} '
+                                    u'attribute {att} not found',
+                                att=field['predicate'],
+                                imp=field['importance'],
+                                obj=kwargs['rdf_node'],
+                                type=kwargs['struct'].rdf_type,
+                            )
+                            params['status'] = NS_WARNING
+                            visitor.end_node(predicate, obj_class, **params)
                         obj_data[field_name] = None
                 visitor.scribe.write(
                     level='info',
