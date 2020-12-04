@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """Harvesting adapter."""
+from rdflib import Graph
+from rdflib.plugins.memory import IOMemory
+
 from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import (
     RDF_FORMAT_TURTLE, RDF_FORMAT_METADATA,
@@ -32,7 +35,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
 
-    def prepare_harvest(self):
+    def prepare_harvest(self, visitor):
         """Load data to be harvested into a temperary namespace on the tripelstore.
         Then set a rdflib grpah instance to it for reading.
         Open a target namespace for the dcat-ap.de compatible data and
@@ -44,14 +47,25 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         tripel_db_name = self.harvester.id_in_tripel_store
         tripel_temp_db_name = tripel_db_name + '_temp'
 
-        self._graph, _response = tripel_store.graph_from_uri(
-            tripel_temp_db_name,
-            self.harvester.url,
-            self.harvester.mime_type,
-            clear_namespace=True,
-        )
-        tripel_store.empty_namespace(tripel_db_name)
-        self._target_graph = tripel_store.create_namespace(tripel_db_name)
+        if visitor.real_run:
+
+            self._graph, _response = tripel_store.graph_from_uri(
+                tripel_temp_db_name,
+                self.harvester.url,
+                self.harvester.mime_type,
+                clear_namespace=True,
+            )
+            tripel_store.empty_namespace(tripel_db_name)
+            self._target_graph = tripel_store.create_namespace(tripel_db_name)
+        else:
+            # todo: dry run should know nothing about store, but if we use IOMemory store all Queries and results are different
+            # todo: Work around: We update '_temp' and use it, but do not write to clean store
+            self._graph, _response = tripel_store.graph_from_uri(
+                tripel_temp_db_name,
+                self.harvester.url,
+                self.harvester.mime_type,
+                clear_namespace=True,
+            )
 
     @property
     def graph(self):

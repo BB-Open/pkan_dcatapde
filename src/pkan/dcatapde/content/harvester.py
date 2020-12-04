@@ -2,8 +2,10 @@
 """Harvester Content Type."""
 from pkan.dcatapde import _
 from pkan.dcatapde import i18n
-from pkan.dcatapde.constants import DCAT_TOP_NODES
+from pkan.dcatapde.constants import DCAT_TOP_NODES, RDF_FORMAT_JSONLD, RDF_FORMAT_XML, RDF_FORMAT_TURTLE, \
+    RDF_FORMAT_METADATA
 from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD, IRDFXML, IRDFTTL
 from pkan.dcatapde.i18n import HELP_REHARVESTING_PERIOD
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_A_STR
@@ -23,6 +25,12 @@ import zope.schema as schema
 
 
 TARGET_NAMESPACE_REGEX = r'[a-zA-Z0-9_\-]*'
+
+INTERFACE_FORMAT = {
+    IRDFJSONLD: RDF_FORMAT_JSONLD,
+    IRDFXML: RDF_FORMAT_XML,
+    IRDFTTL: RDF_FORMAT_TURTLE,
+}
 
 
 def period_constraint(value):
@@ -168,3 +176,17 @@ class Harvester(Container, DCATMixin):
         if self.target_namespace:
             return self.target_namespace
         return self.UID()
+
+    @property
+    def mime_type(self):
+        format_interface = self.source_type
+        format_type = INTERFACE_FORMAT[format_interface]
+        mimetype = RDF_FORMAT_METADATA[format_type]['mime_type']
+        return mimetype
+
+    @property
+    def serialize_format(self):
+        format_interface = self.source_type
+        format_type = INTERFACE_FORMAT[format_interface]
+        mimetype = RDF_FORMAT_METADATA[format_type]['serialize_as']
+        return mimetype

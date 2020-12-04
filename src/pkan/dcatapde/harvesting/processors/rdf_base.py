@@ -89,7 +89,7 @@ class BaseRDFProcessor(object):
         self.harvester = harvester
         self.setup_logger()
 
-    def prepare_harvest(self):
+    def prepare_harvest(self, visitor):
         pass
 
     def setup_logger(self):
@@ -470,7 +470,7 @@ class BaseRDFProcessor(object):
         """
 
         # Connect to the data to be harvested
-        self.prepare_harvest()
+        self.prepare_harvest(visitor)
 
         if visitor.real_run:
             msg = u'starting harvest real run'
@@ -525,9 +525,14 @@ class BaseRDFProcessor(object):
             kind=self.harvester.serialize_format,
             uri=uri,
         )
+
+        if visitor.real_run:
+            msg = u'Finished harvest real run'
+        else:
+            msg = u'Finished harvest dry run'
         visitor.scribe.write(
             level='info',
-            msg=u'Harvesting real run successfully',
+            msg=msg,
         )
 
         return visitor.scribe.html_log()

@@ -33,6 +33,7 @@ class Scribe(object):
 
     def __init__(self):
         self.data = []
+        self.formatted_data = []
 
     def write(self, msg=None, level=None, **data):
         entry = {
@@ -45,10 +46,11 @@ class Scribe(object):
         self.log_entry(entry)
 
     def log_entry(self, entry):
-        for msg, entry in self.format_entry(entry):
-            logger.info(msg=msg)
-            # Todo: Logger must be configured to write console even if run without plone
-            print(msg)
+        msg, entry = self.format_entry(entry)
+        self.formatted_data.append([msg, entry])
+        logger.info(msg=msg)
+        # Todo: Logger must be configured to write console even if run without plone
+        print(msg)
 
     def read(self):
         for entry in self.data:
@@ -58,7 +60,6 @@ class Scribe(object):
                     level=entry['level'],
                     **entry['data'])
             except KeyError:
-                a=6
                 pass
             yield {'msg': msg, 'data': entry['data']}
 
@@ -78,9 +79,9 @@ class Scribe(object):
                         time=entry['time'],
                         level=entry['level'],
                         **new_entry['data'])
+                    return msg, new_entry
                 except KeyError:
                     pass
-                yield msg, new_entry
         else:
             try:
                 msg_trans = entry['log']
@@ -88,19 +89,16 @@ class Scribe(object):
                     time=entry['time'],
                     level=entry['level'],
                     **new_entry['data'])
+                return msg, new_entry
             except KeyError:
                 pass
             except IndexError:
                 pass
-        yield msg, new_entry
 
-    def log(self):
-        for entry in self.data:
-            return self.format_entry(entry)
 
     def html_log(self):
         result = []
-        for msg, entry in self.log():
+        for msg, entry in self.formatted_data:
             html_msg = cgi.escape(msg)
             link = u'<a class="context pat-plone-modal" ' \
                    u'target="_blank" href="{uri}">Modify</a>'
