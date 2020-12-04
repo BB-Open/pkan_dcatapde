@@ -481,13 +481,12 @@ class BaseRDFProcessor(object):
             msg=msg,
         )
 
-        if visitor.real_run:
-            msg = 'Removing old objects'
-            visitor.scribe.write(
-                level='info',
-                msg=msg,
-            )
-            self.remove_objects()
+        msg = 'Removing old objects'
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+        )
+        self.remove_objects()
 
         uri = self.harvester.url
 

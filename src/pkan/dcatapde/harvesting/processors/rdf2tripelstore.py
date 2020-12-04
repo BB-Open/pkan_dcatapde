@@ -46,6 +46,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
         tripel_db_name = self.harvester.id_in_tripel_store
         tripel_temp_db_name = tripel_db_name + '_temp'
+        tripel_dry_run_db = tripel_db_name + '_dryrun'
 
         if visitor.real_run:
 
@@ -61,7 +62,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             # todo: dry run should know nothing about store, but if we use IOMemory store all Queries and results are different
             # todo: Work around: We update '_temp' and use it, but do not write to clean store
             self._graph, _response = tripel_store.graph_from_uri(
-                tripel_temp_db_name,
+                tripel_dry_run_db,
                 self.harvester.url,
                 self.harvester.mime_type,
                 clear_namespace=True,
