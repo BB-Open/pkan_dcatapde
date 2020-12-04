@@ -346,13 +346,11 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         title,
     ):
         # check if object should be created
-        if not visitor.real_run:
-            return None
-
-        try:
-            self.construct(rdf_node, struct)
-        except Exception as e:
-            a=5
+        if visitor.real_run:
+            try:
+                self.construct(rdf_node, struct)
+            except Exception as e:
+                pass
 
         # Handle identifier fields
         identifier_fields = handle_identifiers(rdf_node)
@@ -557,7 +555,7 @@ def main():
 
     rdf_import = TripleStoreRDFProcessor(harvester)
     visitor = DCATVisitor()
-    visitor.real_run = True
+    visitor.real_run = False
     rdf_import.prepare_and_run(visitor)
 
 
