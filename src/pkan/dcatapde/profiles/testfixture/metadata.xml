@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>1016</version>
+  <version>1018</version>
   <dependencies>
     <dependency>profile-pkan.dcatapde:default</dependency>
   </dependencies>

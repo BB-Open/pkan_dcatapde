@@ -5,7 +5,7 @@ from Acquisition import aq_base
 from Acquisition import aq_inner
 from pkan.dcatapde.api.functions import get_parent
 from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_CATALOG, CT_TRANSFER
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
@@ -25,6 +25,7 @@ from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
 from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
 from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML, IRDFTTL, IRDFJSONLD
 from pkan.dcatapde.utils import get_available_languages_iso
 from plone import api
 from plone.app.upgrade.utils import loadMigrationProfile
@@ -289,4 +290,27 @@ def update_uri_in_triplestore(context):
                     continue
             obj.dct_identifier = uri
 
+            obj.reindexObject()
+
+
+def update_source_type(context):
+
+    cts = [
+        CT_HARVESTER,
+        CT_TRANSFER
+    ]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+            type = str(obj.source_type)
+            if 'IRDFXML' in type:
+                obj.source_type = IRDFXML
+            elif 'IRDFTTL' in type:
+                obj.source_type = IRDFTTL
+            elif 'IRDFJSON' in type:
+                obj.source_type = IRDFJSONLD
             obj.reindexObject()

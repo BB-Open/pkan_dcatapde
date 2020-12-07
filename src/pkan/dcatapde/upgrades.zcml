@@ -146,4 +146,13 @@
       handler=".upgrades.reload_gs_profile"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1018"
+      title="Change source_type"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.update_source_type"
+      />
+
 </configure>
