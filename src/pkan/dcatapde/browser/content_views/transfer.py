@@ -141,7 +141,7 @@ class RealRunCronView(BrowserView):
             # elif obj.reharvesting_period and obj.last_run is None:
             #     self.log += self.real_run(obj)
             else:
-                target_namespaces.append(obj.id_in_tripel_store())
+                target_namespaces.append(obj.id_in_tripel_store)
                 if obj.url:
                     url_transfers.append(obj)
                 elif obj.source_namespace:

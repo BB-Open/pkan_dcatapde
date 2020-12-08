@@ -133,7 +133,7 @@ class RealRunCronView(BrowserView):
         alsoProvides(self.request, IDisableCSRFProtection)
 
     def real_run(self, harv):
-        rdfproc = RDFProcessor_factory(self.context)
+        rdfproc = RDFProcessor_factory(harv)
 
         visitor = DCATVisitor()
         visitor.real_run = True
