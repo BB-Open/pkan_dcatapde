@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from pkan.blazegraph.api import tripel_store
+from pkan.blazegraph.errors import HarvestURINotReachable
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_transfer_folder
 from pkan.dcatapde.constants import CT_TRANSFER
@@ -155,7 +156,10 @@ class RealRunCronView(BrowserView):
         for obj in url_transfers:
             self.log.append(
                 u'<h2>URL Transfer: {title}</h2>'.format(title=obj.title))
-            self.log += self.real_run(obj)
+            try:
+                self.log += self.real_run(obj)
+            except HarvestURINotReachable:
+                self.log.append('<p>URL not reachable.</p>')
         for obj in name_space_transfers:
             self.log.append(
                 u'<h2>Namespace Transfer: {title}</h2>'.format(
