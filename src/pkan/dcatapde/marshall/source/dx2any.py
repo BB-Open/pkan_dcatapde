@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Recursive crawler through objects and properties for marshalling"""
+import logging
+
 from Products.CMFCore.interfaces import IFolderish
 
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
@@ -10,6 +12,8 @@ from zope.component import adapter
 from zope.component import queryMultiAdapter
 from zope.interface import implementer
 from zope.interface import Interface
+
+logger = logging.getLogger("Plone")
 
 
 @implementer(IMarshallSource)
@@ -30,6 +34,7 @@ class DX2Any(object):
         self.marshall_target = marshall_target
         try:
             self.structure = IStructure(self.context)
+            logger.info(self.structure)
         except TypeError:
             pass
 
@@ -240,9 +245,11 @@ class DX2Any(object):
         self.marshall_myself()
         content_type = self.structure.portal_type
         if self.context.portal_type == content_type:
+            logger.info("Portal type provided by Object")
             context = [self.context]
         else:
             context = []
+            logger.info("Portal type not provided by Object. Find Subelements")
             if IFolderish.providedBy(self.context):
                 for id, item in self.context.contentItems():
                     if item.portal_type == content_type:
