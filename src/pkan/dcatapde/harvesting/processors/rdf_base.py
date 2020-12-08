@@ -18,6 +18,8 @@ from urllib import parse
 import rdflib
 import sys
 
+from pkan.dcatapde.utils import LiteralHandler
+
 
 def cache_key(func, self):
     """cache key factory for rdf graph. With timeout 300 seconds
@@ -88,6 +90,7 @@ class BaseRDFProcessor(object):
     def __init__(self, harvester):
         self.harvester = harvester
         self.setup_logger()
+        self.literal_handler = LiteralHandler()
 
     def prepare_harvest(self, visitor):
         pass
