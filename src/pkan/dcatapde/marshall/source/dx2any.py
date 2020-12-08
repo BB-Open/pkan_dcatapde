@@ -254,6 +254,7 @@ class DX2Any(object):
                 for id, item in self.context.contentItems():
                     if item.portal_type == content_type:
                         context.append(item)
+                        logger.info("Found %s" % item.title)
 
         for element in context:
             self.marshall_properties(element)
