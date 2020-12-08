@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Recursive crawler through objects and properties for marshalling"""
+from Products.CMFCore.interfaces import IFolderish
 
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.structure.structure import IStructure
@@ -134,11 +135,12 @@ class DX2Any(object):
                 values,
             )
 
-    def marshall_properties(self):
+    def marshall_properties(self, context):
         """Marshall properties."""
+
         for property_name in self.structure.properties:
             struct_info = self.structure.properties[property_name]
-            property_value = getattr(self.context, property_name)
+            property_value = getattr(context, property_name)
             # get the rdf_name of the property
             if 'rdf_name' in struct_info:
                 rdf_name = struct_info['rdf_name']
@@ -150,11 +152,11 @@ class DX2Any(object):
             else:
                 self.marshall_property(rdf_name, property_value)
 
-    def marshall_contained(self):
+    def marshall_contained(self, context):
         """Marshall contained objects."""
         for item_name in self.structure.contained:
             resources = []
-            items = self.context.values()
+            items = context.values()
             for item in items:
                 if item_name == item.portal_type:
                     contained_marshaller = queryMultiAdapter(
@@ -172,17 +174,17 @@ class DX2Any(object):
                 resources,
             )
 
-    def marshall_references(self):
+    def marshall_references(self, context):
         """Marshall the referenced objects."""
         for ref_name in self.structure.referenced:
 
             if self.structure.referenced[ref_name]['type'] != list:
-                uid = getattr(self.context, ref_name, None)
+                uid = getattr(context, ref_name, None)
                 if not uid:
                     continue
                 uid_list = [uid]
             else:
-                uid_list = getattr(self.context, ref_name, None)
+                uid_list = getattr(context, ref_name, None)
                 if not uid_list:
                     continue
             resources = []
@@ -214,9 +216,9 @@ class DX2Any(object):
                     resources,
                 )
 
-    def marshall_collection(self):
+    def marshall_collection(self, context):
         """Get content from the collection behavior and marshall it"""
-        collection = ICollection(self.context)
+        collection = ICollection(context)
         for entry in collection.results():
             item = entry.getObject()
             collection_marshaller = queryMultiAdapter(
@@ -236,16 +238,27 @@ class DX2Any(object):
     def marshall(self):
         """Marshall properties, contained items and related items."""
         self.marshall_myself()
-        self.marshall_properties()
-        self.marshall_references()
-        self.marshall_contained()
-        # Todo : find better check
-        try:
-            ICollection(self.context)
-            self.marshall_collection()
-        except TypeError:
-            pass
-        self.resource.update()
+        content_type = self.structure.portal_type
+        if self.context.portal_type == content_type:
+            context = [self.context]
+        else:
+            context = []
+            if IFolderish.providedBy(self.context):
+                for id, item in self.context.contentItems():
+                    if item.portal_type == content_type:
+                        context.append(item)
+
+        for element in context:
+            self.marshall_properties(element)
+            self.marshall_references(element)
+            self.marshall_contained(element)
+            # Todo : find better check
+            try:
+                ICollection(context)
+                self.marshall_collection(element)
+            except TypeError:
+                pass
+            self.resource.update()
         self.resource.save()
 
 
