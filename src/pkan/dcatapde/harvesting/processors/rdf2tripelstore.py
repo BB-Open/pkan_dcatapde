@@ -426,7 +426,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
         try:
             # get a title for the dxobject
-            title = self.get_title(struct, obj_data)
+            title = self.get_title(struct, obj_data, visitor)
 
             # Hack for convention 31: Handle dct_format as literal
             if struct.literal_field is not None:
@@ -452,7 +452,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
                 context_url = '/'
             visitor.scribe.write(
                 level='error',
-                msg=u'{type} dxobject {obj} cannot be created at {context}',
+                msg=u'{type} object {obj} cannot be created.',
                 context=context_url,
                 obj=rdf_node,
                 type=struct.rdf_type,

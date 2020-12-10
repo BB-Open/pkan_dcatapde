@@ -43,14 +43,21 @@ class Scribe(object):
             'data': data,
         }
         self.data.append(entry)
-        self.log_entry(entry)
+        self.log_entry(entry, level)
 
-    def log_entry(self, entry):
+    def log_entry(self, entry, level):
         msg, entry = self.format_entry(entry)
         self.formatted_data.append([msg, entry])
-        logger.info(msg=msg)
+        if level == 'info':
+            logger.info(msg=msg)
+        elif level == 'error':
+            logger.info(msg='ERROR: ' + msg)
+        elif level == 'warn':
+            logger.info(msg='WARN: ' + msg)
+        else:
+            print(level)
+            raise AttributeError
         # Todo: Logger must be configured to write console even if run without plone
-        print(msg)
 
     def read(self):
         for entry in self.data:

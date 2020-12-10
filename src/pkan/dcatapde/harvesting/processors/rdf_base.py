@@ -345,7 +345,7 @@ class BaseRDFProcessor(object):
                     type=struct.rdf_type,
                 )
 
-    def get_title(self, struct, obj_data):
+    def get_title(self, struct, obj_data, visitor):
         # Find a title for the dxobject to be created
         title = None
         for title_field in struct.title_field:
@@ -362,6 +362,13 @@ class BaseRDFProcessor(object):
             except KeyError:
                 continue
         if not title:
+            # todo: is this still a valid test?
+            visitor.scribe.write(
+                level='error',
+                msg=u'{type}: Could not find a valid title. Possible fields are {title_field}',
+                type=struct.rdf_type,
+                title_field=struct.title_field
+            )
             raise RequiredPredicateMissing
         return title
 
