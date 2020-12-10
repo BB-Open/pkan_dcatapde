@@ -259,12 +259,12 @@ class DX2Any(object):
             self.marshall_properties(element)
             self.marshall_references(element)
             self.marshall_contained(element)
-            # Todo : find better check
             try:
-                ICollection(context)
+                ICollection(element)
                 self.marshall_collection(element)
             except TypeError:
                 pass
+
             self.resource.update()
         self.resource.save()
 
