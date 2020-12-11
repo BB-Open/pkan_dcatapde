@@ -292,7 +292,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         if o.type == 'uri':
             o_out = '<' + o.value + '>'
         elif o.type == 'literal':
-            o_out = '"' + o.value.replace('\n','') + '"'
+            o_out = '"' + self.escape_literal(o.value) + '"'
             if o.lang:
                 o_out += '@' + o.lang
         else:
@@ -362,10 +362,9 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
     ):
         # check if object should be created
         if visitor.real_run:
-            try:
-                self.construct(rdf_node, struct)
-            except Exception as e:
-                pass
+
+            self.construct(rdf_node, struct)
+
 
         # Handle identifier fields
         identifier_fields = handle_identifiers(rdf_node)

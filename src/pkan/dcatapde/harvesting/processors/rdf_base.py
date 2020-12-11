@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
+import re
+
 from DateTime.DateTime import time
 from pkan.dcatapde import _
 from pkan.dcatapde.content.rdfs_literal import literal2plone
@@ -94,6 +96,24 @@ class BaseRDFProcessor(object):
 
     def prepare_harvest(self, visitor):
         pass
+
+    def escape_literal(self, literal_value):
+        # todo: More escaping
+        res = literal_value
+
+        escapes = {
+            '\\' : '\\\\',
+            '\n' : '\\\\n',
+            '\t': '\\\\t',
+            '"': '\\"',
+            "'": "\\'"
+        }
+
+        for unescaped in escapes:
+            escaped = escapes[unescaped]
+            # todo: check if already escaped
+            res = res.replace(unescaped, escaped)
+        return res
 
     def setup_logger(self):
         """Log to a io.stream that can later be embedded in the view output"""
