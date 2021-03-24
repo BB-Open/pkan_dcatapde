@@ -7,7 +7,7 @@ import os
 
 try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))
-except Exception:
+except Exception:  # noqa: B902
     LIMIT = 65535   # Refs #83543 - Default: 0xFFFF, 2^16, 16-bit
 
 
@@ -36,7 +36,7 @@ class RDFExport(object):
         # Fast sanitize ASCII text
         try:
             text.encode()
-        except Exception:
+        except Exception:  # noqa: B902
             return u''.join(self._sanitize(text))
         else:
             return text

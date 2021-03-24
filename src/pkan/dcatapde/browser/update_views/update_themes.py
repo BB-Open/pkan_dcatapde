@@ -123,7 +123,7 @@ class UpdateThemes(UpdateObjectsBase):
                 id=id,
                 title=title,
                 **params)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             portal.show_message(message=str(e), request=self.request)
             return
         else:

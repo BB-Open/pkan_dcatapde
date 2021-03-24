@@ -524,7 +524,7 @@ class BaseRDFProcessor(object):
 
         except RequiredPredicateMissing:
             return visitor.scribe.html_log()
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             visitor.scribe.write(
                 level='error',
                 msg='{error}',
