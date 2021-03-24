@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
-import re
-
 from DateTime.DateTime import time
 from pkan.dcatapde import _
 from pkan.dcatapde.content.rdfs_literal import literal2plone
@@ -12,15 +10,15 @@ from pkan.dcatapde.harvesting.processors.visitors import NS_WARNING
 from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import STRUCT_BY_NS_CLASS
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
+from pkan.dcatapde.utils import LiteralHandler
 from rdflib.term import URIRef
 from SPARQLWrapper.SmartWrapper import Value
 from traceback import format_tb
 from urllib import parse
 
 import rdflib
+import re
 import sys
-
-from pkan.dcatapde.utils import LiteralHandler
 
 
 def cache_key(func, self):
@@ -566,5 +564,3 @@ class BaseRDFProcessor(object):
         )
 
         return visitor.scribe.html_log()
-
-

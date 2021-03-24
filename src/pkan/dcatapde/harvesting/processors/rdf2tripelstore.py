@@ -1,29 +1,28 @@
 # -*- coding: utf-8 -*-
 
 """Harvesting adapter."""
-from rdflib import Graph
-from rdflib.plugins.memory import IOMemory
-
 from pkan.blazegraph.api import tripel_store
-from pkan.dcatapde.constants import (
-    RDF_FORMAT_TURTLE, RDF_FORMAT_METADATA,
-    CT_DCAT_CATALOG, CT_ANY, )
+from pkan.dcatapde.constants import CT_ANY
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import RDF_FORMAT_METADATA
+from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.errors import UnkownBindingType
-from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor, handle_identifiers
-from pkan.dcatapde.harvesting.processors.visitors import (
-    NT_RESIDUAL,
-    DCATVisitor, )
+from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
+from pkan.dcatapde.harvesting.processors.rdf_base import handle_identifiers
+from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
+from pkan.dcatapde.harvesting.processors.visitors import NT_RESIDUAL
 from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
-from pkan.dcatapde.structure.structure import (
-    StructRDFSLiteral,
-    STRUCT_BY_PORTAL_TYPE, )
+from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE
+from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
+from rdflib import Graph
+from rdflib.plugins.memory import IOMemory
 from rdflib.term import Literal
 from rdflib.term import URIRef
 from SPARQLWrapper.SmartWrapper import Value

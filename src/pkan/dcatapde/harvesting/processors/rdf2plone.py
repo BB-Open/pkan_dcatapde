@@ -1062,4 +1062,3 @@ class PloneRDFProcessor(BaseRDFProcessor):
         )
 
         return visitor.scribe.html_log()
-

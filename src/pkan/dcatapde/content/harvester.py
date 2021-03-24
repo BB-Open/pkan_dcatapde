@@ -2,10 +2,15 @@
 """Harvester Content Type."""
 from pkan.dcatapde import _
 from pkan.dcatapde import i18n
-from pkan.dcatapde.constants import DCAT_TOP_NODES, RDF_FORMAT_JSONLD, RDF_FORMAT_XML, RDF_FORMAT_TURTLE, \
-    RDF_FORMAT_METADATA
+from pkan.dcatapde.constants import DCAT_TOP_NODES
+from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
+from pkan.dcatapde.constants import RDF_FORMAT_METADATA
+from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
+from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD, IRDFXML, IRDFTTL
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 from pkan.dcatapde.i18n import HELP_REHARVESTING_PERIOD
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_A_STR

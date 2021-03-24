@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Harvesting manager."""
-from pkan.dcatapde.constants import (
-    RDF_FORMAT_TURTLE, RDF_FORMAT_JSONLD,
-    RDF_FORMAT_XML, )
+from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
+from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
+from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL

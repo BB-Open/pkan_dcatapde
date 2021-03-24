@@ -8,9 +8,8 @@ from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.processors.rdf2plone import (
-    IFaceToRDFFormatKey,
-    PloneRDFProcessor, )
+from pkan.dcatapde.harvesting.processors.rdf2plone import IFaceToRDFFormatKey
+from pkan.dcatapde.harvesting.processors.rdf2plone import PloneRDFProcessor
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.harvesting.processors.visitors import RealRunVisitor
 from pkan.dcatapde.structure.structure import StructDCATCatalog

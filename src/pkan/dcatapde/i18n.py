@@ -23,15 +23,18 @@ HELP_BASE_OBJECT = _(
     u'By default incoming catalogues are place in the harvester. ',
 )
 HELP_DACT_MEDIATYPE = _(
-    u'Select a media type from the list of available media types' #  or create '
+    u'Select a media type from the list of available media types',
+    # or create '
     # # u'a new one by using the "add" button below.',
 )
 HELP_DACTDE_MAINTAINER = _(
-    u'Select a maintainer from the list of available maintainers' #  or create '
+    u'Select a maintainer from the list of available maintainers',
+    # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DACTDE_ORIGINATOR = _(
-    u'Select an originator from the list of available originators ' # or create '
+    u'Select an originator from the list of available originators ',
+    # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_ACCESSRIGHTS = _(
@@ -39,47 +42,58 @@ HELP_DCT_ACCESSRIGHTS = _(
     u'or create a new one by using the "add" button below.',
 )
 HELP_DCT_CONFORMSTO = _(
-    u'Select a standard from the list of available standards ' # or create '
+    u'Select a standard from the list of available standards ',
+    # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_CONTRIBUTOR = _(
-    u'Select a contributor from the list of available contributors ' # or create '
+    u'Select a contributor from the list of available contributors ',
+    # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_CREATOR = _(
-    u'Select a creator from the list of available creators ' # or create '
+    u'Select a creator from the list of available creators ',
+    # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_FORMAT = _(
-    u'Select a format from the list of available formats ' # or create '
+    u'Select a format from the list of available formats ',
+    # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_HASPART = _(
-    u'Link to an existing catalog' # or create a new one by using the '
+    u'Link to an existing catalog',
+    # or create a new one by using the '
     # u'"add" button below.',
 )
 HELP_DCT_ISPARTOF = _(
-    u'Link to an existing parent catalog' # or create a new one by using the '
+    u'Link to an existing parent catalog',
+    # or create a new one by using the '
     # u'"add" button below.',
 )
 HELP_DCT_LICENSE = _(
-    u'Select a license from the list of available licenses ' # or create '
+    u'Select a license from the list of available licenses ',
+    # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_PUBLISHER = _(
-    u'Select a publisher from the list of available publishers ' # or create '
+    u'Select a publisher from the list of available publishers ',
+    # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_RIGHTS = _(
-    u'Select a rights statement from the list of available statements' # or '
+    u'Select a rights statement from the list of available statements',
+    # or '
     # u'create a new one by using the "add" button below.',
 )
 HELP_DCT_SPATIAL = _(
-    u'Select a location from the list of available locations' # or '
+    u'Select a location from the list of available locations',
+    # or '
     # u'create a new one by using the "add" button below.',
 )
 HELP_DCT_THEMETAXONOMY = _(
-    u'Select a theme taxonomy from the list of available taxonomies' # or '
+    u'Select a theme taxonomy from the list of available taxonomies',
+    # or '
     # u'create a new one by using the "add" button below.',
 )
 HELP_FOLDER_AGENTS = _(

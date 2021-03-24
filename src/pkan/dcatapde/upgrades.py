@@ -5,7 +5,7 @@ from Acquisition import aq_base
 from Acquisition import aq_inner
 from pkan.dcatapde.api.functions import get_parent
 from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
-from pkan.dcatapde.constants import CT_DCAT_CATALOG, CT_TRANSFER
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
@@ -21,11 +21,14 @@ from pkan.dcatapde.constants import CT_HARVESTER_FOLDER
 from pkan.dcatapde.constants import CT_RDFS_LITERAL
 from pkan.dcatapde.constants import CT_SKOS_CONCEPT
 from pkan.dcatapde.constants import CT_SKOS_CONCEPTSCHEME
+from pkan.dcatapde.constants import CT_TRANSFER
 from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
 from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
 from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
-from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML, IRDFTTL, IRDFJSONLD
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 from pkan.dcatapde.utils import get_available_languages_iso
 from plone import api
 from plone.app.upgrade.utils import loadMigrationProfile
@@ -297,7 +300,7 @@ def update_source_type(context):
 
     cts = [
         CT_HARVESTER,
-        CT_TRANSFER
+        CT_TRANSFER,
     ]
 
     for ct in cts:
