@@ -50,7 +50,7 @@ class HarvestTest(unittest.TestCase):
         req = requests.get(FIXTURE_URL)
         self.assertEqual(req.status_code, 200)
 
-        rdfproc = RDFProcessor_factory(self.obj, raise_exceptions=True)
+        rdfproc = RDFProcessor_factory(self.obj)
 
         self.log = rdfproc.real_run()
 
@@ -59,6 +59,6 @@ class HarvestTest(unittest.TestCase):
         self.assertEqual(req.status_code, 200)
 
         self.obj.target = HARVEST_TRIPELSTORE
-        rdfproc = RDFProcessor_factory(self.obj, raise_exceptions=True)
+        rdfproc = RDFProcessor_factory(self.obj)
 
         self.log = rdfproc.real_run()

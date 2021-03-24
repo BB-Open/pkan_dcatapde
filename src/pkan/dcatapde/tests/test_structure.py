@@ -2,7 +2,6 @@
 """tests for `structure`."""
 
 from pkan.dcatapde import testing
-from pkan.dcatapde.structure.structure import StructBase
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructDCATDistribution
@@ -30,10 +29,6 @@ class StructureTest(unittest.TestCase):
         """Custom shared utility setup for tests."""
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-
-    def test_base_struct(self):
-        base = StructBase('dummy context')
-        self.assertGreater(len(base.vocab_terms), 0)
 
     def test_dcat_catalog_struct(self):
         base = StructDCATCatalog('dummy context')
