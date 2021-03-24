@@ -6,6 +6,7 @@ from pkan.dcatapde.browser.content_views.harvester import RDFProcessor_factory
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.manager import interfaces
+from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_PLONE
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from plone import api
@@ -52,7 +53,12 @@ class HarvestTest(unittest.TestCase):
 
         rdfproc = RDFProcessor_factory(self.obj)
 
-        self.log = rdfproc.real_run()
+        visitor = DCATVisitor()
+        visitor.real_run = False
+        rdfproc.prepare_and_run(visitor)
+
+        visitor.real_run = True
+        rdfproc.prepare_and_run(visitor)
 
     def testHarvestTripelstore(self):
         req = requests.get(FIXTURE_URL)
@@ -61,4 +67,9 @@ class HarvestTest(unittest.TestCase):
         self.obj.target = HARVEST_TRIPELSTORE
         rdfproc = RDFProcessor_factory(self.obj)
 
-        self.log = rdfproc.real_run()
+        visitor = DCATVisitor()
+        visitor.real_run = False
+        rdfproc.prepare_and_run(visitor)
+
+        visitor.real_run = True
+        rdfproc.prepare_and_run(visitor)
