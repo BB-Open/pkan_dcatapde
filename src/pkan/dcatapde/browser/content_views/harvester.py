@@ -139,7 +139,10 @@ class RealRunCronView(BrowserView):
         visitor.real_run = True
         rdfproc.prepare_and_run(visitor)
 
-        return visitor.scribe.html_log()
+        res = visitor.scribe.html_log()
+
+        harv.last_run = datetime.now()
+        return res
 
     def __call__(self, *args, **kwargs):
         portal = api.portal.get()
