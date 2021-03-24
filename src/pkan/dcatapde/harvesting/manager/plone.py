@@ -5,10 +5,10 @@ from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.harvesting.manager.base import IFaceToRDFFormatKey
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.processors.rdf2plone import IFaceToRDFFormatKey
 from pkan.dcatapde.harvesting.processors.rdf2plone import PloneRDFProcessor
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.harvesting.processors.visitors import RealRunVisitor
