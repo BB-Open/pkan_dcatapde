@@ -13,6 +13,7 @@ import json
 
 class HarvesterPreview(BrowserView):
     """View to get a preview of a harvester sparql query"""
+
     def __call__(self, *args, **kwargs):
         return self.get_preview
 

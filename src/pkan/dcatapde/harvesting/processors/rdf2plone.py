@@ -2,24 +2,12 @@
 """Harvesting adapter."""
 from DateTime.DateTime import time
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_ANY
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
-from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import HARVESTER_DEFAULT_KEY
 from pkan.dcatapde.constants import HARVESTER_DEXTERITY_KEY
 from pkan.dcatapde.constants import HARVESTER_ENTITY_KEY
 from pkan.dcatapde.constants import MAX_QUERY_PREVIEW_LENGTH
-from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
-from pkan.dcatapde.constants import RDF_FORMAT_METADATA
-from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
-from pkan.dcatapde.constants import RDF_FORMAT_XML
-from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
-from pkan.dcatapde.harvesting.manager.base import IFaceToRDFFormatKey
-from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
-from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
-from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.harvesting.processors.visitors import InputVisitor
@@ -29,7 +17,6 @@ from pkan.dcatapde.harvesting.processors.visitors import NS_WARNING
 from pkan.dcatapde.harvesting.processors.visitors import NT_DEFAULT
 from pkan.dcatapde.harvesting.processors.visitors import NT_DX_DEFAULT
 from pkan.dcatapde.harvesting.processors.visitors import NT_RESIDUAL
-from pkan.dcatapde.harvesting.processors.visitors import RealRunVisitor
 from pkan.dcatapde.log.log import TranslatingFormatter
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_ALL
@@ -37,15 +24,10 @@ from pkan.dcatapde.structure.sparql import QUERY_ATT
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import STRUCT_BY_NS_CLASS
-from pkan.dcatapde.structure.structure import StructDCATCatalog
-from pkan.dcatapde.structure.structure import StructDCATDataset
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
-from pkan.dcatapde.utils import get_default_language
-from pkan.dcatapde.utils import LiteralHandler
 from plone import api
 from plone.api import content
 from plone.api.exc import InvalidParameterError
-from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize import ram
 from Products.CMFCore.WorkflowCore import WorkflowException
 from pyparsing import ParseException
@@ -58,11 +40,7 @@ from traceback import format_tb
 from urllib import parse
 from xml.sax import SAXParseException
 from zope.annotation import IAnnotations
-from zope.component import adapter
-from zope.component import getUtility
-from zope.interface import implementer
 
-import datetime
 import io
 import logging
 import rdflib
@@ -218,7 +196,6 @@ class PloneRDFProcessor(BaseRDFProcessor):
         }
         res = self.graph.query(query, initBindings=bindings)
         return res
-
 
     def handle_list(self, visitor, res, **kwargs):
         obj_data = kwargs['obj_data']

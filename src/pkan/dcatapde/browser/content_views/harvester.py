@@ -4,7 +4,7 @@ from datetime import timedelta
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER
-from pkan.dcatapde.harvesting.processors.rdf2tripelstore import TripleStoreRDFProcessor
+from pkan.dcatapde.harvesting.processors.rdf2tripelstore import TripleStoreRDFProcessor  # noqa: E501
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_PLONE
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
@@ -94,7 +94,6 @@ def RDFProcessor_factory(harvester):
         return TripleStoreRDFProcessor(harvester)
     elif harvester.target == HARVEST_TRIPELSTORE:
         return TripleStoreRDFProcessor(harvester)
-
 
 
 class DryRunView(BrowserView):

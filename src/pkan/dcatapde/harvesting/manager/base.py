@@ -29,6 +29,7 @@ IFaceToRDFFormatKey = {
 @implementer(IRDFXML)
 class BaseHarvestManager(object):
     """Manages the harvest from the plone side"""
+
     def __init__(self, harvester, raise_exceptions=False):
         # remember the harvester
         self.harvester = harvester

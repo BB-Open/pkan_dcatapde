@@ -21,8 +21,6 @@ from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
 from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
-from rdflib import Graph
-from rdflib.plugins.memory import IOMemory
 from rdflib.term import Literal
 from rdflib.term import URIRef
 from SPARQLWrapper.SmartWrapper import Value
@@ -33,14 +31,15 @@ import rdflib
 class TripleStoreRDFProcessor(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
-
     def prepare_harvest(self, visitor):
-        """Load data to be harvested into a temperary namespace on the tripelstore.
+        """Load data to be harvested into a temperary namespace
+        on the tripelstore.
         Then set a rdflib grpah instance to it for reading.
         Open a target namespace for the dcat-ap.de compatible data and
         set a rdflib grpah instance to it for writing and reading.
         """
-        # todo: Missing Attribute, should it be 2 or 3 letters? Should be set by harvester
+        # todo: Missing Attribute, should it be 2 or 3 letters?
+        #  Should be set by harvester
         self.def_lang = 'de'
 
         tripel_db_name = self.harvester.id_in_tripel_store
@@ -58,8 +57,11 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             tripel_store.empty_namespace(tripel_db_name)
             self._target_graph = tripel_store.create_namespace(tripel_db_name)
         else:
-            # todo: dry run should know nothing about store, but if we use IOMemory store all Queries and results are different
-            # todo: Work around: We update '_temp' and use it, but do not write to clean store
+            # todo: dry run should know nothing about store,
+            #  but if we use IOMemory store all Queries and results are
+            #  different
+            # todo: Work around: We update '_temp' and use it,
+            #  but do not write to clean store
             self._graph, _response = tripel_store.graph_from_uri(
                 tripel_dry_run_db,
                 self.harvester.url,
@@ -364,7 +366,6 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
             self.construct(rdf_node, struct)
 
-
         # Handle identifier fields
         identifier_fields = handle_identifiers(rdf_node)
         obj_data.update(identifier_fields)
@@ -537,7 +538,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             for top_node in res.bindings:
                 yield top_node['s']
 
-        else :
+        else:
             struct_class = STRUCT_BY_PORTAL_TYPE[top_node_class]
 
             res = self.query_a(struct_class.rdf_type)
@@ -554,8 +555,8 @@ def main():
     harvester.url = 'https://opendata.potsdam.de/api/v2/catalog/exports/ttl'
     harvester.base_object = None
     harvester.source_type = RDF_FORMAT_TURTLE
-    harvester.serialize_format = RDF_FORMAT_METADATA[harvester.source_type]['serialize_as']
-    harvester.mime_type = RDF_FORMAT_METADATA[harvester.source_type]['mime_type']
+    harvester.serialize_format = RDF_FORMAT_METADATA[harvester.source_type]['serialize_as']  # noqa: E501
+    harvester.mime_type = RDF_FORMAT_METADATA[harvester.source_type]['mime_type']  # noqa: E501
     harvester.target = HARVEST_TRIPELSTORE
 
     # todo: should be one attribute, cause we just have one namespace name
@@ -563,8 +564,6 @@ def main():
     harvester.target_namespace = 'test2NS'
 
     harvester.top_node = CT_DCAT_CATALOG
-
-
 
     rdf_import = TripleStoreRDFProcessor(harvester)
     visitor = DCATVisitor()

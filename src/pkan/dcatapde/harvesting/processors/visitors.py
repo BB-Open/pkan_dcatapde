@@ -3,14 +3,14 @@
 from datetime import datetime
 from pkan.dcatapde.structure.sparql import namespace_manager
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
-#from plone.api.portal import translate
+# from plone.api.portal import translate
 from rdflib import URIRef
 
 import cgi
 import logging
 
 
-logger = logging.getLogger("Plone")
+logger = logging.getLogger('Plone')
 
 
 LEVEL_COLOR = {
@@ -55,9 +55,9 @@ class Scribe(object):
         elif level == 'warn':
             logger.info(msg='WARN: ' + msg)
         else:
-            print(level)
             raise AttributeError
-        # Todo: Logger must be configured to write console even if run without plone
+        # Todo: Logger must be configured to write
+        #  console even if run without plone
 
     def read(self):
         for entry in self.data:
@@ -101,7 +101,6 @@ class Scribe(object):
                 pass
             except IndexError:
                 pass
-
 
     def html_log(self):
         result = []

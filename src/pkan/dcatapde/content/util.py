@@ -8,8 +8,7 @@ from zope.interface import implementer
 
 def I18NField2Unique(obj):
     """Expresses an i18Nfield as unique as possible as a string"""
-    langs = list(obj.keys())
-    langs.sort()
+    langs = sorted(obj.keys())
     result = []
     for lang in langs:
         result.append(lang + ':' + obj[lang])

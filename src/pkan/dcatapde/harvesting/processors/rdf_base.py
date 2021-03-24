@@ -17,7 +17,6 @@ from traceback import format_tb
 from urllib import parse
 
 import rdflib
-import re
 import sys
 
 
@@ -100,12 +99,12 @@ class BaseRDFProcessor(object):
         res = literal_value
 
         escapes = {
-            '\\' : '\\\\',
-            '\n' : '\\\\n',
+            '\\': '\\\\',
+            '\n': '\\\\n',
             '\t': '\\\\t',
             '\r': '\\\\r',
             '"': '\\"',
-            "'": "\\'"
+            "'": "\\'",
         }
 
         for unescaped in escapes:
@@ -142,7 +141,6 @@ class BaseRDFProcessor(object):
         """Query the RDF db. Subject is the node we are on
         """
         pass
-
 
     def handle_list(self, visitor, res, **kwargs):
         pass
@@ -191,7 +189,6 @@ class BaseRDFProcessor(object):
         )
 
         params = kwargs.copy()
-
 
         res = self.query_attribute(kwargs['rdf_node'], field['predicate'])
 
@@ -261,7 +258,7 @@ class BaseRDFProcessor(object):
                         target_struct=field['object'],
                     )
                     if sub:
-                        #todo: check if rdf_about ist the correct field
+                        # todo: check if rdf_about ist the correct field
                         obj_data[field_name] = sub['rdf_about']
                     else:
                         if field['importance'] == IMP_REQUIRED:
@@ -384,16 +381,16 @@ class BaseRDFProcessor(object):
             # todo: is this still a valid test?
             visitor.scribe.write(
                 level='error',
-                msg=u'{type}: Could not find a valid title. Possible fields are {title_field}',
+                msg=u'{type}: Could not find a valid title. '
+                    u'Possible fields are {title_field}',
                 type=struct.rdf_type,
-                title_field=struct.title_field
+                title_field=struct.title_field,
             )
             raise RequiredPredicateMissing
         return title
 
     def checkURI(self, uri, field_name=None):
         pass
-
 
     def create_entity(
         self,
@@ -406,7 +403,6 @@ class BaseRDFProcessor(object):
     ):
         pass
 
-
     def crawl(
         self,
         visitor,
@@ -415,7 +411,6 @@ class BaseRDFProcessor(object):
         rdf_node=None,
     ):
         pass
-
 
     def crawl_dx(
         self,
@@ -442,11 +437,8 @@ class BaseRDFProcessor(object):
         """
         pass
 
-
     def remove_objects(self):
         pass
-
-
 
     def run(self, top_nodes, visitor):
         """crawl the top nodes"""

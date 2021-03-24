@@ -13,7 +13,7 @@ from zope.interface import Interface
 import logging
 
 
-logger = logging.getLogger("Plone")
+logger = logging.getLogger('Plone')
 
 
 @implementer(IMarshallSource)
@@ -245,15 +245,15 @@ class DX2Any(object):
         self.marshall_myself()
         content_type = self.structure.portal_type
         if self.context.portal_type == content_type:
-            logger.info("Portal type provided by Object")
+            logger.info('Portal type provided by Object')
             context = [self.context]
         else:
             context = []
-            logger.info("Portal type not provided by Object. Find Subelements")
+            logger.info('Portal type not provided by Object. Find Subelements')
             if IFolderish.providedBy(self.context):
                 for id, item in self.context.contentItems():
                     context.append(item)
-                    logger.info("Found %s" % item.title)
+                    logger.info('Found {title}'.format(title=item.title))
 
         for element in context:
             self.marshall_properties(element)
