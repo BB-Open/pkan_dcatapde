@@ -5,15 +5,12 @@ from pkan.dcatapde.constants import ACTIVE_STATE
 from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.constants import DEACTIVE_STATE
 from pkan.dcatapde.constants import PKAN_STATE_NAME
-from pkan.dcatapde.constants import PROVIDER_ADMIN_PERM
 from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
-from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_PERM
 from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
 from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
-from pkan.dcatapde.constants import PRVIDER_DATA_EDITOR_PERM
 from plone import api
 from plone.api.exc import UserNotFoundError
-from plone.api.user import has_permission
+from plone.api.user import get_roles
 
 
 def get_user_roles():
@@ -133,18 +130,17 @@ def query_active_objects(query, portal_type, context=None):
         check_editor = PROVIDER_DATA_EDITOR_ROLE in roles
         check_chief = PROVIDER_CHIEF_EDITOR_ROLE in roles
         if check_admin or check_editor or check_chief:
+            # if the user is a data provider collect all deactivated objects
+            # where he is a data provider, too.
+            # for example used in vocabs for linked data
             query[PKAN_STATE_NAME] = DEACTIVE_STATE
             new_brains = catalog(query)
             for brain in new_brains:
                 obj = brain.getObject()
-                perm = has_permission(PRVIDER_DATA_EDITOR_PERM, obj=obj,
-                                      user=current)
-                perm = perm or has_permission(PROVIDER_ADMIN_PERM, obj=obj,
-                                              user=current)
-                perm = perm or has_permission(PROVIDER_CHIEF_EDITOR_PERM,
-                                              obj=obj,
-                                              user=current)
-
+                roles = get_roles(user=current, obj=obj)
+                perm = PROVIDER_ADMIN_ROLE in roles
+                perm = perm or PROVIDER_CHIEF_EDITOR_ROLE in roles
+                perm = perm or PROVIDER_DATA_EDITOR_ROLE in roles
                 if perm:
                     brains.append(brain)
 
