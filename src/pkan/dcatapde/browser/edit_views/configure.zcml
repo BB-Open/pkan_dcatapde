@@ -17,5 +17,19 @@
     permission="cmf.ModifyPortalContent"
     />
 
+  <browser:page
+    for="pkan.dcatapde.content.dcat_dataset.IDCATDataset"
+    name="edit"
+    class=".dcat_edit_view.DatasetEditView"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:page
+    for="pkan.dcatapde.content.dcat_catalog.IDCATCatalog"
+    name="edit"
+    class=".dcat_edit_view.CatalogEditView"
+    permission="cmf.ModifyPortalContent"
+    />
+
 
 </configure>
