@@ -31,7 +31,7 @@ class BaseContentTypeVocabulary(object):
     def get_results(self, query, context):
         # todo: isinstance is not nice, but if its another form,
         # it does not set this annotations
-        if isinstance(context, PkanDefaultAddForm):
+        if isinstance(context, PkanDefaultAddForm) or not context:
             context = get_request_annotations('pkan.vocabularies.context')
 
         brains = query_active_objects(query, self.portal_type, context=context)
