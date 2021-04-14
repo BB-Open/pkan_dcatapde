@@ -26,6 +26,7 @@ from pkan.dcatapde.constants import DCAT_CTs
 from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
 from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
 from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
+from pkan.dcatapde.content.base import add_obj_identifier
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
@@ -316,4 +317,34 @@ def update_source_type(context):
                 obj.source_type = IRDFTTL
             elif 'IRDFJSON' in type:
                 obj.source_type = IRDFJSONLD
+            obj.reindexObject()
+
+
+def update_identifier(context):
+    cts = [
+        CT_DCAT_CATALOG,
+        CT_DCAT_COLLECTION_CATALOG,
+        CT_DCAT_DATASET,
+        CT_DCAT_DISTRIBUTION,
+        CT_DCT_LICENSEDOCUMENT,
+        CT_DCT_LOCATION,
+        CT_DCT_MEDIATYPEOREXTENT,
+        CT_DCT_RIGHTSSTATEMENT,
+        CT_DCT_STANDARD,
+        CT_FOAF_AGENT,
+        CT_SKOS_CONCEPTSCHEME,
+        CT_RDFS_LITERAL,
+        CT_DCT_LANGUAGE,
+        CT_SKOS_CONCEPT,
+    ]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+
+            add_obj_identifier(obj, None)
+
             obj.reindexObject()

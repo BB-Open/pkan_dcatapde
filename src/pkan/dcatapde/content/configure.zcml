@@ -1,6 +1,13 @@
 <configure
   xmlns="http://namespaces.zope.org/zope"
   i18n_domain="pkan.dcatapde">
+  <!-- All Dcat Objects -->
+  <subscriber
+    for="pkan.dcatapde.content.base.IDCAT
+         zope.lifecycleevent.IObjectAddedEvent
+        "
+    handler=".base.add_obj_identifier"
+    />
 
   <!-- DCATCatalog -->
   <!-- =========== -->
@@ -161,5 +168,6 @@
 
   <!-- RDFS_LITERAL -->
   <!-- =============== -->
+
 
 </configure>

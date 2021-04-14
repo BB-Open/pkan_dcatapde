@@ -155,4 +155,13 @@
       handler=".upgrades.update_source_type"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="1019"
+      title="Change source_type"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.update_identifier"
+      />
+
 </configure>

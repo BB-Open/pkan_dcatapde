@@ -3,8 +3,6 @@
 from pkan.dcatapde import i18n
 from pkan.dcatapde.structure.interfaces import IStructure
 from pkan.dcatapde.utils import get_current_language
-from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
-from plone.autoform import directives as form
 from plone.autoform.directives import read_permission
 from plone.autoform.directives import write_permission
 from plone.supermodel import model
@@ -20,6 +18,7 @@ class IDCAT(model.Schema):
     dct_identifier = schema.URI(
         required=False,
         title=i18n.LABEL_DCT_IDENTIFIER,
+        description=i18n.IDENTIFIER_DESCRIPTION,
     )
 
     read_permission(adms_identifier='pkan.dcatapde.ProviderDataEditor')
@@ -27,6 +26,7 @@ class IDCAT(model.Schema):
     adms_identifier = schema.URI(
         required=False,
         title=i18n.LABEL_ADMS_IDENTIFIER,
+        description=i18n.IDENTIFIER_DESCRIPTION,
     )
 
 #    read_permission(uri_in_triplestore='pkan.dcatapde.Admin')
@@ -36,24 +36,10 @@ class IDCAT(model.Schema):
 #        title=_(u'Uri in Triplestore'),
 #    )
 
-    read_permission(in_harvester='pkan.dcatapde.Admin')
-    write_permission(in_harvester='pkan.dcatapde.Admin')
-    form.widget(
-        'in_harvester',
-        AjaxSelectAddFieldWidget,
-    )
-    in_harvester = schema.Choice(
-        description=i18n.HELP_IN_HARVESTER,
-        required=False,
-        title=i18n.LABEL_IN_HARVESTER,
-        vocabulary='pkan.dcatapde.vocabularies.Harvester',
-    )
-
     model.fieldset(
-        'internal_info',
+        'object_identifier',
         label=i18n.FIELDSET_INTERNAL_INFO,
         fields=[
-            'in_harvester',
             'dct_identifier',
             'adms_identifier',
         ],
@@ -120,3 +106,12 @@ class DCATMixin(object):
             return desc
         else:
             return ''
+
+
+def add_obj_identifier(obj, event):
+
+    if not obj.dct_identifier:
+        obj.dct_identifier = obj.absolute_url()
+
+    if not obj.adms_identifier:
+        obj.adms_identifier = obj.absolute_url()

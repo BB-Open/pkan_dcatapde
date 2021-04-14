@@ -653,7 +653,6 @@ class PloneRDFProcessor(BaseRDFProcessor):
                 context,
                 struct.portal_type,
                 title=title,
-                in_harvester=self.harvester.UID(),
                 **obj_data)
         # We are not allowed to create the content here
         except InvalidParameterError:
@@ -670,7 +669,6 @@ class PloneRDFProcessor(BaseRDFProcessor):
                 self.harvester,
                 struct.portal_type,
                 title=title,
-                in_harvester=self.harvester.UID(),
                 **obj_data)
 
         self.apply_workflow(obj)
@@ -912,17 +910,9 @@ class PloneRDFProcessor(BaseRDFProcessor):
         return preview
 
     def remove_objects(self):
-        # todo: remove in triple store
-        uid = self.harvester.UID()
-        object_brains = content.find(in_harvester=uid)
-        count = len(object_brains)
-        for i in range(count):
-            try:
-                brain = object_brains[i]
-                content.delete(obj=brain.getObject())
-            except KeyError:
-                # object is already deleted because parent was deleted
-                continue
+        # no harvest to plone anymore
+        # field in_harvester removed
+        pass
 
     def run(self, top_nodes, visitor):
         """crawl the top nodes"""

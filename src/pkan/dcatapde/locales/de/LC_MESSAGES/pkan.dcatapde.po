@@ -5,1251 +5,1299 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-08-29 08:27+0000\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Sandra Rum <sandra.rum@inqbus.de>, 2018\n"
 "Language-Team: German (https://www.transifex.com/bb-open/teams/82830/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Domain: DOMAIN\n"
-"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language-Code: en\n"
 "Language-Name: English\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+"Language: de\n"
 
-#: pkan/dcatapde/structure/structure.py:288
+#: ../structure/structure.py:299
 msgid "${CT}=>${field_name}"
 msgstr "${CT}=>${field_name}"
 
-#: pkan/dcatapde/structure/structure.py:280
+#: ../structure/structure.py:291
 msgid "${CT}=>${field_name} (required)"
 msgstr "${CT}=>${field_name} (erforderlich)"
 
-#: pkan/dcatapde/i18n.py:249
+#: ../i18n.py:271
 msgid "${label}: Count: ${count}; Size: ${size} ${unit}"
 msgstr "${label}: Anzahl: ${count}; Größe: ${size} ${unit}"
 
-#: pkan/dcatapde/content/vcard_kind.py:24
+#: ../content/vcard_kind.py:24
 msgid "${value} is not a valid Emailaddress"
 msgstr "${value} ist keine gültige E-Mail-Adresse."
 
-#: pkan/dcatapde/i18n.py:12
+#: ../i18n.py:12
 msgid ":Deprecated"
 msgstr "veraltet"
 
-#: pkan/dcatapde/browser/content_views/harvester.py:122
+#: ../browser/content_views/harvester.py:156
+#: ../browser/content_views/transfer.py:137
 msgid "<p>Nothing to do</p>"
 msgstr "<p>Keine Änderung nötig</p>"
 
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel.pt:48
-msgid ""
-"<p>The list below is a set of controlpanels to configure PKAN. </p> <ul> "
-"<li><a href=\"${DYNAMIC_CONTENT}\" "
-"title=\"${DYNAMIC_CONTENT}\">${DYNAMIC_CONTENT}</a></li> </ul>"
-msgstr ""
-"<p>Die Liste zeigt eine Reihe von Konfigurationsseiten für "
-"PKAN.</p><ul><li><a href=\"${DYNAMIC_CONTENT}\" "
-"title=\"${DYNAMIC_CONTENT}\">${DYNAMIC_CONTENT}</a></li></ul>"
+#: ../browser/controlpanel/templates/controlpanel.pt:48
+msgid "<p>The list below is a set of controlpanels to configure PKAN. </p> <ul> <li><a href=\"${DYNAMIC_CONTENT}\" title=\"${DYNAMIC_CONTENT}\">${DYNAMIC_CONTENT}</a></li> </ul>"
+msgstr "<p>Die Liste zeigt eine Reihe von Konfigurationsseiten für PKAN.</p><ul><li><a href=\"${DYNAMIC_CONTENT}\" title=\"${DYNAMIC_CONTENT}\">${DYNAMIC_CONTENT}</a></li></ul>"
 
-#: pkan/dcatapde/profiles/default/registry.xml
+#: ../profiles/default/registry.xml
 msgid "A Skos Concept Theme"
 msgstr "Ein Kategorien-Schema"
 
-#: pkan/dcatapde/i18n.py:169
+#: ../i18n.py:190
 msgid "Access Rights"
 msgstr "Zugriffrechte"
 
-#: pkan/dcatapde/i18n.py:206
+#: ../i18n.py:227
 msgid "Access URI"
 msgstr "URI für Zugriff"
 
-#: pkan/dcatapde/i18n.py:151
+#: ../i18n.py:172
 msgid "Access URL"
-msgstr ""
-"Zugangs-URL: Web-Seite mit Informationen wie die Distribution erreicht "
-"werden kann"
+msgstr "Zugangs-URL: Web-Seite mit Informationen wie die Distribution erreicht werden kann"
 
-#: pkan/dcatapde/content/vcard_kind.py:54
+#: ../content/vcard_kind.py:54
 msgid "Add one Email per Line."
 msgstr "Jede E-Mail-Adresse in einer neuen Zeile hinzufügen."
 
-#: pkan/dcatapde/content/vcard_kind.py:59
+#: ../content/vcard_kind.py:59
 msgid "Add one number per Line"
 msgstr "Jede Nummer in einer neuen Zeile"
 
-#: pkan/dcatapde/browser/landing_page/templates/landing_page.pt:82
+#: ../browser/landing_page/templates/landing_page.pt:85
 msgid "Additional Catalogs:"
 msgstr "Zusätzliche Kataloge:"
 
-#: pkan/dcatapde/browser/landing_page/templates/landing_page.pt:38
+#: ../browser/landing_page/templates/landing_page.pt:40
 msgid "Addititonal Catalogs:"
 msgstr "Zusätzliche Kataloge:"
 
-#: pkan/dcatapde/i18n.py:192
+#: ../i18n.py:213
 msgid "Agent"
 msgstr "Person oder Stelle"
 
-#: pkan/dcatapde/profiles/default/types/AgentFolder.xml
+#: ../profiles/default/types/AgentFolder.xml
 msgid "AgentFolder"
 msgstr "Verzeichnis der Personen oder Stellen"
 
-#: pkan/dcatapde/i18n.py:14
+#: ../i18n.py:14
 msgid "Agents"
 msgstr "Personen oder Stellen"
 
-#: pkan/dcatapde/languages.py:67
+#: ../languages.py:67
 msgid "Avestan"
 msgstr ""
 
-#: pkan/dcatapde/profiles/default/types/harvesterfolder.xml
+#: ../profiles/default/types/harvesterfolder.xml
+#: ../profiles/default/types/transferfolder.xml
 msgid "Base Folder for Havester"
 msgstr "Basis-Verzeichnis für Harvester"
 
-#: pkan/dcatapde/i18n.py:150
+#: ../i18n.py:171
 msgid "Base Object"
 msgstr "Basis-Objekt"
 
-#: pkan/dcatapde/languages.py:62
+#: ../languages.py:62
 msgid "Bulgarian"
 msgstr "Bulgarisch"
 
-#: pkan/dcatapde/i18n.py:152
+#: ../i18n.py:173
 msgid "Byte size"
 msgstr "Größe in Bytes"
 
-#: pkan/dcatapde/browser/edit_views/harvester.py:24
+#: ../browser/edit_views/harvester.py:24
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: pkan/dcatapde/i18n.py:153
+#: ../i18n.py:174
 msgid "Catalog"
 msgstr "Katalog"
 
-#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:80
+#: ../browser/content_views/templates/folder_listing.pt:80
 msgid "Catalog:"
 msgstr "Katalog:"
 
-#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:86
+#: ../browser/content_views/templates/folder_listing.pt:86
 msgid "Category:"
 msgstr "Kategorie:"
 
-#: pkan/dcatapde/i18n.py:154
+#: ../i18n.py:175
 msgid "Collection Catalog"
 msgstr "Sammel-Katalog"
 
-#: pkan/dcatapde/i18n.py:217
+#: ../i18n.py:239
 msgid "Concept scheme URI"
 msgstr ""
 
-#: pkan/dcatapde/profiles/default/types/ConceptFolder.xml
+#: ../profiles/default/types/ConceptFolder.xml
 msgid "ConceptFolder"
 msgstr ""
 
-#: pkan/dcatapde/profiles/default/types/ConceptSchemeFolder.xml
+#: ../profiles/default/types/ConceptSchemeFolder.xml
 msgid "ConceptSchemeFolder"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:170
+#: ../i18n.py:191
 msgid "Conform to Standard"
 msgstr "Dem Standard entsprechend"
 
-#: pkan/dcatapde/content/vcard_kind.py:67
+#: ../content/vcard_kind.py:67
 msgid "Contact Formular"
 msgstr "Kontakt-Formular"
 
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:10
+#: ../browser/content_views/templates/harvester_overview.pt:10
+#: ../browser/content_views/templates/transfer_overview.pt:10
 msgid "Content:"
 msgstr "Inhalt:"
 
-#: pkan/dcatapde/browser/content_views/templates/dcat_collection_catalog.pt:14
-#: pkan/dcatapde/browser/content_views/templates/default_view.pt:40
+#: ../browser/content_views/templates/dcat_collection_catalog.pt:14
+#: ../browser/content_views/templates/default_view.pt:40
 msgid "Contents"
 msgstr "Inhalte"
 
-#: pkan/dcatapde/i18n.py:171
+#: ../i18n.py:192
 msgid "Contributor"
 msgstr "Bereitsteller"
 
-#: pkan/dcatapde/i18n.py:160
+#: ../i18n.py:181
 msgid "Contributor ID"
 msgstr "Bereitsteller ID"
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:938
+#: ../harvesting/processors/rdf2plone.py:903
 msgid "Could not read source."
 msgstr "Quelle konnte nicht gelesen werden."
 
-#: pkan/dcatapde/i18n.py:172
+#: ../i18n.py:193
 msgid "Creator"
 msgstr "Autor"
 
-#: pkan/dcatapde/languages.py:63
+#: ../languages.py:63
 msgid "Croation"
 msgstr ""
 
-#: pkan/dcatapde/languages.py:51
+#: ../languages.py:51
 msgid "Czech"
 msgstr ""
 
-#: pkan/dcatapde/profiles/default/types/dcat_catalog.xml
+#: ../profiles/default/types/dcat_catalog.xml
 msgid "DCAT Catalog"
 msgstr "Katalog"
 
-#: pkan/dcatapde/profiles/default/types/dcat_collection_catalog.xml
+#: ../profiles/default/types/dcat_collection_catalog.xml
 msgid "DCAT Collection Catalog"
 msgstr "Katalog-Sammlung"
 
-#: pkan/dcatapde/profiles/default/types/dcat_dataset.xml
+#: ../profiles/default/types/dcat_dataset.xml
 msgid "DCAT Dataset"
 msgstr "Datenstruktur"
 
-#: pkan/dcatapde/profiles/default/types/dcat_distribution.xml
+#: ../profiles/default/types/dcat_distribution.xml
 msgid "DCAT distribution"
 msgstr "Distribution"
 
-#: pkan/dcatapde/profiles/default/types/dcat_catalog.xml
+#: ../profiles/default/types/dcat_catalog.xml
 msgid "DCAT:Catalog"
 msgstr "Katalog"
 
-#: pkan/dcatapde/profiles/default/types/dcat_collection_catalog.xml
+#: ../profiles/default/types/dcat_collection_catalog.xml
 msgid "DCAT:CollectionCatalog"
 msgstr "Katalog-Sammlung"
 
-#: pkan/dcatapde/profiles/default/types/dcat_dataset.xml
+#: ../profiles/default/types/dcat_dataset.xml
 msgid "DCAT:Dataset"
 msgstr "Datenstruktur"
 
-#: pkan/dcatapde/profiles/default/types/dcat_distribution.xml
+#: ../profiles/default/types/dcat_distribution.xml
 msgid "DCAT:Distribution"
 msgstr "Distribution"
 
-#: pkan/dcatapde/profiles/default/types/dct_language.xml
+#: ../profiles/default/types/dct_language.xml
 msgid "DCT Language Object"
 msgstr ""
 
-#: pkan/dcatapde/profiles/default/types/dct_licensedocument.xml
+#: ../profiles/default/types/dct_licensedocument.xml
 msgid "DCT License Document"
 msgstr "Lizenz-Dokument"
 
-#: pkan/dcatapde/profiles/default/types/dct_mediatypeorextent.xml
+#: ../profiles/default/types/dct_mediatypeorextent.xml
 msgid "DCT Media Type or Extend"
 msgstr "Medien-Typ oder -Erweiterung"
 
-#: pkan/dcatapde/profiles/default/types/dct_rightsstatement.xml
+#: ../profiles/default/types/dct_rightsstatement.xml
 msgid "DCT Rights Statement"
 msgstr "Rechte-Erklärung"
 
-#: pkan/dcatapde/profiles/default/types/dct_language.xml
+#: ../profiles/default/types/dct_language.xml
 msgid "DCT:Language"
 msgstr "Sprache"
 
-#: pkan/dcatapde/profiles/default/types/dct_licensedocument.xml
+#: ../i18n.py:238
+msgid "DCT:Language Sources"
+msgstr ""
+
+#: ../profiles/default/types/dct_licensedocument.xml
 msgid "DCT:LicenseDocument"
 msgstr "Lizenz-Dokument"
 
-#: pkan/dcatapde/i18n.py:215
+#: ../i18n.py:236
 msgid "DCT:LicenseDocument Sources"
 msgstr "Quelle des Lizenz-Dokuments"
 
-#: pkan/dcatapde/profiles/default/types/dct_location.xml
+#: ../profiles/default/types/dct_location.xml
 msgid "DCT:Location"
 msgstr "Standort"
 
-#: pkan/dcatapde/profiles/default/types/dct_mediatypeorextent.xml
+#: ../profiles/default/types/dct_mediatypeorextent.xml
 msgid "DCT:MediaTypeOrExtent"
 msgstr "Medien-Typ / Erweiterung"
 
-#: pkan/dcatapde/profiles/default/types/dct_rightsstatement.xml
+#: ../profiles/default/types/dct_rightsstatement.xml
 msgid "DCT:RightsStatement"
 msgstr "DCT:DistributionsRechte"
 
-#: pkan/dcatapde/profiles/default/types/dct_standard.xml
+#: ../profiles/default/types/dct_standard.xml
 msgid "DCT:Standard"
 msgstr "DCT:Standard"
 
-#: pkan/dcatapde/languages.py:45
+#: ../languages.py:45
 msgid "Danish"
 msgstr ""
 
-#: pkan/dcatapde/browser/content_views/templates/harvester.pt:11
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:15
+#: ../browser/content_views/templates/harvester.pt:11
+#: ../browser/content_views/templates/harvester_overview.pt:15
+#: ../browser/content_views/templates/transfer_overview.pt:15
 msgid "Data Source"
 msgstr "Datenquelle"
 
-#: pkan/dcatapde/i18n.py:155
+#: ../browser/content_views/templates/transfer.pt:12
+#: ../browser/content_views/templates/transfer_overview.pt:16
+msgid "Data Source Namespace"
+msgstr ""
+
+#: ../browser/content_views/templates/transfer.pt:11
+msgid "Data Source Url"
+msgstr ""
+
+#: ../i18n.py:176
 msgid "Dataset"
 msgstr "Datenstruktur"
 
-#: pkan/dcatapde/i18n.py:15
+#: ../i18n.py:15
 msgid "Dates, Geo, etc"
 msgstr "Datum, Geoposition usw."
 
-#: pkan/dcatapde/profiles/default/registry.xml
+#: ../profiles/default/registry.xml
 msgid "Dcat Theme"
 msgstr "Kategorie"
 
-#: pkan/dcatapde/i18n.py:141
-msgid ""
-"Decide how often the harvester should be reharvested automatically. Leave "
-"empty for no reharvesting. Shortest intervall is one day. Period is parsed "
-"using pytimeparse. Read about on https://pypi.org/project/pytimeparse/"
-msgstr ""
-"Legen Sie fest, wie oft die Daten neu eingelesen werden sollen. Lassen Sie "
-"das Feld leer, wenn die Daten nie automatisch eingelesen werden sollen. Das "
-"kürzeste Intervall ist ein Tag. Um das Intervall anzugeben, nutzen Sie die "
-"Syntax von pytimeparse. Weitere Infos unter "
-"https://pypi.org/project/pytimeparse/"
+#: ../i18n.py:161
+msgid "Decide how often the harvester should be reharvested automatically. Leave empty for no reharvesting. Shortest intervall is one day. Period is parsed using pytimeparse. Read about on https://pypi.org/project/pytimeparse/"
+msgstr "Legen Sie fest, wie oft die Daten neu eingelesen werden sollen. Lassen Sie das Feld leer, wenn die Daten nie automatisch eingelesen werden sollen. Das kürzeste Intervall ist ein Tag. Um das Intervall anzugeben, nutzen Sie die Syntax von pytimeparse. Weitere Infos unter https://pypi.org/project/pytimeparse/"
 
-#: pkan/dcatapde/browser/harvester_entity/views.py:64
+#: ../browser/harvester_entity/views.py:63
 msgid "Default Value"
 msgstr "Standardwert"
 
-#: pkan/dcatapde/i18n.py:133
+#: ../i18n.py:19
+msgid "Default will be Plone-URL."
+msgstr "Der Standard ist die Plone-URL"
+
+#: ../i18n.py:155
+msgid "Define the import sources for DCT:Language objects."
+msgstr ""
+
+#: ../i18n.py:149
 msgid "Define the import sources for DCT:LicenseDocument objects."
 msgstr "Quelle für den Import der Objekte festlegen: DCT:LizenzDokument"
 
-#: pkan/dcatapde/i18n.py:136
+#: ../i18n.py:152
 msgid "Define the import sources for SKOS:Concept objects."
 msgstr "Quelle für den Import der Objekte festlegen: Kategorie"
 
-#: pkan/dcatapde/i18n.py:208
+#: ../i18n.py:229
 msgid "Definition URI"
 msgstr "Definition URI"
 
-#: pkan/dcatapde/i18n.py:173
+#: ../content/publisher_card.py:22
+#: ../i18n.py:194
 msgid "Description"
 msgstr "Beschreibung"
 
-#: pkan/dcatapde/browser/harvester_entity/views.py:37
+#: ../browser/harvester_entity/views.py:36
 msgid "Destination"
 msgstr "Ziel"
 
-#: pkan/dcatapde/browser/harvester_entity/views.py:58
+#: ../browser/harvester_entity/views.py:57
 msgid "Dexterity Object"
 msgstr "Dexterity Object"
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:940
+#: ../harvesting/processors/rdf2plone.py:905
 msgid "Did not find correct parameters to request data."
 msgstr "Um Daten abzufragen, fehlen korrekte Parameter."
 
-#: pkan/dcatapde/i18n.py:158
+#: ../i18n.py:179
 msgid "Distribution"
 msgstr "Distribution"
 
-#: pkan/dcatapde/i18n.py:156
+#: ../i18n.py:177
 msgid "Download URL"
 msgstr "Download URL: Link auf die herunterladbare Datei"
 
-#: pkan/dcatapde/browser/content_views/templates/harvester.pt:13
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:17
+#: ../browser/content_views/templates/harvester.pt:15
+#: ../browser/content_views/templates/harvester_overview.pt:19
 msgid "Dry Run"
 msgstr "Probelauf"
 
-#: pkan/dcatapde/languages.py:48
+#: ../languages.py:48
 msgid "Dutch"
 msgstr ""
 
-#: pkan/dcatapde/browser/content_views/templates/harvester.pt:12
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:16
-#: pkan/dcatapde/profiles/default/types/dcat_catalog.xml
+#: ../browser/content_views/templates/harvester.pt:14
+#: ../browser/content_views/templates/harvester_overview.pt:18
+#: ../browser/content_views/templates/transfer.pt:14
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: pkan/dcatapde/browser/content_views/templates/harvester.pt:26
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:30
+#: ../browser/content_views/templates/harvester.pt:31
+#: ../browser/content_views/templates/harvester_overview.pt:35
 msgid "Edit Harvester"
 msgstr "Harvester bearbeiten"
 
-#: pkan/dcatapde/languages.py:42
+#: ../browser/content_views/templates/transfer.pt:27
+#: ../browser/content_views/templates/transfer_overview.pt:31
+msgid "Edit Transfer"
+msgstr "Einen Transfer bearbeiten"
+
+#: ../languages.py:42
 msgid "Egnlish (GB)"
 msgstr "Englisch (GB)"
 
-#: pkan/dcatapde/content/vcard_kind.py:51
+#: ../content/vcard_kind.py:51
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: pkan/dcatapde/content/vcard_kind.py:49
+#: ../content/vcard_kind.py:49
 msgid "Emails"
 msgstr "E-Mail-Adressen"
 
-#: pkan/dcatapde/languages.py:44
+#: ../languages.py:44
 msgid "English"
 msgstr "Englisch"
 
-#: pkan/dcatapde/languages.py:41
+#: ../languages.py:41
 msgid "English (USA)"
 msgstr "Englisch (USA)"
 
-#: pkan/dcatapde/languages.py:43
+#: ../languages.py:43
 msgid "Ethiopia"
 msgstr ""
 
-#: pkan/dcatapde/profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Export to RDF"
 msgstr "Nach RDF exportieren"
 
-#: pkan/dcatapde/profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Export to RDF/JSON"
 msgstr "Nach RDF/JSON exportieren"
 
-#: pkan/dcatapde/profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Export to RDF/TTL"
 msgstr "Nach RDF/TTL exportieren"
 
-#: pkan/dcatapde/content/harvester.py:27
+#: ../content/harvester.py:44
+#: ../content/transfer.py:23
 msgid "Expression can not be parsed."
 msgstr "Der Ausdruck kann nicht ausgewertet werden."
 
-#: pkan/dcatapde/profiles/default/types/foaf_agent.xml
+#: ../profiles/default/types/foaf_agent.xml
 msgid "FOAF Agent"
 msgstr "Verantwortliche Stelle"
 
-#: pkan/dcatapde/profiles/default/types/foaf_agent.xml
+#: ../profiles/default/types/foaf_agent.xml
 msgid "FOAF:Agent"
 msgstr "Verantwortliche Stelle"
 
-#: pkan/dcatapde/content/vcard_kind.py:75
+#: ../content/vcard_kind.py:75
 msgid "Fax Number"
 msgstr "Telefax"
 
-#: pkan/dcatapde/content/vcard_kind.py:73
+#: ../content/vcard_kind.py:73
 msgid "Fax Numbers"
 msgstr "Telefax"
 
-#: pkan/dcatapde/constants.py:202
+#: ../constants.py:222
 msgid "File"
 msgstr "Datei"
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:985
+#: ../harvesting/processors/rdf2plone.py:965
+#: ../harvesting/processors/rdf_base.py:481
 msgid "Finished reading of {top_node}"
 msgstr "Beende einlesen von {top_node}"
 
-#: pkan/dcatapde/languages.py:46
+#: ../languages.py:46
 msgid "Finnish"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:196
+#: ../i18n.py:217
 msgid "Folder containing agents"
 msgstr "Verzeichnis der Personen oder Stellen"
 
-#: pkan/dcatapde/i18n.py:197
+#: ../i18n.py:218
 msgid "Folder containing formats"
 msgstr "Verzeichnis der Formate"
 
-#: pkan/dcatapde/i18n.py:200
+#: ../i18n.py:221
 msgid "Folder containing languages"
 msgstr "Verzeichnis der Sprachen"
 
-#: pkan/dcatapde/i18n.py:198
+#: ../i18n.py:219
 msgid "Folder containing licenses"
 msgstr "Verzeichnis der Lizenzen"
 
-#: pkan/dcatapde/i18n.py:199
+#: ../i18n.py:220
 msgid "Folder containing locations"
 msgstr "Verzeichnis der Standorte"
 
-#: pkan/dcatapde/i18n.py:201
+#: ../i18n.py:222
 msgid "Folder containing publishers"
 msgstr "Verzeichnis der Bereitsteller"
 
-#: pkan/dcatapde/i18n.py:202
+#: ../i18n.py:223
 msgid "Folder containing standards"
 msgstr "Verzeichnis der Standards"
 
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_base.pt:29
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_folders.pt:29
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_imports.pt:29
+#: ../browser/controlpanel/templates/controlpanel_layout_base.pt:29
+#: ../browser/controlpanel/templates/controlpanel_layout_folders.pt:29
+#: ../browser/controlpanel/templates/controlpanel_layout_imports.pt:29
 msgid "Folders"
 msgstr "Verzeichnisse"
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:97
+#: ../browser/landing_page/landing_page.py:96
 msgid "Folders and Catalogs managed as Provider Chief Editor"
 msgstr "Vezeichnisse und Kataloge der Chef-Redaktion "
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:181
+#: ../browser/landing_page/landing_page.py:180
 msgid "Folders and Catalogs managed as Provider Data Editor"
 msgstr "Vezeichnisse und Kataloge der Daten-Redaktion"
 
-#: pkan/dcatapde/browser/landing_page/landing_page.py:187
+#: ../browser/landing_page/landing_page.py:186
 msgid "Folders managed as Provider Admin"
 msgstr "Vezeichnisse der Administration"
 
-#: pkan/dcatapde/i18n.py:174
+#: ../i18n.py:195
 msgid "Format"
 msgstr "Format"
 
-#: pkan/dcatapde/profiles/default/types/FormatFolder.xml
+#: ../profiles/default/types/FormatFolder.xml
 msgid "FormatFolder"
 msgstr "FormatVerzeichnis"
 
-#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:89
+#: ../browser/content_views/templates/folder_listing.pt:89
 msgid "Formats:"
 msgstr "Formate:"
 
-#: pkan/dcatapde/languages.py:50
+#: ../languages.py:50
 msgid "French"
 msgstr "Französisch"
 
-#: pkan/dcatapde/i18n.py:161
+#: ../i18n.py:182
 msgid "Geocoding text"
 msgstr "Räumliche Abdeckung (beschreibender Text)"
 
-#: pkan/dcatapde/languages.py:40
+#: ../languages.py:40
 msgid "German"
 msgstr "Deutsch"
 
-#: pkan/dcatapde/browser/content_views/templates/harvester.pt:14
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:18
+#: ../browser/content_views/templates/harvester.pt:16
+#: ../browser/content_views/templates/harvester_overview.pt:20
 msgid "Graph Display"
 msgstr "Grafische Ansicht"
 
-#: pkan/dcatapde/browser/content_views/templates/harvester.pt:10
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:14
-#: pkan/dcatapde/i18n.py:203
+#: ../content/harvester.py:89
+msgid "Harvest to Plone or to the Tripel store"
+msgstr ""
+
+#: ../browser/content_views/templates/harvester.pt:10
+#: ../browser/content_views/templates/harvester_overview.pt:14
+#: ../i18n.py:224
 msgid "Harvester"
 msgstr "Harvester"
 
-#: pkan/dcatapde/browser/content_views/templates/harvester.pt:17
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:21
+#: ../browser/content_views/templates/harvester.pt:19
+#: ../browser/content_views/templates/harvester_overview.pt:23
 msgid "Harvester Entity Mapping"
 msgstr "Objektzuordnung des Harvesters"
 
-#: pkan/dcatapde/profiles/default/types/harvester.xml
+#: ../profiles/default/types/harvester.xml
 msgid "Harvester Object"
 msgstr "Harvester Objekt"
 
-#: pkan/dcatapde/profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Harvester Overview"
 msgstr "Übersicht der Harvester"
 
-#: pkan/dcatapde/i18n.py:204
+#: ../i18n.py:225
 msgid "Harvester folder"
 msgstr "Verzeichnis der Harvester"
 
-#: pkan/dcatapde/i18n.py:140
+#: ../i18n.py:160
 msgid "Harvester that created this object"
 msgstr "Harvester, der das Objekt erzeugt hat"
 
-#: pkan/dcatapde/profiles/default/types/harvesterfolder.xml
+#: ../profiles/default/types/harvesterfolder.xml
 msgid "HarvesterFolder"
 msgstr "HarvesterVerzeichnis"
 
-#: pkan/dcatapde/content/harvester.py:36
+#: ../content/harvester.py:58
+#: ../content/transfer.py:37
 msgid "Harvesting Source"
 msgstr "Quelle für Harvester"
 
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel.pt:39
+#: ../browser/controlpanel/templates/controlpanel.pt:39
 msgid "Here you have access to all controlpanels for PKAN."
 msgstr "Hier greifen Sie auf alle Einstellungen von PKAN zu. "
 
-#: pkan/dcatapde/i18n.py:19
-msgid ""
-"Here you may chose the location where to the datasets will be imported. If "
-"the incoming data has no catalog, choose a catalog object.By default "
-"incoming catalogues are place in the harvester. "
-msgstr ""
-"Hier wählen Sie den Speicherort für die importierten Datenstrukturen. Haben "
-"die zu importierenden Daten keinen Katalog, wählen Sie einen aus. "
-"Voreinstellung ist, dass importierte Kataloge im Harvester liegen."
+#: ../i18n.py:21
+msgid "Here you may chose the location where to the datasets will be imported. If the incoming data has no catalog, choose a catalog object.By default incoming catalogues are place in the harvester. "
+msgstr "Hier wählen Sie den Speicherort für die importierten Datenstrukturen. Haben die zu importierenden Daten keinen Katalog, wählen Sie einen aus. Voreinstellung ist, dass importierte Kataloge im Harvester liegen."
 
-#: pkan/dcatapde/i18n.py:193
+#: ../i18n.py:214
 msgid "Homepage"
 msgstr "Homepage"
 
-#: pkan/dcatapde/languages.py:58
+#: ../languages.py:58
 msgid "Hungarian"
 msgstr "Ungarisch"
 
-#: pkan/dcatapde/constants.py:203
+#: ../content/skos_concept.py:48
+msgid "Icon class for category"
+msgstr "Icon Klasse für die Kategorie"
+
+#: ../constants.py:223
 msgid "Image"
 msgstr "Bilddatei"
 
-#: pkan/dcatapde/i18n.py:8
+#: ../i18n.py:8
 msgid "Import DCT:LicenseDocument"
 msgstr "Import Lizenz-Dokumente"
 
-#: pkan/dcatapde/i18n.py:9
+#: ../i18n.py:9
 msgid "Import SKOS:Concept"
 msgstr "Import Kategorien"
 
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_base.pt:32
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_folders.pt:32
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_imports.pt:32
+#: ../browser/update_views/update_themes.py:60
+msgid "Imported ${count} concepts items."
+msgstr ""
+
+#: ../browser/controlpanel/templates/controlpanel_layout_base.pt:32
+#: ../browser/controlpanel/templates/controlpanel_layout_folders.pt:32
+#: ../browser/controlpanel/templates/controlpanel_layout_imports.pt:32
 msgid "Imports"
 msgstr "Importe"
 
-#: pkan/dcatapde/i18n.py:219
+#: ../i18n.py:241
 msgid "In Harvester"
 msgstr "Im Harvester"
 
-#: pkan/dcatapde/configure.zcml:39 pkan/dcatapde/profiles.zcml:17
+#: ../configure.zcml:41
+#: ../profiles.zcml:17
 msgid "Installs the pkan.dcatapde add-on."
 msgstr "Installiert das pkan.dcatapde Add-on."
 
-#: pkan/dcatapde/i18n.py:17
-msgid "Internal Information"
-msgstr "Interne Information"
-
-#: pkan/dcatapde/languages.py:61
+#: ../languages.py:61
 msgid "Irish"
 msgstr "Irisch"
 
-#: pkan/dcatapde/i18n.py:178
+#: ../i18n.py:199
 msgid "Issued"
 msgstr "Veröffentlicht"
 
-#: pkan/dcatapde/languages.py:57
+#: ../languages.py:57
 msgid "Italian"
 msgstr "Italienisch"
 
-#: pkan/dcatapde/i18n.py:194
+#: ../i18n.py:215
 msgid "Landing page"
 msgstr "Startseite"
 
-#: pkan/dcatapde/profiles/default/types/LanguageFolder.xml
+#: ../profiles/default/types/LanguageFolder.xml
 msgid "LanguageFolder"
 msgstr "Sprachordner"
 
-#: pkan/dcatapde/i18n.py:179
+#: ../i18n.py:200
 msgid "Languages"
 msgstr "Sprachen"
 
-#: pkan/dcatapde/content/harvester.py:96
+#: ../content/harvester.py:136
+#: ../content/transfer.py:80
 msgid "Last Run"
-msgstr ""
+msgstr "Letzte Ausführung"
 
-#: pkan/dcatapde/languages.py:52
+#: ../languages.py:52
 msgid "Latvian"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:162
+#: ../i18n.py:183
 msgid "Legal basis text"
 msgstr "Rechtsgrundlage für Zugangsöffnung"
 
-#: pkan/dcatapde/i18n.py:163
+#: ../i18n.py:184
 msgid "Licence attribution by text"
 msgstr "Namensnennungstext für \"by\"-Lizenz"
 
-#: pkan/dcatapde/i18n.py:180
+#: ../i18n.py:201
 msgid "License"
 msgstr "Lizenz"
 
-#: pkan/dcatapde/i18n.py:181
+#: ../i18n.py:202
 msgid "License Document"
 msgstr "Lizenz-Dokument"
 
-#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:83
+#: ../browser/content_views/templates/folder_listing.pt:83
 msgid "License:"
 msgstr "Lizenz:"
 
-#: pkan/dcatapde/profiles/default/types/LicenseFolder.xml
+#: ../profiles/default/types/LicenseFolder.xml
 msgid "LicenseFolder"
 msgstr "Verzeichnis der Lizenzen"
 
-#: pkan/dcatapde/i18n.py:57
-msgid ""
-"Link to an existing catalog or or create a new one by using the 'add' button"
-" below."
-msgstr ""
-"Mit bestehendem Katalog verknüpfen oder neuen erstellen mit 'hinzufügen'."
+#: ../i18n.py:66
+msgid "Link to an existing catalog"
+msgstr "Verlinkung zu einem bestehenden Katalog"
 
-#: pkan/dcatapde/i18n.py:61
-msgid ""
-"Link to an existing parent catalog or or create a new one by using the 'add'"
-" button below."
-msgstr ""
-"Mit bestehendem Eltern-Katalog verknüpfen oder neuen erstellen mit "
-"'hinzufügen'."
+#: ../i18n.py:71
+msgid "Link to an existing parent catalog"
+msgstr "Link zu einem bestehenden Elternkatalog"
 
-#: pkan/dcatapde/i18n.py:207
+#: ../i18n.py:228
 msgid "Literal"
 msgstr "Literal"
 
-#: pkan/dcatapde/languages.py:47
+#: ../languages.py:47
 msgid "Lithuanian"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:157
+#: ../i18n.py:178
 msgid "Local file"
-msgstr ""
+msgstr "Lokale Datei"
 
-#: pkan/dcatapde/i18n.py:148
+#: ../i18n.py:169
 msgid "Local identifier"
-msgstr ""
+msgstr "Lokaler identifier"
 
-#: pkan/dcatapde/i18n.py:182
+#: ../i18n.py:203
 msgid "Location"
 msgstr "Standort"
 
-#: pkan/dcatapde/profiles/default/types/LocationFolder.xml
+#: ../profiles/default/types/LocationFolder.xml
 msgid "LocationFolder"
 msgstr "Verzeichnis der Standorte"
 
-#: pkan/dcatapde/browser/content_views/templates/dry_run.pt:25
+#: ../browser/content_views/templates/dry_run.pt:25
 msgid "Log:"
 msgstr "Log:"
 
-#: pkan/dcatapde/i18n.py:164
+#: ../content/publisher_card.py:27
+msgid "Logo"
+msgstr ""
+
+#: ../i18n.py:185
 msgid "Maintainer"
 msgstr "Verwalter"
 
-#: pkan/dcatapde/languages.py:56
+#: ../languages.py:56
 msgid "Maltese"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:130
+#: ../i18n.py:146
 msgid "Manage base settings for PKAN."
 msgstr "PKAN-Grund-Einstellungen verwalten."
 
-#: pkan/dcatapde/i18n.py:131
+#: ../i18n.py:147
 msgid "Manage folder settings for PKAN."
 msgstr "PKAN-Verzeichnis-Einstellungen verwalten."
 
-#: pkan/dcatapde/i18n.py:132
+#: ../i18n.py:148
 msgid "Manage import settings for PKAN."
 msgstr "PKAN-Import-Einstellungen verwalten."
 
-#: pkan/dcatapde/i18n.py:159
+#: ../i18n.py:180
 msgid "Media type"
 msgstr "Medientyp"
 
-#: pkan/dcatapde/profiles/default/types/MediaTypeFolder.xml
+#: ../profiles/default/types/MediaTypeFolder.xml
 msgid "MediaTypeFolder"
 msgstr "Verzeichnis der Medientypen"
 
-#: pkan/dcatapde/i18n.py:184
+#: ../i18n.py:205
 msgid "Mediatype"
 msgstr "Medientyp"
 
-#: pkan/dcatapde/languages.py:64
+#: ../languages.py:64
 msgid "Modern Greek"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:183
+#: ../i18n.py:204
 msgid "Modified"
 msgstr "Geändert"
 
-#: pkan/dcatapde/languages.py:60
+#: ../languages.py:60
 msgid "Norwegian"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:168
+#: ../i18n.py:17
+msgid "Object Identifier"
+msgstr "Objekt Identifier"
+
+#: ../i18n.py:189
 msgid "Originator"
 msgstr "Urheber"
 
-#: pkan/dcatapde/profiles/default/registry.xml
+#: ../profiles/default/registry.xml
 msgid "PKAN"
 msgstr "PKAN"
 
-#: pkan/dcatapde/i18n.py:212
+#: ../i18n.py:233
 msgid "PKAN Base Settings"
 msgstr "PKAN-Grund-Einstellungen"
 
-#: pkan/dcatapde/profiles/default/controlpanel.xml
+#: ../profiles/default/controlpanel.xml
 msgid "PKAN Dcatapde Configuration"
 msgstr "PKAN DCAT-AP.de Konfiguration"
 
-#: pkan/dcatapde/i18n.py:213
+#: ../i18n.py:234
 msgid "PKAN Folder Settings"
 msgstr "PKAN-Verzeichnis-Einstellungen"
 
-#: pkan/dcatapde/i18n.py:214
+#: ../i18n.py:235
 msgid "PKAN Import Settings"
 msgstr "PKAN-Import-Einstellungen"
 
-#: pkan/dcatapde/browser/menu.py:22
+#: ../browser/menu.py:22
 msgid "PKAN Object Status"
 msgstr ""
 
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_base.pt:18
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_folders.pt:18
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_imports.pt:18
+#: ../browser/controlpanel/templates/controlpanel_layout_base.pt:18
+#: ../browser/controlpanel/templates/controlpanel_layout_folders.pt:18
+#: ../browser/controlpanel/templates/controlpanel_layout_imports.pt:18
 msgid "PKAN Settings"
 msgstr "PKAN-Einstellungen"
 
-#: pkan/dcatapde/i18n.py:195
+#: ../i18n.py:216
 msgid "Page"
 msgstr "Seite"
 
-#: pkan/dcatapde/i18n.py:177
+#: ../i18n.py:198
 msgid "Parent Catalog"
 msgstr "Eltern-Katalog"
 
-#: pkan/dcatapde/i18n.py:175
+#: ../i18n.py:196
 msgid "Parts"
 msgstr "Teile"
 
-#: pkan/dcatapde/i18n.py:11
+#: ../i18n.py:11
 msgid "Permission Denied"
 msgstr "Zugriff abgelehnt"
 
-#: pkan/dcatapde/content/vcard_kind.py:61
+#: ../content/vcard_kind.py:61
 msgid "Phone Number"
 msgstr "Telefon"
 
-#: pkan/dcatapde/content/vcard_kind.py:58
+#: ../content/vcard_kind.py:58
 msgid "Phone Numbers"
 msgstr "Telefonnummern"
 
-#: pkan/dcatapde/browser/controlpanel/views.py:11
+#: ../browser/controlpanel/views.py:11
 msgid "Pkan Dcatapde Main Config"
 msgstr "PKAN Dcatapde Haupt-Konfiguration"
 
-#: pkan/dcatapde/i18n.py:165
+#: ../i18n.py:186
 msgid "Planed availability"
 msgstr "Geplante Verfügbarkeit"
 
-#: pkan/dcatapde/i18n.py:85
+#: ../i18n.py:101
 msgid "Please enter the folder containing all agents, eg. ${folder}."
 msgstr "Verzeichnis der Personen oder Stellen z.B. ${folder}."
 
-#: pkan/dcatapde/i18n.py:91
+#: ../i18n.py:107
 msgid "Please enter the folder containing all formats, eg. ${folder}."
 msgstr "Verzeichnis der Formate z.B. ${folder}."
 
-#: pkan/dcatapde/i18n.py:121
+#: ../i18n.py:137
 msgid "Please enter the folder containing all languages, eg. ${folder}."
 msgstr "Verzeichnis der Sprachen z.B. ${folder}."
 
-#: pkan/dcatapde/i18n.py:97
+#: ../i18n.py:113
 msgid "Please enter the folder containing all licenses, eg. ${folder}."
 msgstr "Verzeichnis der Lizenzen z.B. ${folder}."
 
-#: pkan/dcatapde/i18n.py:103
+#: ../i18n.py:119
 msgid "Please enter the folder containing all locations, eg. ${folder}."
 msgstr "Verzeichnis der Standorte z.B. ${folder}."
 
-#: pkan/dcatapde/i18n.py:109
+#: ../i18n.py:125
 msgid "Please enter the folder containing all publishers, eg. ${folder}."
 msgstr "Verzeichnis der Herausgeber z.B. ${folder}."
 
-#: pkan/dcatapde/i18n.py:115
+#: ../i18n.py:131
 msgid "Please enter the folder containing all standards, eg. ${folder}."
 msgstr "Verzeichnis der Standards z.B. ${folder}."
 
-#: pkan/dcatapde/languages.py:66
+#: ../languages.py:66
 msgid "Polish"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:166
+#: ../i18n.py:187
 msgid "PoliticalGeocodingLevelURI"
 msgstr "Ebene der geopolitischen Abdeckung URI"
 
-#: pkan/dcatapde/i18n.py:167
+#: ../i18n.py:188
 msgid "PoliticalGeocodingURI"
 msgstr "Geopolitische Abdeckung URI"
 
-#: pkan/dcatapde/content/harvester.py:66
+#: ../content/harvester.py:106
 msgid "Portal Type of Top Node"
 msgstr ""
 
-#: pkan/dcatapde/languages.py:53
+#: ../languages.py:53
 msgid "Portuguese"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:176
+#: ../i18n.py:197
 msgid "Primary Identifier"
-msgstr ""
+msgstr "Primärer Identifier"
 
 #. Default: "ProviderAdmin"
-#: pkan/dcatapde/localroles.py:28
+#: ../localroles.py:28
 msgid "ProviderAdmin"
 msgstr "Datenbereitsteller Administration"
 
 #. Default: "ProviderChiefEditor"
-#: pkan/dcatapde/localroles.py:20
+#: ../localroles.py:20
 msgid "ProviderChiefEditor"
 msgstr "Datenbereitsteller Chef-Redaktion"
 
 #. Default: "ProviderDataEditor"
-#: pkan/dcatapde/localroles.py:12
+#: ../localroles.py:12
 msgid "ProviderDataEditor"
 msgstr "Datenbereitsteller Daten-Redaktion"
 
-#: pkan/dcatapde/i18n.py:185
+#: ../i18n.py:206
 msgid "Publisher"
 msgstr "Herausgeber"
 
-#: pkan/dcatapde/browser/harvester_entity/views.py:47
-#: pkan/dcatapde/content/harvester.py:76
+#: ../content/publisher_card.py:18
+msgid "Publisher Name"
+msgstr "Name des Herausgebers"
+
+#: ../profiles/default/types/PublisherCard.xml
+msgid "PublisherCard"
+msgstr ""
+
+#: ../browser/harvester_entity/views.py:46
+#: ../content/harvester.py:116
 msgid "Query"
 msgstr "Suchanfrage"
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:1019
+#: ../harvesting/processors/rdf2plone.py:1002
+#: ../harvesting/processors/rdf_base.py:514
 msgid "Reading {kind} file {uri}"
 msgstr "Lese {kind} Datei {uri}"
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:884
+#: ../harvesting/processors/rdf2plone.py:849
 msgid "Reading {kind} file {uri} into rdflib"
 msgstr "Lese {kind} Datei {uri} nach rdflib"
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:965
+#: ../harvesting/processors/rdf2plone.py:933
+#: ../harvesting/processors/rdf_base.py:449
 msgid "Reading {top_node}"
 msgstr ""
 
-#: pkan/dcatapde/browser/content_views/templates/harvester.pt:15
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:19
+#: ../browser/content_views/templates/harvester.pt:17
+#: ../browser/content_views/templates/harvester_overview.pt:21
+#: ../browser/content_views/templates/transfer.pt:15
 msgid "Real Run"
 msgstr "Import starten"
 
-#: pkan/dcatapde/i18n.py:222
+#: ../i18n.py:244
 msgid "Registry has been updated. Please reload this page."
 msgstr "Die Registry wurde aktualisiert. Bitte laden Sie diese Seite neu."
 
-#: pkan/dcatapde/content/harvester.py:89
+#: ../content/harvester.py:129
+#: ../content/transfer.py:73
 msgid "Reharvesting Period"
-msgstr ""
+msgstr "Periode für einen erneuten Harvest"
 
-#: pkan/dcatapde/i18n.py:16
+#: ../i18n.py:16
 msgid "Relations"
 msgstr "Beziehungen"
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:932
+#: ../harvesting/processors/rdf2plone.py:897
 msgid "Result: "
 msgstr "Ergebnis"
 
-#: pkan/dcatapde/browser/harvester_entity/preview.py:64
+#: ../browser/harvester_entity/preview.py:65
 msgid "Result: Did not find correct parameters to request data."
 msgstr "Ergebnis: Keine korrekten Angaben gefunden, um Suche zu starten"
 
-#: pkan/dcatapde/i18n.py:186
+#: ../i18n.py:207
 msgid "Rights"
 msgstr "Rechte"
 
-#: pkan/dcatapde/i18n.py:187
+#: ../i18n.py:208
 msgid "Rights statement"
 msgstr "Rechte-Erklärung"
 
-#: pkan/dcatapde/profiles/default/types/RightsFolder.xml
+#: ../profiles/default/types/RightsFolder.xml
 msgid "RightsFolder"
 msgstr "RechteVerzeichnis"
 
-#: pkan/dcatapde/languages.py:49
+#: ../languages.py:49
 msgid "Romanian"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:209
+#: ../browser/content_views/templates/harvester.pt:20
+#: ../browser/content_views/templates/harvester_overview.pt:24
+#: ../browser/content_views/templates/transfer.pt:16
+msgid "Run in Cron"
+msgstr ""
+
+#: ../i18n.py:230
 msgid "SCOS concept"
 msgstr "Kategorie"
 
-#: pkan/dcatapde/i18n.py:210
+#: ../i18n.py:231
 msgid "SCOS concept scheme"
 msgstr "Kategorien-Schema"
 
-#: pkan/dcatapde/profiles/default/types/skos_concept.xml
+#: ../profiles/default/types/skos_concept.xml
 msgid "SKOS Concept"
 msgstr "Kategorie"
 
-#: pkan/dcatapde/profiles/default/types/skos_conceptscheme.xml
+#: ../profiles/default/types/skos_conceptscheme.xml
 msgid "SKOS Concept Scheme"
 msgstr "Kategorien-Schema"
 
-#: pkan/dcatapde/profiles/default/types/skos_concept.xml
+#: ../profiles/default/types/skos_concept.xml
 msgid "SKOS:Concept"
 msgstr "Kategorie"
 
-#: pkan/dcatapde/i18n.py:216
+#: ../i18n.py:237
 msgid "SKOS:Concept Sources"
 msgstr "Quellen für Kategorien"
 
-#: pkan/dcatapde/profiles/default/types/skos_conceptscheme.xml
+#: ../profiles/default/types/skos_conceptscheme.xml
 msgid "SKOS:ConceptScheme"
 msgstr "Kategorien"
 
-#: pkan/dcatapde/browser/edit_views/harvester.py:20
-#: pkan/dcatapde/browser/harvester_entity/views.py:113
+#: ../content/publisher_card.py:39
+msgid "SPARQL Identifier for Publisher"
+msgstr ""
+
+#: ../browser/edit_views/harvester.py:20
+#: ../browser/harvester_entity/views.py:112
 msgid "Save"
 msgstr "Speichern"
 
-#: pkan/dcatapde/i18n.py:37
-msgid ""
-"Select a access right from the list of available access rights or create a "
-"new one by using the 'add' button below."
+#: ../i18n.py:42
+msgid "Select a access right from the list of available access rights or create a new one by using the \"add\" button below."
 msgstr ""
-"Wählen Sie ein Zugriffsrecht aus der Liste oder erstellen Sie ein neues mit "
-"'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:129
+#: ../i18n.py:145
 msgid "Select a contact information."
 msgstr "Kontakt auswählen"
 
-#: pkan/dcatapde/i18n.py:45
-msgid ""
-"Select a contributor from the list of available contributors or create a new"
-" one by using the 'add' button below."
+#: ../i18n.py:51
+msgid "Select a contributor from the list of available contributors "
 msgstr ""
-"Diese Eigenschaft verweist auf Stellen oder Personen, die die Daten "
-"bearbeitet haben. Aus der Liste wählen oder mit 'hinzufügen' erstellen."
 
-#: pkan/dcatapde/i18n.py:49
-msgid ""
-"Select a creator from the list of available creators or create a new one by "
-"using the 'add' button below."
+#: ../i18n.py:56
+msgid "Select a creator from the list of available creators "
 msgstr ""
-"Diese Eigenschaft verweist auf Personen, die die Daten erstellt haben. Aus "
-"der Liste wählen oder mit 'hinzufügen' erstellen."
 
-#: pkan/dcatapde/i18n.py:53
-msgid ""
-"Select a format from the list of available formats or create a new one by "
-"using the 'add' button below."
+#: ../i18n.py:61
+msgid "Select a format from the list of available formats "
 msgstr ""
-"Wählen Sie ein Format aus der Liste oder erstellen Sie ein neues mit "
-"'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:65
-msgid ""
-"Select a license from the list of available licenses or create a new one by "
-"using the 'add' button below."
+#: ../i18n.py:76
+msgid "Select a license from the list of available licenses "
 msgstr ""
-"Wählen Sie eine Lizenz aus der Liste oder erstellen Sie eine neue mit "
-"'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:77
-msgid ""
-"Select a location from the list of available locations or create a new one "
-"by using the 'add' button below."
+#: ../i18n.py:91
+msgid "Select a location from the list of available locations"
 msgstr ""
-"Wählen Sie einen Standort aus der Liste oder erzeugen Sie einen neuen mit "
-"'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:29
-msgid ""
-"Select a maintainer from the list of available maintainers or create a new "
-"one by using the 'add' button below."
+#: ../i18n.py:32
+msgid "Select a maintainer from the list of available maintainers"
 msgstr ""
-"Diese Eigenschaft verweist auf die Stelle, die Verantwortung und "
-"Rechenschaftspflicht für die Daten und ihre angemessene Pflege übernimmt. "
-"Aus der Liste wählen oder mit 'hinzufügen' erstellen."
 
-#: pkan/dcatapde/i18n.py:25
-msgid ""
-"Select a media type from the list of available media types or create a new "
-"one by using the 'add' button below."
+#: ../i18n.py:27
+msgid "Select a media type from the list of available media types"
 msgstr ""
-"Wählen Sie einen Medien-Typ aus der Liste oder erstellen Sie einen neuen mit"
-" 'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:69
-msgid ""
-"Select a publisher from the list of available publishers or create a new one"
-" by using the 'add' button below."
+#: ../i18n.py:81
+msgid "Select a publisher from the list of available publishers "
 msgstr ""
-"Wählen Sie einen Herausgeber aus der Liste oder erstellen Sie einen neuen "
-"mit 'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:73
-msgid ""
-"Select a rights statement from the list of available statements or create a "
-"new one by using the 'add' button below."
+#: ../i18n.py:86
+msgid "Select a rights statement from the list of available statements"
 msgstr ""
-"Wählen Sie eine Rechte-Erklärung aus der Liste oder erstellen Sie eine neue "
-"mit 'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:41
-msgid ""
-"Select a standard from the list of available standards or create a new one "
-"by using the 'add' button below."
+#: ../i18n.py:46
+msgid "Select a standard from the list of available standards "
 msgstr ""
-"Wählen Sie einen Standard aus der Liste oder erstellen Sie einen neuen mit "
-"'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:81
-msgid ""
-"Select a theme taxonomy from the list of available taxonomies or create a "
-"new one by using the 'add' button below."
+#: ../i18n.py:96
+msgid "Select a theme taxonomy from the list of available taxonomies"
 msgstr ""
-"Wählen Sie für die Kategorie eine Taxonomie aus der Liste oder erzeugen Sie "
-"eine neue mit 'hinzufügen'."
 
-#: pkan/dcatapde/i18n.py:33
-msgid ""
-"Select an originator from the list of available originators or create a new "
-"one by using the 'add' button below."
+#: ../i18n.py:37
+msgid "Select an originator from the list of available originators "
 msgstr ""
-"Diese Eigenschaft verweist auf die Stellen, die Urheberrechte an den Daten "
-"besitzen. Aus der Liste wählen oder mit 'hinzufügen' erstellen."
 
-#: pkan/dcatapde/i18n.py:128
+#: ../i18n.py:144
 msgid "Select some SKOS Concepts"
 msgstr "Wählen Sie eine Kategorie"
 
-#: pkan/dcatapde/browser/harvester_entity/views.py:182
+#: ../browser/harvester_entity/views.py:182
 msgid "Select your fields"
 msgstr "Wählen Sie Ihre Felder aus"
 
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_base.pt:26
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_folders.pt:26
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_imports.pt:26
+#: ../browser/controlpanel/templates/controlpanel_layout_base.pt:26
+#: ../browser/controlpanel/templates/controlpanel_layout_folders.pt:26
+#: ../browser/controlpanel/templates/controlpanel_layout_imports.pt:26
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel.pt:15
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_base.pt:13
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel_layout_folders.pt:13
+#: ../browser/controlpanel/templates/controlpanel.pt:15
+#: ../browser/controlpanel/templates/controlpanel_layout_base.pt:13
+#: ../browser/controlpanel/templates/controlpanel_layout_folders.pt:13
 msgid "Site Setup"
 msgstr ""
 
-#: pkan/dcatapde/languages.py:54
+#: ../languages.py:54
 msgid "Slovak"
 msgstr ""
 
-#: pkan/dcatapde/content/harvester.py:55
+#: ../content/harvester.py:77
+#: ../content/transfer.py:43
 msgid "Source Format"
 msgstr "Format der Quelle"
 
-#: pkan/dcatapde/languages.py:55
+#: ../content/transfer.py:53
+msgid "Source Namespace"
+msgstr ""
+
+#: ../languages.py:55
 msgid "Spanish"
 msgstr ""
 
-#: pkan/dcatapde/languages.py:55
-msgid "SPARQL-Url:"
-msgstr "SPARQL-Url:"
-
-
-#: pkan/dcatapde/i18n.py:188
+#: ../i18n.py:209
 msgid "Spatial relevance"
 msgstr "Räumliche Bedeutung"
 
-#: pkan/dcatapde/i18n.py:189
+#: ../content/harvester.py:97
+#: ../content/transfer.py:54
+msgid "Specify a name for the tripelstore to harvest to. Only a single word without blanks allowed"
+msgstr ""
+
+#: ../i18n.py:210
 msgid "Standard"
 msgstr "Standard"
 
-#: pkan/dcatapde/profiles/default/types/StandardsFolder.xml
+#: ../profiles/default/types/StandardsFolder.xml
 msgid "StandardsFolder"
 msgstr "StandardsVerzeichnis"
 
-#: pkan/dcatapde/browser/menu.py:24
+#: ../browser/menu.py:24
 msgid "State"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:248
+#: ../i18n.py:270
 msgid "Sum"
 msgstr "Summe"
 
-#: pkan/dcatapde/languages.py:59
+#: ../languages.py:59
 msgid "Swedish"
 msgstr ""
 
-#: pkan/dcatapde/profiles.zcml:26
+#: ../browser/content_views/templates/harvester.pt:12
+#: ../browser/content_views/templates/harvester_overview.pt:16
+#: ../content/harvester.py:88
+msgid "Target"
+msgstr ""
+
+#: ../content/harvester.py:96
+#: ../content/transfer.py:63
+msgid "Target Namespace"
+msgstr ""
+
+#: ../browser/content_views/templates/harvester.pt:13
+#: ../browser/content_views/templates/harvester_overview.pt:17
+#: ../browser/content_views/templates/transfer.pt:13
+msgid "Target namespace"
+msgstr ""
+
+#: ../profiles.zcml:26
 msgid "Testfixture profile for pkan.dcatapde."
 msgstr ""
 
-#: pkan/dcatapde/browser/harvester_entity/views.py:145
+#: ../content/publisher_card.py:33
+msgid "Text"
+msgstr ""
+
+#: ../browser/harvester_entity/views.py:144
 msgid "Thank you very much!"
 msgstr "Vielen Dank!"
 
-#: pkan/dcatapde/browser/configure.zcml:51
-msgid ""
-"The PKAN 'workflow' menu - allows the user to execute pkan workflow "
-"transitions"
+#: ../browser/configure.zcml:51
+msgid "The PKAN 'workflow' menu - allows the user to execute pkan workflow transitions"
 msgstr ""
 
-#: pkan/dcatapde/i18n.py:127
+#: ../i18n.py:143
 msgid "The URI describing this concept"
 msgstr "Die URI, die das Konzept beschribt"
 
-#: pkan/dcatapde/content/harvester.py:37
+#: ../content/publisher_card.py:40
+msgid "The URI of the Sparql-Object to be linked."
+msgstr ""
+
+#: ../content/harvester.py:59
+#: ../content/transfer.py:38
 msgid "The URI of the source of data to be harvested."
 msgstr "Die URI der Datenquelle, die geharvestet werden soll."
 
-#: pkan/dcatapde/i18n.py:190
+#: ../i18n.py:211
 msgid "Theme Taxonomy"
 msgstr "Taxonomie der Kategorie"
 
-#: pkan/dcatapde/i18n.py:191
+#: ../i18n.py:212
 msgid "Title"
 msgstr "Titel"
 
-#: pkan/dcatapde/content/harvester.py:56
-msgid ""
-"Transport format of the source. Usually this will be a RDF variant like "
-"(JSON-LD, XML, Turtle), or a generic source like \"JSON generic\""
+#: ../browser/content_views/templates/transfer.pt:10
+#: ../browser/content_views/templates/transfer_overview.pt:14
+#: ../profiles/default/types/transfer.xml
+msgid "Transfer"
 msgstr ""
-"Transport-Format der Quelle. Normalerweise eine RDF-Variante wie (JSON-LD, "
-"XML, Turtle), oder eine generische Quelle wie \"JSON generic\""
 
-#: pkan/dcatapde/i18n.py:139
+#: ../profiles/default/types/transfer.xml
+msgid "Transfer Object"
+msgstr ""
+
+#: ../profiles/default/actions.xml
+msgid "Transfer Overview"
+msgstr ""
+
+#: ../profiles/default/types/transferfolder.xml
+msgid "TransferFolder"
+msgstr ""
+
+#: ../content/harvester.py:78
+#: ../content/transfer.py:44
+msgid "Transport format of the source. Usually this will be a RDF variant like (JSON-LD, XML, Turtle), or a generic source like \"JSON generic\""
+msgstr "Transport-Format der Quelle. Normalerweise eine RDF-Variante wie (JSON-LD, XML, Turtle), oder eine generische Quelle wie \"JSON generic\""
+
+#: ../i18n.py:159
 msgid "URI to the concept scheme"
 msgstr "URI zum Concept Scheme"
 
-#: pkan/dcatapde/i18n.py:218
+#: ../i18n.py:240
 msgid "URL"
 msgstr "URL"
 
-#: pkan/dcatapde/configure.zcml:48 pkan/dcatapde/profiles.zcml:35
+#: ../configure.zcml:50
+#: ../profiles.zcml:35
 msgid "Uninstalls the pkan.dcatapde add-on."
 msgstr "Entfernt das pkan.dcatapde Add-on."
 
-#: pkan/dcatapde/profiles/default/types/vcard_kind.xml
+#: ../profiles/default/types/vcard_kind.xml
 msgid "VCARD Kind for Contact Information"
 msgstr "Kontakt-Information"
 
-#: pkan/dcatapde/profiles/default/types/vcard_kind.xml
+#: ../profiles/default/types/vcard_kind.xml
 msgid "VCARD:Kind"
 msgstr "Kontakt"
 
-#: pkan/dcatapde/i18n.py:211
+#: ../i18n.py:232
 msgid "Vcard Kind"
 msgstr "Kontakt"
 
-#: pkan/dcatapde/profiles/default/types/VcardKindFolder.xml
+#: ../profiles/default/types/VcardKindFolder.xml
 msgid "VcardKindFolder"
 msgstr "Verzeichnis der Kontakte"
 
-#: pkan/dcatapde/i18n.py:149
+#: ../i18n.py:170
 msgid "Version Notes"
 msgstr "Versionshinweise"
 
-#: pkan/dcatapde/i18n.py:205
+#: ../i18n.py:226
 msgid "Version info"
 msgstr "Version"
 
-#: pkan/dcatapde/browser/content_views/templates/harvester_overview.pt:9
-#: pkan/dcatapde/profiles/default/types/dcat_catalog.xml
-#: pkan/dcatapde/profiles/default/types/dcat_collection_catalog.xml
+#: ../browser/content_views/templates/harvester_overview.pt:9
+#: ../browser/content_views/templates/transfer_overview.pt:9
+#: ../profiles/default/types/dcat_catalog.xml
 msgid "View"
 msgstr "Ansicht"
 
-#: pkan/dcatapde/content/harvester.py:83
+#: ../i18n.py:167
+msgid "Visual representation of the category"
+msgstr ""
+
+#: ../content/harvester.py:123
 msgid "Workflow State of created objects"
 msgstr "Workflow Zustand des erstellten Objektes"
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:936
+#: ../harvesting/processors/rdf2plone.py:901
 msgid "Wrong Syntax"
 msgstr "Falsche Syntax"
 
+#: ../content/transfer.py:91
+msgid "You need a url with source_type or an namespace as source"
+msgstr ""
+
 #. Default: "last modified"
-#: pkan/dcatapde/browser/content_views/templates/folder_listing.pt:59
+#: ../browser/content_views/templates/folder_listing.pt:59
 msgid "box_last_modified"
 msgstr ""
 
-#: pkan/dcatapde/constants.py:10
+#: ../constants.py:220
 msgid "dcat_distribution"
 msgstr "Distribution"
 
 #. Default: "Up to Site Setup"
-#: pkan/dcatapde/browser/controlpanel/templates/controlpanel.pt:31
+#: ../browser/controlpanel/templates/controlpanel.pt:31
 msgid "label_up_to_plone_setup"
 msgstr ""
 
-#: pkan/dcatapde/configure.zcml:39 pkan/dcatapde/profiles.zcml:17
+#: ../configure.zcml:41
+#: ../profiles.zcml:17
 msgid "pkan.dcatapde"
 msgstr "pkan.dcatapde"
 
-#: pkan/dcatapde/configure.zcml:48 pkan/dcatapde/profiles.zcml:35
+#: ../configure.zcml:50
+#: ../profiles.zcml:35
 msgid "pkan.dcatapde (uninstall)"
 msgstr "pkan.dcatapde (deinstallieren)"
 
-#: pkan/dcatapde/profiles.zcml:26
+#: ../profiles.zcml:26
 msgid "pkan.dcatapde testfixture profile"
 msgstr ""
 
-#: pkan/dcatapde/vocabularies/workflow_states.py:76
+#: ../vocabularies/workflow_states.py:74
 msgid "title"
 msgstr ""
 
-#: pkan/dcatapde/harvesting/rdf/rdf.py:1039
+#: ../harvesting/processors/rdf2plone.py:1029
+#: ../harvesting/processors/rdf_base.py:541
 msgid "{kind} file {uri} read succesfully"
 msgstr "{kind} Date {uri} erfolgreich eingelesen"
