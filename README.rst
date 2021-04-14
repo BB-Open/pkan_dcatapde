@@ -2,16 +2,8 @@
 pkan.dcatapde
 =============
 
-.. image:: https://img.shields.io/pypi/v/pkan.dcatapde.svg
-   :target: https://pypi.python.org/pypi/pkan.dcatapde
-   :alt: PyPI Version
-
-.. image:: https://img.shields.io/pypi/pyversions/pkan.dcatapde.svg
-   :target: https://pypi.python.org/pypi/pkan.dcatapde
-   :alt: Supported Python Versions
-
 .. image:: https://img.shields.io/travis/BB-Open/pkan.dcatapde/master.svg
-   :target: http://travis-ci.org/BB-Open/pkan.dcatapde
+   :target: https://travis-ci.org/github/BB-Open/pkan_dcatapde
    :alt: Travis CI status
 
 .. image:: https://img.shields.io/coveralls/github/BB-Open/pkan.dcatapde/master.svg
