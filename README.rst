@@ -2,7 +2,7 @@
 pkan.dcatapde
 =============
 
-.. image:: https://img.shields.io/travis/BB-Open/pkan.dcatapde/master.svg
+.. image:: https://travis-ci.org/BB-Open/pkan_dcatapde.svg?branch=master
    :target: https://travis-ci.org/github/BB-Open/pkan_dcatapde
    :alt: Travis CI status
 
