@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
 from pkan.dcatapde import _
-from pkan.dcatapde.harvesting.processors.rdf2plone import handle_identifiers
 from pkan.dcatapde.utils import get_available_languages_iso
 from pkan.dcatapde.utils import get_available_languages_title
 from pkan.dcatapde.utils import get_default_language
@@ -9,6 +8,7 @@ from plone.api import content
 from plone.api import portal
 from plone.i18n.normalizer import idnormalizer
 from rdflib import URIRef
+from urllib import parse
 from zExceptions import BadRequest
 from zope.i18n import translate
 
@@ -189,3 +189,48 @@ class UpdateObjectsBase(object):
         ])
         self.request.response.redirect(url)
         return u''
+
+
+def handle_identifiers(obj):
+    """
+    Handle Konv 24/25/26/27
+    Deal with duplicates and push trough Id information
+    """
+
+    params = {}
+
+    # Special case of dct_identifier. If dct:identifier is set conserve it.
+    dct_identifier = str(getattr(obj, 'dct_identifier', None))
+    if isinstance(obj, URIRef):
+        subject = str(obj)
+    else:
+        try:
+            subject = str(getattr(obj, 'subject'))
+        except AttributeError:
+            # This is the case for Literal
+            subject = None
+
+    # if no dct:Identifier is set
+    if dct_identifier is None:
+        # set it to the subject
+        params['dct_identifier'] = subject
+    else:
+        # check if dct:Identifier is really an URI
+        if parse.urlparse(dct_identifier).scheme != '':
+            params['dct_identifier'] = dct_identifier
+        else:
+            params['dct_identifier'] = subject
+
+            # Special case of adms_identifier. If adms:identifier is set
+    # conserve it.
+    adms_identifier = str(getattr(obj, 'adms_identifier', None))
+    if adms_identifier is not None:
+        # check if adms:dientifier is really an URI
+        if parse.urlparse(adms_identifier).scheme != '':
+            params['adms_identifier'] = adms_identifier
+        else:
+            params['adms_identifier'] = None
+    else:
+        params['adms_identifier'] = None
+
+    return params

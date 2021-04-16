@@ -8,8 +8,6 @@
   <include package=".content_views" />
   <include package=".controlpanel "/>
   <include package=".edit_views" />
-  <include package=".harvester_entity" />
-  <include package=".graph" />
   <include package=".util_views" />
   <include package=".update_views" />
   <include package=".landing_page" />

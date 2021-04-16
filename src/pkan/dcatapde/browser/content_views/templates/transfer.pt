@@ -28,7 +28,7 @@
                            tal:attributes="href trans/edit">Edit Transfer</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href trans/real_run">Real Run</a></td>
-                  <td tal:content="trans/reharvesting_period"></td>
+                  <td tal:content="trans/is_enabled"></td>
                 </tr>
             </tbody>
         </table>

@@ -9,14 +9,12 @@
                 <tr>
                   <td i18n:translate="">Harvester</td>
                   <td i18n:translate="">Data Source</td>
-                  <td i18n:translate="">Target</td>
-                  <td i18n:translate="">Target namespace</td>
+                  <td i18n:translate="">Complete Namespace</td>
+                  <td i18n:translate="">Clean Namespace</td>
                   <td i18n:translate="">Edit</td>
                   <td i18n:translate="">Dry Run</td>
-                  <td i18n:translate="">Graph Display</td>
                   <td i18n:translate="">Real Run</td>
                   <!--<td i18n:translate="">Reset Fields</td>-->
-                  <td i18n:translate="">Harvester Entity Mapping</td>
                   <td i18n:translate="">Run in Cron</td>
                 </tr>
             </thead>
@@ -26,20 +24,14 @@
                             tal:content="harv/title"></a></td>
                     <td><a tal:attributes="href harv/source_url"
                             tal:content="harv/source_url"></a></td>
-                    <td tal:content="harv/target"></td>
-                    <td tal:content="harv/target_namespace"></td>
+                    <td tal:content="harv/complete_namespace"></td>
+                    <td tal:content="harv/clean_namespace"></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/edit">Edit Harvester</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/dry_run">Dry Run</a></td>
                     <td><a i18n:translate=""
-                           tal:attributes="href harv/graph_display">Graph Display</a></td>
-                    <td><a i18n:translate=""
                            tal:attributes="href harv/real_run">Real Run</a></td>
-                    <!--<td><a i18n:translate=""
-                           tal:attributes="href harv/reset_fields">Reset Fields</a></td>-->
-                    <td><a i18n:translate=""
-                           tal:attributes="href harv/harvester_entity">Harvester Entity Mapping</a></td>
                     <td tal:content="harv/reharvesting_period"></td>
                 </tr>
             </tbody>

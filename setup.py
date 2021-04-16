@@ -5,7 +5,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '0.1.dev0'
+version = '2.0.dev0'
 description = 'DCAT-AP.de content types for Plone.'
 long_description = '\n\n'.join([
     open('README.rst').read(),

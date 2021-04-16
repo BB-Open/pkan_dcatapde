@@ -4,6 +4,7 @@
 from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import CT_ANY
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.content.rdfs_literal import literal2plone
@@ -20,7 +21,6 @@ from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
 from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
-from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from rdflib.term import Literal
 from rdflib.term import URIRef
 from SPARQLWrapper.SmartWrapper import Value

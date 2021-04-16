@@ -31,7 +31,7 @@ class TransferListViewMixin(object):
             'edit': addTokenToUrl(path + '/edit'),
             'target_namespace': trans.target_namespace,
             'source_namespace': trans.source_namespace,
-            'reharvesting_period': trans.reharvesting_period,
+            'is_enabled': trans.is_enabled,
         }
 
         return data
@@ -133,14 +133,11 @@ class RealRunCronView(BrowserView):
         for brain in results:
             obj = brain.getObject()
 
-            if obj.reharvesting_period is None:
+            if not obj.is_enabled:
                 no_run_message = translate(_(u'<p>Nothing to do</p>'),
                                            context=self.request)
                 self.log.append(u'<h2>{title}</h2>'.format(title=obj.title))
                 self.log.append(no_run_message)
-            # cause we empty, we have to rerun all
-            # elif obj.reharvesting_period and obj.last_run is None:
-            #     self.log += self.real_run(obj)
             else:
                 target_namespaces.append(obj.id_in_tripel_store)
                 if obj.url:

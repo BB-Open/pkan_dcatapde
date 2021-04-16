@@ -1,4 +1,4 @@
-graft src/pkan
+./graft src/pkan
 graft docs
 include *.rst
 global-exclude *.pyc

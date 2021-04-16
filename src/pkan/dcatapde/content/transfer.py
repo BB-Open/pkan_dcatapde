@@ -2,7 +2,6 @@
 """Transfer Content Type."""
 from pkan.dcatapde import _
 from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.i18n import HELP_REHARVESTING_PERIOD
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from pytimeparse import parse
@@ -68,11 +67,13 @@ class ITransfer(model.Schema):
         constraint=target_namespace_constraint,
     )
 
-    reharvesting_period = schema.TextLine(
+    is_enabled = schema.Bool(
+        default=True,
         required=False,
-        title=_(u'Reharvesting Period'),
-        description=_(HELP_REHARVESTING_PERIOD),
-        constraint=period_constraint,
+        title=_(u'Is Enabled'),
+        description=_(
+            u'If enabled, will be run in cron jobs',
+        ),
     )
 
     last_run = schema.Datetime(

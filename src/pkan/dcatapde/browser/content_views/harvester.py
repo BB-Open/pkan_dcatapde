@@ -6,8 +6,6 @@ from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER
 from pkan.dcatapde.harvesting.processors.rdf2tripelstore import TripleStoreRDFProcessor  # noqa: E501
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
-from pkan.dcatapde.vocabularies.harvester_target import HARVEST_PLONE
-from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
@@ -31,13 +29,10 @@ class HarvesterListViewMixin(object):
             'path': path,
             'source_url': addTokenToUrl(harv.url),
             'dry_run': addTokenToUrl(path + '/dry_run'),
-            'graph_display': addTokenToUrl(path + '/graph'),
             'real_run': addTokenToUrl(path + '/real_run'),
-            'reset_fields': addTokenToUrl(path + '/reset_fields'),
-            'harvester_entity': addTokenToUrl(path + '/harvester_entity'),
             'edit': addTokenToUrl(path + '/edit'),
-            'target': harv.target,
-            'target_namespace': harv.target_namespace,
+            'clean_namespace': harv.target_namespace,
+            'complete_namespace': harv.target_namespace + '_temp',
             'reharvesting_period': harv.reharvesting_period,
         }
 
@@ -90,10 +85,7 @@ class HarvesterOverview(BrowserView, HarvesterListViewMixin):
 
 
 def RDFProcessor_factory(harvester):
-    if harvester.target == HARVEST_PLONE:
-        return TripleStoreRDFProcessor(harvester)
-    elif harvester.target == HARVEST_TRIPELSTORE:
-        return TripleStoreRDFProcessor(harvester)
+    return TripleStoreRDFProcessor(harvester)
 
 
 class DryRunView(BrowserView):

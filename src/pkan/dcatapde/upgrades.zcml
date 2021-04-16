@@ -164,4 +164,13 @@
       handler=".upgrades.update_identifier"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="2001"
+      title="Change transfer period to is_enabled"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.update_transfer_enabled"
+      />
+
 </configure>

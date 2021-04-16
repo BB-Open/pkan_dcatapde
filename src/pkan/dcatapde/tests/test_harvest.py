@@ -3,12 +3,9 @@
 from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from pkan.dcatapde.browser.content_views.harvester import RDFProcessor_factory
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.manager import interfaces
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
-from pkan.dcatapde.vocabularies.harvester_target import HARVEST_PLONE
-from pkan.dcatapde.vocabularies.harvester_target import HARVEST_TRIPELSTORE
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -41,30 +38,14 @@ class HarvestTest(unittest.TestCase):
             type=constants.CT_HARVESTER,
             id=constants.CT_HARVESTER,
             url=FIXTURE_URL,
-            target=HARVEST_PLONE,
             source_type=interfaces.IRDFTTL,
-            top_node=CT_DCAT_CATALOG,
         )
         self.assertTrue(IHarvester.providedBy(self.obj))
-
-    def testHarvestPlone(self):
-        req = requests.get(FIXTURE_URL)
-        self.assertEqual(req.status_code, 200)
-
-        rdfproc = RDFProcessor_factory(self.obj)
-
-        visitor = DCATVisitor()
-        visitor.real_run = False
-        rdfproc.prepare_and_run(visitor)
-
-        visitor.real_run = True
-        rdfproc.prepare_and_run(visitor)
 
     def testHarvestTripelstore(self):
         req = requests.get(FIXTURE_URL)
         self.assertEqual(req.status_code, 200)
 
-        self.obj.target = HARVEST_TRIPELSTORE
         rdfproc = RDFProcessor_factory(self.obj)
 
         visitor = DCATVisitor()

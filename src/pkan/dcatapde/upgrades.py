@@ -348,3 +348,21 @@ def update_identifier(context):
             add_obj_identifier(obj, None)
 
             obj.reindexObject()
+
+
+def update_transfer_enabled(context):
+    cts = [CT_TRANSFER]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+
+            if obj.reharvesting_period:
+                obj.is_enabled = True
+            else:
+                obj.is_enabled = False
+
+            obj.reindexObject()

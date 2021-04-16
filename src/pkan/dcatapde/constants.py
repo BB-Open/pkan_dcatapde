@@ -229,3 +229,4 @@ SIZE_FACTOR = 1024 ** 2
 SIZE_ROUND = 2
 
 IMPRESSUM = 'Impressum'
+HARVEST_TRIPELSTORE = 'Tripelstore'
