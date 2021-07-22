@@ -32,11 +32,16 @@ class PKANSubMenuItem(WorkflowSubMenuItem):
 
     @property
     def extra(self):
-        state = api.content.get_state(
-            aq_inner(self.context), 'pkan_state')
+        workflowTool = self.tools.workflow()
+        state = workflowTool.getStatusOf("pkan_activation_workflow", self.context)['pkan_state']
+        # style like normal plone workflow
+        if state == 'active':
+            style_class = 'published'
+        else:
+            style_class = 'private'
         stateTitle = self._currentStateTitle()
         return {'id': self.submenuId,
-                'class': 'state-{0}'.format(state),
+                'class': 'state-{0}'.format(style_class),
                 'state': state,
                 'stateTitle': stateTitle,
                 'shortTitle': self.short_title,
@@ -44,18 +49,18 @@ class PKANSubMenuItem(WorkflowSubMenuItem):
 
     @memoize
     def available(self):
-        state = api.content.get_state(
-            aq_inner(self.context), 'pkan_state')
+        workflowTool = self.tools.workflow()
+        state = workflowTool.getStatusOf("pkan_activation_workflow", self.context)
         return (state is not None)
 
     @memoize
     def _currentStateTitle(self):
-        state = api.content.get_state(
-            aq_inner(self.context), 'pkan_state')
-        workflows = self.tools.workflow().getWorkflowsFor(self.context)
+        workflowTool = self.tools.workflow()
+        state = workflowTool.getStatusOf("pkan_activation_workflow", self.context)['pkan_state']
+        workflows = workflowTool.getWorkflowsFor(self.context)
         if workflows:
             for w in workflows:
-                if state in w.states:
+                if 'pkan_activation_workflow' == w.id:
                     return w.states[state].title or state
 
 
