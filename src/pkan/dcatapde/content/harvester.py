@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Harvester Content Type."""
 from pkan.dcatapde import _
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.api.functions import query_active_objects, query_active_objects_in_context
+from pkan.dcatapde.constants import CT_DCAT_CATALOG, CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
@@ -32,6 +33,12 @@ INTERFACE_FORMAT = {
     IRDFTTL: RDF_FORMAT_TURTLE,
 }
 
+INTERFACE_VIEW = {
+    IRDFJSONLD: '/rdf_json',
+    IRDFXML: '/rdf_xml',
+    IRDFTTL: '/rdf_ttl',
+}
+
 
 def period_constraint(value):
     res = parse(value)
@@ -49,7 +56,7 @@ class IHarvester(model.Schema):
     """Marker interfce and Dexterity Python Schema for Harvester."""
 
     url = schema.URI(
-        required=True,
+        required=False,
         title=_(u'Harvesting Source'),
         description=_(u'The URI of the source of data to be harvested.'),
     )
@@ -158,3 +165,21 @@ class Harvester(Container, DCATMixin):
     @property
     def top_node_sparql(self):
         return QUERY_A_STR
+
+    @property
+    def rdf_view(self):
+        return INTERFACE_VIEW[self.source_type]
+
+    @property
+    def catalog_urls(self):
+        view = self.rdf_view
+        urls = []
+        catalogs = query_active_objects_in_context({}, CT_DCAT_CATALOG, context=self)
+        for catalog in catalogs:
+            url = catalog.absolute_url() + view
+            urls.append(url)
+        collections = query_active_objects_in_context({}, CT_DCAT_COLLECTION_CATALOG, context=self)
+        for catalog in collections:
+            url = catalog.absolute_url() + view
+            urls.append(url)
+        return urls

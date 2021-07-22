@@ -8,3 +8,7 @@ class RequiredPredicateMissing(Exception):
 
 class UnkownBindingType(Exception):
     """UnkownBindingType"""
+
+
+class NoSourcesDefined(Exception):
+    """No Urls to load RDF for harvest"""

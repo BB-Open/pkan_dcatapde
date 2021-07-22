@@ -173,4 +173,13 @@
       handler=".upgrades.update_transfer_enabled"
       />
 
+  <genericsetup:upgradeStep
+      source="*"
+      destination="2002"
+      title="Reload GS profiles: Harvester includes only Catalogs and Folders"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
+
 </configure>

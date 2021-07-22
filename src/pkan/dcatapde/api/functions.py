@@ -158,3 +158,25 @@ def query_objects_no_pkanstate(query, portal_type, context=None):
     brains = list(catalog(query))
 
     return brains
+
+
+def query_active_objects_in_context(query, portal_type, context=None):
+    params = {
+        'portal_type': portal_type,
+        'sort_on': 'sortable_title',
+        PKAN_STATE_NAME: ACTIVE_STATE,
+    }
+    query.update(params)
+    # get context again to access Physical Path
+    context = api.content.get(UID=context.UID())
+    query['path'] = '/'.join(context.getPhysicalPath())
+
+    catalog = api.portal.get_tool('portal_catalog')
+    results = []
+    brains = catalog(query)
+    for brain in brains:
+        obj = brain.getObject()
+
+        results.append(obj)
+
+    return results

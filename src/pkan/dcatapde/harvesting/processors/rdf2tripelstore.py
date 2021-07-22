@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """Harvesting adapter."""
+import rdflib
+from SPARQLWrapper.SmartWrapper import Value
+from rdflib.term import Literal
+from rdflib.term import URIRef
+
 from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import CT_ANY
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
@@ -8,24 +13,19 @@ from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.content.rdfs_literal import literal2plone
-from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
+from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing, NoSourcesDefined
 from pkan.dcatapde.harvesting.errors import UnkownBindingType
 from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
 from pkan.dcatapde.harvesting.processors.rdf_base import handle_identifiers
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.harvesting.processors.visitors import NT_RESIDUAL
-from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
+from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
 from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
-from rdflib.term import Literal
-from rdflib.term import URIRef
-from SPARQLWrapper.SmartWrapper import Value
-
-import rdflib
 
 
 class TripleStoreRDFProcessor(BaseRDFProcessor):
@@ -545,6 +545,79 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
             for top_node in res.bindings:
                 yield top_node['s']
+
+class MultipleSourcesTripleStoreRDFProcessor(TripleStoreRDFProcessor):
+
+    def prepare_harvest(self, visitor):
+        """Load data to be harvested into a temperary namespace
+                on the tripelstore.
+                Then set a rdflib grpah instance to it for reading.
+                Open a target namespace for the dcat-ap.de compatible data and
+                set a rdflib grpah instance to it for writing and reading.
+                """
+        # todo: Missing Attribute, should it be 2 or 3 letters?
+        #   Should be set by harvester
+        if not self.harvester.catalog_urls:
+            raise NoSourcesDefined('You did not define any sources')
+
+        self.def_lang = 'de'
+
+        tripel_db_name = self.harvester.id_in_tripel_store
+        tripel_temp_db_name = tripel_db_name + '_temp'
+        tripel_dry_run_db = tripel_db_name + '_dryrun'
+
+        sources = self.harvester.catalog_urls
+
+        # empty with one source
+        first_source = sources.pop()
+
+        if visitor.real_run:
+
+            self._graph, _response = tripel_store.graph_from_uri(
+                tripel_temp_db_name,
+                first_source,
+                self.harvester.mime_type,
+                clear_namespace=True,
+            )
+            tripel_store.empty_namespace(tripel_db_name)
+            self._target_graph = tripel_store.create_namespace(tripel_db_name)
+        else:
+            # todo: dry run should know nothing about store,
+            #  but if we use IOMemory store all Queries and results are
+            #  different
+            # todo: Work around: We update '_temp' and use it,
+            #  but do not write to clean store
+            self._graph, _response = tripel_store.graph_from_uri(
+                tripel_dry_run_db,
+                first_source,
+                self.harvester.mime_type,
+                clear_namespace=True,
+            )
+
+        # append for all the others
+        for source in sources:
+            if visitor.real_run:
+
+                self._graph, _response = tripel_store.graph_from_uri(
+                    tripel_temp_db_name,
+                    source,
+                    self.harvester.mime_type,
+                    clear_namespace=False,
+                )
+                tripel_store.empty_namespace(tripel_db_name)
+                self._target_graph = tripel_store.create_namespace(tripel_db_name)
+            else:
+                # todo: dry run should know nothing about store,
+                #  but if we use IOMemory store all Queries and results are
+                #  different
+                # todo: Work around: We update '_temp' and use it,
+                #  but do not write to clean store
+                self._graph, _response = tripel_store.graph_from_uri(
+                    tripel_dry_run_db,
+                    source,
+                    self.harvester.mime_type,
+                    clear_namespace=False,
+                )
 
 
 def main():
