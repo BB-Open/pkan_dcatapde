@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Harvester Content Type."""
 from pkan.dcatapde import _
-from pkan.dcatapde.api.functions import query_active_objects, query_active_objects_in_context
-from pkan.dcatapde.constants import CT_DCAT_CATALOG, CT_DCAT_COLLECTION_CATALOG
+from pkan.dcatapde.api.functions import query_active_objects_in_context
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA

@@ -3,7 +3,8 @@
 from DateTime.DateTime import time
 from pkan.dcatapde import _
 from pkan.dcatapde.content.rdfs_literal import literal2plone
-from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing, NoSourcesDefined
+from pkan.dcatapde.harvesting.errors import NoSourcesDefined
+from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.processors.visitors import Node
 from pkan.dcatapde.harvesting.processors.visitors import NS_ERROR
 from pkan.dcatapde.harvesting.processors.visitors import NS_WARNING
@@ -497,7 +498,7 @@ class BaseRDFProcessor(object):
             msg = u'No Sources found'
             visitor.scribe.write(
                 level='error',
-                msg=msg
+                msg=msg,
             )
             return
 

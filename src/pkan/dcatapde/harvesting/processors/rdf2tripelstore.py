@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
 """Harvesting adapter."""
-import rdflib
-from SPARQLWrapper.SmartWrapper import Value
-from rdflib.term import Literal
-from rdflib.term import URIRef
-
 from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import CT_ANY
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
@@ -13,19 +8,25 @@ from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.content.rdfs_literal import literal2plone
-from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing, NoSourcesDefined
+from pkan.dcatapde.harvesting.errors import NoSourcesDefined
+from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.errors import UnkownBindingType
 from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
 from pkan.dcatapde.harvesting.processors.rdf_base import handle_identifiers
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.harvesting.processors.visitors import NT_RESIDUAL
+from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
-from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
 from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
+from rdflib.term import Literal
+from rdflib.term import URIRef
+from SPARQLWrapper.SmartWrapper import Value
+
+import rdflib
 
 
 class TripleStoreRDFProcessor(BaseRDFProcessor):
@@ -546,7 +547,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             for top_node in res.bindings:
                 yield top_node['s']
 
-class MultipleSourcesTripleStoreRDFProcessor(TripleStoreRDFProcessor):
+
+class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
 
     def prepare_harvest(self, visitor):
         """Load data to be harvested into a temperary namespace

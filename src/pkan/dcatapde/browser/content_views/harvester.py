@@ -4,9 +4,8 @@ from datetime import timedelta
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER
-from pkan.dcatapde.harvesting.errors import NoSourcesDefined
-from pkan.dcatapde.harvesting.processors.rdf2tripelstore import TripleStoreRDFProcessor, \
-    MultipleSourcesTripleStoreRDFProcessor  # noqa: E501
+from pkan.dcatapde.harvesting.processors.rdf2tripelstore import MultiUrlTripleStoreRDFProcessor
+from pkan.dcatapde.harvesting.processors.rdf2tripelstore import TripleStoreRDFProcessor
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
@@ -90,7 +89,7 @@ def RDFProcessor_factory(harvester):
     if harvester.url:
         return TripleStoreRDFProcessor(harvester)
     else:
-        return MultipleSourcesTripleStoreRDFProcessor(harvester)
+        return MultiUrlTripleStoreRDFProcessor(harvester)
 
 
 class DryRunView(BrowserView):
@@ -104,7 +103,6 @@ class DryRunView(BrowserView):
         rdfproc.prepare_and_run(visitor)
 
         self.log = visitor.scribe.html_log()
-
 
         return super(DryRunView, self).__call__(*args, **kwargs)
 

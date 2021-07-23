@@ -21,7 +21,7 @@
     />
 
 
-<!-- View to import themes from external source -->
+<!-- View to import languages from external source -->
  <browser:page
     for="plone.dexterity.interfaces.IDexterityContent"
     name="update_languages"
