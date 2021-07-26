@@ -139,7 +139,9 @@ class RealRunCronView(BrowserView):
                 self.log.append(u'<h2>{title}</h2>'.format(title=obj.title))
                 self.log.append(no_run_message)
             else:
-                target_namespaces.append(obj.id_in_tripel_store)
+                target = obj.id_in_tripel_store
+                if target not in target_namespaces:
+                    target_namespaces.append(target)
                 if obj.url:
                     url_transfers.append(obj)
                 elif obj.source_namespace:
