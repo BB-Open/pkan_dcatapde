@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from pkan.blazegraph.api import tripel_store
-from pkan.blazegraph.errors import HarvestURINotReachable
+# from pkan.blazegraph.api import tripel_store
+# from pkan.blazegraph.errors import HarvestURINotReachable
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_transfer_folder
-from pkan.dcatapde.constants import CT_TRANSFER
+from pkan.dcatapde.constants import CT_TRANSFER, RDF_REPO_TYPE
 from pkan.dcatapde.harvesting.processors.transfer import RDFProcessorTransfer
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
@@ -12,6 +12,12 @@ from Products.Five import BrowserView
 from requests.exceptions import SSLError
 from zope.i18n import translate
 from zope.interface import alsoProvides
+from pyrdf4j.rdf4j import RDF4J
+from requests.auth import HTTPBasicAuth
+from pyrdf4j.constants import ADMIN_USER, ADMIN_PASS, VIEWER_PASS, VIEWER_USER, EDITOR_USER, EDITOR_PASS
+from pyrdf4j.errors import URINotReachable
+
+import sys
 
 
 class TransferListViewMixin(object):
@@ -90,13 +96,18 @@ class RealRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
         rdfproc = RDFProcessor_factory(self.context)
+        self.log = []
+        try:
+            response = rdfproc.real_run()
+            text = 'Database Response: '
+            text = text + response.replace('<', '&lt;').replace('>', '&gt;')
 
-        response = rdfproc.real_run()
-
-        text = 'Database Response: '
-        text = text + response.text.replace('<', '&lt;').replace('>', '&gt;')
-
-        self.log = [text]
+            self.log.append(text)
+        except URINotReachable:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            msg = u"GET termiated due to error %s %s" % (exc_type, exc_value)
+            self.log.append('<p>URL not reachable. Skipping.</p>')
+            self.log.append('<p>' + msg + '</p>')
 
         return super(RealRunView, self).__call__(*args, **kwargs)
 
@@ -106,6 +117,8 @@ class RealRunCronView(BrowserView):
     def __init__(self, context, request):
         super(RealRunCronView, self).__init__(context, request)
         alsoProvides(self.request, IDisableCSRFProtection)
+        self.rdf4j = RDF4J(rdf4j_base=None)
+        self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
 
     def real_run(self, trans):
         rdfproc = RDFProcessor_factory(trans)
@@ -113,7 +126,7 @@ class RealRunCronView(BrowserView):
             response = rdfproc.real_run()
             text = 'Database Response: '
             text = text + \
-                response.text.replace('<', '&lt;').replace('>', '&gt;')
+                response.replace('<', '&lt;').replace('>', '&gt;')
         except SSLError:
             text = 'Database not reachable.'
 
@@ -149,16 +162,20 @@ class RealRunCronView(BrowserView):
 
         for namespace in target_namespaces:
             self.log.append(
-                u'<h2>Clear Namespace {title}</h2>'.format(title=namespace))
-            tripel_store.empty_namespace(namespace)
+                u'<h2>Clear Namespace {title} and create if not exists</h2>'.format(title=namespace))
+            self.rdf4j.create_repository(namespace, repo_type=RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
+            self.rdf4j.empty_repository(namespace, auth=self.auth)
             self.log.append(u'<p>Erledigt</p>')
         for obj in url_transfers:
             self.log.append(
                 u'<h2>URL Transfer: {title}</h2>'.format(title=obj.title))
             try:
                 self.log += self.real_run(obj)
-            except HarvestURINotReachable:
-                self.log.append('<p>URL not reachable.</p>')
+            except URINotReachable:
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                msg = u"GET termiated due to error %s %s" % (exc_type, exc_value)
+                self.log.append('<p>URL not reachable. Skipping.</p>')
+                self.log.append('<p>' + msg + '</p>')
         for obj in name_space_transfers:
             self.log.append(
                 u'<h2>Namespace Transfer: {title}</h2>'.format(

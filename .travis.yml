@@ -1,3 +1,4 @@
+# todo: rdf4j instead of blazegraph
 sudo: false
 language: python
 python:

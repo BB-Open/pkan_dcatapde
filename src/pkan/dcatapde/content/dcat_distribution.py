@@ -51,7 +51,7 @@ class IDCATDistribution(model.Schema, IDCAT):
     )
 
     dcat_accessURL = schema.URI(
-        required=False,
+        required=True,
         title=i18n.LABEL_DCAT_ACCESSURL,
     )
 

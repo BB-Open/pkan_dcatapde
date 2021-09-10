@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Harvester Content Type."""
 from pkan.dcatapde import _
-from pkan.dcatapde.api.functions import query_active_objects_in_context
+from pkan.dcatapde.api.functions import query_published_objects_in_context
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
@@ -175,11 +175,11 @@ class Harvester(Container, DCATMixin):
     def catalog_urls(self):
         view = self.rdf_view
         urls = []
-        catalogs = query_active_objects_in_context({}, CT_DCAT_CATALOG, context=self)
+        catalogs = query_published_objects_in_context({}, CT_DCAT_CATALOG, context=self)
         for catalog in catalogs:
             url = catalog.absolute_url() + view
             urls.append(url)
-        collections = query_active_objects_in_context({}, CT_DCAT_COLLECTION_CATALOG, context=self)
+        collections = query_published_objects_in_context({}, CT_DCAT_COLLECTION_CATALOG, context=self)
         for catalog in collections:
             url = catalog.absolute_url() + view
             urls.append(url)

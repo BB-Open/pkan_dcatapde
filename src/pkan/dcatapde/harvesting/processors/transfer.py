@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
-from pkan.blazegraph.api import tripel_store
+# from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.content.transfer import ITransfer
 from pkan.dcatapde.harvesting.manager.base import IFaceToRDFFormatKey
@@ -11,6 +11,9 @@ from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
 from plone.api import content
 from zope.component import adapter
 from zope.interface import implementer
+from pyrdf4j.rdf4j import RDF4J
+from requests.auth import HTTPBasicAuth
+from pyrdf4j.constants import ADMIN_USER, ADMIN_PASS, VIEWER_PASS, VIEWER_USER, EDITOR_USER, EDITOR_PASS
 
 
 @adapter(ITransfer)
@@ -54,6 +57,8 @@ class RDFProcessorTransfer(BaseRDFProcessor):
         self.tripel_tempdb = None    # Temporary tripel store
         self.tripeldb = None         # Tripestore for dcapt-ap.de data
         self._target_graph = None        # Target graph instance
+        self.rdf4j = RDF4J(rdf4j_base=None)
+        self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
 
     def copy_from_url(self):
         """Load data to be harvested into a temperary namespace on the tripelstore.
@@ -63,23 +68,19 @@ class RDFProcessorTransfer(BaseRDFProcessor):
         """
         tripel_db_name = self.transfer.id_in_tripel_store
 
-        self._graph, response = tripel_store.graph_from_uri(
-            tripel_db_name,
-            self.transfer.url,
-            self.mime_type,
-        )
+        response = self.rdf4j.bulk_load_from_uri(tripel_db_name, self.transfer.url, self.mime_type, clear_repository=False, auth=self.auth)
 
-        return response
+        response_text = 'Status Code: ' + str(response.status_code) + ' Content: ' + response.content.decode('utf-8')
+
+        return response_text
 
     def copy_from_namespace(self):
         tripel_db_name = self.transfer.id_in_tripel_store
 
-        response = tripel_store.move_data_between_namespaces(
-            tripel_db_name,
-            self.transfer.source_namespace,
-        )
+        response = self.rdf4j.move_data_between_repositorys(tripel_db_name, self.transfer.source_namespace, auth=self.auth)
+        response_text = 'Status Code: ' + str(response.status_code) + ' Content: ' + response.content.decode('utf-8')
 
-        return response
+        return response_text
 
     def real_run(self):
         if self.transfer.url:

@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 """Harvesting adapter."""
-from pkan.blazegraph.api import tripel_store
+# from pkan.blazegraph.api import tripel_store
+from pyrdf4j.rdf4j import RDF4J
+from requests.auth import HTTPBasicAuth
+from pyrdf4j.constants import ADMIN_USER, ADMIN_PASS, VIEWER_PASS, VIEWER_USER, EDITOR_USER, EDITOR_PASS
 from pkan.dcatapde.constants import CT_ANY
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
-from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
+from pkan.dcatapde.constants import RDF_FORMAT_TURTLE, RDF_REPO_TYPE
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
@@ -43,44 +46,48 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         #  Should be set by harvester
         self.def_lang = 'de'
 
-        tripel_db_name = self.harvester.id_in_tripel_store
-        tripel_temp_db_name = tripel_db_name + '_temp'
-        tripel_dry_run_db = tripel_db_name + '_dryrun'
+        self.tripel_db_name = self.harvester.id_in_tripel_store
+        self.tripel_temp_db_name = self.tripel_db_name + '_temp'
+        self.tripel_dry_run_db = self.tripel_db_name + '_dryrun'
+
+        # todo: base in constants
+        self._rdf4j = RDF4J(rdf4j_base=None)
+        self.auth= HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
 
         if visitor.real_run:
 
-            self._graph, _response = tripel_store.graph_from_uri(
-                tripel_temp_db_name,
-                self.harvester.url,
-                self.harvester.mime_type,
-                clear_namespace=True,
-            )
-            tripel_store.empty_namespace(tripel_db_name)
-            self._target_graph = tripel_store.create_namespace(tripel_db_name)
+            # todo: Type in constants, is this correct type
+            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
+            self._rdf4j.create_repository(self.tripel_db_name, repo_type=RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
+
+            # self._graph, _response = tripel_store.graph_from_uri(
+            #     tripel_temp_db_name,
+            #     self.harvester.url,
+            #     self.harvester.mime_type,
+            #     clear_namespace=True,
+            # )
+            # tripel_store.empty_namespace(tripel_db_name)
+            # self._target_graph = tripel_store.create_namespace(tripel_db_name)
+            self.query_db = self.tripel_temp_db_name
         else:
             # todo: dry run should know nothing about store,
             #  but if we use IOMemory store all Queries and results are
             #  different
             # todo: Work around: We update '_temp' and use it,
             #  but do not write to clean store
-            self._graph, _response = tripel_store.graph_from_uri(
-                tripel_dry_run_db,
-                self.harvester.url,
-                self.harvester.mime_type,
-                clear_namespace=True,
-            )
+            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=RDF_REPO_TYPE, overwrite=True, auth=self.auth)
+            self.query_db = self.tripel_dry_run_db
+
+        self._rdf4j.bulk_load_from_uri(self.query_db, self.harvester.url, self.harvester.mime_type, auth=self.auth, clear_repository=True)
+        if visitor.real_run:
+            self._rdf4j.empty_repository(self.tripel_db_name, auth=self.auth)
 
     @property
-    def graph(self):
+    def rdf4j(self):
         """Interface to incoming RDF graph"""
-        if not self._graph:
+        if not self._rdf4j:
             self.prepare_harvest()
-        return self._graph
-
-    @property
-    def target_graph(self):
-        """Interface to the target graph in the tripel store"""
-        return self._target_graph
+        return self._rdf4j
 
     def query(self, query, bindings):
         query_params = {}
@@ -104,8 +111,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
                     query_params[key] = str(binding)
 
         prepared_query = query.format(**query_params)
-        self.graph.sparql.setQuery(prepared_query)
-        res = self.graph.sparql.query()
+        response = self.rdf4j.query_repository(self.query_db, prepared_query, auth=self.auth)
+        res = response['results']['bindings']
         return res
 
     def query_all(self):
@@ -248,11 +255,11 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         obj_class = field['object']
 
         obj_data[field_name] = {}
-        for i in res.bindings:
+        for i in res:
             rdf_obj = i['o']
             # special handling of literals without language
-            if not rdf_obj.lang:
-                obj_data[field_name][self.def_lang] = rdf_obj.value
+            if 'xml:lang' not in rdf_obj:
+                obj_data[field_name][self.def_lang] = rdf_obj['value']
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
@@ -267,7 +274,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
                 visitor.scribe.write(
                     level='info',
                     msg=u'{type} object {obj}: attribute {att}:= {val}',
-                    val=str(rdf_obj.value) + u':' + str(rdf_obj.lang),
+                    val=str(rdf_obj['value']) + u':' + str(rdf_obj['xml:lang']),
                     att=predicate,
                     obj=kwargs['rdf_node'],
                     type=kwargs['struct'].rdf_type,
@@ -276,40 +283,31 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             visitor.end_node(predicate, obj_class, **kwargs)
 
     def insert(self, s, p, o):
-        # Todo melt with self.query
-        if isinstance(s, rdflib.term.URIRef):
-            s_out = '<' + s.toPython() + '>'
-        elif isinstance(s, str):
-            s_out = '<' + s + '>'
-        elif s.type == 'uri':
-            s_out = '<' + s.value + '>'
+        s_out = '<' + s['value'] + '>'
+        if isinstance(p, str):
+            p_out = '<' + p + '>'
+        elif p['type'] == 'uri':
+            p_out = '<' + p['value'] + '>'
         else:
-            s_out = '"' + s.value + '"'
-        if isinstance(p, rdflib.term.URIRef):
-            p_out = '<' + p.toPython() + '>'
-        elif p.type == 'uri':
-            p_out = '<' + p.value + '>'
+            p_out = '"' + self.escape_literal(p['value']) + '"'
+        if o['type'] == 'uri':
+            o_out = '<' + o['value'] + '>'
         else:
-            p_out = '"' + p.value + '"'
-        if o.type == 'uri':
-            o_out = '<' + o.value + '>'
-        elif o.type == 'literal':
-            o_out = '"' + self.escape_literal(o.value) + '"'
-            if o.lang:
-                o_out += '@' + o.lang
-        else:
-            o_out = '"' + o.value + '"'
-        INSERT = """INSERT DATA {{ {s} {p} {o} . }}"""
+            o_out = '"' + self.escape_literal(o['value']) + '"'
+            if 'xml:lang' in o:
+                o_out += '@' + o['xml:lang']
+        INSERT = """{s} {p} {o} ."""
         insert = INSERT.format(
             s=s_out,
             p=p_out,
             o=o_out,
         )
-        self.target_graph.sparql.setQuery(query=insert)
-        res = self.target_graph.sparql.query()
-        return res
+        return self.rdf4j.add_data_to_repo(self.tripel_db_name, insert.encode('utf-8'), 'text/turtle', auth=self.auth)
+        # self.target_graph.sparql.setQuery(query=insert)
+        # res = self.target_graph.sparql.query()
+        # return res
 
-    def construct(self, rdf_node, struct=None):
+    def construct(self, rdf_node, data, struct=None):
         """
         Construct a subgraph containing all the 'properties' of the rdf_node
         entity WITHOUT the 'contained' entities.
@@ -338,17 +336,27 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         else:
             filter = ''
 
+        if rdf_node['type'] == 'literal':
+            return
         prepared_query = QUERY.format(
-            rdf_node='<' + rdf_node.value + '>',
+            rdf_node='<' + rdf_node['value'] + '>',
             filter=filter,
         )
 
-        self.graph.sparql.setQuery(prepared_query)
-        results = self.graph.sparql.query()
+        results = self.rdf4j.query_repository(self.query_db, prepared_query, auth=self.auth)['results']['bindings']
 
-        for res in results.bindings:
+        # do not add invalid attributes, which can be find by query, but set None in data
+        unwanted_fields = []
+        for field in data:
+            if data[field] is None:
+                if field in struct.fields_and_referenced:
+                    unwanted_fields.append(struct.fields_and_referenced[field]['predicate'].toPython())
+
+        for res in results:
+            if res['p']['value'] in unwanted_fields:
+                continue
             self.insert(
-                s=rdf_node.value,
+                s=rdf_node,
                 p=res['p'],
                 o=res['o'],
             )
@@ -365,7 +373,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         # check if object should be created
         if visitor.real_run:
 
-            self.construct(rdf_node, struct)
+            self.construct(rdf_node, obj_data, struct)
 
         # Handle identifier fields
         identifier_fields = handle_identifiers(rdf_node)
@@ -389,10 +397,10 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
     ):
         # todo: is context always non in this method?
         context = None
+
         # Return if we have hit a Blank node
-        if isinstance(rdf_node, Value):
-            if rdf_node.type == 'bnode':
-                return None
+        if rdf_node['type'] == 'bnode':
+            return None
 
         # Activate the struct
         struct = target_struct(self.harvester)
@@ -401,7 +409,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         obj_data = {}
 
         # set the original URI as rdf_about field:
-        obj_data['rdf_about'] = rdf_node.value
+
+        obj_data['rdf_about'] = rdf_node['value']
 
         # Go for the DCAT-AP.de properties of the current node
         try:
@@ -536,7 +545,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
         if top_node_class == CT_ANY:
             res = self.query_all()
-            for top_node in res.bindings:
+            for top_node in res:
                 yield top_node['s']
 
         else:
@@ -544,7 +553,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
             res = self.query_a(struct_class.rdf_type)
 
-            for top_node in res.bindings:
+            for top_node in res:
                 yield top_node['s']
 
 
@@ -570,56 +579,44 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
 
         sources = self.harvester.catalog_urls
 
-        # empty with one source
-        first_source = sources.pop()
+        self.tripel_db_name = self.harvester.id_in_tripel_store
+        self.tripel_temp_db_name = self.tripel_db_name + '_temp'
+        self.tripel_dry_run_db = self.tripel_db_name + '_dryrun'
+
+        # todo: base in constants
+        self._rdf4j = RDF4J(rdf4j_base=None)
+        self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
 
         if visitor.real_run:
 
-            self._graph, _response = tripel_store.graph_from_uri(
-                tripel_temp_db_name,
-                first_source,
-                self.harvester.mime_type,
-                clear_namespace=True,
-            )
-            tripel_store.empty_namespace(tripel_db_name)
-            self._target_graph = tripel_store.create_namespace(tripel_db_name)
+            # todo: Type in constants, is this correct type
+            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=RDF_REPO_TYPE, overwrite=True,
+                                          auth=self.auth)
+            self._rdf4j.create_repository(self.tripel_db_name, repo_type=RDF_REPO_TYPE, accept_existing=True,
+                                          auth=self.auth)
+
+            # self._graph, _response = tripel_store.graph_from_uri(
+            #     tripel_temp_db_name,
+            #     self.harvester.url,
+            #     self.harvester.mime_type,
+            #     clear_namespace=True,
+            # )
+            # tripel_store.empty_namespace(tripel_db_name)
+            # self._target_graph = tripel_store.create_namespace(tripel_db_name)
+            self.query_db = self.tripel_temp_db_name
         else:
             # todo: dry run should know nothing about store,
             #  but if we use IOMemory store all Queries and results are
             #  different
             # todo: Work around: We update '_temp' and use it,
             #  but do not write to clean store
-            self._graph, _response = tripel_store.graph_from_uri(
-                tripel_dry_run_db,
-                first_source,
-                self.harvester.mime_type,
-                clear_namespace=True,
-            )
+            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=RDF_REPO_TYPE, overwrite=True,
+                                          auth=self.auth)
+            self.query_db = self.tripel_dry_run_db
 
         # append for all the others
         for source in sources:
-            if visitor.real_run:
-
-                self._graph, _response = tripel_store.graph_from_uri(
-                    tripel_temp_db_name,
-                    source,
-                    self.harvester.mime_type,
-                    clear_namespace=False,
-                )
-                tripel_store.empty_namespace(tripel_db_name)
-                self._target_graph = tripel_store.create_namespace(tripel_db_name)
-            else:
-                # todo: dry run should know nothing about store,
-                #  but if we use IOMemory store all Queries and results are
-                #  different
-                # todo: Work around: We update '_temp' and use it,
-                #  but do not write to clean store
-                self._graph, _response = tripel_store.graph_from_uri(
-                    tripel_dry_run_db,
-                    source,
-                    self.harvester.mime_type,
-                    clear_namespace=False,
-                )
+            self._rdf4j.bulk_load_from_uri(self.query_db, source, self.harvester.mime_type, auth=self.auth)
 
 
 def main():

@@ -16,9 +16,11 @@ from rdflib.term import URIRef
 from SPARQLWrapper.SmartWrapper import Value
 from traceback import format_tb
 from urllib import parse
+from pyrdf4j.errors import URINotReachable
 
 import rdflib
 import sys
+import traceback
 
 
 def cache_key(func, self):
@@ -191,10 +193,14 @@ class BaseRDFProcessor(object):
 
         params = kwargs.copy()
 
-        res = self.query_attribute(kwargs['rdf_node'], field['predicate'])
+        node = kwargs['rdf_node']
+        if node['type'] == 'uri':
+            res = self.query_attribute(node['value'], field['predicate'])
+        else:
+            res = []
 
         # Dealing with required fields not delivered
-        if len(res.bindings) == 0:
+        if len(res) == 0:
             if field['importance'] == IMP_REQUIRED:
                 visitor.scribe.write(
                     level='error',
@@ -230,7 +236,7 @@ class BaseRDFProcessor(object):
                 self.handle_dict(visitor, res, **params)
             # Iten/list collision checking. Attribute is Item in DCATapded,
             # but a list is delivered.
-            elif len(res.bindings) > 1:
+            elif len(res) > 1:
                 visitor.scribe.write(
                     level='error',
                     msg=u'{type} object {obj}: '
@@ -245,7 +251,7 @@ class BaseRDFProcessor(object):
             else:
                 # If the field is a Literal we simply store it.
                 if field['object'] == StructRDFSLiteral:
-                    val = literal2plone(res.bindings[0]['o'], field)
+                    val = literal2plone(res[0]['o'], field)
                     obj_data[field_name] = val
                     visitor.end_node(predicate, obj_class, **params)
                 # if not we have to create a sub object recursively
@@ -255,7 +261,7 @@ class BaseRDFProcessor(object):
                     sub = self.crawl(
                         visitor,
                         context=context,
-                        rdf_node=res.bindings[0]['o'],
+                        rdf_node=res[0]['o'],
                         target_struct=field['object'],
                     )
                     if sub:
@@ -328,9 +334,9 @@ class BaseRDFProcessor(object):
                 type=kwargs['struct'].rdf_type,
             )
 
-            res = self.query_attribute(rdf_node, predicate)
+            res = self.query_attribute(rdf_node['value'], predicate)
 
-            for i in res.bindings:
+            for i in res:
                 rdf_obj = i['o']
                 params = {
                     'field': field,
@@ -459,13 +465,19 @@ class BaseRDFProcessor(object):
                 struct_class = self.struct_class
             else:
                 node_type = self.query_attribute(
-                    top_node,
+                    top_node['value'],
                     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
                 )
-                node_type_value = node_type.bindings[0]['o'].value
-                node_type_class = rdflib.term.URIRef(node_type_value)
-                struct_class = STRUCT_BY_NS_CLASS[node_type_class]
-                struct = struct_class(self.harvester)
+                for node in node_type:
+                    node_type_value = node['o']['value']
+                    node_type_class = rdflib.term.URIRef(node_type_value)
+                    try:
+                        struct_class = STRUCT_BY_NS_CLASS[node_type_class]
+                        struct = struct_class(self.harvester)
+                        break
+                    except KeyError:
+                        pass
+
 
             args = {
                 'structure': struct,
@@ -496,6 +508,19 @@ class BaseRDFProcessor(object):
             self.prepare_harvest(visitor)
         except NoSourcesDefined:
             msg = u'No Sources found'
+            visitor.scribe.write(
+                level='error',
+                msg=msg,
+            )
+            return
+        except URINotReachable:
+            msg = u'Sources or Database not reachable. Skipping.'
+            visitor.scribe.write(
+                level='error',
+                msg=msg,
+            )
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            msg = u"GET termiated due to error %s %s" % (exc_type, exc_value)
             visitor.scribe.write(
                 level='error',
                 msg=msg,

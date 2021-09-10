@@ -82,6 +82,19 @@ class PKANImportSettingsEditForm(base.SelfHealingRegistryEditForm):
         self.request.response.redirect(addTokenToUrl(url))
         return u''
 
+    @button.buttonAndHandler(
+        i18n.BUTTON_IMPORT_LANGUAGES,
+        name='import_languages',
+    )
+    def handle_import_languages(self, action):
+        url = '/'.join([
+            api.portal.get().absolute_url(),
+            constants.FOLDER_LANGUAGES,
+            '@@update_languages',
+        ])
+        self.request.response.redirect(addTokenToUrl(url))
+        return u''
+
 
 class PKANImportSettingsPanelView(controlpanel.ControlPanelFormWrapper):
     """PKAN Import Settings Control Panel."""

@@ -160,11 +160,11 @@ def query_objects_no_pkanstate(query, portal_type, context=None):
     return brains
 
 
-def query_active_objects_in_context(query, portal_type, context=None):
+def query_published_objects_in_context(query, portal_type, context=None):
     params = {
         'portal_type': portal_type,
         'sort_on': 'sortable_title',
-        PKAN_STATE_NAME: ACTIVE_STATE,
+        'review_state': 'published',
     }
     query.update(params)
     # get context again to access Physical Path

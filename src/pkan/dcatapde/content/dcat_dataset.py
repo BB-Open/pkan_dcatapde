@@ -235,13 +235,13 @@ class IDCATDataset(model.Schema, IDCAT):
     )
 
     form.widget(
-        'contactPoint',
+        'dcat_contactPoint',
         AjaxSelectAddFieldWidget,
         content_type=constants.CT_VCARD_KIND,
         content_type_title=i18n.LABEL_VCARD_KIND,
         initial_path='/vcardkinds/',
     )
-    contactPoint = schema.List(
+    dcat_contactPoint = schema.List(
         description=i18n.HELP_VCARD_KIND,
         required=False,
         title=i18n.LABEL_VCARD_KIND,

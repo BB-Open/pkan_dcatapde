@@ -7,6 +7,7 @@ from pkan.dcatapde import constants
 
 BUTTON_IMPORT_DCT_LICENSEDOCUMENT = _(u'Import DCT:LicenseDocument')
 BUTTON_IMPORT_SKOS_CONCEPT = _(u'Import SKOS:Concept')
+BUTTON_IMPORT_LANGUAGES = _(u'Import Lanuages')
 
 PERMISSION_DENIED = _(u'Permission Denied')
 DEPRECATED = _(u':Deprecated')
@@ -18,6 +19,8 @@ FIELDSET_INTERNAL_INFO = _(u'Object Identifier')
 
 IDENTIFIER_DESCRIPTION = _(u'Default will be Plone-URL.')
 
+HELP_SELECT_FIELD = u'If only an ID is displayed, the value is not released and must be replaced.'
+
 HELP_BASE_OBJECT = _(
     u'Here you may chose the location where to the datasets will be '
     u'imported. If the incoming data has no catalog, choose a '
@@ -25,76 +28,75 @@ HELP_BASE_OBJECT = _(
     u'By default incoming catalogues are place in the harvester. ',
 )
 HELP_DACT_MEDIATYPE = _(
-    u'Select a media type from the list of available media types',
+    u'Select a media type from the list of available media types. ' + HELP_SELECT_FIELD,
     # or create '
     # # u'a new one by using the "add" button below.',
 )
 HELP_DACTDE_MAINTAINER = _(
-    u'Select a maintainer from the list of available maintainers',
+    u'Select a maintainer from the list of available maintainers. ' + HELP_SELECT_FIELD,
     # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DACTDE_ORIGINATOR = _(
-    u'Select an originator from the list of available originators ',
+    u'Select an originator from the list of available originators. ' + HELP_SELECT_FIELD,
     # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_ACCESSRIGHTS = _(
-    u'Select a access right from the list of available access rights '
-    u'or create a new one by using the "add" button below.',
+    u'Select a access right from the list of available access rights. ' + HELP_SELECT_FIELD,
 )
 HELP_DCT_CONFORMSTO = _(
-    u'Select a standard from the list of available standards ',
+    u'Select a standard from the list of available standards. ' + HELP_SELECT_FIELD,
     # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_CONTRIBUTOR = _(
-    u'Select a contributor from the list of available contributors ',
+    u'Select a contributor from the list of available contributors. ' + HELP_SELECT_FIELD,
     # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_CREATOR = _(
-    u'Select a creator from the list of available creators ',
+    u'Select a creator from the list of available creators. ' + HELP_SELECT_FIELD,
     # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_FORMAT = _(
-    u'Select a format from the list of available formats ',
+    u'Select a format from the list of available formats. ' + HELP_SELECT_FIELD,
     # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_HASPART = _(
-    u'Link to an existing catalog',
+    u'Link to an existing catalog. ' + HELP_SELECT_FIELD,
     # or create a new one by using the '
     # u'"add" button below.',
 )
 HELP_DCT_ISPARTOF = _(
-    u'Link to an existing parent catalog',
+    u'Link to an existing parent catalog. ' + HELP_SELECT_FIELD,
     # or create a new one by using the '
     # u'"add" button below.',
 )
 HELP_DCT_LICENSE = _(
-    u'Select a license from the list of available licenses ',
+    u'Select a license from the list of available licenses. ' + HELP_SELECT_FIELD,
     # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_PUBLISHER = _(
-    u'Select a publisher from the list of available publishers ',
+    u'Select a publisher from the list of available publishers. ' + HELP_SELECT_FIELD,
     # or create '
     # u'a new one by using the "add" button below.',
 )
 HELP_DCT_RIGHTS = _(
-    u'Select a rights statement from the list of available statements',
+    u'Select a rights statement from the list of available statements. ' + HELP_SELECT_FIELD,
     # or '
     # u'create a new one by using the "add" button below.',
 )
 HELP_DCT_SPATIAL = _(
-    u'Select a location from the list of available locations',
+    u'Select a location from the list of available locations. ' + HELP_SELECT_FIELD,
     # or '
     # u'create a new one by using the "add" button below.',
 )
 HELP_DCT_THEMETAXONOMY = _(
-    u'Select a theme taxonomy from the list of available taxonomies',
+    u'Select a theme taxonomy from the list of available taxonomies. ' + HELP_SELECT_FIELD,
     # or '
     # u'create a new one by using the "add" button below.',
 )
@@ -141,8 +143,8 @@ HELP_FOLDER_LANGUAGES = _(
     },
 )
 HELP_RDFS_ISDEFINEDBY = _(u'The URI describing this concept')
-HELP_SKOS_CONCEPT = _(u'Select some SKOS Concepts')
-HELP_VCARD_KIND = _(u'Select a contact information.')
+HELP_SKOS_CONCEPT = _(u'Select some SKOS Concepts. ' + HELP_SELECT_FIELD)
+HELP_VCARD_KIND = _(u'Select a contact information. '  + HELP_SELECT_FIELD)
 HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
 HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
 HELP_SETTINGS_IMPORTS = _(u'Manage import settings for PKAN.')

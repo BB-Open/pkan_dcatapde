@@ -214,7 +214,7 @@ class LiteralHandler(object):
 
     def literal2dict_ts(self, literal):
         res = {}
-        lang = literal.lang
+        lang = literal['xml:lang']
 
         # convert 2-letter-format to 3-letter-format
         if str(lang) in self.available_languages:
@@ -223,6 +223,6 @@ class LiteralHandler(object):
         elif lang not in self.all_languages:
             lang = self.def_lang
 
-        res[lang] = literal.value
+        res[lang] = literal['value']
 
         return res

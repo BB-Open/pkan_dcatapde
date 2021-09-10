@@ -69,7 +69,7 @@ def value2plone(literal, field=None):
 def literal2plone(literal, field=None):
     if isinstance(literal, Value):
         return value2plone(literal, field)
-    val = literal.toPython()
+    val = literal['value']
     # if no field specified we can only convert to
     # python and hope
     if not field:
@@ -87,6 +87,6 @@ def literal2plone(literal, field=None):
             val = dateutil.parser.parse(val)
         return val
     else:
-        val = literal.toPython()
+        val = literal['value']
 
     return val
