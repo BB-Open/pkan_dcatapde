@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """Harvesting adapter."""
-# from pkan.blazegraph.api import tripel_store
-from pyrdf4j.rdf4j import RDF4J
-from requests.auth import HTTPBasicAuth
-from pyrdf4j.constants import ADMIN_USER, ADMIN_PASS, VIEWER_PASS, VIEWER_USER, EDITOR_USER, EDITOR_PASS
+from SPARQLWrapper.SmartWrapper import Value
+from pkan.dcatapde.constants import ADMIN_USER, ADMIN_PASS, RDF4J_BASE
 from pkan.dcatapde.constants import CT_ANY
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
@@ -18,18 +16,18 @@ from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
 from pkan.dcatapde.harvesting.processors.rdf_base import handle_identifiers
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.harvesting.processors.visitors import NT_RESIDUAL
-from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
+from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
 from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
+# from pkan.blazegraph.api import tripel_store
+from pyrdf4j.rdf4j import RDF4J
 from rdflib.term import Literal
 from rdflib.term import URIRef
-from SPARQLWrapper.SmartWrapper import Value
-
-import rdflib
+from requests.auth import HTTPBasicAuth
 
 
 class TripleStoreRDFProcessor(BaseRDFProcessor):
@@ -51,7 +49,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         self.tripel_dry_run_db = self.tripel_db_name + '_dryrun'
 
         # todo: base in constants
-        self._rdf4j = RDF4J(rdf4j_base=None)
+        self._rdf4j = RDF4J(rdf4j_base=RDF4J_BASE)
         self.auth= HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
 
         if visitor.real_run:
@@ -584,7 +582,7 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
         self.tripel_dry_run_db = self.tripel_db_name + '_dryrun'
 
         # todo: base in constants
-        self._rdf4j = RDF4J(rdf4j_base=None)
+        self._rdf4j = RDF4J(rdf4j_base=RDF4J_BASE)
         self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
 
         if visitor.real_run:

@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 # from pkan.blazegraph.api import tripel_store
 # from pkan.blazegraph.errors import HarvestURINotReachable
+import sys
+
+from Products.Five import BrowserView
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_transfer_folder
+from pkan.dcatapde.constants import ADMIN_USER, ADMIN_PASS, RDF4J_BASE
 from pkan.dcatapde.constants import CT_TRANSFER, RDF_REPO_TYPE
 from pkan.dcatapde.harvesting.processors.transfer import RDFProcessorTransfer
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
-from Products.Five import BrowserView
+from pyrdf4j.errors import URINotReachable
+from pyrdf4j.rdf4j import RDF4J
+from requests.auth import HTTPBasicAuth
 from requests.exceptions import SSLError
 from zope.i18n import translate
 from zope.interface import alsoProvides
-from pyrdf4j.rdf4j import RDF4J
-from requests.auth import HTTPBasicAuth
-from pyrdf4j.constants import ADMIN_USER, ADMIN_PASS, VIEWER_PASS, VIEWER_USER, EDITOR_USER, EDITOR_PASS
-from pyrdf4j.errors import URINotReachable
-
-import sys
 
 
 class TransferListViewMixin(object):
@@ -117,7 +117,7 @@ class RealRunCronView(BrowserView):
     def __init__(self, context, request):
         super(RealRunCronView, self).__init__(context, request)
         alsoProvides(self.request, IDisableCSRFProtection)
-        self.rdf4j = RDF4J(rdf4j_base=None)
+        self.rdf4j = RDF4J(rdf4j_base=RDF4J_BASE)
         self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
 
     def real_run(self, trans):

@@ -993,8 +993,7 @@ class StructDCTMediaTypeOrExtent(StructBase):
     portal_type = CT_DCT_MEDIATYPEOREXTENT
     rdf_type = DCT.MediaTypeOrExtent
 
-    # This is a hack to fullfill Convention 31
-    literal_field = 'dct_title'
+    literal_field = None
 
     # This is a hack to fullfill Convention 31
     title_field = ['rdf_about']

@@ -142,7 +142,6 @@ class DX2Any(object):
 
     def marshall_properties(self, context):
         """Marshall properties."""
-
         for property_name in self.structure.properties:
             struct_info = self.structure.properties[property_name]
             property_value = getattr(context, property_name)
@@ -182,7 +181,6 @@ class DX2Any(object):
     def marshall_references(self, context):
         """Marshall the referenced objects."""
         for ref_name in self.structure.referenced:
-
             if self.structure.referenced[ref_name]['type'] != list:
                 uid = getattr(context, ref_name, None)
                 if not uid:
