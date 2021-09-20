@@ -927,7 +927,7 @@ class StructDCTLanguage(StructBase):
     """Structure definition of dct:Language"""
 
     portal_type = CT_DCT_LANGUAGE
-    rdf_type = DCT.Language
+    rdf_type = DCT.language
 
     @property
     def properties(self):
