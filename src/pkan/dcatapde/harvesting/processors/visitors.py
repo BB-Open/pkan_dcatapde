@@ -47,7 +47,10 @@ class Scribe(object):
         self.log_entry(entry, level)
 
     def log_entry(self, entry, level):
-        msg, entry = self.format_entry(entry)
+        res = self.format_entry(entry)
+        if res is None:
+            return
+        msg, entry = res
         self.formatted_data.append([msg, entry])
         if level == 'info':
             logger.info(msg=msg)
