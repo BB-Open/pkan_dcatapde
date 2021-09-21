@@ -76,6 +76,12 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=RDF_REPO_TYPE, overwrite=True, auth=self.auth)
             self.query_db = self.tripel_dry_run_db
 
+        msg = u'Working on {url}'.format(url=self.harvester.url)
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+        )
+
         self._rdf4j.bulk_load_from_uri(self.query_db, self.harvester.url, self.harvester.mime_type, auth=self.auth, clear_repository=True)
         if visitor.real_run:
             self._rdf4j.empty_repository(self.tripel_db_name, auth=self.auth)
@@ -614,6 +620,11 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
 
         # append for all the others
         for source in sources:
+            msg = u'Working on {url}'.format(url=source)
+            visitor.scribe.write(
+                level='info',
+                msg=msg,
+            )
             self._rdf4j.bulk_load_from_uri(self.query_db, source, self.harvester.mime_type, auth=self.auth)
 
 
