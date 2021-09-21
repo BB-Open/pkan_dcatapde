@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Remembering things"""
+import html
 from datetime import datetime
 from pkan.dcatapde.structure.sparql import namespace_manager
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
@@ -105,7 +106,10 @@ class Scribe(object):
     def html_log(self):
         result = []
         for msg, entry in self.formatted_data:
-            html_msg = cgi.escape(msg)
+            try:
+                html_msg = cgi.escape(msg)
+            except AttributeError:
+                html_msg = html.escape(msg)
             link = u'<a class="context pat-plone-modal" ' \
                    u'target="_blank" href="{uri}">Modify</a>'
             color = LEVEL_COLOR[entry['level']]
