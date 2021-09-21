@@ -21,7 +21,7 @@ class DCAT2RDF(DX2Any):
         if getattr(self.context, 'rdfs_isDefinedBy', None) and \
                 self.context.rdfs_isDefinedBy:
             return self.context.rdfs_isDefinedBy
-        return self.context.absolute_url()
+        return self.context.dct_identifier
 
     @property
     def namespace(self):
