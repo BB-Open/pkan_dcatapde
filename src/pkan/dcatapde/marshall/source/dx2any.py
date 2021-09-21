@@ -144,7 +144,9 @@ class DX2Any(object):
         """Marshall properties."""
         for property_name in self.structure.properties:
             struct_info = self.structure.properties[property_name]
-            property_value = getattr(context, property_name)
+            property_value = getattr(context, property_name, None)
+            if property_value is None:
+                continue
             # get the rdf_name of the property
             if 'rdf_name' in struct_info:
                 rdf_name = struct_info['rdf_name']
