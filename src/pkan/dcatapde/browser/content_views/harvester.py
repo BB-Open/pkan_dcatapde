@@ -86,10 +86,10 @@ class HarvesterOverview(BrowserView, HarvesterListViewMixin):
 
 
 def RDFProcessor_factory(harvester):
-    if harvester.url:
-        return TripleStoreRDFProcessor(harvester)
-    else:
+    if harvester.url is None or harvester.url == '':
         return MultiUrlTripleStoreRDFProcessor(harvester)
+    else:
+        return TripleStoreRDFProcessor(harvester)
 
 
 class DryRunView(BrowserView):
