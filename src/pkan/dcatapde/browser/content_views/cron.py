@@ -32,4 +32,8 @@ class RealRunCronView(BrowserView):
         transfer_view()
         self.log += transfer_view.log
 
+        del transfer_view
+        del harvester_view
+        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
+
         return super(RealRunCronView, self).__call__(*args, **kwargs)

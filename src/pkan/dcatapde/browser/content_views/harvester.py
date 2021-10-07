@@ -104,6 +104,10 @@ class DryRunView(BrowserView):
 
         self.log = visitor.scribe.html_log()
 
+        del rdfproc
+        del visitor
+        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
+
         return super(DryRunView, self).__call__(*args, **kwargs)
 
 
@@ -117,6 +121,10 @@ class RealRunView(BrowserView):
         rdfproc.prepare_and_run(visitor)
 
         self.log = visitor.scribe.html_log()
+
+        del rdfproc
+        del visitor
+        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
         return super(RealRunView, self).__call__(*args, **kwargs)
 
@@ -135,6 +143,10 @@ class RealRunCronView(BrowserView):
         rdfproc.prepare_and_run(visitor)
 
         res = visitor.scribe.html_log()
+
+        del rdfproc
+        del visitor
+        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
         harv.last_run = datetime.now()
         return res

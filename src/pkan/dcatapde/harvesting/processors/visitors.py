@@ -105,6 +105,8 @@ class Scribe(object):
                 pass
             except IndexError:
                 pass
+            except ValueError:
+                pass
 
     def html_log(self):
         result = []
