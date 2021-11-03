@@ -23,14 +23,16 @@ class RealRunCronView(BrowserView):
         harvester_view = getMultiAdapter((self.context, self.request),
                                          name='real_run_cron_harvest')
         harvester_view()
-        self.log += harvester_view.log
+        # self.log += harvester_view.log
+        self.log.append('<p>Harvester Finished, check Log for Details</p>')
 
         self.log.append('<h1>Transfer</h1>')
 
         transfer_view = getMultiAdapter((self.context, self.request),
                                         name='real_run_cron_transfer')
         transfer_view()
-        self.log += transfer_view.log
+        # self.log += transfer_view.log
+        self.log.append('<p>Transfer Finished, check Log for Details</p>')
 
         del transfer_view
         del harvester_view

@@ -142,14 +142,13 @@ class RealRunCronView(BrowserView):
         visitor.real_run = True
         rdfproc.prepare_and_run(visitor)
 
-        res = visitor.scribe.html_log()
+        # res = visitor.scribe.html_log()
 
         del rdfproc
         del visitor
-        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
         harv.last_run = datetime.now()
-        return res
+        return ['<p>Harvester fertig, Siehe Logs für Details.</p>']
 
     def __call__(self, *args, **kwargs):
         portal = api.portal.get()
@@ -181,4 +180,5 @@ class RealRunCronView(BrowserView):
                 else:
                     self.log.append(no_run_message)
 
+        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
         return super(RealRunCronView, self).__call__(*args, **kwargs)
