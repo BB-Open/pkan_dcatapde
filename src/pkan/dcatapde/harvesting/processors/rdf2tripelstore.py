@@ -570,10 +570,6 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
                 Open a target namespace for the dcat-ap.de compatible data and
                 set a rdflib grpah instance to it for writing and reading.
                 """
-        # todo: Missing Attribute, should it be 2 or 3 letters?
-        #   Should be set by harvester
-        if not self.harvester.catalog_urls:
-            raise NoSourcesDefined('You did not define any sources')
 
         self.def_lang = 'de'
 
@@ -596,7 +592,7 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
             # todo: Type in constants, is this correct type
             self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=RDF_REPO_TYPE, overwrite=True,
                                           auth=self.auth)
-            self._rdf4j.create_repository(self.tripel_db_name, repo_type=RDF_REPO_TYPE, accept_existing=True,
+            self._rdf4j.create_repository(self.tripel_db_name, repo_type=RDF_REPO_TYPE, overwrite=True,
                                           auth=self.auth)
 
             # self._graph, _response = tripel_store.graph_from_uri(
@@ -617,6 +613,11 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
             self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=RDF_REPO_TYPE, overwrite=True,
                                           auth=self.auth)
             self.query_db = self.tripel_dry_run_db
+
+        # todo: Missing Attribute, should it be 2 or 3 letters?
+        #   Should be set by harvester
+        if not self.harvester.catalog_urls:
+            raise NoSourcesDefined('You did not define any sources')
 
         # append for all the others
         for source in sources:
