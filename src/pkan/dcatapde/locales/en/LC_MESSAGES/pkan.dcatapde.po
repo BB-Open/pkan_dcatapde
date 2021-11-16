@@ -14,11 +14,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../structure/structure.py:299
+#: ../structure/structure.py:305
 msgid "${CT}=>${field_name}"
 msgstr ""
 
-#: ../structure/structure.py:291
+#: ../structure/structure.py:297
 msgid "${CT}=>${field_name} (required)"
 msgstr ""
 
@@ -30,12 +30,12 @@ msgstr ""
 msgid "${value} is not a valid Emailaddress"
 msgstr ""
 
-#: ../i18n.py:12
+#: ../i18n.py:13
 msgid ":Deprecated"
 msgstr ""
 
-#: ../browser/content_views/harvester.py:156
-#: ../browser/content_views/transfer.py:137
+#: ../browser/content_views/harvester.py:163
+#: ../browser/content_views/transfer.py:162
 msgid "<p>Nothing to do</p>"
 msgstr ""
 
@@ -47,15 +47,15 @@ msgstr ""
 msgid "A Skos Concept Theme"
 msgstr ""
 
-#: ../i18n.py:190
+#: ../i18n.py:191
 msgid "Access Rights"
 msgstr ""
 
-#: ../i18n.py:227
+#: ../i18n.py:228
 msgid "Access URI"
 msgstr ""
 
-#: ../i18n.py:172
+#: ../i18n.py:173
 msgid "Access URL"
 msgstr ""
 
@@ -75,7 +75,7 @@ msgstr ""
 msgid "Addititonal Catalogs:"
 msgstr ""
 
-#: ../i18n.py:213
+#: ../i18n.py:214
 msgid "Agent"
 msgstr ""
 
@@ -83,7 +83,7 @@ msgstr ""
 msgid "AgentFolder"
 msgstr ""
 
-#: ../i18n.py:14
+#: ../i18n.py:15
 msgid "Agents"
 msgstr ""
 
@@ -96,7 +96,7 @@ msgstr ""
 msgid "Base Folder for Havester"
 msgstr ""
 
-#: ../i18n.py:171
+#: ../i18n.py:172
 msgid "Base Object"
 msgstr ""
 
@@ -104,7 +104,7 @@ msgstr ""
 msgid "Bulgarian"
 msgstr ""
 
-#: ../i18n.py:173
+#: ../i18n.py:174
 msgid "Byte size"
 msgstr ""
 
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../i18n.py:174
+#: ../i18n.py:175
 msgid "Catalog"
 msgstr ""
 
@@ -124,11 +124,21 @@ msgstr ""
 msgid "Category:"
 msgstr ""
 
-#: ../i18n.py:175
+#: ../browser/content_views/templates/harvester.pt:13
+#: ../browser/content_views/templates/harvester_overview.pt:17
+msgid "Clean Namespace"
+msgstr ""
+
+#: ../i18n.py:176
 msgid "Collection Catalog"
 msgstr ""
 
-#: ../i18n.py:239
+#: ../browser/content_views/templates/harvester.pt:12
+#: ../browser/content_views/templates/harvester_overview.pt:16
+msgid "Complete Namespace"
+msgstr ""
+
+#: ../i18n.py:240
 msgid "Concept scheme URI"
 msgstr ""
 
@@ -140,7 +150,7 @@ msgstr ""
 msgid "ConceptSchemeFolder"
 msgstr ""
 
-#: ../i18n.py:191
+#: ../i18n.py:192
 msgid "Conform to Standard"
 msgstr ""
 
@@ -158,19 +168,15 @@ msgstr ""
 msgid "Contents"
 msgstr ""
 
-#: ../i18n.py:192
+#: ../i18n.py:193
 msgid "Contributor"
 msgstr ""
 
-#: ../i18n.py:181
+#: ../i18n.py:182
 msgid "Contributor ID"
 msgstr ""
 
-#: ../harvesting/processors/rdf2plone.py:903
-msgid "Could not read source."
-msgstr ""
-
-#: ../i18n.py:193
+#: ../i18n.py:194
 msgid "Creator"
 msgstr ""
 
@@ -234,7 +240,7 @@ msgstr ""
 msgid "DCT:Language"
 msgstr ""
 
-#: ../i18n.py:238
+#: ../i18n.py:239
 msgid "DCT:Language Sources"
 msgstr ""
 
@@ -242,7 +248,7 @@ msgstr ""
 msgid "DCT:LicenseDocument"
 msgstr ""
 
-#: ../i18n.py:236
+#: ../i18n.py:237
 msgid "DCT:LicenseDocument Sources"
 msgstr ""
 
@@ -281,11 +287,11 @@ msgstr ""
 msgid "Data Source Url"
 msgstr ""
 
-#: ../i18n.py:176
+#: ../i18n.py:177
 msgid "Dataset"
 msgstr ""
 
-#: ../i18n.py:15
+#: ../i18n.py:16
 msgid "Dates, Geo, etc"
 msgstr ""
 
@@ -293,56 +299,40 @@ msgstr ""
 msgid "Dcat Theme"
 msgstr ""
 
-#: ../i18n.py:161
+#: ../i18n.py:162
 msgid "Decide how often the harvester should be reharvested automatically. Leave empty for no reharvesting. Shortest intervall is one day. Period is parsed using pytimeparse. Read about on https://pypi.org/project/pytimeparse/"
 msgstr ""
 
-#: ../browser/harvester_entity/views.py:63
-msgid "Default Value"
-msgstr ""
-
-#: ../i18n.py:19
+#: ../i18n.py:20
 msgid "Default will be Plone-URL."
 msgstr ""
 
-#: ../i18n.py:155
+#: ../i18n.py:157
 msgid "Define the import sources for DCT:Language objects."
 msgstr ""
 
-#: ../i18n.py:149
+#: ../i18n.py:151
 msgid "Define the import sources for DCT:LicenseDocument objects."
 msgstr ""
 
-#: ../i18n.py:152
+#: ../i18n.py:154
 msgid "Define the import sources for SKOS:Concept objects."
 msgstr ""
 
-#: ../i18n.py:229
+#: ../i18n.py:230
 msgid "Definition URI"
 msgstr ""
 
 #: ../content/publisher_card.py:22
-#: ../i18n.py:194
+#: ../i18n.py:195
 msgid "Description"
 msgstr ""
 
-#: ../browser/harvester_entity/views.py:36
-msgid "Destination"
-msgstr ""
-
-#: ../browser/harvester_entity/views.py:57
-msgid "Dexterity Object"
-msgstr ""
-
-#: ../harvesting/processors/rdf2plone.py:905
-msgid "Did not find correct parameters to request data."
-msgstr ""
-
-#: ../i18n.py:179
+#: ../i18n.py:180
 msgid "Distribution"
 msgstr ""
 
-#: ../i18n.py:177
+#: ../i18n.py:178
 msgid "Download URL"
 msgstr ""
 
@@ -361,8 +351,8 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: ../browser/content_views/templates/harvester.pt:31
-#: ../browser/content_views/templates/harvester_overview.pt:35
+#: ../browser/content_views/templates/harvester.pt:29
+#: ../browser/content_views/templates/harvester_overview.pt:33
 msgid "Edit Harvester"
 msgstr ""
 
@@ -407,8 +397,8 @@ msgstr ""
 msgid "Export to RDF/TTL"
 msgstr ""
 
-#: ../content/harvester.py:44
-#: ../content/transfer.py:23
+#: ../content/harvester.py:47
+#: ../content/transfer.py:22
 msgid "Expression can not be parsed."
 msgstr ""
 
@@ -428,12 +418,11 @@ msgstr ""
 msgid "Fax Numbers"
 msgstr ""
 
-#: ../constants.py:222
+#: ../constants.py:224
 msgid "File"
 msgstr ""
 
-#: ../harvesting/processors/rdf2plone.py:965
-#: ../harvesting/processors/rdf_base.py:481
+#: ../harvesting/processors/rdf_base.py:494
 msgid "Finished reading of {top_node}"
 msgstr ""
 
@@ -441,31 +430,31 @@ msgstr ""
 msgid "Finnish"
 msgstr ""
 
-#: ../i18n.py:217
+#: ../i18n.py:218
 msgid "Folder containing agents"
 msgstr ""
 
-#: ../i18n.py:218
+#: ../i18n.py:219
 msgid "Folder containing formats"
 msgstr ""
 
-#: ../i18n.py:221
+#: ../i18n.py:222
 msgid "Folder containing languages"
 msgstr ""
 
-#: ../i18n.py:219
+#: ../i18n.py:220
 msgid "Folder containing licenses"
 msgstr ""
 
-#: ../i18n.py:220
+#: ../i18n.py:221
 msgid "Folder containing locations"
 msgstr ""
 
-#: ../i18n.py:222
+#: ../i18n.py:223
 msgid "Folder containing publishers"
 msgstr ""
 
-#: ../i18n.py:223
+#: ../i18n.py:224
 msgid "Folder containing standards"
 msgstr ""
 
@@ -487,7 +476,7 @@ msgstr ""
 msgid "Folders managed as Provider Admin"
 msgstr ""
 
-#: ../i18n.py:195
+#: ../i18n.py:196
 msgid "Format"
 msgstr ""
 
@@ -503,7 +492,7 @@ msgstr ""
 msgid "French"
 msgstr ""
 
-#: ../i18n.py:182
+#: ../i18n.py:183
 msgid "Geocoding text"
 msgstr ""
 
@@ -511,24 +500,10 @@ msgstr ""
 msgid "German"
 msgstr ""
 
-#: ../browser/content_views/templates/harvester.pt:16
-#: ../browser/content_views/templates/harvester_overview.pt:20
-msgid "Graph Display"
-msgstr ""
-
-#: ../content/harvester.py:89
-msgid "Harvest to Plone or to the Tripel store"
-msgstr ""
-
 #: ../browser/content_views/templates/harvester.pt:10
 #: ../browser/content_views/templates/harvester_overview.pt:14
-#: ../i18n.py:224
+#: ../i18n.py:225
 msgid "Harvester"
-msgstr ""
-
-#: ../browser/content_views/templates/harvester.pt:19
-#: ../browser/content_views/templates/harvester_overview.pt:23
-msgid "Harvester Entity Mapping"
 msgstr ""
 
 #: ../profiles/default/types/harvester.xml
@@ -539,20 +514,16 @@ msgstr ""
 msgid "Harvester Overview"
 msgstr ""
 
-#: ../i18n.py:225
+#: ../i18n.py:226
 msgid "Harvester folder"
-msgstr ""
-
-#: ../i18n.py:160
-msgid "Harvester that created this object"
 msgstr ""
 
 #: ../profiles/default/types/harvesterfolder.xml
 msgid "HarvesterFolder"
 msgstr ""
 
-#: ../content/harvester.py:58
-#: ../content/transfer.py:37
+#: ../content/harvester.py:61
+#: ../content/transfer.py:36
 msgid "Harvesting Source"
 msgstr ""
 
@@ -560,11 +531,11 @@ msgstr ""
 msgid "Here you have access to all controlpanels for PKAN."
 msgstr ""
 
-#: ../i18n.py:21
+#: ../i18n.py:24
 msgid "Here you may chose the location where to the datasets will be imported. If the incoming data has no catalog, choose a catalog object.By default incoming catalogues are place in the harvester. "
 msgstr ""
 
-#: ../i18n.py:214
+#: ../i18n.py:215
 msgid "Homepage"
 msgstr ""
 
@@ -576,12 +547,20 @@ msgstr ""
 msgid "Icon class for category"
 msgstr ""
 
-#: ../constants.py:223
+#: ../content/transfer.py:74
+msgid "If enabled, will be run in cron jobs"
+msgstr ""
+
+#: ../constants.py:225
 msgid "Image"
 msgstr ""
 
 #: ../i18n.py:8
 msgid "Import DCT:LicenseDocument"
+msgstr ""
+
+#: ../i18n.py:10
+msgid "Import Lanuages"
 msgstr ""
 
 #: ../i18n.py:9
@@ -598,10 +577,6 @@ msgstr ""
 msgid "Imports"
 msgstr ""
 
-#: ../i18n.py:241
-msgid "In Harvester"
-msgstr ""
-
 #: ../configure.zcml:41
 #: ../profiles.zcml:17
 msgid "Installs the pkan.dcatapde add-on."
@@ -611,7 +586,11 @@ msgstr ""
 msgid "Irish"
 msgstr ""
 
-#: ../i18n.py:199
+#: ../content/transfer.py:73
+msgid "Is Enabled"
+msgstr ""
+
+#: ../i18n.py:200
 msgid "Issued"
 msgstr ""
 
@@ -619,7 +598,7 @@ msgstr ""
 msgid "Italian"
 msgstr ""
 
-#: ../i18n.py:215
+#: ../i18n.py:216
 msgid "Landing page"
 msgstr ""
 
@@ -627,12 +606,12 @@ msgstr ""
 msgid "LanguageFolder"
 msgstr ""
 
-#: ../i18n.py:200
+#: ../i18n.py:201
 msgid "Languages"
 msgstr ""
 
-#: ../content/harvester.py:136
-#: ../content/transfer.py:80
+#: ../content/harvester.py:95
+#: ../content/transfer.py:81
 msgid "Last Run"
 msgstr ""
 
@@ -640,19 +619,19 @@ msgstr ""
 msgid "Latvian"
 msgstr ""
 
-#: ../i18n.py:183
+#: ../i18n.py:184
 msgid "Legal basis text"
 msgstr ""
 
-#: ../i18n.py:184
+#: ../i18n.py:185
 msgid "Licence attribution by text"
 msgstr ""
 
-#: ../i18n.py:201
+#: ../i18n.py:202
 msgid "License"
 msgstr ""
 
-#: ../i18n.py:202
+#: ../i18n.py:203
 msgid "License Document"
 msgstr ""
 
@@ -664,15 +643,15 @@ msgstr ""
 msgid "LicenseFolder"
 msgstr ""
 
-#: ../i18n.py:66
-msgid "Link to an existing catalog"
+#: ../i18n.py:68
+msgid "Link to an existing catalog. "
 msgstr ""
 
-#: ../i18n.py:71
-msgid "Link to an existing parent catalog"
+#: ../i18n.py:73
+msgid "Link to an existing parent catalog. "
 msgstr ""
 
-#: ../i18n.py:228
+#: ../i18n.py:229
 msgid "Literal"
 msgstr ""
 
@@ -680,15 +659,15 @@ msgstr ""
 msgid "Lithuanian"
 msgstr ""
 
-#: ../i18n.py:178
+#: ../i18n.py:179
 msgid "Local file"
 msgstr ""
 
-#: ../i18n.py:169
+#: ../i18n.py:170
 msgid "Local identifier"
 msgstr ""
 
-#: ../i18n.py:203
+#: ../i18n.py:204
 msgid "Location"
 msgstr ""
 
@@ -704,7 +683,7 @@ msgstr ""
 msgid "Logo"
 msgstr ""
 
-#: ../i18n.py:185
+#: ../i18n.py:186
 msgid "Maintainer"
 msgstr ""
 
@@ -712,19 +691,19 @@ msgstr ""
 msgid "Maltese"
 msgstr ""
 
-#: ../i18n.py:146
+#: ../i18n.py:148
 msgid "Manage base settings for PKAN."
 msgstr ""
 
-#: ../i18n.py:147
+#: ../i18n.py:149
 msgid "Manage folder settings for PKAN."
 msgstr ""
 
-#: ../i18n.py:148
+#: ../i18n.py:150
 msgid "Manage import settings for PKAN."
 msgstr ""
 
-#: ../i18n.py:180
+#: ../i18n.py:181
 msgid "Media type"
 msgstr ""
 
@@ -732,7 +711,7 @@ msgstr ""
 msgid "MediaTypeFolder"
 msgstr ""
 
-#: ../i18n.py:205
+#: ../i18n.py:206
 msgid "Mediatype"
 msgstr ""
 
@@ -740,7 +719,7 @@ msgstr ""
 msgid "Modern Greek"
 msgstr ""
 
-#: ../i18n.py:204
+#: ../i18n.py:205
 msgid "Modified"
 msgstr ""
 
@@ -748,11 +727,11 @@ msgstr ""
 msgid "Norwegian"
 msgstr ""
 
-#: ../i18n.py:17
+#: ../i18n.py:18
 msgid "Object Identifier"
 msgstr ""
 
-#: ../i18n.py:189
+#: ../i18n.py:190
 msgid "Originator"
 msgstr ""
 
@@ -760,7 +739,7 @@ msgstr ""
 msgid "PKAN"
 msgstr ""
 
-#: ../i18n.py:233
+#: ../i18n.py:234
 msgid "PKAN Base Settings"
 msgstr ""
 
@@ -768,15 +747,15 @@ msgstr ""
 msgid "PKAN Dcatapde Configuration"
 msgstr ""
 
-#: ../i18n.py:234
+#: ../i18n.py:235
 msgid "PKAN Folder Settings"
 msgstr ""
 
-#: ../i18n.py:235
+#: ../i18n.py:236
 msgid "PKAN Import Settings"
 msgstr ""
 
-#: ../browser/menu.py:22
+#: ../browser/menu.py:21
 msgid "PKAN Object Status"
 msgstr ""
 
@@ -786,19 +765,19 @@ msgstr ""
 msgid "PKAN Settings"
 msgstr ""
 
-#: ../i18n.py:216
+#: ../i18n.py:217
 msgid "Page"
 msgstr ""
 
-#: ../i18n.py:198
+#: ../i18n.py:199
 msgid "Parent Catalog"
 msgstr ""
 
-#: ../i18n.py:196
+#: ../i18n.py:197
 msgid "Parts"
 msgstr ""
 
-#: ../i18n.py:11
+#: ../i18n.py:12
 msgid "Permission Denied"
 msgstr ""
 
@@ -814,35 +793,35 @@ msgstr ""
 msgid "Pkan Dcatapde Main Config"
 msgstr ""
 
-#: ../i18n.py:186
+#: ../i18n.py:187
 msgid "Planed availability"
 msgstr ""
 
-#: ../i18n.py:101
+#: ../i18n.py:103
 msgid "Please enter the folder containing all agents, eg. ${folder}."
 msgstr ""
 
-#: ../i18n.py:107
+#: ../i18n.py:109
 msgid "Please enter the folder containing all formats, eg. ${folder}."
 msgstr ""
 
-#: ../i18n.py:137
+#: ../i18n.py:139
 msgid "Please enter the folder containing all languages, eg. ${folder}."
 msgstr ""
 
-#: ../i18n.py:113
+#: ../i18n.py:115
 msgid "Please enter the folder containing all licenses, eg. ${folder}."
 msgstr ""
 
-#: ../i18n.py:119
+#: ../i18n.py:121
 msgid "Please enter the folder containing all locations, eg. ${folder}."
 msgstr ""
 
-#: ../i18n.py:125
+#: ../i18n.py:127
 msgid "Please enter the folder containing all publishers, eg. ${folder}."
 msgstr ""
 
-#: ../i18n.py:131
+#: ../i18n.py:133
 msgid "Please enter the folder containing all standards, eg. ${folder}."
 msgstr ""
 
@@ -850,23 +829,19 @@ msgstr ""
 msgid "Polish"
 msgstr ""
 
-#: ../i18n.py:187
+#: ../i18n.py:188
 msgid "PoliticalGeocodingLevelURI"
 msgstr ""
 
-#: ../i18n.py:188
+#: ../i18n.py:189
 msgid "PoliticalGeocodingURI"
-msgstr ""
-
-#: ../content/harvester.py:106
-msgid "Portal Type of Top Node"
 msgstr ""
 
 #: ../languages.py:53
 msgid "Portuguese"
 msgstr ""
 
-#: ../i18n.py:197
+#: ../i18n.py:198
 msgid "Primary Identifier"
 msgstr ""
 
@@ -885,7 +860,7 @@ msgstr ""
 msgid "ProviderDataEditor"
 msgstr ""
 
-#: ../i18n.py:206
+#: ../i18n.py:207
 msgid "Publisher"
 msgstr ""
 
@@ -897,27 +872,16 @@ msgstr ""
 msgid "PublisherCard"
 msgstr ""
 
-#: ../browser/harvester_entity/views.py:46
-#: ../content/harvester.py:116
-msgid "Query"
-msgstr ""
-
-#: ../harvesting/processors/rdf2plone.py:1002
-#: ../harvesting/processors/rdf_base.py:514
+#: ../harvesting/processors/rdf_base.py:548
 msgid "Reading {kind} file {uri}"
 msgstr ""
 
-#: ../harvesting/processors/rdf2plone.py:849
-msgid "Reading {kind} file {uri} into rdflib"
-msgstr ""
-
-#: ../harvesting/processors/rdf2plone.py:933
-#: ../harvesting/processors/rdf_base.py:449
+#: ../harvesting/processors/rdf_base.py:456
 msgid "Reading {top_node}"
 msgstr ""
 
-#: ../browser/content_views/templates/harvester.pt:17
-#: ../browser/content_views/templates/harvester_overview.pt:21
+#: ../browser/content_views/templates/harvester.pt:16
+#: ../browser/content_views/templates/harvester_overview.pt:20
 #: ../browser/content_views/templates/transfer.pt:15
 msgid "Real Run"
 msgstr ""
@@ -926,28 +890,19 @@ msgstr ""
 msgid "Registry has been updated. Please reload this page."
 msgstr ""
 
-#: ../content/harvester.py:129
-#: ../content/transfer.py:73
+#: ../content/harvester.py:88
 msgid "Reharvesting Period"
 msgstr ""
 
-#: ../i18n.py:16
+#: ../i18n.py:17
 msgid "Relations"
 msgstr ""
 
-#: ../harvesting/processors/rdf2plone.py:897
-msgid "Result: "
-msgstr ""
-
-#: ../browser/harvester_entity/preview.py:65
-msgid "Result: Did not find correct parameters to request data."
-msgstr ""
-
-#: ../i18n.py:207
+#: ../i18n.py:208
 msgid "Rights"
 msgstr ""
 
-#: ../i18n.py:208
+#: ../i18n.py:209
 msgid "Rights statement"
 msgstr ""
 
@@ -959,17 +914,17 @@ msgstr ""
 msgid "Romanian"
 msgstr ""
 
-#: ../browser/content_views/templates/harvester.pt:20
-#: ../browser/content_views/templates/harvester_overview.pt:24
+#: ../browser/content_views/templates/harvester.pt:18
+#: ../browser/content_views/templates/harvester_overview.pt:22
 #: ../browser/content_views/templates/transfer.pt:16
 msgid "Run in Cron"
 msgstr ""
 
-#: ../i18n.py:230
+#: ../i18n.py:231
 msgid "SCOS concept"
 msgstr ""
 
-#: ../i18n.py:231
+#: ../i18n.py:232
 msgid "SCOS concept scheme"
 msgstr ""
 
@@ -985,7 +940,7 @@ msgstr ""
 msgid "SKOS:Concept"
 msgstr ""
 
-#: ../i18n.py:237
+#: ../i18n.py:238
 msgid "SKOS:Concept Sources"
 msgstr ""
 
@@ -998,72 +953,67 @@ msgid "SPARQL Identifier for Publisher"
 msgstr ""
 
 #: ../browser/edit_views/harvester.py:20
-#: ../browser/harvester_entity/views.py:112
 msgid "Save"
 msgstr ""
 
-#: ../i18n.py:42
-msgid "Select a access right from the list of available access rights or create a new one by using the \"add\" button below."
+#: ../i18n.py:45
+msgid "Select a access right from the list of available access rights. "
 msgstr ""
 
-#: ../i18n.py:145
-msgid "Select a contact information."
+#: ../i18n.py:147
+msgid "Select a contact information. "
 msgstr ""
 
-#: ../i18n.py:51
-msgid "Select a contributor from the list of available contributors "
+#: ../i18n.py:53
+msgid "Select a contributor from the list of available contributors. "
 msgstr ""
 
-#: ../i18n.py:56
-msgid "Select a creator from the list of available creators "
+#: ../i18n.py:58
+msgid "Select a creator from the list of available creators. "
 msgstr ""
 
-#: ../i18n.py:61
-msgid "Select a format from the list of available formats "
+#: ../i18n.py:63
+msgid "Select a format from the list of available formats. "
 msgstr ""
 
-#: ../i18n.py:76
-msgid "Select a license from the list of available licenses "
+#: ../i18n.py:78
+msgid "Select a license from the list of available licenses. "
 msgstr ""
 
-#: ../i18n.py:91
-msgid "Select a location from the list of available locations"
+#: ../i18n.py:93
+msgid "Select a location from the list of available locations. "
 msgstr ""
 
-#: ../i18n.py:32
-msgid "Select a maintainer from the list of available maintainers"
+#: ../i18n.py:35
+msgid "Select a maintainer from the list of available maintainers. "
 msgstr ""
 
-#: ../i18n.py:27
-msgid "Select a media type from the list of available media types"
+#: ../i18n.py:30
+msgid "Select a media type from the list of available media types. "
 msgstr ""
 
-#: ../i18n.py:81
-msgid "Select a publisher from the list of available publishers "
+#: ../i18n.py:83
+msgid "Select a publisher from the list of available publishers. "
 msgstr ""
 
-#: ../i18n.py:86
-msgid "Select a rights statement from the list of available statements"
+#: ../i18n.py:88
+msgid "Select a rights statement from the list of available statements. "
 msgstr ""
 
-#: ../i18n.py:46
-msgid "Select a standard from the list of available standards "
+#: ../i18n.py:48
+msgid "Select a standard from the list of available standards. "
 msgstr ""
 
-#: ../i18n.py:96
-msgid "Select a theme taxonomy from the list of available taxonomies"
+#: ../i18n.py:98
+msgid "Select a theme taxonomy from the list of available taxonomies. "
 msgstr ""
 
-#: ../i18n.py:37
-msgid "Select an originator from the list of available originators "
+#: ../i18n.py:40
+msgid "Select an originator from the list of available originators. "
 msgstr ""
 
-#: ../i18n.py:144
-msgid "Select some SKOS Concepts"
-msgstr ""
-
-#: ../browser/harvester_entity/views.py:182
-msgid "Select your fields"
+#: ../i18n.py:146
+msgid "Select some SKOS Concepts. "
 msgstr ""
 
 #: ../browser/controlpanel/templates/controlpanel_layout_base.pt:26
@@ -1082,12 +1032,12 @@ msgstr ""
 msgid "Slovak"
 msgstr ""
 
-#: ../content/harvester.py:77
-#: ../content/transfer.py:43
+#: ../content/harvester.py:67
+#: ../content/transfer.py:42
 msgid "Source Format"
 msgstr ""
 
-#: ../content/transfer.py:53
+#: ../content/transfer.py:52
 msgid "Source Namespace"
 msgstr ""
 
@@ -1095,16 +1045,16 @@ msgstr ""
 msgid "Spanish"
 msgstr ""
 
-#: ../i18n.py:209
+#: ../i18n.py:210
 msgid "Spatial relevance"
 msgstr ""
 
-#: ../content/harvester.py:97
-#: ../content/transfer.py:54
+#: ../content/harvester.py:79
+#: ../content/transfer.py:53
 msgid "Specify a name for the tripelstore to harvest to. Only a single word without blanks allowed"
 msgstr ""
 
-#: ../i18n.py:210
+#: ../i18n.py:211
 msgid "Standard"
 msgstr ""
 
@@ -1112,7 +1062,7 @@ msgstr ""
 msgid "StandardsFolder"
 msgstr ""
 
-#: ../browser/menu.py:24
+#: ../browser/menu.py:23
 msgid "State"
 msgstr ""
 
@@ -1124,20 +1074,13 @@ msgstr ""
 msgid "Swedish"
 msgstr ""
 
-#: ../browser/content_views/templates/harvester.pt:12
-#: ../browser/content_views/templates/harvester_overview.pt:16
-#: ../content/harvester.py:88
-msgid "Target"
-msgstr ""
-
-#: ../content/harvester.py:96
-#: ../content/transfer.py:63
+#: ../content/harvester.py:78
+#: ../content/transfer.py:62
 msgid "Target Namespace"
 msgstr ""
 
-#: ../browser/content_views/templates/harvester.pt:13
-#: ../browser/content_views/templates/harvester_overview.pt:17
 #: ../browser/content_views/templates/transfer.pt:13
+#: ../browser/content_views/templates/transfer_overview.pt:17
 msgid "Target namespace"
 msgstr ""
 
@@ -1149,15 +1092,11 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: ../browser/harvester_entity/views.py:144
-msgid "Thank you very much!"
-msgstr ""
-
-#: ../browser/configure.zcml:51
+#: ../browser/configure.zcml:49
 msgid "The PKAN 'workflow' menu - allows the user to execute pkan workflow transitions"
 msgstr ""
 
-#: ../i18n.py:143
+#: ../i18n.py:145
 msgid "The URI describing this concept"
 msgstr ""
 
@@ -1165,16 +1104,16 @@ msgstr ""
 msgid "The URI of the Sparql-Object to be linked."
 msgstr ""
 
-#: ../content/harvester.py:59
-#: ../content/transfer.py:38
+#: ../content/harvester.py:62
+#: ../content/transfer.py:37
 msgid "The URI of the source of data to be harvested."
 msgstr ""
 
-#: ../i18n.py:211
+#: ../i18n.py:212
 msgid "Theme Taxonomy"
 msgstr ""
 
-#: ../i18n.py:212
+#: ../i18n.py:213
 msgid "Title"
 msgstr ""
 
@@ -1196,16 +1135,16 @@ msgstr ""
 msgid "TransferFolder"
 msgstr ""
 
-#: ../content/harvester.py:78
-#: ../content/transfer.py:44
+#: ../content/harvester.py:68
+#: ../content/transfer.py:43
 msgid "Transport format of the source. Usually this will be a RDF variant like (JSON-LD, XML, Turtle), or a generic source like \"JSON generic\""
 msgstr ""
 
-#: ../i18n.py:159
+#: ../i18n.py:161
 msgid "URI to the concept scheme"
 msgstr ""
 
-#: ../i18n.py:240
+#: ../i18n.py:241
 msgid "URL"
 msgstr ""
 
@@ -1222,7 +1161,7 @@ msgstr ""
 msgid "VCARD:Kind"
 msgstr ""
 
-#: ../i18n.py:232
+#: ../i18n.py:233
 msgid "Vcard Kind"
 msgstr ""
 
@@ -1230,11 +1169,11 @@ msgstr ""
 msgid "VcardKindFolder"
 msgstr ""
 
-#: ../i18n.py:170
+#: ../i18n.py:171
 msgid "Version Notes"
 msgstr ""
 
-#: ../i18n.py:226
+#: ../i18n.py:227
 msgid "Version info"
 msgstr ""
 
@@ -1244,19 +1183,15 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: ../i18n.py:167
+#: ../i18n.py:168
 msgid "Visual representation of the category"
 msgstr ""
 
-#: ../content/harvester.py:123
-msgid "Workflow State of created objects"
+#: ../content/dcat_distribution.py:153
+msgid "You have to provide a file or a dcat_accessURL."
 msgstr ""
 
-#: ../harvesting/processors/rdf2plone.py:901
-msgid "Wrong Syntax"
-msgstr ""
-
-#: ../content/transfer.py:91
+#: ../content/transfer.py:92
 msgid "You need a url with source_type or an namespace as source"
 msgstr ""
 
@@ -1265,7 +1200,7 @@ msgstr ""
 msgid "box_last_modified"
 msgstr ""
 
-#: ../constants.py:220
+#: ../constants.py:222
 msgid "dcat_distribution"
 msgstr ""
 
@@ -1288,11 +1223,6 @@ msgstr ""
 msgid "pkan.dcatapde testfixture profile"
 msgstr ""
 
-#: ../vocabularies/workflow_states.py:74
-msgid "title"
-msgstr ""
-
-#: ../harvesting/processors/rdf2plone.py:1029
-#: ../harvesting/processors/rdf_base.py:541
+#: ../harvesting/processors/rdf_base.py:575
 msgid "{kind} file {uri} read succesfully"
 msgstr ""

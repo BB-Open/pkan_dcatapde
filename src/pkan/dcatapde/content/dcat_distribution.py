@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """DCATDistribution Content Type."""
-from pkan.dcatapde import constants
-from pkan.dcatapde import i18n
-from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.content.base import IDCAT
+import datetime
+
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.autoform.directives import read_permission
@@ -16,8 +14,12 @@ from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope import schema
 from zope.interface import implementer
+from zope.interface import invariant, Invalid
 
-import datetime
+from pkan.dcatapde import constants, _
+from pkan.dcatapde import i18n
+from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 
 
 class IDCATDistribution(model.Schema, IDCAT):
@@ -51,7 +53,7 @@ class IDCATDistribution(model.Schema, IDCAT):
     )
 
     dcat_accessURL = schema.URI(
-        required=True,
+        required=False,
         title=i18n.LABEL_DCAT_ACCESSURL,
     )
 
@@ -145,6 +147,11 @@ class IDCATDistribution(model.Schema, IDCAT):
         default=datetime.date.today(),
     )
 
+    @invariant
+    def address_invariant(data):
+        if not data.local_file and not data.dcat_accessURL:
+            raise Invalid(_(u'You have to provide a file or a dcat_accessURL.'))
+
 
 @implementer(IDCATDistribution)
 class DCATDistribution(Container, DCATMixin):
@@ -177,3 +184,4 @@ def distribution_add_handler(sender, event):
         download_postfix = '/@@download/local_file'
         sender.dcat_downloadURL = sender.absolute_url() \
             + download_postfix
+        sender.dcat_accessURL = sender.absolute_url()
