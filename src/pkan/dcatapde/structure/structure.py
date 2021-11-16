@@ -521,14 +521,6 @@ class StructDCATDataset(StructBase):
                               'predicate': rdflib.term.URIRef(
                                   'http://purl.org/dc/terms/title'),
                               'type': dict},
-                'contactPoint': {'object': StructVCARDKind,
-                                 'importance': 'optional',
-                                 'predicate': rdflib.term.URIRef(
-                                         'http://www.w3.org/ns/dcat#contactPoint'), 'type': list},
-                'dcat_contactPoint': {'object': StructVCARDKind,
-                                 'importance': 'optional',
-                                 'predicate': rdflib.term.URIRef(
-                                     'http://www.w3.org/ns/dcat#contactPoint'), 'type': list},
                 'dct_creator': {'object': StructRDFSLiteral,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
@@ -678,6 +670,13 @@ class StructDCATDataset(StructBase):
             'predicate': DCAT.theme,
             'target': SKOS.Concept,
         }
+        related['dcat_contactPoint'] = {'object': StructVCARDKind,
+                                        'importance': 'optional',
+                                        'type': list,
+                                        'predicate': rdflib.term.URIRef(
+                                            'http://www.w3.org/ns/dcat#contactPoint'), 'type': list,
+                                        'target': VCARD.Kind,
+                                        }
         return related
 
 
@@ -857,7 +856,7 @@ class StructDCTLicenseDocument(StructBase):
             'language': {'object': StructRDFSLiteral,
                          'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                                 'http://purl.org/dc/terms/language'),
+                             'http://purl.org/dc/terms/language'),
                          'type': None},
             'subject': {'object': StructRDFSLiteral,
                         'importance': 'optional',
@@ -911,7 +910,7 @@ class StructDCTLocation(StructBase):
             'language': {'object': StructRDFSLiteral,
                          'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                                 'http://purl.org/dc/terms/language'),
+                             'http://purl.org/dc/terms/language'),
                          'type': None},
             'subject': {'object': StructRDFSLiteral,
                         'importance': 'optional',
@@ -975,7 +974,7 @@ class StructDCTLanguage(StructBase):
             'language': {'object': StructRDFSLiteral,
                          'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                                 'http://purl.org/dc/terms/language'),
+                             'http://purl.org/dc/terms/language'),
                          'type': None},
             'subject': {'object': StructRDFSLiteral,
                         'importance': 'optional',
@@ -1088,7 +1087,7 @@ class StructDCTStandard(StructBase):
                          'type': list},
             'language': {'object': StructRDFSLiteral, 'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                                 'http://purl.org/dc/terms/language'),
+                             'http://purl.org/dc/terms/language'),
                          'type': None},
             'subject': {'object': StructRDFSLiteral, 'importance': 'optional',
                         'predicate': rdflib.term.URIRef(
@@ -1140,7 +1139,7 @@ class StructDCTRightsStatement(StructBase):
             'language': {'object': StructRDFSLiteral,
                          'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                                 'http://purl.org/dc/terms/language'),
+                             'http://purl.org/dc/terms/language'),
                          'type': None},
             'subject': {'object': StructRDFSLiteral,
                         'importance': 'optional',
@@ -1269,7 +1268,7 @@ class StructSKOSConceptScheme(StructBase):
                 'subjects': {'object': StructRDFSLiteral,
                              'importance': 'optional',
                              'predicate': rdflib.term.URIRef(
-                    'http://www.w3.org/ns/dcat#keyword'),
+                                 'http://www.w3.org/ns/dcat#keyword'),
                              'type': list},
                 'language': {'object': StructRDFSLiteral,
                              'importance': 'optional',
@@ -1340,11 +1339,11 @@ class StructVCARDKind(StructBase):
                                 'type': str},
             'subjects': {'object': StructRDFSLiteral, 'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                    'http://www.w3.org/ns/dcat#keyword'),
+                             'http://www.w3.org/ns/dcat#keyword'),
                          'type': list},
             'language': {'object': StructRDFSLiteral, 'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                                 'http://purl.org/dc/terms/language'),
+                             'http://purl.org/dc/terms/language'),
                          'type': None},
             'subject': {'object': StructRDFSLiteral, 'importance': 'optional',
                         'predicate': rdflib.term.URIRef(
@@ -1403,11 +1402,11 @@ class StructSKOSConcept(StructBase):
                                 'type': str},
             'subjects': {'object': StructRDFSLiteral, 'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                    'http://www.w3.org/ns/dcat#keyword'),
+                             'http://www.w3.org/ns/dcat#keyword'),
                          'type': list},
             'language': {'object': StructRDFSLiteral, 'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
-                                 'http://purl.org/dc/terms/language'),
+                             'http://purl.org/dc/terms/language'),
                          'type': None},
             'subject': {'object': StructRDFSLiteral, 'importance': 'optional',
                         'predicate': rdflib.term.URIRef(
