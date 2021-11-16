@@ -521,11 +521,11 @@ class StructDCATDataset(StructBase):
                               'predicate': rdflib.term.URIRef(
                                   'http://purl.org/dc/terms/title'),
                               'type': dict},
-                'contactPoint': {'object': StructRDFSLiteral,
+                'contactPoint': {'object': StructVCARDKind,
                                  'importance': 'optional',
                                  'predicate': rdflib.term.URIRef(
                                          'http://www.w3.org/ns/dcat#contactPoint'), 'type': list},
-                'dcat_contactPoint': {'object': StructRDFSLiteral,
+                'dcat_contactPoint': {'object': StructVCARDKind,
                                  'importance': 'optional',
                                  'predicate': rdflib.term.URIRef(
                                      'http://www.w3.org/ns/dcat#contactPoint'), 'type': list},
