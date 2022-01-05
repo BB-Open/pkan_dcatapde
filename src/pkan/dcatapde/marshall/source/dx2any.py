@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Recursive crawler through objects and properties for marshalling"""
+from pkan.dcatapde.api.functions import check_published
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.structure.structure import IStructure
 from plone.api import content
@@ -164,6 +165,8 @@ class DX2Any(object):
             resources = []
             items = context.values()
             for item in items:
+                if not check_published(item):
+                    continue
                 if item_name == item.portal_type:
                     contained_marshaller = queryMultiAdapter(
                         (item, self.marshall_target),
@@ -196,6 +199,8 @@ class DX2Any(object):
             for uid in uid_list:
                 ref = content.get(UID=uid)
                 if not ref:
+                    continue
+                if not check_published(ref):
                     continue
                 referenced_marshaller = queryMultiAdapter(
                     (ref, self.marshall_target),

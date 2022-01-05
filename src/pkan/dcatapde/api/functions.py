@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from parts.omelette.Products.CMFCore.utils import getToolByName
 from pkan.dcatapde import constants
 # get functions
 from pkan.dcatapde.constants import ACTIVE_STATE
@@ -180,3 +181,14 @@ def query_published_objects_in_context(query, portal_type, context=None):
         results.append(obj)
 
     return results
+
+
+def check_published(obj):
+    workflowTool = getToolByName(obj, "portal_workflow")
+
+    workflow = workflowTool.getStatusOf('simple_publication_workflow', obj)
+    state = workflow['review_state']
+
+    # Plone workflows use variable called "review_state" to store state id
+    # of the object state
+    return state == 'published'
