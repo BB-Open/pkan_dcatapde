@@ -48,23 +48,24 @@ class ITransfer(model.Schema):
         vocabulary='pkan.dcatapde.RdfTypeVocabulary',
     )
 
-    source_namespace = schema.TextLine(
+    source_namespace = schema.Choice(
         title=_(u'Source Namespace'),
         description=_(
             u'Specify a name for the tripelstore to harvest to. '
             u'Only a single word without blanks allowed',
         ),
-        constraint=target_namespace_constraint,
+        vocabulary="pkan.dcatapde.AllStoresVocabulary",
         required=False,
     )
 
-    target_namespace = schema.TextLine(
+    target_namespace = schema.Choice(
+        required=True,
         title=_(u'Target Namespace'),
         description=_(
             u'Specify a name for the tripelstore to harvest to. '
             u'Only a single word without blanks allowed',
         ),
-        constraint=target_namespace_constraint,
+        vocabulary="pkan.dcatapde.DefaultStoresVocabulary",
     )
 
     is_enabled = schema.Bool(

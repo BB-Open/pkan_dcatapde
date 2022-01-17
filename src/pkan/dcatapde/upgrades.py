@@ -366,3 +366,43 @@ def update_transfer_enabled(context):
                 obj.is_enabled = False
 
             obj.reindexObject()
+
+
+def harvester_index(context):
+    reload_gs_profile(context)
+    cts = [CT_HARVESTER]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+
+            obj.reindexObject()
+
+def new_indexes(context):
+    reload_gs_profile(context)
+    cts = [CT_DCAT_CATALOG,
+        CT_DCAT_COLLECTION_CATALOG,
+        CT_DCAT_DATASET,
+        CT_DCAT_DISTRIBUTION,
+        CT_DCT_LICENSEDOCUMENT,
+        CT_DCT_LOCATION,
+        CT_DCT_MEDIATYPEOREXTENT,
+        CT_DCT_RIGHTSSTATEMENT,
+        CT_DCT_STANDARD,
+        CT_FOAF_AGENT,
+        CT_SKOS_CONCEPTSCHEME,
+        CT_RDFS_LITERAL,
+        CT_DCT_LANGUAGE,
+        CT_SKOS_CONCEPT,]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+
+            obj.reindexObject()

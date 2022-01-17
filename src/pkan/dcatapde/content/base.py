@@ -6,6 +6,7 @@ from pkan.dcatapde.utils import get_current_language
 from plone.autoform.directives import read_permission
 from plone.autoform.directives import write_permission
 from plone.supermodel import model
+from plone import api
 
 import zope.schema as schema
 
@@ -112,6 +113,16 @@ def add_obj_identifier(obj, event):
 
     if not obj.dct_identifier:
         obj.dct_identifier = obj.absolute_url()
+    else:
+        # Copy
+        brains = api.content.find(**{'dct_identifier': obj.dct_identifier})
+        if brains:
+            obj.dct_identifier = obj.absolute_url()
 
     if not obj.adms_identifier:
         obj.adms_identifier = obj.absolute_url()
+    else:
+        # Copy
+        brains = api.content.find(**{'adms_identifier': obj.adms_identifier})
+        if brains:
+            obj.adms_identifier = obj.absolute_url()

@@ -104,6 +104,15 @@
       name="pkan.dcatapde.RdfTypeVocabulary"
       />
 
+  <utility
+      component=".stores.DefaultStoresVocabFactory"
+      name="pkan.dcatapde.DefaultStoresVocabulary"
+      />
+  <utility
+      component=".stores.AllStoresVocabFactory"
+      name="pkan.dcatapde.AllStoresVocabulary"
+      />
+
 
   <!-- Language Vocabularies. -->
   <!-- ======================== -->

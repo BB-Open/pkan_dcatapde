@@ -12,4 +12,13 @@
  <index name="pkan_state" meta_type="FieldIndex">
   <indexed_attr value="pkan_state"/>
  </index>
+ <index name="stores" meta_type="FieldIndex">
+  <indexed_attr value="target_namespace"/>
+ </index>
+   <index name="adms_identifier" meta_type="FieldIndex">
+  <indexed_attr value="adms_identifier"/>
+ </index>
+   <index name="dct_identifier" meta_type="FieldIndex">
+  <indexed_attr value="dct_identifier"/>
+ </index>
 </object>

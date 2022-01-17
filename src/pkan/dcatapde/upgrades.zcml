@@ -182,4 +182,22 @@
       handler=".upgrades.reload_gs_profile"
       />
 
+     <genericsetup:upgradeStep
+      source="*"
+      destination="2006"
+      title="Reload GS profiles: Harvester includes only Catalogs and Folders"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.harvester_index"
+      />
+
+       <genericsetup:upgradeStep
+      source="*"
+      destination="2007"
+      title="Reload GS profiles: New Indexes"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.new_indexes"
+      />
+
 </configure>

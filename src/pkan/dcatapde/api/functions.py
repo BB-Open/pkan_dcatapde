@@ -42,7 +42,10 @@ def get_parent(context):
     aq_parent = getattr(context, 'aq_parent', None)
 
     if not aq_parent:
-        uid = context.UID()
+        try:
+            uid = context.UID()
+        except AttributeError:
+            return None
         context = api.content.get(UID=uid)
         if context is None:
             return None
