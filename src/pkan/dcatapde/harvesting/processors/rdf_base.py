@@ -2,6 +2,7 @@
 """Harvesting adapter."""
 from DateTime.DateTime import time
 from pkan.dcatapde import _
+from pkan.dcatapde.constants import CONTRIBUTER_ID
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
@@ -580,6 +581,8 @@ class BaseRDFProcessor(object):
             uri=uri,
         )
 
+        self.add_contributer_id(visitor)
+
         if visitor.real_run:
             msg = u'Finished harvest real run'
         else:
@@ -590,3 +593,41 @@ class BaseRDFProcessor(object):
         )
 
         return visitor.scribe.html_log()
+
+    def add_contributer_id(self, visitor):
+        msg = _(u'Add Contributer IDs')
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+        )
+        dbs = [self.query_db, self.tripel_db_name]
+        for db in dbs:
+            msg = _(u'Working on {database}')
+            visitor.scribe.write(
+                level='info',
+                msg=msg,
+                database=db,
+            )
+            prepared_query = """prefix dcat: <http://www.w3.org/ns/dcat#>
+                                SELECT DISTINCT ?id WHERE {?id a dcat:Dataset .}"""
+            response = self.rdf4j.query_repository(db, prepared_query, auth=self.auth)
+            res = response['results']['bindings']
+            for obj in res:
+                INSERT = """
+                prefix dcatde: <http://dcat-ap.de/def/dcatde/>
+                <{s}> {p} <{o}> ."""
+                insert = INSERT.format(
+                    s=obj['id']['value'],
+                        p='dcatde:contributorID',
+                    o=CONTRIBUTER_ID,
+                )
+                self.rdf4j.add_data_to_repo(db, insert.encode('utf-8'), 'text/turtle',
+                                                   auth=self.auth)
+            msg = _(u'Finished {database}')
+            visitor.scribe.write(
+                level='info',
+                msg=msg,
+                database=db,
+            )
+
+

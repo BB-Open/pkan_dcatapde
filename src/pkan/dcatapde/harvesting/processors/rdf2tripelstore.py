@@ -573,10 +573,6 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
 
         self.def_lang = 'de'
 
-        tripel_db_name = self.harvester.id_in_tripel_store
-        tripel_temp_db_name = tripel_db_name + '_temp'
-        tripel_dry_run_db = tripel_db_name + '_dryrun'
-
         sources = self.harvester.catalog_urls
 
         self.tripel_db_name = self.harvester.id_in_tripel_store

@@ -244,3 +244,6 @@ EDITOR_PASS = 'pw2'
 
 VIEWER_USER = 'viewer'
 VIEWER_PASS = 'pw3'
+
+# DCAT DATA
+CONTRIBUTER_ID = 'https://www.dcat-ap.de/def/contributors/20211108#landBrandenburg'

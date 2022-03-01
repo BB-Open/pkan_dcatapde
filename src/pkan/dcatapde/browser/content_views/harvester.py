@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from datetime import timedelta
+
+from pyrdf4j.errors import TerminatingError
+
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER
@@ -140,7 +143,12 @@ class RealRunCronView(BrowserView):
 
         visitor = DCATVisitor()
         visitor.real_run = True
-        rdfproc.prepare_and_run(visitor)
+        try:
+            rdfproc.prepare_and_run(visitor)
+        except TerminatingError:
+            del rdfproc
+            del visitor
+            return ['<p>Harvester fehlgeschlagen, Siehe Logs für Details</p>']
 
         # res = visitor.scribe.html_log()
 
