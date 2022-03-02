@@ -20,6 +20,22 @@
   />
 
   <browser:page
+    for="pkan.dcatapde.content.geodata.ILGBHarvester"
+    name="dry_run"
+    class=".harvester.DryRunView"
+    template="templates/dry_run.pt"
+    permission="cmf.ManagePortal"
+  />
+
+  <browser:page
+    for="pkan.dcatapde.content.geodata.ILGBHarvester"
+    name="real_run"
+    class=".harvester.RealRunView"
+    template="templates/dry_run.pt"
+    permission="cmf.ManagePortal"
+  />
+
+  <browser:page
     for="*"
     name="real_run_cron_harvest"
     class=".harvester.RealRunCronView"

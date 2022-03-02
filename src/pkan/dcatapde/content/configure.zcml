@@ -184,5 +184,18 @@
     handler="pkan.dcatapde.content.publisher_card.publisher_card_modified"
     />
 
-
+    <!-- LGB Harvester -->
+    <!-- =============== -->
+    <subscriber
+    for="pkan.dcatapde.content.geodata.ILGBHarvester
+         zope.lifecycleevent.IObjectAddedEvent
+        "
+    handler="pkan.dcatapde.content.geodata.lgb_harvester_modified"
+    />
+    <subscriber
+    for="pkan.dcatapde.content.geodata.ILGBHarvester
+         zope.lifecycleevent.interfaces.IObjectModifiedEvent
+        "
+    handler="pkan.dcatapde.content.geodata.lgb_harvester_modified"
+    />
 </configure>

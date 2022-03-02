@@ -1,36 +1,37 @@
 <?xml version="1.0"?>
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    name="harvesterfolder"
+    name="lgbharvester"
     meta_type="Dexterity FTI"
     i18n:domain="pkan.dcatapde">
 
   <!-- Basic properties -->
   <property
       i18n:translate=""
-      name="title">HarvesterFolder</property>
+      name="title">LGB Geo Harvester</property>
   <property
       i18n:translate=""
-      name="description">Base Folder for Havester</property>
+      name="description">LGB Geo Harvester Object</property>
 
   <property name="allow_discussion">False</property>
-  <property name="factory">harvesterfolder</property>
+  <property name="factory">lgbharvester</property>
   <property name="icon_expr"></property>
   <property name="link_target"></property>
 
   <!-- Hierarchy control -->
   <property name="allowed_content_types">
-    <element value="harvester" />
-    <element value="lgbharvester" />
+    <element value="dcat_catalog"/>
+    <element value="Folder"/>
   </property>
   <property name="filter_content_types">True</property>
-  <property name="global_allow">True</property>
+  <property name="global_allow">False</property>
 
   <!-- Schema, class and security -->
-  <property name="add_permission">pkan.dcatapde.AddHarvesterfolder</property>
-  <property name="klass">pkan.dcatapde.content.harvesterfolder.Harvesterfolder</property>
+  <property name="add_permission">pkan.dcatapde.AddHarvester</property>
+  <property name="klass">pkan.dcatapde.content.geodata.LGBHarvester</property>
+
   <property name="model_file"></property>
   <property name="model_source"></property>
-  <property name="schema">pkan.dcatapde.content.harvesterfolder.IHarvesterfolder</property>
+  <property name="schema">pkan.dcatapde.content.geodata.ILGBHarvester</property>
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
@@ -40,7 +41,7 @@
     <element value="plone.app.dexterity.behaviors.id.IShortName"/>
     <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
     <!--<element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />-->
-    <element value="plone.app.lockingbehavior.behaviors.ILocking" />
+    <element value="plone.app.lockingbehavior.behaviors.ILocking" />-
     <!--<element value="plone.app.dexterity.behaviors.metadata.IBasic"/>-->
     <element value="plone.app.relationfield.behavior.IRelatedItems"/>
     <!--<element value="plone.app.versioningbehavior.behaviors.IVersionable" />-->
@@ -49,13 +50,12 @@
   </property>
 
   <!-- View information -->
-  <property name="add_view_expr">string:${folder_url}/++add++harvesterfolder</property>
-  <property name="default_view">harvester_overview</property>
+  <property name="add_view_expr">string:${folder_url}/++add++lgbharvester</property>
+  <property name="default_view">view</property>
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>
   <property name="view_methods">
     <element value="view"/>
-    <element value="harvester_overview"/>
   </property>
 
   <!-- Method aliases -->

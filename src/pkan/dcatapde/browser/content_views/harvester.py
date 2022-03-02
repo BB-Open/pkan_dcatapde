@@ -6,7 +6,9 @@ from pyrdf4j.errors import TerminatingError
 
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
-from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.constants import CT_HARVESTER, CT_LGBHARVESTER
+from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.harvesting.processors.geodata import GeodataRDFProcessor
 from pkan.dcatapde.harvesting.processors.rdf2tripelstore import MultiUrlTripleStoreRDFProcessor
 from pkan.dcatapde.harvesting.processors.rdf2tripelstore import TripleStoreRDFProcessor
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
@@ -28,10 +30,16 @@ class HarvesterListViewMixin(object):
 
         path = harv.absolute_url()
 
+        url = None
+        if hasattr(harv, 'url'):
+            url = harv.url
+        else:
+            url = harv.csw_url
+
         data = {
             'title': harv.title,
             'path': path,
-            'source_url': addTokenToUrl(harv.url),
+            'source_url': url,
             'dry_run': addTokenToUrl(path + '/dry_run'),
             'real_run': addTokenToUrl(path + '/real_run'),
             'edit': addTokenToUrl(path + '/edit'),
@@ -89,10 +97,13 @@ class HarvesterOverview(BrowserView, HarvesterListViewMixin):
 
 
 def RDFProcessor_factory(harvester):
-    if harvester.url is None or harvester.url == '':
-        return MultiUrlTripleStoreRDFProcessor(harvester)
+    if IHarvester.providedBy(harvester):
+        if harvester.url is None or harvester.url == '':
+            return MultiUrlTripleStoreRDFProcessor(harvester)
+        else:
+            return TripleStoreRDFProcessor(harvester)
     else:
-        return TripleStoreRDFProcessor(harvester)
+        return GeodataRDFProcessor(harvester)
 
 
 class DryRunView(BrowserView):
@@ -164,7 +175,7 @@ class RealRunCronView(BrowserView):
             return None
         self.log = []
 
-        results = api.content.find(**{'portal_type': CT_HARVESTER})
+        results = api.content.find(**{'portal_type': [CT_HARVESTER, CT_LGBHARVESTER]})
 
         for brain in results:
             obj = brain.getObject()

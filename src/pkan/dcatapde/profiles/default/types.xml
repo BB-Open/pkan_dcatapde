@@ -36,6 +36,7 @@
 
   <!-- PKAN Types -->
   <object meta_type="Dexterity FTI" name="harvester"/>
+  <object meta_type="Dexterity FTI" name="lgbharvester"/>
   <object meta_type="Dexterity FTI" name="harvesterfolder"/>
   <object meta_type="Dexterity FTI" name="transfer"/>
   <object meta_type="Dexterity FTI" name="transferfolder"/>

@@ -200,4 +200,13 @@
       handler=".upgrades.new_indexes"
       />
 
+      <genericsetup:upgradeStep
+      source="*"
+      destination="2008"
+      title="Reload GS profiles: New LGB Harvester"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
+
 </configure>
