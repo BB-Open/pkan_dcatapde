@@ -95,7 +95,7 @@ class Scribe(object):
                     pass
         else:
             try:
-                msg_trans = entry['log']
+                msg_trans = str(entry['log'])
                 msg = str(entry['time']) + ': ' + msg_trans.format(
                     time=entry['time'],
                     level=entry['level'],
@@ -127,7 +127,7 @@ class Scribe(object):
                     uri=u'http://localhost:8080/Plone6/harvester_preview',
                 ),
             )
-            result.append(log_line)
+            result.append(log_line.replace('\n', '<br/>'))
         return result
 
 

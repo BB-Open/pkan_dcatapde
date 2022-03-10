@@ -22,8 +22,12 @@
                 <tr tal:repeat="harv view/data">
                     <td><a tal:attributes="href harv/path"
                             tal:content="harv/title"></a></td>
-                    <td><a tal:attributes="href harv/source_url"
-                            tal:content="harv/source_url"></a></td>
+                    <td><div tal:condition="harv/csw">CSW: <a tal:attributes="href harv/csw"
+                            tal:content="harv/csw"></a></div>
+                         <div tal:condition="harv/dcm">DCM: <a tal:attributes="href harv/dcm"
+                            tal:content="harv/dcm"></a></div>
+                            <div tal:condition="harv/source_url">Url: <a tal:attributes="href harv/source_url"
+                            tal:content="harv/source_url"></a></div></td>
                     <td tal:content="harv/complete_namespace"></td>
                     <td tal:content="harv/clean_namespace"></td>
                     <td><a i18n:translate=""

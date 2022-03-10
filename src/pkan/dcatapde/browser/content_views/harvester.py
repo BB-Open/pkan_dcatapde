@@ -33,18 +33,27 @@ class HarvesterListViewMixin(object):
         url = None
         if hasattr(harv, 'url'):
             url = harv.url
+            csw_url = None
+            dcm_url = None
+            complete_namespace = harv.target_namespace + '_temp'
         else:
-            url = harv.csw_url
+            # special case GEO Import
+            url = None
+            dcm_url = harv.dcm_url
+            csw_url = harv.csw_url
+            complete_namespace = harv.target_namespace
 
         data = {
             'title': harv.title,
             'path': path,
             'source_url': url,
+            'dcm': dcm_url,
+            'csw': csw_url,
             'dry_run': addTokenToUrl(path + '/dry_run'),
             'real_run': addTokenToUrl(path + '/real_run'),
             'edit': addTokenToUrl(path + '/edit'),
             'clean_namespace': harv.target_namespace,
-            'complete_namespace': harv.target_namespace + '_temp',
+            'complete_namespace': complete_namespace,
             'reharvesting_period': harv.reharvesting_period,
         }
 
