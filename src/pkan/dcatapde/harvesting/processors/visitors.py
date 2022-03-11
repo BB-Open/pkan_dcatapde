@@ -118,7 +118,7 @@ class Scribe(object):
             link = u'<a class="context pat-plone-modal" ' \
                    u'target="_blank" href="{uri}">Modify</a>'
             color = LEVEL_COLOR[entry['level']]
-            color_msg = u'<font color={color}>{level}: {msg}</font>'
+            color_msg = u'<font face="monospace" color={color}>{level}: {msg}</font>'
             log_line = color_msg.format(
                 color=color,
                 level=entry['level'],

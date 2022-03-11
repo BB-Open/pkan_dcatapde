@@ -71,6 +71,8 @@ class GeodataRDFProcessor():
         self.config.ADMIN_USER = ADMIN_USER
         self.config.ADMIN_PASS = ADMIN_PASS
         self.config.RDF4J_BASE = 'http://192.168.122.193:8080/rdf4j-server/'
+        if not visitor.real_run:
+            self.config.PARALLEL = False
         # todo: Read Information from Harvester
 
     @property
@@ -79,6 +81,7 @@ class GeodataRDFProcessor():
         return self._rdf4j
 
     def prepare_and_run(self, visitor):
+        visitor.scribe.write(level='info', msg='Starting Harvest')
         try:
             self.prepare_harvest(visitor)
         except NoSourcesDefined:
