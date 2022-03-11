@@ -19,7 +19,7 @@ default:
 # Parallel processing
 # :::::::::::::::::::
   NUM_CPU : 4
-  PARALLEL : True
+  PARALLEL : False
 
 # :::::::::::::::::::
 # Directories
