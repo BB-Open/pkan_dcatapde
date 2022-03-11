@@ -70,7 +70,7 @@ class GeodataRDFProcessor():
         self.config.WRITE_TO = self.temp
         self.config.ADMIN_USER = ADMIN_USER
         self.config.ADMIN_PASS = ADMIN_PASS
-        self.config.RDF4J_BASE = 'http://192.168.122.193:8080/rdf4j-server/'
+        self.config.RDF4J_BASE = RDF4J_BASE
         if not visitor.real_run:
             self.config.PARALLEL = False
         # todo: Read Information from Harvester
