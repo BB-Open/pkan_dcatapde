@@ -73,6 +73,7 @@ class GeodataRDFProcessor():
         self.config.RDF4J_BASE = RDF4J_BASE
         if not visitor.real_run:
             self.config.PARALLEL = False
+        self.config.FALLBACK_CATALOG_URL = self.harvester.sparql_identifier
         # todo: Read Information from Harvester
 
     @property
