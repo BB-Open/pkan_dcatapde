@@ -67,7 +67,6 @@
   <utility
       factory=".utils.PKANLanguages"
       />
-
   <plone:CORSPolicy
     for="*"
     allow_origin="*"

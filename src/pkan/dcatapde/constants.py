@@ -175,7 +175,7 @@ RDF_FORMAT_METADATA = {
     },
 }
 
-RDF_REPO_TYPE = 'native'
+
 
 # Limit for preview output, if output is longer it will be shortened
 MAX_QUERY_PREVIEW_LENGTH = 1000
@@ -233,18 +233,6 @@ SIZE_ROUND = 2
 
 IMPRESSUM = 'Impressum'
 HARVEST_TRIPELSTORE = 'Tripelstore'
-
-# RDF4J
-RDF4J_BASE = 'http://192.168.122.193:8080/rdf4j-server/'
-
-ADMIN_USER = 'admin'
-ADMIN_PASS = 'pw1'
-
-EDITOR_USER = 'editor'
-EDITOR_PASS = 'pw2'
-
-VIEWER_USER = 'viewer'
-VIEWER_PASS = 'pw3'
 
 # DCAT DATA
 CONTRIBUTER_ID = 'https://www.dcat-ap.de/def/contributors/20211108#landBrandenburg'

@@ -7,8 +7,7 @@ import logging
 from Products.Five import BrowserView
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_transfer_folder
-from pkan.dcatapde.constants import ADMIN_USER, ADMIN_PASS, RDF4J_BASE
-from pkan.dcatapde.constants import CT_TRANSFER, RDF_REPO_TYPE
+from pkan.dcatapde.constants import CT_TRANSFER
 from pkan.dcatapde.harvesting.processors.transfer import RDFProcessorTransfer
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
@@ -19,6 +18,7 @@ from requests.auth import HTTPBasicAuth
 from requests.exceptions import SSLError
 from zope.i18n import translate
 from zope.interface import alsoProvides
+import pkan_config.config as pkan_cfg
 
 logger = logging.getLogger('Plone')
 
@@ -124,8 +124,9 @@ class RealRunCronView(BrowserView):
     def __init__(self, context, request):
         super(RealRunCronView, self).__init__(context, request)
         alsoProvides(self.request, IDisableCSRFProtection)
-        self.rdf4j = RDF4J(rdf4j_base=RDF4J_BASE)
-        self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
+        cfg = pkan_cfg.get_config()
+        self.rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
+        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
 
     def real_run(self, trans):
         rdfproc = RDFProcessor_factory(trans)
@@ -176,7 +177,8 @@ class RealRunCronView(BrowserView):
             self.log.append(
                 u'<h2>Clear Namespace {title} and create if not exists</h2>'.format(title=namespace))
             logger.info(u'Clear Namespace {title} and create if not exists'.format(title=namespace))
-            self.rdf4j.create_repository(namespace, repo_type=RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
+            cfg = pkan_cfg.get_config()
+            self.rdf4j.create_repository(namespace, repo_type=cfg.RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
             self.rdf4j.empty_repository(namespace, auth=self.auth)
             self.log.append(u'<p>Erledigt</p>')
         for obj in url_transfers:

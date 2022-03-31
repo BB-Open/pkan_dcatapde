@@ -4,8 +4,8 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 from plone import api
+import pkan_config.config as pkan_cfg
 
-DEFAULT_STORES = ['complete_store', 'owl', 'dcat_store', 'skos_concepts']
 TEMP_SUFFIX = '_temp'
 
 @implementer(IVocabularyFactory)
@@ -25,6 +25,14 @@ class DefaultStoresVocabulary(object):
         #         title='JSON generic',
         #     ),
         # )
+        cfg = pkan_cfg.get_config()
+
+        DEFAULT_STORES = [
+            cfg.PLONE_SKOS_CONCEPT_NAMESPACE,
+            cfg.PLONE_DCAT_NAMESPACE,
+            cfg.PLONE_ALL_OBJECTS_NAMESPACE,
+            cfg.PLONE_OWL_STORE,
+        ]
         for store in DEFAULT_STORES:
             terms.append(
                 SimpleTerm(
@@ -50,6 +58,15 @@ class AllStoresVocabulary(object):
 
         catalog = api.portal.get_tool('portal_catalog')
         vals = catalog._catalog.indexes['stores'].uniqueValues()
+
+        cfg = pkan_cfg.get_config()
+
+        DEFAULT_STORES = [
+            cfg.PLONE_SKOS_CONCEPT_NAMESPACE,
+            cfg.PLONE_DCAT_NAMESPACE,
+            cfg.PLONE_ALL_OBJECTS_NAMESPACE,
+            cfg.PLONE_OWL_STORE,
+        ]
 
         for store in vals:
             if store in DEFAULT_STORES:

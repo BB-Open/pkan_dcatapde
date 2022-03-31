@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
-from pkan.dcatapde.constants import ADMIN_USER, ADMIN_PASS, RDF4J_BASE, RDF_REPO_TYPE
 # from pkan.blazegraph.api import tripel_store
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.content.transfer import ITransfer
@@ -14,6 +13,7 @@ from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
 from zope.component import adapter
 from zope.interface import implementer
+import pkan_config.config as pkan_cfg
 
 
 @adapter(ITransfer)
@@ -57,8 +57,9 @@ class RDFProcessorTransfer(BaseRDFProcessor):
         self.tripel_tempdb = None    # Temporary tripel store
         self.tripeldb = None         # Tripestore for dcapt-ap.de data
         self._target_graph = None        # Target graph instance
-        self.rdf4j = RDF4J(rdf4j_base=RDF4J_BASE)
-        self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
+        cfg = pkan_cfg.get_config()
+        self.rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
+        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
 
     def copy_from_url(self):
         """Load data to be harvested into a temperary namespace on the tripelstore.
@@ -67,8 +68,8 @@ class RDFProcessorTransfer(BaseRDFProcessor):
         set a rdflib grpah instance to it for writing and reading.
         """
         tripel_db_name = self.transfer.id_in_tripel_store
-
-        self.rdf4j.create_repository(tripel_db_name, RDF_REPO_TYPE, accept_existing=True, auth=self.auth)
+        cfg = pkan_cfg.get_config()
+        self.rdf4j.create_repository(tripel_db_name, cfg.RDF_REPO_TYPE, accept_existing=True, auth=self.auth)
 
         response = self.rdf4j.bulk_load_from_uri(tripel_db_name, self.transfer.url, self.mime_type, clear_repository=False, auth=self.auth)
 
@@ -78,8 +79,8 @@ class RDFProcessorTransfer(BaseRDFProcessor):
 
     def copy_from_namespace(self):
         tripel_db_name = self.transfer.id_in_tripel_store
-
-        response = self.rdf4j.move_data_between_repositorys(tripel_db_name, self.transfer.source_namespace, auth=self.auth, repo_type=RDF_REPO_TYPE)
+        cfg = pkan_cfg.get_config()
+        response = self.rdf4j.move_data_between_repositorys(tripel_db_name, self.transfer.source_namespace, auth=self.auth, repo_type=cfg.RDF_REPO_TYPE)
         response_text = 'Status Code: ' + str(response.status_code) + ' Content: ' + response.content.decode('utf-8')
 
         return response_text

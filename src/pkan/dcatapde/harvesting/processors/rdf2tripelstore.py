@@ -2,12 +2,11 @@
 
 """Harvesting adapter."""
 from SPARQLWrapper.SmartWrapper import Value
-from pkan.dcatapde.constants import ADMIN_USER, ADMIN_PASS, RDF4J_BASE
 from pkan.dcatapde.constants import CT_ANY
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
-from pkan.dcatapde.constants import RDF_FORMAT_TURTLE, RDF_REPO_TYPE
+from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.content.rdfs_literal import literal2plone
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined
 from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
@@ -29,6 +28,8 @@ from rdflib.term import Literal
 from rdflib.term import URIRef
 from requests.auth import HTTPBasicAuth
 
+import pkan_config.config as pkan_cfg
+
 
 class TripleStoreRDFProcessor(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
@@ -42,6 +43,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         """
         # todo: Missing Attribute, should it be 2 or 3 letters?
         #  Should be set by harvester
+        cfg = pkan_cfg.get_config()
+
         self.def_lang = 'de'
 
         self.tripel_db_name = self.harvester.id_in_tripel_store
@@ -49,14 +52,14 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         self.tripel_dry_run_db = self.tripel_db_name + '_dryrun'
 
         # todo: base in constants
-        self._rdf4j = RDF4J(rdf4j_base=RDF4J_BASE)
-        self.auth= HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
+        self._rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
+        self.auth= HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
 
         if visitor.real_run:
 
             # todo: Type in constants, is this correct type
-            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
-            self._rdf4j.create_repository(self.tripel_db_name, repo_type=RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
+            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
+            self._rdf4j.create_repository(self.tripel_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
 
             # self._graph, _response = tripel_store.graph_from_uri(
             #     tripel_temp_db_name,
@@ -73,7 +76,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             #  different
             # todo: Work around: We update '_temp' and use it,
             #  but do not write to clean store
-            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=RDF_REPO_TYPE, overwrite=True, auth=self.auth)
+            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
             self.query_db = self.tripel_dry_run_db
 
         msg = u'Working on {url}'.format(url=self.harvester.url)
@@ -571,6 +574,8 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
                 set a rdflib grpah instance to it for writing and reading.
                 """
 
+        cfg = pkan_cfg.get_config()
+
         self.def_lang = 'de'
 
         sources = self.harvester.catalog_urls
@@ -580,15 +585,15 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
         self.tripel_dry_run_db = self.tripel_db_name + '_dryrun'
 
         # todo: base in constants
-        self._rdf4j = RDF4J(rdf4j_base=RDF4J_BASE)
-        self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
+        self._rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
+        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
 
         if visitor.real_run:
 
             # todo: Type in constants, is this correct type
-            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=RDF_REPO_TYPE, overwrite=True,
+            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
                                           auth=self.auth)
-            self._rdf4j.create_repository(self.tripel_db_name, repo_type=RDF_REPO_TYPE, overwrite=True,
+            self._rdf4j.create_repository(self.tripel_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
                                           auth=self.auth)
 
             # self._graph, _response = tripel_store.graph_from_uri(
@@ -606,7 +611,7 @@ class MultiUrlTripleStoreRDFProcessor(TripleStoreRDFProcessor):
             #  different
             # todo: Work around: We update '_temp' and use it,
             #  but do not write to clean store
-            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=RDF_REPO_TYPE, overwrite=True,
+            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
                                           auth=self.auth)
             self.query_db = self.tripel_dry_run_db
 

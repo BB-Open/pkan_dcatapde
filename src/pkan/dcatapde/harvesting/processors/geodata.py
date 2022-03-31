@@ -1,13 +1,13 @@
 import os
 import sys
 
+import pkan_config.config as pkan_cfg
 from dynaconf import Dynaconf
 from pyrdf4j.errors import URINotReachable
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
 
 from requests.exceptions import SSLError
-from pkan.dcatapde.constants import RDF4J_BASE, ADMIN_USER, ADMIN_PASS, RDF_REPO_TYPE
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined
 from pkan.dcatapde.utils import LiteralHandler
 from pkan.dcatapde import _
@@ -51,26 +51,28 @@ class GeodataRDFProcessor():
         self.tripel_temp_db_name = self.tripel_db_name + '_temp'
         self.tripel_dry_run_db = self.tripel_db_name + '_dryrun'
 
-        self._rdf4j = RDF4J(rdf4j_base=RDF4J_BASE)
-        self.auth = HTTPBasicAuth(ADMIN_USER, ADMIN_PASS)
+        cfg = pkan_cfg.get_config()
+
+        self._rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
+        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
 
         if visitor.real_run:
-            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=RDF_REPO_TYPE, overwrite=True,
+            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
                                           auth=self.auth)
             self.temp = self.tripel_temp_db_name
             self.target = self.tripel_db_name
         else:
 
-            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=RDF_REPO_TYPE, overwrite=True,
+            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
                                           auth=self.auth)
             self.temp = self.tripel_dry_run_db
             self.target = None
 
         self.config = get_config(self.harvester)
         self.config.WRITE_TO = self.temp
-        self.config.ADMIN_USER = ADMIN_USER
-        self.config.ADMIN_PASS = ADMIN_PASS
-        self.config.RDF4J_BASE = RDF4J_BASE
+        self.config.ADMIN_USER = cfg.ADMIN_USER
+        self.config.ADMIN_PASS = cfg.ADMIN_PASS
+        self.config.RDF4J_BASE = cfg.RDF4J_BASE
         if not visitor.real_run:
             self.config.PARALLEL = False
         self.config.FALLBACK_CATALOG_URL = self.harvester.sparql_identifier
@@ -175,5 +177,6 @@ class GeodataRDFProcessor():
         return visitor.scribe.html_log()
 
     def copy_data_to_target(self):
-        self.rdf4j.create_repository(self.target, repo_type=RDF_REPO_TYPE, overwrite=True, auth=self.auth)
-        self.rdf4j.move_data_between_repositorys(self.target, self.temp, self.auth, repo_type=RDF_REPO_TYPE)
+        cfg = pkan_cfg.get_config()
+        self.rdf4j.create_repository(self.target, repo_type=cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
+        self.rdf4j.move_data_between_repositorys(self.target, self.temp, self.auth, repo_type=cfg.RDF_REPO_TYPE)
