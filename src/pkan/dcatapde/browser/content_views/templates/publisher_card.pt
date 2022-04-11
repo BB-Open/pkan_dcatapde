@@ -17,7 +17,7 @@
   </div>
   <div tal:content="structure context/text" />
 
-  <div><span></span><span tal:content="context/sparql_identifier"></span></div>
+  <div><span></span><span tal:content="context/foaf_name"></span></div>
 
 
 </metal:content-core>
