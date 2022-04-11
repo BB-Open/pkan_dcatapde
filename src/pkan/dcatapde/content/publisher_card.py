@@ -71,7 +71,13 @@ def publisher_card_modified(obj, event):
     if obj.dct_publisher:
         pub_obj = api.content.get(UID=obj.dct_publisher)
         if pub_obj.foaf_name:
-            obj.foaf_name = pub_obj.foaf_name
+            if 'deu' in pub_obj.foaf_name:
+                obj.foaf_name = pub_obj.foaf_name['deu']
+            elif 'eng' in pub_obj.foaf_name:
+                obj.foaf_name = pub_obj.foaf_name['eng']
+            else:
+                lang = list(pub_obj.foaf_name)[0]
+                obj.foaf_name = pub_obj.foaf_name[lang]
         elif pub_obj.rdfs_isDefinedBy:
             obj.foaf_name = pub_obj.rdfs_isDefinedBy
         else:
