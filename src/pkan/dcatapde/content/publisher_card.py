@@ -38,49 +38,9 @@ class IPublisherCard(model.Schema):
         required=False,
     )
 
-    form.widget(
-        'dct_publisher',
-        AjaxSelectAddFieldWidget,
-        content_type=constants.CT_FOAF_AGENT,
-        content_type_title=i18n.LABEL_DCT_PUBLISHER,
-        initial_path='/publishers/',
-    )
-    dct_publisher = schema.Choice(
-        description=i18n.HELP_DCT_PUBLISHER,
-        required=False,
-        title=i18n.LABEL_DCT_PUBLISHER,
-        vocabulary='pkan.dcatapde.vocabularies.FOAFAgent',
-    )
-
-    read_permission(foaf_name_input='cmf.ManagePortal')
-    write_permission(foaf_name_input='cmf.ManagePortal')
-    foaf_name_input = schema.TextLine(
-        required=False,
-        title=_(u'foaf:Name for Publisher'),
-        description=_(u'The foaf:Name of the Sparql-Object to be linked if no publisher is selected.'),
-    )
-
     foaf_name = schema.TextLine(
-        title=_(u'SPARQL Identifier for Publisher'),
-        description=_(u'The URI of the Sparql-Object to be linked.'),
-        readonly=True
+        title=_(u'foaf:name for Publisher'),
+        description=_(
+            u'The name must be identical to the name used in the faceted search (frontend). It is used to generate the short cut to the search results of the publisher. If the value differs from the foaf:name used in the data, no search results can be found.'),
+        readonly=False
     )
-
-
-def publisher_card_modified(obj, event):
-    if obj.dct_publisher:
-        pub_obj = api.content.get(UID=obj.dct_publisher)
-        if pub_obj.foaf_name:
-            if 'deu' in pub_obj.foaf_name:
-                obj.foaf_name = pub_obj.foaf_name['deu']
-            elif 'eng' in pub_obj.foaf_name:
-                obj.foaf_name = pub_obj.foaf_name['eng']
-            else:
-                lang = list(pub_obj.foaf_name)[0]
-                obj.foaf_name = pub_obj.foaf_name[lang]
-        elif pub_obj.rdfs_isDefinedBy:
-            obj.foaf_name = pub_obj.rdfs_isDefinedBy
-        else:
-            obj.foaf_name = pub_obj.dct_identifier
-    else:
-        obj.foaf_name = obj.foaf_name_input

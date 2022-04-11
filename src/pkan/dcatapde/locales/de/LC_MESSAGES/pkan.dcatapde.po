@@ -39,8 +39,8 @@ msgstr "${value} ist keine gültige E-Mail-Adresse."
 msgid ":Deprecated"
 msgstr "veraltet"
 
-#: ../browser/content_views/harvester.py:163
-#: ../browser/content_views/transfer.py:162
+#: ../browser/content_views/harvester.py:191
+#: ../browser/content_views/transfer.py:163
 msgid "<p>Nothing to do</p>"
 msgstr "<p>Keine Änderung nötig</p>"
 
@@ -63,6 +63,10 @@ msgstr "URI für Zugriff"
 #: ../i18n.py:173
 msgid "Access URL"
 msgstr "Zugangs-URL: Web-Seite mit Informationen wie die Distribution erreicht werden kann"
+
+#: ../harvesting/processors/rdf_base.py:598
+msgid "Add Contributer IDs"
+msgstr "Füge die Bereitsteller IDs hinzu"
 
 #: ../content/vcard_kind.py:54
 msgid "Add one Email per Line."
@@ -113,6 +117,14 @@ msgstr "Bulgarisch"
 msgid "Byte size"
 msgstr "Größe in Bytes"
 
+#: ../content/geodata.py:76
+msgid "CSW OUTPUT SCHEMA"
+msgstr ""
+
+#: ../content/geodata.py:70
+msgid "CSW URL"
+msgstr ""
+
 #: ../browser/edit_views/harvester.py:24
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -132,7 +144,7 @@ msgstr "Kategorie:"
 #: ../browser/content_views/templates/harvester.pt:13
 #: ../browser/content_views/templates/harvester_overview.pt:17
 msgid "Clean Namespace"
-msgstr ""
+msgstr "Sauberer Namespace"
 
 #: ../i18n.py:176
 msgid "Collection Catalog"
@@ -141,7 +153,7 @@ msgstr "Sammel-Katalog"
 #: ../browser/content_views/templates/harvester.pt:12
 #: ../browser/content_views/templates/harvester_overview.pt:16
 msgid "Complete Namespace"
-msgstr ""
+msgstr "Kompletter Namespace"
 
 #: ../i18n.py:240
 msgid "Concept scheme URI"
@@ -225,6 +237,10 @@ msgstr "Datenstruktur"
 msgid "DCAT:Distribution"
 msgstr "Distribution"
 
+#: ../content/geodata.py:82
+msgid "DCM Source"
+msgstr "DCM Quelle"
+
 #: ../profiles/default/types/dct_language.xml
 msgid "DCT Language Object"
 msgstr ""
@@ -286,11 +302,11 @@ msgstr "Datenquelle"
 #: ../browser/content_views/templates/transfer.pt:12
 #: ../browser/content_views/templates/transfer_overview.pt:16
 msgid "Data Source Namespace"
-msgstr ""
+msgstr "Quell-Namespace"
 
 #: ../browser/content_views/templates/transfer.pt:11
 msgid "Data Source Url"
-msgstr ""
+msgstr "Quell-Url"
 
 #: ../i18n.py:177
 msgid "Dataset"
@@ -328,7 +344,7 @@ msgstr "Quelle für den Import der Objekte festlegen: Kategorie"
 msgid "Definition URI"
 msgstr "Definition URI"
 
-#: ../content/publisher_card.py:22
+#: ../content/publisher_card.py:26
 #: ../i18n.py:195
 msgid "Description"
 msgstr "Beschreibung"
@@ -356,8 +372,8 @@ msgstr ""
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: ../browser/content_views/templates/harvester.pt:29
-#: ../browser/content_views/templates/harvester_overview.pt:33
+#: ../browser/content_views/templates/harvester.pt:33
+#: ../browser/content_views/templates/harvester_overview.pt:39
 msgid "Edit Harvester"
 msgstr "Harvester bearbeiten"
 
@@ -402,6 +418,7 @@ msgstr "Nach RDF/JSON exportieren"
 msgid "Export to RDF/TTL"
 msgstr "Nach RDF/TTL exportieren"
 
+#: ../content/geodata.py:56
 #: ../content/harvester.py:47
 #: ../content/transfer.py:22
 msgid "Expression can not be parsed."
@@ -415,6 +432,14 @@ msgstr "Verantwortliche Stelle"
 msgid "FOAF:Agent"
 msgstr "Verantwortliche Stelle"
 
+#: ../content/geodata.py:120
+msgid "Fallback Catalog"
+msgstr "Ersatz Katalog"
+
+#: ../content/geodata.py:118
+msgid "Fallback Catalog for Datasets not listed in CSW"
+msgstr "Ersatz Katalog für Datensätze, die in den CSW-Daten noch fehlen"
+
 #: ../content/vcard_kind.py:75
 msgid "Fax Number"
 msgstr "Telefax"
@@ -423,13 +448,17 @@ msgstr "Telefax"
 msgid "Fax Numbers"
 msgstr "Telefax"
 
-#: ../constants.py:224
+#: ../constants.py:225
 msgid "File"
 msgstr "Datei"
 
-#: ../harvesting/processors/rdf_base.py:494
+#: ../harvesting/processors/rdf_base.py:495
 msgid "Finished reading of {top_node}"
 msgstr "Beende einlesen von {top_node}"
+
+#: ../harvesting/processors/rdf_base.py:626
+msgid "Finished {database}"
+msgstr ""
 
 #: ../languages.py:46
 msgid "Finnish"
@@ -552,11 +581,11 @@ msgstr "Ungarisch"
 msgid "Icon class for category"
 msgstr "Icon Klasse für die Kategorie"
 
-#: ../content/transfer.py:74
+#: ../content/transfer.py:75
 msgid "If enabled, will be run in cron jobs"
-msgstr ""
+msgstr "Wenn es freigegeben wurde, wird es in den Cron Jobs ausgeführt."
 
-#: ../constants.py:225
+#: ../constants.py:226
 msgid "Image"
 msgstr "Bilddatei"
 
@@ -591,9 +620,9 @@ msgstr "Installiert das pkan.dcatapde Add-on."
 msgid "Irish"
 msgstr "Irisch"
 
-#: ../content/transfer.py:73
+#: ../content/transfer.py:74
 msgid "Is Enabled"
-msgstr ""
+msgstr "Ist Freigegeben"
 
 #: ../i18n.py:200
 msgid "Issued"
@@ -602,6 +631,14 @@ msgstr "Veröffentlicht"
 #: ../languages.py:57
 msgid "Italian"
 msgstr "Italienisch"
+
+#: ../profiles/default/types/lgbharvester.xml
+msgid "LGB Geo Harvester"
+msgstr ""
+
+#: ../profiles/default/types/lgbharvester.xml
+msgid "LGB Geo Harvester Object"
+msgstr ""
 
 #: ../i18n.py:216
 msgid "Landing page"
@@ -615,8 +652,9 @@ msgstr "Sprachordner"
 msgid "Languages"
 msgstr "Sprachen"
 
+#: ../content/geodata.py:105
 #: ../content/harvester.py:95
-#: ../content/transfer.py:81
+#: ../content/transfer.py:82
 msgid "Last Run"
 msgstr "Letzte Ausführung"
 
@@ -650,11 +688,11 @@ msgstr "Verzeichnis der Lizenzen"
 
 #: ../i18n.py:68
 msgid "Link to an existing catalog. "
-msgstr ""
+msgstr "Verlinkung zu einem existierenden Katalog"
 
 #: ../i18n.py:73
 msgid "Link to an existing parent catalog. "
-msgstr ""
+msgstr "Verlinkung zu einem exsistierenden Eltern Katalog"
 
 #: ../i18n.py:229
 msgid "Literal"
@@ -684,7 +722,7 @@ msgstr "Verzeichnis der Standorte"
 msgid "Log:"
 msgstr "Log:"
 
-#: ../content/publisher_card.py:27
+#: ../content/publisher_card.py:31
 msgid "Logo"
 msgstr ""
 
@@ -869,7 +907,7 @@ msgstr "Datenbereitsteller Daten-Redaktion"
 msgid "Publisher"
 msgstr "Herausgeber"
 
-#: ../content/publisher_card.py:18
+#: ../content/publisher_card.py:22
 msgid "Publisher Name"
 msgstr "Name des Herausgebers"
 
@@ -877,11 +915,15 @@ msgstr "Name des Herausgebers"
 msgid "PublisherCard"
 msgstr ""
 
-#: ../harvesting/processors/rdf_base.py:548
+#: ../harvesting/processors/geodata.py:120
+msgid "Reading {kind} file"
+msgstr ""
+
+#: ../harvesting/processors/rdf_base.py:549
 msgid "Reading {kind} file {uri}"
 msgstr "Lese {kind} Datei {uri}"
 
-#: ../harvesting/processors/rdf_base.py:456
+#: ../harvesting/processors/rdf_base.py:457
 msgid "Reading {top_node}"
 msgstr ""
 
@@ -895,6 +937,7 @@ msgstr "Import starten"
 msgid "Registry has been updated. Please reload this page."
 msgstr "Die Registry wurde aktualisiert. Bitte laden Sie diese Seite neu."
 
+#: ../content/geodata.py:98
 #: ../content/harvester.py:88
 msgid "Reharvesting Period"
 msgstr "Periode für einen erneuten Harvest"
@@ -923,7 +966,7 @@ msgstr ""
 #: ../browser/content_views/templates/harvester_overview.pt:22
 #: ../browser/content_views/templates/transfer.pt:16
 msgid "Run in Cron"
-msgstr ""
+msgstr "Ausführung im Cronjob"
 
 #: ../i18n.py:231
 msgid "SCOS concept"
@@ -953,9 +996,9 @@ msgstr "Quellen für Kategorien"
 msgid "SKOS:ConceptScheme"
 msgstr "Kategorien"
 
-#: ../content/publisher_card.py:39
-msgid "SPARQL Identifier for Publisher"
-msgstr ""
+#: ../content/geodata.py:126
+msgid "SPARQL Identifier for Fallback Catalog"
+msgstr "Identifier des Ersatz Kataloges"
 
 #: ../browser/edit_views/harvester.py:20
 msgid "Save"
@@ -963,63 +1006,63 @@ msgstr "Speichern"
 
 #: ../i18n.py:45
 msgid "Select a access right from the list of available access rights. "
-msgstr ""
+msgstr "Wählen Sie Zugriffsrechte aus der bestehenden Liste aus"
 
 #: ../i18n.py:147
 msgid "Select a contact information. "
-msgstr ""
+msgstr "Wählen Sie Kontaktinformationen aus"
 
 #: ../i18n.py:53
 msgid "Select a contributor from the list of available contributors. "
-msgstr ""
+msgstr "Wählen Sie einen Mitwirkenden aus"
 
 #: ../i18n.py:58
 msgid "Select a creator from the list of available creators. "
-msgstr ""
+msgstr "Wählen Sie einen Creator aus"
 
 #: ../i18n.py:63
 msgid "Select a format from the list of available formats. "
-msgstr ""
+msgstr "Wählen Sie ein Format aus"
 
 #: ../i18n.py:78
 msgid "Select a license from the list of available licenses. "
-msgstr ""
+msgstr "Wählen Sie eine Lizens aus"
 
 #: ../i18n.py:93
 msgid "Select a location from the list of available locations. "
-msgstr ""
+msgstr "Wählen Sie eine Örtlichkeit aus"
 
 #: ../i18n.py:35
 msgid "Select a maintainer from the list of available maintainers. "
-msgstr ""
+msgstr "Wählen Sie einen Betreuer aus"
 
 #: ../i18n.py:30
 msgid "Select a media type from the list of available media types. "
-msgstr ""
+msgstr "Wählen Sie einen MediaType aus"
 
 #: ../i18n.py:83
 msgid "Select a publisher from the list of available publishers. "
-msgstr ""
+msgstr "Wählen Sie einen Herausgeber aus"
 
 #: ../i18n.py:88
 msgid "Select a rights statement from the list of available statements. "
-msgstr ""
+msgstr "Wählen Sie eine Rechteerklärung aus"
 
 #: ../i18n.py:48
 msgid "Select a standard from the list of available standards. "
-msgstr ""
+msgstr "Wählen Sie einen Standard aus"
 
 #: ../i18n.py:98
 msgid "Select a theme taxonomy from the list of available taxonomies. "
-msgstr ""
+msgstr "Wählen Sie eine Theme Taxanomie aus"
 
 #: ../i18n.py:40
 msgid "Select an originator from the list of available originators. "
-msgstr ""
+msgstr "Wählen Sie einen Urheber aus"
 
 #: ../i18n.py:146
 msgid "Select some SKOS Concepts. "
-msgstr ""
+msgstr "Wählen Sie die passenden Kategorien aus"
 
 #: ../browser/controlpanel/templates/controlpanel_layout_base.pt:26
 #: ../browser/controlpanel/templates/controlpanel_layout_folders.pt:26
@@ -1044,7 +1087,7 @@ msgstr "Format der Quelle"
 
 #: ../content/transfer.py:52
 msgid "Source Namespace"
-msgstr ""
+msgstr "Quell-Namespace"
 
 #: ../languages.py:55
 msgid "Spanish"
@@ -1054,10 +1097,11 @@ msgstr ""
 msgid "Spatial relevance"
 msgstr "Räumliche Bedeutung"
 
+#: ../content/geodata.py:89
 #: ../content/harvester.py:79
 #: ../content/transfer.py:53
 msgid "Specify a name for the tripelstore to harvest to. Only a single word without blanks allowed"
-msgstr ""
+msgstr "Wählen Sie eine Ziel RDF-Datenbank aus, in die gearvestet wird. Nur Einzelworte ohne Leerzeichen sind erlaubt."
 
 #: ../i18n.py:211
 msgid "Standard"
@@ -1079,21 +1123,22 @@ msgstr "Summe"
 msgid "Swedish"
 msgstr ""
 
+#: ../content/geodata.py:88
 #: ../content/harvester.py:78
-#: ../content/transfer.py:62
+#: ../content/transfer.py:63
 msgid "Target Namespace"
-msgstr ""
+msgstr "Ziel Namespace"
 
 #: ../browser/content_views/templates/transfer.pt:13
 #: ../browser/content_views/templates/transfer_overview.pt:17
 msgid "Target namespace"
-msgstr ""
+msgstr "Ziel Namespace"
 
 #: ../profiles.zcml:26
 msgid "Testfixture profile for pkan.dcatapde."
 msgstr ""
 
-#: ../content/publisher_card.py:33
+#: ../content/publisher_card.py:37
 msgid "Text"
 msgstr ""
 
@@ -1103,16 +1148,36 @@ msgstr ""
 
 #: ../i18n.py:145
 msgid "The URI describing this concept"
-msgstr "Die URI, die das Konzept beschribt"
+msgstr "Die URI, die das Konzept beschreibt"
 
-#: ../content/publisher_card.py:40
+#: ../content/geodata.py:127
+msgid "The URI of the Sparql-Object to be linked if no catalog is selected."
+msgstr "Die Uri des Kataloges, wenn keiner im Auswahlfeld gesetzt ist."
+
+#: ../content/geodata.py:132
 msgid "The URI of the Sparql-Object to be linked."
-msgstr ""
+msgstr "Die URI des Kataloges"
+
+#: ../content/geodata.py:71
+msgid "The URI of the csw data to be harvested."
+msgstr "Die Url für die CSW-Daten"
+
+#: ../content/geodata.py:83
+msgid "The URI of the dcm data to be harvested."
+msgstr "Die Url für die DCM-Daten"
+
+#: ../content/geodata.py:77
+msgid "The URI of the output Scheme."
+msgstr "Die URI für das Ausgabeschema"
 
 #: ../content/harvester.py:62
 #: ../content/transfer.py:37
 msgid "The URI of the source of data to be harvested."
 msgstr "Die URI der Datenquelle, die geharvestet werden soll."
+
+#: ../content/publisher_card.py:43
+msgid "The name must be identical to the name used in the faceted search (frontend). It is used to generate the short cut to the search results of the publisher. If the value differs from the foaf:name used in the data, no search results can be found."
+msgstr "Der Name muss identisch zum Wert der facetierten Suche (Frontend) sein. Er wird genutzt um einen Schnellzugriff auf die Suchergebnisse zu realisieren. Wenn der Wert vom foaf:name in den Daten abweicht, werden keine Ergebnisse gefunden."
 
 #: ../i18n.py:212
 msgid "Theme Taxonomy"
@@ -1190,24 +1255,32 @@ msgstr "Ansicht"
 
 #: ../i18n.py:168
 msgid "Visual representation of the category"
+msgstr "Visuelle Representation der Kategorie"
+
+#: ../harvesting/processors/rdf_base.py:605
+msgid "Working on {database}"
 msgstr ""
 
 #: ../content/dcat_distribution.py:153
 msgid "You have to provide a file or a dcat_accessURL."
 msgstr "Sie müssen eine Datei oder eine Zugangs-URL bereit stellen."
 
-#: ../content/transfer.py:92
+#: ../content/transfer.py:93
 msgid "You need a url with source_type or an namespace as source"
-msgstr ""
+msgstr "Sie benötigen URL und Quellformat oder einen Namespace als Quelle"
 
 #. Default: "last modified"
 #: ../browser/content_views/templates/folder_listing.pt:59
 msgid "box_last_modified"
 msgstr ""
 
-#: ../constants.py:222
+#: ../constants.py:223
 msgid "dcat_distribution"
 msgstr "Distribution"
+
+#: ../content/publisher_card.py:42
+msgid "foaf:name for Publisher"
+msgstr "foaf:name des Herausgebers"
 
 #. Default: "Up to Site Setup"
 #: ../browser/controlpanel/templates/controlpanel.pt:31
@@ -1228,6 +1301,22 @@ msgstr "pkan.dcatapde (deinstallieren)"
 msgid "pkan.dcatapde testfixture profile"
 msgstr ""
 
-#: ../harvesting/processors/rdf_base.py:575
+#: ../harvesting/processors/geodata.py:159
+msgid "{kind} Copy data to final DB {target}"
+msgstr ""
+
+#: ../harvesting/processors/geodata.py:142
+msgid "{kind} Skip writing data to final DB {target}"
+msgstr ""
+
+#: ../harvesting/processors/geodata.py:129
+msgid "{kind} file not read succesfully cause of SSLError"
+msgstr ""
+
+#: ../harvesting/processors/geodata.py:151
+msgid "{kind} file read succesfully"
+msgstr ""
+
+#: ../harvesting/processors/rdf_base.py:576
 msgid "{kind} file {uri} read succesfully"
 msgstr "{kind} Date {uri} erfolgreich eingelesen"

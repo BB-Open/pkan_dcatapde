@@ -171,18 +171,6 @@
 
   <!-- PublisherCard -->
   <!-- =============== -->
-  <subscriber
-    for="pkan.dcatapde.content.publisher_card.IPublisherCard
-         zope.lifecycleevent.IObjectAddedEvent
-        "
-    handler="pkan.dcatapde.content.publisher_card.publisher_card_modified"
-    />
-    <subscriber
-    for="pkan.dcatapde.content.publisher_card.IPublisherCard
-         zope.lifecycleevent.interfaces.IObjectModifiedEvent
-        "
-    handler="pkan.dcatapde.content.publisher_card.publisher_card_modified"
-    />
 
     <!-- LGB Harvester -->
     <!-- =============== -->

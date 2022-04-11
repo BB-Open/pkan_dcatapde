@@ -65,37 +65,22 @@ def target_namespace_constraint(value):
 class ILGBHarvester(model.Schema):
     """Marker interfce and Dexterity Python Schema for Harvester."""
 
-    # used
     csw_url = schema.URI(
         required=True,
         title=_(u'CSW URL'),
         description=_(u'The URI of the csw data to be harvested.'),
     )
 
-    # used
     csw_output_schema = schema.URI(
         required=True,
         title=_(u'CSW OUTPUT SCHEMA'),
         description=_(u'The URI of the output Scheme.'),
     )
 
-    csw_post_parameter = schema.Text(
-        required=False,
-        title=_(u'Post Parameter CSW'),
-        description=_(u'Post Paramater for CSW'),
-    )
-
-    # used
     dcm_url = schema.URI(
         required=True,
         title=_(u'DCM Source'),
         description=_(u'The URI of the dcm data to be harvested.'),
-    )
-
-    dcm_post_parameter = schema.Text(
-        required=False,
-        title=_(u'Post Parameter DCM'),
-        description=_(u'Post Paramater for DCM'),
     )
 
     target_namespace = schema.TextLine(

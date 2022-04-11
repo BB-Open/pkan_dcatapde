@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-11-16 14:21+0000\n"
+"POT-Creation-Date: 2022-04-11 14:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,8 +37,8 @@ msgstr ""
 msgid ":Deprecated"
 msgstr ""
 
-#: ../browser/content_views/harvester.py:163
-#: ../browser/content_views/transfer.py:162
+#: ../browser/content_views/harvester.py:191
+#: ../browser/content_views/transfer.py:163
 msgid "<p>Nothing to do</p>"
 msgstr ""
 
@@ -60,6 +60,10 @@ msgstr ""
 
 #: ../i18n.py:173
 msgid "Access URL"
+msgstr ""
+
+#: ../harvesting/processors/rdf_base.py:598
+msgid "Add Contributer IDs"
 msgstr ""
 
 #: ../content/vcard_kind.py:54
@@ -109,6 +113,14 @@ msgstr ""
 
 #: ../i18n.py:174
 msgid "Byte size"
+msgstr ""
+
+#: ../content/geodata.py:76
+msgid "CSW OUTPUT SCHEMA"
+msgstr ""
+
+#: ../content/geodata.py:70
+msgid "CSW URL"
 msgstr ""
 
 #: ../browser/edit_views/harvester.py:24
@@ -223,6 +235,10 @@ msgstr ""
 msgid "DCAT:Distribution"
 msgstr ""
 
+#: ../content/geodata.py:82
+msgid "DCM Source"
+msgstr ""
+
 #: ../profiles/default/types/dct_language.xml
 msgid "DCT Language Object"
 msgstr ""
@@ -326,7 +342,7 @@ msgstr ""
 msgid "Definition URI"
 msgstr ""
 
-#: ../content/publisher_card.py:22
+#: ../content/publisher_card.py:26
 #: ../i18n.py:195
 msgid "Description"
 msgstr ""
@@ -354,8 +370,8 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: ../browser/content_views/templates/harvester.pt:29
-#: ../browser/content_views/templates/harvester_overview.pt:33
+#: ../browser/content_views/templates/harvester.pt:33
+#: ../browser/content_views/templates/harvester_overview.pt:39
 msgid "Edit Harvester"
 msgstr ""
 
@@ -400,6 +416,7 @@ msgstr ""
 msgid "Export to RDF/TTL"
 msgstr ""
 
+#: ../content/geodata.py:56
 #: ../content/harvester.py:47
 #: ../content/transfer.py:22
 msgid "Expression can not be parsed."
@@ -413,6 +430,14 @@ msgstr ""
 msgid "FOAF:Agent"
 msgstr ""
 
+#: ../content/geodata.py:120
+msgid "Fallback Catalog"
+msgstr ""
+
+#: ../content/geodata.py:118
+msgid "Fallback Catalog for Datasets not listed in CSW"
+msgstr ""
+
 #: ../content/vcard_kind.py:75
 msgid "Fax Number"
 msgstr ""
@@ -421,12 +446,16 @@ msgstr ""
 msgid "Fax Numbers"
 msgstr ""
 
-#: ../constants.py:224
+#: ../constants.py:225
 msgid "File"
 msgstr ""
 
-#: ../harvesting/processors/rdf_base.py:494
+#: ../harvesting/processors/rdf_base.py:495
 msgid "Finished reading of {top_node}"
+msgstr ""
+
+#: ../harvesting/processors/rdf_base.py:626
+msgid "Finished {database}"
 msgstr ""
 
 #: ../languages.py:46
@@ -550,11 +579,11 @@ msgstr ""
 msgid "Icon class for category"
 msgstr ""
 
-#: ../content/transfer.py:74
+#: ../content/transfer.py:75
 msgid "If enabled, will be run in cron jobs"
 msgstr ""
 
-#: ../constants.py:225
+#: ../constants.py:226
 msgid "Image"
 msgstr ""
 
@@ -594,7 +623,7 @@ msgstr ""
 msgid "Irish"
 msgstr ""
 
-#: ../content/transfer.py:73
+#: ../content/transfer.py:74
 msgid "Is Enabled"
 msgstr ""
 
@@ -604,6 +633,14 @@ msgstr ""
 
 #: ../languages.py:57
 msgid "Italian"
+msgstr ""
+
+#: ../profiles/default/types/lgbharvester.xml
+msgid "LGB Geo Harvester"
+msgstr ""
+
+#: ../profiles/default/types/lgbharvester.xml
+msgid "LGB Geo Harvester Object"
 msgstr ""
 
 #: ../i18n.py:216
@@ -618,8 +655,9 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
+#: ../content/geodata.py:105
 #: ../content/harvester.py:95
-#: ../content/transfer.py:81
+#: ../content/transfer.py:82
 msgid "Last Run"
 msgstr ""
 
@@ -687,7 +725,7 @@ msgstr ""
 msgid "Log:"
 msgstr ""
 
-#: ../content/publisher_card.py:27
+#: ../content/publisher_card.py:31
 msgid "Logo"
 msgstr ""
 
@@ -872,7 +910,7 @@ msgstr ""
 msgid "Publisher"
 msgstr ""
 
-#: ../content/publisher_card.py:18
+#: ../content/publisher_card.py:22
 msgid "Publisher Name"
 msgstr ""
 
@@ -880,11 +918,15 @@ msgstr ""
 msgid "PublisherCard"
 msgstr ""
 
-#: ../harvesting/processors/rdf_base.py:548
+#: ../harvesting/processors/geodata.py:120
+msgid "Reading {kind} file"
+msgstr ""
+
+#: ../harvesting/processors/rdf_base.py:549
 msgid "Reading {kind} file {uri}"
 msgstr ""
 
-#: ../harvesting/processors/rdf_base.py:456
+#: ../harvesting/processors/rdf_base.py:457
 msgid "Reading {top_node}"
 msgstr ""
 
@@ -898,6 +940,7 @@ msgstr ""
 msgid "Registry has been updated. Please reload this page."
 msgstr ""
 
+#: ../content/geodata.py:98
 #: ../content/harvester.py:88
 msgid "Reharvesting Period"
 msgstr ""
@@ -956,8 +999,8 @@ msgstr ""
 msgid "SKOS:ConceptScheme"
 msgstr ""
 
-#: ../content/publisher_card.py:39
-msgid "SPARQL Identifier for Publisher"
+#: ../content/geodata.py:126
+msgid "SPARQL Identifier for Fallback Catalog"
 msgstr ""
 
 #: ../browser/edit_views/harvester.py:20
@@ -1057,6 +1100,7 @@ msgstr ""
 msgid "Spatial relevance"
 msgstr ""
 
+#: ../content/geodata.py:89
 #: ../content/harvester.py:79
 #: ../content/transfer.py:53
 msgid "Specify a name for the tripelstore to harvest to. Only a single word without blanks allowed"
@@ -1082,8 +1126,9 @@ msgstr ""
 msgid "Swedish"
 msgstr ""
 
+#: ../content/geodata.py:88
 #: ../content/harvester.py:78
-#: ../content/transfer.py:62
+#: ../content/transfer.py:63
 msgid "Target Namespace"
 msgstr ""
 
@@ -1096,7 +1141,7 @@ msgstr ""
 msgid "Testfixture profile for pkan.dcatapde."
 msgstr ""
 
-#: ../content/publisher_card.py:33
+#: ../content/publisher_card.py:37
 msgid "Text"
 msgstr ""
 
@@ -1108,13 +1153,33 @@ msgstr ""
 msgid "The URI describing this concept"
 msgstr ""
 
-#: ../content/publisher_card.py:40
+#: ../content/geodata.py:127
+msgid "The URI of the Sparql-Object to be linked if no catalog is selected."
+msgstr ""
+
+#: ../content/geodata.py:132
 msgid "The URI of the Sparql-Object to be linked."
+msgstr ""
+
+#: ../content/geodata.py:71
+msgid "The URI of the csw data to be harvested."
+msgstr ""
+
+#: ../content/geodata.py:83
+msgid "The URI of the dcm data to be harvested."
+msgstr ""
+
+#: ../content/geodata.py:77
+msgid "The URI of the output Scheme."
 msgstr ""
 
 #: ../content/harvester.py:62
 #: ../content/transfer.py:37
 msgid "The URI of the source of data to be harvested."
+msgstr ""
+
+#: ../content/publisher_card.py:43
+msgid "The name must be identical to the name used in the faceted search (frontend). It is used to generate the short cut to the search results of the publisher. If the value differs from the foaf:name used in the data, no search results can be found."
 msgstr ""
 
 #: ../i18n.py:212
@@ -1195,11 +1260,15 @@ msgstr ""
 msgid "Visual representation of the category"
 msgstr ""
 
+#: ../harvesting/processors/rdf_base.py:605
+msgid "Working on {database}"
+msgstr ""
+
 #: ../content/dcat_distribution.py:153
 msgid "You have to provide a file or a dcat_accessURL."
 msgstr ""
 
-#: ../content/transfer.py:92
+#: ../content/transfer.py:93
 msgid "You need a url with source_type or an namespace as source"
 msgstr ""
 
@@ -1208,8 +1277,12 @@ msgstr ""
 msgid "box_last_modified"
 msgstr ""
 
-#: ../constants.py:222
+#: ../constants.py:223
 msgid "dcat_distribution"
+msgstr ""
+
+#: ../content/publisher_card.py:42
+msgid "foaf:name for Publisher"
 msgstr ""
 
 #. Default: "Up to Site Setup"
@@ -1231,6 +1304,22 @@ msgstr ""
 msgid "pkan.dcatapde testfixture profile"
 msgstr ""
 
-#: ../harvesting/processors/rdf_base.py:575
+#: ../harvesting/processors/geodata.py:159
+msgid "{kind} Copy data to final DB {target}"
+msgstr ""
+
+#: ../harvesting/processors/geodata.py:142
+msgid "{kind} Skip writing data to final DB {target}"
+msgstr ""
+
+#: ../harvesting/processors/geodata.py:129
+msgid "{kind} file not read succesfully cause of SSLError"
+msgstr ""
+
+#: ../harvesting/processors/geodata.py:151
+msgid "{kind} file read succesfully"
+msgstr ""
+
+#: ../harvesting/processors/rdf_base.py:576
 msgid "{kind} file {uri} read succesfully"
 msgstr ""
