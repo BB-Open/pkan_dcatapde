@@ -52,15 +52,15 @@ class IPublisherCard(model.Schema):
         vocabulary='pkan.dcatapde.vocabularies.FOAFAgent',
     )
 
-    read_permission(sparql_identifier_input='cmf.ManagePortal')
-    write_permission(sparql_identifier_input='cmf.ManagePortal')
-    sparql_identifier_input = schema.URI(
+    read_permission(foaf_name_input='cmf.ManagePortal')
+    write_permission(foaf_name_input='cmf.ManagePortal')
+    foaf_name_input = schema.TextLine(
         required=False,
-        title=_(u'SPARQL Identifier for Publisher'),
-        description=_(u'The URI of the Sparql-Object to be linked if no publisher is selected.'),
+        title=_(u'foaf:Name for Publisher'),
+        description=_(u'The foaf:Name of the Sparql-Object to be linked if no publisher is selected.'),
     )
 
-    sparql_identifier = schema.URI(
+    foaf_name = schema.TextLine(
         title=_(u'SPARQL Identifier for Publisher'),
         description=_(u'The URI of the Sparql-Object to be linked.'),
         readonly=True
@@ -70,9 +70,11 @@ class IPublisherCard(model.Schema):
 def publisher_card_modified(obj, event):
     if obj.dct_publisher:
         pub_obj = api.content.get(UID=obj.dct_publisher)
-        if pub_obj.rdfs_isDefinedBy:
-            obj.sparql_identifier = pub_obj.rdfs_isDefinedBy
+        if pub_obj.foaf_name:
+            obj.foaf_name = pub_obj.foaf_name
+        elif pub_obj.rdfs_isDefinedBy:
+            obj.foaf_name = pub_obj.rdfs_isDefinedBy
         else:
-            obj.sparql_identifier = pub_obj.dct_identifier
+            obj.foaf_name = pub_obj.dct_identifier
     else:
-        obj.sparql_identifier = obj.sparql_identifier_input
+        obj.foaf_name = obj.foaf_name_input
