@@ -14,8 +14,9 @@ default:
   BATCH_COUNT : 100
   # Limit Total number of files
   TOTAL_COUNT_LIMIT : 100000
+  # default priority for iso2dcat
+  DEFAULT_PRIORITY : 15
 
-# :::::::::::::::::::
 # Parallel processing
 # :::::::::::::::::::
   NUM_CPU : 4
