@@ -1,30 +1,21 @@
-import os
 import sys
+from traceback import format_tb
 
 import pkan_config.config as pkan_cfg
-from dynaconf import Dynaconf
+from iso2dcat.main import Main
 from pyrdf4j.errors import URINotReachable
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
-
 from requests.exceptions import SSLError
+
+from pkan.dcatapde import _
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined
 from pkan.dcatapde.utils import LiteralHandler
-from pkan.dcatapde import _
-from iso2dcat.main import Main
-from pathlib import Path
-from traceback import format_tb
 
 
 def get_config(harvester):
     harvester = harvester
-    config_file = Path(os.path.abspath(__file__)).parent / 'geo_configs' /harvester.config
-    cfg = Dynaconf(
-        envvar_prefix='DYNACONF',  # replaced "DYNACONF" by 'DYNACONF'
-        settings_files=[config_file],
-        environments = True,
-        env = 'Production',
-    )
+    cfg = pkan_cfg.get_plone_harvester_config_by_name(harvester.config)
     cfg.DCM_URI = harvester.dcm_url
     cfg.CSW_URI = harvester.csw_url
     cfg.CSW_OUTPUT_SCHEMA = harvester.csw_output_schema
