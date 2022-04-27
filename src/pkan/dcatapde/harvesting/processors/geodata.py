@@ -19,6 +19,8 @@ def get_config(harvester):
     cfg.DCM_URI = harvester.dcm_url
     cfg.CSW_URI = harvester.csw_url
     cfg.CSW_OUTPUT_SCHEMA = harvester.csw_output_schema
+    cfg.FALLBACK_CATALOG_NAME = harvester.fallback_name
+    cfg.FALLBACK_URL = harvester.fallback_url
     return cfg
 
 
@@ -66,7 +68,6 @@ class GeodataRDFProcessor():
         self.config.RDF4J_BASE = cfg.RDF4J_BASE
         if not visitor.real_run:
             self.config.PARALLEL = False
-        self.config.FALLBACK_CATALOG_URL = self.harvester.sparql_identifier
         # todo: Read Information from Harvester
 
     @property

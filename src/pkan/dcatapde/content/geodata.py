@@ -78,9 +78,9 @@ class ILGBHarvester(model.Schema):
     )
 
     dcm_url = schema.URI(
-        required=True,
+        required=False,
         title=_(u'DCM Source'),
-        description=_(u'The URI of the dcm data to be harvested.'),
+        description=_(u'The URI of the dcm data to be harvested. DCM provides information about publishers, catalogs and priority. If not provided, Fallback-URL and Fallback-Name will be used.'),
     )
 
     target_namespace = schema.TextLine(
@@ -106,42 +106,17 @@ class ILGBHarvester(model.Schema):
         readonly=True,
     )
 
-    form.widget(
-        'dcat_catalog',
-        AjaxSelectAddFieldWidget,
-        content_type=constants.CT_DCAT_CATALOG,
-        content_type_title=i18n.LABEL_DCAT_CATALOG,
-        initial_path='/',
+    fallback_url = schema.URI(
+        required=True,
+        title=_(u'Fallback-Url'),
+        description=_(u'The base uri used for missing Information in DCM.'),
     )
 
-    dcat_catalog = schema.Choice(
-        description=_('Fallback Catalog for Datasets not listed in CSW'),
-        required=False,
-        title=_('Fallback Catalog'),
-        vocabulary='pkan.dcatapde.vocabularies.DCATCatalog',
+    fallback_name = schema.TextLine(
+        required=True,
+        title=_('Fallback-Name'),
+        description=_(u'Title of generated Fallback-Catalog and Fallback-Publisher for missinf Information in DCM')
     )
-
-    sparql_identifier_input = schema.URI(
-        required=False,
-        title=_(u'SPARQL Identifier for Fallback Catalog'),
-        description=_(u'The URI of the Sparql-Object to be linked if no catalog is selected.'),
-    )
-
-    sparql_identifier = schema.URI(
-        title=_(u'SPARQL Identifier for Fallback Catalog'),
-        description=_(u'The URI of the Sparql-Object to be linked.'),
-        readonly=True
-    )
-
-def lgb_harvester_modified(obj, event):
-    if obj.dcat_catalog:
-        cat_obj = api.content.get(UID=obj.dcat_catalog)
-        if cat_obj.rdfs_isDefinedBy:
-            obj.sparql_identifier = cat_obj.rdfs_isDefinedBy
-        else:
-            obj.sparql_identifier = cat_obj.dct_identifier
-    else:
-        obj.sparql_identifier = obj.sparql_identifier_input
 
 
 @implementer(ILGBHarvester)
