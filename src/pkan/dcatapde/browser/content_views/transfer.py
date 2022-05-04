@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 # from pkan.blazegraph.api import tripel_store
 # from pkan.blazegraph.errors import HarvestURINotReachable
-import sys
-import logging
-
-from Products.Five import BrowserView
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_transfer_folder
 from pkan.dcatapde.constants import CT_TRANSFER
@@ -12,13 +8,18 @@ from pkan.dcatapde.harvesting.processors.transfer import RDFProcessorTransfer
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
+from Products.Five import BrowserView
 from pyrdf4j.errors import URINotReachable
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
 from requests.exceptions import SSLError
 from zope.i18n import translate
 from zope.interface import alsoProvides
+
+import logging
 import pkan_config.config as pkan_cfg
+import sys
+
 
 logger = logging.getLogger('Plone')
 
@@ -108,7 +109,10 @@ class RealRunView(BrowserView):
             self.log.append(text)
         except URINotReachable:
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            msg = u"GET termiated due to error %s %s" % (exc_type, exc_value)
+            msg = u'GET termiated due to error {type} {val}'.format(
+                type=exc_type,
+                val=exc_value,
+            )
             logger.warn(msg)
             self.log.append('<p>URL not reachable. Skipping.</p>')
             self.log.append('<p>' + msg + '</p>')
@@ -189,7 +193,10 @@ class RealRunCronView(BrowserView):
                 self.log += self.real_run(obj)
             except URINotReachable:
                 exc_type, exc_value, exc_traceback = sys.exc_info()
-                msg = u"GET termiated due to error %s %s" % (exc_type, exc_value)
+                msg = u'GET termiated due to error {type} {val}'.format(
+                    type=exc_type,
+                    val=exc_value,
+                )
                 logger.warn(msg)
                 self.log.append('<p>URL not reachable. Skipping.</p>')
                 self.log.append('<p>' + msg + '</p>')

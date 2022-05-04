@@ -43,8 +43,6 @@ from plone.api import portal
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
-# todo: do we want to import plone for Namedfiles
-from plone.namedfile.file import NamedFile
 from plone.supermodel.interfaces import FIELDSETS_KEY
 from rdflib.namespace import FOAF
 from rdflib.namespace import RDFS
@@ -57,6 +55,7 @@ from zope.schema import getFieldsInOrder
 from zope.schema.vocabulary import SimpleTerm
 
 import rdflib
+
 
 IMP_OPTIONAL = 'optional'
 IMP_RECOMENDED = 'recommended'

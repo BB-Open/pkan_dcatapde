@@ -1,12 +1,15 @@
-from pkan.dcatapde.harvesting.manager import interfaces
+# -*- coding: utf-8 -*-
+from plone import api
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-from plone import api
+
 import pkan_config.config as pkan_cfg
 
+
 TEMP_SUFFIX = '_temp'
+
 
 @implementer(IVocabularyFactory)
 class DefaultStoresVocabulary(object):
@@ -46,6 +49,7 @@ class DefaultStoresVocabulary(object):
 
 
 DefaultStoresVocabFactory = DefaultStoresVocabulary()
+
 
 @implementer(IVocabularyFactory)
 class AllStoresVocabulary(object):

@@ -3,10 +3,10 @@
 from pkan.dcatapde import i18n
 from pkan.dcatapde.structure.interfaces import IStructure
 from pkan.dcatapde.utils import get_current_language
+from plone import api
 from plone.autoform.directives import read_permission
 from plone.autoform.directives import write_permission
 from plone.supermodel import model
-from plone import api
 
 import zope.schema as schema
 

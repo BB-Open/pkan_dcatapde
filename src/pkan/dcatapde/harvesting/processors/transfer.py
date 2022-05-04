@@ -13,6 +13,7 @@ from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
 from zope.component import adapter
 from zope.interface import implementer
+
 import pkan_config.config as pkan_cfg
 
 

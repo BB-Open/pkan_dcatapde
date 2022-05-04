@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 """Harvester Content Type."""
 from pkan.dcatapde import _
-from pkan.dcatapde.api.functions import query_published_objects_in_context
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
-from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
-from pkan.dcatapde.constants import RDF_FORMAT_METADATA
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.content.base import DCATMixin
@@ -14,8 +10,6 @@ from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 from pkan.dcatapde.i18n import HELP_REHARVESTING_PERIOD
-from pkan.dcatapde.structure.sparql import QUERY_A
-from pkan.dcatapde.structure.sparql import QUERY_A_STR
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from pytimeparse import parse
@@ -24,16 +18,7 @@ from zope.interface import implementer
 from zope.interface import Invalid
 
 import zope.schema as schema
-from pkan.widgets.ajaxselect.widget import AjaxSelectAddFieldWidget
-from plone.app.z3cform.wysiwyg import WysiwygFieldWidget
-from plone.autoform import directives as form
-from plone.autoform.directives import read_permission, write_permission
-from plone.namedfile.field import NamedBlobImage
-from plone.supermodel import model
-from zope.interface.declarations import implementer
-from plone.dexterity.content import Container, Item
-from plone import api
-from pkan.dcatapde import _, constants, i18n
+
 
 TARGET_NAMESPACE_REGEX = r'[a-zA-Z0-9_\-]*'
 
@@ -80,7 +65,10 @@ class ILGBHarvester(model.Schema):
     dcm_url = schema.URI(
         required=False,
         title=_(u'DCM Source'),
-        description=_(u'The URI of the dcm data to be harvested. DCM provides information about publishers, catalogs and priority. If not provided, Fallback-URL and Fallback-Name will be used.'),
+        description=_(
+            u'The URI of the dcm data to be harvested. DCM provides information about publishers, '
+            u'catalogs and priority. If not provided, Fallback-URL and Fallback-Name will be used.',
+        ),
     )
 
     target_namespace = schema.TextLine(
@@ -115,7 +103,9 @@ class ILGBHarvester(model.Schema):
     fallback_name = schema.TextLine(
         required=True,
         title=_('Fallback-Name'),
-        description=_(u'Title of generated Fallback-Catalog and Fallback-Publisher for missinf Information in DCM')
+        description=_(
+            u'Title of generated Fallback-Catalog and Fallback-Publisher for missinf Information in DCM',
+        ),
     )
 
 

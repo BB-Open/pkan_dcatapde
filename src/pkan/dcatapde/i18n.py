@@ -144,7 +144,7 @@ HELP_FOLDER_LANGUAGES = _(
 )
 HELP_RDFS_ISDEFINEDBY = _(u'The URI describing this concept')
 HELP_SKOS_CONCEPT = _(u'Select some SKOS Concepts. ' + HELP_SELECT_FIELD)
-HELP_VCARD_KIND = _(u'Select a contact information. '  + HELP_SELECT_FIELD)
+HELP_VCARD_KIND = _(u'Select a contact information. ' + HELP_SELECT_FIELD)
 HELP_SETTINGS_BASE = _(u'Manage base settings for PKAN.')
 HELP_SETTINGS_FOLDERS = _(u'Manage folder settings for PKAN.')
 HELP_SETTINGS_IMPORTS = _(u'Manage import settings for PKAN.')

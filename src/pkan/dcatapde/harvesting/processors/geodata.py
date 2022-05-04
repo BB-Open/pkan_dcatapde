@@ -1,16 +1,16 @@
-import sys
-from traceback import format_tb
-
-import pkan_config.config as pkan_cfg
+# -*- coding: utf-8 -*-
 from iso2dcat.main import Main
+from pkan.dcatapde import _
+from pkan.dcatapde.harvesting.errors import NoSourcesDefined
+from pkan.dcatapde.utils import LiteralHandler
 from pyrdf4j.errors import URINotReachable
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
 from requests.exceptions import SSLError
+from traceback import format_tb
 
-from pkan.dcatapde import _
-from pkan.dcatapde.harvesting.errors import NoSourcesDefined
-from pkan.dcatapde.utils import LiteralHandler
+import pkan_config.config as pkan_cfg
+import sys
 
 
 def get_config(harvester):
@@ -93,7 +93,10 @@ class GeodataRDFProcessor():
                 msg=msg,
             )
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            msg = u"GET termiated due to error %s %s" % (exc_type, exc_value)
+            msg = u'GET termiated due to error {type} {val}'.format(
+                type=exc_type,
+                val=exc_value,
+            )
             visitor.scribe.write(
                 level='error',
                 msg=msg,
@@ -136,7 +139,7 @@ class GeodataRDFProcessor():
                     level='error',
                     msg=msg,
                     kind='Geodata',
-                    target = self.target
+                    target=self.target,
                 )
             return
 
@@ -153,7 +156,7 @@ class GeodataRDFProcessor():
                 level='info',
                 msg=msg,
                 kind='Geodata',
-                target=self.target
+                target=self.target,
             )
             self.copy_data_to_target()
 

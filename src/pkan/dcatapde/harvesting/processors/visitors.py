@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Remembering things"""
-import html
 from datetime import datetime
 from pkan.dcatapde.structure.sparql import namespace_manager
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
@@ -8,6 +7,7 @@ from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from rdflib import URIRef
 
 import cgi
+import html
 import logging
 
 

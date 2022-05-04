@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 """Harvesting adapter."""
-from SPARQLWrapper.SmartWrapper import Value
 from pkan.dcatapde.constants import CT_ANY
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import HARVEST_TRIPELSTORE
@@ -15,9 +14,9 @@ from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
 from pkan.dcatapde.harvesting.processors.rdf_base import handle_identifiers
 from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
 from pkan.dcatapde.harvesting.processors.visitors import NT_RESIDUAL
+from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
-from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
 from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE
@@ -27,6 +26,7 @@ from pyrdf4j.rdf4j import RDF4J
 from rdflib.term import Literal
 from rdflib.term import URIRef
 from requests.auth import HTTPBasicAuth
+from SPARQLWrapper.SmartWrapper import Value
 
 import pkan_config.config as pkan_cfg
 
@@ -53,7 +53,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
         # todo: base in constants
         self._rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
-        self.auth= HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
+        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
 
         if visitor.real_run:
 

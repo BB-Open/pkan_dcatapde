@@ -54,7 +54,7 @@ class ITransfer(model.Schema):
             u'Specify a name for the tripelstore to harvest to. '
             u'Only a single word without blanks allowed',
         ),
-        vocabulary="pkan.dcatapde.AllStoresVocabulary",
+        vocabulary='pkan.dcatapde.AllStoresVocabulary',
         required=False,
     )
 
@@ -65,7 +65,7 @@ class ITransfer(model.Schema):
             u'Specify a name for the tripelstore to harvest to. '
             u'Only a single word without blanks allowed',
         ),
-        vocabulary="pkan.dcatapde.DefaultStoresVocabulary",
+        vocabulary='pkan.dcatapde.DefaultStoresVocabulary',
     )
 
     is_enabled = schema.Bool(

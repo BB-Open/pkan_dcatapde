@@ -381,9 +381,11 @@ def harvester_index(context):
 
             obj.reindexObject()
 
+
 def new_indexes(context):
     reload_gs_profile(context)
-    cts = [CT_DCAT_CATALOG,
+    cts = [
+        CT_DCAT_CATALOG,
         CT_DCAT_COLLECTION_CATALOG,
         CT_DCAT_DATASET,
         CT_DCAT_DISTRIBUTION,
@@ -396,7 +398,8 @@ def new_indexes(context):
         CT_SKOS_CONCEPTSCHEME,
         CT_RDFS_LITERAL,
         CT_DCT_LANGUAGE,
-        CT_SKOS_CONCEPT,]
+        CT_SKOS_CONCEPT,
+    ]
 
     for ct in cts:
         brains = api.content.find(**{'portal_type': ct})

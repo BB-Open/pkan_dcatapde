@@ -13,15 +13,14 @@ from pkan.dcatapde.structure.structure import IMP_REQUIRED
 from pkan.dcatapde.structure.structure import STRUCT_BY_NS_CLASS
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
 from pkan.dcatapde.utils import LiteralHandler
+from pyrdf4j.errors import URINotReachable
 from rdflib.term import URIRef
 from SPARQLWrapper.SmartWrapper import Value
 from traceback import format_tb
 from urllib import parse
-from pyrdf4j.errors import URINotReachable
 
 import rdflib
 import sys
-import traceback
 
 
 def cache_key(func, self):
@@ -478,8 +477,6 @@ class BaseRDFProcessor(object):
                         break
                     except KeyError:
                         pass
-
-
             args = {
                 'structure': struct,
             }
@@ -521,7 +518,10 @@ class BaseRDFProcessor(object):
                 msg=msg,
             )
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            msg = u"GET termiated due to error %s %s" % (exc_type, exc_value)
+            msg = u'GET termiated due to error {type} {val}'.format(
+                type=exc_type,
+                val=exc_value,
+            )
             visitor.scribe.write(
                 level='error',
                 msg=msg,
@@ -618,16 +618,18 @@ class BaseRDFProcessor(object):
                 <{s}> {p} <{o}> ."""
                 insert = INSERT.format(
                     s=obj['id']['value'],
-                        p='dcatde:contributorID',
+                    p='dcatde:contributorID',
                     o=CONTRIBUTER_ID,
                 )
-                self.rdf4j.add_data_to_repo(db, insert.encode('utf-8'), 'text/turtle',
-                                                   auth=self.auth)
+                self.rdf4j.add_data_to_repo(
+                    db,
+                    insert.encode('utf-8'),
+                    'text/turtle',
+                    auth=self.auth,
+                )
             msg = _(u'Finished {database}')
             visitor.scribe.write(
                 level='info',
                 msg=msg,
                 database=db,
             )
-
-

@@ -175,8 +175,6 @@ RDF_FORMAT_METADATA = {
     },
 }
 
-
-
 # Limit for preview output, if output is longer it will be shortened
 MAX_QUERY_PREVIEW_LENGTH = 1000
 

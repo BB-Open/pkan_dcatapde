@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from datetime import timedelta
-
-from pyrdf4j.errors import TerminatingError
-
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
-from pkan.dcatapde.constants import CT_HARVESTER, CT_LGBHARVESTER
+from pkan.dcatapde.constants import CT_HARVESTER
+from pkan.dcatapde.constants import CT_LGBHARVESTER
 from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.processors.geodata import GeodataRDFProcessor
 from pkan.dcatapde.harvesting.processors.rdf2tripelstore import MultiUrlTripleStoreRDFProcessor
@@ -16,6 +14,7 @@ from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
 from Products.Five import BrowserView
+from pyrdf4j.errors import TerminatingError
 from pytimeparse import parse
 from zope.i18n import translate
 from zope.interface import alsoProvides
@@ -31,7 +30,7 @@ class HarvesterListViewMixin(object):
         path = harv.absolute_url()
 
         url = None
-        if hasattr(harv, 'url'):
+        if hasattr(harv, 'url'):  # noqa P002
             url = harv.url
             csw_url = None
             dcm_url = None
@@ -172,8 +171,8 @@ class RealRunCronView(BrowserView):
 
         # res = visitor.scribe.html_log()
 
-        del rdfproc
-        del visitor
+        del rdfproc  # noqa F821
+        del visitor  # noqa F821
 
         harv.last_run = datetime.now()
         return ['<p>Harvester fertig, Siehe Logs für Details.</p>']
