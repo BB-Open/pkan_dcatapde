@@ -16,7 +16,10 @@ import sys
 def get_config(harvester):
     harvester = harvester
     cfg = pkan_cfg.get_plone_harvester_config_by_name(harvester.config)
-    cfg.DCM_URI = harvester.dcm_url
+    if harvester.dcm_url:
+        cfg.DCM_URI = harvester.dcm_url
+    else:
+        cfg.DCM_URI = None
     cfg.CSW_URI = harvester.csw_url
     cfg.CSW_OUTPUT_SCHEMA = harvester.csw_output_schema
     cfg.FALLBACK_CATALOG_NAME = harvester.fallback_name
