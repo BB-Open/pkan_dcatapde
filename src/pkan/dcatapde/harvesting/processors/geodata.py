@@ -131,7 +131,7 @@ class GeodataRDFProcessor():
         )
         with tempfile.NamedTemporaryFile(suffix='.yaml') as file:
             loaders.write(file.name, DynaBox(self.config.as_dict(env='Default')).to_dict(), env='Default')
-            res = subprocess.run(['python', os.path.abspath(__file__), '--file', file.name], capture_output=True)
+            res = subprocess.run([self.config.PYTHON_EXE, os.path.abspath(__file__), '--file', file.name], capture_output=True)
         if res.returncode == 0:
             pass
         else:
