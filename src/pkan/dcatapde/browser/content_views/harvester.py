@@ -142,7 +142,7 @@ class RealRunView(BrowserView):
         visitor.real_run = True
         rdfproc.prepare_and_run(visitor)
 
-        self.log = visitor.scribe.html_log()
+        self.log = []
 
         del rdfproc
         del visitor
