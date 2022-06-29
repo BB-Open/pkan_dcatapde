@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import gc
+import weakref
 from datetime import datetime
 from datetime import timedelta
+
+from Acquisition._Acquisition import aq_base
+
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER
@@ -143,18 +147,27 @@ class DryRunView(BrowserView):
 class RealRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
-        rdfproc = RDFProcessor_factory(self.context)
+        harvester = aq_base(self.context)
+
+        rdfproc = RDFProcessor_factory(weakref.proxy(harvester))
 
         visitor = DCATVisitor()
         visitor.real_run = True
-        rdfproc.prepare_and_run(visitor)
+        rdfproc.prepare_and_run(weakref.proxy(visitor))
 
         self.log = []
 
-        gc.get_referrers(visitor)
-        gc.get_referrers(rdfproc)
+        gc.collect()
 
+        x = gc.get_referrers(visitor)
+        y = gc.get_referrers(rdfproc)
+
+        del x
+        del y
+        del harvester
         del rdfproc
+        gc.collect()
+        x = gc.get_referrers(visitor)
         del visitor
 
         gc.collect()
