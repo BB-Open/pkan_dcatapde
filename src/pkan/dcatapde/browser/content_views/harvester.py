@@ -138,22 +138,23 @@ class RealRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
         newpid = os.fork()
-        rdfproc = RDFProcessor_factory(self.context)
+        if newpid == 0:
+            rdfproc = RDFProcessor_factory(self.context)
 
-        visitor = DCATVisitor()
-        visitor.real_run = True
-        rdfproc.prepare_and_run(visitor)
+            visitor = DCATVisitor()
+            visitor.real_run = True
+            rdfproc.prepare_and_run(visitor)
 
-        del rdfproc
-        del visitor
+            del rdfproc
+            del visitor
 
-        os._exit(0)
+            os._exit(0)
+        else:
+            self.log = []
 
-        self.log = []
+            self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
-        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
-
-        return super(RealRunView, self).__call__(*args, **kwargs)
+            return super(RealRunView, self).__call__(*args, **kwargs)
 
 
 class RealRunCronView(BrowserView):
