@@ -125,7 +125,7 @@ class DryRunView(BrowserView):
         visitor.real_run = False
         rdfproc.prepare_and_run(visitor)
 
-        self.log = []
+        self.log = visitor.scribe.html_log()
 
         # gc.get_referrers(visitor)
         # gc.get_referrers(rdfproc)
@@ -151,8 +151,13 @@ class RealRunView(BrowserView):
 
         self.log = []
 
+        gc.get_referrers(visitor)
+        gc.get_referrers(rdfproc)
+
         del rdfproc
         del visitor
+
+        gc.collect()
         self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
         return super(RealRunView, self).__call__(*args, **kwargs)
