@@ -1,4 +1,12 @@
 # -*- coding: utf-8 -*-
+import argparse
+import os
+import pickle
+import subprocess
+import tempfile
+
+from dynaconf import loaders, Dynaconf
+from dynaconf.utils.boxing import DynaBox
 from iso2dcat.main import Main
 from pkan.dcatapde import _
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined
@@ -121,25 +129,28 @@ class GeodataRDFProcessor():
             msg=msg,
             kind='Geodata',
         )
-        try:
-            Main().run(visitor=visitor, cfg=self.config)
-        except SSLError:
-            msg = _(u'{kind} file not read succesfully cause of SSLError')
+        with tempfile.NamedTemporaryFile(suffix='.yaml') as file:
+            loaders.write(file.name, DynaBox(self.config.as_dict(env='Default')).to_dict(), env='Default')
+            res = subprocess.run(['python', os.path.abspath(__file__), '--file', file.name], capture_output=True)
+        if res.returncode == 0:
+            pass
+        else:
+            msg = _(u'{kind} file not read succesfully cause of ReturnCode {code}')
             visitor.scribe.write(
                 level='error',
                 msg=msg,
                 kind='Geodata',
+                code = res.returncode
             )
-            for line in format_tb(sys.exc_info()[2]):
-                visitor.scribe.write(
-                    level='error',
-                    msg='{error}',
-                    error=line,
-                )
+            visitor.scribe.write(
+                level='error',
+                msg=res.stderr.decode(),
+                kind='Geodata'
+            )
             if self.target:
                 msg = _(u'{kind} Skip writing data to final DB {target}')
                 visitor.scribe.write(
-                    level='error',
+                    level='info',
                     msg=msg,
                     kind='Geodata',
                     target=self.target,
@@ -178,3 +189,22 @@ class GeodataRDFProcessor():
         cfg = pkan_cfg.get_config()
         self.rdf4j.create_repository(self.target, repo_type=cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
         self.rdf4j.move_data_between_repositorys(self.target, self.temp, self.auth, repo_type=cfg.RDF_REPO_TYPE)
+
+
+def run_iso():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--file')
+    args = parser.parse_args()
+    config = None
+    if args.file:
+        config = Dynaconf(
+            envvar_prefix='DYNACONF',  # replaced "DYNACONF" by 'DYNACONF'
+            settings_files=[args.file],
+            environments=True,
+            env='Default',
+        )
+    Main().run(cfg=config)
+
+
+if __name__ == '__main__':
+    run_iso()

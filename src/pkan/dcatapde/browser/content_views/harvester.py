@@ -155,22 +155,12 @@ class RealRunView(BrowserView):
         visitor.real_run = True
         rdfproc.prepare_and_run(weakref.proxy(visitor))
 
-        self.log = []
+        self.log = visitor.scribe.html_log()
 
-        gc.collect()
-
-        x = gc.get_referrers(visitor)
-        y = gc.get_referrers(rdfproc)
-
-        del x
-        del y
         del harvester
         del rdfproc
-        gc.collect()
-        x = gc.get_referrers(visitor)
         del visitor
 
-        gc.collect()
         self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
         return super(RealRunView, self).__call__(*args, **kwargs)
