@@ -144,10 +144,13 @@ class RealRunView(BrowserView):
         visitor.real_run = True
         rdfproc.prepare_and_run(visitor)
 
-        self.log = []
-
         del rdfproc
         del visitor
+
+        os._exit(0)
+
+        self.log = []
+
         self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
         return super(RealRunView, self).__call__(*args, **kwargs)
