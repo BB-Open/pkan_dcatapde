@@ -4,6 +4,7 @@ import os
 import pickle
 import subprocess
 import tempfile
+from pathlib import Path
 
 from dynaconf import loaders, Dynaconf
 from dynaconf.utils.boxing import DynaBox
@@ -131,7 +132,8 @@ class GeodataRDFProcessor():
         )
         with tempfile.NamedTemporaryFile(suffix='.yaml') as file:
             loaders.write(file.name, DynaBox(self.config.as_dict(env='Default')).to_dict(), env='Default')
-            res = subprocess.run([self.config.PYTHON_EXE, os.path.abspath(__file__), '--file', file.name], capture_output=True)
+            python_file = Path(os.path.abspath(__file__)).parent / 'run_iso2dcat.py'
+            res = subprocess.run([self.config.PYTHON_EXE, python_file, '--file', file.name], capture_output=True)
         if res.returncode == 0:
             pass
         else:
@@ -191,20 +193,4 @@ class GeodataRDFProcessor():
         self.rdf4j.move_data_between_repositorys(self.target, self.temp, self.auth, repo_type=cfg.RDF_REPO_TYPE)
 
 
-def run_iso():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--file')
-    args = parser.parse_args()
-    config = None
-    if args.file:
-        config = Dynaconf(
-            envvar_prefix='DYNACONF',  # replaced "DYNACONF" by 'DYNACONF'
-            settings_files=[args.file],
-            environments=True,
-            env='Default',
-        )
-    Main().run(cfg=config)
 
-
-if __name__ == '__main__':
-    run_iso()
