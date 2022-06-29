@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
+import gc
 from datetime import datetime
 from datetime import timedelta
 from pkan.dcatapde import _
@@ -125,10 +125,16 @@ class DryRunView(BrowserView):
         visitor.real_run = False
         rdfproc.prepare_and_run(visitor)
 
-        self.log = visitor.scribe.html_log()
+        self.log = []
+
+        # gc.get_referrers(visitor)
+        # gc.get_referrers(rdfproc)
 
         del rdfproc
         del visitor
+
+        gc.collect()
+
         self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
         return super(DryRunView, self).__call__(*args, **kwargs)
@@ -137,24 +143,19 @@ class DryRunView(BrowserView):
 class RealRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
-        newpid = os.fork()
-        if newpid == 0:
-            rdfproc = RDFProcessor_factory(self.context)
+        rdfproc = RDFProcessor_factory(self.context)
 
-            visitor = DCATVisitor()
-            visitor.real_run = True
-            rdfproc.prepare_and_run(visitor)
+        visitor = DCATVisitor()
+        visitor.real_run = True
+        rdfproc.prepare_and_run(visitor)
 
-            del rdfproc
-            del visitor
+        self.log = []
 
-            os._exit(0)
-        else:
-            self.log = []
+        del rdfproc
+        del visitor
+        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
 
-            self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
-
-            return super(RealRunView, self).__call__(*args, **kwargs)
+        return super(RealRunView, self).__call__(*args, **kwargs)
 
 
 class RealRunCronView(BrowserView):
