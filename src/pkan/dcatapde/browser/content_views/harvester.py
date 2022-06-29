@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from datetime import datetime
 from datetime import timedelta
 from pkan.dcatapde import _
@@ -136,6 +137,7 @@ class DryRunView(BrowserView):
 class RealRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
+        newpid = os.fork()
         rdfproc = RDFProcessor_factory(self.context)
 
         visitor = DCATVisitor()
