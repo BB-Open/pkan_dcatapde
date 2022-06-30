@@ -1,25 +1,20 @@
 # -*- coding: utf-8 -*-
-import argparse
 import os
-import pickle
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
-from dynaconf import loaders, Dynaconf
+import pkan_config.config as pkan_cfg
+from dynaconf import loaders
 from dynaconf.utils.boxing import DynaBox
-from iso2dcat.main import Main
-from pkan.dcatapde import _
-from pkan.dcatapde.harvesting.errors import NoSourcesDefined
-from pkan.dcatapde.utils import LiteralHandler
 from pyrdf4j.errors import URINotReachable
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
-from requests.exceptions import SSLError
-from traceback import format_tb
 
-import pkan_config.config as pkan_cfg
-import sys
+from pkan.dcatapde import _
+from pkan.dcatapde.harvesting.errors import NoSourcesDefined
+from pkan.dcatapde.utils import LiteralHandler
 
 
 def get_config(harvester):
@@ -130,19 +125,29 @@ class GeodataRDFProcessor():
             msg=msg,
             kind='Geodata',
         )
-        with tempfile.NamedTemporaryFile(suffix='.yaml') as file:
-            loaders.write(file.name, DynaBox(self.config.as_dict(env='Default')).to_dict(), env='Default')
-            python_file = Path(os.path.abspath(__file__)).parent / 'run_iso2dcat.py'
-            res = subprocess.run([self.config.PYTHON_EXE, python_file, '--file', file.name], capture_output=True)
+        file = tempfile.NamedTemporaryFile(suffix='.yaml')
+
+        stat_file = tempfile.NamedTemporaryFile(suffix='.txt')
+        loaders.write(file.name, DynaBox(self.config.as_dict(env='Default')).to_dict(), env='Default')
+        package_dir = Path(os.path.abspath(__file__)).parent
+        python_file = package_dir / 'run_iso2dcat.py'
+        res = subprocess.run([self.config.PYTHON_EXE, str(python_file), '--file', file.name, '--target', stat_file.name],
+                             capture_output=True)
+        file.close()
         if res.returncode == 0:
-            pass
+            for line in stat_file.readlines():
+                visitor.scribe.write(
+                    level='info',
+                    msg=line.decode(),
+                    kind='Geodata'
+                )
         else:
             msg = _(u'{kind} file not read succesfully cause of ReturnCode {code}')
             visitor.scribe.write(
                 level='error',
                 msg=msg,
                 kind='Geodata',
-                code = res.returncode
+                code=res.returncode
             )
             visitor.scribe.write(
                 level='error',
@@ -158,7 +163,7 @@ class GeodataRDFProcessor():
                     target=self.target,
                 )
             return
-
+        stat_file.close()
         msg = _(u'{kind} file read succesfully')
         visitor.scribe.write(
             level='info',
@@ -191,6 +196,3 @@ class GeodataRDFProcessor():
         cfg = pkan_cfg.get_config()
         self.rdf4j.create_repository(self.target, repo_type=cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
         self.rdf4j.move_data_between_repositorys(self.target, self.temp, self.auth, repo_type=cfg.RDF_REPO_TYPE)
-
-
-
