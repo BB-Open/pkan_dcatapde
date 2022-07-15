@@ -12,14 +12,14 @@ from pkan.dcatapde.harvesting.errors import RequiredPredicateMissing
 from pkan.dcatapde.harvesting.errors import UnkownBindingType
 from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
 from pkan.dcatapde.harvesting.processors.rdf_base import handle_identifiers
-from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
+from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor, NS_ERROR, NS_WARNING
 from pkan.dcatapde.harvesting.processors.visitors import NT_RESIDUAL
 from pkan.dcatapde.structure.sparql import QUERY_A_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ALL_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_ATT_STR_SPARQL
 from pkan.dcatapde.structure.sparql import QUERY_P
 from pkan.dcatapde.structure.sparql import QUERY_P_STR_SPARQL
-from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE
+from pkan.dcatapde.structure.structure import STRUCT_BY_PORTAL_TYPE, IMP_REQUIRED
 from pkan.dcatapde.structure.structure import StructRDFSLiteral
 # from pkan.blazegraph.api import tripel_store
 from pyrdf4j.rdf4j import RDF4J
@@ -254,6 +254,48 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         """
         return
 
+    def handle_list(self, visitor, res, **kwargs):
+        field = kwargs['field']
+        predicate = field['predicate']
+        node = kwargs['rdf_node']['value']
+        context = kwargs['context']
+
+        res = self.query_attribute(node, predicate)
+        subs = []
+        if res:
+            for uri in res:
+                sub_uri = uri['o']
+                sub = self.crawl(
+                    visitor,
+                    context=context,
+                    rdf_node=sub_uri,
+                    target_struct=field['object'],
+                )
+                if sub:
+                    subs.append(sub_uri['value'])
+        if len(subs) == 0:
+            if field['importance'] == IMP_REQUIRED:
+                visitor.scribe.write(
+                    level='error',
+                    msg=u'{type} object {obj}: required '
+                        u'attribute {att} not found',
+                    att=field['predicate'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
+                )
+                raise RequiredPredicateMissing
+            else:
+                visitor.scribe.write(
+                    level='warn',
+                    msg=u'{type} object {obj}: {imp} '
+                        u'attribute {att} not found',
+                    att=field['predicate'],
+                    imp=field['importance'],
+                    obj=kwargs['rdf_node'],
+                    type=kwargs['struct'].rdf_type,
+                )
+        return subs
+
     def handle_dict(self, visitor, res, **kwargs):
         obj_data = kwargs['obj_data']
         field_name = kwargs['field_name']
@@ -487,9 +529,12 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         )
 
         # end recursion
-        node = visitor.pop_node()
-
-        node.title = title
+        try:
+            node = visitor.pop_node()
+        except IndexError:
+            pass
+        else:
+            node.title = title
 
         return obj
 

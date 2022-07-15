@@ -229,7 +229,8 @@ class BaseRDFProcessor(object):
         else:
             # dealing with list like fields
             if field['type'] == list:
-                self.handle_list(visitor, res, **params)
+                subs = self.handle_list(visitor, res, **params)
+                obj_data[field_name] = subs
 
             # dealing with dict like fields aka Literals
             elif field['type'] == dict:
