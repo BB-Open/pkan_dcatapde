@@ -383,7 +383,12 @@ class BaseVisitor(object):
             try:
                 parent = self.node_stack[-1]
             except IndexError:
-                pass
+                node = Node(
+                    predicate,
+                    status=status,
+                    duplicate=is_duplicate,
+                    node_type=node_type,
+                )
             else:
                 node = Node(
                     predicate,
