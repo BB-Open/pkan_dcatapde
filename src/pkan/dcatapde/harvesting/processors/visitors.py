@@ -380,15 +380,19 @@ class BaseVisitor(object):
         # aka give a parent node. The parent node is found on the stack
         # also we derive the position of the childnode
         if obj == StructRDFSLiteral:
-            parent = self.node_stack[-1]
-            node = Node(
-                predicate,
-                status=status,
-                parent=parent,
-                position=parent.child_pos,
-                duplicate=is_duplicate,
-                node_type=node_type,
-            )
+            try:
+                parent = self.node_stack[-1]
+            except IndexError:
+                pass
+            else:
+                node = Node(
+                    predicate,
+                    status=status,
+                    parent=parent,
+                    position=parent.child_pos,
+                    duplicate=is_duplicate,
+                    node_type=node_type,
+                )
         else:
             # not a literal node so we build a node ..
             node = Node(
