@@ -18,6 +18,7 @@ from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER, COMPLETE_SUFFIX
 from pkan.dcatapde.constants import CT_LGBHARVESTER
 from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.harvesting.errors import NoSourcesDefined
 from pkan.dcatapde.harvesting.load_data.geodata import GeodataRDFProcessor
 from pkan.dcatapde.harvesting.load_data.rdf2tripelstore import MultiUrlTripleStoreRDFProcessor
 from pkan.dcatapde.harvesting.load_data.rdf2tripelstore import TripleStoreRDFProcessor
@@ -135,8 +136,6 @@ class RealRunView(BrowserView):
 
         self.log = visitor.scribe.html_log()
 
-        harvester.last_run = datetime.now()
-
         del harvester
         del rdfproc
         del validator
@@ -158,6 +157,7 @@ class RealRunCronView(BrowserView):
 
         visitor = DCATVisitor()
         visitor.real_run = True
+        validator = None
         try:
             rdfproc.prepare_and_run(visitor)
             validator = TripleStoreRDFValidator(harv)
@@ -167,7 +167,12 @@ class RealRunCronView(BrowserView):
             del rdfproc
             del visitor
             del validator
-            return ['<p>Harvester fehlgeschlagen, Siehe Logs für Details</p>']
+            return ['<p>Harvester fehlgeschlagen, siehe Logs für Details.</p>']
+        except NoSourcesDefined:
+            del rdfproc
+            del visitor
+            del validator
+            return ['<p>Harvester fehlgeschlagen, keine Quelldaten gefunden.</p>']
 
         # res = visitor.scribe.html_log()
 
@@ -175,7 +180,6 @@ class RealRunCronView(BrowserView):
         del visitor  # noqa F821
         del validator # noqa F821
 
-        harv.last_run = datetime.now()
         return ['<p>Harvester fertig, Siehe Logs für Details.</p>']
 
     def __call__(self, *args, **kwargs):

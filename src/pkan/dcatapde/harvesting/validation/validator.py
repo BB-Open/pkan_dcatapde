@@ -1,7 +1,11 @@
+from datetime import datetime
+
+import transaction
+from shacl.log.log import unregister_logger, get_logger
+from shacl.validate import ValidationRun
+
 from pkan.dcatapde.constants import ERROR_SUFFIX, COMPLETE_SUFFIX
 from pkan.dcatapde.harvesting.load_data.rdf_base import BaseRDFProcessor
-from shacl.validate import ValidationRun
-from shacl.log.log import unregister_logger, get_logger
 
 
 class TripleStoreRDFValidator(BaseRDFProcessor):
@@ -33,6 +37,14 @@ class TripleStoreRDFValidator(BaseRDFProcessor):
 
         # Todo: create reports
         #   store reports on harvester
+        msg = u'Setting Last Run to now.'
+        visitor.scribe.write(
+            level='info',
+            msg=msg,)
+
+        self.harvester.last_run = datetime.now()
+
+        transaction.commit()
 
         msg = u'Finished Validation'
         visitor.scribe.write(
