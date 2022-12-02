@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 
-from pkan.dcatapde import constants
-from pkan.dcatapde import i18n
 from plone.supermodel import model
 from zope import schema
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
 
 
 class IPkanDcatapdeLayer(IDefaultBrowserLayer):

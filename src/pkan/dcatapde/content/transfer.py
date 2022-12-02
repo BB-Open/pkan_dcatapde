@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """Transfer Content Type."""
-from pkan.dcatapde import _
-from pkan.dcatapde.content.base import DCATMixin
+from re import fullmatch
+
+import zope.schema as schema
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from pytimeparse import parse
-from re import fullmatch
-from zope.interface import implementer
 from zope.interface import Invalid
+from zope.interface import implementer
 from zope.interface import invariant
 
-import zope.schema as schema
-
+from pkan.dcatapde import _
+from pkan.dcatapde.content.base import DCATMixin
 
 TARGET_NAMESPACE_REGEX = r'[a-zA-Z0-9_\-]*'
 

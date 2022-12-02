@@ -2,10 +2,9 @@
 """RDF Backend store"""
 
 
-from pkan.dcatapde.structure.namespaces import INIT_NS
-
 import surf
 
+from pkan.dcatapde.structure.namespaces import INIT_NS
 
 surf.namespace.register(**INIT_NS)
 

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """DCAT field vocabularies."""
-from pkan.dcatapde.constants import DCAT_CTs
-from pkan.dcatapde.structure.interfaces import IStructure
 from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
@@ -9,6 +7,8 @@ from zope.interface import implementer
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
 
+from pkan.dcatapde.constants import DCAT_CTs
+from pkan.dcatapde.structure.interfaces import IStructure
 
 try:
     from zope.interface.interfaces import ComponentLookupError

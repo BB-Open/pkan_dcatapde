@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde import _
-from pkan.dcatapde import utils
-from pkan.dcatapde.content.harvester import IHarvester
 from plone.dexterity.browser import edit
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.z3cform import layout
 from z3c.form import button
 from zope.interface import classImplements
+
+from pkan.dcatapde import _
+from pkan.dcatapde import utils
+from pkan.dcatapde.content.harvester import IHarvester
 
 
 class HarvesterEditForm(edit.DefaultEditForm):

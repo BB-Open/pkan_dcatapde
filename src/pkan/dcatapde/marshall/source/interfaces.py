@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Marshaller source Interfaces."""
 
-from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from zope.interface import Attribute
+
+from pkan.dcatapde.marshall.interfaces import IMarshallSource
 
 
 class IDX2RDF(IMarshallSource):

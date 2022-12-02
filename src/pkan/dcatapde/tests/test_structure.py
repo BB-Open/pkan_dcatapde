@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 """tests for `structure`."""
 
+import unittest
+
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+
 from pkan.dcatapde import testing
 from pkan.dcatapde.structure.structure import StructDCATCatalog
 from pkan.dcatapde.structure.structure import StructDCATDataset
@@ -14,10 +19,6 @@ from pkan.dcatapde.structure.structure import StructFOAFAgent
 from pkan.dcatapde.structure.structure import StructSKOSConcept
 from pkan.dcatapde.structure.structure import StructSKOSConceptScheme
 from pkan.dcatapde.structure.structure import StructVCARDKind
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-
-import unittest
 
 
 class StructureTest(unittest.TestCase):

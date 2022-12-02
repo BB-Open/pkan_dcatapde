@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
+import surf
+from plone.api import content
+from plone.i18n.normalizer import idnormalizer
+from zExceptions import BadRequest
+
 from pkan.dcatapde.browser.update_views.update_base import UpdateObjectsBase
 from pkan.dcatapde.constants import CT_DCT_LANGUAGE
 from pkan.dcatapde.constants import FOLDER_LANGUAGES
 from pkan.dcatapde.interfaces import IPKANImportSettings
 from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
-from plone.api import content
-from plone.i18n.normalizer import idnormalizer
-from zExceptions import BadRequest
-
-import surf
-
 
 surf.namespace.register(ADMS='http://www.w3.org/ns/adms#')
 

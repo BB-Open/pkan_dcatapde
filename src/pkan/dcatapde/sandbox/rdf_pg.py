@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 """testing rdf an databases"""
 
+import vkbeautify as vkb
 from rdflib import Graph
 from rdflib import Literal
 from rdflib import plugin
 from rdflib.store import Store
 from rdflib_sqlalchemy import registerplugins
 from sqlalchemy.exc import IntegrityError
-
-import vkbeautify as vkb
-
 
 registerplugins()
 

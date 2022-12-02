@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.constants import FIELDSET_ORDER_AT_END
-from plone.dexterity.browser.view import DefaultView
 from Products.CMFCore.interfaces import IFolderish
+from plone.dexterity.browser.view import DefaultView
+
+from pkan.dcatapde.constants import FIELDSET_ORDER_AT_END
 
 
 class PKANDefaultView(DefaultView):

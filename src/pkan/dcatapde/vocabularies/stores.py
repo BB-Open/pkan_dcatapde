@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
+import pkan_config.config as pkan_cfg
 from plone import api
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-import pkan_config.config as pkan_cfg
-
-
-TEMP_SUFFIX = '_temp'
+from pkan.dcatapde.constants import COMPLETE_SUFFIX
 
 
 @implementer(IVocabularyFactory)
@@ -84,9 +82,9 @@ class AllStoresVocabulary(object):
             )
             terms.append(
                 SimpleTerm(
-                    value=store + TEMP_SUFFIX,
-                    token=store + TEMP_SUFFIX,
-                    title=store + TEMP_SUFFIX,
+                    value=store + COMPLETE_SUFFIX,
+                    token=store + COMPLETE_SUFFIX,
+                    title=store + COMPLETE_SUFFIX,
                 ),
             )
         for store in DEFAULT_STORES:

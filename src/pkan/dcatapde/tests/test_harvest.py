@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 """Content type tests for `harvester`."""
+import unittest
+
+import requests
+from pkan.dcatapde.harvesting.manager import interfaces
+from pkan.dcatapde.harvesting.load_data.visitors import DCATVisitor
+from plone import api
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+
 from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from pkan.dcatapde.browser.content_views.harvester import RDFProcessor_factory
 from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.harvesting.manager import interfaces
-from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
-from plone import api
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-
-import requests
-import unittest
-
 
 FIXTURE_URL = 'https://raw.githubusercontent.com/BB-Open/pkan.dcatapde/master/src/pkan/dcatapde/tests/fixtures/potsdam.ttl'  # noqa: E501
 

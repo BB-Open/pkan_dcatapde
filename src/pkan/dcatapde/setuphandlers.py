@@ -1,23 +1,24 @@
 # -*- coding: utf-8 -*-
 """Post install import steps for pkan.dcatapde."""
+from Products.CMFPlone.interfaces import INonInstallable
+from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
+from Products.ZCatalog.interfaces import IZCatalog
+from plone.api import content
+from plone.api import portal
+from plone.app.dexterity.behaviors import constrains
+from plone.indexer.interfaces import IIndexer
+from zope.component import getGlobalSiteManager
+from zope.interface import Interface
+from zope.interface import implementer
+from zope.interface.declarations import Implements
+from zope.interface.declarations import implementedBy
+
 from pkan.dcatapde import constants
 from pkan.dcatapde.content.dcat_catalog import DCATCatalog
 from pkan.dcatapde.content.dcat_collectioncatalog import DCATCollectionCatalog
 from pkan.dcatapde.content.dcat_dataset import DCATDataset
 from pkan.dcatapde.content.dcat_distribution import DCATDistribution
 from pkan.dcatapde.content.foaf_agent import FOAFAgent
-from plone.api import content
-from plone.api import portal
-from plone.app.dexterity.behaviors import constrains
-from plone.indexer.interfaces import IIndexer
-from Products.CMFPlone.interfaces import INonInstallable
-from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
-from Products.ZCatalog.interfaces import IZCatalog
-from zope.component import getGlobalSiteManager
-from zope.interface import implementer
-from zope.interface import Interface
-from zope.interface.declarations import implementedBy
-from zope.interface.declarations import Implements
 
 
 @implementer(INonInstallable)

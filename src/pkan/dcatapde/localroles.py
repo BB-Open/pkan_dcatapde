@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde import _
 from plone.app.workflow import permissions
 from plone.app.workflow.interfaces import ISharingPageRole
 from plone.app.workflow.permissions import DelegateRoles
 from zope.interface import implementer
+
+from pkan.dcatapde import _
 
 
 @implementer(ISharingPageRole)

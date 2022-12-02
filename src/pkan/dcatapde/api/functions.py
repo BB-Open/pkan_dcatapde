@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+from plone import api
+from plone.api.exc import UserNotFoundError
+from plone.api.user import get_roles
+
 from pkan.dcatapde import constants
 # get functions
 from pkan.dcatapde.constants import ACTIVE_STATE
@@ -8,9 +12,6 @@ from pkan.dcatapde.constants import PKAN_STATE_NAME
 from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
 from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
 from pkan.dcatapde.constants import PROVIDER_DATA_EDITOR_ROLE
-from plone import api
-from plone.api.exc import UserNotFoundError
-from plone.api.user import get_roles
 
 
 def get_user_roles():

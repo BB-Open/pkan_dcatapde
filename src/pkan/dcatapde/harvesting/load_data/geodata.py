@@ -15,6 +15,7 @@ from requests.auth import HTTPBasicAuth
 from pkan.dcatapde import _
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined
 from pkan.dcatapde.utils import LiteralHandler
+from pkan.dcatapde.constants import COMPLETE_SUFFIX
 
 
 def get_config(harvester):
@@ -48,34 +49,22 @@ class GeodataRDFProcessor():
         self.def_lang = 'de'
 
         self.tripel_db_name = self.harvester.id_in_tripel_store
-        self.tripel_temp_db_name = self.tripel_db_name + '_temp'
-        self.tripel_dry_run_db = self.tripel_db_name + '_dryrun'
+        self.tripel_temp_db_name = self.tripel_db_name + COMPLETE_SUFFIX
 
         cfg = pkan_cfg.get_config()
 
         self._rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
         self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
 
-        if visitor.real_run:
-            self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
-                                          auth=self.auth)
-            self.temp = self.tripel_temp_db_name
-            self.target = self.tripel_db_name
-        else:
-
-            self._rdf4j.create_repository(self.tripel_dry_run_db, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
-                                          auth=self.auth)
-            self.temp = self.tripel_dry_run_db
-            self.target = None
+        self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
+                                      auth=self.auth)
+        self.temp = self.tripel_temp_db_name
 
         self.config = get_config(self.harvester)
         self.config.WRITE_TO = self.temp
         self.config.ADMIN_USER = cfg.ADMIN_USER
         self.config.ADMIN_PASS = cfg.ADMIN_PASS
         self.config.RDF4J_BASE = cfg.RDF4J_BASE
-        if not visitor.real_run:
-            self.config.PARALLEL = False
-        # todo: Read Information from Harvester
 
     @property
     def rdf4j(self):
@@ -110,10 +99,8 @@ class GeodataRDFProcessor():
             )
             return
 
-        if visitor.real_run:
-            msg = u'starting harvest real run'
-        else:
-            msg = u'starting harvest dry run'
+        msg = u'starting harvest real run'
+
         visitor.scribe.write(
             level='info',
             msg=msg,
@@ -154,14 +141,6 @@ class GeodataRDFProcessor():
                 msg=res.stderr.decode(),
                 kind='Geodata'
             )
-            if self.target:
-                msg = _(u'{kind} Skip writing data to final DB {target}')
-                visitor.scribe.write(
-                    level='info',
-                    msg=msg,
-                    kind='Geodata',
-                    target=self.target,
-                )
             return
         stat_file.close()
         msg = _(u'{kind} file read succesfully')
@@ -171,28 +150,11 @@ class GeodataRDFProcessor():
             kind='Geodata',
         )
 
-        if self.target:
-            msg = _(u'{kind} Copy data to final DB {target}')
-            visitor.scribe.write(
-                level='info',
-                msg=msg,
-                kind='Geodata',
-                target=self.target,
-            )
-            self.copy_data_to_target()
+        msg = u'Finished harvest real run'
 
-        if visitor.real_run:
-            msg = u'Finished harvest real run'
-        else:
-            msg = u'Finished harvest dry run'
         visitor.scribe.write(
             level='info',
             msg=msg,
         )
 
         return visitor.scribe.html_log()
-
-    def copy_data_to_target(self):
-        cfg = pkan_cfg.get_config()
-        self.rdf4j.create_repository(self.target, repo_type=cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
-        self.rdf4j.move_data_between_repositorys(self.target, self.temp, self.auth, repo_type=cfg.RDF_REPO_TYPE)

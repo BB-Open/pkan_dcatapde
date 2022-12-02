@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Test vocabulary utilities."""
 
-from pkan.dcatapde import testing
-
 import unittest
+
+from pkan.dcatapde import testing
 
 
 class TestParseQuery(unittest.TestCase):

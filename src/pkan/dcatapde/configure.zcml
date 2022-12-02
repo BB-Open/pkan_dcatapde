@@ -23,7 +23,6 @@
 
   <include package=".browser" />
   <include package=".content" />
-  <include package=".harvesting"/>
   <include package=".marshall"/>
   <include package=".structure" />
   <include package=".vocabularies" />

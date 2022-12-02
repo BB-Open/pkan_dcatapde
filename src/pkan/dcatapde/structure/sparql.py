@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Helpers for SPQRQL"""
 
-from .namespaces import INIT_NS
 from rdflib import Graph
 from rdflib.namespace import NamespaceManager
 from rdflib.plugins.sparql import prepareQuery
 
+from .namespaces import INIT_NS
 
 # Construct a namespace manager to get abbreviated URIRefs for
 # known namespaces. e.g.

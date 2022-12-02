@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 """Vocabularies and sources for content types."""
 from BTrees._IIBTree import intersection
+from plone import api
+from plone.app.vocabularies.catalog import KeywordsVocabulary
+from plone.app.vocabularies.terms import safe_encode
+from zope.interface import implementer
+from zope.interface import provider
+from zope.schema.interfaces import IContextSourceBinder
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+
 from pkan.dcatapde import constants
 from pkan.dcatapde.api.functions import query_active_objects
 from pkan.dcatapde.api.functions import query_objects_no_pkanstate
@@ -11,15 +21,6 @@ from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.i18n import CT_LABELS
 from pkan.dcatapde.utils import get_request_annotations
 from pkan.dcatapde.vocabularies import utils as vutils
-from plone import api
-from plone.app.vocabularies.catalog import KeywordsVocabulary
-from plone.app.vocabularies.terms import safe_encode
-from zope.interface import implementer
-from zope.interface import provider
-from zope.schema.interfaces import IContextSourceBinder
-from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
 
 
 @provider(IContextSourceBinder)

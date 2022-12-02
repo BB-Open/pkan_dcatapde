@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.constants import IMPRESSUM
-from plone import api
 from Products.CMFPlone.browser.contact_info import ContactForm
 from Products.Five import BrowserView
+from plone import api
+
+from pkan.dcatapde.constants import IMPRESSUM
 
 
 class RedirectImpressumIfExists(BrowserView):

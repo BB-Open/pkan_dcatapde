@@ -4,9 +4,9 @@
 import itertools
 import os
 import re
-import responses
 import urllib
 
+import responses
 
 HOST = 'demoapi.com'
 BASE_URL = 'https://{0}'.format(HOST)

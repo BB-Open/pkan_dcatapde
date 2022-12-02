@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """Test UI with robot framework."""
 
-from pkan.dcatapde import testing
+import os
+import unittest
+
+import robotsuite
 from plone import api
 from plone.testing import layered
 
-import os
-import robotsuite
-import unittest
+from pkan.dcatapde import testing
 
 
 def test_suite():

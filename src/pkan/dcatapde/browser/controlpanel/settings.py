@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 """PKAN Control Panel."""
 
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone import api
+from plone.app.registry.browser import controlpanel
+from plone.protect.utils import addTokenToUrl
+from z3c.form import button
+from zope.interface import implementer
+
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
 from pkan.dcatapde import interfaces
 from pkan.dcatapde.browser.controlpanel import base
-from plone import api
-from plone.app.registry.browser import controlpanel
-from plone.protect.utils import addTokenToUrl
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from z3c.form import button
-from zope.interface import implementer
 
 
 @implementer(interfaces.IPKANBaseSettings)

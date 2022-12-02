@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
+from Products.Five import BrowserView
+from plone import api
+from zope.i18n import translate
+
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_parent
 from pkan.dcatapde.api.functions import is_admin
@@ -14,9 +18,6 @@ from pkan.dcatapde.constants import SIZE_UNIT
 from pkan.dcatapde.constants import VOLUMN_TYPES
 from pkan.dcatapde.i18n import LABEL_SUM
 from pkan.dcatapde.i18n import VOLUMN_RESULT_STRING
-from plone import api
-from Products.Five import BrowserView
-from zope.i18n import translate
 
 
 class LandingPageView(BrowserView):

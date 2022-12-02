@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """PublisherCard Content Type."""
-from pkan.dcatapde import _
+import zope.schema as schema
 from plone.app.z3cform.wysiwyg import WysiwygFieldWidget
 from plone.autoform import directives as form
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
 
-import zope.schema as schema
+from pkan.dcatapde import _
 
 
 class IPublisherCard(model.Schema):

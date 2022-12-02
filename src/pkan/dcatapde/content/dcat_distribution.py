@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 """DCATDistribution Content Type."""
-from pkan.dcatapde import _
-from pkan.dcatapde import constants
-from pkan.dcatapde import i18n
-from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.content.base import IDCAT
+import datetime
+
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.autoform import directives as form
 from plone.autoform.directives import read_permission
@@ -16,11 +13,15 @@ from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope import schema
-from zope.interface import implementer
 from zope.interface import Invalid
+from zope.interface import implementer
 from zope.interface import invariant
 
-import datetime
+from pkan.dcatapde import _
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
+from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 
 
 class IDCATDistribution(model.Schema, IDCAT):

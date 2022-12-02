@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """DCATCatalog Content Type."""
 
+from ps.zope.i18nfield.fieldproperty import I18NTextProperty
+from zope.interface import implementer
+
 from pkan.dcatapde import constants
 from pkan.dcatapde.content.dcat_catalog import DCATCatalog
 from pkan.dcatapde.content.dcat_catalog import IDCATCatalog
-from ps.zope.i18nfield.fieldproperty import I18NTextProperty
-from zope.interface import implementer
 
 
 class IDCATCollectionCatalog(IDCATCatalog):

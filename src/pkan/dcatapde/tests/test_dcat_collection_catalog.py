@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 """Content type tests for `dcat_catalog`."""
 
-from pkan.dcatapde import constants
-from pkan.dcatapde import testing
-from pkan.dcatapde.content.dcat_collectioncatalog import IDCATCollectionCatalog
+import unittest
+
 from plone import api
-from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import createObject
 from zope.component import queryUtility
 
-import unittest
+from pkan.dcatapde import constants
+from pkan.dcatapde import testing
+from pkan.dcatapde.content.dcat_collectioncatalog import IDCATCollectionCatalog
 
 
 class CatalogIntegrationTest(unittest.TestCase):

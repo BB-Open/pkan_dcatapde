@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 """DCTMediaTypeOrExtent Content Type."""
 
-from pkan.dcatapde import constants
-from pkan.dcatapde import i18n
-from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.content.base import IDCAT
 from plone.dexterity.content import Item
 from plone.indexer.decorator import indexer
 from plone.supermodel import model
@@ -13,6 +9,11 @@ from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope import schema
 from zope.interface import implementer
+
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
+from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 
 
 class IDCTMediaTypeOrExtent(model.Schema, IDCAT):

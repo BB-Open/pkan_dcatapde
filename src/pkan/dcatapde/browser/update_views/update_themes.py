@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
+import rdflib
+import surf
+from plone.api import content
+from plone.api import portal
+from ps.zope.i18nfield.utils import get_default_language
+from zope.i18n import translate
+
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 from pkan.dcatapde.browser.update_views.update_base import UpdateObjectsBase
@@ -8,14 +15,6 @@ from pkan.dcatapde.constants import FOLDER_CONCEPTS
 from pkan.dcatapde.interfaces import IPKANImportSettings
 from pkan.dcatapde.utils import get_available_languages_iso
 from pkan.dcatapde.utils import get_available_languages_title
-from plone.api import content
-from plone.api import portal
-from ps.zope.i18nfield.utils import get_default_language
-from zope.i18n import translate
-
-import rdflib
-import surf
-
 
 MAPPING = {
     'dct_title': 'skos_prefLabel',

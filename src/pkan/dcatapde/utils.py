@@ -1,15 +1,8 @@
 # -*- coding: utf-8 -*-
 """Utilities."""
 from collections import OrderedDict
+
 from DateTime.DateTime import time
-from pkan.dcatapde.api.functions import query_active_objects
-from pkan.dcatapde.constants import CT_DCT_LANGUAGE
-from pkan.dcatapde.constants import CT_LANGUAGE_FOLDER
-from pkan.dcatapde.constants import FOLDER_LANGUAGES
-from pkan.dcatapde.constants import LANGUAGE_CACHE_TIMEOUT
-from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
-from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
-from pkan.dcatapde.languages import DEFAULT_LANGUAGE
 from plone import api
 from plone.api import portal
 from plone.memoize import ram
@@ -19,6 +12,15 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import queryUtility
 from zope.globalrequest import getRequest
 from zope.interface import implementer
+
+from pkan.dcatapde.api.functions import query_active_objects
+from pkan.dcatapde.constants import CT_DCT_LANGUAGE
+from pkan.dcatapde.constants import CT_LANGUAGE_FOLDER
+from pkan.dcatapde.constants import FOLDER_LANGUAGES
+from pkan.dcatapde.constants import LANGUAGE_CACHE_TIMEOUT
+from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_ISO
+from pkan.dcatapde.languages import AVAILABLE_LANGUAGES_TITLE
+from pkan.dcatapde.languages import DEFAULT_LANGUAGE
 
 
 def cache_key_iso(func, self):

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """DCATCatalog Content Type."""
-from pkan.dcatapde import constants
-from pkan.dcatapde import i18n
-from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.content.base import IDCAT
+import datetime
+
+import zope.schema as schema
 from pkan.widgets.ajaxselect import AjaxSelectAddFieldWidget
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.autoform import directives as form
@@ -14,8 +13,10 @@ from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope.interface import implementer
 
-import datetime
-import zope.schema as schema
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
+from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 
 
 class IDCATCatalog(model.Schema, IDCAT):

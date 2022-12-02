@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 """Test view for the import of Licenses"""
-from pkan.dcatapde import _
-from pkan.dcatapde.utils import get_available_languages_iso
-from pkan.dcatapde.utils import get_available_languages_title
-from pkan.dcatapde.utils import get_default_language
+import os
+from urllib import parse
+
+import rdflib
+import surf
 from plone.api import content
 from plone.api import portal
 from plone.i18n.normalizer import idnormalizer
 from rdflib import URIRef
-from urllib import parse
 from zExceptions import BadRequest
 from zope.i18n import translate
 
-import os
-import rdflib
-import surf
-
+from pkan.dcatapde import _
+from pkan.dcatapde.utils import get_available_languages_iso
+from pkan.dcatapde.utils import get_available_languages_title
+from pkan.dcatapde.utils import get_default_language
 
 surf.namespace.register(ADMS='http://www.w3.org/ns/adms#')
 

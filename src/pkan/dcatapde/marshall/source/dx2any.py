@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 """Recursive crawler through objects and properties for marshalling"""
+import logging
+
+from Products.CMFCore.interfaces import IFolderish
+from plone.api import content
+from plone.app.contenttypes.behaviors.collection import ICollection
+from zope.component import adapter
+from zope.component import queryMultiAdapter
+from zope.interface import Interface
+from zope.interface import implementer
+
 from pkan.dcatapde.api.functions import check_published
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.structure.structure import IStructure
-from plone.api import content
-from plone.app.contenttypes.behaviors.collection import ICollection
-from Products.CMFCore.interfaces import IFolderish
-from zope.component import adapter
-from zope.component import queryMultiAdapter
-from zope.interface import implementer
-from zope.interface import Interface
-
-import logging
-
 
 logger = logging.getLogger('Plone')
 

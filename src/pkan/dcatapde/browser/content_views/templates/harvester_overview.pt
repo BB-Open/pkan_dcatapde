@@ -16,7 +16,6 @@
                   <td i18n:translate="">Complete Namespace</td>
                   <td i18n:translate="">Clean Namespace</td>
                   <td i18n:translate="">Edit</td>
-                  <td i18n:translate="">Dry Run</td>
                   <td i18n:translate="">Real Run</td>
                   <!--<td i18n:translate="">Reset Fields</td>-->
                   <td i18n:translate="">Run in Cron</td>
@@ -38,8 +37,6 @@
                     <td tal:content="harv/clean_namespace"></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/edit">Edit Harvester</a></td>
-                    <td><a i18n:translate=""
-                           tal:attributes="href harv/dry_run">Dry Run</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/real_run">Real Run</a></td>
                     <td tal:content="harv/reharvesting_period"></td>

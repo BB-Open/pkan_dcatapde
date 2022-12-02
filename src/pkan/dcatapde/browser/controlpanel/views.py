@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Configuration Views."""
 
-from pkan.dcatapde import _
 from Products.Five.browser import BrowserView
+
+from pkan.dcatapde import _
 
 
 class MainControlPanelView(BrowserView):

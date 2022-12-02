@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """testing rdf an databases"""
 
+import surf
 from rdflib import Graph
 from rdflib import Literal
 from rdflib import plugin
 from rdflib.store import Store
 from rdflib_sqlalchemy import registerplugins
-
-import surf
-
 
 registerplugins()
 

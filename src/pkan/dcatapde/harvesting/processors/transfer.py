@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
-# from pkan.blazegraph.api import tripel_store
-from pkan.dcatapde.constants import RDF_FORMAT_METADATA
-from pkan.dcatapde.content.transfer import ITransfer
+import pkan_config.config as pkan_cfg
 from pkan.dcatapde.harvesting.manager.base import IFaceToRDFFormatKey
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
+from pkan.dcatapde.harvesting.load_data.rdf_base import BaseRDFProcessor
 from plone.api import content
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
 from zope.component import adapter
 from zope.interface import implementer
 
-import pkan_config.config as pkan_cfg
+# from pkan.blazegraph.api import tripel_store
+from pkan.dcatapde.constants import RDF_FORMAT_METADATA
+from pkan.dcatapde.content.transfer import ITransfer
 
 
 @adapter(ITransfer)

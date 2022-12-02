@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 """RDF view."""
 
+import os
+
+from unidecode import unidecode
+from zope.component import queryMultiAdapter
+
 # from pkan.dcatapde.marshall.source.interfaces import IDX2Any
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_METADATA
@@ -8,11 +13,6 @@ from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.constants import RDF_FORMAT_XML
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.target.rdf import RDFMarshallTarget
-from unidecode import unidecode
-from zope.component import queryMultiAdapter
-
-import os
-
 
 try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from Products.Five import BrowserView
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
-from Products.Five import BrowserView
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
 

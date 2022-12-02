@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from zope.i18n import translate
-from zope.i18nmessageid.message import Message
-
 import logging
 
+from zope.i18n import translate
+from zope.i18nmessageid.message import Message
 
 LEVEL_COLOR = {
     'INFO': 'green',

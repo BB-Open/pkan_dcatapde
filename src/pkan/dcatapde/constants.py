@@ -70,7 +70,7 @@ DCAT_TOP_NODES = [
 # DCAT predicates
 DP_DCAT_DATASET = 'dcat:Dataset'
 
-# HTML filled with error information from harvesting dry_run
+# HTML filled with error information from harvesting real_run
 ERROR_HTML_LINE = '<p>Found error {error} on field {field}</p>'
 
 #: Default folder shortname for agents.
@@ -234,3 +234,7 @@ HARVEST_TRIPELSTORE = 'Tripelstore'
 
 # DCAT DATA
 CONTRIBUTER_ID = 'https://www.dcat-ap.de/def/contributors/20211108#landBrandenburg'
+
+# store suffix
+COMPLETE_SUFFIX = '_complete'
+ERROR_SUFFIX = '_error'

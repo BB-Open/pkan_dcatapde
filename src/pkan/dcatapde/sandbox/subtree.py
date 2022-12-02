@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from pkan.dcatapde.structure.sparql import DCAT
-from pkan.dcatapde.structure.sparql import QUERY_A
 from rdflib import Graph
 from rdflib import URIRef
 from rdflib.plugins.memory import IOMemory
 
+from pkan.dcatapde.structure.sparql import DCAT
+from pkan.dcatapde.structure.sparql import QUERY_A
 
 MAX_DEPTH = 5
 

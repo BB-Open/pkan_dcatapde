@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """Remembering things"""
-from datetime import datetime
-from pkan.dcatapde.structure.sparql import namespace_manager
-from pkan.dcatapde.structure.structure import StructRDFSLiteral
-# from plone.api.portal import translate
-from rdflib import URIRef
-
 import cgi
 import html
 import logging
+from datetime import datetime
 
+# from plone.api.portal import translate
+from rdflib import URIRef
+
+from pkan.dcatapde.structure.sparql import namespace_manager
+from pkan.dcatapde.structure.structure import StructRDFSLiteral
 
 logger = logging.getLogger('Plone')
 

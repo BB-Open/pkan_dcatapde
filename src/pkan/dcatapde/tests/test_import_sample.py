@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Sample Test."""
 
-from pkan.dcatapde import testing
-from pkan.dcatapde.tests import utils
+import unittest
 
 import requests
-import unittest
+
+from pkan.dcatapde import testing
+from pkan.dcatapde.tests import utils
 
 
 class TestImport(unittest.TestCase):

@@ -1,6 +1,23 @@
 # -*- coding: utf-8 -*-
 """Structure of the dcat-AP.de scheme"""
 from datetime import datetime
+
+import rdflib
+from plone.api import portal
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.behavior.interfaces import IBehavior
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.supermodel.interfaces import FIELDSETS_KEY
+from rdflib.namespace import FOAF
+from rdflib.namespace import RDFS
+from rdflib.namespace import SKOS
+from zope.component import adapter
+from zope.component import getUtility
+from zope.i18n import translate
+from zope.interface import implementer
+from zope.schema import getFieldsInOrder
+from zope.schema.vocabulary import SimpleTerm
+
 from pkan.dcatapde import _
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
@@ -39,23 +56,6 @@ from pkan.dcatapde.structure.namespaces import DCT
 from pkan.dcatapde.structure.namespaces import INIT_NS
 from pkan.dcatapde.structure.namespaces import VCARD
 from pkan.dcatapde.utils import get_current_language
-from plone.api import portal
-from plone.autoform.interfaces import IFormFieldProvider
-from plone.behavior.interfaces import IBehavior
-from plone.dexterity.interfaces import IDexterityFTI
-from plone.supermodel.interfaces import FIELDSETS_KEY
-from rdflib.namespace import FOAF
-from rdflib.namespace import RDFS
-from rdflib.namespace import SKOS
-from zope.component import adapter
-from zope.component import getUtility
-from zope.i18n import translate
-from zope.interface import implementer
-from zope.schema import getFieldsInOrder
-from zope.schema.vocabulary import SimpleTerm
-
-import rdflib
-
 
 IMP_OPTIONAL = 'optional'
 IMP_RECOMENDED = 'recommended'

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # from pkan.blazegraph.api import tripel_store
 # from pkan.blazegraph.errors import HarvestURINotReachable
-from pkan.dcatapde import _
-from pkan.dcatapde.api.functions import get_all_transfer_folder
-from pkan.dcatapde.constants import CT_TRANSFER
-from pkan.dcatapde.harvesting.processors.transfer import RDFProcessorTransfer
+import logging
+import sys
+
+import pkan_config.config as pkan_cfg
+from Products.Five import BrowserView
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
-from Products.Five import BrowserView
 from pyrdf4j.errors import URINotReachable
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
@@ -16,10 +16,10 @@ from requests.exceptions import SSLError
 from zope.i18n import translate
 from zope.interface import alsoProvides
 
-import logging
-import pkan_config.config as pkan_cfg
-import sys
-
+from pkan.dcatapde import _
+from pkan.dcatapde.api.functions import get_all_transfer_folder
+from pkan.dcatapde.constants import CT_TRANSFER
+from pkan.dcatapde.harvesting.processors.transfer import RDFProcessorTransfer
 
 logger = logging.getLogger('Plone')
 

@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 """Harvesting manager."""
+import datetime
+
+from pkan.dcatapde.harvesting.load_data.rdf_base import BaseRDFProcessor
+from pkan.dcatapde.harvesting.load_data.visitors import DCATVisitor
+from pkan.dcatapde.harvesting.load_data.visitors import RealRunVisitor
+from zope.component import adapter
+from zope.interface import implementer
+
 from pkan.dcatapde.constants import RDF_FORMAT_JSONLD
 from pkan.dcatapde.constants import RDF_FORMAT_TURTLE
 from pkan.dcatapde.constants import RDF_FORMAT_XML
@@ -7,14 +15,6 @@ from pkan.dcatapde.content.harvester import IHarvester
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.processors.rdf_base import BaseRDFProcessor
-from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
-from pkan.dcatapde.harvesting.processors.visitors import RealRunVisitor
-from zope.component import adapter
-from zope.interface import implementer
-
-import datetime
-
 
 IFaceToRDFFormatKey = {
     IRDFTTL: RDF_FORMAT_TURTLE,

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
 
-from pkan.dcatapde import testing
+import unittest
+
 from plone import api
 from plone.browserlayer.utils import registered_layers
 
-import unittest
+from pkan.dcatapde import testing
 
 
 class TestSetup(unittest.TestCase):

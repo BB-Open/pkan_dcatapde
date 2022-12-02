@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """Test Dcat Field Vocabulary."""
 
+import unittest
+
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from zope.schema.interfaces import IVocabularyTokenized
+
 from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from pkan.dcatapde.vocabularies.dcat_field import DcatFieldVocabulary
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from zope.schema.interfaces import IVocabularyTokenized
-
-import unittest
 
 
 class TestDcatFieldVocabulary(unittest.TestCase):

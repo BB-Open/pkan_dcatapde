@@ -1,11 +1,27 @@
 # -*- coding: utf-8 -*-
 """Upgrades."""
+import transaction
 from AccessControl import Unauthorized
 from Acquisition import aq_base
 from Acquisition import aq_inner
+from Products.CMFCore.interfaces import ISiteRoot
+from plone import api
+from plone.app.upgrade.utils import loadMigrationProfile
+from plone.app.workflow.interfaces import ISharingPageRole
+from plone.dexterity.factory import DexterityFactory
+from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.interfaces import IDexterityFactory
+from ps.zope.i18nfield.field import I18NText
+from ps.zope.i18nfield.field import I18NTextLine
+from zope.component import IFactory
+from zope.component import getSiteManager
+from zope.component import getUtility
+from zope.component import queryUtility
+from zope.schema import getFields
+
 from pkan.dcatapde.api.functions import get_parent
 from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_CATALOG, COMPLETE_SUFFIX
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
@@ -31,22 +47,6 @@ from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 from pkan.dcatapde.utils import get_available_languages_iso
-from plone import api
-from plone.app.upgrade.utils import loadMigrationProfile
-from plone.app.workflow.interfaces import ISharingPageRole
-from plone.dexterity.factory import DexterityFactory
-from plone.dexterity.interfaces import IDexterityFactory
-from plone.dexterity.interfaces import IDexterityFTI
-from Products.CMFCore.interfaces import ISiteRoot
-from ps.zope.i18nfield.field import I18NText
-from ps.zope.i18nfield.field import I18NTextLine
-from zope.component import getSiteManager
-from zope.component import getUtility
-from zope.component import IFactory
-from zope.component import queryUtility
-from zope.schema import getFields
-
-import transaction
 
 
 def update_role_mappings(context):
@@ -407,5 +407,26 @@ def new_indexes(context):
             continue
         for brain in brains:
             obj = brain.getObject()
+
+            obj.reindexObject()
+
+
+def replace_temp_by_complete(context):
+    reload_gs_profile(context)
+    cts = [
+        CT_TRANSFER,
+    ]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+
+            obj.title = obj.title.replace('_temp', COMPLETE_SUFFIX)
+            obj.target_namespace = obj.target_namespace.replace('_temp', COMPLETE_SUFFIX)
+            if obj.source_namespace:
+                obj.source_namespace = obj.source_namespace.replace('_temp', COMPLETE_SUFFIX)
 
             obj.reindexObject()

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """Utils"""
-from pkan.dcatapde.utils import get_current_language
-from pkan.dcatapde.utils import get_default_language
 from plone.app.content.interfaces import INameFromTitle
 from zope.interface import implementer
+
+from pkan.dcatapde.utils import get_current_language
+from pkan.dcatapde.utils import get_default_language
 
 
 def I18NField2Unique(obj):

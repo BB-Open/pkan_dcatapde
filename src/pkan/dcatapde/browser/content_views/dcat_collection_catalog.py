@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
-from pkan.dcatapde.api.functions import get_ancestor
-from pkan.dcatapde.constants import CT_DCAT_CATALOG
-from pkan.dcatapde.constants import CT_DCAT_DATASET
-from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 from plone import api
 from plone.app.contenttypes.behaviors.collection import ICollection
 from plone.app.dexterity.browser.folder_listing import FolderView
 from plone.dexterity.browser.view import DefaultView
+
+from pkan.dcatapde.api.functions import get_ancestor
+from pkan.dcatapde.constants import CT_DCAT_CATALOG
+from pkan.dcatapde.constants import CT_DCAT_DATASET
+from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
 
 
 class DcatCollectionCatalogFolderListing(FolderView):

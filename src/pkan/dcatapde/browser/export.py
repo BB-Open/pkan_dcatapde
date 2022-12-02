@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.io.rdf.export import RDFMarshaller
-from unidecode import unidecode
-
 import os
 
+from pkan.dcatapde.io.rdf.export import RDFMarshaller
+from unidecode import unidecode
 
 try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))

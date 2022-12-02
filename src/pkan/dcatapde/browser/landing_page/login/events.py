@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde.constants import LANDING_PAGE_VIEW
 from plone import api
+
+from pkan.dcatapde.constants import LANDING_PAGE_VIEW
 
 
 def userLogin(obj, event):

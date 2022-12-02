@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Vocabularies and sources for content types."""
 from operator import itemgetter
+
 from plone import api
 from plone.app.vocabularies.language import AvailableContentLanguageVocabulary
 from zope.interface import implementer

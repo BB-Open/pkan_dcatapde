@@ -5,25 +5,9 @@
 
   <browser:page
     for="pkan.dcatapde.content.harvester.IHarvester"
-    name="dry_run"
-    class=".harvester.DryRunView"
-    template="templates/dry_run.pt"
-    permission="cmf.ManagePortal"
-  />
-
-  <browser:page
-    for="pkan.dcatapde.content.harvester.IHarvester"
     name="real_run"
     class=".harvester.RealRunView"
-    template="templates/dry_run.pt"
-    permission="cmf.ManagePortal"
-  />
-
-  <browser:page
-    for="pkan.dcatapde.content.geodata.ILGBHarvester"
-    name="dry_run"
-    class=".harvester.DryRunView"
-    template="templates/dry_run.pt"
+    template="templates/real_run.pt"
     permission="cmf.ManagePortal"
   />
 
@@ -31,7 +15,7 @@
     for="pkan.dcatapde.content.geodata.ILGBHarvester"
     name="real_run"
     class=".harvester.RealRunView"
-    template="templates/dry_run.pt"
+    template="templates/real_run.pt"
     permission="cmf.ManagePortal"
   />
 
@@ -39,7 +23,7 @@
     for="*"
     name="real_run_cron_harvest"
     class=".harvester.RealRunCronView"
-    template="templates/dry_run.pt"
+    template="templates/real_run.pt"
     permission="cmf.ManagePortal"
   />
 
@@ -47,7 +31,7 @@
     for="*"
     name="real_run_cron"
     class=".cron.RealRunCronView"
-    template="templates/dry_run.pt"
+    template="templates/real_run.pt"
     permission="cmf.ManagePortal"
   />
 
@@ -71,7 +55,7 @@
     for="pkan.dcatapde.content.transfer.ITransfer"
     name="real_run_transfer"
     class=".transfer.RealRunView"
-    template="templates/dry_run.pt"
+    template="templates/real_run.pt"
     permission="cmf.ManagePortal"
   />
 
@@ -79,7 +63,7 @@
     for="*"
     name="real_run_cron_transfer"
     class=".transfer.RealRunCronView"
-    template="templates/dry_run.pt"
+    template="templates/real_run.pt"
     permission="cmf.ManagePortal"
   />
 

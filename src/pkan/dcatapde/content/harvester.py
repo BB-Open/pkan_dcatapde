@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
 """Harvester Content Type."""
+from re import fullmatch
+
+import zope.schema as schema
+from plone.dexterity.content import Container
+from plone.supermodel import model
+from pytimeparse import parse
+from zope.interface import Invalid
+from zope.interface import implementer
+
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import query_published_objects_in_context
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
@@ -16,15 +25,6 @@ from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 from pkan.dcatapde.i18n import HELP_REHARVESTING_PERIOD
 from pkan.dcatapde.structure.sparql import QUERY_A
 from pkan.dcatapde.structure.sparql import QUERY_A_STR
-from plone.dexterity.content import Container
-from plone.supermodel import model
-from pytimeparse import parse
-from re import fullmatch
-from zope.interface import implementer
-from zope.interface import Invalid
-
-import zope.schema as schema
-
 
 TARGET_NAMESPACE_REGEX = r'[a-zA-Z0-9_\-]*'
 

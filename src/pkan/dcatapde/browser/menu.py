@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pkan.dcatapde import _
 from plone import api
 from plone.app.contentmenu.interfaces import IActionsSubMenuItem
 from plone.app.contentmenu.interfaces import IWorkflowMenu
@@ -11,6 +10,8 @@ from plone.protect.utils import addTokenToUrl
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import implementer
+
+from pkan.dcatapde import _
 
 
 @implementer(IActionsSubMenuItem)

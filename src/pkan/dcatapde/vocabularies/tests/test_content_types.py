@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 """Test license document related vocabularies."""
-from pkan.dcatapde import constants
-from pkan.dcatapde import testing
+import unittest
+
 from plone import api
-from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.interfaces import IVocabularyTokenized
 
-import unittest
+from pkan.dcatapde import constants
+from pkan.dcatapde import testing
 
 
 class BaseTestMixin():

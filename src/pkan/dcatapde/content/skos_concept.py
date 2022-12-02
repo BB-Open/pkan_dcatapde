@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 """SKOSConcept Content Type."""
 
-from pkan.dcatapde import _
-from pkan.dcatapde import constants
-from pkan.dcatapde import i18n
-from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.content.base import IDCAT
-from pkan.dcatapde.i18n import HELP_FOAF_DEPICTION
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
@@ -14,6 +8,13 @@ from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
 from zope import schema
 from zope.interface import implementer
+
+from pkan.dcatapde import _
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
+from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
+from pkan.dcatapde.i18n import HELP_FOAF_DEPICTION
 
 
 class ISKOSConcept(model.Schema, IDCAT):

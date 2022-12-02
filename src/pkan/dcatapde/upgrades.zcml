@@ -209,4 +209,13 @@
       handler=".upgrades.reload_gs_profile"
       />
 
+      <genericsetup:upgradeStep
+      source="*"
+      destination="2010"
+      title="Reload GS profiles: New Suffix for complete stores"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.replace_temp_by_complete"
+      />
+
 </configure>

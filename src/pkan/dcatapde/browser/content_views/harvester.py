@@ -1,28 +1,28 @@
 # -*- coding: utf-8 -*-
-import gc
 import weakref
 from datetime import datetime
 from datetime import timedelta
 
 from Acquisition._Acquisition import aq_base
-
-from pkan.dcatapde import _
-from pkan.dcatapde.api.functions import get_all_harvester_folder
-from pkan.dcatapde.constants import CT_HARVESTER
-from pkan.dcatapde.constants import CT_LGBHARVESTER
-from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.harvesting.processors.geodata import GeodataRDFProcessor
-from pkan.dcatapde.harvesting.processors.rdf2tripelstore import MultiUrlTripleStoreRDFProcessor
-from pkan.dcatapde.harvesting.processors.rdf2tripelstore import TripleStoreRDFProcessor
-from pkan.dcatapde.harvesting.processors.visitors import DCATVisitor
+from Products.Five import BrowserView
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
-from Products.Five import BrowserView
 from pyrdf4j.errors import TerminatingError
 from pytimeparse import parse
 from zope.i18n import translate
 from zope.interface import alsoProvides
+
+from pkan.dcatapde import _
+from pkan.dcatapde.api.functions import get_all_harvester_folder
+from pkan.dcatapde.constants import CT_HARVESTER, COMPLETE_SUFFIX
+from pkan.dcatapde.constants import CT_LGBHARVESTER
+from pkan.dcatapde.content.harvester import IHarvester
+from pkan.dcatapde.harvesting.load_data.geodata import GeodataRDFProcessor
+from pkan.dcatapde.harvesting.load_data.rdf2tripelstore import MultiUrlTripleStoreRDFProcessor
+from pkan.dcatapde.harvesting.load_data.rdf2tripelstore import TripleStoreRDFProcessor
+from pkan.dcatapde.harvesting.load_data.visitors import DCATVisitor
+from pkan.dcatapde.harvesting.validation.validator import TripleStoreRDFValidator
 
 
 class HarvesterListViewMixin(object):
@@ -39,7 +39,7 @@ class HarvesterListViewMixin(object):
             url = harv.url
             csw_url = None
             dcm_url = None
-            complete_namespace = harv.target_namespace + '_temp'
+            complete_namespace = harv.target_namespace + COMPLETE_SUFFIX
         else:
             # special case GEO Import
             url = None
@@ -53,7 +53,6 @@ class HarvesterListViewMixin(object):
             'source_url': url,
             'dcm': dcm_url,
             'csw': csw_url,
-            'dry_run': addTokenToUrl(path + '/dry_run'),
             'real_run': addTokenToUrl(path + '/real_run'),
             'edit': addTokenToUrl(path + '/edit'),
             'clean_namespace': harv.target_namespace,
@@ -119,31 +118,6 @@ def RDFProcessor_factory(harvester):
         return GeodataRDFProcessor(harvester)
 
 
-class DryRunView(BrowserView):
-
-    def __call__(self, *args, **kwargs):
-
-        rdfproc = RDFProcessor_factory(self.context)
-
-        visitor = DCATVisitor()
-        visitor.real_run = False
-        rdfproc.prepare_and_run(visitor)
-
-        self.log = visitor.scribe.html_log()
-
-        # gc.get_referrers(visitor)
-        # gc.get_referrers(rdfproc)
-
-        del rdfproc
-        del visitor
-
-        gc.collect()
-
-        self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
-
-        return super(DryRunView, self).__call__(*args, **kwargs)
-
-
 class RealRunView(BrowserView):
 
     def __call__(self, *args, **kwargs):
@@ -155,10 +129,17 @@ class RealRunView(BrowserView):
         visitor.real_run = True
         rdfproc.prepare_and_run(weakref.proxy(visitor))
 
+        validator = TripleStoreRDFValidator(harvester)
+
+        validator.prepare_and_run(visitor)
+
         self.log = visitor.scribe.html_log()
+
+        harvester.last_run = datetime.now()
 
         del harvester
         del rdfproc
+        del validator
         del visitor
 
         self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
@@ -179,15 +160,20 @@ class RealRunCronView(BrowserView):
         visitor.real_run = True
         try:
             rdfproc.prepare_and_run(visitor)
+            validator = TripleStoreRDFValidator(harv)
+
+            validator.prepare_and_run(visitor)
         except TerminatingError:
             del rdfproc
             del visitor
+            del validator
             return ['<p>Harvester fehlgeschlagen, Siehe Logs für Details</p>']
 
         # res = visitor.scribe.html_log()
 
         del rdfproc  # noqa F821
         del visitor  # noqa F821
+        del validator # noqa F821
 
         harv.last_run = datetime.now()
         return ['<p>Harvester fertig, Siehe Logs für Details.</p>']

@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 """Content type tests for `dcat_catalog`."""
 
+import unittest
+
+from plone.api.content import create
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from zope.component import queryMultiAdapter
+
 from pkan.dcatapde import constants
 from pkan.dcatapde import testing
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.marshall.target.rdf import RDFMarshallTarget
-from plone.api.content import create
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from zope.component import queryMultiAdapter
-
-import unittest
 
 
 class CatalogIntegrationTest(unittest.TestCase):

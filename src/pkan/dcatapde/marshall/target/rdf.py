@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """RDF Marshaller."""
 
-from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
-from pkan.dcatapde.structure.namespaces import INIT_NS
+import surf
 from zope.interface import implementer
 
-import surf
-
+from pkan.dcatapde.marshall.target.interfaces import IRDFMarshallTarget
+from pkan.dcatapde.structure.namespaces import INIT_NS
 
 surf.namespace.register(**INIT_NS)
 

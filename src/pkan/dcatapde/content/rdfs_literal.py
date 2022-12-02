@@ -3,18 +3,19 @@
 
 from datetime import date
 from datetime import datetime
-from pkan.dcatapde import constants
-from pkan.dcatapde import i18n
-from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.content.base import IDCAT
+
+import dateutil
+from SPARQLWrapper.SmartWrapper import Value
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
-from SPARQLWrapper.SmartWrapper import Value
 from zope.interface import implementer
 
-import dateutil
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
+from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 
 
 class IRDFSLiteral(model.Schema, IDCAT):

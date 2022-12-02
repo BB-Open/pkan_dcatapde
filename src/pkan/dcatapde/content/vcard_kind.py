@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 """VCARDKind Content Type."""
-from pkan.dcatapde import _
-from pkan.dcatapde import constants
-from pkan.dcatapde import i18n
-from pkan.dcatapde.content.base import DCATMixin
-from pkan.dcatapde.content.base import IDCAT
+import re
+
+import zope.schema as schema
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from ps.zope.i18nfield.field import I18NText
 from ps.zope.i18nfield.field import I18NTextLine
 from ps.zope.i18nfield.fieldproperty import I18NTextProperty
-from zope.interface import implementer
 from zope.interface import Invalid
+from zope.interface import implementer
 
-import re
-import zope.schema as schema
+from pkan.dcatapde import _
+from pkan.dcatapde import constants
+from pkan.dcatapde import i18n
+from pkan.dcatapde.content.base import DCATMixin
+from pkan.dcatapde.content.base import IDCAT
 
 
 def is_email(value):

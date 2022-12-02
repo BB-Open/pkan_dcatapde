@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 """Content type tests for `dct_licensedocument`."""
 
-from pkan.dcatapde import constants
-from pkan.dcatapde import testing
-from pkan.dcatapde.content.dct_licensedocument import IDCTLicenseDocument
+import unittest
+
 from plone import api
-from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import createObject
 from zope.component import queryUtility
 
-import unittest
+from pkan.dcatapde import constants
+from pkan.dcatapde import testing
+from pkan.dcatapde.content.dct_licensedocument import IDCTLicenseDocument
 
 
 class DCTLicenseDocumentIntegrationTest(unittest.TestCase):

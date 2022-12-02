@@ -4,12 +4,13 @@
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition.interfaces import IAcquirer
-from pkan.dcatapde import utils
 from plone.dexterity.browser import add
 from plone.dexterity.interfaces import IDexterityFTI
 from z3c.form import form
 from zope.component import createObject
 from zope.component import getUtility
+
+from pkan.dcatapde import utils
 
 
 class PkanDefaultAddForm(add.DefaultAddForm):
