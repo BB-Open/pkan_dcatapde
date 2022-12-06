@@ -2,12 +2,17 @@ import tempfile
 from datetime import datetime
 
 import transaction
+from pkan_config.config import get_config
+from plone.namedfile.file import NamedBlobFile
+from pyrdf4j.errors import QueryFailed
+from pyrdf4j.rdf4j import RDF4J
+from requests.auth import HTTPBasicAuth
+from shacl.constants import NUMBER_OF_QUERY
 from shacl.log.log import unregister_logger, get_logger
-from shacl.validate import ValidationRun
 from shacl.report import PDFBlockReport
+from shacl.validate import ValidationRun
 
-from plone.namedfile.file import NamedBlobFile, NamedFile
-from pkan.dcatapde.constants import ERROR_SUFFIX, COMPLETE_SUFFIX
+from pkan.dcatapde.constants import ERROR_SUFFIX, COMPLETE_SUFFIX, COMPARISON_FIELDS
 from pkan.dcatapde.harvesting.load_data.rdf_base import BaseRDFProcessor
 
 
@@ -46,9 +51,38 @@ class TripleStoreRDFValidator(BaseRDFProcessor):
 
         report_file = tempfile.NamedTemporaryFile(suffix='.pdf')
 
-        PDFBlockReport().generate(self.error_store, report_file.name, display_details=True)
+        comparison_fields = []
 
-        blob_file = NamedBlobFile(data=report_file.read(), filename=self.tripel_db_name + '_report.pdf', contentType='application/pdf')
+        cfg = get_config()
+        self.rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
+        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
+
+        for field, short_query in COMPARISON_FIELDS.items():
+            query = NUMBER_OF_QUERY.format(short_query)
+            try:
+                old = self.rdf4j.query_repository(self.tripel_db_name_complete, query=query, auth=self.auth)
+                new = self.rdf4j.query_repository(self.tripel_db_name, query=query, auth=self.auth)
+            except QueryFailed:
+                continue
+            comparison_fields.append({
+                'field': field,
+                'old': old['results']['bindings'][0]['count']['value'],
+                'new': new['results']['bindings'][0]['count']['value']
+            })
+
+        provider = self.harvester.title
+        date = datetime.now()
+        date_formatted = date.strftime('%Y-%m-%d %H:%M')
+        title = self.harvester.id_in_tripel_store
+
+        PDFBlockReport().generate(self.error_store, report_file.name, display_details=True, provider=provider,
+                                  date=date_formatted, comparison_fields=comparison_fields, title=title)
+
+        date_formatted_file = date.strftime('%Y_%m_%d_%H:%M')
+
+        blob_file = NamedBlobFile(data=report_file.read(),
+                                  filename=self.tripel_db_name + '_' + date_formatted_file + '_report.pdf',
+                                  contentType='application/pdf')
 
         self.harvester.pdf_report = blob_file
 
@@ -59,9 +93,9 @@ class TripleStoreRDFValidator(BaseRDFProcessor):
         msg = u'Setting Last Run to now.'
         visitor.scribe.write(
             level='info',
-            msg=msg,)
+            msg=msg, )
 
-        self.harvester.last_run = datetime.now()
+        self.harvester.last_run = date
 
         transaction.commit()
 

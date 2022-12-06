@@ -238,3 +238,12 @@ CONTRIBUTER_ID = 'https://www.dcat-ap.de/def/contributors/20211108#landBrandenbu
 # store suffix
 COMPLETE_SUFFIX = '_complete'
 ERROR_SUFFIX = '_error'
+
+# report generation
+
+COMPARISON_FIELDS = {
+    'Triple Gesamt': '?s ?p ?o',
+    'Kataloge': '?s a dcat:Catalog',
+    'Datensätze': '?s a dcat:Dataset',
+    'Distributionen': '?s a dcat:Distribution'
+}
