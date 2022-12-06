@@ -18,7 +18,7 @@ from pkan.dcatapde.api.functions import get_all_harvester_folder
 from pkan.dcatapde.constants import CT_HARVESTER, COMPLETE_SUFFIX
 from pkan.dcatapde.constants import CT_LGBHARVESTER
 from pkan.dcatapde.content.harvester import IHarvester
-from pkan.dcatapde.harvesting.errors import NoSourcesDefined
+from pkan.dcatapde.harvesting.errors import NoSourcesDefined, GeoHarvestingFailed
 from pkan.dcatapde.harvesting.load_data.geodata import GeodataRDFProcessor
 from pkan.dcatapde.harvesting.load_data.rdf2tripelstore import MultiUrlTripleStoreRDFProcessor
 from pkan.dcatapde.harvesting.load_data.rdf2tripelstore import TripleStoreRDFProcessor
@@ -48,6 +48,12 @@ class HarvesterListViewMixin(object):
             csw_url = harv.csw_url
             complete_namespace = harv.target_namespace
 
+        if harv.pdf_report:
+            pdf_url = path + '/@@download/pdf_report/' + harv.pdf_report.filename
+            pdf = True
+        else:
+            pdf = False
+            pdf_url = ''
         data = {
             'title': harv.title,
             'path': path,
@@ -59,6 +65,8 @@ class HarvesterListViewMixin(object):
             'clean_namespace': harv.target_namespace,
             'complete_namespace': complete_namespace,
             'reharvesting_period': harv.reharvesting_period,
+            'pdf': pdf,
+            'pdf_url': pdf_url
         }
 
         return data
@@ -173,6 +181,11 @@ class RealRunCronView(BrowserView):
             del visitor
             del validator
             return ['<p>Harvester fehlgeschlagen, keine Quelldaten gefunden.</p>']
+        except GeoHarvestingFailed:
+            del rdfproc
+            del visitor
+            del validator
+            return ['<p>Harvester fehlgeschlagen, Geo Harvester hat einen Fehler.</p>']
 
         # res = visitor.scribe.html_log()
 

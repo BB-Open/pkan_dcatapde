@@ -12,3 +12,6 @@ class UnkownBindingType(Exception):
 
 class NoSourcesDefined(Exception):
     """No Urls to load RDF for harvest"""
+
+class GeoHarvestingFailed(Exception):
+    """Failed Geo Harvesting"""

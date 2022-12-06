@@ -1,9 +1,12 @@
+import tempfile
 from datetime import datetime
 
 import transaction
 from shacl.log.log import unregister_logger, get_logger
 from shacl.validate import ValidationRun
+from shacl.report import PDFBlockReport
 
+from plone.namedfile.file import NamedBlobFile, NamedFile
 from pkan.dcatapde.constants import ERROR_SUFFIX, COMPLETE_SUFFIX
 from pkan.dcatapde.harvesting.load_data.rdf_base import BaseRDFProcessor
 
@@ -34,6 +37,22 @@ class TripleStoreRDFValidator(BaseRDFProcessor):
         validation = ValidationRun(self.tripel_db_name_complete, self.tripel_db_name, self.error_store)
 
         validation.run()
+
+        msg = u'Creating Report'
+        visitor.scribe.write(
+            level='info',
+            msg=msg
+        )
+
+        report_file = tempfile.NamedTemporaryFile(suffix='.pdf')
+
+        PDFBlockReport().generate(self.error_store, report_file.name, display_details=True)
+
+        blob_file = NamedBlobFile(data=report_file.read(), filename=self.tripel_db_name + '_report.pdf', contentType='application/pdf')
+
+        self.harvester.pdf_report = blob_file
+
+        report_file.close()
 
         # Todo: create reports
         #   store reports on harvester

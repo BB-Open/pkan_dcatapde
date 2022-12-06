@@ -13,7 +13,7 @@ from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
 
 from pkan.dcatapde import _
-from pkan.dcatapde.harvesting.errors import NoSourcesDefined
+from pkan.dcatapde.harvesting.errors import NoSourcesDefined, GeoHarvestingFailed
 from pkan.dcatapde.utils import LiteralHandler
 from pkan.dcatapde.constants import COMPLETE_SUFFIX
 
@@ -32,7 +32,7 @@ def get_config(harvester):
     return cfg
 
 
-class GeodataRDFProcessor():
+class GeodataRDFProcessor:
 
     def __init__(self, harvester):
         self.harvester = harvester
@@ -141,7 +141,9 @@ class GeodataRDFProcessor():
                 msg=res.stderr.decode(),
                 kind='Geodata'
             )
-            return
+            stat_file.close()
+
+            raise GeoHarvestingFailed('Geo Harvesting Failed')
         stat_file.close()
         msg = _(u'{kind} file read succesfully')
         visitor.scribe.write(

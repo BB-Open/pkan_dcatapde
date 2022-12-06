@@ -4,6 +4,7 @@ from re import fullmatch
 
 import zope.schema as schema
 from plone.dexterity.content import Container
+from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from pytimeparse import parse
 from zope.interface import Invalid
@@ -94,6 +95,12 @@ class IHarvester(model.Schema):
         required=False,
         title=_(u'Last Run'),
         readonly=True,
+    )
+
+    pdf_report = NamedBlobFile(
+        required=False,
+        readonly=True,
+        title=_(u'PDF Report')
     )
 
 

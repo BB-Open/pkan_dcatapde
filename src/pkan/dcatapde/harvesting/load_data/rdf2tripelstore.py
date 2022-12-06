@@ -62,6 +62,9 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
             level='info',
             msg=msg,
         )
+
+        self.add_contributer_id(visitor, self._rdf4j, self.auth, [self.query_db])
+
         msg = u'Finished Real Run'
         visitor.scribe.write(
             level='info',
@@ -118,7 +121,8 @@ class MultiUrlTripleStoreRDFProcessor(BaseRDFProcessor):
                 msg=msg,
             )
 
-        self.harvester.last_run = datetime.datetime.now()
+        self.add_contributer_id(visitor, self._rdf4j, self.auth, [self.query_db])
+
         msg = u'Finished Real Run'
         visitor.scribe.write(
             level='info',
