@@ -43,6 +43,8 @@ class TripleStoreRDFValidator(BaseRDFProcessor):
 
         validation.run()
 
+        del validation
+
         msg = u'Creating Report'
         visitor.scribe.write(
             level='info',
