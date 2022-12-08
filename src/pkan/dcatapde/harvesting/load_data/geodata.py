@@ -39,11 +39,8 @@ class GeodataRDFProcessor:
         self.literal_handler = LiteralHandler()
 
     def prepare_harvest(self, visitor):
-        """Load data to be harvested into a temperary namespace
+        """Load data to be harvested into a complete store
                 on the tripelstore.
-                Then set a rdflib grpah instance to it for reading.
-                Open a target namespace for the dcat-ap.de compatible data and
-                set a rdflib grpah instance to it for writing and reading.
                 """
 
         self.def_lang = 'de'

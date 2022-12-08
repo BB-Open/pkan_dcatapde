@@ -20,11 +20,10 @@ class TripleStoreRDFValidator(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
     def prepare_and_run(self, visitor):
-        """Load data to be harvested into a temperary namespace
-        on the tripelstore.
-        Then set a rdflib grpah instance to it for reading.
-        Open a target namespace for the dcat-ap.de compatible data and
-        set a rdflib grpah instance to it for writing and reading.
+        """Validate Complete Store.
+        Store validated data on target store.
+        Store Errors on error Store.
+        Generate report.
         """
         self.tripel_db_name_complete = self.harvester.id_in_tripel_store + COMPLETE_SUFFIX
         self.tripel_db_name = self.harvester.id_in_tripel_store

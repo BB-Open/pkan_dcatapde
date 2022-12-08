@@ -3,14 +3,12 @@
 from datetime import datetime
 
 import rdflib
+from pkan_config.namespaces import NAMESPACES, DCAT, DCT, FOAF, SKOS, VCARD, RDFS
 from plone.api import portal
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.supermodel.interfaces import FIELDSETS_KEY
-from rdflib.namespace import FOAF
-from rdflib.namespace import RDFS
-from rdflib.namespace import SKOS
 from zope.component import adapter
 from zope.component import getUtility
 from zope.i18n import translate
@@ -51,10 +49,6 @@ from pkan.dcatapde.content.skos_concept import ISKOSConcept
 from pkan.dcatapde.content.skos_conceptscheme import ISKOSConceptScheme
 from pkan.dcatapde.content.vcard_kind import IVCARDKind
 from pkan.dcatapde.structure.interfaces import IStructure
-from pkan.dcatapde.structure.namespaces import DCAT
-from pkan.dcatapde.structure.namespaces import DCT
-from pkan.dcatapde.structure.namespaces import INIT_NS
-from pkan.dcatapde.structure.namespaces import VCARD
 from pkan.dcatapde.utils import get_current_language
 
 IMP_OPTIONAL = 'optional'
@@ -232,14 +226,13 @@ class StructBase(object):
         return related
 
     def fieldname2predicate(self, fieldname):
-        """Derives a namespace based predicate out of a fieldname"""
-        # split fieldname at the first underscore
+
         fieldname_split = fieldname.split('_')
         ns = fieldname_split[0]
         cls = '_'.join(fieldname_split[1:])
         # try to identify a namespace
-        if ns in INIT_NS:
-            NS = INIT_NS[ns]
+        if ns in NAMESPACES:
+            NS = NAMESPACES[ns]
             # get the namespace binding
             predicate = getattr(NS, cls)
         else:

@@ -24,8 +24,8 @@ from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 from pkan.dcatapde.i18n import HELP_REHARVESTING_PERIOD
-from pkan.dcatapde.structure.sparql import QUERY_A
-from pkan.dcatapde.structure.sparql import QUERY_A_STR
+# from pkan.dcatapde.structure.sparql import QUERY_A
+# from pkan.dcatapde.structure.sparql import QUERY_A_STR
 
 TARGET_NAMESPACE_REGEX = r'[a-zA-Z0-9_\-]*'
 
@@ -115,31 +115,31 @@ class Harvester(Container, DCATMixin):
 
         super(Harvester, self).__init__(*args, **kwargs)
 
-    @property
-    def mapper(self):
-        """Dummy mapper since Entity Mapper is working"""
-        # todo: Update results with values from config stored in annotations
-        # annotations = IAnnotations(self)
-        # if HARVESTER_ENTITY_KEY in annotations:
-        #     sparql = annotations[HARVESTER_ENTITY_KEY]
-        # else:
-        #     sparql = {}
-        # if HARVESTER_DEXTERITY_KEY in annotations:
-        #     dexterity = annotations[HARVESTER_DEXTERITY_KEY]
-        # else:
-        #     dexterity = {}
-        # if HARVESTER_DEFAULT_KEY in annotations:
-        #     str_defaults = annotations[HARVESTER_DEFAULT_KEY]
-        # else:
-        #     str_defaults = {}
-
-        result = {}
-
-        # todo: read this from harvester directly
-        result['dcat:Catalog'] = QUERY_A
-        result['dcat:Dataset'] = QUERY_A
-        result['dcat:Distribution'] = QUERY_A
-        return result
+    # @property
+    # def mapper(self):
+    #     """Dummy mapper since Entity Mapper is working"""
+    #     # todo: Update results with values from config stored in annotations
+    #     # annotations = IAnnotations(self)
+    #     # if HARVESTER_ENTITY_KEY in annotations:
+    #     #     sparql = annotations[HARVESTER_ENTITY_KEY]
+    #     # else:
+    #     #     sparql = {}
+    #     # if HARVESTER_DEXTERITY_KEY in annotations:
+    #     #     dexterity = annotations[HARVESTER_DEXTERITY_KEY]
+    #     # else:
+    #     #     dexterity = {}
+    #     # if HARVESTER_DEFAULT_KEY in annotations:
+    #     #     str_defaults = annotations[HARVESTER_DEFAULT_KEY]
+    #     # else:
+    #     #     str_defaults = {}
+    #
+    #     result = {}
+    #
+    #     # todo: read this from harvester directly
+    #     result['dcat:Catalog'] = QUERY_A
+    #     result['dcat:Dataset'] = QUERY_A
+    #     result['dcat:Distribution'] = QUERY_A
+    #     return result
 
     @property
     def id_in_tripel_store(self):
@@ -166,13 +166,13 @@ class Harvester(Container, DCATMixin):
     def target(self):
         return HARVEST_TRIPELSTORE
 
-    @property
-    def top_node(self):
-        return CT_DCAT_CATALOG
+    # @property
+    # def top_node(self):
+    #     return CT_DCAT_CATALOG
 
-    @property
-    def top_node_sparql(self):
-        return QUERY_A_STR
+    # @property
+    # def top_node_sparql(self):
+    #     return QUERY_A_STR
 
     @property
     def rdf_view(self):

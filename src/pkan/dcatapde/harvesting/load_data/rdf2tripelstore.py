@@ -17,11 +17,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
     def prepare_and_run(self, visitor):
-        """Load data to be harvested into a temperary namespace
+        """Load data to be harvested into a complete store
         on the tripelstore.
-        Then set a rdflib grpah instance to it for reading.
-        Open a target namespace for the dcat-ap.de compatible data and
-        set a rdflib grpah instance to it for writing and reading.
         """
         # todo: Missing Attribute, should it be 2 or 3 letters?
         #  Should be set by harvester
@@ -38,14 +35,6 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         # todo: Type in constants, is this correct type
         self._rdf4j.create_repository(self.tripel_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
 
-        # self._graph, _response = tripel_store.graph_from_uri(
-        #     tripel_temp_db_name,
-        #     self.harvester.url,
-        #     self.harvester.mime_type,
-        #     clear_namespace=True,
-        # )
-        # tripel_store.empty_namespace(tripel_db_name)
-        # self._target_graph = tripel_store.create_namespace(tripel_db_name)
         self.query_db = self.tripel_db_name
 
 
@@ -75,11 +64,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 class MultiUrlTripleStoreRDFProcessor(BaseRDFProcessor):
 
     def prepare_and_run(self, visitor):
-        """Load data to be harvested into a temperary namespace
+        """Load data to be harvested into a complete store
                 on the tripelstore.
-                Then set a rdflib grpah instance to it for reading.
-                Open a target namespace for the dcat-ap.de compatible data and
-                set a rdflib grpah instance to it for writing and reading.
                 """
 
         cfg = pkan_cfg.get_config()

@@ -48,18 +48,6 @@ class RDFStore(object):
         session = surf.Session(self.store)
         assert(session)
 
-        # obj2surf = queryMultiAdapter(
-        #     (instance, session), interface=IObject2Surf
-        # )
-
-        # self.store.reader.graph.bind(
-        #    obj2surf.prefix,
-        #    obj2surf.namespace,
-        #    override=False,
-        # )
-        # endLevel = kwargs.get('endLevel', 3)
-        # self.resource = obj2surf.write(endLevel=endLevel, marshaller=self)
-
     def marshall(self, instance, **kwargs):
         """Marshall the rdf data to xml representation."""
         self.marshall_inner(instance, **kwargs)

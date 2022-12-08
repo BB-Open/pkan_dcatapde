@@ -63,10 +63,7 @@ class RDFProcessorTransfer(BaseRDFProcessor):
         self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
 
     def copy_from_url(self):
-        """Load data to be harvested into a temperary namespace on the tripelstore.
-        Then set a rdflib grpah instance to it for reading.
-        Open a target namespace for the dcat-ap.de compatible data and
-        set a rdflib grpah instance to it for writing and reading.
+        """Load data from one store/url to an other store on the tripelstore.
         """
         tripel_db_name = self.transfer.id_in_tripel_store
         cfg = pkan_cfg.get_config()
