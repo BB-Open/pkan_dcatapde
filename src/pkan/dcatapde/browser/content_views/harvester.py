@@ -40,13 +40,12 @@ class HarvesterListViewMixin(object):
             url = harv.url
             csw_url = None
             dcm_url = None
-            complete_namespace = harv.target_namespace + COMPLETE_SUFFIX
         else:
             # special case GEO Import
             url = None
             dcm_url = harv.dcm_url
             csw_url = harv.csw_url
-            complete_namespace = harv.target_namespace
+        complete_namespace = harv.target_namespace + COMPLETE_SUFFIX
 
         if harv.pdf_report:
             pdf_url = path + '/@@download/pdf_report/' + harv.pdf_report.filename
