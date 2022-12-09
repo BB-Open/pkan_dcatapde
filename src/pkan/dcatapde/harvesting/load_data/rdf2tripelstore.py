@@ -17,7 +17,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
 
     def finalize(self, visitor):
-        msg = u'Writing Data to Complete Store'.format(url=self.harvester.url)
+        msg = u'Writing Data to Complete Store'
         visitor.scribe.write(
             level='info',
             msg=msg,
@@ -78,7 +78,7 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 class MultiUrlTripleStoreRDFProcessor(BaseRDFProcessor):
 
     def finalize(self, visitor):
-        msg = u'Writing Data to Complete Store'.format(url=self.harvester.url)
+        msg = u'Writing Data to Complete Store'
         visitor.scribe.write(
             level='info',
             msg=msg,

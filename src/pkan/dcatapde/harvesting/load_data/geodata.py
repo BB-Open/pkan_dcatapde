@@ -64,7 +64,7 @@ class GeodataRDFProcessor:
         self.config.RDF4J_BASE = self.cfg.RDF4J_BASE
 
     def finalize(self, visitor):
-        msg = u'Writing Data to Complete Store'.format(url=self.harvester.url)
+        msg = u'Writing Data to Complete Store'
         visitor.scribe.write(
             level='info',
             msg=msg,
