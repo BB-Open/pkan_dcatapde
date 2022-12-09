@@ -238,6 +238,7 @@ CONTRIBUTER_ID = 'https://www.dcat-ap.de/def/contributors/20211108#landBrandenbu
 # store suffix
 COMPLETE_SUFFIX = '_complete'
 ERROR_SUFFIX = '_error'
+TEMP_SUFFIX = '_temp'
 
 # report generation
 
