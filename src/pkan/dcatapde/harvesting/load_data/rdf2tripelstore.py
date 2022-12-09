@@ -10,11 +10,23 @@ from requests.auth import HTTPBasicAuth
 
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined
 from pkan.dcatapde.harvesting.load_data.rdf_base import BaseRDFProcessor
-from pkan.dcatapde.constants import COMPLETE_SUFFIX
+from pkan.dcatapde.constants import COMPLETE_SUFFIX, TEMP_SUFFIX
 
 
 class TripleStoreRDFProcessor(BaseRDFProcessor):
     """Generic RDF Processor. Works for JSONLD, XML and Turtle RDF sources"""
+
+    def finalize(self, visitor):
+        msg = u'Writing Data to Complete Store'.format(url=self.harvester.url)
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+        )
+
+        target = self.harvester.id_in_tripel_store  + COMPLETE_SUFFIX
+        self._rdf4j.create_repository(target, repo_type=self.cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
+        self._rdf4j.move_data_between_repositorys(target, self.tripel_db_name, auth=self.auth,
+                                                  repo_type=self.cfg.RDF_REPO_TYPE)
 
     def prepare_and_run(self, visitor):
         """Load data to be harvested into a complete store
@@ -22,18 +34,18 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
         """
         # todo: Missing Attribute, should it be 2 or 3 letters?
         #  Should be set by harvester
-        cfg = pkan_cfg.get_config()
+        self.cfg = pkan_cfg.get_config()
 
         self.def_lang = 'de'
 
-        self.tripel_db_name = self.harvester.id_in_tripel_store + COMPLETE_SUFFIX
+        self.tripel_db_name = self.harvester.id_in_tripel_store + TEMP_SUFFIX
 
         # todo: base in constants
-        self._rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
-        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
+        self._rdf4j = RDF4J(rdf4j_base=self.cfg.RDF4J_BASE)
+        self.auth = HTTPBasicAuth(self.cfg.ADMIN_USER, self.cfg.ADMIN_PASS)
 
         # todo: Type in constants, is this correct type
-        self._rdf4j.create_repository(self.tripel_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
+        self._rdf4j.create_repository(self.tripel_db_name, repo_type=self.cfg.RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
 
         self.query_db = self.tripel_db_name
 
@@ -54,6 +66,8 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
         self.add_contributer_id(visitor, self._rdf4j, self.auth, [self.query_db])
 
+        self.finalize(visitor)
+
         msg = u'Finished Real Run'
         visitor.scribe.write(
             level='info',
@@ -63,27 +77,39 @@ class TripleStoreRDFProcessor(BaseRDFProcessor):
 
 class MultiUrlTripleStoreRDFProcessor(BaseRDFProcessor):
 
+    def finalize(self, visitor):
+        msg = u'Writing Data to Complete Store'.format(url=self.harvester.url)
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+        )
+
+        target = self.harvester.id_in_tripel_store + COMPLETE_SUFFIX
+        self._rdf4j.create_repository(target, repo_type=self.cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
+        self._rdf4j.move_data_between_repositorys(target, self.tripel_db_name, auth=self.auth,
+                                                  repo_type=self.cfg.RDF_REPO_TYPE)
+
     def prepare_and_run(self, visitor):
         """Load data to be harvested into a complete store
                 on the tripelstore.
                 """
 
-        cfg = pkan_cfg.get_config()
+        self.cfg = pkan_cfg.get_config()
 
         self.def_lang = 'de'
 
         sources = self.harvester.catalog_urls
 
         self.tripel_db_name = self.harvester.id_in_tripel_store
-        self.tripel_temp_db_name = self.tripel_db_name + COMPLETE_SUFFIX
+        self.tripel_temp_db_name = self.tripel_db_name + TEMP_SUFFIX
 
         # todo: base in constants
-        self._rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
-        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
+        self._rdf4j = RDF4J(rdf4j_base=self.cfg.RDF4J_BASE)
+        self.auth = HTTPBasicAuth(self.cfg.ADMIN_USER, self.cfg.ADMIN_PASS)
 
 
         # todo: Type in constants, is this correct type
-        self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
+        self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=self.cfg.RDF_REPO_TYPE, overwrite=True,
                                       auth=self.auth)
 
         self.query_db = self.tripel_temp_db_name
@@ -108,6 +134,7 @@ class MultiUrlTripleStoreRDFProcessor(BaseRDFProcessor):
             )
 
         self.add_contributer_id(visitor, self._rdf4j, self.auth, [self.query_db])
+        self.finalize(visitor)
 
         msg = u'Finished Real Run'
         visitor.scribe.write(

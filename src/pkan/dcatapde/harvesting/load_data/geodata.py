@@ -15,7 +15,7 @@ from requests.auth import HTTPBasicAuth
 from pkan.dcatapde import _
 from pkan.dcatapde.harvesting.errors import NoSourcesDefined, GeoHarvestingFailed
 from pkan.dcatapde.utils import LiteralHandler
-from pkan.dcatapde.constants import COMPLETE_SUFFIX
+from pkan.dcatapde.constants import COMPLETE_SUFFIX, TEMP_SUFFIX
 
 
 def get_config(harvester):
@@ -46,22 +46,33 @@ class GeodataRDFProcessor:
         self.def_lang = 'de'
 
         self.tripel_db_name = self.harvester.id_in_tripel_store
-        self.tripel_temp_db_name = self.tripel_db_name + COMPLETE_SUFFIX
+        self.tripel_temp_db_name = self.tripel_db_name + TEMP_SUFFIX
 
-        cfg = pkan_cfg.get_config()
+        self.cfg = pkan_cfg.get_config()
 
-        self._rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
-        self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
+        self._rdf4j = RDF4J(rdf4j_base=self.cfg.RDF4J_BASE)
+        self.auth = HTTPBasicAuth(self.cfg.ADMIN_USER, self.cfg.ADMIN_PASS)
 
-        self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=cfg.RDF_REPO_TYPE, overwrite=True,
+        self._rdf4j.create_repository(self.tripel_temp_db_name, repo_type=self.cfg.RDF_REPO_TYPE, overwrite=True,
                                       auth=self.auth)
         self.temp = self.tripel_temp_db_name
 
         self.config = get_config(self.harvester)
         self.config.WRITE_TO = self.temp
-        self.config.ADMIN_USER = cfg.ADMIN_USER
-        self.config.ADMIN_PASS = cfg.ADMIN_PASS
-        self.config.RDF4J_BASE = cfg.RDF4J_BASE
+        self.config.ADMIN_USER = self.cfg.ADMIN_USER
+        self.config.ADMIN_PASS = self.cfg.ADMIN_PASS
+        self.config.RDF4J_BASE = self.cfg.RDF4J_BASE
+
+    def finalize(self, visitor):
+        msg = u'Writing Data to Complete Store'.format(url=self.harvester.url)
+        visitor.scribe.write(
+            level='info',
+            msg=msg,
+        )
+        target = self.tripel_db_name + COMPLETE_SUFFIX
+        self._rdf4j.create_repository(target, repo_type=self.cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
+        self._rdf4j.move_data_between_repositorys(target, self.tripel_temp_db_name, auth=self.auth,
+                                                  repo_type=self.cfg.RDF_REPO_TYPE)
 
     @property
     def rdf4j(self):
@@ -155,5 +166,7 @@ class GeodataRDFProcessor:
             level='info',
             msg=msg,
         )
+
+        self.finalize(visitor)
 
         return visitor.scribe.html_log()
