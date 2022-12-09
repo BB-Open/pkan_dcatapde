@@ -86,7 +86,7 @@ class MultiUrlTripleStoreRDFProcessor(BaseRDFProcessor):
 
         target = self.harvester.id_in_tripel_store + COMPLETE_SUFFIX
         self._rdf4j.create_repository(target, repo_type=self.cfg.RDF_REPO_TYPE, overwrite=True, auth=self.auth)
-        self._rdf4j.move_data_between_repositorys(target, self.tripel_db_name, auth=self.auth,
+        self._rdf4j.move_data_between_repositorys(target, self.tripel_temp_db_name, auth=self.auth,
                                                   repo_type=self.cfg.RDF_REPO_TYPE)
 
     def prepare_and_run(self, visitor):
