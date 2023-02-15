@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 """Harvesting adapter."""
 import pkan_config.config as pkan_cfg
-from pkan.dcatapde.harvesting.manager.base import IFaceToRDFFormatKey
-from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
-from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
-from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
-from pkan.dcatapde.harvesting.load_data.rdf_base import BaseRDFProcessor
 from plone.api import content
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
@@ -13,8 +8,13 @@ from zope.component import adapter
 from zope.interface import implementer
 
 # from pkan.blazegraph.api import tripel_store
-from pkan.dcatapde.constants import RDF_FORMAT_METADATA
+from pkan.dcatapde.constants import RDF_FORMAT_METADATA, BASE_URI
 from pkan.dcatapde.content.transfer import ITransfer
+from pkan.dcatapde.harvesting.load_data.rdf_base import BaseRDFProcessor
+from pkan.dcatapde.harvesting.manager.base import IFaceToRDFFormatKey
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
+from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 
 
 @adapter(ITransfer)
@@ -55,9 +55,9 @@ class RDFProcessorTransfer(BaseRDFProcessor):
             self.serialize_format = self.rdf_format['serialize_as']
             self.mime_type = self.rdf_format['mime_type']
 
-        self.tripel_tempdb = None    # Temporary tripel store
-        self.tripeldb = None         # Tripestore for dcapt-ap.de data
-        self._target_graph = None        # Target graph instance
+        self.tripel_tempdb = None  # Temporary tripel store
+        self.tripeldb = None  # Tripestore for dcapt-ap.de data
+        self._target_graph = None  # Target graph instance
         cfg = pkan_cfg.get_config()
         self.rdf4j = RDF4J(rdf4j_base=cfg.RDF4J_BASE)
         self.auth = HTTPBasicAuth(cfg.ADMIN_USER, cfg.ADMIN_PASS)
@@ -69,7 +69,8 @@ class RDFProcessorTransfer(BaseRDFProcessor):
         cfg = pkan_cfg.get_config()
         self.rdf4j.create_repository(tripel_db_name, cfg.RDF_REPO_TYPE, accept_existing=True, auth=self.auth)
 
-        response = self.rdf4j.bulk_load_from_uri(tripel_db_name, self.transfer.url, self.mime_type, clear_repository=False, auth=self.auth)
+        response = self.rdf4j.bulk_load_from_uri(tripel_db_name, self.transfer.url, self.mime_type,
+                                                 clear_repository=False, auth=self.auth, base_uri=BASE_URI)
 
         response_text = 'Status Code: ' + str(response.status_code) + ' Content: ' + response.content.decode('utf-8')
 
@@ -78,7 +79,8 @@ class RDFProcessorTransfer(BaseRDFProcessor):
     def copy_from_namespace(self):
         tripel_db_name = self.transfer.id_in_tripel_store
         cfg = pkan_cfg.get_config()
-        response = self.rdf4j.move_data_between_repositorys(tripel_db_name, self.transfer.source_namespace, auth=self.auth, repo_type=cfg.RDF_REPO_TYPE)
+        response = self.rdf4j.move_data_between_repositorys(tripel_db_name, self.transfer.source_namespace,
+                                                            auth=self.auth, repo_type=cfg.RDF_REPO_TYPE)
         response_text = 'Status Code: ' + str(response.status_code) + ' Content: ' + response.content.decode('utf-8')
 
         return response_text

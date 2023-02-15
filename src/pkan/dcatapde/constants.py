@@ -240,6 +240,9 @@ COMPLETE_SUFFIX = '_complete'
 ERROR_SUFFIX = '_error'
 TEMP_SUFFIX = '_temp'
 
+# baseURI
+BASE_URI = 'https://datenadler.de/'
+
 # report generation
 
 COMPARISON_FIELDS = {
