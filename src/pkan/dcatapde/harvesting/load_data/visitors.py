@@ -18,6 +18,7 @@ LEVEL_COLOR = {
     'info': 'green',
     'warn': 'orange',
     'error': 'red',
+    'debug': 'blue'
 }
 
 COLOR_MSG = u'<font color={color}>{msg}</font><div>{link}</div>'
@@ -58,6 +59,8 @@ class Scribe(object):
             logger.info(msg='ERROR: ' + msg)
         elif level == 'warn':
             logger.info(msg='WARN: ' + msg)
+        elif level == 'debug':
+            logger.info(msg='DEBUG: ' + msg)
         else:
             raise AttributeError
         # Todo: Logger must be configured to write

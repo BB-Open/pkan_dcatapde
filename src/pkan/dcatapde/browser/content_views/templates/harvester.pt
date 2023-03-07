@@ -35,7 +35,7 @@
                            tal:attributes="href harv/real_run">Real Run</a></td>
                     <td><a i18n:translate=""
                            tal:attributes="href harv/pdf_url"
-                           tal:condition="harv/pdf">Download Report</a>
+                           tal:condition="harv/pdf" tal:content="harv/pdf_name">Download Report</a>
                     </td>
                     <td tal:content="harv/reharvesting_period"></td>
                 </tr>

@@ -50,9 +50,11 @@ class HarvesterListViewMixin(object):
         if harv.pdf_report:
             pdf_url = path + '/@@download/pdf_report/' + harv.pdf_report.filename
             pdf = True
+            pdf_name = 'Download Report: ' + harv.pdf_report.filename
         else:
             pdf = False
             pdf_url = ''
+            pdf_name = ''
         data = {
             'title': harv.title,
             'path': path,
@@ -65,7 +67,8 @@ class HarvesterListViewMixin(object):
             'complete_namespace': complete_namespace,
             'reharvesting_period': harv.reharvesting_period,
             'pdf': pdf,
-            'pdf_url': pdf_url
+            'pdf_url': pdf_url,
+            'pdf_name': pdf_name,
         }
 
         return data
