@@ -126,8 +126,9 @@ class GeodataRDFProcessor:
         loaders.write(file.name, DynaBox(self.config.as_dict(env='Default')).to_dict(), env='Default')
         package_dir = Path(os.path.abspath(__file__)).parent
         python_file = package_dir / 'run_iso2dcat.py'
-        res = subprocess.run([self.config.PYTHON_EXE, str(python_file), '--file', file.name, '--target', stat_file.name],
-                             capture_output=True)
+        res = subprocess.run(
+            [self.config.PYTHON_EXE, str(python_file), '--file', file.name, '--target', stat_file.name],
+            capture_output=True)
         file.close()
         if res.returncode == 0:
             for line in stat_file.readlines():

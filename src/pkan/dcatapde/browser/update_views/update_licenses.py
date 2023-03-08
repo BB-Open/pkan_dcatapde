@@ -6,7 +6,6 @@ from pkan.dcatapde.constants import CT_DCT_LICENSEDOCUMENT
 from pkan.dcatapde.constants import FOLDER_LICENSES
 from pkan.dcatapde.interfaces import IPKANImportSettings
 
-
 # map the properties
 MAPPING = {
     'dct_title': 'dc_identifier',
@@ -16,7 +15,6 @@ MAPPING = {
 
 
 class UpdateLicenses(UpdateObjectsBase):
-
     uri_registry_key = CT_DCT_LICENSEDOCUMENT
     uri_registry_interface = IPKANImportSettings
     object_title = 'DCT:LicenseDocument'

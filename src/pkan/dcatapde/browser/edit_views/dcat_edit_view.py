@@ -11,7 +11,6 @@ from pkan.dcatapde.content.dcat_dataset import IDCATDataset
 
 
 class CatalogEditForm(edit.DefaultEditForm):
-
     schema = IDCATCatalog
 
     def __init__(self, context, request, ti=None):
@@ -24,7 +23,6 @@ classImplements(CatalogEditView, IDexterityEditForm)
 
 
 class DatasetEditForm(edit.DefaultEditForm):
-
     schema = IDCATDataset
 
     def __init__(self, context, request, ti=None):

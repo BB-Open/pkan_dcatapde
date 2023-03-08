@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <object name="portal_catalog" meta_type="Plone Catalog Tool">
- <index name="dcat_theme" meta_type="KeywordIndex">
-  <indexed_attr value="dcat_theme"/>
- </index>
- <index name="uri_in_triplestore" meta_type="FieldIndex">
-  <indexed_attr value="uri_in_triplestore"/>
- </index>
- <index name="dct_identifier" meta_type="FieldIndex">
-  <indexed_attr value="dct_identifier"/>
- </index>
- <index name="pkan_state" meta_type="FieldIndex">
-  <indexed_attr value="pkan_state"/>
- </index>
- <index name="stores" meta_type="FieldIndex">
-  <indexed_attr value="target_namespace"/>
- </index>
-   <index name="adms_identifier" meta_type="FieldIndex">
-  <indexed_attr value="adms_identifier"/>
- </index>
-   <index name="dct_identifier" meta_type="FieldIndex">
-  <indexed_attr value="dct_identifier"/>
- </index>
+  <index name="dcat_theme" meta_type="KeywordIndex">
+    <indexed_attr value="dcat_theme"/>
+  </index>
+  <index name="uri_in_triplestore" meta_type="FieldIndex">
+    <indexed_attr value="uri_in_triplestore"/>
+  </index>
+  <index name="dct_identifier" meta_type="FieldIndex">
+    <indexed_attr value="dct_identifier"/>
+  </index>
+  <index name="pkan_state" meta_type="FieldIndex">
+    <indexed_attr value="pkan_state"/>
+  </index>
+  <index name="stores" meta_type="FieldIndex">
+    <indexed_attr value="target_namespace"/>
+  </index>
+  <index name="adms_identifier" meta_type="FieldIndex">
+    <indexed_attr value="adms_identifier"/>
+  </index>
+  <index name="dct_identifier" meta_type="FieldIndex">
+    <indexed_attr value="dct_identifier"/>
+  </index>
 </object>

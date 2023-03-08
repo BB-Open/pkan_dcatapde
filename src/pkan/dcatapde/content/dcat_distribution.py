@@ -69,13 +69,6 @@ class IDCATDistribution(model.Schema, IDCAT):
         title=i18n.LABEL_LOCAL_FILE,
     )
 
-    read_permission(dcatde_plannedAvailability='pkan.dcatapde.Admin')
-    write_permission(dcatde_plannedAvailability='pkan.dcatapde.Admin')
-    dcatde_plannedAvailability = I18NText(
-        required=False,
-        title=i18n.LABEL_DCATDE_PLANNED_AVAILABLITY,
-    )
-
     dcatde_licenseAttributionByText = I18NText(
         required=False,
         title=i18n.LABEL_DCATDE_LICENSEATTRIBUTIONBYTEXT,
@@ -83,7 +76,7 @@ class IDCATDistribution(model.Schema, IDCAT):
 
     read_permission(dcat_byteSize='pkan.dcatapde.Admin')
     write_permission(dcat_byteSize='pkan.dcatapde.Admin')
-    dcat_byteSize = I18NTextLine(
+    dcat_byteSize = schema.Decimal(
         required=False,
         title=i18n.LABEL_DCAT_BYTESIZE,
     )
@@ -166,13 +159,10 @@ class DCATDistribution(Container, DCATMixin):
 
     dct_title = I18NTextProperty(IDCATDistribution['dct_title'])
     dct_description = I18NTextProperty(IDCATDistribution['dct_description'])
-    dcatde_plannedAvailability = I18NTextProperty(
-        IDCATDistribution['dcatde_plannedAvailability'],
-    )
+
     dcatde_licenseAttributionByText = I18NTextProperty(
         IDCATDistribution['dcatde_licenseAttributionByText'],
     )
-    dcat_byteSize = I18NTextProperty(IDCATDistribution['dcat_byteSize'])
 
     def Title(self):
         return self.title_from_title_field()
@@ -185,5 +175,5 @@ def distribution_add_handler(sender, event):
     if sender.local_file:
         download_postfix = '/@@download/local_file'
         sender.dcat_downloadURL = sender.absolute_url() \
-            + download_postfix
+                                  + download_postfix
         sender.dcat_accessURL = sender.absolute_url()

@@ -298,7 +298,6 @@ def update_uri_in_triplestore(context):
 
 
 def update_source_type(context):
-
     cts = [
         CT_HARVESTER,
         CT_TRANSFER,
@@ -428,5 +427,38 @@ def replace_temp_by_complete(context):
             obj.target_namespace = obj.target_namespace.replace('_temp', COMPLETE_SUFFIX)
             if obj.source_namespace:
                 obj.source_namespace = obj.source_namespace.replace('_temp', COMPLETE_SUFFIX)
+
+            obj.reindexObject()
+
+
+def set_language_skos(context):
+    reload_gs_profile(context)
+    cts = [
+        CT_DCT_LANGUAGE,
+    ]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+
+            obj.skos_inScheme = 'http://publications.europa.eu/resource/authority/language'
+
+            obj.reindexObject()
+
+    cts = [
+        CT_DCAT_DISTRIBUTION
+    ]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+
+            obj.dcat_byteSize = None
 
             obj.reindexObject()

@@ -3,7 +3,6 @@
 
 from pkan.dcatapde import _
 
-
 # Content Types
 CT_DCAT_CATALOG = 'dcat_catalog'
 CT_DCAT_COLLECTION_CATALOG = 'dcat_collection_catalog'

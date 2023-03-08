@@ -85,13 +85,13 @@ class IDCATCatalog(model.Schema, IDCAT):
     form.widget(
         'dct_language',
         AjaxSelectFieldWidget,
-        vocabulary='pkan.dcatapde.AvailableContentLanguageVocabulary',
+        vocabulary='pkan.dcatapde.vocabularies.DCATLanguage',
     )
     dct_language = schema.List(
         required=False,
         title=i18n.LABEL_DCT_LANGUAGE,
         value_type=schema.Choice(
-            vocabulary='pkan.dcatapde.AvailableContentLanguageVocabulary',
+            vocabulary='pkan.dcatapde.vocabularies.DCATLanguage',
         ),
     )
 

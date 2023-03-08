@@ -7,10 +7,12 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">DCAT:CollectionCatalog</property>
+    name="title">DCAT:CollectionCatalog
+  </property>
   <property
     i18n:translate=""
-    name="description">DCAT Collection Catalog</property>
+    name="description">DCAT Collection Catalog
+  </property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">dcat_collection_catalog</property>
@@ -45,7 +47,7 @@
     <!--<element value="plone.app.contenttypes.behaviors.tableofcontents.ITableOfContents"/>-->
     <!--<element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>-->
     <element value="plone.collection"/>
-    <element value="plone.app.dexterity.behaviors.metadata.ICategorization" />
+    <element value="plone.app.dexterity.behaviors.metadata.ICategorization"/>
 
   </property>
 

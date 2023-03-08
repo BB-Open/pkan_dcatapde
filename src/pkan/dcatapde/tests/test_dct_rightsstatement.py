@@ -16,7 +16,7 @@ from pkan.dcatapde.content.dct_rightsstatement import IDCTRightsStatement
 
 
 class DCTRightsStatementIntegrationTest(unittest.TestCase):
-    """Validate the `dct_rightststatemen` CT."""
+    """Validate the `dct_rightsstatemen` CT."""
 
     layer = testing.INTEGRATION_TESTING
 

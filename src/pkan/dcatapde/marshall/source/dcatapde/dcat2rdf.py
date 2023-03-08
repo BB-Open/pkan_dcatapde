@@ -16,10 +16,10 @@ class DCAT2RDF(DX2Any):
         If not we generate an URI from the absolute URL.
         """
         if getattr(self.context, 'rdf_about', None) and \
-                self.context.rdf_about:
+            self.context.rdf_about:
             return self.context.rdf_about
         if getattr(self.context, 'rdfs_isDefinedBy', None) and \
-                self.context.rdfs_isDefinedBy:
+            self.context.rdfs_isDefinedBy:
             return self.context.rdfs_isDefinedBy
         return self.context.dct_identifier
 

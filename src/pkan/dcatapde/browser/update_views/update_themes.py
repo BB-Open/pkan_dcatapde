@@ -24,7 +24,6 @@ MAPPING = {
 
 
 class UpdateThemes(UpdateObjectsBase):
-
     uri_registry_key = CT_SKOS_CONCEPT
     uri_registry_interface = IPKANImportSettings
     object_class = surf.ns.SKOS['Concept']

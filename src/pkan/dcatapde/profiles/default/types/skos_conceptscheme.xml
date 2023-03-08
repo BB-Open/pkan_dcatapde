@@ -7,10 +7,12 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">SKOS:ConceptScheme</property>
+    name="title">SKOS:ConceptScheme
+  </property>
   <property
     i18n:translate=""
-    name="description">SKOS Concept Scheme</property>
+    name="description">SKOS Concept Scheme
+  </property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">skos_conceptscheme</property>
@@ -19,7 +21,7 @@
 
   <!-- Hierarchy control -->
   <property name="allowed_content_types">
-      <element value="skos_concept" />
+    <element value="skos_concept"/>
   </property>
   <property name="filter_content_types">True</property>
   <property name="global_allow">True</property>
@@ -45,7 +47,7 @@
     <!--<element value="plone.app.versioningbehavior.behaviors.IVersionable" />-->
     <!--<element value="plone.app.contenttypes.behaviors.tableofcontents.ITableOfContents"/>-->
     <!--<element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>-->
-    <element value="plone.app.dexterity.behaviors.metadata.ICategorization" />
+    <element value="plone.app.dexterity.behaviors.metadata.ICategorization"/>
   </property>
 
   <!-- View information -->

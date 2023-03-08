@@ -45,6 +45,13 @@ class IDCTLanguage(model.Schema, IDCAT):
         title=u'3 Letter Representation',
     )
 
+    skos_inScheme = schema.URI(
+        description=i18n.HELP_SKOS_INSCHEME,
+        required=True,
+        title=i18n.LABEL_SKOS_INSCHEME,
+        default='http://publications.europa.eu/resource/authority/language'
+    )
+
 
 @implementer(IDCTLanguage)
 class DCTLanguage(Item, DCATMixin):

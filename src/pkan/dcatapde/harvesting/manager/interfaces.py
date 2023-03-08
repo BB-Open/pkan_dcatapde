@@ -6,6 +6,7 @@ from zope.interface import Interface
 
 class IImportSource(Interface):
     """Base Interface for Source types."""
+
     # Todo: new Import requires different fields/methods
 
     def dry_run(self):

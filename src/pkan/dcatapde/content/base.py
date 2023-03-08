@@ -30,12 +30,12 @@ class IDCAT(model.Schema):
         description=i18n.IDENTIFIER_DESCRIPTION,
     )
 
-#    read_permission(uri_in_triplestore='pkan.dcatapde.Admin')
-#    write_permission(uri_in_triplestore='pkan.dcatapde.Admin')
-#    uri_in_triplestore = schema.URI(
-#        required=False,
-#        title=_(u'Uri in Triplestore'),
-#    )
+    #    read_permission(uri_in_triplestore='pkan.dcatapde.Admin')
+    #    write_permission(uri_in_triplestore='pkan.dcatapde.Admin')
+    #    uri_in_triplestore = schema.URI(
+    #        required=False,
+    #        title=_(u'Uri in Triplestore'),
+    #    )
 
     model.fieldset(
         'object_identifier',
@@ -68,8 +68,8 @@ class DCATMixin(object):
                 if isinstance(all_titles, dict):
                     curr_lang = get_current_language()
                     if curr_lang and \
-                            curr_lang in all_titles and \
-                            all_titles[curr_lang]:
+                        curr_lang in all_titles and \
+                        all_titles[curr_lang]:
                         return all_titles[curr_lang]
                     title = str(list(all_titles.items())[0][1])
                 elif isinstance(all_titles, list):
@@ -110,7 +110,6 @@ class DCATMixin(object):
 
 
 def add_obj_identifier(obj, event):
-
     if not obj.dct_identifier:
         obj.dct_identifier = obj.absolute_url()
     else:

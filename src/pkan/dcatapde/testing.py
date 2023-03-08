@@ -49,12 +49,10 @@ class Fixture(PloneSandboxLayer):
 
 FIXTURE = Fixture()
 
-
 INTEGRATION_TESTING = IntegrationTesting(
-    bases=(FIXTURE, ),
+    bases=(FIXTURE,),
     name='pkan.dcatapde:Integration',
 )
-
 
 FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(APIMOCK, FIXTURE, z2.ZSERVER_FIXTURE),
@@ -73,6 +71,5 @@ class FunctionalAPIMockLayer(APIMockLayer):
 ACCEPTANCE_TESTING = FunctionalAPIMockLayer(
     name='pkan.dcatapde:Acceptance',
 )
-
 
 ROBOT_TESTING = APIMockLayer(name='pkan.dcatapde:Robot')

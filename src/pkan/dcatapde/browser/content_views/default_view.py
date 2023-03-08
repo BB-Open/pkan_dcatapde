@@ -9,6 +9,7 @@ class PKANDefaultView(DefaultView):
     """
     View for all Pkan-Types.
     """
+
     @property
     def fieldset_order_end(self):
         return FIELDSET_ORDER_AT_END

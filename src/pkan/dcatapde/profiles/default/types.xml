@@ -11,27 +11,27 @@
   <object meta_type="Dexterity FTI" name="dct_location"/>
   <object meta_type="Dexterity FTI" name="dct_language"/>
   <object meta_type="Dexterity FTI" name="dct_mediatypeorextent"/>
-  <object meta_type="Dexterity FTI" name="dct_rightsstatement" />
-  <object meta_type="Dexterity FTI" name="dct_standard" />
+  <object meta_type="Dexterity FTI" name="dct_rightsstatement"/>
+  <object meta_type="Dexterity FTI" name="dct_standard"/>
   <object meta_type="Dexterity FTI" name="foaf_agent"/>
-  <object meta_type="Dexterity FTI" name="skos_concept" />
-  <object meta_type="Dexterity FTI" name="skos_conceptscheme" />
-  <object meta_type="Dexterity FTI" name="vcard_kind" />
+  <object meta_type="Dexterity FTI" name="skos_concept"/>
+  <object meta_type="Dexterity FTI" name="skos_conceptscheme"/>
+  <object meta_type="Dexterity FTI" name="vcard_kind"/>
 
   <!-- DCAT Folders -->
-  <object meta_type="Dexterity FTI" name="AgentFolder" />
-  <object meta_type="Dexterity FTI" name="LanguageFolder" />
-  <object meta_type="Dexterity FTI" name="ConceptFolder" />
-  <object meta_type="Dexterity FTI" name="ConceptSchemeFolder" />
-  <object meta_type="Dexterity FTI" name="FormatFolder" />
-  <object meta_type="Dexterity FTI" name="LicenseFolder" />
-  <object meta_type="Dexterity FTI" name="LocationFolder" />
-  <object meta_type="Dexterity FTI" name="MediaTypeFolder" />
-  <object meta_type="Dexterity FTI" name="RightsFolder" />
-  <object meta_type="Dexterity FTI" name="StandardsFolder" />
-  <object meta_type="Dexterity FTI" name="VcardKindFolder" />
+  <object meta_type="Dexterity FTI" name="AgentFolder"/>
+  <object meta_type="Dexterity FTI" name="LanguageFolder"/>
+  <object meta_type="Dexterity FTI" name="ConceptFolder"/>
+  <object meta_type="Dexterity FTI" name="ConceptSchemeFolder"/>
+  <object meta_type="Dexterity FTI" name="FormatFolder"/>
+  <object meta_type="Dexterity FTI" name="LicenseFolder"/>
+  <object meta_type="Dexterity FTI" name="LocationFolder"/>
+  <object meta_type="Dexterity FTI" name="MediaTypeFolder"/>
+  <object meta_type="Dexterity FTI" name="RightsFolder"/>
+  <object meta_type="Dexterity FTI" name="StandardsFolder"/>
+  <object meta_type="Dexterity FTI" name="VcardKindFolder"/>
 
-  <object meta_type="Dexterity FTI" name="PublisherCard" />
+  <object meta_type="Dexterity FTI" name="PublisherCard"/>
 
   <!-- PKAN Types -->
   <object meta_type="Dexterity FTI" name="harvester"/>

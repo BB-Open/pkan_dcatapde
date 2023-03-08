@@ -3,12 +3,13 @@
 from datetime import datetime
 
 import rdflib
-from pkan_config.namespaces import NAMESPACES, DCAT, DCT, FOAF, SKOS, VCARD, RDFS
+from pkan_config.namespaces import NAMESPACES, DCAT, DCT, FOAF, SKOS, VCARD, RDFS, ADMS, RDF, DCATDE
 from plone.api import portal
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.supermodel.interfaces import FIELDSETS_KEY
+from rdflib.term import URIRef, Literal
 from zope.component import adapter
 from zope.component import getUtility
 from zope.i18n import translate
@@ -339,11 +340,11 @@ class StructDCATCatalog(StructBase):
                                'predicate': rdflib.term.URIRef(
                                    'http://purl.org/dc/terms/identifier'),
                                'type': str},
-            'adms_identifier': {'object': StructRDFSLiteral,
+            'adms_identifier': {'object': StructADMSIdentifier,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
                                     'http://www.w3.org/ns/adms#identifier'),
-                                'type': str},
+                                'type': 'complex'},
             'dct_title': {'object': StructRDFSLiteral,
                           'importance': 'required',
                           'predicate': rdflib.term.URIRef(
@@ -359,17 +360,6 @@ class StructDCATCatalog(StructBase):
                               'predicate': rdflib.term.URIRef(
                                   'http://xmlns.com/foaf/0.1/homepage'),
                               'type': str},
-            'dct_language': {'object': StructRDFSLiteral,
-                             'importance': 'optional',
-                             'predicate': rdflib.term.URIRef(
-                                 'http://purl.org/dc/terms/language'),
-                             'type': list},
-            'dcat_themeTaxonomy': {'object': StructRDFSLiteral,
-                                   'importance': 'optional',
-                                   'predicate': rdflib.term.URIRef(
-                                       'http://www.w3.org/ns/dcat#themeTaxonomy',  # noqa: E501
-                                   ),
-                                   'type': None},
             'dct_issued': {'object': StructRDFSLiteral,
                            'importance': 'optional',
                            'predicate': rdflib.term.URIRef(
@@ -459,6 +449,17 @@ class StructDCATCatalog(StructBase):
             'predicate': DCT.spatial,
             'target': DCT.Location,
         }
+        related['dct_language'] = {'object': StructDCTLanguage,
+                                   'importance': 'optional',
+                                   'predicate': rdflib.term.URIRef(
+                                       'http://purl.org/dc/terms/language'),
+                                   'type': list,
+                                   'target': DCT.language}
+        related['dcat_themeTaxonomy'] = {'object': StructSKOSConceptScheme,
+                                         'importance': 'optional',
+                                         'predicate': DCAT.themeTaxonomy,
+                                         'type': list,
+                                         'target': StructSKOSConceptScheme.rdf_type}
         return related
 
 
@@ -503,36 +504,21 @@ class StructDCATDataset(StructBase):
                                    'predicate': rdflib.term.URIRef(
                                        'http://purl.org/dc/terms/identifier'),
                                    'type': str},
-                'adms_identifier': {'object': StructRDFSLiteral,
+                'adms_identifier': {'object': StructADMSIdentifier,
                                     'importance': 'optional',
                                     'predicate': rdflib.term.URIRef(
                                         'http://www.w3.org/ns/adms#identifier'),  # noqa: E501
-                                    'type': str},
+                                    'type': 'complex'},
+                'dct_description': {'object': StructRDFSLiteral,
+                                    'importance': 'required',
+                                    'predicate': rdflib.term.URIRef(
+                                        'http://purl.org/dc/terms/description'),
+                                    'type': dict},
                 'dct_title': {'object': StructRDFSLiteral,
                               'importance': 'required',
                               'predicate': rdflib.term.URIRef(
                                   'http://purl.org/dc/terms/title'),
                               'type': dict},
-                'dct_creator': {'object': StructRDFSLiteral,
-                                'importance': 'optional',
-                                'predicate': rdflib.term.URIRef(
-                                    'http://purl.org/dc/terms/creator'),
-                                'type': None},
-                'dct_contributor': {'object': StructRDFSLiteral,
-                                    'importance': 'optional',
-                                    'predicate': rdflib.term.URIRef(
-                                        'http://purl.org/dc/terms/contributor'),  # noqa: E501
-                                    'type': None},
-                'dcatde_originator': {'object': StructRDFSLiteral,
-                                      'importance': 'optional',
-                                      'predicate': rdflib.term.URIRef(
-                                          'http://dcat-ap.de/def/dcatde/1_0originator'),  # noqa: E501
-                                      'type': None},
-                'dcatde_maintainer': {'object': StructRDFSLiteral,
-                                      'importance': 'optional',
-                                      'predicate': rdflib.term.URIRef(
-                                          'http://dcat-ap.de/def/dcatde/1_0maintainer'),  # noqa: E501
-                                      'type': None},
                 'dct_issued': {'object': StructRDFSLiteral,
                                'importance': 'optional',
                                'predicate': rdflib.term.URIRef(
@@ -543,33 +529,27 @@ class StructDCATDataset(StructBase):
                                  'predicate': rdflib.term.URIRef(
                                      'http://purl.org/dc/terms/modified'),
                                  'type': datetime.date},
-                'dcatde_contributorID': {'object': StructRDFSLiteral,
+                'dcatde_contributorID': {'object': StructURIRef,
                                          'importance': 'optional',
                                          'predicate': rdflib.term.URIRef(
                                              'http://dcat-ap.de/def/dcatde/1_0contributorID'),  # noqa: E501
-                                         'type': dict},
-                'dcatde_politicalGeocodingURI': {'object': StructRDFSLiteral,
+                                         'type': 'complex'},
+                'dcatde_politicalGeocodingURI': {'object': StructURIRef,
                                                  'importance': 'optional',
                                                  'predicate': rdflib.term.URIRef(  # noqa: E501
                                                      'http://dcat-ap.de/def/dcatde/1_0politicalGeocodingURI'),
-                                                 # noqa: E501
-                                                 'type': str},
-                'dcatde_politicalGeocodingLevelURI': {'object': StructRDFSLiteral,  # noqa: E501
+                                                 'type': 'complex'},
+                'dcatde_politicalGeocodingLevelURI': {'object': StructURIRef,  # noqa: E501
                                                       'importance': 'optional',
                                                       'predicate': rdflib.term.URIRef(  # noqa: E501
                                                           'http://dcat-ap.de/def/dcatde/1_0politicalGeocodingLevelURI'),
                                                       # noqa: E501
-                                                      'type': str},
+                                                      'type': 'complex'},
                 'dcatde_geocodingText': {'object': StructRDFSLiteral,
                                          'importance': 'optional',
                                          'predicate': rdflib.term.URIRef(
                                              'http://dcat-ap.de/def/dcatde/1_0geocodingText'),  # noqa: E501
                                          'type': dict},
-                'dct_accessRights': {'object': StructRDFSLiteral,
-                                     'importance': 'optional',
-                                     'predicate': rdflib.term.URIRef(
-                                         'http://purl.org/dc/terms/accessRights'),  # noqa: E501
-                                     'type': None},
                 'owl_versionInfo': {'object': StructRDFSLiteral,
                                     'importance': 'optional',
                                     'predicate': rdflib.term.URIRef('https://www.w3.org/2002/07/owl#versionInfo'),
@@ -641,6 +621,34 @@ class StructDCATDataset(StructBase):
             'predicate': DCT.publisher,
             'target': FOAF.Agent,
         }
+        related['dcatde_originator'] = {
+            'object': StructFOAFAgent,
+            'importance': IMP_OPTIONAL,
+            'type': str,
+            'predicate': DCATDE.originator,
+            'target': FOAF.Agent,
+        }
+        related['dcatde_maintainer'] = {
+            'object': StructFOAFAgent,
+            'importance': IMP_OPTIONAL,
+            'type': str,
+            'predicate': DCATDE.maintainer,
+            'target': FOAF.Agent,
+        }
+        related['dct_contributor'] = {
+            'object': StructFOAFAgent,
+            'importance': IMP_OPTIONAL,
+            'type': str,
+            'predicate': DCT.contributor,
+            'target': FOAF.Agent,
+        }
+        related['dct_creator'] = {
+            'object': StructFOAFAgent,
+            'importance': IMP_OPTIONAL,
+            'type': str,
+            'predicate': DCT.creator,
+            'target': FOAF.Agent,
+        }
         related['dct_rights'] = {
             'object': StructDCTRightsStatement,
             'importance': IMP_OPTIONAL,
@@ -664,11 +672,21 @@ class StructDCATDataset(StructBase):
         }
         related['dcat_contactPoint'] = {'object': StructVCARDKind,
                                         'importance': 'optional',
-                                        'type': list,
                                         'predicate': rdflib.term.URIRef(
                                             'http://www.w3.org/ns/dcat#contactPoint'), 'type': list,
                                         'target': VCARD.Kind,
                                         }
+        related['dct_accessRights'] = {'object': StructDCTRightsStatement,
+                                       'importance': 'optional',
+                                       'predicate': rdflib.term.URIRef(
+                                           'http://purl.org/dc/terms/accessRights'),  # noqa: E501
+                                       'type': list,
+                                       'target': StructDCTRightsStatement.rdf_type}
+        related['dcat_theme'] = {'object': StructSKOSConcept,
+                                 'importance': 'optional',
+                                 'predicate': DCAT.theme,  # noqa: E501
+                                 'type': list,
+                                 'target': StructSKOSConcept.rdf_type}
         return related
 
 
@@ -695,21 +713,16 @@ class StructDCATDistribution(StructBase):
                                         'http://purl.org/dc/terms/description'),  # noqa: E501
                                     'type': dict},
                 # changed from optional to required
-                'dcat_accessURL': {'object': StructRDFSLiteral,
+                'dcat_accessURL': {'object': StructURIRef,
                                    'importance': 'required',
                                    'predicate': rdflib.term.URIRef(
                                        'http://www.w3.org/ns/dcat#accessURL'),
-                                   'type': str},
-                'dcat_downloadURL': {'object': StructRDFSLiteral,
+                                   'type': 'complex'},
+                'dcat_downloadURL': {'object': StructURIRef,
                                      'importance': 'optional',
                                      'predicate': rdflib.term.URIRef(
                                          'http://www.w3.org/ns/dcat#downloadURL'),  # noqa: E501
-                                     'type': str},
-                'dcatde_plannedAvailability': {'object': StructRDFSLiteral,
-                                               'importance': 'optional',
-                                               'predicate': rdflib.term.URIRef(
-                                                   'http://dcat-ap.de/def/dcatde/1_0plannedAvailability'),  # noqa: E501
-                                               'type': dict},
+                                     'type': 'complex'},
                 'dcatde_licenseAttributionByText': {'object': StructRDFSLiteral,  # noqa: E501
                                                     'importance': 'optional',
                                                     'predicate': rdflib.term.URIRef(  # noqa: E501
@@ -720,7 +733,7 @@ class StructDCATDistribution(StructBase):
                                   'importance': 'optional',
                                   'predicate': rdflib.term.URIRef(
                                       'http://www.w3.org/ns/dcat#byteSize'),
-                                  'type': dict},
+                                  'type': int},
                 'dct_issued': {'object': StructRDFSLiteral,
                                'importance': 'optional',
                                'predicate': rdflib.term.URIRef(
@@ -736,11 +749,11 @@ class StructDCATDistribution(StructBase):
                                    'predicate': rdflib.term.URIRef(
                                        'http://purl.org/dc/terms/identifier'),
                                    'type': str},
-                'adms_identifier': {'object': StructRDFSLiteral,
+                'adms_identifier': {'object': StructADMSIdentifier,
                                     'importance': 'optional',
                                     'predicate': rdflib.term.URIRef(
                                         'http://www.w3.org/ns/adms#identifier'),  # noqa: E501
-                                    'type': str},
+                                    'type': 'complex'},
                 'subjects': {'object': StructRDFSLiteral,
                              'importance': 'optional',
                              'predicate': rdflib.term.URIRef(
@@ -835,11 +848,11 @@ class StructDCTLicenseDocument(StructBase):
                                'predicate': rdflib.term.URIRef(
                                    'http://purl.org/dc/terms/identifier'),
                                'type': str},
-            'adms_identifier': {'object': StructRDFSLiteral,
+            'adms_identifier': {'object': StructADMSIdentifier,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
                                     'http://www.w3.org/ns/adms#identifier'),
-                                'type': str},
+                                'type': 'complex'},
             'subjects': {'object': StructRDFSLiteral,
                          'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
@@ -889,11 +902,11 @@ class StructDCTLocation(StructBase):
                                'predicate': rdflib.term.URIRef(
                                    'http://purl.org/dc/terms/identifier'),
                                'type': str},
-            'adms_identifier': {'object': StructRDFSLiteral,
+            'adms_identifier': {'object': StructADMSIdentifier,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
                                     'http://www.w3.org/ns/adms#identifier'),
-                                'type': str},
+                                'type': 'complex'},
             'subjects': {'object': StructRDFSLiteral,
                          'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
@@ -939,6 +952,11 @@ class StructDCTLanguage(StructBase):
                                  'predicate': rdflib.term.URIRef(
                                      'http://www.w3.org/2000/01/rdf-schema#isDefinedBy'),  # noqa: E501
                                  'type': str},
+            'skos_inScheme': {'object': StructURIRef,
+                              'importance': IMP_REQUIRED,
+                              'predicate': rdflib.term.URIRef(
+                                  'http://www.w3.org/2004/02/skos/core#inScheme'),  # noqa: E501
+                              'type': 'complex'},
             # 'old_representation': {'object': StructRDFSLiteral,
             #                        'importance': 'optional',
             #                        'predicate': 'old_representation',
@@ -953,11 +971,11 @@ class StructDCTLanguage(StructBase):
                                'predicate': rdflib.term.URIRef(
                                    'http://purl.org/dc/terms/identifier'),
                                'type': str},
-            'adms_identifier': {'object': StructRDFSLiteral,
+            'adms_identifier': {'object': StructADMSIdentifier,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
                                     'http://www.w3.org/ns/adms#identifier'),
-                                'type': str},
+                                'type': 'complex'},
             'subjects': {'object': StructRDFSLiteral,
                          'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
@@ -1013,11 +1031,16 @@ class StructDCTMediaTypeOrExtent(StructBase):
                                    'predicate': rdflib.term.URIRef(
                                        'http://purl.org/dc/terms/identifier'),
                                    'type': str},
-                'adms_identifier': {'object': StructRDFSLiteral,
+                'skos_inScheme': {'object': StructURIRef,
+                                  'importance': 'optional',
+                                  'predicate': rdflib.term.URIRef(
+                                      'http://www.w3.org/2004/02/skos/core#inScheme'),  # noqa: E501
+                                  'type': 'complex'},
+                'adms_identifier': {'object': StructADMSIdentifier,
                                     'importance': 'optional',
                                     'predicate': rdflib.term.URIRef(
                                         'http://www.w3.org/ns/adms#identifier'),  # noqa: E501
-                                    'type': str},
+                                    'type': 'complex'},
                 'subjects': {'object': StructRDFSLiteral,
                              'importance': 'optional',
                              'predicate': rdflib.term.URIRef(
@@ -1068,11 +1091,11 @@ class StructDCTStandard(StructBase):
                                'predicate': rdflib.term.URIRef(
                                    'http://purl.org/dc/terms/identifier'),
                                'type': str},
-            'adms_identifier': {'object': StructRDFSLiteral,
+            'adms_identifier': {'object': StructADMSIdentifier,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
                                     'http://www.w3.org/ns/adms#identifier'),
-                                'type': str},
+                                'type': 'complex'},
             'subjects': {'object': StructRDFSLiteral, 'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
                              'http://www.w3.org/ns/dcat#keyword'),
@@ -1118,11 +1141,11 @@ class StructDCTRightsStatement(StructBase):
                                'predicate': rdflib.term.URIRef(
                                    'http://purl.org/dc/terms/identifier'),
                                'type': str},
-            'adms_identifier': {'object': StructRDFSLiteral,
+            'adms_identifier': {'object': StructADMSIdentifier,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
                                     'http://www.w3.org/ns/adms#identifier'),
-                                'type': str},
+                                'type': 'complex'},
             'subjects': {'object': StructRDFSLiteral,
                          'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
@@ -1172,11 +1195,11 @@ class StructFOAFAgent(StructBase):
                                    'predicate': rdflib.term.URIRef(
                                        'http://purl.org/dc/terms/identifier'),
                                    'type': str},
-                'adms_identifier': {'object': StructRDFSLiteral,
+                'adms_identifier': {'object': StructADMSIdentifier,
                                     'importance': 'optional',
                                     'predicate': rdflib.term.URIRef(
                                         'http://www.w3.org/ns/adms#identifier'),  # noqa: E501
-                                    'type': str},
+                                    'type': 'complex'},
                 'subjects': {'object': StructRDFSLiteral,
                              'importance': 'optional',
                              'predicate': rdflib.term.URIRef(
@@ -1232,11 +1255,11 @@ class StructSKOSConceptScheme(StructBase):
                                         'http://purl.org/dc/terms/description'),  # noqa: E501
                                     'type': dict},
                 # changed from required to optional
-                'skos_inScheme': {'object': StructRDFSLiteral,
+                'skos_inScheme': {'object': StructURIRef,
                                   'importance': 'optional',
                                   'predicate': rdflib.term.URIRef(
                                       'http://www.w3.org/2004/02/skos/core#inScheme'),  # noqa: E501
-                                  'type': str},
+                                  'type': 'complex'},
                 'rdfs_isDefinedBy': {'object': StructRDFSLiteral,
                                      'importance': 'optional',
                                      'predicate': rdflib.term.URIRef(
@@ -1252,11 +1275,11 @@ class StructSKOSConceptScheme(StructBase):
                                    'predicate': rdflib.term.URIRef(
                                        'http://purl.org/dc/terms/identifier'),
                                    'type': str},
-                'adms_identifier': {'object': StructRDFSLiteral,
+                'adms_identifier': {'object': StructADMSIdentifier,
                                     'importance': 'optional',
                                     'predicate': rdflib.term.URIRef(
                                         'http://www.w3.org/ns/adms#identifier'),  # noqa: E501
-                                    'type': str},
+                                    'type': 'complex'},
                 'subjects': {'object': StructRDFSLiteral,
                              'importance': 'optional',
                              'predicate': rdflib.term.URIRef(
@@ -1324,11 +1347,11 @@ class StructVCARDKind(StructBase):
                                'predicate': rdflib.term.URIRef(
                                    'http://purl.org/dc/terms/identifier'),
                                'type': str},
-            'adms_identifier': {'object': StructRDFSLiteral,
+            'adms_identifier': {'object': StructADMSIdentifier,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
                                     'http://www.w3.org/ns/adms#identifier'),
-                                'type': str},
+                                'type': 'complex'},
             'subjects': {'object': StructRDFSLiteral, 'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
                              'http://www.w3.org/ns/dcat#keyword'),
@@ -1367,11 +1390,11 @@ class StructSKOSConcept(StructBase):
                                     'http://purl.org/dc/terms/description'),
                                 'type': dict},
             # changed from required to optional
-            'skos_inScheme': {'object': StructRDFSLiteral,
+            'skos_inScheme': {'object': StructURIRef,
                               'importance': 'optional',
                               'predicate': rdflib.term.URIRef(
                                   'http://www.w3.org/2004/02/skos/core#inScheme'),  # noqa: E501
-                              'type': str},
+                              'type': 'complex'},
             'rdfs_isDefinedBy': {'object': StructRDFSLiteral,
                                  'importance': 'optional',
                                  'predicate': rdflib.term.URIRef(
@@ -1387,11 +1410,11 @@ class StructSKOSConcept(StructBase):
                                'predicate': rdflib.term.URIRef(
                                    'http://purl.org/dc/terms/identifier'),
                                'type': str},
-            'adms_identifier': {'object': StructRDFSLiteral,
+            'adms_identifier': {'object': StructADMSIdentifier,
                                 'importance': 'optional',
                                 'predicate': rdflib.term.URIRef(
                                     'http://www.w3.org/ns/adms#identifier'),
-                                'type': str},
+                                'type': 'complex'},
             'subjects': {'object': StructRDFSLiteral, 'importance': 'optional',
                          'predicate': rdflib.term.URIRef(
                              'http://www.w3.org/ns/dcat#keyword'),
@@ -1415,6 +1438,30 @@ class StructRDFSLiteral(StructBase):
     rdf_type = RDFS.Literal
 
 
+@implementer(IStructure)
+class StructADMSIdentifier(StructBase):
+    rdf_type = ADMS.Identifier
+
+    def marshall(self, marshaller, parent, rdf_name, property):
+        my_uri = URIRef(parent.subject + '#adms_identifier')
+        store = marshaller.marshall_target.store
+
+        # add object to parent
+        marshaller.marshall_target.add_property(parent, rdf_name, my_uri)
+
+        # additional triples
+        store.add_triple(my_uri, RDF.type, ADMS.Identifier)
+        store.add_triple(my_uri, SKOS.notation, Literal(property))
+
+
+@implementer(IStructure)
+class StructURIRef(StructBase):
+    def marshall(self, marshaller, parent, rdf_name, property):
+        my_uri = URIRef(property)
+        # add object to parent
+        marshaller.marshall_target.add_property(parent, rdf_name, my_uri)
+
+
 STRUCTURES = [
     StructRDFSLiteral,
     StructSKOSConcept,
@@ -1430,6 +1477,7 @@ STRUCTURES = [
     StructDCATDistribution,
     StructDCATCatalog,
     StructDCATDataset,
+    StructADMSIdentifier,
 ]
 
 STRUCT_BY_NS_CLASS = {

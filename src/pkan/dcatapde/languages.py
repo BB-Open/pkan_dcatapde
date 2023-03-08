@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from pkan.dcatapde import _
 
-
 DEFAULT_LANGUAGE = u'eng'
 
 AVAILABLE_LANGUAGES_ISO = {

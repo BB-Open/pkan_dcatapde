@@ -7,10 +7,12 @@
   <!-- Basic properties -->
   <property
     i18n:translate=""
-    name="title">DCAT:Dataset</property>
+    name="title">DCAT:Dataset
+  </property>
   <property
     i18n:translate=""
-    name="description">DCAT Dataset</property>
+    name="description">DCAT Dataset
+  </property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">dcat_dataset</property>
@@ -46,7 +48,7 @@
     <!--<element value="plone.app.versioningbehavior.behaviors.IVersionable" />-->
     <!--<element value="plone.app.contenttypes.behaviors.tableofcontents.ITableOfContents"/>-->
     <!--<element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>-->
-    <element value="plone.app.dexterity.behaviors.metadata.ICategorization" />
+    <element value="plone.app.dexterity.behaviors.metadata.ICategorization"/>
   </property>
 
   <!-- View information -->

@@ -75,22 +75,22 @@ class LandingPageView(BrowserView):
             roles_parent = api.user.get_roles(user=user,
                                               obj=get_parent(obj))
             if PROVIDER_CHIEF_EDITOR_ROLE in roles and \
-                    PROVIDER_CHIEF_EDITOR_ROLE not in roles_parent:
+                PROVIDER_CHIEF_EDITOR_ROLE not in roles_parent:
                 self.chief_editor_obj.append(obj)
             elif PROVIDER_CHIEF_EDITOR_ROLE in roles and \
-                    obj.portal_type == CT_DCAT_CATALOG:
+                obj.portal_type == CT_DCAT_CATALOG:
                 self.provider_chief_editor_cat.append(obj)
             if PROVIDER_DATA_EDITOR_ROLE in roles and \
-                    PROVIDER_DATA_EDITOR_ROLE not in roles_parent:
+                PROVIDER_DATA_EDITOR_ROLE not in roles_parent:
                 self.data_editor_obj.append(obj)
             elif PROVIDER_DATA_EDITOR_ROLE in roles and \
-                    obj.portal_type == CT_DCAT_CATALOG:
+                obj.portal_type == CT_DCAT_CATALOG:
                 self.provider_data_editor_cat.append(obj)
             if PROVIDER_ADMIN_ROLE in roles and \
-                    PROVIDER_ADMIN_ROLE not in roles_parent:
+                PROVIDER_ADMIN_ROLE not in roles_parent:
                 self.admin_obj.append(obj)
             elif PROVIDER_ADMIN_ROLE in roles and \
-                    obj.portal_type == CT_DCAT_CATALOG:
+                obj.portal_type == CT_DCAT_CATALOG:
                 self.provider_admin_cat.append(obj)
 
     def providerchiefeditor_heading(self):

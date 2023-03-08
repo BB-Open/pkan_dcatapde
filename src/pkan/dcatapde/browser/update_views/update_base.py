@@ -21,7 +21,6 @@ surf.namespace.register(ADMS='http://www.w3.org/ns/adms#')
 
 
 class UpdateObjectsBase(object):
-
     uri_registry_key = None
     uri_registry_interface = None
     object_class = surf.ns.SKOS['Concept']

@@ -85,7 +85,6 @@ class HarvesterFolderView(BrowserView, HarvesterListViewMixin):
         self.data = []
 
         for harv_id, harv in folder.contentItems():
-
             data = self.read_harvester_info(harv)
 
             self.data.append(data)
@@ -193,7 +192,7 @@ class RealRunCronView(BrowserView):
 
         del rdfproc  # noqa F821
         del visitor  # noqa F821
-        del validator # noqa F821
+        del validator  # noqa F821
 
         return ['<p>Harvester fertig, Siehe Logs für Details.</p>']
 

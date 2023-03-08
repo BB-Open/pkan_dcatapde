@@ -22,7 +22,6 @@ MAPPING = mapping = {
 
 
 class UpdateLanguages(UpdateObjectsBase):
-
     uri_registry_key = CT_DCT_LANGUAGE
     uri_registry_interface = IPKANImportSettings
 

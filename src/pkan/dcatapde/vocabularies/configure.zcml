@@ -25,6 +25,11 @@
       />
 
   <utility
+      component=".content_types.DCATLanguageVocabularyFactory"
+      name="pkan.dcatapde.vocabularies.DCATLanguage"
+      />
+
+  <utility
       component=".content_types.ContextAwareCatalogFactory"
       name="pkan.dcatapde.vocabularies.ContextAwareDCATCatalog"
       />
@@ -121,5 +126,6 @@
       component=".languages.PKANLanguageVocabularyFactory"
       name="pkan.dcatapde.AvailableContentLanguageVocabulary"
       />
+
 
 </configure>

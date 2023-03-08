@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """RDF Backend store"""
 
-
 import surf
 
 from pkan.dcatapde.structure.namespaces import INIT_NS
+from pkan_config.namespaces import NAMESPACES
 
 surf.namespace.register(**INIT_NS)
 
@@ -28,16 +28,8 @@ class RDFStore(object):
             rdflib_store='IOMemory',
         )
 
-        store.reader.graph.bind('dc', surf.ns.DC, override=True)
-        store.reader.graph.bind('dcterms', surf.ns.DCTERMS, override=True)
-        store.reader.graph.bind('skos', surf.ns.SKOS, override=True)
-        store.reader.graph.bind('geo', surf.ns.GEO, override=True)
-        store.reader.graph.bind('owl', surf.ns.OWL, override=True)
-        store.reader.graph.bind('dcat', surf.ns.DCAT, override=True)
-        store.reader.graph.bind('dcatde', surf.ns.DCATDE, override=True)
-        store.reader.graph.bind('schema', surf.ns.SCHEMA, override=True)
-        store.reader.graph.bind('foaf', surf.ns.FOAF, override=True)
-        store.reader.graph.bind('adms', surf.ns.ADMS, override=True)
+        for namespace, uri in NAMESPACES.items():
+            store.reader.graph.bind(namespace, uri, override=True)
 
         self._store = store
 
@@ -46,7 +38,7 @@ class RDFStore(object):
     def marshall_inner(self, instance, **kwargs):
         """Marshall the rdf data to xml representation."""
         session = surf.Session(self.store)
-        assert(session)
+        assert (session)
 
     def marshall(self, instance, **kwargs):
         """Marshall the rdf data to xml representation."""

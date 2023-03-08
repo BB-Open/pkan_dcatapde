@@ -30,7 +30,6 @@ class TransferListViewMixin(object):
     """
 
     def read_transfer_info(self, trans):
-
         path = trans.absolute_url()
 
         data = {
@@ -58,7 +57,6 @@ class TransferFolderView(BrowserView, TransferListViewMixin):
         self.data = []
 
         for trans_id, trans in folder.contentItems():
-
             data = self.read_transfer_info(trans)
 
             self.data.append(data)
@@ -138,7 +136,7 @@ class RealRunCronView(BrowserView):
             response = rdfproc.real_run()
             text = 'Database Response: '
             text = text + \
-                response.replace('<', '&lt;').replace('>', '&gt;')
+                   response.replace('<', '&lt;').replace('>', '&gt;')
             logger.info(text)
         except SSLError:
             text = 'Database not reachable.'
@@ -182,7 +180,8 @@ class RealRunCronView(BrowserView):
                 u'<h2>Clear Namespace {title} and create if not exists</h2>'.format(title=namespace))
             logger.info(u'Clear Namespace {title} and create if not exists'.format(title=namespace))
             cfg = pkan_cfg.get_config()
-            self.rdf4j.create_repository(namespace, repo_type=cfg.RDF_REPO_TYPE, overwrite=False, accept_existing=True, auth=self.auth)
+            self.rdf4j.create_repository(namespace, repo_type=cfg.RDF_REPO_TYPE, overwrite=False, accept_existing=True,
+                                         auth=self.auth)
             self.rdf4j.empty_repository(namespace, auth=self.auth)
             self.log.append(u'<p>Erledigt</p>')
         for obj in url_transfers:

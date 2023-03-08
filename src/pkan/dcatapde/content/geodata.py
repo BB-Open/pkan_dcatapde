@@ -121,7 +121,6 @@ class LGBHarvester(Container, DCATMixin):
     """Harvester Content Type."""
 
     def __init__(self, *args, **kwargs):
-
         self._graph = None
         self._rdfstore = None
 

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """Recursive crawler through objects and properties for marshalling"""
 import logging
+from datetime import datetime
 
 from Products.CMFCore.interfaces import IFolderish
 from plone.api import content
 from plone.app.contenttypes.behaviors.collection import ICollection
+from rdflib.term import Literal
 from zope.component import adapter
 from zope.component import queryMultiAdapter
 from zope.interface import Interface
@@ -13,6 +15,8 @@ from zope.interface import implementer
 from pkan.dcatapde.api.functions import check_published
 from pkan.dcatapde.marshall.interfaces import IMarshallSource
 from pkan.dcatapde.structure.structure import IStructure
+
+from pkan_config.namespaces import XSD
 
 logger = logging.getLogger('Plone')
 
@@ -75,7 +79,7 @@ class DX2Any(object):
                 values.append(value)
         return values
 
-    def marshall_property(self, rdf_name, property):
+    def marshall_property(self, rdf_name, property, literal_type=None):
         # Marshall a property that contains a single value.
         # At first check for an available filed_name adapter to do this.
         field_name_property_marshaller = queryMultiAdapter(
@@ -102,12 +106,18 @@ class DX2Any(object):
                 if property is None:
                     return
                 marshalled_property = str(property)
+                if literal_type is not None:
+                    marshalled_property = Literal(marshalled_property, datatype=literal_type)
         if marshalled_property is not None:
             self.marshall_target.add_property(
                 self.resource,
                 rdf_name,
                 marshalled_property,
             )
+
+    def marshall_complexproperty(self, rdf_name, property, struct_info):
+        logger.info('Marshall ' + rdf_name)
+        struct_info['object'](None).marshall(self, self.resource, rdf_name, property)
 
     def marshall_listproperty(self, rdf_name, listproperty):
         # handle a list property. This code is unstable.
@@ -154,8 +164,14 @@ class DX2Any(object):
             else:
                 rdf_name = property_name
             # is the property a list or a single value
-            if struct_info['type'] == list:
+            if struct_info['type'] == 'complex':
+                self.marshall_complexproperty(rdf_name, property_value, struct_info)
+            elif struct_info['type'] == list:
                 self.marshall_listproperty(rdf_name, property_value)
+            elif struct_info['type'] == datetime.date:
+                self.marshall_property(rdf_name, property_value, literal_type=XSD.date)
+            elif struct_info['type'] == int:
+                self.marshall_property(rdf_name, property_value, literal_type=XSD.decimal)
             else:
                 self.marshall_property(rdf_name, property_value)
 
@@ -190,11 +206,13 @@ class DX2Any(object):
                 uid = getattr(context, ref_name, None)
                 if not uid:
                     continue
-                uid_list = [uid]
+                uid_list = [uid, ]
             else:
                 uid_list = getattr(context, ref_name, None)
                 if not uid_list:
                     continue
+                if isinstance(uid_list, str):
+                    uid_list = [uid_list, ]
             resources = []
             for uid in uid_list:
                 ref = content.get(UID=uid)

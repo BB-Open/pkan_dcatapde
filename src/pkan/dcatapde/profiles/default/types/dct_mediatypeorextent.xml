@@ -8,7 +8,8 @@
   <property i18n:translate="" name="title">DCT:MediaTypeOrExtent</property>
   <property
     i18n:translate=""
-    name="description">DCT Media Type or Extend</property>
+    name="description">DCT Media Type or Extend
+  </property>
 
   <property name="allow_discussion">False</property>
   <property name="factory">dct_mediatypeorextent</property>
@@ -41,7 +42,7 @@
     <!--<element value="plone.app.versioningbehavior.behaviors.IVersionable" />-->
     <!--<element value="plone.app.contenttypes.behaviors.tableofcontents.ITableOfContents"/>-->
     <!--<element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>-->
-    <element value="plone.app.dexterity.behaviors.metadata.ICategorization" />
+    <element value="plone.app.dexterity.behaviors.metadata.ICategorization"/>
 
   </property>
 

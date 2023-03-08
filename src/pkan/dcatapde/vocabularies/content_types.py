@@ -102,6 +102,16 @@ DCATCatalogVocabularyFactory = DCATCatalogVocabulary()
 
 
 @implementer(IVocabularyFactory)
+class DCATLanguageVocabulary(BaseContentTypeVocabulary):
+    """A vocabulary returning DCATCatalog items."""
+
+    portal_type = constants.CT_DCT_LANGUAGE
+
+
+DCATLanguageVocabularyFactory = DCATLanguageVocabulary()
+
+
+@implementer(IVocabularyFactory)
 class DcatCatalogContextAwareVocabulary(BaseContentTypeVocabularyNoPkanState):
     """A vocabulary returning all objects from portal catalog."""
 

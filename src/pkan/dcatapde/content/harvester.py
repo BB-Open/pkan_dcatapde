@@ -24,6 +24,7 @@ from pkan.dcatapde.harvesting.manager.interfaces import IRDFJSONLD
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFTTL
 from pkan.dcatapde.harvesting.manager.interfaces import IRDFXML
 from pkan.dcatapde.i18n import HELP_REHARVESTING_PERIOD
+
 # from pkan.dcatapde.structure.sparql import QUERY_A
 # from pkan.dcatapde.structure.sparql import QUERY_A_STR
 

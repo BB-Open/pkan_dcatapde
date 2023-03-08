@@ -36,6 +36,12 @@ class IDCTMediaTypeOrExtent(model.Schema, IDCAT):
         title=i18n.LABEL_RDFS_ISDEFINEDBY,
     )
 
+    skos_inScheme = schema.URI(
+        description=i18n.HELP_SKOS_INSCHEME,
+        required=False,
+        title=i18n.LABEL_SKOS_INSCHEME,
+    )
+
 
 @implementer(IDCTMediaTypeOrExtent)
 class DCTMediaTypeOrExtent(Item, DCATMixin):

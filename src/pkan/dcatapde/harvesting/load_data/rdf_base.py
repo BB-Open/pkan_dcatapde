@@ -9,8 +9,8 @@ class BaseRDFProcessor(object):
 
     raise_exceptions = True
 
-    struct_class = None             # Todo: Is this useful
-    harvesting_context = None       # Todo: Is this useful
+    struct_class = None  # Todo: Is this useful
+    harvesting_context = None  # Todo: Is this useful
 
     def __init__(self, harvester):
         self.harvester = harvester
@@ -23,7 +23,6 @@ class BaseRDFProcessor(object):
 
     def prepare_and_run(self, visitor):
         pass
-
 
     def add_contributer_id(self, visitor, rdf4j, auth, dbs):
         msg = _(u'Add Contributer IDs')
@@ -63,4 +62,3 @@ class BaseRDFProcessor(object):
                 msg=msg,
                 database=db,
             )
-

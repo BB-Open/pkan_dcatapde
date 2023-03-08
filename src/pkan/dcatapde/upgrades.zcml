@@ -227,4 +227,22 @@
       handler=".upgrades.reload_gs_profile"
       />
 
+      <genericsetup:upgradeStep
+      source="*"
+      destination="2015"
+      title="Reload GS profiles: Fix View name"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.reload_gs_profile"
+      />
+
+      <genericsetup:upgradeStep
+      source="*"
+      destination="2019"
+      title="Reload GS profiles: Fix Languages and Distributions"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.set_language_skos"
+      />
+
 </configure>

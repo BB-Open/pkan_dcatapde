@@ -4,7 +4,6 @@
 from pkan.dcatapde import _
 from pkan.dcatapde import constants
 
-
 BUTTON_IMPORT_DCT_LICENSEDOCUMENT = _(u'Import DCT:LicenseDocument')
 BUTTON_IMPORT_SKOS_CONCEPT = _(u'Import SKOS:Concept')
 BUTTON_IMPORT_LANGUAGES = _(u'Import Lanuages')
@@ -184,7 +183,6 @@ LABEL_DCATDE_GEOCODINGTEXT = _(u'Geocoding text')
 LABEL_DCATDE_LEGALBASISTEXT = _(u'Legal basis text')
 LABEL_DCATDE_LICENSEATTRIBUTIONBYTEXT = _(u'Licence attribution by text')
 LABEL_DCATDE_MAINTAINER = _(u'Maintainer')
-LABEL_DCATDE_PLANNED_AVAILABLITY = _(u'Planed availability')
 LABEL_DCATDE_POLITICALGEOCODINGLEVELURI = _(u'PoliticalGeocodingLevelURI')
 LABEL_DCATDE_POLITICALGEOCODINGURI = _(u'PoliticalGeocodingURI')
 LABEL_DCATDE_ORIGINATOR = _(u'Originator')
@@ -239,7 +237,6 @@ LABEL_SETTINGS_IMPORTS_SKOS_CONCEPT = _('SKOS:Concept Sources')
 LABEL_SETTINGS_IMPORTS_DCT_LANGUAGE = _('DCT:Language Sources')
 LABEL_SKOS_INSCHEME = _(u'Concept scheme URI')
 LABEL_URL = _(u'URL')
-
 
 STATUS_REGISTRY_UPDATED = _(
     u'Registry has been updated. Please reload this page.',

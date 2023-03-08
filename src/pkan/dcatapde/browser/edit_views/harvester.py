@@ -11,7 +11,6 @@ from pkan.dcatapde.content.harvester import IHarvester
 
 
 class HarvesterEditForm(edit.DefaultEditForm):
-
     schema = IHarvester
 
     def __init__(self, context, request, ti=None):

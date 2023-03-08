@@ -13,7 +13,6 @@ from pkan.dcatapde.structure.structure import StructRDFSLiteral
 
 logger = logging.getLogger('Plone')
 
-
 LEVEL_COLOR = {
     'info': 'green',
     'warn': 'orange',

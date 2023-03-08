@@ -1,188 +1,188 @@
 <?xml version="1.0"?>
 <rolemap>
   <roles>
-    <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+    <role name="Manager"/>
+    <role name="Site Administrator"/>
+    <role name="Owner"/>
+    <role name="Contributor"/>
+    <role name="ProviderChiefEditor"/>
+    <role name="ProviderDataEditor"/>
+    <role name="ProviderAdmin"/>
   </roles>
   <permissions>
 
     <permission name="pkan.dcatapde: Add DCATCatalog" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATCollectionCatalog" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATDataset" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCATDistribution" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLicenseDocument" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLocation" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTLanguage" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTMediaTypeOrExtent" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTStandard" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add DCTRightsStatement" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add FOAFAgent" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add SKOSConcept" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add SKOSConceptScheme" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add VCARDKind" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
 
     <permission name="pkan.dcatapde: Add Transfer" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add Transferfolder" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add Harvester" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add Harvesterfolder" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
     </permission>
 
     <permission name="pkan.dcatapde: View and Edit as Admin" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
     </permission>
 
     <permission name="pkan.dcatapde: View and Edit as ProviderChiefEditor" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: View and Edit as ProviderDataEditor" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: View and Edit as ProviderAdmin" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <!-- Overwrite Plone permissions -->
@@ -192,9 +192,9 @@
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="Modify view template" acquire="True">
@@ -202,92 +202,92 @@
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
-<!--    <permission name="Plone: Manage Content Layouts" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
-      <role name="Owner"/>
-      <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
-    </permission>
+    <!--    <permission name="Plone: Manage Content Layouts" acquire="True">
+          <role name="Manager"/>
+          <role name="Site Administrator"/>
+          <role name="Owner"/>
+          <role name="Contributor"/>
+          <role name="ProviderChiefEditor" />
+          <role name="ProviderDataEditor" />
+          <role name="ProviderAdmin" />
+        </permission>
 
-    <permission name="Plone: Customize Content Layouts" acquire="True">
-      <role name="Manager"/>
-      <role name="Site Administrator"/>
-      <role name="Owner"/>
-      <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
-    </permission>
--->
+        <permission name="Plone: Customize Content Layouts" acquire="True">
+          <role name="Manager"/>
+          <role name="Site Administrator"/>
+          <role name="Owner"/>
+          <role name="Contributor"/>
+          <role name="ProviderChiefEditor" />
+          <role name="ProviderDataEditor" />
+          <role name="ProviderAdmin" />
+        </permission>
+    -->
     <permission name="Delete objects" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="plone.app.contenttypes: Add Collection" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
     <permission name="plone.app.contenttypes: Add Document" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
     <permission name="plone.app.contenttypes: Add Event" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
     <permission name="plone.app.contenttypes: Add File" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderAdmin" />
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
     <permission name="plone.app.contenttypes: Add Folder" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderAdmin" />
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
     <permission name="plone.app.contenttypes: Add Image" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderAdmin" />
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
     <permission name="plone.app.contenttypes: Add Link" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
     <permission name="plone.app.contenttypes: Add News Item" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
@@ -296,18 +296,18 @@
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderDataEditor" />
-      <role name="ProviderAdmin" />
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderDataEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
     <permission name="pkan.dcatapde: Add PublisherCard" acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-      <role name="Owner" />
-      <role name="Contributor" />
-      <role name="ProviderChiefEditor" />
-      <role name="ProviderAdmin" />
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+      <role name="ProviderChiefEditor"/>
+      <role name="ProviderAdmin"/>
     </permission>
 
   </permissions>

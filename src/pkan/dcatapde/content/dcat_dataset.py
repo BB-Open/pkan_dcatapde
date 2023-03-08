@@ -70,7 +70,7 @@ class IDCATDataset(model.Schema, IDCAT):
 
     read_permission(dcatde_contributorID='pkan.dcatapde.ProviderDataEditor')
     write_permission(dcatde_contributorID='pkan.dcatapde.ProviderDataEditor')
-    dcatde_contributorID = I18NTextLine(
+    dcatde_contributorID = schema.URI(
         required=False,
         title=i18n.LABEL_DCATDE_CONTRIBUTORID,
     )
@@ -263,9 +263,6 @@ class DCATDataset(Container, DCATMixin):
 
     dct_title = I18NTextProperty(IDCATDataset['dct_title'])
     dct_description = I18NTextProperty(IDCATDataset['dct_description'])
-    dcatde_contributorID = I18NTextProperty(
-        IDCATDataset['dcatde_contributorID'],
-    )
     dcatde_geocodingText = I18NTextProperty(
         IDCATDataset['dcatde_geocodingText'],
     )

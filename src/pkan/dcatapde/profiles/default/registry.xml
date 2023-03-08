@@ -2,20 +2,20 @@
 <registry
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
   i18n:domain="pkan.dcatapde">
-  <records interface="pkan.dcatapde.interfaces.IPKANBaseSettings" />
-  <records interface="pkan.dcatapde.interfaces.IPKANFolderSettings" />
-  <records interface="pkan.dcatapde.interfaces.IPKANImportSettings" />
+  <records interface="pkan.dcatapde.interfaces.IPKANBaseSettings"/>
+  <records interface="pkan.dcatapde.interfaces.IPKANFolderSettings"/>
+  <records interface="pkan.dcatapde.interfaces.IPKANImportSettings"/>
 
   <records
-      prefix="plone.resources/pkandcatapde"
-      interface="Products.CMFPlone.interfaces.IResourceRegistry">
+    prefix="plone.resources/pkandcatapde"
+    interface="Products.CMFPlone.interfaces.IResourceRegistry">
     <value key="css">
       <element>++resource++pkan.dcatapde/dcatapde.css</element>
     </value>
   </records>
   <records
-      prefix="plone.bundles/pkandcatapde"
-      interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    prefix="plone.bundles/pkandcatapde"
+    interface='Products.CMFPlone.interfaces.IBundleRegistry'>
     <value key="enabled">True</value>
     <value key="csscompilation">++resource++pkan.dcatapde/dcatapde.css</value>
     <value key="compile">False</value>
@@ -23,15 +23,15 @@
   </records>
 
   <records interface="plone.app.querystring.interfaces.IQueryField"
-             prefix="plone.app.querystring.field.dcat_theme">
-        <value key="title" i18n:translate="">Dcat Theme</value>
-        <value key="description" i18n:translate="">A Skos Concept Theme</value>
-        <value key="enabled">True</value>
-        <value key="sortable">False</value>
-        <value key="operations">
-            <element>plone.app.querystring.operation.selection.any</element>
-        </value>
-        <value key="vocabulary">pkan.dcatapde.vocabularies.SKOSConceptDefault</value>
-       <value key="group" i18n:translate="">PKAN</value>
-</records>
+           prefix="plone.app.querystring.field.dcat_theme">
+    <value key="title" i18n:translate="">Dcat Theme</value>
+    <value key="description" i18n:translate="">A Skos Concept Theme</value>
+    <value key="enabled">True</value>
+    <value key="sortable">False</value>
+    <value key="operations">
+      <element>plone.app.querystring.operation.selection.any</element>
+    </value>
+    <value key="vocabulary">pkan.dcatapde.vocabularies.SKOSConceptDefault</value>
+    <value key="group" i18n:translate="">PKAN</value>
+  </records>
 </registry>

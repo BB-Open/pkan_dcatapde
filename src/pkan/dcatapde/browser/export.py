@@ -7,7 +7,7 @@ from unidecode import unidecode
 try:
     LIMIT = int(os.environ.get('RDF_UNICODE_LIMIT', 65535))
 except Exception:  # noqa: B902
-    LIMIT = 65535   # Refs #83543 - Default: 0xFFFF, 2^16, 16-bit
+    LIMIT = 65535  # Refs #83543 - Default: 0xFFFF, 2^16, 16-bit
 
 
 class RDFExport(object):
