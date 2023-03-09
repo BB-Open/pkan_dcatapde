@@ -1443,7 +1443,10 @@ class StructADMSIdentifier(StructBase):
     rdf_type = ADMS.Identifier
 
     def marshall(self, marshaller, parent, rdf_name, property):
-        my_uri = URIRef(parent.subject + '#adms_identifier')
+        if '#' in parent.subject:
+            my_uri = URIRef(parent.subject + '_adms_identifier')
+        else:
+            my_uri = URIRef(parent.subject + '#adms_identifier')
         store = marshaller.marshall_target.store
 
         # add object to parent
