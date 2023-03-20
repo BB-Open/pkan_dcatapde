@@ -248,5 +248,6 @@ COMPARISON_FIELDS = {
     'Triple Gesamt': '?s ?p ?o',
     'Kataloge': '?s a dcat:Catalog',
     'Datensätze': '?s a dcat:Dataset',
-    'Distributionen': '?s a dcat:Distribution'
+    'Distributionen': '?s a dcat:Distribution',
+    'Datenservice': '?s a dcat:DataService',
 }
