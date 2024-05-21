@@ -7,7 +7,7 @@ from zope.i18n import translate
 from pkan.dcatapde import _
 from pkan.dcatapde.api.functions import get_parent
 from pkan.dcatapde.api.functions import is_admin
-from pkan.dcatapde.constants import ADMIN_LANDING_PAGE
+from pkan.dcatapde.constants import ADMIN_LANDING_PAGE, CT_HARVESTER
 from pkan.dcatapde.constants import CT_DCAT_CATALOG
 from pkan.dcatapde.constants import PROVIDER_ADMIN_ROLE
 from pkan.dcatapde.constants import PROVIDER_CHIEF_EDITOR_ROLE
@@ -63,7 +63,7 @@ class LandingPageView(BrowserView):
         user = api.user.get_current()
 
         res = api.content.find(context=None,
-                               portal_type=[CT_DCAT_CATALOG, 'Folder'])
+                               portal_type=[CT_DCAT_CATALOG, 'Folder', CT_HARVESTER])
 
         for brain in res:
             try:
