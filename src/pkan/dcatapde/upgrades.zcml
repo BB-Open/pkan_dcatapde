@@ -247,7 +247,7 @@
 
       <genericsetup:upgradeStep
       source="*"
-      destination="2019"
+      destination="2021"
       title="Reload GS profiles: Add ContributorID"
       description=""
       profile="pkan.dcatapde:default"
