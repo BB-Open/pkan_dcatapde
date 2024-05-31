@@ -16,6 +16,7 @@ from zope.interface import implementer
 
 from pkan.dcatapde import constants
 from pkan.dcatapde import i18n
+from pkan.dcatapde.constants import CONTRIBUTER_ID
 from pkan.dcatapde.content.base import DCATMixin
 from pkan.dcatapde.content.base import IDCAT
 
@@ -71,8 +72,9 @@ class IDCATDataset(model.Schema, IDCAT):
     read_permission(dcatde_contributorID='pkan.dcatapde.ProviderDataEditor')
     write_permission(dcatde_contributorID='pkan.dcatapde.ProviderDataEditor')
     dcatde_contributorID = schema.URI(
-        required=False,
+        required=True,
         title=i18n.LABEL_DCATDE_CONTRIBUTORID,
+        default=CONTRIBUTER_ID,
     )
 
     form.widget(

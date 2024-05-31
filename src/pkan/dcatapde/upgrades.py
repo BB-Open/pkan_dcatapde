@@ -21,7 +21,7 @@ from zope.schema import getFields
 
 from pkan.dcatapde.api.functions import get_parent
 from pkan.dcatapde.browser.update_views.update_languages import UpdateLanguages
-from pkan.dcatapde.constants import CT_DCAT_CATALOG, COMPLETE_SUFFIX
+from pkan.dcatapde.constants import CT_DCAT_CATALOG, COMPLETE_SUFFIX, CONTRIBUTER_ID
 from pkan.dcatapde.constants import CT_DCAT_COLLECTION_CATALOG
 from pkan.dcatapde.constants import CT_DCAT_DATASET
 from pkan.dcatapde.constants import CT_DCAT_DISTRIBUTION
@@ -462,3 +462,22 @@ def set_language_skos(context):
             obj.dcat_byteSize = None
 
             obj.reindexObject()
+
+def set_contributor_id(context):
+    reload_gs_profile(context)
+    cts = [
+        CT_DCAT_DATASET,
+    ]
+
+    for ct in cts:
+        brains = api.content.find(**{'portal_type': ct})
+        if not brains:
+            continue
+        for brain in brains:
+            obj = brain.getObject()
+
+            if not obj.dcatde_contributorID:
+
+                obj.dcatde_contributorID = CONTRIBUTER_ID
+
+                obj.reindexObject()

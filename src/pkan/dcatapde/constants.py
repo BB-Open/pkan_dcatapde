@@ -232,7 +232,7 @@ IMPRESSUM = 'Impressum'
 HARVEST_TRIPELSTORE = 'Tripelstore'
 
 # DCAT DATA
-CONTRIBUTER_ID = 'https://www.dcat-ap.de/def/contributors/20211108#landBrandenburg'
+CONTRIBUTER_ID = 'http://dcat-ap.de/def/contributors/landBrandenburg'
 
 # store suffix
 COMPLETE_SUFFIX = '_complete'

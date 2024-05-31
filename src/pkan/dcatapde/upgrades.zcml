@@ -245,4 +245,13 @@
       handler=".upgrades.set_language_skos"
       />
 
+      <genericsetup:upgradeStep
+      source="*"
+      destination="2019"
+      title="Reload GS profiles: Add ContributorID"
+      description=""
+      profile="pkan.dcatapde:default"
+      handler=".upgrades.set_contributor_id"
+      />
+
 </configure>
