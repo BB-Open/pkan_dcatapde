@@ -9,7 +9,7 @@ from Products.Five import BrowserView
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.protect.utils import addTokenToUrl
-from pyrdf4j.errors import URINotReachable
+from pyrdf4j.errors import URINotReachable, TerminatingError
 from pyrdf4j.rdf4j import RDF4J
 from requests.auth import HTTPBasicAuth
 from requests.exceptions import SSLError
@@ -141,6 +141,9 @@ class RealRunCronView(BrowserView):
         except SSLError:
             text = 'Database not reachable.'
             logger.warn(text)
+        except TerminatingError:
+            text = 'Input Data incorrect. Please check Transfer.'
+            logger.error(text)
 
         del rdfproc
         self.request.response.setHeader('Cache-Control', 'no-cache, no-store')
